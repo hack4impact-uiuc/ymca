@@ -1,0 +1,42 @@
+version: 2
+jobs:
+  frontend_test:
+    docker:
+      - image: circleci/node:10.16.3
+    working_directory: ~/ymca
+    steps:
+      - checkout
+      - run:
+          command: |
+            cd client
+            yarn
+            yarn test
+  frontend_lint:
+    docker:
+      - image: circleci/node:10.16.3
+    working_directory: ~/ymca
+    steps:
+      - checkout
+      - run:
+          command: |
+            cd client
+            yarn
+            yarn lint
+  backend_test:
+    docker:
+      - image: circleci/node:10.16.3
+    working_directory: ~/ymca
+    steps:
+      - checkout
+      - run:
+          command: |
+            cd api
+            yarn
+            yarn test
+workflows:
+  version: 2
+  build_test:
+    jobs:
+      - frontend_test
+      - frontend_lint
+      - backend_test
