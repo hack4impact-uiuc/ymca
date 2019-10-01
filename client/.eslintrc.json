@@ -3,8 +3,13 @@
     "browser": true,
     "node": true
   },
-  "extends": ["airbnb", "prettier", "prettier/react"],
-  "plugins": ["react", "prettier"],
+  "extends": [
+    "airbnb",
+    "prettier",
+    "prettier/react",
+    "plugin:flowtype/recommended"
+  ],
+  "plugins": ["react", "prettier", "flowtype"],
   "rules": {
     "react/jsx-filename-extension": [
       1,

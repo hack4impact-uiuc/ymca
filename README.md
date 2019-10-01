@@ -1,4 +1,3 @@
-
 <h1 align="center">
   <br>
   <a href="http://www.amitmerchant.com/electron-markdownify"><img src="https://hampton.gov/ImageRepository/Document?documentID=25468" alt="Markdownify" width="200"></a>
@@ -7,21 +6,27 @@
   </br>
 </h1>
 
+<p align="center">
+    <img src="https://img.shields.io/circleci/build/github/hack4impact-uiuc/ymca/master?style=flat-square">
+    <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square">
+</p>
+
 <h4 align="center">A project by <a href="https://uiuc.hack4impact.org/" target="_blank">Hack4Impact UIUC</a> in collaboration with the <a href="https://universityymca.org" target="_blank">YMCA New American Welcome Center.</a></h4>
 
 <p align="center">
-
-</p>
-
-<p align="center">
   <a href="#background">Background</a> •
+  <a href="#usage">Usage</a> •
   <a href="#team">Team</a> •
   <a href="#license">License</a>
 </p>
 
-## Background 
+## Background
 
 Coming soon!
+
+## Usage
+
+This application is built with React, Express, and MongoDB. To install and set up, follow the instructions in the [`/client`](https://github.com/hack4impact-uiuc/ymca/tree/master/client) and [`/api`](https://github.com/hack4impact-uiuc/ymca/tree/master/api) directories.
 
 ## Team
 
@@ -40,7 +45,6 @@ Coming soon!
         <td align="center"><a href="http://skylershi.com/"><img src="https://uiuc.hack4impact.org/static/images/people/skyler_shi.jpg" width="75px;" alt="Skyler Shi"/><br /><b>Skyler Shi</b></a><br /><sub>Software Developer</sub></td>
   </tr>
 </table>
-
 
 ## License
 
