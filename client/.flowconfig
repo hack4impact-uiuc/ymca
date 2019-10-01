@@ -1,0 +1,17 @@
+[ignore]
+.*/node_modules/.*
+.*/build/.*
+
+[include]
+
+[libs]
+
+[lints]
+all=warn
+untyped-type-import=error
+untyped-import=off
+
+[options]
+include_warnings=true
+
+[strict]
