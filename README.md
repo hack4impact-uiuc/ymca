@@ -15,6 +15,7 @@
 
 <p align="center">
   <a href="#background">Background</a> •
+  <a href="#usage">Usage</a> •
   <a href="#team">Team</a> •
   <a href="#license">License</a>
 </p>
@@ -22,6 +23,10 @@
 ## Background
 
 Coming soon!
+
+## Usage
+
+This application is built with React, Express, and MongoDB. To install and set up, follow the instructions in the [`/client`](https://github.com/hack4impact-uiuc/ymca/tree/master/client) and [`/api`](https://github.com/hack4impact-uiuc/ymca/tree/master/api) directories.
 
 ## Team
 

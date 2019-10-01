@@ -6,23 +6,25 @@ Thank you for contributing! :tada: Here are some guidelines to contributing to t
 
 ### Commits
 
+* Start commit message with uppercase letter
 * Use present tense ("Add feature" not "Added feature")
 * Use imperative mood ("Move cursor to..." not "Moves cursor to...")
 * Reference issues and pull requests
-* Consider starting the commit message with an applicable emoji:
-    * :art: `:art:` when improving the format/structure of the code
-    * :book: `:book:` when writing docs
-    * :bug: `:bug:` when fixing a bug
-    * :fire: `:fire:` when removing code or files
-    * :white_check_mark: `:white_check_mark:` when adding tests
-    * :arrow_up: `:arrow_up:` when upgrading dependencies
-    * :shirt: `:shirt:` when removing linter warnings
 
 ### Pull Requests
 
 When initially opening a pull request, please open it in **draft** mode, and do not mark it for review. Please fill out the template with as much detail as you can. 
 
-Once you are done implementing the feature, make sure that your code follows the style guide and all status checks are passing. Then, mark the pull request as ready for review.
+Once you are done implementing the feature, make sure that your code follows the style guides laid out in the `client` and `api` readmes, and all status checks are passing. Then, mark the pull request as ready for review.
+
+Start pull request titles with emojis! 
+* :art: `:art:` when improving the format/structure of the code
+* :book: `:book:` when writing docs
+* :bug: `:bug:` when fixing a bug
+* :fire: `:fire:` when removing code or files
+* :white_check_mark: `:white_check_mark:` when adding tests
+* :arrow_up: `:arrow_up:` when upgrading dependencies
+* :shirt: `:shirt:` when removing linter warnings
 
 ### Issues
 
