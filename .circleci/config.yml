@@ -8,7 +8,7 @@ jobs:
       - checkout
       - run:
           command: |
-            cd frontend
+            cd client
             yarn
             yarn test
   frontend_lint:
@@ -25,7 +25,7 @@ jobs:
   backend_test:
     docker:
       - image: circleci/node:10.16.3
-    working_directory: /~/ymca
+    working_directory: ~/ymca
     steps:
       - checkout
       - run:
