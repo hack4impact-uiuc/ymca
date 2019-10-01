@@ -4,8 +4,12 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-class App extends Component {
-  constructor(props) {
+type Props = {};
+
+type State = {| apiResponse: string |};
+
+class App extends Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = { apiResponse: '' };
   }
