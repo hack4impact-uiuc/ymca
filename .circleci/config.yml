@@ -2,7 +2,7 @@ version: 2
 jobs:
   frontend_test:
     docker:
-      - image: node:10.8.0
+      - image: circleci/node:10.16.3
     working_directory: ~/ymca
     steps:
       - checkout
@@ -13,7 +13,7 @@ jobs:
             yarn test
   frontend_lint:
     docker:
-      - image: node:10.8.0
+      - image: circleci/node:10.16.3
     working_directory: ~/ymca
     steps:
       - checkout
@@ -24,7 +24,7 @@ jobs:
             yarn lint
   backend_test:
     docker:
-      - image: node:10.8.0
+      - image: circleci/node:10.16.3
     working_directory: /~/ymca
     steps:
       - checkout
