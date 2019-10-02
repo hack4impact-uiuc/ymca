@@ -1,6 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
+import { Button } from 'reactstrap';
 import logo from './logo.svg';
 import './App.css';
 
@@ -29,19 +30,7 @@ class App extends Component<Props, State> {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <p>{apiResponse}</p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
+          <Button color="primary">button</Button>
         </header>
       </div>
     );
