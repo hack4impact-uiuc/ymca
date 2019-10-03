@@ -10,6 +10,7 @@ export default class Login extends Component {
       email: '',
       password: '',
       companyId: '',
+      confirmPassword: '',
       showRegisterFields: false,
     };
   }
@@ -30,44 +31,76 @@ export default class Login extends Component {
     this.setState({ companyId: e.target.value });
   };
 
+  onConfirmPasswordChange = e => {
+    this.stateState({ confirmPassword: e.target.value });
+  };
+
   onSubmit = e => {
     e.preventDefault();
 
     // auth
   };
 
-  resolveRegisterFields = () => {
-    const { showRegisterFields } = this.state;
-    if (!showRegisterFields) {
-      return (
-        <div>
-          <Input className="submitButton" type="submit" value="Login" />
-          <Button color="link" onClick={() => this.setShowRegisterFields(true)}>
-            Register
-          </Button>
-        </div>
-      );
-    }
+  getLoginLink = () => {
     return (
-      <div>
-        <FormGroup>
-          <Label>Company Id:</Label>
-          <Input
-            onChange={this.onPasswordChange}
-            name="companyId"
-            placeholder="Enter password"
-          />
-        </FormGroup>
+      <FormGroup>
+        <Input className="submitButton" type="submit" value="Login" />
+        <Button color="link" onClick={() => this.setShowRegisterFields(true)}>
+          Register
+        </Button>
+      </FormGroup>
+    );
+  };
+
+  getRegisterLink = () => {
+    return (
+      <FormGroup>
         <Input className="submitButton" type="submit" value="Register" />
         <Button color="link" onClick={() => this.setShowRegisterFields(false)}>
           Login
         </Button>
-      </div>
+      </FormGroup>
+    );
+  };
+
+  getCompanyIdField = () => {
+    return (
+      <FormGroup for="companyId">
+        <Label>YMCA ID:</Label>
+        <Input
+          onChange={this.onPasswordChange}
+          name="companyId"
+          placeholder="Enter YMCA ID"
+        />
+      </FormGroup>
+    );
+  };
+
+  getConfirmPasswordField = () => {
+    return (
+      <FormGroup for="confirmPassword">
+        <Label>Confirm Password:</Label>
+        <Input
+          onChange={this.onConfirmPasswordChange}
+          type="password"
+          name="confirmPassword"
+          placeholder="Confirm password"
+        />
+      </FormGroup>
     );
   };
 
   render() {
-    const registerFields = this.resolveRegisterFields();
+    const { showRegisterFields } = this.state;
+    let confirmPasswordField;
+    let companyIdField;
+    let submit = this.getLoginLink();
+
+    if (showRegisterFields) {
+      confirmPasswordField = this.getConfirmPasswordField();
+      companyIdField = this.getCompanyIdField();
+      submit = this.getRegisterLink();
+    }
 
     return (
       <div>
@@ -90,9 +123,10 @@ export default class Login extends Component {
               placeholder="Enter password"
             />
           </FormGroup>
+          {confirmPasswordField}
+          {companyIdField}
+          {submit}
         </Form>
-
-        {registerFields}
       </div>
     );
   }
