@@ -26,7 +26,9 @@ export default class Login extends Component {
 
   onPasswordChange = e => {
     this.setState({ password: e.target.value });
-    this.processIfPasswordIsConfirmed(e.target.value, this.state.confirmPassword);
+
+    const { confirmPassword } = this.state;
+    this.processIfPasswordIsConfirmed(e.target.value, confirmPassword);
   };
 
   onCompanyIdChange = e => {
@@ -34,17 +36,19 @@ export default class Login extends Component {
   };
 
   onConfirmPasswordChange = e => {
-    this.setState({confirmPassword: e.target.value});
-    this.processIfPasswordIsConfirmed(this.state.password, e.target.value);
+    this.setState({ confirmPassword: e.target.value });
+
+    const { password } = this.state;
+    this.processIfPasswordIsConfirmed(password, e.target.value);
   };
 
   processIfPasswordIsConfirmed = (password, confirmPassword) => {
     if (confirmPassword === password) {
-      this.setState({ isPasswordConfirmed: true }); 
+      this.setState({ isPasswordConfirmed: true });
     } else {
       this.setState({ isPasswordConfirmed: false });
     }
-  }
+  };
 
   onSubmit = e => {
     e.preventDefault();
@@ -88,7 +92,7 @@ export default class Login extends Component {
   };
 
   getConfirmPasswordField = () => {
-    const {isPasswordConfirmed} = this.state;
+    const { isPasswordConfirmed } = this.state;
     return (
       <FormGroup for="confirmPassword">
         <p>{!isPasswordConfirmed ? <p>Passwords do not match</p> : null}</p>
