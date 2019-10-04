@@ -1,51 +1,18 @@
-// @flow
+import React from "react";
+import "./App.css";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import Home from "./Home";
+import AppNavbar from "./AppNavbar"
 
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-
-type Props = {};
-
-type State = {| apiResponse: string |};
-
-class App extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = { apiResponse: '' };
-  }
-
-  UNSAFE_componentWillMount() {
-    this.callAPI();
-  }
-
-  callAPI() {
-    fetch('http://localhost:9000/testAPI')
-      .then(res => res.text())
-      .then(res => this.setState({ apiResponse: res }));
-  }
-
+export default class App extends React.Component {
   render() {
-    const { apiResponse } = this.state;
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <p>{apiResponse}</p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <Router>
+        <div>
+          <Route path="/" exact component={Home} />
+          <Route path="/navbar" exact component={AppNavbar} />
+        </div>
+      </Router>
     );
   }
 }
-
-export default App;
