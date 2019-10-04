@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Form, FormGroup, Label, Input } from 'reactstrap';
 import '../css/Login.css';
 import LoginSubmitGroup from './LoginSubmitGroup';
+import LoginMissingNote from './LoginMissingNote';
 
 export default class Login extends Component {
   constructor(props) {
@@ -12,31 +13,35 @@ export default class Login extends Component {
       password: '',
       companyId: '',
       confirmPassword: '',
-      isEmailFieldNotEmpty: true,
-      isPasswordFieldNotEmpty: true,
-      isCompanyIdFieldNotEmpty: true,
+      emailFieldIsEmpty: false,
+      passwordFieldIsEmpty: false,
+      companyIdFieldIsEmpty: false,
       isPasswordConfirmed: true,
       showRegisterFields: false,
     };
   }
 
   setShowRegisterFields = shouldShow => {
-    this.setState({ showRegisterFields: shouldShow });
+    this.setState({
+      showRegisterFields: shouldShow,
+      emailFieldIsEmpty: false,
+      passwordFieldIsEmpty: false,
+    });
   };
 
   onEmailChange = e => {
-    this.setState({ email: e.target.value });
+    this.setState({ email: e.target.value, emailFieldIsEmpty: false });
   };
 
   onPasswordChange = e => {
-    this.setState({ password: e.target.value });
+    this.setState({ password: e.target.value, passwordFieldIsEmpty: false });
 
     const { confirmPassword } = this.state;
     this.processIfPasswordIsConfirmed(e.target.value, confirmPassword);
   };
 
   onCompanyIdChange = e => {
-    this.setState({ companyId: e.target.value });
+    this.setState({ companyId: e.target.value, companyIdFieldIsEmpty: false });
   };
 
   onConfirmPasswordChange = e => {
@@ -59,16 +64,16 @@ export default class Login extends Component {
 
     if (email === '') {
       // display missing note
-      this.setState({isEmailFieldNotEmpty: false});
+      this.setState({ emailFieldIsEmpty: true });
     } else {
-      this.setState({isEmailFieldNotEmpty: true});
+      this.setState({ emailFieldIsEmpty: false });
     }
 
     if (password === '') {
       // display missing note
-      this.setState({isPasswordFieldNotEmpty: false});
+      this.setState({ passwordFieldIsEmpty: true });
     } else {
-      this.setState({isPasswordFieldNotEmpty: true});
+      this.setState({ passwordFieldIsEmpty: false });
     }
   };
 
@@ -83,19 +88,17 @@ export default class Login extends Component {
     // verifies email and password
     this.verifyLoginFields();
 
-    const {confirmPassword, companyId} = this.state;
+    const { companyId } = this.state;
 
-    // if the field is valid then it is handled by the processIfPasswordIsConfirmed function
-    if (confirmPassword === '') {
-      this.setState({isPasswordConfirmed: false});
-    }
+    // if the confirm password field is valid then
+    // it is handled by the processIfPasswordIsConfirmed function
 
     if (companyId === '') {
-      this.setState({isCompanyIdFieldNotEmpty: false});
+      this.setState({ companyIdFieldIsEmpty: true });
     } else {
-      this.setState({isCompanyIdFieldNotEmpty: true});
+      this.setState({ companyIdFieldIsEmpty: false });
     }
-  }
+  };
 
   onRegisterSubmit = e => {
     e.preventDefault();
@@ -105,8 +108,12 @@ export default class Login extends Component {
   };
 
   getCompanyIdField = () => {
+    const { companyIdFieldIsEmpty } = this.state;
     return (
       <FormGroup for="companyId">
+        {companyIdFieldIsEmpty ? (
+          <LoginMissingNote fieldName="Company ID" />
+        ) : null}
         <Label>YMCA ID:</Label>
         <Input
           onChange={this.onCompanyIdChange}
@@ -134,7 +141,11 @@ export default class Login extends Component {
   };
 
   render() {
-    const { showRegisterFields } = this.state;
+    const {
+      showRegisterFields,
+      emailFieldIsEmpty,
+      passwordFieldIsEmpty,
+    } = this.state;
     let confirmPasswordField;
     let companyIdField;
     let submit = (
@@ -165,6 +176,7 @@ export default class Login extends Component {
           }
         >
           <FormGroup for="email">
+            {emailFieldIsEmpty ? <LoginMissingNote fieldName="Email" /> : null}
             <Label>Email:</Label>
             <Input
               onChange={this.onEmailChange}
@@ -174,6 +186,9 @@ export default class Login extends Component {
             />
           </FormGroup>
           <FormGroup>
+            {passwordFieldIsEmpty ? (
+              <LoginMissingNote fieldName="Password" />
+            ) : null}
             <Label>Password:</Label>
             <Input
               onChange={this.onPasswordChange}
