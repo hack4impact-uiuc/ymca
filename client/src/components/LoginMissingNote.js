@@ -1,7 +1,11 @@
+// @flow
+
 import React, { PureComponent } from 'react';
 import '../css/LoginMissingNote.css';
 
-export default class LoginErrorNote extends PureComponent {
+type Props = {| fieldName: string |};
+
+export default class LoginErrorNote extends PureComponent<Props> {
   render() {
     const { fieldName } = this.props;
 

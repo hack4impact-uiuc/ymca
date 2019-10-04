@@ -6,26 +6,16 @@ import Login from './components/Login';
 
 type Props = {};
 
-type State = {| apiResponse: string |};
+type State = {};
 
 class App extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = { apiResponse: '' };
-  }
 
-  UNSAFE_componentWillMount() {
-    this.callAPI();
-  }
-
-  callAPI() {
-    fetch('http://localhost:9000/testAPI')
-      .then(res => res.text())
-      .then(res => this.setState({ apiResponse: res }));
+    this.state = {};
   }
 
   render() {
-    const { apiResponse } = this.state;
     return (
       <div className="App">
         <header className="App-header">
