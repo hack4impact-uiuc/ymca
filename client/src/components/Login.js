@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import { Form, FormGroup, Label, Input } from 'reactstrap';
 import '../css/Login.css';
+import LoginSubmitGroup from './LoginSubmitGroup';
 
 export default class Login extends Component {
   constructor(props) {
@@ -11,6 +12,9 @@ export default class Login extends Component {
       password: '',
       companyId: '',
       confirmPassword: '',
+      isEmailFieldNotEmpty: true,
+      isPasswordFieldNotEmpty: true,
+      isCompanyIdFieldNotEmpty: true,
       isPasswordConfirmed: true,
       showRegisterFields: false,
     };
@@ -50,32 +54,54 @@ export default class Login extends Component {
     }
   };
 
-  onSubmit = e => {
+  verifyLoginFields = () => {
+    const { email, password } = this.state;
+
+    if (email === '') {
+      // display missing note
+      this.setState({isEmailFieldNotEmpty: false});
+    } else {
+      this.setState({isEmailFieldNotEmpty: true});
+    }
+
+    if (password === '') {
+      // display missing note
+      this.setState({isPasswordFieldNotEmpty: false});
+    } else {
+      this.setState({isPasswordFieldNotEmpty: true});
+    }
+  };
+
+  onLoginSubmit = e => {
     e.preventDefault();
 
+    this.verifyLoginFields();
     // auth
   };
 
-  getLoginLink = () => {
-    return (
-      <FormGroup>
-        <Input className="submitButton" type="submit" value="Login" />
-        <Button color="link" onClick={() => this.setShowRegisterFields(true)}>
-          Register
-        </Button>
-      </FormGroup>
-    );
-  };
+  verifyRegisterFields = () => {
+    // verifies email and password
+    this.verifyLoginFields();
 
-  getRegisterLink = () => {
-    return (
-      <FormGroup>
-        <Input className="submitButton" type="submit" value="Register" />
-        <Button color="link" onClick={() => this.setShowRegisterFields(false)}>
-          Login
-        </Button>
-      </FormGroup>
-    );
+    const {confirmPassword, companyId} = this.state;
+
+    // if the field is valid then it is handled by the processIfPasswordIsConfirmed function
+    if (confirmPassword === '') {
+      this.setState({isPasswordConfirmed: false});
+    }
+
+    if (companyId === '') {
+      this.setState({isCompanyIdFieldNotEmpty: false});
+    } else {
+      this.setState({isCompanyIdFieldNotEmpty: true});
+    }
+  }
+
+  onRegisterSubmit = e => {
+    e.preventDefault();
+
+    this.verifyRegisterFields();
+    // auth
   };
 
   getCompanyIdField = () => {
@@ -111,17 +137,33 @@ export default class Login extends Component {
     const { showRegisterFields } = this.state;
     let confirmPasswordField;
     let companyIdField;
-    let submit = this.getLoginLink();
+    let submit = (
+      <LoginSubmitGroup
+        inputText="Login"
+        linkText="Register"
+        linkOnClick={() => this.setShowRegisterFields(true)}
+      />
+    );
 
     if (showRegisterFields) {
       confirmPasswordField = this.getConfirmPasswordField();
       companyIdField = this.getCompanyIdField();
-      submit = this.getRegisterLink();
+      submit = (
+        <LoginSubmitGroup
+          inputText="Register"
+          linkText="Login"
+          linkOnClick={() => this.setShowRegisterFields(false)}
+        />
+      );
     }
 
     return (
       <div>
-        <Form onSubmit={this.onSubmit}>
+        <Form
+          onSubmit={
+            !showRegisterFields ? this.onLoginSubmit : this.onRegisterSubmit
+          }
+        >
           <FormGroup for="email">
             <Label>Email:</Label>
             <Input
