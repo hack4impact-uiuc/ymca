@@ -22,10 +22,15 @@ export default class Login extends Component {
   }
 
   setShowRegisterFields = shouldShow => {
+    // reset some fields
     this.setState({
       showRegisterFields: shouldShow,
+      confirmPassword: '',
+      companyId: '',
+      // reset errors
       emailFieldIsEmpty: false,
       passwordFieldIsEmpty: false,
+      companyIdFieldIsEmpty: false,
     });
   };
 
@@ -34,10 +39,13 @@ export default class Login extends Component {
   };
 
   onPasswordChange = e => {
-    this.setState({ password: e.target.value, passwordFieldIsEmpty: false });
-
+    const password = e.target.value;
     const { confirmPassword } = this.state;
-    this.processIfPasswordIsConfirmed(e.target.value, confirmPassword);
+    this.setState({
+      password,
+      passwordFieldIsEmpty: false,
+      isPasswordConfirmed: password === confirmPassword,
+    });
   };
 
   onCompanyIdChange = e => {
@@ -45,75 +53,56 @@ export default class Login extends Component {
   };
 
   onConfirmPasswordChange = e => {
-    this.setState({ confirmPassword: e.target.value });
-
+    const confirmPassword = e.target.value;
     const { password } = this.state;
-    this.processIfPasswordIsConfirmed(password, e.target.value);
+    this.setState({
+      confirmPassword,
+      isPasswordConfirmed: confirmPassword === password,
+    });
   };
 
-  processIfPasswordIsConfirmed = (password, confirmPassword) => {
-    if (confirmPassword === password) {
-      this.setState({ isPasswordConfirmed: true });
-    } else {
-      this.setState({ isPasswordConfirmed: false });
-    }
-  };
-
-  verifyLoginFields = () => {
+  loginFieldsValid = () => {
     const { email, password } = this.state;
+    const emailFieldIsEmpty = email === '';
+    const passwordFieldIsEmpty = password === '';
 
-    if (email === '') {
-      // display missing note
-      this.setState({ emailFieldIsEmpty: true });
-    } else {
-      this.setState({ emailFieldIsEmpty: false });
-    }
-
-    if (password === '') {
-      // display missing note
-      this.setState({ passwordFieldIsEmpty: true });
-    } else {
-      this.setState({ passwordFieldIsEmpty: false });
-    }
+    this.setState({ emailFieldIsEmpty, passwordFieldIsEmpty });
+    return !emailFieldIsEmpty && !passwordFieldIsEmpty;
   };
 
   onLoginSubmit = e => {
     e.preventDefault();
 
-    this.verifyLoginFields();
-    // auth
+    if (this.loginFieldsValid()) {
+      // auth
+    }
   };
 
-  verifyRegisterFields = () => {
+  registerFieldsValid = () => {
     // verifies email and password
-    this.verifyLoginFields();
+    const loginValid = this.loginFieldsValid();
 
-    const { companyId } = this.state;
+    const { companyId, isPasswordConfirmed } = this.state;
+    const companyIdFieldIsEmpty = companyId === '';
+    const registerValid = isPasswordConfirmed && !companyIdFieldIsEmpty;
 
-    // if the confirm password field is valid then
-    // it is handled by the processIfPasswordIsConfirmed function
-
-    if (companyId === '') {
-      this.setState({ companyIdFieldIsEmpty: true });
-    } else {
-      this.setState({ companyIdFieldIsEmpty: false });
-    }
+    this.setState({ companyIdFieldIsEmpty });
+    return loginValid && registerValid;
   };
 
   onRegisterSubmit = e => {
     e.preventDefault();
 
-    this.verifyRegisterFields();
-    // auth
+    if (this.registerFieldsValid()) {
+      // auth
+    }
   };
 
   getCompanyIdField = () => {
     const { companyIdFieldIsEmpty } = this.state;
     return (
       <FormGroup for="companyId">
-        {companyIdFieldIsEmpty ? (
-          <LoginMissingNote fieldName="Company ID" />
-        ) : null}
+        {companyIdFieldIsEmpty && <LoginMissingNote fieldName="Company ID" />}
         <Label>YMCA ID:</Label>
         <Input
           onChange={this.onCompanyIdChange}
@@ -128,7 +117,7 @@ export default class Login extends Component {
     const { isPasswordConfirmed } = this.state;
     return (
       <FormGroup for="confirmPassword">
-        <p>{!isPasswordConfirmed ? <p>Passwords do not match</p> : null}</p>
+        {!isPasswordConfirmed && <p>Passwords do not match</p>}
         <Label>Confirm Password:</Label>
         <Input
           onChange={this.onConfirmPasswordChange}
@@ -169,39 +158,35 @@ export default class Login extends Component {
     }
 
     return (
-      <div>
-        <Form
-          onSubmit={
-            !showRegisterFields ? this.onLoginSubmit : this.onRegisterSubmit
-          }
-        >
-          <FormGroup for="email">
-            {emailFieldIsEmpty ? <LoginMissingNote fieldName="Email" /> : null}
-            <Label>Email:</Label>
-            <Input
-              onChange={this.onEmailChange}
-              type="email"
-              name="email"
-              placeholder="example@abc.com"
-            />
-          </FormGroup>
-          <FormGroup>
-            {passwordFieldIsEmpty ? (
-              <LoginMissingNote fieldName="Password" />
-            ) : null}
-            <Label>Password:</Label>
-            <Input
-              onChange={this.onPasswordChange}
-              type="password"
-              name="password"
-              placeholder="Enter password"
-            />
-          </FormGroup>
-          {confirmPasswordField}
-          {companyIdField}
-          {submit}
-        </Form>
-      </div>
+      <Form
+        onSubmit={
+          !showRegisterFields ? this.onLoginSubmit : this.onRegisterSubmit
+        }
+      >
+        <FormGroup for="email">
+          {emailFieldIsEmpty && <LoginMissingNote fieldName="Email" />}
+          <Label>Email:</Label>
+          <Input
+            onChange={this.onEmailChange}
+            type="email"
+            name="email"
+            placeholder="example@abc.com"
+          />
+        </FormGroup>
+        <FormGroup>
+          {passwordFieldIsEmpty && <LoginMissingNote fieldName="Password" />}
+          <Label>Password:</Label>
+          <Input
+            onChange={this.onPasswordChange}
+            type="password"
+            name="password"
+            placeholder="Enter password"
+          />
+        </FormGroup>
+        {confirmPasswordField}
+        {companyIdField}
+        {submit}
+      </Form>
     );
   }
 }

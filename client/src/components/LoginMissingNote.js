@@ -9,10 +9,6 @@ export default class LoginErrorNote extends PureComponent<Props> {
   render() {
     const { fieldName } = this.props;
 
-    return (
-      <div>
-        <p>{fieldName} is missing.</p>
-      </div>
-    );
+    return <p>{fieldName} is missing.</p>;
   }
 }
