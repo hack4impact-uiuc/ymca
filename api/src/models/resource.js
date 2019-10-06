@@ -5,8 +5,8 @@ const PhoneNumber = new mongoose.Schema({
   phoneNumber: { type: String, required: true },
 });
 
-const OtherContact = new mongoose.Schema({
-  roleOfContact: { type: String, required: true },
+const Contact = new mongoose.Schema({
+  role: { type: String, required: true },
   name: { type: String, required: true },
   email: { type: String, required: false },
   phoneNumber: { type: String, required: false },
@@ -26,7 +26,7 @@ const Resource = new mongoose.Schema({
   website: { type: String, required: false },
   email: { type: String, required: false },
   phoneNumbers: { type: [PhoneNumber], required: false },
-  otherContacts: { type: [OtherContact], required: false },
+  contacts: { type: [Contact], required: false },
   address: { type: String, required: false },
   city: { type: String, required: false },
   hoursOfOperation: { type: String, required: false },
