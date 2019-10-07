@@ -1,0 +1,16 @@
+.filter-component {
+    width: 800px;
+    height: 500px;
+    border: 2px solid black;
+}
+
+.dropdowns {
+    width: 30%;
+    border: 2px solid black;
+    height: 100%;
+}
+
+.dropdowns ButtonDropdown {
+    width: 100%;
+    display: block;
+}
