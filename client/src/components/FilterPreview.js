@@ -6,12 +6,12 @@ import {
   DropdownItem,
 } from 'reactstrap';
 import '../App.css';
+import '../css/FilterPreview.css'
 
 
 export default class FilterPreview extends Component<Props, State> {
     constructor(props) {
       super(props);
-      this.toggle = this.toggle.bind(this);
       this.state = {
         dropdownOpen: false,
       };
@@ -20,8 +20,10 @@ export default class FilterPreview extends Component<Props, State> {
     render() {
       return (
         <div className='filter-preview'>
+            <div className='filter-preview-top'>
+            </div>
             <div className='filter-preview-bottom'>
-                
+                {this.props.resourceName}
             </div>
         </div>
       );

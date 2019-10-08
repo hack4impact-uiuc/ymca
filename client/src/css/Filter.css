@@ -4,13 +4,18 @@
     border: 2px solid black;
 }
 
-.dropdowns {
+.dropdowns-container {
+    float: left;
     width: 30%;
     border: 2px solid black;
     height: 100%;
 }
 
-.dropdowns ButtonDropdown {
+.dropdowns-container ButtonDropdown {
     width: 100%;
     display: block;
+}
+
+.filter-preview-container {
+    display: inline-block;
 }
