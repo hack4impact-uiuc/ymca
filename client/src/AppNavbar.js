@@ -18,25 +18,27 @@ export default class AppNavbar extends Component {
   constructor(props) {
     super(props);
 
-    this.toggle = this.toggle.bind(this);
     this.state = {
       isOpen: false,
     };
   }
 
-  toggle() {
+  toggle = () => {
+    const { isOpen } = this.state;
+
     this.setState({
-      isOpen: !this.state.isOpen,
+      isOpen,
     });
-  }
+  };
 
   render() {
+    const { isOpen } = this.state;
     return (
       <div>
         <Navbar color="light" light expand="md">
           <NavbarBrand href="/">YMCA</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={this.state.isOpen} navbar>
+          <Collapse isOpen={isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
                 <NavLink href="/">Components</NavLink>
