@@ -1,5 +1,5 @@
 {
-  "name": "client",
+  "name": "ymca-client",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -12,7 +12,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "lint": "eslint src -c .eslintrc.json --ext js,jsx",
+    "lint": "eslint --fix src -c .eslintrc.json --ext js,jsx",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -34,6 +34,9 @@
     ]
   },
   "devDependencies": {
+    "@babel/cli": "^7.6.2",
+    "@babel/core": "^7.6.2",
+    "@babel/preset-flow": "^7.0.0",
     "babel-eslint": "^10.0.3",
     "eslint": "^6.5.1",
     "eslint-config-airbnb": "^18.0.1",
