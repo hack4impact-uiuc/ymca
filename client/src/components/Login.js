@@ -4,6 +4,11 @@ import '../css/Login.css';
 import LoginSubmitGroup from './LoginSubmitGroup';
 import LoginMissingNote from './LoginMissingNote';
 
+/*
+TODO 1: Add calls to authentication.
+TODO 2: Replace all reactstrap with custom html and css for wireframe.
+TODO 3: Add language selector.
+*/
 export default class Login extends Component {
   constructor(props) {
     super(props);

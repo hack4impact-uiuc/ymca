@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "eslint-plugin-flowtype": "^4.3.0"
+  }
+}
