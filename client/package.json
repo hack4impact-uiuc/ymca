@@ -12,7 +12,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "lint": "eslint src -c .eslintrc.json --ext js,jsx",
+    "lint": "eslint --fix src -c .eslintrc.json --ext js,jsx",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
