@@ -1,8 +1,8 @@
-import React from "react";
-import "./App.css";
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import Home from "./Home";
-import AppNavbar from "./AppNavbar"
+import React from 'react';
+import './App.css';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import Home from './Home';
+import AppNavbar from './AppNavbar';
 
 export default class App extends React.Component {
   render() {

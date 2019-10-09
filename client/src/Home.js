@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './Home.css';
-import AppNavbar from './AppNavbar'
+import AppNavbar from './AppNavbar';
 
 type Props = {};
 

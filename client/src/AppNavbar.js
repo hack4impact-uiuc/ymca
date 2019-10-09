@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './AppNavbar.css'
+import './AppNavbar.css';
 import {
   Collapse,
   Navbar,
