@@ -1,5 +1,5 @@
 {
-  "name": "api",
+  "name": "ymca-api",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -14,6 +14,7 @@
     "fs": "^0.0.1-security",
     "helmet": "^3.21.1",
     "http-errors": "~1.6.3",
+    "mongodb": "^3.3.2",
     "mongoose": "^5.7.4",
     "morgan": "~1.9.1"
   },
