@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "lint": "eslint src -c .eslintrc.json --ext js",
+    "lint": "eslint --fix src -c .eslintrc.json --ext js",
     "test": "echo \"Test not created yet\" && exit 0"
   },
   "dependencies": {
