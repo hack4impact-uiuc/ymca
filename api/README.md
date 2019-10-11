@@ -4,7 +4,13 @@ This folder contains the backend api of the application.
 
 ## Install & Run
 
-To set up, first `cd` into this directory. Then,
+To set up, first create a `.env` file in the `/api` directory that contains the following field.
+
+```
+MONGO_URL=mongodb://<username>:<password>@<id>.mlab.com:<id/project>
+```
+
+Then,
 
 ```bash
 yarn
