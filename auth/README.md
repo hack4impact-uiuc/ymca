@@ -6,14 +6,14 @@ Made from [H4i Infrastructure Authentication Server](https://github.com/hack4imp
 
 # Permission Structure
 
-*admin* can promote or demote:
- - intern
- - public
+**admin** can promote or demote:
+ - *intern*
+ - *public*
 
-*intern* can promote or demote:
- - public
+**intern** can promote or demote:
+ - *public*
 
-*public* has no ability to promote or demote.
+**public** has no ability to promote or demote.
 
 # Links
 
