@@ -3,7 +3,7 @@ const router = express.Router();
 const errorWrap = require('../middleware/errorWrap');
 const Resource = require('../models/resource');
 
-// Get all resources
+// Get all resources (with query param "category")
 router.get(
   '/',
   errorWrap(async (req, res) => {
@@ -50,11 +50,14 @@ router.get(
 router.post(
   '/',
   errorWrap(async (req, res) => {
-    const resource = new Resource(req.body);
-    const newResource = await resource.save();
-    res
-      .status(201)
-      .json({ code: 201, message: '', success: true, result: newResource });
+    const newResource = new Resource(req.body);
+    await newResource.save();
+    res.status(201).json({
+      code: 201,
+      message: `Successfully created new resource ${newResource.id}`,
+      success: true,
+      result: newResource,
+    });
   }),
 );
 
@@ -68,7 +71,7 @@ router.put(
     });
     res.json({
       code: 200,
-      message: '',
+      message: `Successfully updated resource ${id}`,
       success: true,
       result: updatedResource,
     });
@@ -79,9 +82,14 @@ router.put(
 router.delete(
   '/:id',
   errorWrap(async (req, res) => {
-    const resourceId = req.params.id;
-    const Resource = await Resource.findByIdAndDelete(resourceId);
-    res.json({ code: 200, message: '', success: true, result: null });
+    const { id } = req.params;
+    await Resource.findByIdAndDelete(id);
+    res.json({
+      code: 200,
+      message: `Successfully deleted resource ${id}`,
+      success: true,
+      result: null,
+    });
   }),
 );
 
