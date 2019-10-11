@@ -3,6 +3,7 @@ import { Form, FormGroup, Label, Input } from 'reactstrap';
 import '../css/Login.css';
 import LoginSubmitGroup from './LoginSubmitGroup';
 import LoginMissingNote from './LoginMissingNote';
+import AppNavbar from './AppNavbar';
 
 export default class Login extends Component {
   constructor(props) {
@@ -158,35 +159,38 @@ export default class Login extends Component {
     }
 
     return (
-      <Form
-        onSubmit={
-          !showRegisterFields ? this.onLoginSubmit : this.onRegisterSubmit
-        }
-      >
-        <FormGroup for="email">
-          {emailFieldIsEmpty && <LoginMissingNote fieldName="Email" />}
-          <Label>Email:</Label>
-          <Input
-            onChange={this.onEmailChange}
-            type="email"
-            name="email"
-            placeholder="example@abc.com"
-          />
-        </FormGroup>
-        <FormGroup>
-          {passwordFieldIsEmpty && <LoginMissingNote fieldName="Password" />}
-          <Label>Password:</Label>
-          <Input
-            onChange={this.onPasswordChange}
-            type="password"
-            name="password"
-            placeholder="Enter password"
-          />
-        </FormGroup>
-        {confirmPasswordField}
-        {companyIdField}
-        {submit}
-      </Form>
+      <div>
+        <AppNavbar />
+        <Form
+          onSubmit={
+            !showRegisterFields ? this.onLoginSubmit : this.onRegisterSubmit
+          }
+        >
+          <FormGroup for="email">
+            {emailFieldIsEmpty && <LoginMissingNote fieldName="Email" />}
+            <Label>Email:</Label>
+            <Input
+              onChange={this.onEmailChange}
+              type="email"
+              name="email"
+              placeholder="example@abc.com"
+            />
+          </FormGroup>
+          <FormGroup>
+            {passwordFieldIsEmpty && <LoginMissingNote fieldName="Password" />}
+            <Label>Password:</Label>
+            <Input
+              onChange={this.onPasswordChange}
+              type="password"
+              name="password"
+              placeholder="Enter password"
+            />
+          </FormGroup>
+          {confirmPasswordField}
+          {companyIdField}
+          {submit}
+        </Form>
+      </div>
     );
   }
 }

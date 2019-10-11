@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './AppNavbar.css';
+import '../css/AppNavbar.css';
 import {
   Collapse,
   Navbar,
@@ -41,7 +41,7 @@ export default class AppNavbar extends Component {
           <Collapse isOpen={isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink href="/">Components</NavLink>
+                <NavLink href="/login">Login</NavLink>
               </NavItem>
               <NavItem>
                 <NavLink href="https://github.com/reactstrap/reactstrap">

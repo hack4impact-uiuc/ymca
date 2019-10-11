@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './ResourceDetailed.css';
+import '../css/ResourceDetailed.css';
 import { Container, Row, Col } from 'reactstrap';
 
 export default class ResourceDetailed extends Component {
