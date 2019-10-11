@@ -1,12 +1,27 @@
-# H4i Infrastructure Authentication Server
+# YMCA Authentication Server
 
-Guide for integrating into your App: https://docs.google.com/document/d/1K6e9jarVtAync-Bti6BN6bKI-8JnvwK4IZmhlTSn2pg/edit
+    ymca-auth.now.sh
+
+Made from [H4i Infrastructure Authentication Server](https://github.com/hack4impact-uiuc/infra-authentication-server).
+
+# Permission Structure
+
+*admin* can promote or demote:
+ - intern
+ - public
+
+*intern* can promote or demote:
+ - public
+
+*public* has no ability to promote or demote.
 
 # Links
 
 Documentation: https://www.notion.so/h4iuiuc/Authentication-Server-12c9fa26d1b9457bb84d7105caea530e
 
 API: https://github.com/hack4impact-uiuc/infra-authentication-api/
+
+Guide for integrating into your App: https://docs.google.com/document/d/1K6e9jarVtAync-Bti6BN6bKI-8JnvwK4IZmhlTSn2pg/edit
 
 Client Example: https://github.com/hack4impact-uiuc/infra-authentication-client
 
