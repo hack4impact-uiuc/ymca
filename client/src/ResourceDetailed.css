@@ -1,0 +1,12 @@
+.ResourceDetailed {
+    margin: 20px;
+    white-space: pre-line;
+}
+
+.resourceName {
+    text-align: center;
+}
+
+.col {
+    padding-top: 20px;
+}
