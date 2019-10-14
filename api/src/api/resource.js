@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const errorWrap = require('../middleware/errorWrap');
+const { errorWrap } = require('../middleware');
 const Resource = require('../models/resource');
 
 // Get all resources (with query param "category")
