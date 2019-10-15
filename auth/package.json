@@ -1,5 +1,5 @@
 {
-  "name": "infra-authentication-server",
+  "name": "ymca-auth",
   "scripts": {
     "start": "nodemon src/startServer.js"
   },

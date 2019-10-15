@@ -38,11 +38,11 @@ yarn start
 
 1. Create an AWS account and go to the [Elastic Beanstalk website](https://console.aws.amazon.com/elasticbeanstalk/home) (note that you may be charged)
 2. Create a new Elastic Beanstalk application, along with a web server environment
-   ![](./dimages/eb1.png)
+   ![]((https://user-images.githubusercontent.com/10099821/66800232-125ee180-eeda-11e9-8002-14dad92916f2.png)
 3. Select Docker as the configuration and upload Dockerized server code as a .zip file. Since there's a Dockerfile already, all you need to do is save the authentication server project folder as a zip file and upload it here.
-   ![](.images/eb2.png)
+   ![](https://user-images.githubusercontent.com/10099821/66800235-17bc2c00-eeda-11e9-9666-7b2f543a869a.png)
 4. After a few minutes (and resolving any potential errors), your server should be deployed
-   ![](./images/eb3.png)
+   ![](https://user-images.githubusercontent.com/10099821/66800236-17bc2c00-eeda-11e9-9464-3b113ea2af6a.png)
 
 Tips:
 
@@ -66,7 +66,7 @@ Tips:
    - If you choose to use Heroku Git, you will have to install the [Heroku CLI tool](https://devcenter.heroku.com/articles/heroku-cli) and follow the given instructions to deploy your code to Heroku.
    - Alternatively, you can choose to use GitHub directly and link Heroku to your GitHub project.
 
-![](./images/h1.png)
+![](https://user-images.githubusercontent.com/10099821/66800237-17bc2c00-eeda-11e9-855f-1bf46c6fca49.png)
 
 Tips:
 
@@ -76,10 +76,10 @@ Tips:
 app.listen(process.env.PORT || 8000)
 ```
 
-![](./images/h3.png)
+![](https://user-images.githubusercontent.com/10099821/66800239-1854c280-eeda-11e9-81b5-5b6bd2e49f2d.png)
 
 - Note that syncing changes using the CLI tool can be tedious if you are deploying mid-development, so it is recommended to deploy either at the very beginning or end. You have to clone the Heroku repository and make/commit your changes there for them to reflect on the deployment.
-  ![](./images/h2.png)
+  ![](https://user-images.githubusercontent.com/10099821/66800238-1854c280-eeda-11e9-84c8-394160979a01.png)
 - You can turn the deployment offline/online with the following command:
 
 ```
