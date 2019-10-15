@@ -10,7 +10,7 @@ To set up, first create a `.env` file in the `/api` directory that contains the 
 MONGO_URL=mongodb://<username>:<password>@<id>.mlab.com:<id/project>
 ```
 
-Then, 
+Then,
 
 ```bash
 yarn
