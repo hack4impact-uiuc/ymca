@@ -1,0 +1,22 @@
+version: 2
+jobs:
+  backend_test:
+      docker:
+        - image: node:11.14.0
+      dependencies:
+        override:
+          - echo $PATH
+      steps:
+        - checkout
+        - run:
+            name: Install Dependencies 
+            command: yarn install
+#        - run:
+#            name: Run Backend Tests
+#            command: yarn test
+        
+workflows:
+  version: 2
+  build-test:
+    jobs:
+      - backend_test

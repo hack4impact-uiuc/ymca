@@ -1,0 +1,15 @@
+roles:
+  admin:
+    - intern
+    - public
+  intern:
+    - public
+  public: null
+security_questions:
+  - What was the name of the street you grew up on?
+  - First car?
+  - Favorite word?
+useGoogleAuth: false
+security_question: true
+gmail: false
+expire_after_hrs: 1
