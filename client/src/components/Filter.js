@@ -5,7 +5,7 @@ import {
   DropdownMenu,
   DropdownItem,
 } from 'reactstrap';
-import '../App.css';
+import '../css/App.css';
 import '../css/Filter.css';
 import FilterPreview from './FilterPreview';
 import FilterCategory from './FilterCategory';
@@ -22,7 +22,7 @@ export default class Filter extends Component<Props, State> {
       languageSelected: '',
       locationSelected: '',
 
-      categorySelected: '',
+      // categorySelected: '',
       subcategorySelected: '',
       costSelected: '',
 
@@ -45,12 +45,11 @@ export default class Filter extends Component<Props, State> {
     };
   }
 
-  categorySelect = value => {
-    this.setState({
-      categorySelected: value,
-      subcategorySelected: '',
-    });
-  };
+  // categorySelect = value => {
+  //   this.setState({
+  //     // categorySelected: value,
+  //     subcategorySelected: '',
+  //   });
 
   subcategorySelect = value => {
     this.setState({

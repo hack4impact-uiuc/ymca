@@ -1,11 +1,5 @@
 import React, { Component } from 'react';
-import {
-  ButtonDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-} from 'reactstrap';
-import '../App.css';
+import '../css/App.css';
 import '../css/FilterPreview.css';
 
 export default class FilterPreview extends Component<Props, State> {

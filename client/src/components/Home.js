@@ -16,7 +16,7 @@ export default class Home extends Component<Props, State> {
 
   // UNSAFE_componentWillMount() {
   //   this.callAPI();
-  // }  
+  // }
 
   // callAPI() {
   //   fetch('http://localhost:9000/testAPI')
