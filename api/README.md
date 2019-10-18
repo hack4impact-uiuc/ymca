@@ -10,7 +10,13 @@ To set up, first create a `.env` file in the `/api` directory that contains the 
 MONGO_URL=mongodb://<username>:<password>@<id>.mlab.com:<id/project>
 ```
 
-Then,
+Make sure that you have `dotenv-cli` installed globally with,
+
+```
+yarn global add dotenv-cli
+```
+
+Then, 
 
 ```bash
 yarn
