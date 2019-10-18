@@ -7,6 +7,6 @@ router.get('/', (req, res) => {
   res.send('hi');
 });
 
-router.use('/resources', resource);
+router.use('/api/resources', resource);
 
 module.exports = router;
