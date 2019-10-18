@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../css/ResourceDetailed.css';
 import { Container, Row, Col } from 'reactstrap';
 
-export default class ResourceDetailed extends Component {
+export default class ResourceDetail extends Component {
   constructor(props) {
     super(props);
 

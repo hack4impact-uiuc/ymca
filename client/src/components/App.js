@@ -3,8 +3,9 @@ import '../css/App.css';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Home from './Home';
 import AppNavbar from './AppNavbar';
-import ResourceDetailed from './ResourceDetailed';
+import ResourceDetailed from './ResourceDetail';
 import Login from './Login';
+import Filter from './Filter';
 
 export default class App extends React.Component {
   render() {
@@ -15,6 +16,7 @@ export default class App extends React.Component {
           <Route path="/navbar" exact component={AppNavbar} />
           <Route path="/resource" exact component={ResourceDetailed} />
           <Route path="/login" exact component={Login} />
+          <Route path="/filter" exact component={Filter} />
         </div>
       </Router>
     );
