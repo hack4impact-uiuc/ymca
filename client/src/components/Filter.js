@@ -7,6 +7,7 @@ import {
 } from 'reactstrap';
 import '../css/App.css';
 import '../css/Filter.css';
+import AppNavbar from './AppNavbar';
 import FilterPreview from './FilterPreview';
 import FilterCategory from './FilterCategory';
 
@@ -96,94 +97,97 @@ export default class Filter extends Component<Props, State> {
 
   render() {
     return (
-      <div className="filter-component">
-        <div className="filter-component__title">
-          <h1>YMCA Resource Filter</h1>
-        </div>
+      <>
+        <AppNavbar />
+        <div className="filter-component">
+          <div className="filter-component__title">
+            <h1>YMCA Resource Filter</h1>
+          </div>
 
-        <div className="filter-component__filters">
-          <ButtonDropdown
-            isOpen={this.state.languageDropdownOpen}
-            toggle={this.languageToggle}
-          >
-            <DropdownToggle caret>
-              {this.state.languageSelected === ''
-                ? 'Language'
-                : this.state.languageSelected}
-            </DropdownToggle>
-            <DropdownMenu>
-              {this.state.languages.map(value => {
-                return (
-                  <DropdownItem onClick={() => this.languageSelect(value)}>
-                    {value}
-                  </DropdownItem>
-                );
-              })}
-            </DropdownMenu>
-          </ButtonDropdown>
+          <div className="filter-component__filters">
+            <ButtonDropdown
+              isOpen={this.state.languageDropdownOpen}
+              toggle={this.languageToggle}
+            >
+              <DropdownToggle caret>
+                {this.state.languageSelected === ''
+                  ? 'Language'
+                  : this.state.languageSelected}
+              </DropdownToggle>
+              <DropdownMenu>
+                {this.state.languages.map(value => {
+                  return (
+                    <DropdownItem onClick={() => this.languageSelect(value)}>
+                      {value}
+                    </DropdownItem>
+                  );
+                })}
+              </DropdownMenu>
+            </ButtonDropdown>
 
-          <ButtonDropdown
-            isOpen={this.state.locationDropdownOpen}
-            toggle={this.locationToggle}
-          >
-            <DropdownToggle caret>
-              {this.state.locationSelected === ''
-                ? 'Location'
-                : this.state.locationSelected}
-            </DropdownToggle>
-            <DropdownMenu>
-              {this.state.locations.map(value => {
-                return (
-                  <DropdownItem onClick={() => this.locationSelect(value)}>
-                    {value}
-                  </DropdownItem>
-                );
-              })}
-            </DropdownMenu>
-          </ButtonDropdown>
+            <ButtonDropdown
+              isOpen={this.state.locationDropdownOpen}
+              toggle={this.locationToggle}
+            >
+              <DropdownToggle caret>
+                {this.state.locationSelected === ''
+                  ? 'Location'
+                  : this.state.locationSelected}
+              </DropdownToggle>
+              <DropdownMenu>
+                {this.state.locations.map(value => {
+                  return (
+                    <DropdownItem onClick={() => this.locationSelect(value)}>
+                      {value}
+                    </DropdownItem>
+                  );
+                })}
+              </DropdownMenu>
+            </ButtonDropdown>
 
-          <ButtonDropdown
-            isOpen={this.state.costDropdownOpen}
-            toggle={this.costToggle}
-          >
-            <DropdownToggle caret>
-              {this.state.costSelected === ''
-                ? 'Cost'
-                : this.state.costSelected}
-            </DropdownToggle>
-            <DropdownMenu>
-              {this.state.costs.map(value => {
-                return (
-                  <DropdownItem onClick={() => this.costSelect(value)}>
-                    {value}
-                  </DropdownItem>
-                );
-              })}
-            </DropdownMenu>
-          </ButtonDropdown>
-        </div>
+            <ButtonDropdown
+              isOpen={this.state.costDropdownOpen}
+              toggle={this.costToggle}
+            >
+              <DropdownToggle caret>
+                {this.state.costSelected === ''
+                  ? 'Cost'
+                  : this.state.costSelected}
+              </DropdownToggle>
+              <DropdownMenu>
+                {this.state.costs.map(value => {
+                  return (
+                    <DropdownItem onClick={() => this.costSelect(value)}>
+                      {value}
+                    </DropdownItem>
+                  );
+                })}
+              </DropdownMenu>
+            </ButtonDropdown>
+          </div>
 
-        <div className="dropdowns-container">
-          {Object.keys(this.state.categories).map(categoryName => {
-            return (
-              <FilterCategory
-                categoryName={categoryName}
-                subcategories={this.state.categories[categoryName]}
-                categoryClickHandler={this.categorySelect}
-                subcategoryClickHandler={this.subcategorySelect}
-              />
-            );
-          })}
-        </div>
-
-        {this.state.subcategorySelected !== '' && (
-          <div className="filter-preview-container">
-            {this.state.resources.map(value => {
-              return <FilterPreview resourceName={value} />;
+          <div className="dropdowns-container">
+            {Object.keys(this.state.categories).map(categoryName => {
+              return (
+                <FilterCategory
+                  categoryName={categoryName}
+                  subcategories={this.state.categories[categoryName]}
+                  categoryClickHandler={this.categorySelect}
+                  subcategoryClickHandler={this.subcategorySelect}
+                />
+              );
             })}
           </div>
-        )}
-      </div>
+
+          {this.state.subcategorySelected !== '' && (
+            <div className="filter-preview-container">
+              {this.state.resources.map(value => {
+                return <FilterPreview resourceName={value} />;
+              })}
+            </div>
+          )}
+        </div>
+      </>
     );
   }
 }

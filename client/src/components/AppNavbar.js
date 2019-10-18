@@ -37,6 +37,7 @@ export default class AppNavbar extends Component {
           <Collapse isOpen={isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
+                <NavLink href="/filter">Resources</NavLink>
                 <NavLink href="/login">Login</NavLink>
               </NavItem>
             </Nav>

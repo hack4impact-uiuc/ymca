@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../css/ResourceDetailed.css';
+import '../css/ResourceDetail.css';
 import { Container, Row, Col } from 'reactstrap';
 
 export default class ResourceDetail extends Component {
@@ -65,7 +65,7 @@ export default class ResourceDetail extends Component {
     } = this.state;
 
     return (
-      <div className="ResourceDetailed">
+      <div className="ResourceDetail">
         <Container>
           <Row>
             <Col className="resourceName">{name}</Col>
