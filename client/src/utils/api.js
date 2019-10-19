@@ -4,6 +4,10 @@ const instance = axios.create({
   baseURL: 'http://localhost:9000',
 });
 
+export const getCategories = () => {
+  return instance.get('/api/categories').then(res => res.data, err => null);
+}
+
 export const getResources = () => {
   return instance.get('/api/resources').then(res => res.data, err => null);
 };
