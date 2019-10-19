@@ -1,12 +1,9 @@
 const express = require('express');
 
 const router = express.Router();
-const { resource } = require('../api');
+const { category, resource } = require('../api');
 
-router.get('/', (req, res) => {
-  res.send('hi');
-});
-
+router.use('/api/categories', category);
 router.use('/api/resources', resource);
 
 module.exports = router;
