@@ -1,7 +1,7 @@
 const https = require('https');
 const mongoose = require('mongoose');
 const fetch = require('isomorphic-unfetch');
-const User = require('../models/user');
+const User = require('../models/ymcaEmployee');
 
 const { AUTH_SERVER_URI } = require('../dotenvVars');
 const AUTH_SERVER_VERIFY_URI = AUTH_SERVER_URI + '/verify';
@@ -9,6 +9,7 @@ const AUTH_SERVER_VERIFY_URI = AUTH_SERVER_URI + '/verify';
 const auth = async (req, res, next) => {
   const { token } = req.headers;
   const authReq = await fetch(AUTH_SERVER_VERIFY_URI, {
+    method: 'POST',
     headers: {
       token,
     },
@@ -16,16 +17,19 @@ const auth = async (req, res, next) => {
 
   const authRes = await authReq.json();
   if (authRes.status === 200) {
-    const { role, userid } = authReq.body;
+    const { role, uid, newToken } = authReq;
 
-    if (authReq.body.token != undefined) {
-      // update token on client side.
-      res.set({'token': authReq.body.token});
+    if (newToken !== undefined) {
+      res.set({ token: newToken });
+    } else {
+      res.set({ token });
     }
 
-    const user = User.findById(userId);
+    const user = await User.findById(uid);
     // put user model in _user
     req._user = user;
+
+    console.log(user);
 
     next();
   }

@@ -7,7 +7,7 @@ const logger = require('morgan');
 const path = require('path');
 const routes = require('./routes');
 
-const { errorHandler } = require('./middleware');
+const { errorHandler, auth } = require('./middleware');
 
 const app = express();
 
@@ -29,6 +29,7 @@ app.use(logger('combined', { stream: accessLogStream }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+app.use(auth);
 app.use('/', routes);
 
 app.get('/favicon.ico', (req, res) => res.status(204));

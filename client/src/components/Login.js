@@ -4,6 +4,8 @@ import '../css/Login.css';
 import LoginSubmitGroup from './LoginSubmitGroup';
 import LoginMissingNote from './LoginMissingNote';
 
+import { login, register } from '../api';
+
 /*
 TODO 1: Add calls to authentication.
 TODO 2: Replace all reactstrap with custom html and css for wireframe.
@@ -75,14 +77,6 @@ export default class Login extends Component {
     return !emailFieldIsEmpty && !passwordFieldIsEmpty;
   };
 
-  onLoginSubmit = e => {
-    e.preventDefault();
-
-    if (this.loginFieldsValid()) {
-      // auth
-    }
-  };
-
   registerFieldsValid = () => {
     // verifies email and password
     const loginValid = this.loginFieldsValid();
@@ -95,11 +89,35 @@ export default class Login extends Component {
     return loginValid && registerValid;
   };
 
+  onLoginSubmit = e => {
+    e.preventDefault();
+
+    if (this.loginFieldsValid()) {
+      const { email, password } = this.state;
+      // auth
+      login({ email, password }).then(res => {
+        if (res.status === 200) {
+          // go to main menu
+        } else {
+          // show error message
+        }
+      });
+    }
+  };
+
   onRegisterSubmit = e => {
     e.preventDefault();
 
     if (this.registerFieldsValid()) {
-      // auth
+      const { email, password, companyId } = this.state;
+
+      register({ email, password, companyId }).then(res => {
+        if (res.status === 200) {
+          // auto login and go to main menu
+        } else {
+          // show error message.
+        }
+      });
     }
   };
 
