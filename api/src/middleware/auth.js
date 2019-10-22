@@ -1,7 +1,7 @@
 const https = require('https');
 const mongoose = require('mongoose');
 const fetch = require('isomorphic-unfetch');
-const User = require('../models/ymcaEmployee');
+const User = require('../models/user');
 
 const { AUTH_SERVER_URI } = 'https://ymca-auth.now.sh';
 
@@ -16,12 +16,11 @@ const auth = async (req, res, next) => {
 
   const authRes = await authReq.json();
   if (authRes.status === 200) {
-    const { role, uid, newToken } = authReq;
+    const { role, userid } = authReq.body;
 
-    if (newToken !== undefined) {
-      res.set({ token: newToken });
-    } else {
-      res.set({ token });
+    if (authReq.body.token != undefined) {
+      // update token on client side.
+      res.set({ token: authReq.body.token });
     }
 
     next();

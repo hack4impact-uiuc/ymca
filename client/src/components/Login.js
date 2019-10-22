@@ -80,6 +80,14 @@ export default class Login extends Component {
     return !emailFieldIsEmpty && !passwordFieldIsEmpty;
   };
 
+  onLoginSubmit = e => {
+    e.preventDefault();
+
+    if (this.loginFieldsValid()) {
+      // auth
+    }
+  };
+
   registerFieldsValid = () => {
     // verifies email and password
     const loginValid = this.loginFieldsValid();
