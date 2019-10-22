@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { Form, FormGroup, Label, Input } from 'reactstrap';
 import '../css/Login.css';
+import { useHistory } from 'react-router-dom';
 import LoginSubmitGroup from './LoginSubmitGroup';
 import LoginMissingNote from './LoginMissingNote';
+import AppNavbar from './AppNavbar';
 
-import { login, register } from '../api';
+import { login, register } from '../utils/auth';
 
 /*
 TODO 1: Add calls to authentication.
@@ -25,6 +27,7 @@ export default class Login extends Component {
       companyIdFieldIsEmpty: false,
       isPasswordConfirmed: true,
       showRegisterFields: false,
+      isAuthSuccessful: false,
     };
   }
 
@@ -98,6 +101,7 @@ export default class Login extends Component {
       login({ email, password }).then(res => {
         if (res.status === 200) {
           // go to main menu
+          this.setState({ isAuthSuccessful: true });
         } else {
           // show error message
         }
@@ -114,6 +118,7 @@ export default class Login extends Component {
       register({ email, password, companyId }).then(res => {
         if (res.status === 200) {
           // auto login and go to main menu
+          this.setState({ isAuthSuccessful: true });
         } else {
           // show error message.
         }
@@ -157,7 +162,9 @@ export default class Login extends Component {
       showRegisterFields,
       emailFieldIsEmpty,
       passwordFieldIsEmpty,
+      isAuthSuccessful,
     } = this.state;
+
     let confirmPasswordField;
     let companyIdField;
     let submit = (
@@ -181,35 +188,47 @@ export default class Login extends Component {
     }
 
     return (
-      <Form
-        onSubmit={
-          !showRegisterFields ? this.onLoginSubmit : this.onRegisterSubmit
-        }
-      >
-        <FormGroup for="email">
-          {emailFieldIsEmpty && <LoginMissingNote fieldName="Email" />}
-          <Label>Email:</Label>
-          <Input
-            onChange={this.onEmailChange}
-            type="email"
-            name="email"
-            placeholder="example@abc.com"
-          />
-        </FormGroup>
-        <FormGroup>
-          {passwordFieldIsEmpty && <LoginMissingNote fieldName="Password" />}
-          <Label>Password:</Label>
-          <Input
-            onChange={this.onPasswordChange}
-            type="password"
-            name="password"
-            placeholder="Enter password"
-          />
-        </FormGroup>
-        {confirmPasswordField}
-        {companyIdField}
-        {submit}
-      </Form>
+      <div>
+        <AppNavbar />
+
+        {isAuthSuccessful && <ToHomePage />}
+
+        <Form
+          className="form"
+          onSubmit={
+            !showRegisterFields ? this.onLoginSubmit : this.onRegisterSubmit
+          }
+        >
+          <FormGroup for="email">
+            {emailFieldIsEmpty && <LoginMissingNote fieldName="Email" />}
+            <Label>Email:</Label>
+            <Input
+              onChange={this.onEmailChange}
+              type="email"
+              name="email"
+              placeholder="example@abc.com"
+            />
+          </FormGroup>
+          <FormGroup>
+            {passwordFieldIsEmpty && <LoginMissingNote fieldName="Password" />}
+            <Label>Password:</Label>
+            <Input
+              onChange={this.onPasswordChange}
+              type="password"
+              name="password"
+              placeholder="Enter password"
+            />
+          </FormGroup>
+          {confirmPasswordField}
+          {companyIdField}
+          {submit}
+        </Form>
+      </div>
     );
   }
+}
+
+function ToHomePage() {
+  useHistory().push('/');
+  return null;
 }

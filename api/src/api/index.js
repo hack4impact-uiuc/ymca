@@ -1,7 +1,7 @@
+const category = require('./category');
 const resource = require('./resource');
-const register = require('./register');
 
 module.exports = {
+  category,
   resource,
-  register,
 };

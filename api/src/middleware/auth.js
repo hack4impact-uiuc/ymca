@@ -3,12 +3,11 @@ const mongoose = require('mongoose');
 const fetch = require('isomorphic-unfetch');
 const User = require('../models/ymcaEmployee');
 
-const { AUTH_SERVER_URI } = require('../dotenvVars');
-const AUTH_SERVER_VERIFY_URI = AUTH_SERVER_URI + '/verify';
+const { AUTH_SERVER_URI } = 'https://ymca-auth.now.sh';
 
 const auth = async (req, res, next) => {
   const { token } = req.headers;
-  const authReq = await fetch(AUTH_SERVER_VERIFY_URI, {
+  const authReq = await fetch(`${AUTH_SERVER_URI}/verify`, {
     method: 'POST',
     headers: {
       token,
@@ -24,12 +23,6 @@ const auth = async (req, res, next) => {
     } else {
       res.set({ token });
     }
-
-    const user = await User.findById(uid);
-    // put user model in _user
-    req._user = user;
-
-    console.log(user);
 
     next();
   }
