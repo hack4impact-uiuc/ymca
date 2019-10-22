@@ -11,6 +11,8 @@ import AppNavbar from './AppNavbar';
 import FilterPreview from './FilterPreview';
 import FilterCategory from './FilterCategory';
 
+const BACKEND_URL = 'http://localhost:9000/';
+
 export default class Filter extends Component<Props, State> {
   constructor(props) {
     super(props);
@@ -23,7 +25,7 @@ export default class Filter extends Component<Props, State> {
       languageSelected: '',
       locationSelected: '',
 
-      // categorySelected: '',
+      categorySelected: '',
       subcategorySelected: '',
       costSelected: '',
 
@@ -46,11 +48,30 @@ export default class Filter extends Component<Props, State> {
     };
   }
 
-  // categorySelect = value => {
-  //   this.setState({
-  //     // categorySelected: value,
-  //     subcategorySelected: '',
-  //   });
+  componentDidMount() {
+    fetch(`${BACKEND_URL}api/categories`)
+      .then(res => res.json())
+      .then(data => {
+        const categories = {};
+        data.result.map(category => {
+          categories[category.name] = category.subcategories;
+        });
+        this.setState({ categories });
+      });
+  }
+
+  categorySelect = value => {
+    this.setState({
+      categorySelected: value,
+      subcategorySelected: '',
+    });
+    fetch(`${BACKEND_URL}api/resources?category=${value}`)
+      .then(res => res.json())
+      .then(data => {
+        this.setState({ resources: data.result });
+      });
+    // console.log(this.state.resources)
+  };
 
   subcategorySelect = value => {
     this.setState({
@@ -179,10 +200,11 @@ export default class Filter extends Component<Props, State> {
             })}
           </div>
 
-          {this.state.subcategorySelected !== '' && (
+          {(this.state.subcategorySelected !== '' ||
+            this.state.categorySelected !== '') && (
             <div className="filter-preview-container">
               {this.state.resources.map(value => {
-                return <FilterPreview resourceName={value} />;
+                return <FilterPreview resourceName={value.name} />;
               })}
             </div>
           )}
