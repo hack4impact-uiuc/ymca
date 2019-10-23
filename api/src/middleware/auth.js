@@ -1,7 +1,6 @@
 const https = require('https');
 const mongoose = require('mongoose');
 const fetch = require('isomorphic-unfetch');
-const User = require('../models/user');
 
 const { AUTH_SERVER_URI } = 'https://ymca-auth.now.sh';
 
