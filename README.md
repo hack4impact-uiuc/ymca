@@ -53,6 +53,6 @@ This application is built with React, Express, and MongoDB. To install and set u
 
 ## License
 
-[MIT](https://github.com/kefranabg/readme-md-generator/blob/master/LICENSE) licensed.<br>
+[MIT](https://github.com/hack4impact-uiuc/ymca/blob/master/LICENSE) licensed.<br>
 
 Copyright © 2019 [Hack4Impact UIUC](https://github.com/hack4impact-uiuc).
