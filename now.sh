@@ -1,11 +1,15 @@
 {
   "version": 2,
   "name": "ymca",
+  "alias": ["ymca.now.sh"],
+  "env": {
+    "DB_URI": "@lah_db_uri"
+  },
   "builds": [
     { "src": "api/src/app.js", "use": "@now/node" },
     {
       "src": "client/package.json",
-      "use": "@now/static-build",
+      "use": "@now/static",
       "config": { "distDir": "build" }
     }
   ],
@@ -15,7 +19,6 @@
       "headers": { "cache-control": "s-maxage=0" },
       "dest": "api/src/app.js"
     },
-
     {
       "src": "/static/(.*)",
       "headers": { "cache-control": "s-maxage=31536000,immutable" },
@@ -37,8 +40,5 @@
       "dest": "client/service-worker.js"
     },
     { "src": "/(.*)", "dest": "client/index.html" }
-  ],
-  "env": {
-    "DB_URI": "@lah_db_uri"
-  }
+  ]
 }
