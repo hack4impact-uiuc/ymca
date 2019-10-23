@@ -30,11 +30,7 @@ export default class FilterCategory extends Component {
               return (
                 <Button
                   color="secondary"
-                  onClick={() =>
-                    this.props.subcategoryClickHandler(
-                      value
-                    )
-                  }
+                  onClick={() => this.props.subcategoryClickHandler(value)}
                 >
                   {value}
                 </Button>

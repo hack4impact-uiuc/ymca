@@ -10,8 +10,11 @@ import '../css/Filter.css';
 import AppNavbar from './AppNavbar';
 import FilterPreview from './FilterPreview';
 import FilterCategory from './FilterCategory';
-
-const BACKEND_URL = 'http://localhost:9000/';
+import {
+  getCategories,
+  getResources,
+  getResourcesByCategory,
+} from '../utils/api';
 
 export default class Filter extends Component<Props, State> {
   constructor(props) {
@@ -45,38 +48,36 @@ export default class Filter extends Component<Props, State> {
       costs: ['$', '$$', '$$$', '$$$$$'],
 
       resources: [],
+      filteredResources: [],
     };
   }
 
-  componentDidMount() {
-    fetch(`${BACKEND_URL}api/categories`)
-      .then(res => res.json())
-      .then(data => {
-        const categories = {};
-        data.result.map(category => {
-          categories[category.name] = category.subcategories;
-        });
-        this.setState({ categories });
-      });
+  async componentDidMount() {
+    const res = await getCategories();
+    const categories = {};
+    res.result.map(category => {
+      categories[category.name] = category.subcategories;
+    });
+    this.setState({ categories });
   }
 
-  categorySelect = value => {
+  categorySelect = async value => {
+    const res = await getResourcesByCategory(value);
     this.setState({
+      resources: res.result,
       categorySelected: value,
       subcategorySelected: '',
     });
-    fetch(`${BACKEND_URL}api/resources?category=${value}`)
-      .then(res => res.json())
-      .then(data => {
-        this.setState({ resources: data.result });
-      });
-    // console.log(this.state.resources)
   };
 
   subcategorySelect = value => {
+    const subResources = this.state.resources.filter(
+      resource => resource.subcategory === value,
+    );
+
     this.setState({
       subcategorySelected: value,
-      resources: ['Dummy Resource A', 'Dummy Resource B', 'Dummy Resource C'],
+      filteredResources: subResources,
     });
   };
 
@@ -200,14 +201,26 @@ export default class Filter extends Component<Props, State> {
             })}
           </div>
 
-          {(this.state.subcategorySelected !== '' ||
+          {/* {(this.state.subcategorySelected !== '' ||
             this.state.categorySelected !== '') && (
             <div className="filter-preview-container">
               {this.state.resources.map(value => {
                 return <FilterPreview resourceName={value.name} />;
               })}
             </div>
-          )}
+          )} */}
+          <div className="filter-preview-container">
+            {this.state.categorySelected !== '' &&
+              this.state.subcategorySelected === '' &&
+              this.state.resources.map(value => {
+                return <FilterPreview resourceName={value.name} />;
+              })}
+            {this.state.categorySelected !== '' &&
+              this.state.subcategorySelected !== '' &&
+              this.state.filteredResources.map(value => {
+                return <FilterPreview resourceName={value.name} />;
+              })}
+          </div>
         </div>
       </>
     );
