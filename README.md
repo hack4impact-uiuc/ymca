@@ -26,8 +26,7 @@ Champaign County is home to over 24,000 immigrants from nearly 80 countries arou
 
 Our team has partnered with the YMCA New American Welcome Center (NAWC) to build a centralized virtual resource hub aimed to equalized and promote information access to vital community resources. This product will allow immigrants to independently access resources according to their personal needs. This tool will also enable NAWC and other local organizations to better serve the community through more informed recommendations.
 
-This product will be piloted at the end of 2019/beginning of 2020. 
-
+This product will be piloted at the end of 2019/beginning of 2020.
 
 ## Usage
 

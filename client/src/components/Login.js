@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { Form, FormGroup, Label, Input } from 'reactstrap';
 import '../css/Login.css';
+import { useHistory } from 'react-router-dom';
 import LoginSubmitGroup from './LoginSubmitGroup';
 import LoginMissingNote from './LoginMissingNote';
 import AppNavbar from './AppNavbar';
+
+import { login, register } from '../utils/auth';
 
 /*
 TODO 1: Add calls to authentication.
@@ -24,6 +27,7 @@ export default class Login extends Component {
       companyIdFieldIsEmpty: false,
       isPasswordConfirmed: true,
       showRegisterFields: false,
+      isAuthSuccessful: false,
     };
   }
 
@@ -96,11 +100,37 @@ export default class Login extends Component {
     return loginValid && registerValid;
   };
 
+  onLoginSubmit = e => {
+    e.preventDefault();
+
+    if (this.loginFieldsValid()) {
+      const { email, password } = this.state;
+      // auth
+      login({ email, password }).then(res => {
+        if (res.status === 200) {
+          // go to main menu
+          this.setState({ isAuthSuccessful: true });
+        } else {
+          // show error message
+        }
+      });
+    }
+  };
+
   onRegisterSubmit = e => {
     e.preventDefault();
 
     if (this.registerFieldsValid()) {
-      // auth
+      const { email, password, companyId } = this.state;
+
+      register({ email, password, companyId }).then(res => {
+        if (res.status === 200) {
+          // auto login and go to main menu
+          this.setState({ isAuthSuccessful: true });
+        } else {
+          // show error message.
+        }
+      });
     }
   };
 
@@ -140,7 +170,9 @@ export default class Login extends Component {
       showRegisterFields,
       emailFieldIsEmpty,
       passwordFieldIsEmpty,
+      isAuthSuccessful,
     } = this.state;
+
     let confirmPasswordField;
     let companyIdField;
     let submit = (
@@ -166,7 +198,11 @@ export default class Login extends Component {
     return (
       <div>
         <AppNavbar />
+
+        {isAuthSuccessful && <ToHomePage />}
+
         <Form
+          className="form"
           onSubmit={
             !showRegisterFields ? this.onLoginSubmit : this.onRegisterSubmit
           }
@@ -198,4 +234,9 @@ export default class Login extends Component {
       </div>
     );
   }
+}
+
+function ToHomePage() {
+  useHistory().push('/');
+  return null;
 }
