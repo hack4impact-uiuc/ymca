@@ -19,24 +19,24 @@
     {
       "src": "/static/(.*)",
       "headers": { "cache-control": "s-maxage=31536000,immutable" },
-      "dest": "frontend/static/$1"
+      "dest": "client/static/$1"
     },
-    { "src": "favicon.ico", "dest": "/frontend/favicon.ico" },
+    { "src": "favicon.ico", "dest": "/client/favicon.ico" },
     {
       "src": "/asset-manifest.json",
-      "dest": "frontend/asset-manifest.json"
+      "dest": "client/asset-manifest.json"
     },
-    { "src": "/manifest.json", "dest": "frontend/manifest.json" },
+    { "src": "/manifest.json", "dest": "client/manifest.json" },
     {
       "src": "/precache-manifest.(.*)",
-      "dest": "frontend/precache-manifest.$1"
+      "dest": "client/precache-manifest.$1"
     },
     {
       "src": "/service-worker.js",
       "headers": { "cache-control": "s-maxage=0" },
-      "dest": "frontend/service-worker.js"
+      "dest": "client/service-worker.js"
     },
-    { "src": "/(.*)", "dest": "frontend/index.html" }
+    { "src": "/(.*)", "dest": "client/index.html" }
   ],
   "env": {
     "DB_URI": "@lah_db_uri"
