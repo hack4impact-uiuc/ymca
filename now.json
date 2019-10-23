@@ -1,15 +1,12 @@
 {
   "version": 2,
   "name": "ymca",
-  "alias": ["ymca.now.sh"],
-  "env": {
-    "DB_URI": "@lah_db_uri"
-  },
+  "alias": "ymca.now.sh",
   "builds": [
     { "src": "api/src/app.js", "use": "@now/node" },
     {
       "src": "client/package.json",
-      "use": "@now/static",
+      "use": "@now/static-build",
       "config": { "distDir": "build" }
     }
   ],
