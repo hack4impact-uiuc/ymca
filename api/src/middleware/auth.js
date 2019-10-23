@@ -23,7 +23,7 @@ const auth = async (req, res, next) => {
       res.set({ token });
     }
 
-    next()
+    next();
   }
 
   // if not auth'd (from https://github.com/hack4impact-uiuc/h4i-recruitment/blob/eab33c223314abb367558dc6e5cfa05d90989681/frontend/src/utils/api.js)
