@@ -201,14 +201,6 @@ export default class Filter extends Component<Props, State> {
             })}
           </div>
 
-          {/* {(this.state.subcategorySelected !== '' ||
-            this.state.categorySelected !== '') && (
-            <div className="filter-preview-container">
-              {this.state.resources.map(value => {
-                return <FilterPreview resourceName={value.name} />;
-              })}
-            </div>
-          )} */}
           <div className="filter-preview-container">
             {this.state.categorySelected !== '' &&
               this.state.subcategorySelected === '' &&
