@@ -1,7 +1,8 @@
 {
   "name": "ymca-auth",
   "scripts": {
-    "start": "nodemon src/startServer.js"
+    "start": "nodemon src/startServer.js",
+    "lint": "eslint --fix src -c .eslintrc.js --ext js"
   },
   "repository": {
     "type": "git",
