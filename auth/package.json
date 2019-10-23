@@ -27,7 +27,7 @@
     "jsonwebtoken": "^8.5.0",
     "jwt-decode": "^2.2.0",
     "mocha": "^6.0.2",
-    "mongoose": "5.4.*",
+    "mongoose": "5.7.*",
     "morgan": "^1.9.1",
     "node-fetch": "^2.3.0",
     "node-pre-gyp": "^0.12.0",
