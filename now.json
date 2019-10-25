@@ -6,11 +6,7 @@
     "MONGO_URL": "@ymca_db_uri"
   },
   "builds": [
-    {
-      "src": "/api/(.*)",
-      "headers": { "cache-control": "s-maxage=0" },
-      "dest": "api/src/app.js"
-    },
+    { "src": "api/src/app.js", "use": "@now/node" },
     {
       "src": "client/package.json",
       "use": "@now/static-build",
@@ -19,7 +15,7 @@
   ],
   "routes": [
     {
-      "src": "/src/api/(.*)",
+      "src": "/api/(.*)",
       "headers": { "cache-control": "s-maxage=0" },
       "dest": "api/src/app.js"
     },
