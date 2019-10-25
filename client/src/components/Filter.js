@@ -10,6 +10,11 @@ import '../css/Filter.css';
 import AppNavbar from './AppNavbar';
 import FilterPreview from './FilterPreview';
 import FilterCategory from './FilterCategory';
+import {
+  getCategories,
+  getResources,
+  getResourcesByCategory,
+} from '../utils/api';
 
 export default class Filter extends Component<Props, State> {
   constructor(props) {
@@ -23,7 +28,7 @@ export default class Filter extends Component<Props, State> {
       languageSelected: '',
       locationSelected: '',
 
-      // categorySelected: '',
+      categorySelected: '',
       subcategorySelected: '',
       costSelected: '',
 
@@ -43,19 +48,37 @@ export default class Filter extends Component<Props, State> {
       costs: ['$', '$$', '$$$', '$$$$$'],
 
       resources: [],
+      filteredResources: [],
     };
   }
 
-  // categorySelect = value => {
-  //   this.setState({
-  //     // categorySelected: value,
-  //     subcategorySelected: '',
-  //   });
+  async componentDidMount() {
+    const res = await getCategories();
+    const categories = {};
+    res.result.forEach(category => {
+      categories[category.name] = category.subcategories;
+    });
+    this.setState({ categories });
+  }
+
+  categorySelect = async value => {
+    const res = await getResourcesByCategory(value);
+    this.setState({
+      resources: res.result,
+      categorySelected: value,
+      subcategorySelected: '',
+    });
+  };
 
   subcategorySelect = value => {
+    const { resources } = this.state;
+    const subResources = resources.filter(
+      resource => resource.subcategory === value,
+    );
+
     this.setState({
       subcategorySelected: value,
-      resources: ['Dummy Resource A', 'Dummy Resource B', 'Dummy Resource C'],
+      filteredResources: subResources,
     });
   };
 
@@ -179,13 +202,18 @@ export default class Filter extends Component<Props, State> {
             })}
           </div>
 
-          {this.state.subcategorySelected !== '' && (
-            <div className="filter-preview-container">
-              {this.state.resources.map(value => {
-                return <FilterPreview resourceName={value} />;
+          <div className="filter-preview-container">
+            {this.state.categorySelected !== '' &&
+              this.state.subcategorySelected === '' &&
+              this.state.resources.map(value => {
+                return <FilterPreview resourceName={value.name} />;
               })}
-            </div>
-          )}
+            {this.state.categorySelected !== '' &&
+              this.state.subcategorySelected !== '' &&
+              this.state.filteredResources.map(value => {
+                return <FilterPreview resourceName={value.name} />;
+              })}
+          </div>
         </div>
       </>
     );
