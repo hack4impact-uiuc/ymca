@@ -62,7 +62,7 @@ export default class Filter extends Component<Props, State> {
       resource =>
         (resource.cost === cost || cost === '') &&
         (resource.subcategory === subcategory || subcategory === '') &&
-        (resource.availableLanguages === language || language === '') &&
+        (resource.availableLanguages.includes(language) || language === '') &&
         (resource.city === location || location === ''),
     );
     this.setState({ filteredResources });
