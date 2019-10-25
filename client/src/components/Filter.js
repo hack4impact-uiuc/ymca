@@ -5,9 +5,7 @@ import {
   DropdownMenu,
   DropdownItem,
 } from 'reactstrap';
-import '../css/App.css';
 import '../css/Filter.css';
-import AppNavbar from './AppNavbar';
 import FilterPreview from './FilterPreview';
 import FilterCategory from './FilterCategory';
 import {
@@ -230,7 +228,6 @@ export default class Filter extends Component<Props, State> {
   render() {
     return (
       <>
-        <AppNavbar />
         <div className="filter-component">
           <div className="filter-component__title">
             <h1>YMCA Resource Filter</h1>

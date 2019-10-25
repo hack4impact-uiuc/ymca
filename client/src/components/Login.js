@@ -4,7 +4,6 @@ import '../css/Login.css';
 import { useHistory } from 'react-router-dom';
 import LoginSubmitGroup from './LoginSubmitGroup';
 import LoginMissingNote from './LoginMissingNote';
-import AppNavbar from './AppNavbar';
 
 import { login, register } from '../utils/auth';
 
@@ -197,8 +196,6 @@ export default class Login extends Component {
 
     return (
       <div>
-        <AppNavbar />
-
         {isAuthSuccessful && <ToHomePage />}
 
         <Form

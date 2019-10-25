@@ -1,9 +1,0 @@
-@import '~antd/dist/antd.css';
-
-.ant-menu-horizontal {
-  border-bottom: none;
-}
-
-.ant-menu-horizontal {
-  float: right;
-}
