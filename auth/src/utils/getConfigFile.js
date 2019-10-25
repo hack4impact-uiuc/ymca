@@ -19,6 +19,24 @@ const getRolesForUser = async role => {
   return null;
 };
 
+const getSuperiorsForRole = async role => {
+  const config = await getConfigFile();
+  const roles = config["roles"];
+
+  let superiors = [];
+  
+  for (let otherRole in config["roles"]) {
+    let otherRoles = roles[otherRole];
+    if (otherRoles != null) {
+      if (otherRoles.includes(role) && otherRole !== role) {
+        superiors.push(otherRole);
+      }
+    }
+  }
+
+  return superiors;
+};
+
 const getTestURI = async () => {
   const config = await getConfigFile();
   if (config["test_db"] != undefined) {
@@ -93,5 +111,6 @@ module.exports = {
   isGmailEnabledForForgotPassword,
   getProdURI,
   getSecurityQuestions,
-  getExpiryTime
+  getExpiryTime,
+  getSuperiorsForRole
 };
