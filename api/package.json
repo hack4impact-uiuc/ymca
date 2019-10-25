@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "dotenv node src/index.js && node ./bin/www",
+    "start": "dotenv node src/appListener.js && node ./bin/www",
     "lint": "eslint --fix src -c .eslintrc.json --ext js",
     "test": "echo \"Test not created yet\" && exit 0"
   },
