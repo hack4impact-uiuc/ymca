@@ -9,7 +9,11 @@ yarn-debug.log*
 yarn-error.log*
 build/
 
-#auth
+# api
+./api/.env
+./api/src/logs
+
+# auth
 ./auth/node_modules
 ./auth/.env
 ./auth/.docz
@@ -19,13 +23,12 @@ build/
 ./auth/lib
 
 
-#auth/amplify
+# auth/
 ./auth/amplify/\#current-cloud-backend
 ./auth/amplify/.config/local-*
 ./auth/amplify/backend/amplify-meta.json
 ./auth/amplify/backend/awscloudformation
 ./auth/build/
 ./auth/dist/
-./auth/node_modules/
 ./auth/aws-exports.js
 ./auth/awsconfiguration.json

@@ -16,7 +16,7 @@ Make sure that you have `dotenv-cli` installed globally with,
 yarn global add dotenv-cli
 ```
 
-Then, 
+Then,
 
 ```bash
 yarn
