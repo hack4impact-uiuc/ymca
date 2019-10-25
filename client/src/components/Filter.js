@@ -82,6 +82,18 @@ export default class Filter extends Component<Props, State> {
   };
 
   subcategorySelect = value => {
+    const { resources } = this.state;
+    const subResources = resources.filter(
+      resource => resource.subcategory === value,
+    );
+
+    this.setState({
+      subcategorySelected: value,
+      filteredResources: subResources,
+    });
+  };
+
+  subcategorySelect = value => {
     const {
       costSelected,
       filteredResources,
