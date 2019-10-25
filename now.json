@@ -24,8 +24,8 @@
       "headers": { "cache-control": "s-maxage=31536000,immutable" },
       "dest": "client/static/$1"
     },
-    { "src": "/client/public/favicon.ico", "dest": "client/static/favicon.ico" },
-    { "src": "/client/public/manifest.json", "dest": "client/static/manifest.json" },
+    { "src": "/client/public/favicon.ico", "dest": "client/favicon.ico" },
+    { "src": "/client/public/manifest.json", "dest": "client/manifest.json" },
     {
       "src": "/client/src/service-worker.js",
       "headers": { "cache-control": "s-maxage=0" },
