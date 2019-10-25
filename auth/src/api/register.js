@@ -4,7 +4,8 @@ const { check, validationResult } = require("express-validator/check");
 const User = require("../models/User");
 const { sendResponse } = require("./../utils/sendResponse");
 const {
-  getRolesForUser,
+  // getRolesForUser,
+  getSuperiorsForRole,
   getSecurityQuestions
 } = require("./../utils/getConfigFile");
 const { signAuthJWT } = require("../utils/jwtHelpers");
@@ -75,8 +76,8 @@ router.post(
     }
 
     // Checks the permission level of the user using the config file
-    const requiredAuthFrom = await getRolesForUser(req.body.role);
-    if (requiredAuthFrom != null) {
+    const requiredAuthFrom = await getSuperiorsForRole(req.body.role);
+    if (requiredAuthFrom != null && requiredAuthFrom.length > 0) {
       return sendResponse(
         res,
         400,
