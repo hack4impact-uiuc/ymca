@@ -2,6 +2,9 @@
   "version": 2,
   "name": "ymca",
   "alias": "ymca.now.sh",
+  "env": {
+    "MONGO_URL": "@ymca_db_uri"
+  },
   "builds": [
     { "src": "api/src/app.js", "use": "@now/node" },
     {
