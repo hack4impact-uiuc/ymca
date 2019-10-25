@@ -37,7 +37,7 @@ To install and set up locally, follow the instructions in the [`/client`](https:
 
 ## Technologies
 
-This application is built with React, Express, and MongoDB. ZEIT Now is used for automatic deployment.
+This application is built with React, Express, and MongoDB. Now is used for automatic deployment.
 
 ## Team
 
