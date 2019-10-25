@@ -57,12 +57,13 @@ export default class Filter extends Component<Props, State> {
   }
 
   filterResources = (cost, language, location, subcategory) => {
-    const filteredResources = this.state.resources.filter(
+    const { resources } = this.state;
+    const filteredResources = resources.filter(
       resource =>
         (resource.cost === cost || cost === '') &&
         (resource.subcategory === subcategory || subcategory === '') &&
-        (resource.language === language || language === '') &&
-        (resource.location === location || location === ''),
+        (resource.availableLanguages === language || language === '') &&
+        (resource.city === location || location === ''),
     );
     this.setState({ filteredResources });
   };
@@ -83,17 +84,18 @@ export default class Filter extends Component<Props, State> {
   subcategorySelect = value => {
     const {
       costSelected,
+      filteredResources,
       languageSelected,
       locationSelected,
       subcategorySelected,
     } = this.state;
     if (subcategorySelected === '') {
-      const filteredResources = this.state.filteredResources.filter(
+      const newFilteredResources = filteredResources.filter(
         resource => resource.subcategory === value,
       );
       this.setState({
         subcategorySelected: value,
-        filteredResources,
+        filteredResources: newFilteredResources,
       });
     } else {
       this.filterResources(
@@ -117,17 +119,18 @@ export default class Filter extends Component<Props, State> {
   languageSelect = value => {
     const {
       costSelected,
+      filteredResources,
       languageSelected,
       locationSelected,
       subcategorySelected,
     } = this.state;
     if (languageSelected === '') {
-      const filteredResources = this.state.filteredResources.filter(resource =>
-        resource.language.includes(value),
+      const newFilteredResources = filteredResources.filter(resource =>
+        resource.availableLanguages.includes(value),
       );
       this.setState({
         languageSelected: value,
-        filteredResources,
+        filteredResources: newFilteredResources,
       });
     } else {
       this.filterResources(
@@ -151,17 +154,18 @@ export default class Filter extends Component<Props, State> {
   locationSelect = value => {
     const {
       costSelected,
+      filteredResources,
       languageSelected,
       locationSelected,
       subcategorySelected,
     } = this.state;
     if (locationSelected === '') {
-      const filteredResources = this.state.filteredResources.filter(
-        resource => resource.location === value,
+      const newFilteredResources = filteredResources.filter(
+        resource => resource.city === value,
       );
       this.setState({
         locationSelected: value,
-        filteredResources,
+        filteredResources: newFilteredResources,
       });
     } else {
       this.filterResources(
@@ -185,18 +189,18 @@ export default class Filter extends Component<Props, State> {
   costSelect = value => {
     const {
       costSelected,
+      filteredResources,
       languageSelected,
       locationSelected,
       subcategorySelected,
     } = this.state;
     if (costSelected === '') {
-      console.log(this.state.filteredResources);
-      const filteredResources = this.state.filteredResources.filter(
+      const newFilteredResources = filteredResources.filter(
         resource => resource.cost === value,
       );
       this.setState({
         costSelected: value,
-        filteredResources,
+        filteredResources: newFilteredResources,
       });
     } else {
       this.filterResources(
@@ -212,7 +216,6 @@ export default class Filter extends Component<Props, State> {
   };
 
   render() {
-    console.log(this.state.filteredResources);
     return (
       <>
         <AppNavbar />
