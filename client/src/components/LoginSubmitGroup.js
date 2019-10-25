@@ -2,7 +2,6 @@
 
 import React, { PureComponent, SyntheticEvent } from 'react';
 import { FormGroup, Input, Button } from 'reactstrap';
-import '../css/LoginSubmitGroup.css';
 
 type Props = {|
   inputText: string,
