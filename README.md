@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <a href="http://www.amitmerchant.com/electron-markdownify"><img src="https://hampton.gov/ImageRepository/Document?documentID=25468" alt="Markdownify" width="200"></a>
+  <a href="https://universityymca.org/"><img src="https://hampton.gov/ImageRepository/Document?documentID=25468" alt="YMCA logo" width="200"></a>
   <br/>
     YMCA
   </br>
@@ -16,6 +16,7 @@
 <p align="center">
   <a href="#background">Background</a> •
   <a href="#usage">Usage</a> •
+  <a href="#technologies">Technologies</a> •
   <a href="#team">Team</a> •
   <a href="#license">License</a>
 </p>
@@ -24,13 +25,19 @@
 
 Champaign County is home to over 24,000 immigrants from nearly 80 countries around the world. Starting a new life in a new place is a daunting task — newcomers grapple with a wide variety of challenges including but not limited to: language barriers, cultural differences, and work-life balance. In Champaign, there are over 100+ available resources addressing those challenges; however, valuable information about those resources are scattered and difficult to find. This information gap is preventing newcomers from reliably accessing resources that they need the most. Local organizations have taken steps to centralize this information, but it remains largely inaccessible due to language limitations and other barriers.
 
-Our team has partnered with the YMCA New American Welcome Center (NAWC) to build a centralized virtual resource hub aimed to equalized and promote information access to vital community resources. This product will allow immigrants to independently access resources according to their personal needs. This tool will also enable NAWC and other local organizations to better serve the community through more informed recommendations.
+Our team has partnered with the YMCA New American Welcome Center (NAWC) to build a centralized virtual resource hub aimed to equalize and promote information access to vital community resources. This product will allow immigrants to independently access resources according to their personal needs, and also enable NAWC and other local organizations to better serve the community through more informed recommendations.
 
-This product will be piloted at the end of 2019/beginning of 2020.
+This product will be piloted at the end of 2019 / beginning of 2020.
 
 ## Usage
 
-This application is built with React, Express, and MongoDB. To install and set up, follow the instructions in the [`/client`](https://github.com/hack4impact-uiuc/ymca/tree/master/client) and [`/api`](https://github.com/hack4impact-uiuc/ymca/tree/master/api) directories.
+The latest version of this application can be found at [ymca.now.sh](ymca.now.sh).
+
+To install and set up locally, follow the instructions in the [`/client`](https://github.com/hack4impact-uiuc/ymca/tree/master/client) and [`/api`](https://github.com/hack4impact-uiuc/ymca/tree/master/api) directories.
+
+## Technologies
+
+This application is built with React, Express, and MongoDB. ZEIT Now is used for automatic deployment.
 
 ## Team
 
