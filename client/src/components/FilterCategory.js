@@ -30,11 +30,7 @@ export default class FilterCategory extends Component {
               return (
                 <Button
                   color="secondary"
-                  onClick={() =>
-                    this.props.subcategoryClickHandler(
-                      this.props.subcategoryName,
-                    )
-                  }
+                  onClick={() => this.props.subcategoryClickHandler(value)}
                 >
                   {value}
                 </Button>
@@ -51,7 +47,7 @@ FilterCategory.propTypes = {
   categoryClickHandler: PropTypes.func.isRequired,
   subcategoryClickHandler: PropTypes.func.isRequired,
   categoryName: PropTypes.string.isRequired,
-  subcategoryName: PropTypes.string.isRequired,
+  // subcategoryName: PropTypes.string.isRequired,
   subcategories: PropTypes.arrayOf(PropTypes.oneOfType(PropTypes.string))
     .isRequired,
 };
