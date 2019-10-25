@@ -15,17 +15,7 @@ const app = express();
 app.use(helmet());
 app.use(cors());
 
-// Set up logging
-const logDirectory = path.join(__dirname, 'logs');
-fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory);
-const accessLogStream = fs.createWriteStream(
-  path.join(logDirectory, 'ymca-api.log'),
-  {
-    flags: 'a',
-  },
-);
 app.use(logger('dev'));
-app.use(logger('combined', { stream: accessLogStream }));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
