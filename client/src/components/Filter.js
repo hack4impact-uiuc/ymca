@@ -55,7 +55,7 @@ export default class Filter extends Component<Props, State> {
   async componentDidMount() {
     const res = await getCategories();
     const categories = {};
-    res.result.map(category => {
+    res.result.forEach(category => {
       categories[category.name] = category.subcategories;
     });
     this.setState({ categories });
@@ -71,7 +71,8 @@ export default class Filter extends Component<Props, State> {
   };
 
   subcategorySelect = value => {
-    const subResources = this.state.resources.filter(
+    const { resources } = this.state;
+    const subResources = resources.filter(
       resource => resource.subcategory === value,
     );
 
