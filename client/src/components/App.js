@@ -14,7 +14,7 @@ export default class App extends React.Component {
         <div>
           <Route path="/" exact component={Home} />
           <Route path="/navbar" exact component={AppNavbar} />
-          <Route path="/resource" exact component={ResourceDetail} />
+          <Route path="/resource/:id" component={ResourceDetail} />
           <Route path="/login" exact component={Login} />
           <Route path="/filter" exact component={Filter} />
         </div>
