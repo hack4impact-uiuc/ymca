@@ -6,7 +6,7 @@ const { sendResponse } = require("./../utils/sendResponse");
 const {
   // getRolesForUser,
   getSuperiorsForRole,
-  getSecurityQuestions,
+  getSecurityQuestions
 } = require("./../utils/getConfigFile");
 const { signAuthJWT } = require("../utils/jwtHelpers");
 const { generatePIN } = require("../utils/pinHelpers");

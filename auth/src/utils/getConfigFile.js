@@ -24,7 +24,7 @@ const getSuperiorsForRole = async role => {
   const roles = config["roles"];
 
   let superiors = [];
-  
+
   for (let otherRole in config["roles"]) {
     let otherRoles = roles[otherRole];
     if (otherRoles != null) {

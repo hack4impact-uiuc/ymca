@@ -32,17 +32,7 @@ export default class Filter extends Component<Props, State> {
       subcategorySelected: '',
       costSelected: '',
 
-      categories: {
-        Abuse: ['Abuse Sub 1', 'Abuse Sub 2', 'Abuse Sub 3'],
-        'Children Park Registration': [
-          'Children 4',
-          'Children 5',
-          'Children 6',
-        ],
-        'Addiction Treatment': ['Addiction 7', 'Addiction 8', 'Addiction 9'],
-        'Education Adult': ['Education 10', 'Education 11', 'Education 12'],
-        Employment: ['Employment 13', 'Employment 14', 'Employment 15'],
-      },
+      categories: {},
       languages: ['English', 'Spanish', 'Chinese', 'Japanese'],
       locations: ['Champaign', 'Urbana', 'Maibana', 'Foopaign'],
       costs: ['$', '$$', '$$$', '$$$$$'],
@@ -53,19 +43,40 @@ export default class Filter extends Component<Props, State> {
   }
 
   async componentDidMount() {
+    const resources = await getResources();
     const res = await getCategories();
     const categories = {};
     res.result.forEach(category => {
       categories[category.name] = category.subcategories;
     });
-    this.setState({ categories });
+    this.setState({
+      categories,
+      filteredResources: resources.result,
+      resources: resources.result,
+    });
   }
+
+  filterResources = (cost, language, location, subcategory) => {
+    const { resources } = this.state;
+    const filteredResources = resources.filter(
+      resource =>
+        (resource.cost === cost || cost === '') &&
+        (resource.subcategory === subcategory || subcategory === '') &&
+        (resource.availableLanguages.includes(language) || language === '') &&
+        (resource.city === location || location === ''),
+    );
+    this.setState({ filteredResources });
+  };
 
   categorySelect = async value => {
     const res = await getResourcesByCategory(value);
     this.setState({
-      resources: res.result,
       categorySelected: value,
+      costSelected: '',
+      filteredResources: res.result,
+      languageSelected: '',
+      locationSelected: '',
+      resources: res.result,
       subcategorySelected: '',
     });
   };
@@ -82,6 +93,35 @@ export default class Filter extends Component<Props, State> {
     });
   };
 
+  subcategorySelect = value => {
+    const {
+      costSelected,
+      filteredResources,
+      languageSelected,
+      locationSelected,
+      subcategorySelected,
+    } = this.state;
+    if (subcategorySelected === '') {
+      const newFilteredResources = filteredResources.filter(
+        resource => resource.subcategory === value,
+      );
+      this.setState({
+        subcategorySelected: value,
+        filteredResources: newFilteredResources,
+      });
+    } else {
+      this.filterResources(
+        costSelected,
+        languageSelected,
+        locationSelected,
+        value,
+      );
+      this.setState({
+        subcategorySelected: value,
+      });
+    }
+  };
+
   languageToggle = () => {
     this.setState(prevState => ({
       languageDropdownOpen: !prevState.languageDropdownOpen,
@@ -89,9 +129,32 @@ export default class Filter extends Component<Props, State> {
   };
 
   languageSelect = value => {
-    this.setState({
-      languageSelected: value,
-    });
+    const {
+      costSelected,
+      filteredResources,
+      languageSelected,
+      locationSelected,
+      subcategorySelected,
+    } = this.state;
+    if (languageSelected === '') {
+      const newFilteredResources = filteredResources.filter(resource =>
+        resource.availableLanguages.includes(value),
+      );
+      this.setState({
+        languageSelected: value,
+        filteredResources: newFilteredResources,
+      });
+    } else {
+      this.filterResources(
+        costSelected,
+        value,
+        locationSelected,
+        subcategorySelected,
+      );
+      this.setState({
+        languageSelected: value,
+      });
+    }
   };
 
   locationToggle = () => {
@@ -101,9 +164,32 @@ export default class Filter extends Component<Props, State> {
   };
 
   locationSelect = value => {
-    this.setState({
-      locationSelected: value,
-    });
+    const {
+      costSelected,
+      filteredResources,
+      languageSelected,
+      locationSelected,
+      subcategorySelected,
+    } = this.state;
+    if (locationSelected === '') {
+      const newFilteredResources = filteredResources.filter(
+        resource => resource.city === value,
+      );
+      this.setState({
+        locationSelected: value,
+        filteredResources: newFilteredResources,
+      });
+    } else {
+      this.filterResources(
+        costSelected,
+        languageSelected,
+        value,
+        subcategorySelected,
+      );
+      this.setState({
+        locationSelected: value,
+      });
+    }
   };
 
   costToggle = () => {
@@ -113,9 +199,32 @@ export default class Filter extends Component<Props, State> {
   };
 
   costSelect = value => {
-    this.setState({
-      costSelected: value,
-    });
+    const {
+      costSelected,
+      filteredResources,
+      languageSelected,
+      locationSelected,
+      subcategorySelected,
+    } = this.state;
+    if (costSelected === '') {
+      const newFilteredResources = filteredResources.filter(
+        resource => resource.cost === value,
+      );
+      this.setState({
+        costSelected: value,
+        filteredResources: newFilteredResources,
+      });
+    } else {
+      this.filterResources(
+        value,
+        languageSelected,
+        locationSelected,
+        subcategorySelected,
+      );
+      this.setState({
+        costSelected: value,
+      });
+    }
   };
 
   render() {
@@ -203,16 +312,9 @@ export default class Filter extends Component<Props, State> {
           </div>
 
           <div className="filter-preview-container">
-            {this.state.categorySelected !== '' &&
-              this.state.subcategorySelected === '' &&
-              this.state.resources.map(value => {
-                return <FilterPreview resourceName={value.name} />;
-              })}
-            {this.state.categorySelected !== '' &&
-              this.state.subcategorySelected !== '' &&
-              this.state.filteredResources.map(value => {
-                return <FilterPreview resourceName={value.name} />;
-              })}
+            {this.state.filteredResources.map(value => (
+              <FilterPreview key={value.name} resourceName={value.name} />
+            ))}
           </div>
         </div>
       </>
