@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import {
   ButtonDropdown,
-  DropdownToggle,
-  DropdownMenu,
   DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
 } from 'reactstrap';
 import '../css/Filter.css';
 import FilterPreview from './FilterPreview';

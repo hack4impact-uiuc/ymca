@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, FormGroup, Label, Input } from 'reactstrap';
+import { Form, FormGroup, Input, Label } from 'reactstrap';
 import '../css/Login.css';
 import { useHistory } from 'react-router-dom';
 import LoginSubmitGroup from './LoginSubmitGroup';

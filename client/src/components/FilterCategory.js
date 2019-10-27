@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Collapse, Button, Card } from 'reactstrap';
+import { Button, Card, Collapse } from 'reactstrap';
 import PropTypes from 'prop-types';
 import '../css/Filter.css';
 
