@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import '../css/App.css';
 import '../css/FilterPreview.css';
 
 export default class FilterPreview extends Component<Props, State> {
