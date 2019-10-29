@@ -19,24 +19,24 @@ type FormProps = {|
 |};
 
 type EntryProps = {|
-  phoneNumber: Number,
+  num: Number,
   phoneNumbers: Array<String>,
   setPhoneNumbers: () => void,
 |};
 
 const PhoneNumberEntry = (props: EntryProps) => {
-  const { phoneNumber, phoneNumbers, setPhoneNumbers } = props;
+  const { num, phoneNumbers, setPhoneNumbers } = props;
 
   return (
     <ListGroupItem>
       <div className="phoneNumberContainer">
-        <div className="phoneNumber">{phoneNumber}</div>
+        <div className="phoneNumber">{num}</div>
         <div className="phoneNumberDeleteButton">
           <Button
             color="danger"
             onClick={e => {
               e.preventDefault();
-              setPhoneNumbers(phoneNumbers.filter(num => num !== phoneNumber));
+              setPhoneNumbers(phoneNumbers.filter(n => n !== num));
             }}
           >
             Delete
