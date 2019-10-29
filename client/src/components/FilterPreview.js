@@ -11,6 +11,9 @@ export default class FilterPreview extends Component<Props, State> {
   }
 
   render() {
+    let description = "";
+    this.props.resource.availableLanguages.forEach(language => description += `${language} • `)
+    description += this.props.resource.cost;
     return (
       <Card
         cover={
@@ -19,7 +22,7 @@ export default class FilterPreview extends Component<Props, State> {
       >
         <Meta
           title={this.props.resource.name}
-          description={this.props.resource.cost}
+          description={description}
         />
       </Card>
     );

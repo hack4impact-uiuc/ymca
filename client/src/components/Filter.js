@@ -5,7 +5,7 @@ import {
   DropdownMenu,
   DropdownToggle,
 } from 'reactstrap';
-import { Layout, Menu } from 'antd';
+import { Col, Layout, Menu, Row } from 'antd';
 
 import '../css/Filter.css';
 import FilterPreview from './FilterPreview';
@@ -15,7 +15,6 @@ import {
   getResources,
   getResourcesByCategory,
 } from '../utils/api';
-import Row from 'reactstrap/lib/Row';
 
 const { Header, Sider, Content } = Layout;
 const { SubMenu } = Menu;
@@ -247,14 +246,36 @@ export default class Filter extends Component<Props, State> {
   };
 
   render() {
+    const grid = Array(Math.ceil(this.state.filteredResources.length / 2))
+      .fill()
+      .map((_, index) => {
+        const first = this.state.filteredResources[index * 2];
+        const second =
+          index * 2 + 1 < this.state.filteredResources.length
+            ? this.state.filteredResources[index * 2 + 1]
+            : null;
+        return (
+          <Row gutter={[32, 32]}>
+            <Col span={12}>
+              <FilterPreview key={first.name} resource={first} />
+            </Col>
+            {second && (
+              <Col span={12}>
+                <FilterPreview key={second.name} resource={second} />
+              </Col>
+            )}
+          </Row>
+        );
+      });
+
     return (
       <Layout>
         <div>
-          <Header>
+          <Header style={{ background: 'white' }}>
             <h1>{this.state.categorySelected}</h1>
           </Header>
-          <Layout>
-            <Sider>
+          <Layout style={{ background: 'white' }}>
+            <Sider style={{ background: 'white' }}>
               <Menu
                 mode="inline"
                 openKeys={this.state.openKeys}
@@ -282,14 +303,12 @@ export default class Filter extends Component<Props, State> {
                 })}
               </Menu>
             </Sider>
-            <Content>
-              <div>
-                {this.state.filteredResources.map((value, index) => {
-                  return <FilterPreview key={value.name} resource={value} />;
-                })}
+            <Content style={{ maxHeight: "80vh", overflowY: 'scroll' }}>
+              <div style={{ marginLeft: 32, marginRight: 32, marginTop: 16 }}>
+                {grid}
               </div>
             </Content>
-            <Sider>
+            <Sider style={{ background: 'white' }}>
               <Menu
                 mode="inline"
                 selectedKeys={[
