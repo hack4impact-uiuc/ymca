@@ -19,24 +19,24 @@ type FormProps = {|
 |};
 
 type EntryProps = {|
-  num: Number,
+  phoneNumber: Number,
   phoneNumbers: Array<String>,
   setPhoneNumbers: () => void,
 |};
 
 const PhoneNumberEntry = (props: EntryProps) => {
-  const { num, phoneNumbers, setPhoneNumbers } = props;
+  const { phoneNumber, phoneNumbers, setPhoneNumbers } = props;
 
   return (
     <ListGroupItem>
       <div className="phoneNumberContainer">
-        <div className="phoneNumber">{num}</div>
+        <div className="phoneNumber">{phoneNumber}</div>
         <div className="phoneNumberDeleteButton">
           <Button
             color="danger"
             onClick={e => {
               e.preventDefault();
-              setPhoneNumbers(phoneNumbers.filter(n => n !== num));
+              setPhoneNumbers(phoneNumbers.filter(num => num !== phoneNumber));
             }}
           >
             Delete
@@ -49,6 +49,7 @@ const PhoneNumberEntry = (props: EntryProps) => {
 
 const onSubmit = (
   e,
+  submitEnabled,
   newPhoneNumber,
   phoneNumbers,
   setPhoneNumber,
@@ -56,7 +57,7 @@ const onSubmit = (
 ) => {
   e.preventDefault();
 
-  if (newPhoneNumber !== '') {
+  if (submitEnabled && newPhoneNumber !== '') {
     setPhoneNumbers([...phoneNumbers, newPhoneNumber]);
     setPhoneNumber('');
     document.getElementById('phoneNumberInput').value = '';
@@ -67,13 +68,14 @@ const AdminNewResourcePhoneNumberForm = (props: FormProps) => {
   const { phoneNumbers, setPhoneNumbers, setEnableTotalFormSubmission } = props;
 
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [submitEnabled, setSubmitEnabled] = useState(false);
 
   return (
     <>
       <ListGroup>
         {phoneNumbers.map(num => {
           return PhoneNumberEntry({
-            num,
+            phoneNumber: num,
             phoneNumbers,
             setPhoneNumbers,
           });
@@ -83,6 +85,7 @@ const AdminNewResourcePhoneNumberForm = (props: FormProps) => {
         onSubmit={e =>
           onSubmit(
             e,
+            submitEnabled,
             phoneNumber,
             phoneNumbers,
             setPhoneNumber,
@@ -96,8 +99,14 @@ const AdminNewResourcePhoneNumberForm = (props: FormProps) => {
             type="text"
             placeholder="Enter phone number"
             onChange={e => setPhoneNumber(e.target.value)}
-            onFocus={e => setEnableTotalFormSubmission(false)}
-            onBlur={e => setEnableTotalFormSubmission(true)}
+            onFocus={e => {
+              setEnableTotalFormSubmission(false);
+              setSubmitEnabled(true);
+            }}
+            onBlur={e => {
+              setEnableTotalFormSubmission(true);
+              setSubmitEnabled(false);
+            }}
           />
         </FormGroup>
       </Form>
