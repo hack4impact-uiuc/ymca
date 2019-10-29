@@ -1,3 +1,5 @@
+// @flow
+
 import React, { useState, useDebugValue } from 'react';
 import {
   Form,
@@ -11,7 +13,24 @@ import {
   InputGroupText,
 } from 'reactstrap';
 
-const ExtraResourceInformationForm = props => {
+type Props = {|
+  setWebsite: () => void,
+  setEmail: () => void,
+  setPhoneNumbers: () => void,
+  setContacts: () => void,
+  setAddress: () => void,
+  setCity: () => void,
+  setHoursOfOperation: () => void,
+  setEligibilityRequirements: () => void,
+  setFinancialAidDetails: () => void,
+  setCost: () => void,
+  setAvailableLanguages: () => void,
+  setRecommendation: () => void,
+  setComments: () => void,
+  setInternalNotes: () => void,
+|};
+
+const ExtraResourceInformationForm = (props: Props) => {
   const {
     setWebsite,
     setEmail,
