@@ -1,0 +1,13 @@
+.phoneNumberContainer {
+  display: flex;
+  direction: row;
+  justify-content: space-between;
+}
+
+.phoneNumber {
+  order: 1;
+}
+
+.phoneNumberDeleteButton {
+  order: 2;
+}
