@@ -4,6 +4,17 @@
   background: white;
 }
 
+.logo {
+  background-color: #ffffff;
+  background-image: url('/logo192.png');
+  background-position: center;
+  background-size: cover;
+  float: left;
+  height: 32px;
+  margin-top: 0.5em;
+  width: 32px;
+}
+
 .ant-menu-horizontal {
   border-bottom: none;
 }
