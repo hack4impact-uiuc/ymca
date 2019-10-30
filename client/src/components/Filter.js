@@ -264,16 +264,16 @@ export default class Filter extends Component<Props, State> {
         return (
           <Row gutter={[32, 32]}>
             <Col span={8}>
-              <FilterPreview key={first.name} resource={first} />
+              <FilterPreview id={first._id} key={first._id} resource={first} />
             </Col>
             {second && (
               <Col span={8}>
-                <FilterPreview key={second.name} resource={second} />
+                <FilterPreview id={second._id} key={second._id} resource={second} />
               </Col>
             )}
             {third && (
               <Col span={8}>
-                <FilterPreview key={third.name} resource={third} />
+                <FilterPreview id={third._id} key={third._id} resource={third} />
               </Col>
             )}
           </Row>
