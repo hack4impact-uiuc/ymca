@@ -1,12 +1,32 @@
 .ResourceDetail {
-  margin: 20px;
   white-space: pre-line;
 }
 
 .resourceName {
-  text-align: center;
+  font-weight: 700;
+  font-size: 175%;
 }
 
-.col {
-  padding-top: 20px;
+.ant-row {
+  padding-top: 1%;
+  padding-bottom: 1%;
+  padding-left: 15%;
+  padding-right: 15%;
+}
+
+.basicInfo {
+  background-color: #D8D8D8;
+}
+
+.basicInfoLabel {
+  font-weight: 600;
+}
+
+p {
+  color: #212529 !important;
+}
+
+.ant-card {
+  margin-left: 5%;
+  margin-right: 5%;
 }

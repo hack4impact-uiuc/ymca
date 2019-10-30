@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../css/ResourceDetail.css';
-import { Container, Row, Col } from 'reactstrap';
+import { Row, Col, Card } from 'antd';
 import { getResourceByID } from '../utils/api';
 
 export default class ResourceDetail extends Component {
@@ -11,11 +11,11 @@ export default class ResourceDetail extends Component {
       name: 'Resource Name',
       phone: [],
       email: '',
-      address: '',
+      address: '123 Street Name',
       website: '',
       description: '',
       hours: [],
-      city: '',
+      city: 'City',
       //   county: 'County Name',
       //   requiredDocs: [
       //     'Required Form 1',
@@ -60,86 +60,67 @@ export default class ResourceDetail extends Component {
     } = this.state;
 
     return (
-      <div>
-        <div className="ResourceDetail">
-          <Container>
-            <Row>
-              <Col className="resourceName">{name}</Col>
-            </Row>
-            <Row>
-              <Col>
-                {description.length > 0
-                  ? description
-                  : 'No description provided.\n'}
-              </Col>
-              <Col>
-                {hours.length > 0
-                  ? hours.map((day, index) => {
-                      let dayOfWeek = '';
-
-                      switch (index) {
-                        case 0:
-                          dayOfWeek = 'Monday';
-                          break;
-                        case 1:
-                          dayOfWeek = 'Tuesday';
-                          break;
-                        case 2:
-                          dayOfWeek = 'Wednesday';
-                          break;
-                        case 3:
-                          dayOfWeek = 'Thursday';
-                          break;
-                        case 4:
-                          dayOfWeek = 'Friday';
-                          break;
-                        case 5:
-                          dayOfWeek = 'Saturday';
-                          break;
-                        case 6:
-                          dayOfWeek = 'Sunday';
-                          break;
-                        default:
-                          dayOfWeek = 'ERROR';
-                          break;
-                      }
-
-                      return `${dayOfWeek}: ${day.start} - ${day.end}\n`;
-                    })
-                  : 'No hours of operation available.\n'}
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                {'Contact:\n'}
-                {phone.length > 0
-                  ? phone.map(num => {
-                      return `${num}\n`;
-                    })
-                  : 'No phone numbers.\n'}
-                {'Email: '}
-                {email.length > 0 ? email : 'No email provided.\n'}
-                {'Website: '}
-                {website.length > 0 ? website : 'No website provided.\n'}
-              </Col>
-              <Col>
-                {address.length > 0 || city.length > 0
-                  ? `Map showing ${address}, ${city}\n`
-                  : 'No address provided.\n'}
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                {'Languages:\n'}
-                {languages.length > 0
-                  ? languages.map(language => {
-                      return `${language}\n`;
-                    })
-                  : 'No languages listed.\n'}
-              </Col>
-            </Row>
-          </Container>
-        </div>
+      <div className="ResourceDetail">
+        <Row>
+          <Col span={15}>
+            <div className="resourceName">{name}</div>
+          </Col>
+          <Col span={9}>
+            {address.length > 0 || city.length > 0
+              ? address + '\n' + city
+              : 'No address provided.'}
+          </Col>
+        </Row>
+        <Row>
+          <Col span={24}>
+            {description.length > 0
+              ? description
+              : 'No description provided.'}
+          </Col>
+        </Row>
+        <Row className="basicInfo">
+            <Col span={4} className="basicInfoLabel">
+              Basic Information
+            </Col>
+            <Col span={20}>
+              <Row>
+                <Col span={12}>
+                  <Card>
+                    <p>asdassd</p>
+                    <p>qwewqe</p>
+                    <p>aswerwassd</p>
+                    <p>ssssss</p>
+                  </Card>
+                </Col>
+                <Col span={12}>
+                  <Card>
+                    <p>asdassd</p>
+                    <p>qwewqe</p>
+                    <p>aswerwassd</p>
+                    <p>ssssss</p>
+                  </Card>
+                </Col>
+              </Row>
+              <Row>
+                <Col span={12}>
+                  <Card>
+                    <p>asdassd</p>
+                    <p>qwewqe</p>
+                    <p>aswerwassd</p>
+                    <p>ssssss</p>
+                  </Card>
+                </Col>
+                <Col span={12}>
+                  <Card>
+                    <p>asdassd</p>
+                    <p>qwewqe</p>
+                    <p>aswerwassd</p>
+                    <p>ssssss</p>
+                  </Card>
+                </Col>
+              </Row>
+            </Col>
+        </Row>
       </div>
     );
   }
