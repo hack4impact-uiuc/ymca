@@ -12,13 +12,11 @@ import {
   InputGroupAddon,
   InputGroupText,
 } from 'reactstrap';
-import AppNavbar from './AppNavbar';
 import AdminNewResourceForm from './AdminNewResourceForm';
 
 const AdminResourceManager = () => {
   return (
     <>
-      <AppNavbar />
       <AdminNewResourceForm className="adminNewResourceForm" />
     </>
   );

@@ -13,7 +13,6 @@ import {
   InputGroupText,
 } from 'reactstrap';
 import { addResource } from '../utils/api';
-import AppNavbar from './AppNavbar';
 // import ExtraResourceInformationForm from './ExtraResourceInformationForm';
 import AdminNewResourcePhoneNumberForm from './AdminNewResourcePhoneNumberForm';
 import AdminNewResourceContactForm from './AdminNewResourceContactForm';

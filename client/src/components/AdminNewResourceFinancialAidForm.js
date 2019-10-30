@@ -25,17 +25,17 @@ type FinancialAid = {|
 
 type FormProps = {|
   financialAidDetails: FinancialAid,
-  setFinanicalAidDetails: () => void,
+  setFinancialAidDetails: () => void,
   setTotalSubmitEnabled: () => void,
 |};
 
 type EntryProps = {|
   financialAidDetails: FinancialAid,
-  setFinanicalAidDetails: () => void,
+  setFinancialAidDetails: () => void,
 |};
 
 const FinancialAidEntry = (props: EntryProps) => {
-  const { financialAidDetails, setFinanicalAidDetails } = props;
+  const { financialAidDetails, setFinancialAidDetails } = props;
 
   return (
     <ListGroupItem>
@@ -52,7 +52,7 @@ const FinancialAidEntry = (props: EntryProps) => {
             color="danger"
             onClick={e => {
               e.preventDefault();
-              setFinanicalAidDetails({});
+              setFinancialAidDetails({});
             }}
           >
             Clear
@@ -70,7 +70,7 @@ const onSubmit = args => {
     education,
     immigrationStatus,
     deadline,
-    setFinanicalAidDetails,
+    setFinancialAidDetails,
     setEducation,
     setImmigrationStatus,
     setDeadline,
@@ -80,17 +80,7 @@ const onSubmit = args => {
   e.preventDefault();
 
   if (submitEnabled) {
-    setFinanicalAidDetails({ education, immigrationStatus, deadline });
-
-    setEducation('');
-    setImmigrationStatus('');
-    setDeadline('');
-
-    setErrorMessage('');
-
-    document.getElementById('finAidEducationInput_').value = '';
-    document.getElementById('finAidImmigrationStatusInput_').value = '';
-    document.getElementById('finAidDeadlineInput_').value = '';
+    setFinancialAidDetails({ education, immigrationStatus, deadline });
   }
 };
 
@@ -112,7 +102,7 @@ const onInputBlur = (
 const AdminNewResourceFinancialAidForm = (props: FormProps) => {
   const {
     financialAidDetails,
-    setFinanicalAidDetails,
+    setFinancialAidDetails,
     setTotalSubmitEnabled,
   } = props;
 
@@ -127,7 +117,7 @@ const AdminNewResourceFinancialAidForm = (props: FormProps) => {
     <>
       {errorMessage !== '' && <Alert color="danger">{errorMessage}</Alert>}
       <ListGroup>
-        {FinancialAidEntry({ financialAidDetails, setFinanicalAidDetails })}
+        {FinancialAidEntry({ financialAidDetails, setFinancialAidDetails })}
       </ListGroup>
       <Form
         onSubmit={e =>
@@ -141,7 +131,7 @@ const AdminNewResourceFinancialAidForm = (props: FormProps) => {
             setImmigrationStatus,
             setDeadline,
             setErrorMessage,
-            setFinanicalAidDetails,
+            setFinancialAidDetails,
           })
         }
       >
