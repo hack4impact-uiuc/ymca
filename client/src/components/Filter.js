@@ -9,7 +9,7 @@ import { Col, Layout, Menu, Row } from 'antd';
 
 import '../css/Filter.css';
 import FilterPreview from './FilterPreview';
-import FilterCategory from './FilterCategory';
+import FilterHeader from './FilterHeader';
 import {
   getCategories,
   getResources,
@@ -51,19 +51,21 @@ export default class Filter extends Component<Props, State> {
     const res = await getCategories();
     const categories = {};
     let categorySelected = null;
-    res.result.forEach(category => {
-      if (categorySelected === null) {
-        categorySelected = category.name;
-      }
-      categories[category.name] = category.subcategories;
-    });
+    if (res != null) {
+      res.result.forEach(category => {
+        if (categorySelected === null) {
+          categorySelected = category.name;
+        }
+        categories[category.name] = category.subcategories;
+      });
+    }
     const resources = await getResourcesByCategory(categorySelected);
     this.setState({
       categories,
       categorySelected,
-      filteredResources: resources.result,
+      filteredResources: resources == null ? [] : resources.result,
       openKeys: [categorySelected],
-      resources: resources.result,
+      resources: resources == null ? [] : resources.result,
     });
   }
 
@@ -245,50 +247,76 @@ export default class Filter extends Component<Props, State> {
     }
   };
 
-  render() {
-    const grid = Array(Math.ceil(this.state.filteredResources.length / 2))
+  getGrid = () => {
+    const { filteredResources } = this.state;
+    return Array(Math.ceil(filteredResources.length / 3))
       .fill()
       .map((_, index) => {
-        const first = this.state.filteredResources[index * 2];
+        const first = filteredResources[index * 3];
         const second =
-          index * 2 + 1 < this.state.filteredResources.length
-            ? this.state.filteredResources[index * 2 + 1]
+          index * 3 + 1 < filteredResources.length
+            ? filteredResources[index * 3 + 1]
+            : null;
+        const third =
+          index * 3 + 2 < filteredResources.length
+            ? filteredResources[index * 3 + 2]
             : null;
         return (
           <Row gutter={[32, 32]}>
-            <Col span={12}>
+            <Col span={8}>
               <FilterPreview key={first.name} resource={first} />
             </Col>
             {second && (
-              <Col span={12}>
+              <Col span={8}>
                 <FilterPreview key={second.name} resource={second} />
+              </Col>
+            )}
+            {third && (
+              <Col span={8}>
+                <FilterPreview key={third.name} resource={third} />
               </Col>
             )}
           </Row>
         );
       });
+  };
+
+  render() {
+    const {
+      categories,
+      categorySelected,
+      costs,
+      costSelected,
+      languages,
+      languageSelected,
+      locations,
+      locationSelected,
+      subcategorySelected,
+      openKeys,
+    } = this.state;
 
     return (
       <Layout>
         <div>
-          <Header style={{ background: 'white' }}>
-            <h1>{this.state.categorySelected}</h1>
-          </Header>
+          <FilterHeader
+            categorySelected={categorySelected}
+            subcategorySelected={subcategorySelected}
+          />
           <Layout style={{ background: 'white' }}>
             <Sider style={{ background: 'white' }}>
               <Menu
                 mode="inline"
-                openKeys={this.state.openKeys}
+                openKeys={openKeys}
                 onOpenChange={this.onOpenChange}
               >
-                {Object.keys(this.state.categories).map(categoryName => {
+                {Object.keys(categories).map(categoryName => {
                   return (
                     <SubMenu
                       key={categoryName}
                       title={categoryName}
                       onTitleClick={() => this.categorySelect(categoryName)}
                     >
-                      {this.state.categories[categoryName].map(subCategory => {
+                      {categories[categoryName].map(subCategory => {
                         return (
                           <Menu.Item
                             key={subCategory}
@@ -303,22 +331,22 @@ export default class Filter extends Component<Props, State> {
                 })}
               </Menu>
             </Sider>
-            <Content style={{ maxHeight: "80vh", overflowY: 'scroll' }}>
+            <Content style={{ maxHeight: '65vh', overflowY: 'scroll' }}>
               <div style={{ marginLeft: 32, marginRight: 32, marginTop: 16 }}>
-                {grid}
+                {this.getGrid()}
               </div>
             </Content>
             <Sider style={{ background: 'white' }}>
               <Menu
                 mode="inline"
                 selectedKeys={[
-                  this.state.languageSelected,
-                  this.state.locationSelected,
-                  this.state.costSelected,
+                  languageSelected,
+                  locationSelected,
+                  costSelected,
                 ]}
               >
                 <SubMenu key="language" title="Language">
-                  {this.state.languages.map(value => {
+                  {languages.map(value => {
                     return (
                       <Menu.Item
                         key={value}
@@ -330,7 +358,7 @@ export default class Filter extends Component<Props, State> {
                   })}
                 </SubMenu>
                 <SubMenu key="location" title="Location">
-                  {this.state.locations.map(value => {
+                  {locations.map(value => {
                     return (
                       <Menu.Item
                         key={value}
@@ -342,7 +370,7 @@ export default class Filter extends Component<Props, State> {
                   })}
                 </SubMenu>
                 <SubMenu key="cost" title="Cost">
-                  {this.state.costs.map(value => {
+                  {costs.map(value => {
                     return (
                       <Menu.Item
                         key={value}
