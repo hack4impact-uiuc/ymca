@@ -1,5 +1,5 @@
 import React, { useState, useDebugValue } from 'react';
-import '../css/AdminNewResourceForm.css';
+import '../css/NewResourceForm.css';
 import {
   Alert,
   Form,
@@ -12,13 +12,12 @@ import {
   InputGroupAddon,
   InputGroupText,
 } from 'reactstrap';
-import { addResource } from '../utils/api';
-// import ExtraResourceInformationForm from './ExtraResourceInformationForm';
-import AdminNewResourcePhoneNumberForm from './AdminNewResourcePhoneNumberForm';
-import AdminNewResourceContactForm from './AdminNewResourceContactForm';
-import AdminNewResourceFinancialAidForm from './AdminNewResourceFinancialAidForm';
+import { addResource, getCategories } from '../utils/api';
+import NewResourcePhoneNumberForm from './NewResourcePhoneNumberForm';
+import NewResourceContactForm from './NewResourceContactForm';
+import NewResourceFinancialAidForm from './NewResourceFinancialAidForm';
 
-const onSubmitAdminNewResourceForm = (e, enabled, resource, onSucc, onErr) => {
+const onSubmitNewResourceForm = (e, enabled, resource, onSucc, onErr) => {
   e.preventDefault();
 
   if (enabled) {
@@ -31,8 +30,7 @@ const onSubmitAdminNewResourceForm = (e, enabled, resource, onSucc, onErr) => {
   }
 };
 
-const AdminNewResourceForm = () => {
-  const [seeMoreInfo, setSeeMoreInfo] = useState(false);
+const NewResourceForm = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [totalSubmitEnabled, setTotalSubmitEnabled] = useState(true);
@@ -56,11 +54,34 @@ const AdminNewResourceForm = () => {
   const [comments, setComments] = useState([]);
   const [internalNotes, setInternalNotes] = useState([]);
 
+  // load categories
+  const categories = [];
+  const subcategories = {};
+  getCategories().then(res => {
+    if (res.code === 200) {
+      const fetchedCategories = res.result;
+
+      fetchedCategories.forEach(fetched => {
+        categories.push(
+          <option>
+            <p>{fetched.name}</p>
+          </option>,
+        );
+        subcategories[fetched.name] = fetched.subcategories;
+      });
+    } else {
+      setErrorMessage(res.message);
+    }
+  });
+
+  console.log(categories);
+  console.log(subcategories);
+
   return (
     <Form
       className="form"
       onSubmit={e =>
-        onSubmitAdminNewResourceForm(
+        onSubmitNewResourceForm(
           e,
           totalSubmitEnabled,
           {
@@ -103,7 +124,7 @@ const AdminNewResourceForm = () => {
           name="selectCategory"
           onChange={e => setCategory(e.target.value)}
         >
-          {}
+          {categories}
         </Input>
       </FormGroup>
       <FormGroup>
@@ -112,9 +133,7 @@ const AdminNewResourceForm = () => {
           type="select"
           name="selectSubcategory"
           onChange={e => setSubcategory(e.target.value)}
-        >
-          {}
-        </Input>
+        />
       </FormGroup>
       <FormGroup>
         <Label for="resourceName">Resource Name</Label>
@@ -136,15 +155,6 @@ const AdminNewResourceForm = () => {
           onChange={e => setDescription(e.target.value)}
         />
       </FormGroup>
-
-      {
-        // <Button color="link" onClick={() => setSeeMoreInfo(!seeMoreInfo)}>
-        //   {' '}
-        //   {(!seeMoreInfo && <>More details</>) || <>Less details</>}
-        // </Button>
-        // {seeMoreInfo && ExtraResourceInformationComponent}
-      }
-
       <FormGroup>
         <Label for="website">Website</Label>
         <Input
@@ -165,7 +175,7 @@ const AdminNewResourceForm = () => {
       </FormGroup>
       <FormGroup>
         <Label for="phoneNumbers">Phone Numbers</Label>
-        {AdminNewResourcePhoneNumberForm({
+        {NewResourcePhoneNumberForm({
           phoneNumbers,
           setPhoneNumbers,
           setTotalSubmitEnabled,
@@ -173,7 +183,7 @@ const AdminNewResourceForm = () => {
       </FormGroup>
       <FormGroup>
         <Label for="contacts">Contacts</Label>
-        {AdminNewResourceContactForm({
+        {NewResourceContactForm({
           contacts,
           setContacts,
           setTotalSubmitEnabled,
@@ -217,7 +227,7 @@ const AdminNewResourceForm = () => {
       </FormGroup>
       <FormGroup>
         <Label for="financialAidDetails">Financial Aid Details</Label>
-        {AdminNewResourceFinancialAidForm({
+        {NewResourceFinancialAidForm({
           financialAidDetails,
           setFinancialAidDetails,
           setTotalSubmitEnabled,
@@ -262,4 +272,4 @@ const AdminNewResourceForm = () => {
   );
 };
 
-export default AdminNewResourceForm;
+export default NewResourceForm;

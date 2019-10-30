@@ -12,12 +12,12 @@ import {
   InputGroupAddon,
   InputGroupText,
 } from 'reactstrap';
-import AdminNewResourceForm from './AdminNewResourceForm';
+import NewResourceForm from './NewResourceForm';
 
 const AdminResourceManager = () => {
   return (
     <>
-      <AdminNewResourceForm className="adminNewResourceForm" />
+      <NewResourceForm className="adminNewResourceForm" />
     </>
   );
 };

@@ -5,7 +5,7 @@ TODO: Implement phoneType into form.
 */
 
 import React, { useState } from 'react';
-import '../css/AdminNewResourcePhoneNumberForm.css';
+import '../css/NewResourcePhoneNumberForm.css';
 import {
   Form,
   FormGroup,
@@ -119,7 +119,7 @@ const onInputBlur = (
   setErrorMessage('');
 };
 
-const AdminNewResourceContactForm = (props: FormProps) => {
+const NewResourceContactForm = (props: FormProps) => {
   const { contacts, setContacts, setTotalSubmitEnabled } = props;
 
   const [submitEnabled, setSubmitEnabled] = useState(false);
@@ -270,4 +270,4 @@ const AdminNewResourceContactForm = (props: FormProps) => {
   );
 };
 
-export default AdminNewResourceContactForm;
+export default NewResourceContactForm;
