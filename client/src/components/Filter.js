@@ -1,10 +1,4 @@
 import React, { Component } from 'react';
-import {
-  ButtonDropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
-} from 'reactstrap';
 import { Col, Layout, Menu, Row } from 'antd';
 
 import '../css/Filter.css';
@@ -264,16 +258,34 @@ export default class Filter extends Component<Props, State> {
         return (
           <Row gutter={[32, 32]}>
             <Col span={8}>
-              <FilterPreview id={first._id} key={first._id} resource={first} />
+              <FilterPreview
+                availableLanguages={first.availableLanguages}
+                cost={first.cost}
+                id={first._id}
+                key={first._id}
+                name={first.name}
+              />
             </Col>
             {second && (
               <Col span={8}>
-                <FilterPreview id={second._id} key={second._id} resource={second} />
+                <FilterPreview
+                  availableLanguages={second.availableLanguages}
+                  cost={second.cost}
+                  id={second._id}
+                  key={second._id}
+                  name={second.name}
+                />
               </Col>
             )}
             {third && (
               <Col span={8}>
-                <FilterPreview id={third._id} key={third._id} resource={third} />
+                <FilterPreview
+                  availableLanguages={third.availableLanguages}
+                  cost={third.cost}
+                  id={third._id}
+                  key={third._id}
+                  name={third.name}
+                />
               </Col>
             )}
           </Row>

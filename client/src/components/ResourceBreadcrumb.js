@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 function ResourceBreadcrumb(props) {
   const { categorySelected, subcategorySelected } = props;
 
-  let breadcrumbs = [];
+  const breadcrumbs = [];
   breadcrumbs.push(<span>All Resources</span>);
   if (categorySelected !== '') {
     if (subcategorySelected !== '') {
@@ -26,5 +27,10 @@ function ResourceBreadcrumb(props) {
 
   return breadcrumbs;
 }
+
+ResourceBreadcrumb.propTypes = {
+  categorySelected: PropTypes.string.isRequired,
+  subcategorySelected: PropTypes.string.isRequired,
+};
 
 export default ResourceBreadcrumb;
