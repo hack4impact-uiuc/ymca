@@ -10,7 +10,7 @@ import {
   getResourcesByCategory,
 } from '../utils/api';
 
-const { Header, Sider, Content } = Layout;
+const { Sider, Content } = Layout;
 const { SubMenu } = Menu;
 
 export default class Filter extends Component<Props, State> {
@@ -309,7 +309,7 @@ export default class Filter extends Component<Props, State> {
 
     return (
       <Layout>
-        <div>
+        <>
           <FilterHeader
             categorySelected={categorySelected}
             subcategorySelected={subcategorySelected}
@@ -396,7 +396,7 @@ export default class Filter extends Component<Props, State> {
               </Menu>
             </Sider>
           </Layout>
-        </div>
+        </>
       </Layout>
     );
   }
