@@ -7,15 +7,14 @@ This folder contains the front end client of the application.
 To set up, first `cd` into this directory. Then,
 
 ```bash
-yarn
-yarn start
+yarn && yarn start
 ```
 
 Then go to [http://localhost:3000](http://localhost:3000) in your browser. Make sure that your backend is running in order for data to be populated.
 
 ## Technologies
 
-This uses a React frontend.
+Built with [React](https://reactjs.org/).
 
 ### Code Style
 

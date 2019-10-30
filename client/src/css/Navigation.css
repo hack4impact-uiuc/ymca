@@ -1,0 +1,18 @@
+@import '~antd/dist/antd.css';
+
+.header {
+  background: white;
+}
+
+.ant-menu-horizontal {
+  border-bottom: none;
+}
+
+.ant-menu-horizontal {
+  float: left;
+}
+
+.ant-menu-horizontal > .ant-menu-item,
+.ant-menu-horizontal > .ant-menu-item:hover {
+  border-bottom: none;
+}

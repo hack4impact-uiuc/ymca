@@ -24,7 +24,7 @@ export const register = body => {
     body: JSON.stringify({
       email,
       password,
-      role: 'public',
+      role: 'admin',
       questionIdx: 0,
       answer: '_',
     }),
