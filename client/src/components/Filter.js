@@ -310,7 +310,11 @@ export default class Filter extends Component<Props, State> {
 
           <div className="filter-preview-container">
             {this.state.filteredResources.map(value => (
-              <FilterPreview key={value.name} resourceName={value.name} />
+              <FilterPreview
+                key={value.name}
+                resourceName={value.name}
+                id={value._id}
+              />
             ))}
           </div>
         </div>

@@ -2,7 +2,6 @@
 
 import React, { Component } from 'react';
 import Login from './components/Login';
-import Home from './components/Home';
 
 type Props = {};
 
