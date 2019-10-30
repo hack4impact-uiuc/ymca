@@ -17,10 +17,15 @@ import {
   Alert,
 } from 'reactstrap';
 
+type PhoneNumber = {|
+  phoneNumber: Number,
+  phoneType: String,
+|};
+
 type FormProps = {|
-  phoneNumbers: Array<String>,
+  phoneNumbers: Array<PhoneNumber>,
   setPhoneNumbers: () => void,
-  setEnableTotalFormSubmission: () => void,
+  setTotalSubmitEnabled: () => void,
 |};
 
 type EntryProps = {|
@@ -86,18 +91,23 @@ const onSubmit = args => {
   }
 };
 
-const onInputFocus = (setEnableTotalFormSubmission, setSubmitEnabled) => {
-  setEnableTotalFormSubmission(false);
+const onInputFocus = (setTotalSubmitEnabled, setSubmitEnabled) => {
+  setTotalSubmitEnabled(false);
   setSubmitEnabled(true);
 };
 
-const onInputBlur = (setEnableTotalFormSubmission, setSubmitEnabled) => {
-  setEnableTotalFormSubmission(true);
+const onInputBlur = (
+  setTotalSubmitEnabled,
+  setSubmitEnabled,
+  setErrorMessage,
+) => {
+  setTotalSubmitEnabled(true);
   setSubmitEnabled(false);
+  setErrorMessage('');
 };
 
 const AdminNewResourcePhoneNumberForm = (props: FormProps) => {
-  const { phoneNumbers, setPhoneNumbers, setEnableTotalFormSubmission } = props;
+  const { phoneNumbers, setPhoneNumbers, setTotalSubmitEnabled } = props;
 
   const [submitEnabled, setSubmitEnabled] = useState(false);
 
@@ -142,10 +152,14 @@ const AdminNewResourcePhoneNumberForm = (props: FormProps) => {
                 placeholder="Enter phone number"
                 onChange={e => setPhoneNumber(e.target.value)}
                 onFocus={e =>
-                  onInputFocus(setEnableTotalFormSubmission, setSubmitEnabled)
+                  onInputFocus(setTotalSubmitEnabled, setSubmitEnabled)
                 }
                 onBlur={e =>
-                  onInputBlur(setEnableTotalFormSubmission, setSubmitEnabled)
+                  onInputBlur(
+                    setTotalSubmitEnabled,
+                    setSubmitEnabled,
+                    setErrorMessage,
+                  )
                 }
               />
             </div>
@@ -156,10 +170,14 @@ const AdminNewResourcePhoneNumberForm = (props: FormProps) => {
                 placeholder="Enter phone type (i.e. Mobile, Home, ...)"
                 onChange={e => setPhoneType(e.target.value)}
                 onFocus={e =>
-                  onInputFocus(setEnableTotalFormSubmission, setSubmitEnabled)
+                  onInputFocus(setTotalSubmitEnabled, setSubmitEnabled)
                 }
                 onBlur={e =>
-                  onInputBlur(setEnableTotalFormSubmission, setSubmitEnabled)
+                  onInputBlur(
+                    setTotalSubmitEnabled,
+                    setSubmitEnabled,
+                    setErrorMessage,
+                  )
                 }
               />
             </div>
