@@ -57,23 +57,6 @@ const AdminNewResourceForm = () => {
   const [comments, setComments] = useState([]);
   const [internalNotes, setInternalNotes] = useState([]);
 
-  // const ExtraResourceInformationComponent = ExtraResourceInformationForm({
-  //   setWebsite,
-  //   setEmail,
-  //   setPhoneNumbers,
-  //   setContacts,
-  //   setAddress,
-  //   setCity,
-  //   setHoursOfOperation,
-  //   setEligibilityRequirements,
-  //   setFinancialAidDetails,
-  //   setCost,
-  //   setAvailableLanguages,
-  //   setRecommendation,
-  //   setComments,
-  //   setInternalNotes,
-  // });
-
   return (
     <Form
       className="form"
@@ -121,7 +104,6 @@ const AdminNewResourceForm = () => {
           name="selectCategory"
           onChange={e => setCategory(e.target.value)}
         >
-          <option>Select an option</option>
           {}
         </Input>
       </FormGroup>
@@ -132,7 +114,6 @@ const AdminNewResourceForm = () => {
           name="selectSubcategory"
           onChange={e => setSubcategory(e.target.value)}
         >
-          <option>Select an option</option>
           {}
         </Input>
       </FormGroup>
