@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../css/ResourceDetail.css';
 import { Container, Row, Col } from 'reactstrap';
+import PropTypes from 'prop-types';
 import { getResourceByID } from '../utils/api';
 
 export default class ResourceDetail extends Component {
@@ -16,14 +17,6 @@ export default class ResourceDetail extends Component {
       description: '',
       hours: [],
       city: '',
-      //   county: 'County Name',
-      //   requiredDocs: [
-      //     'Required Form 1',
-      //     'Required Form 2',
-      //     'Required Form 3',
-      //     'Required Form 4',
-      //   ],
-      //   cost: 1.23,
       languages: [],
     };
   }
@@ -40,6 +33,8 @@ export default class ResourceDetail extends Component {
         description: result.description,
         languages: result.availableLanguages,
       });
+    } else {
+      // redirect to 404
     }
   }
 
@@ -53,9 +48,6 @@ export default class ResourceDetail extends Component {
       description,
       hours,
       city,
-      //   county,
-      //   requiredDocs,
-      //   cost,
       languages,
     } = this.state;
 
@@ -144,3 +136,13 @@ export default class ResourceDetail extends Component {
     );
   }
 }
+
+ResourceDetail.defaultProps = {
+  match: null,
+};
+
+ResourceDetail.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({ id: PropTypes.string }),
+  }),
+};
