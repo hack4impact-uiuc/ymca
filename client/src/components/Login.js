@@ -1,7 +1,20 @@
 import React, { Component } from 'react';
-import { Form, FormGroup, Input, Label } from 'reactstrap';
+import { Link, useHistory } from 'react-router-dom';
+import {
+  Form,
+  Input,
+  Tooltip,
+  Icon,
+  Cascader,
+  Select,
+  Row,
+  Col,
+  Checkbox,
+  Button,
+  AutoComplete,
+} from 'antd';
+import 'antd/dist/antd.css';
 import '../css/Login.css';
-import { useHistory } from 'react-router-dom';
 import LoginSubmitGroup from './LoginSubmitGroup';
 import LoginMissingNote from './LoginMissingNote';
 
@@ -12,7 +25,7 @@ TODO 1: Add calls to authentication.
 TODO 2: Replace all reactstrap with custom html and css for wireframe.
 TODO 3: Add language selector.
 */
-export default class Login extends Component {
+class Login extends Component {
   constructor(props) {
     super(props);
 
@@ -27,6 +40,7 @@ export default class Login extends Component {
       isPasswordConfirmed: true,
       showRegisterFields: false,
       isAuthSuccessful: false,
+      isRegisterSuccessful: false,
     };
   }
 
@@ -79,14 +93,6 @@ export default class Login extends Component {
     return !emailFieldIsEmpty && !passwordFieldIsEmpty;
   };
 
-  onLoginSubmit = e => {
-    e.preventDefault();
-
-    if (this.loginFieldsValid()) {
-      // auth
-    }
-  };
-
   registerFieldsValid = () => {
     // verifies email and password
     const loginValid = this.loginFieldsValid();
@@ -101,7 +107,7 @@ export default class Login extends Component {
 
   onLoginSubmit = e => {
     e.preventDefault();
-
+    console.log('works');
     if (this.loginFieldsValid()) {
       const { email, password } = this.state;
       // auth
@@ -115,54 +121,53 @@ export default class Login extends Component {
       });
     }
   };
+  // onRegisterSubmit = e => {
+  //   e.preventDefault();
 
-  onRegisterSubmit = e => {
-    e.preventDefault();
+  //   if (this.registerFieldsValid()) {
+  //     const { email, password, companyId } = this.state;
 
-    if (this.registerFieldsValid()) {
-      const { email, password, companyId } = this.state;
+  //     register({ email, password, companyId }).then(res => {
+  //       if (res.status === 200) {
+  //         // auto login and go to main menu
+  //         this.setState({ isAuthSuccessful: true });
+  //       } else {
+  //         // show error message.
+  //       }
+  //     });
+  //   }
+  // };
 
-      register({ email, password, companyId }).then(res => {
-        if (res.status === 200) {
-          // auto login and go to main menu
-          this.setState({ isAuthSuccessful: true });
-        } else {
-          // show error message.
-        }
-      });
-    }
-  };
+  // getCompanyIdField = () => {
+  //   const { companyIdFieldIsEmpty } = this.state;
+  //   return (
+  //     <FormGroup for="companyId">
+  //      {companyIdFieldIsEmpty && <LoginMissingNote fieldName="Company ID" />}
+  //       <Label>YMCA ID:</Label>
+  //       <Input
+  //         onChange={this.onCompanyIdChange}
+  //         name="companyId"
+  //         placeholder="Enter YMCA ID"
+  //       />
+  //     </FormGroup>
+  //   );
+  // };
 
-  getCompanyIdField = () => {
-    const { companyIdFieldIsEmpty } = this.state;
-    return (
-      <FormGroup for="companyId">
-        {companyIdFieldIsEmpty && <LoginMissingNote fieldName="Company ID" />}
-        <Label>YMCA ID:</Label>
-        <Input
-          onChange={this.onCompanyIdChange}
-          name="companyId"
-          placeholder="Enter YMCA ID"
-        />
-      </FormGroup>
-    );
-  };
-
-  getConfirmPasswordField = () => {
-    const { isPasswordConfirmed } = this.state;
-    return (
-      <FormGroup for="confirmPassword">
-        {!isPasswordConfirmed && <p>Passwords do not match</p>}
-        <Label>Confirm Password:</Label>
-        <Input
-          onChange={this.onConfirmPasswordChange}
-          type="password"
-          name="confirmPassword"
-          placeholder="Confirm password"
-        />
-      </FormGroup>
-    );
-  };
+  // getConfirmPasswordField = () => {
+  //   const { isPasswordConfirmed } = this.state;
+  //   return (
+  //     <FormGroup for="confirmPassword">
+  //       {!isPasswordConfirmed && <p>Passwords do not match</p>}
+  //       <Label>Confirm Password:</Label>
+  //       <Input
+  //         onChange={this.onConfirmPasswordChange}
+  //         type="password"
+  //         name="confirmPassword"
+  //         placeholder="Confirm password"
+  //       />
+  //     </FormGroup>
+  //   );
+  // };
 
   render() {
     const {
@@ -172,9 +177,31 @@ export default class Login extends Component {
       isAuthSuccessful,
     } = this.state;
 
+    // const formItemLayout = {
+    //   labelCol: {
+    //     xs: { span: 100 },
+    //     sm: { span: 100 },
+    //   },
+    //   wrapperCol: {
+    //     xs: { span: 100 },
+    //     sm: { span: 100 },
+    //   },
+    // };
+    // const tailFormItemLayout = {
+    //   wrapperCol: {
+    //     xs: {
+    //       span: 24,
+    //       offset: 0,
+    //     },
+    //     sm: {
+    //       span: 16,
+    //       offset: 8,
+    //     },
+    //   },
+    // };
     let confirmPasswordField;
     let companyIdField;
-    let submit = (
+    const submit = (
       <LoginSubmitGroup
         inputText="Login"
         linkText="Register"
@@ -182,22 +209,124 @@ export default class Login extends Component {
       />
     );
 
-    if (showRegisterFields) {
-      confirmPasswordField = this.getConfirmPasswordField();
-      companyIdField = this.getCompanyIdField();
-      submit = (
-        <LoginSubmitGroup
-          inputText="Register"
-          linkText="Login"
-          linkOnClick={() => this.setShowRegisterFields(false)}
-        />
-      );
-    }
+    // if (showRegisterFields) {
+    //   confirmPasswordField = this.getConfirmPasswordField();
+    //   companyIdField = this.getCompanyIdField();
+    //   submit = (
+    //     <LoginSubmitGroup
+    //       inputText="Register"
+    //       linkText="Login"
+    //       linkOnClick={() => this.setShowRegisterFields(false)}
+    //     />
+    //   );
+    // }
 
+    const { getFieldDecorator } = this.props.form;
     return (
       <div>
         {isAuthSuccessful && <ToHomePage />}
-
+        <Form onSubmit={this.onLoginSubmit} className="login-form">
+          <Form.Item>
+            {getFieldDecorator('email', {
+              rules: [
+                {
+                  type: 'email',
+                  message: 'The input is not valid E-mail!',
+                },
+                {
+                  required: true,
+                  message: 'Please input your E-mail!',
+                },
+              ],
+            })(
+              <Input
+                prefix={
+                  <Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />
+                }
+                placeholder="E-mail"
+              />,
+            )}
+          </Form.Item>
+          <Form.Item hasFeedback>
+            {getFieldDecorator('password', {
+              rules: [
+                {
+                  required: true,
+                  message: 'Please input your password!',
+                },
+                {
+                  validator: this.validateToNextPassword,
+                },
+              ],
+            })(
+              <Input
+                prefix={
+                  <Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />
+                }
+                type="password"
+                placeholder="Password"
+              />,
+            )}
+          </Form.Item>
+          <Form.Item>
+            {getFieldDecorator('remember', {
+              valuePropName: 'checked',
+              initialValue: true,
+            })(<Checkbox>Remember me</Checkbox>)}
+            <a className="login-form-forgot" href="home">
+              Forgot password
+            </a>
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="login-form-button"
+            >
+              Log in
+            </Button>
+            Don&#39;t have an account? <a href="register"> Register Now!</a>
+          </Form.Item>
+        </Form>
+      </div>
+      /* {isAuthSuccessful && <ToHomePage />}
+        <Form {...formItemLayout} onSubmit={this.onLoginSubmit}>
+          <Form.Item label="E-mail">
+            {getFieldDecorator('email', {
+              rules: [
+                {
+                  type: 'email',
+                  message: 'The input is not valid E-mail!',
+                },
+                {
+                  required: true,
+                  message: 'Please input your E-mail!',
+                },
+              ],
+            })(<Input />)}
+          </Form.Item>
+          <Form.Item label="Password" hasFeedback>
+            {getFieldDecorator('password', {
+              rules: [
+                {
+                  required: true,
+                  message: 'Please input your password!',
+                },
+                {
+                  validator: this.validateToNextPassword,
+                },
+              ],
+            })(<Input.Password />)}
+          </Form.Item>
+          <Form.Item {...tailFormItemLayout}>
+            <Button type="primary" htmlType="submit">
+                Login
+            </Button>
+            <Link to={'register'}>
+              <Button type="primary" htmlType="submit">
+                Register
+              </Button>
+            </Link>
+          </Form.Item>
+        </Form>
         <Form
           className="form"
           onSubmit={
@@ -227,8 +356,7 @@ export default class Login extends Component {
           {confirmPasswordField}
           {companyIdField}
           {submit}
-        </Form>
-      </div>
+        </Form> */
     );
   }
 }
@@ -237,3 +365,4 @@ function ToHomePage() {
   useHistory().push('/');
   return null;
 }
+export default Form.create()(Login);
