@@ -3,8 +3,8 @@ import '../css/NewResourceForm.css';
 import { Form, Input, Button, Cascader } from 'antd';
 import Select from 'react-select';
 import { addResource, getCategories } from '../utils/api';
-import NewResourcePhoneNumberFormItem from './NewResourcePhoneNumberForm';
-import NewResourceContactForm from './NewResourceContactForm';
+import PhoneNumberFormItem from './NewResourcePhoneNumberForm';
+import ContactFormItem from './NewResourceContactForm';
 import NewResourceFinancialAidForm from './NewResourceFinancialAidForm';
 
 const { TextArea } = Input;
@@ -215,14 +215,19 @@ const NewResourceForm = props => {
       <Form.Item label="Website">
         {getFieldDecorator('website', {})(<Input placeholder="Website" />)}
       </Form.Item>
-      {NewResourcePhoneNumberFormItem({
+      {PhoneNumberFormItem({
         phoneNumbers,
         setPhoneNumbers,
         setTotalSubmitEnabled,
-        getFieldDecorator,
       })}
-      <Form.Item label="Contacts"></Form.Item>
-      <Form.Item label="Address"></Form.Item>
+      {ContactFormItem({
+        contacts,
+        setContacts,
+        setTotalSubmitEnabled,
+      })}
+      <Form.Item label="Address">
+        {getFieldDecorator('address', {})(<Input placeholder="Address" />)}
+      </Form.Item>
       <Form.Item label="City">
         {getFieldDecorator('city', {})(<Input placeholder="City" />)}
       </Form.Item>
