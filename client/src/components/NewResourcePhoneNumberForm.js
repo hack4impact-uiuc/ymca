@@ -8,37 +8,21 @@ import React, { useState } from 'react';
 import '../css/NewResourcePhoneNumberForm.css';
 import { Input, Form, Button, List, Skeleton } from 'antd';
 
-type PhoneNumber = {|
-  phoneNumber: Number,
-  phoneType: String,
-|};
-
-type EntryProps = {|
-  phoneNumber: Number,
-  phoneType: String,
-  phoneNumbers: Array<String>,
-  setPhoneNumbers: () => void,
-|};
-
 const onInputFocus = (setTotalSubmitEnabled, setSubmitEnabled) => {
   setTotalSubmitEnabled(false);
   setSubmitEnabled(true);
 };
 
-const onInputBlur = (
-  setTotalSubmitEnabled,
-  setSubmitEnabled,
-  setErrorMessage,
-) => {
+const onInputBlur = (setTotalSubmitEnabled, setSubmitEnabled) => {
   setTotalSubmitEnabled(true);
   setSubmitEnabled(false);
-  setErrorMessage('');
 };
 
 const PhoneNumberForm = Form.create({ name: 'phoneNumber' })(props => {
-  const { setPhoneNumbers, phoneNumbers } = props;
-
+  const { setPhoneNumbers, phoneNumbers, setTotalSubmitEnabled } = props;
   const { setFieldsValue, getFieldValue, getFieldDecorator } = props.form;
+
+  const [submitEnabled, setSubmitEnabled] = useState(false);
 
   return (
     <Form
@@ -72,7 +56,13 @@ const PhoneNumberForm = Form.create({ name: 'phoneNumber' })(props => {
               whitespace: true,
             },
           ],
-        })(<Input id="phoneNumberInput" placeholder="Phone Number" />)}
+        })(
+          <Input
+            placeholder="Phone Number"
+            onFocus={e => onInputFocus(setTotalSubmitEnabled, setSubmitEnabled)}
+            onBlur={e => onInputBlur(setTotalSubmitEnabled, setSubmitEnabled)}
+          />,
+        )}
       </Form.Item>
       <Form.Item>
         {getFieldDecorator('phoneType', {
@@ -84,8 +74,9 @@ const PhoneNumberForm = Form.create({ name: 'phoneNumber' })(props => {
           ],
         })(
           <Input
-            id="phoneTypeInput"
             placeholder="Phone Type (i.e. Mobile, Home, etc.)"
+            onFocus={e => onInputFocus(setTotalSubmitEnabled, setSubmitEnabled)}
+            onBlur={e => onInputBlur(setTotalSubmitEnabled, setSubmitEnabled)}
           />,
         )}
       </Form.Item>
@@ -96,16 +87,8 @@ const PhoneNumberForm = Form.create({ name: 'phoneNumber' })(props => {
   );
 });
 
-const NewResourcePhoneNumberFormItem = props => {
-  const {
-    phoneNumbers,
-    setPhoneNumbers,
-    setTotalSubmitEnabled,
-    getFieldDecorator,
-  } = props;
-
-  const [submitEnabled, setSubmitEnabled] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+const PhoneNumberFormItem = props => {
+  const { phoneNumbers, setPhoneNumbers, setTotalSubmitEnabled } = props;
 
   return (
     <Form.Item label="Phone Number">
@@ -143,10 +126,11 @@ const NewResourcePhoneNumberFormItem = props => {
       <PhoneNumberForm
         phoneNumbers={phoneNumbers}
         setPhoneNumbers={setPhoneNumbers}
+        setTotalSubmitEnabled={setTotalSubmitEnabled}
         wrappedComponentRef={form => (this.form = form)}
       />
     </Form.Item>
   );
 };
 
-export default NewResourcePhoneNumberFormItem;
+export default PhoneNumberFormItem;
