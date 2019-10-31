@@ -37,6 +37,7 @@ type FormProps = {
   form: {
     getFieldDecorator: () => any,
     getFieldValue: () => any,
+    setFieldsValue: () => any,
   },
 };
 
@@ -64,15 +65,7 @@ const NewResourceForm = (props: FormProps) => {
   const [comments, setComments] = useState([]);
   const [internalNotes, setInternalNotes] = useState([]);
 
-  const [categoryOptions, setCategoryOptions] = useState([{}]);
-  const [subcategoryOptions, setSubcategoryOptions] = useState([
-    {
-      label: 'Please select a category first',
-      value: 'null',
-    },
-  ]);
-
-  const { getFieldDecorator, getFieldValue } = props.form;
+  const { getFieldDecorator, getFieldValue, setFieldsValue } = props.form;
 
   return (
     <Form
@@ -118,6 +111,7 @@ const NewResourceForm = (props: FormProps) => {
         subcategory={subcategory}
         setSubcategory={setSubcategory}
         getFieldDecorator={getFieldDecorator}
+        setFieldsValue={setFieldsValue}
       />
       <Form.Item label="Resource Name">
         {getFieldDecorator('resourceName', {

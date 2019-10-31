@@ -5,31 +5,42 @@ import { Input, Form } from 'antd';
 import Select from 'react-select';
 import { getCategories } from '../utils/api';
 
-const wrappedSetCategory = (
-  targetCategory,
-  setCategory,
-  setSubcategoryOptions,
-) => {
-  setCategory(targetCategory);
+const wrappedSetCategory = args => {
+  const {
+    targetCategory,
+    currentCategory,
+    setCategory,
+    setSubcategoryOptions,
+    setSubcategory,
+    setFieldsValue,
+  } = args;
 
-  getCategories().then(res => {
-    if (res.code === 200) {
-      const subcategories = [];
+  if (targetCategory !== currentCategory) {
+    setCategory(targetCategory);
 
-      Object.values(res.result).forEach(category => {
-        if (category.name === targetCategory) {
-          category.subcategories.forEach(entry => {
-            subcategories.push({
-              label: entry,
-              value: entry,
+    getCategories().then(res => {
+      if (res.code === 200) {
+        const subcategories = [];
+
+        Object.values(res.result).forEach(category => {
+          if (category.name === targetCategory) {
+            category.subcategories.forEach(entry => {
+              subcategories.push({
+                label: entry,
+                value: entry,
+              });
             });
-          });
-        }
-      });
+          }
+        });
 
-      setSubcategoryOptions(subcategories);
-    }
-  });
+        setFieldsValue({
+          subcategory: '',
+        });
+        setSubcategory('');
+        setSubcategoryOptions(subcategories);
+      }
+    });
+  }
 };
 
 type Props = {
@@ -38,6 +49,7 @@ type Props = {
   setCategory: () => void,
   setSubcategory: () => void,
   getFieldDecorator: () => any,
+  setFieldsValue: () => any,
 };
 
 const CategorySelector = (props: Props) => {
@@ -47,6 +59,7 @@ const CategorySelector = (props: Props) => {
     setCategory,
     setSubcategory,
     getFieldDecorator,
+    setFieldsValue,
   } = props;
 
   const [categoryOptions, setCategoryOptions] = useState([]);
@@ -88,7 +101,14 @@ const CategorySelector = (props: Props) => {
             className="newResourceSelect"
             options={categoryOptions}
             onChange={e =>
-              wrappedSetCategory(e.value, setCategory, setSubcategoryOptions)
+              wrappedSetCategory({
+                targetCategory: e.value,
+                currentCategory: category,
+                setSubcategory,
+                setCategory,
+                setSubcategoryOptions,
+                setFieldsValue,
+              })
             }
             placeholder="Select category..."
           />,

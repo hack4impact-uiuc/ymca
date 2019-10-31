@@ -113,13 +113,7 @@ const PhoneNumberFormItem = (props: FormItemProps) => {
               <Button
                 onClick={e => {
                   e.preventDefault();
-                  setPhoneNumbers(
-                    phoneNumbers.filter(
-                      num =>
-                        num.phoneNumber !== item.phoneNumber ||
-                        num.phoneType !== item.phoneType,
-                    ),
-                  );
+                  setPhoneNumbers(phoneNumbers.filter(num => num !== item));
                 }}
               >
                 Delete

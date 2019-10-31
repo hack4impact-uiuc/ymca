@@ -165,16 +165,7 @@ const ContactFormItem = (props: FormItemProps) => {
               <Button
                 onClick={e => {
                   e.preventDefault();
-                  setContacts(
-                    contacts.filter(
-                      other =>
-                        other.role !== contact.role ||
-                        other.name !== contact.name ||
-                        other.email !== contact.email ||
-                        other.phoneNumber !== contact.phoneNumber ||
-                        other.note !== contact.note,
-                    ),
-                  );
+                  setContacts(contacts.filter(other => other !== contact));
                 }}
               >
                 Delete
