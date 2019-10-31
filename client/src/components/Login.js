@@ -1,22 +1,9 @@
 import React, { Component } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import {
-  Form,
-  Input,
-  Tooltip,
-  Icon,
-  Cascader,
-  Select,
-  Row,
-  Col,
-  Checkbox,
-  Button,
-  AutoComplete,
-} from 'antd';
+import { useHistory } from 'react-router-dom';
+import { Button, Checkbox, Form, Icon, Input } from 'antd';
 import 'antd/dist/antd.css';
 import '../css/Login.css';
 import LoginSubmitGroup from './LoginSubmitGroup';
-import LoginMissingNote from './LoginMissingNote';
 
 import { login, register } from '../utils/auth';
 
@@ -365,4 +352,9 @@ function ToHomePage() {
   useHistory().push('/');
   return null;
 }
+
+Login.propTypes = {
+  form: Form.isRequired,
+};
+
 export default Form.create()(Login);

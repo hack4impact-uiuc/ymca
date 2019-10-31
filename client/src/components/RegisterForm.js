@@ -1,18 +1,6 @@
 import React, { Component } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import {
-  Form,
-  Input,
-  Tooltip,
-  Icon,
-  Cascader,
-  Select,
-  Row,
-  Col,
-  Checkbox,
-  Button,
-  AutoComplete,
-} from 'antd';
+import { useHistory } from 'react-router-dom';
+import { Button, Form, Input } from 'antd';
 import 'antd/dist/antd.css';
 import '../css/RegisterForm.css';
 import RegisterSubmitGroup from './RegisterSubmitGroup';
@@ -240,5 +228,9 @@ function ToHomePage() {
   useHistory().push('/');
   return null;
 }
+
+RegisterForm.propTypes = {
+  form: Form.isRequired,
+};
 
 export default Form.create()(RegisterForm);

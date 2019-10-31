@@ -20,6 +20,7 @@
     "prettier/prettier": "error",
     "react/destructuring-assignment": [0],
     "react/jsx-filename-extension": [1, { "extensions": [".js", "jsx"] }],
+    "react/jsx-props-no-spreading": [0],
     "react/no-unused-state": [1],
     "react/prefer-stateless-function": [0]
     // "sort-imports": [1]
