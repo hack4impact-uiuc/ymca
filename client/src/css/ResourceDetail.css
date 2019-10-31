@@ -8,25 +8,53 @@
 }
 
 .ant-row {
-  padding-top: 1%;
-  padding-bottom: 1%;
+  padding-top: 20px;
+  padding-bottom: 20px;
   padding-left: 15%;
   padding-right: 15%;
 }
 
 .basicInfo {
-  background-color: #D8D8D8;
+  background-color: #fbfbfb;
 }
 
-.basicInfoLabel {
+/* D8D8D8 */
+
+.sectionLabel {
+  padding-top: 30px;
   font-weight: 600;
 }
 
-p {
-  color: #212529 !important;
-}
-
 .ant-card {
+  margin-top: 10px;
+  margin-bottom: 10px;
   margin-left: 5%;
   margin-right: 5%;
+  height: 200px;
+}
+
+.cardRow {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.ant-card-bordered {
+  border: 1px solid #cacaca;
+}
+
+.cardLabel {
+  font-weight: 600;
+  padding-bottom: 5px;
+}
+
+.anticon {
+  margin-bottom: 12px;
+  font-size: 150%;
+}
+
+.ant-card-body {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 24px;
+  padding-right: 24px;
 }

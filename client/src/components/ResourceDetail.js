@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../css/ResourceDetail.css';
-import { Row, Col, Card } from 'antd';
+import { Row, Col, Card, Icon } from 'antd';
 import PropTypes from 'prop-types';
 import { getResourceByID } from '../utils/api';
 
@@ -71,43 +71,43 @@ export default class ResourceDetail extends Component {
           </Col>
         </Row>
         <Row className="basicInfo">
-            <Col span={4} className="basicInfoLabel">
+            <Col span={4} className="sectionLabel">
               Basic Information
             </Col>
             <Col span={20}>
-              <Row>
+              <Row className="cardRow">
                 <Col span={12}>
                   <Card>
-                    <p>asdassd</p>
-                    <p>qwewqe</p>
-                    <p>aswerwassd</p>
-                    <p>ssssss</p>
+                    <Icon type="phone" theme="filled" />
+                    <div className="cardLabel">Contact Information{"\n"}</div>
+                    {(phone.length > 0 || email.length > 0 || website.length > 0) 
+                      ? 
+                        <div>
+                          {phone.length > 0 && phone.map(num => {
+                            return num + "\n";
+                          })}
+                          {email.length > 0 && email + "\n"}
+                          {website.length > 0 && website + "\n"}
+                        </div>
+                      : "None provided."
+                    }
                   </Card>
                 </Col>
                 <Col span={12}>
                   <Card>
-                    <p>asdassd</p>
-                    <p>qwewqe</p>
-                    <p>aswerwassd</p>
-                    <p>ssssss</p>
+
                   </Card>
                 </Col>
               </Row>
-              <Row>
+              <Row className="cardRow">
                 <Col span={12}>
                   <Card>
-                    <p>asdassd</p>
-                    <p>qwewqe</p>
-                    <p>aswerwassd</p>
-                    <p>ssssss</p>
+
                   </Card>
                 </Col>
                 <Col span={12}>
                   <Card>
-                    <p>asdassd</p>
-                    <p>qwewqe</p>
-                    <p>aswerwassd</p>
-                    <p>ssssss</p>
+
                   </Card>
                 </Col>
               </Row>
