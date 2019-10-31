@@ -104,7 +104,6 @@ const FinancialAidFormItem = (props: FormProps) => {
         financialAidDetails={financialAidDetails}
         setFinancialAidDetails={setFinancialAidDetails}
         setTotalSubmitEnabled={setTotalSubmitEnabled}
-        wrappedComponentRef={form => (this.form = form)}
       />
     </Form.Item>
   );

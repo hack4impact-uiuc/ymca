@@ -1,3 +1,5 @@
+// @flow
+
 import React, { useState, useDebugValue, useEffect } from 'react';
 import '../css/NewResourceForm.css';
 import { Form, Input, Button, Cascader } from 'antd';
@@ -29,7 +31,10 @@ const fetchCategories = async setErrorMessage => {
   if (res.code === 200) {
     return res.result;
   }
+
   setErrorMessage(res.message);
+
+  return null;
 };
 
 const generateCategoryOptions = fetchedCategories => {
@@ -48,7 +53,7 @@ const generateCategoryOptions = fetchedCategories => {
 const getSubcategoriesOf = (category, fetchedCategories) => {
   let subcategories = [];
 
-  if (category != '') {
+  if (category !== '') {
     fetchCategories.forEach(entry => {
       if (entry.name === category) {
         subcategories = [];
@@ -66,7 +71,13 @@ const getSubcategoriesOf = (category, fetchedCategories) => {
   return subcategories;
 };
 
-const NewResourceForm = props => {
+type FormProps = {
+  form: {
+    getFieldDecorator: () => any,
+  },
+};
+
+const NewResourceForm = (props: FormProps) => {
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [totalSubmitEnabled, setTotalSubmitEnabled] = useState(true);
@@ -113,12 +124,7 @@ const NewResourceForm = props => {
     };
   });
 
-  const {
-    getFieldDecorator,
-    getFieldsError,
-    getFieldError,
-    isFieldTouched,
-  } = props.form;
+  const { getFieldDecorator } = props.form;
 
   return (
     <Form

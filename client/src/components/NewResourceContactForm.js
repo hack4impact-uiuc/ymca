@@ -16,6 +16,12 @@ type Contact = {|
   note: String,
 |};
 
+type FormItemProps = {
+  contacts: Array<Contact>,
+  setContacts: () => void,
+  setTotalSubmitEnabled: () => void,
+};
+
 const onInputFocus = (setSubmitEnabled, setTotalSubmitEnabled) => {
   setSubmitEnabled(true);
   setTotalSubmitEnabled(false);
@@ -146,7 +152,7 @@ const ContactForm = Form.create({ name: 'contactForm' })(props => {
   );
 });
 
-const ContactFormItem = props => {
+const ContactFormItem = (props: FormItemProps) => {
   const { contacts, setContacts, setTotalSubmitEnabled } = props;
 
   return (
@@ -188,7 +194,6 @@ const ContactFormItem = props => {
         contacts={contacts}
         setContacts={setContacts}
         setTotalSubmitEnabled={setTotalSubmitEnabled}
-        wrappedComponentRef={form => (this.form = form)}
       />
     </Form.Item>
   );

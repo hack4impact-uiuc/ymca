@@ -87,7 +87,18 @@ const PhoneNumberForm = Form.create({ name: 'phoneNumber' })(props => {
   );
 });
 
-const PhoneNumberFormItem = props => {
+type PhoneNumber = {
+  phoneNumber: String,
+  phoneType: String,
+};
+
+type FormItemProps = {
+  phoneNumbers: Array<PhoneNumber>,
+  setPhoneNumbers: () => void,
+  setTotalSubmitEnabled: () => void,
+};
+
+const PhoneNumberFormItem = (props: FormItemProps) => {
   const { phoneNumbers, setPhoneNumbers, setTotalSubmitEnabled } = props;
 
   return (
@@ -127,7 +138,6 @@ const PhoneNumberFormItem = props => {
         phoneNumbers={phoneNumbers}
         setPhoneNumbers={setPhoneNumbers}
         setTotalSubmitEnabled={setTotalSubmitEnabled}
-        wrappedComponentRef={form => (this.form = form)}
       />
     </Form.Item>
   );
