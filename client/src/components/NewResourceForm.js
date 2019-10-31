@@ -1,7 +1,6 @@
 // @flow
 
 /*
-TODO: Load categories correctly.
 TODO: Have resource be created.
 TODO: Have some fields be more in-depth than just a text bar.
 TODO: Improve UI and UX.
@@ -9,7 +8,7 @@ TODO: Improve UI and UX.
 
 import React, { useState, useDebugValue, useEffect } from 'react';
 import '../css/NewResourceForm.css';
-import { Form, Input, Button, Cascader } from 'antd';
+import { Form, Input, Button, Cascader, Alert } from 'antd';
 import Select from 'react-select';
 import { addResource, getCategories } from '../utils/api';
 import PhoneNumberFormItem from './NewResourcePhoneNumberForm';
@@ -23,13 +22,13 @@ const onSubmitNewResourceForm = (e, enabled, resource, onSucc, onErr) => {
   e.preventDefault();
 
   if (enabled) {
-    // res is a promise so yea
-    const res = addResource(resource);
-    if (res.status === 200) {
-      onSucc(res);
-    } else {
-      onErr(res);
-    }
+    addResource(resource).then(res => {
+      if (res != null) {
+        onSucc(res);
+      } else {
+        onErr('Something went wrong!');
+      }
+    });
   }
 };
 
@@ -105,6 +104,19 @@ const NewResourceForm = (props: FormProps) => {
         )
       }
     >
+      {successMessage !== '' && (
+        <Alert
+          type="success"
+          closable
+          message={successMessage}
+          onClose={e => {}}
+        />
+      )}
+
+      {errorMessage !== '' && (
+        <Alert type="error" closable message={errorMessage} onClose={e => {}} />
+      )}
+
       <CategorySelector
         category={category}
         setCategory={setCategory}
