@@ -1,5 +1,12 @@
 // @flow
 
+/*
+TODO: Load categories correctly.
+TODO: Have resource be created.
+TODO: Have some fields be more in-depth than just a text bar.
+TODO: Improve UI and UX.
+*/
+
 import React, { useState, useDebugValue, useEffect } from 'react';
 import '../css/NewResourceForm.css';
 import { Form, Input, Button, Cascader } from 'antd';
@@ -8,6 +15,7 @@ import { addResource, getCategories } from '../utils/api';
 import PhoneNumberFormItem from './NewResourcePhoneNumberForm';
 import ContactFormItem from './NewResourceContactForm';
 import FinancialAidFormItem from './NewResourceFinancialAidForm';
+import CategorySelector from './NewResourceCategorySelector';
 
 const { TextArea } = Input;
 
@@ -25,55 +33,10 @@ const onSubmitNewResourceForm = (e, enabled, resource, onSucc, onErr) => {
   }
 };
 
-const fetchCategories = async setErrorMessage => {
-  const res = await getCategories();
-
-  if (res.code === 200) {
-    return res.result;
-  }
-
-  setErrorMessage(res.message);
-
-  return null;
-};
-
-const generateCategoryOptions = fetchedCategories => {
-  const categories = [];
-
-  fetchedCategories.forEach(fetched => {
-    categories.push({
-      value: fetched.name,
-      label: fetched.name,
-    });
-  });
-
-  return categories;
-};
-
-const getSubcategoriesOf = (category, fetchedCategories) => {
-  let subcategories = [];
-
-  if (category !== '') {
-    fetchCategories.forEach(entry => {
-      if (entry.name === category) {
-        subcategories = [];
-
-        entry.subcategories.forEach(name => {
-          subcategories.push({
-            value: name,
-            label: name,
-          });
-        });
-      }
-    });
-  }
-
-  return subcategories;
-};
-
 type FormProps = {
   form: {
     getFieldDecorator: () => any,
+    getFieldValue: () => any,
   },
 };
 
@@ -101,30 +64,7 @@ const NewResourceForm = (props: FormProps) => {
   const [comments, setComments] = useState([]);
   const [internalNotes, setInternalNotes] = useState([]);
 
-  const [categoryOptions, setCategoryOptions] = useState([]);
-  const [subcategoryOptions, setSubcategoryOptions] = useState([
-    {
-      label: 'Please select a category first',
-      value: 'null',
-    },
-  ]);
-
-  let fetchedCategories = [];
-
-  useEffect(() => {
-    fetchedCategories = fetchCategories(setErrorMessage).then(categories => {
-      setCategoryOptions(generateCategoryOptions(categories));
-      setSubcategoryOptions(category, categories);
-
-      return categories;
-    });
-
-    return () => {
-      fetchedCategories = null;
-    };
-  });
-
-  const { getFieldDecorator } = props.form;
+  const { getFieldDecorator, getFieldValue } = props.form;
 
   return (
     <Form
@@ -136,22 +76,22 @@ const NewResourceForm = (props: FormProps) => {
           {
             category,
             subcategory,
-            resourceName,
-            description,
-            website,
-            email,
+            resourceName: getFieldValue('resourceName'),
+            description: getFieldValue('description'),
+            website: getFieldValue('website'),
+            email: getFieldValue('email'),
             phoneNumbers,
             contacts,
-            address,
-            city,
-            hoursOfOperation,
-            eligibilityRequirements,
+            address: getFieldValue('email'),
+            city: getFieldValue('city'),
+            hoursOfOperation: getFieldValue('hoursOfOperation'),
+            eligibilityRequirements: getFieldValue('eligibilityRequirements'),
             financialAidDetails,
-            cost,
-            availableLanguages,
-            recommendation,
-            comments,
-            internalNotes,
+            cost: getFieldValue('cost'),
+            availableLanguages: getFieldValue('availableLanguages'),
+            recommendation: getFieldValue('recommendation'),
+            comments: getFieldValue('comments'),
+            internalNotes: getFieldValue('internalNotes'),
           },
           res => {
             setSuccessMessage('Resource successfully created!');
@@ -164,40 +104,13 @@ const NewResourceForm = (props: FormProps) => {
         )
       }
     >
-      <Form.Item label="Category">
-        {getFieldDecorator('category', {
-          rules: [
-            {
-              required: true,
-              message: 'Please select a category!',
-            },
-          ],
-        })(
-          <Select
-            className="newResourceSelect"
-            options={categoryOptions}
-            onChange={e => setCategory(e.value)}
-            placeholder="Select category..."
-          />,
-        )}
-      </Form.Item>
-      <Form.Item label="Subcategory">
-        {getFieldDecorator('subcategory', {
-          rules: [
-            {
-              required: true,
-              message: 'Please select a subcategory!',
-            },
-          ],
-        })(
-          <Select
-            className="newResourceSelect"
-            options={subcategoryOptions}
-            onChange={e => setSubcategory(e.value)}
-            placeholder="Select subcategory..."
-          />,
-        )}
-      </Form.Item>
+      <CategorySelector
+        category={category}
+        setCategory={setCategory}
+        subcategory={subcategory}
+        setSubcategory={setSubcategory}
+        getFieldDecorator={getFieldDecorator}
+      />
       <Form.Item label="Resource Name">
         {getFieldDecorator('resourceName', {
           rules: [
@@ -237,18 +150,50 @@ const NewResourceForm = (props: FormProps) => {
       <Form.Item label="City">
         {getFieldDecorator('city', {})(<Input placeholder="City" />)}
       </Form.Item>
-      <Form.Item label="Hours of Operation"></Form.Item>
-      <Form.Item label="Eligibility Requirements"></Form.Item>
+      <Form.Item label="Hours of Operation">
+        {getFieldDecorator('hoursOfOperation', {})(
+          <Input placeholder="Hours of Operation" />,
+        )}
+      </Form.Item>
+      <Form.Item label="Eligibility Requirements">
+        {getFieldDecorator('eligibilityRequirements', {})(
+          <Input placeholder="Eligibility Requirements" />,
+        )}
+      </Form.Item>
       {FinancialAidFormItem({
         financialAidDetails,
         setFinancialAidDetails,
         setTotalSubmitEnabled,
       })}
-      <Form.Item label="Cost"></Form.Item>
-      <Form.Item label="Available Languages"></Form.Item>
-      <Form.Item label="Recommendation"></Form.Item>
-      <Form.Item label="Comments"></Form.Item>
-      <Form.Item label="Internal Notes"></Form.Item>
+      <Form.Item label="Cost">
+        {getFieldDecorator('cost', {
+          rules: [
+            {
+              type: 'number',
+            },
+          ],
+        })(<Input placeholder="Cost" />)}
+      </Form.Item>
+      <Form.Item label="Available Languages">
+        {getFieldDecorator('availableLanguages', {})(
+          <Input placeholder="Available Languages" />,
+        )}
+      </Form.Item>
+      <Form.Item label="Recommendation">
+        {getFieldDecorator('recommendation', {})(
+          <Input placeholder="Recommendation" />,
+        )}
+      </Form.Item>
+      <Form.Item label="Comments">
+        {getFieldDecorator('comments', {})(
+          <TextArea rows={4} placeholder="Comments..." />,
+        )}
+      </Form.Item>
+      <Form.Item label="Internal Notes">
+        {getFieldDecorator('internalNotes', {})(
+          <TextArea rows={4} placeholder="Internal notes..." />,
+        )}
+      </Form.Item>
 
       <Button type="primary" htmlType="submit" className="newResourceSubmit">
         Add Resource
