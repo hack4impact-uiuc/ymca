@@ -64,6 +64,14 @@ const NewResourceForm = (props: FormProps) => {
   const [comments, setComments] = useState([]);
   const [internalNotes, setInternalNotes] = useState([]);
 
+  const [categoryOptions, setCategoryOptions] = useState([{}]);
+  const [subcategoryOptions, setSubcategoryOptions] = useState([
+    {
+      label: 'Please select a category first',
+      value: 'null',
+    },
+  ]);
+
   const { getFieldDecorator, getFieldValue } = props.form;
 
   return (

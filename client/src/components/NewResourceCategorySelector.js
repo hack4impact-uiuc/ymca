@@ -14,7 +14,20 @@ const wrappedSetCategory = (
 
   getCategories().then(res => {
     if (res.code === 200) {
-      setSubcategoryOptions(res.result[targetCategory].subcategories);
+      const subcategories = [];
+
+      Object.values(res.result).forEach(category => {
+        if (category.name === targetCategory) {
+          category.subcategories.forEach(entry => {
+            subcategories.push({
+              label: entry,
+              value: entry,
+            });
+          });
+        }
+      });
+
+      setSubcategoryOptions(subcategories);
     }
   });
 };
@@ -36,7 +49,7 @@ const CategorySelector = (props: Props) => {
     getFieldDecorator,
   } = props;
 
-  const [categoryOptions, setCategoryOptions] = useState([{}]);
+  const [categoryOptions, setCategoryOptions] = useState([]);
   const [subcategoryOptions, setSubcategoryOptions] = useState([
     {
       label: 'Please select a category first',
@@ -49,8 +62,11 @@ const CategorySelector = (props: Props) => {
       const fetchedCategories = res.result;
       const categories = [];
 
-      Object.values(categories).forEach(c => {
-        categories.push(c.name);
+      Object.values(fetchedCategories).forEach(c => {
+        categories.push({
+          label: c.name,
+          value: c.name,
+        });
       });
 
       setCategoryOptions(categories);
