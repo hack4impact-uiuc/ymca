@@ -5,7 +5,7 @@ import Select from 'react-select';
 import { addResource, getCategories } from '../utils/api';
 import PhoneNumberFormItem from './NewResourcePhoneNumberForm';
 import ContactFormItem from './NewResourceContactForm';
-import NewResourceFinancialAidForm from './NewResourceFinancialAidForm';
+import FinancialAidFormItem from './NewResourceFinancialAidForm';
 
 const { TextArea } = Input;
 
@@ -233,7 +233,11 @@ const NewResourceForm = props => {
       </Form.Item>
       <Form.Item label="Hours of Operation"></Form.Item>
       <Form.Item label="Eligibility Requirements"></Form.Item>
-      <Form.Item label="Financial Aid Details"></Form.Item>
+      {FinancialAidFormItem({
+        financialAidDetails,
+        setFinancialAidDetails,
+        setTotalSubmitEnabled,
+      })}
       <Form.Item label="Cost"></Form.Item>
       <Form.Item label="Available Languages"></Form.Item>
       <Form.Item label="Recommendation"></Form.Item>
