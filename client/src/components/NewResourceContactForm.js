@@ -6,16 +6,7 @@ TODO: Implement phoneType into form.
 
 import React, { useState } from 'react';
 import '../css/NewResourcePhoneNumberForm.css';
-import {
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  ListGroup,
-  ListGroupItem,
-  Button,
-  Alert,
-} from 'reactstrap';
+import { Input, Form, Button, List, Skeleton } from 'antd';
 
 type Contact = {|
   role: String,
@@ -25,249 +16,182 @@ type Contact = {|
   note: String,
 |};
 
-type FormProps = {|
-  contacts: Array<Contact>,
-  setContacts: () => void,
-  setTotalSubmitEnabled: () => void,
-|};
-
-type EntryProps = {|
-  contact: Contact,
-  contacts: Array<Contact>,
-  setContacts: () => void,
-|};
-
-const ContactEntry = (props: EntryProps) => {
-  const { contact, contacts, setContacts } = props;
-
-  return (
-    <ListGroupItem>
-      <div className="contactsContainer">
-        <div className="contactNameView">{contact.name}</div>
-        <div className="contactRoleView">{contact.role}</div>
-        <div className="contactEmailView">{contact.email}</div>
-        <div className="contactPhoneNumber">{contact.phoneNumber}</div>
-        <div className="contactNoteView">{contact.note}</div>
-        <div className="contactDeleteButton">
-          <Button
-            color="danger"
-            onClick={e => {
-              e.preventDefault();
-              setContacts(contacts.filter(c => c !== contact));
-            }}
-          >
-            Delete
-          </Button>
-        </div>
-      </div>
-    </ListGroupItem>
-  );
-};
-
-const onSubmit = args => {
-  const {
-    e,
-    submitEnabled,
-    contact,
-    contacts,
-    setContacts,
-    setRole,
-    setName,
-    setEmail,
-    setPhoneNumber,
-    setNote,
-    setErrorMessage,
-  } = args;
-
-  e.preventDefault();
-
-  if (submitEnabled) {
-    if (contact.name !== '' && contact.role !== '') {
-      setContacts([...contacts, contact]);
-
-      setRole('');
-      setName('');
-      setEmail('');
-      setPhoneNumber('');
-      setNote('');
-
-      setErrorMessage('');
-
-      document.getElementById('contactRoleInput_').value = '';
-      document.getElementById('contactNameInput_').value = '';
-      document.getElementById('contactEmailInput_').value = '';
-      document.getElementById('contactPhoneNumberInput_').value = '';
-      document.getElementById('contactNoteInput_').value = '';
-    } else {
-      setErrorMessage('A field is missing.');
-    }
-  }
-};
-
-const onInputFocus = (setTotalSubmitEnabled, setSubmitEnabled) => {
-  setTotalSubmitEnabled(false);
+const onInputFocus = (setSubmitEnabled, setTotalSubmitEnabled) => {
   setSubmitEnabled(true);
+  setTotalSubmitEnabled(false);
 };
 
-const onInputBlur = (
-  setTotalSubmitEnabled,
-  setSubmitEnabled,
-  setErrorMessage,
-) => {
-  setTotalSubmitEnabled(true);
+const onInputBlur = (setSubmitEnabled, setTotalSubmitEnabled) => {
   setSubmitEnabled(false);
-  setErrorMessage('');
+  setTotalSubmitEnabled(true);
 };
 
-const NewResourceContactForm = (props: FormProps) => {
+const ContactForm = Form.create({ name: 'contactForm' })(props => {
   const { contacts, setContacts, setTotalSubmitEnabled } = props;
 
-  const [submitEnabled, setSubmitEnabled] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const { getFieldDecorator, setFieldsValue, getFieldValue } = props.form;
 
-  const [role, setRole] = useState('');
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [note, setNote] = useState('');
+  const [submitEnabled, setSubmitEnabled] = useState(false);
 
   return (
-    <>
-      {errorMessage !== '' && <Alert color="danger">{errorMessage}</Alert>}
-      <ListGroup>
-        {contacts.map(cobj => {
-          return ContactEntry({
-            contact: cobj,
-            contacts,
-            setContacts,
-          });
-        })}
-      </ListGroup>
-      <Form
-        onSubmit={e =>
-          onSubmit({
-            e,
-            submitEnabled,
-            contact: {
-              role,
-              name,
-              email,
-              phoneNumber,
-              note,
+    <Form
+      className="contactForm"
+      onSubmit={e => {
+        const contactName = getFieldValue('contactName');
+        const contactRole = getFieldValue('contactRole');
+
+        if (contactName !== '' && contactRole !== '') {
+          setContacts([
+            ...contacts,
+            {
+              name: contactName,
+              role: contactRole,
+              email: getFieldValue('contactEmail') || '',
+              phoneNumber: getFieldValue('contactPhoneNumber') || '',
+              note: getFieldValue('contactNote') || '',
             },
-            contacts,
-            setContacts,
-            setRole,
-            setName,
-            setEmail,
-            setPhoneNumber,
-            setNote,
-            setErrorMessage,
-          })
+          ]);
+
+          setFieldsValue({
+            contactName: '',
+            contactRole: '',
+            contactEmail: '',
+            contactPhoneNumber: '',
+            contactNote: '',
+          });
         }
-      >
-        <FormGroup>
-          <div className="contactContainer">
-            <div className="contactRoleInput">
-              <Input
-                id="contactRoleInput_"
-                type="text"
-                placeholder="Role"
-                onChange={e => setRole(e.target.value)}
-                onFocus={e =>
-                  onInputFocus(setTotalSubmitEnabled, setSubmitEnabled)
-                }
-                onBlur={e =>
-                  onInputBlur(
-                    setTotalSubmitEnabled,
-                    setSubmitEnabled,
-                    setErrorMessage,
-                  )
-                }
-              />
-            </div>
-            <div className="contactNameInput">
-              <Input
-                id="contactNameInput_"
-                type="text"
-                placeholder="Name"
-                onChange={e => setName(e.target.value)}
-                onFocus={e =>
-                  onInputFocus(setTotalSubmitEnabled, setSubmitEnabled)
-                }
-                onBlur={e =>
-                  onInputBlur(
-                    setTotalSubmitEnabled,
-                    setSubmitEnabled,
-                    setErrorMessage,
-                  )
-                }
-              />
-            </div>
-            <div className="contactEmailInput">
-              <Input
-                id="contactEmailInput_"
-                type="text"
-                placeholder="Email"
-                onChange={e => setEmail(e.target.value)}
-                onFocus={e =>
-                  onInputFocus(setTotalSubmitEnabled, setSubmitEnabled)
-                }
-                onBlur={e =>
-                  onInputBlur(
-                    setTotalSubmitEnabled,
-                    setSubmitEnabled,
-                    setErrorMessage,
-                  )
-                }
-              />
-            </div>
-            <div className="contactPhoneNumberInput">
-              <Input
-                id="contactPhoneNumberInput_"
-                type="text"
-                placeholder="Phone number"
-                onChange={e => setPhoneNumber(e.target.value)}
-                onFocus={e =>
-                  onInputFocus(setTotalSubmitEnabled, setSubmitEnabled)
-                }
-                onBlur={e =>
-                  onInputBlur(
-                    setTotalSubmitEnabled,
-                    setSubmitEnabled,
-                    setErrorMessage,
-                  )
-                }
-              />
-            </div>
-            <div className="contactNoteInput">
-              <Input
-                id="contactNoteInput_"
-                type="textarea"
-                placeholder="Note"
-                onChange={e => setNote(e.target.value)}
-                onFocus={e =>
-                  onInputFocus(setTotalSubmitEnabled, setSubmitEnabled)
-                }
-                onBlur={e =>
-                  onInputBlur(
-                    setTotalSubmitEnabled,
-                    setSubmitEnabled,
-                    setErrorMessage,
-                  )
-                }
-              />
-            </div>
-          </div>
-        </FormGroup>
-        <Input
-          type="submit"
-          value="Add contact"
-          onClick={() => setSubmitEnabled(true)}
-        />
-      </Form>
-    </>
+      }}
+    >
+      <Form.Item>
+        {getFieldDecorator('contactName', {
+          rules: [
+            {
+              required: true,
+              message: 'Please input a name!',
+            },
+          ],
+        })(
+          <Input
+            placeholder="Contact Name"
+            onFocus={e => onInputFocus(setSubmitEnabled, setTotalSubmitEnabled)}
+            onBlur={e => onInputBlur(setSubmitEnabled, setTotalSubmitEnabled)}
+          />,
+        )}
+      </Form.Item>
+      <Form.Item>
+        {getFieldDecorator('contactRole', {
+          rules: [
+            {
+              required: true,
+              message: 'Please input a role!',
+            },
+          ],
+        })(
+          <Input
+            placeholder="Contact Role"
+            onFocus={e => onInputFocus(setSubmitEnabled, setTotalSubmitEnabled)}
+            onBlur={e => onInputBlur(setSubmitEnabled, setTotalSubmitEnabled)}
+          />,
+        )}
+      </Form.Item>
+      <Form.Item>
+        {getFieldDecorator('contactEmail', {
+          rules: [
+            {
+              required: false,
+            },
+          ],
+        })(
+          <Input
+            placeholder="Contact Email"
+            onFocus={e => onInputFocus(setSubmitEnabled, setTotalSubmitEnabled)}
+            onBlur={e => onInputBlur(setSubmitEnabled, setTotalSubmitEnabled)}
+          />,
+        )}
+      </Form.Item>
+      <Form.Item>
+        {getFieldDecorator('contactPhoneNumber', {
+          rules: [
+            {
+              required: false,
+            },
+          ],
+        })(
+          <Input
+            placeholder="Contact Phone Number"
+            onFocus={e => onInputFocus(setSubmitEnabled, setTotalSubmitEnabled)}
+            onBlur={e => onInputBlur(setSubmitEnabled, setTotalSubmitEnabled)}
+          />,
+        )}
+      </Form.Item>
+      <Form.Item>
+        {getFieldDecorator('contactNote', {
+          rules: [
+            {
+              required: false,
+            },
+          ],
+        })(
+          <Input
+            placeholder="Contact Note"
+            onFocus={e => onInputFocus(setSubmitEnabled, setTotalSubmitEnabled)}
+            onBlur={e => onInputBlur(setSubmitEnabled, setTotalSubmitEnabled)}
+          />,
+        )}
+      </Form.Item>
+      <Button type="primary" htmlType="submit" className="contactSubmit">
+        Add Contact
+      </Button>
+    </Form>
+  );
+});
+
+const ContactFormItem = props => {
+  const { contacts, setContacts, setTotalSubmitEnabled } = props;
+
+  return (
+    <Form.Item label="Contacts">
+      <List
+        dataSource={contacts}
+        renderItem={contact => (
+          <List.Item
+            actions={[
+              <Button
+                onClick={e => {
+                  e.preventDefault();
+                  setContacts(
+                    contacts.filter(
+                      other =>
+                        other.role !== contact.role ||
+                        other.name !== contact.name ||
+                        other.email !== contact.email ||
+                        other.phoneNumber !== contact.phoneNumber ||
+                        other.note !== contact.note,
+                    ),
+                  );
+                }}
+              >
+                Delete
+              </Button>,
+            ]}
+          >
+            <List.Item.Meta title={contact.name} description={contact.role} />
+            {contact.email}
+            <br />
+            {contact.phoneNumber}
+            <br />
+            {contact.note}
+          </List.Item>
+        )}
+      />
+      <ContactForm
+        contacts={contacts}
+        setContacts={setContacts}
+        setTotalSubmitEnabled={setTotalSubmitEnabled}
+        wrappedComponentRef={form => (this.form = form)}
+      />
+    </Form.Item>
   );
 };
 
-export default NewResourceContactForm;
+export default ContactFormItem;
