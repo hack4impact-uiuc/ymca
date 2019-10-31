@@ -3,7 +3,6 @@ import { useHistory } from 'react-router-dom';
 import { Button, Form, Input } from 'antd';
 import 'antd/dist/antd.css';
 import '../css/RegisterForm.css';
-import RegisterSubmitGroup from './RegisterSubmitGroup';
 
 import { register } from '../utils/auth';
 
@@ -41,10 +40,10 @@ class RegisterForm extends Component {
     }
   };
 
-  compareToFirstPassword = (rule, value, callback) => {
+  compareToFirstPassword = (value, callback) => {
     const { form } = this.props;
     if (value && value !== form.getFieldValue('password')) {
-      callback('Two passwords that you enter is inconsistent!');
+      callback('The two passwords you entered are inconsistent!');
     } else {
       callback();
     }
@@ -129,12 +128,7 @@ class RegisterForm extends Component {
   };
 
   render() {
-    const {
-      showRegisterFields,
-      emailFieldIsEmpty,
-      passwordFieldIsEmpty,
-      isAuthSuccessful,
-    } = this.state;
+    const { isAuthSuccessful } = this.state;
 
     const formItemLayout = {
       labelCol: {
@@ -158,15 +152,6 @@ class RegisterForm extends Component {
         },
       },
     };
-    let confirmPasswordField;
-    let companyIdField;
-    const submit = (
-      <RegisterSubmitGroup
-        inputText="Login"
-        linkText="Register"
-        linkOnClick={() => this.setShowRegisterFields(true)}
-      />
-    );
 
     const { getFieldDecorator } = this.props.form;
     return (
