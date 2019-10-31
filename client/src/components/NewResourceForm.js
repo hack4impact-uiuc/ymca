@@ -1,26 +1,19 @@
-import React, { useState, useDebugValue } from 'react';
+import React, { useState, useDebugValue, useEffect } from 'react';
 import '../css/NewResourceForm.css';
-import {
-  Alert,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  FormText,
-  Button,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
-} from 'reactstrap';
+import { Form, Input, Button, Cascader } from 'antd';
+import Select from 'react-select';
 import { addResource, getCategories } from '../utils/api';
-import NewResourcePhoneNumberForm from './NewResourcePhoneNumberForm';
+import NewResourcePhoneNumberFormItem from './NewResourcePhoneNumberForm';
 import NewResourceContactForm from './NewResourceContactForm';
 import NewResourceFinancialAidForm from './NewResourceFinancialAidForm';
+
+const { TextArea } = Input;
 
 const onSubmitNewResourceForm = (e, enabled, resource, onSucc, onErr) => {
   e.preventDefault();
 
   if (enabled) {
+    // res is a promise so yea
     const res = addResource(resource);
     if (res.status === 200) {
       onSucc(res);
@@ -30,7 +23,50 @@ const onSubmitNewResourceForm = (e, enabled, resource, onSucc, onErr) => {
   }
 };
 
-const NewResourceForm = () => {
+const fetchCategories = async setErrorMessage => {
+  const res = await getCategories();
+
+  if (res.code === 200) {
+    return res.result;
+  }
+  setErrorMessage(res.message);
+};
+
+const generateCategoryOptions = fetchedCategories => {
+  const categories = [];
+
+  fetchedCategories.forEach(fetched => {
+    categories.push({
+      value: fetched.name,
+      label: fetched.name,
+    });
+  });
+
+  return categories;
+};
+
+const getSubcategoriesOf = (category, fetchedCategories) => {
+  let subcategories = [];
+
+  if (category != '') {
+    fetchCategories.forEach(entry => {
+      if (entry.name === category) {
+        subcategories = [];
+
+        entry.subcategories.forEach(name => {
+          subcategories.push({
+            value: name,
+            label: name,
+          });
+        });
+      }
+    });
+  }
+
+  return subcategories;
+};
+
+const NewResourceForm = props => {
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [totalSubmitEnabled, setTotalSubmitEnabled] = useState(true);
@@ -54,32 +90,39 @@ const NewResourceForm = () => {
   const [comments, setComments] = useState([]);
   const [internalNotes, setInternalNotes] = useState([]);
 
-  // load categories
-  const categories = [];
-  const subcategories = {};
-  getCategories().then(res => {
-    if (res.code === 200) {
-      const fetchedCategories = res.result;
+  const [categoryOptions, setCategoryOptions] = useState([]);
+  const [subcategoryOptions, setSubcategoryOptions] = useState([
+    {
+      label: 'Please select a category first',
+      value: 'null',
+    },
+  ]);
 
-      fetchedCategories.forEach(fetched => {
-        categories.push(
-          <option>
-            <p>{fetched.name}</p>
-          </option>,
-        );
-        subcategories[fetched.name] = fetched.subcategories;
-      });
-    } else {
-      setErrorMessage(res.message);
-    }
+  let fetchedCategories = [];
+
+  useEffect(() => {
+    fetchedCategories = fetchCategories(setErrorMessage).then(categories => {
+      setCategoryOptions(generateCategoryOptions(categories));
+      setSubcategoryOptions(category, categories);
+
+      return categories;
+    });
+
+    return () => {
+      fetchedCategories = null;
+    };
   });
 
-  console.log(categories);
-  console.log(subcategories);
+  const {
+    getFieldDecorator,
+    getFieldsError,
+    getFieldError,
+    isFieldTouched,
+  } = props.form;
 
   return (
     <Form
-      className="form"
+      className="newResourceForm"
       onSubmit={e =>
         onSubmitNewResourceForm(
           e,
@@ -115,161 +158,88 @@ const NewResourceForm = () => {
         )
       }
     >
-      {errorMessage !== '' && <Alert color="danger">{errorMessage}</Alert>}
+      <Form.Item label="Category">
+        {getFieldDecorator('category', {
+          rules: [
+            {
+              required: true,
+              message: 'Please select a category!',
+            },
+          ],
+        })(
+          <Select
+            className="newResourceSelect"
+            options={categoryOptions}
+            onChange={e => setCategory(e.value)}
+            placeholder="Select category..."
+          />,
+        )}
+      </Form.Item>
+      <Form.Item label="Subcategory">
+        {getFieldDecorator('subcategory', {
+          rules: [
+            {
+              required: true,
+              message: 'Please select a subcategory!',
+            },
+          ],
+        })(
+          <Select
+            className="newResourceSelect"
+            options={subcategoryOptions}
+            onChange={e => setSubcategory(e.value)}
+            placeholder="Select subcategory..."
+          />,
+        )}
+      </Form.Item>
+      <Form.Item label="Resource Name">
+        {getFieldDecorator('resourceName', {
+          rules: [
+            {
+              required: true,
+              message: 'Please input a resource name!',
+            },
+          ],
+        })(<Input placeholder="Resource Name" />)}
+      </Form.Item>
+      <Form.Item label="Description">
+        {getFieldDecorator('description', {
+          rules: [
+            {
+              required: true,
+              message: 'Please input a description!',
+            },
+          ],
+        })(<TextArea rows={4} placeholder="Description" />)}
+      </Form.Item>
+      <Form.Item label="Website">
+        {getFieldDecorator('website', {})(<Input placeholder="Website" />)}
+      </Form.Item>
+      {NewResourcePhoneNumberFormItem({
+        phoneNumbers,
+        setPhoneNumbers,
+        setTotalSubmitEnabled,
+        getFieldDecorator,
+      })}
+      <Form.Item label="Contacts"></Form.Item>
+      <Form.Item label="Address"></Form.Item>
+      <Form.Item label="City">
+        {getFieldDecorator('city', {})(<Input placeholder="City" />)}
+      </Form.Item>
+      <Form.Item label="Hours of Operation"></Form.Item>
+      <Form.Item label="Eligibility Requirements"></Form.Item>
+      <Form.Item label="Financial Aid Details"></Form.Item>
+      <Form.Item label="Cost"></Form.Item>
+      <Form.Item label="Available Languages"></Form.Item>
+      <Form.Item label="Recommendation"></Form.Item>
+      <Form.Item label="Comments"></Form.Item>
+      <Form.Item label="Internal Notes"></Form.Item>
 
-      <FormGroup>
-        <Label for="category">Category</Label>
-        <Input
-          type="select"
-          name="selectCategory"
-          onChange={e => setCategory(e.target.value)}
-        >
-          {categories}
-        </Input>
-      </FormGroup>
-      <FormGroup>
-        <Label for="subcategory">Subcategory</Label>
-        <Input
-          type="select"
-          name="selectSubcategory"
-          onChange={e => setSubcategory(e.target.value)}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Label for="resourceName">Resource Name</Label>
-        <Input
-          type="text"
-          name="name"
-          placeholder="Resource Name"
-          onChange={e => setResourceName(e.target.value)}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Label for="description" onChange={setDescription}>
-          Description
-        </Label>
-        <Input
-          type="textfield"
-          name="description"
-          placeholder="Description"
-          onChange={e => setDescription(e.target.value)}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Label for="website">Website</Label>
-        <Input
-          type="text"
-          name="website"
-          placeholder="Website"
-          onChange={e => setWebsite(e.target.value)}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Label for="email">Email</Label>
-        <Input
-          type="email"
-          name="email"
-          placeholder="Email"
-          onChange={e => setEmail(e.target.value)}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Label for="phoneNumbers">Phone Numbers</Label>
-        {NewResourcePhoneNumberForm({
-          phoneNumbers,
-          setPhoneNumbers,
-          setTotalSubmitEnabled,
-        })}
-      </FormGroup>
-      <FormGroup>
-        <Label for="contacts">Contacts</Label>
-        {NewResourceContactForm({
-          contacts,
-          setContacts,
-          setTotalSubmitEnabled,
-        })}
-      </FormGroup>
-      <FormGroup>
-        <Label for="address">Address</Label>
-        <Input
-          type="text"
-          name="address"
-          placeholder="Address"
-          onChange={e => setAddress(e.target.value)}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Label for="city">City</Label>
-        <Input
-          type="text"
-          name="city"
-          placeholder="City"
-          onChange={e => setCity(e.target.value)}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Label for="hoursOfOperation">Hours of Operation</Label>
-        <Input
-          type="text"
-          name="hoursOfOperation"
-          placeholder="00:00:00"
-          onChange={e => setHoursOfOperation(e.target.value)}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Label for="eligibilityRequirements">Eligibility Requirements</Label>
-        <Input
-          type="text"
-          name="eligibilityRequirements"
-          placeholder="Eligibility Requirements"
-          onChange={e => setEligibilityRequirements(e.target.value)}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Label for="financialAidDetails">Financial Aid Details</Label>
-        {NewResourceFinancialAidForm({
-          financialAidDetails,
-          setFinancialAidDetails,
-          setTotalSubmitEnabled,
-        })}
-      </FormGroup>
-      <FormGroup>
-        <Label for="cost">Cost</Label>
-        <InputGroup>
-          <InputGroupAddon addonType="prepend">$</InputGroupAddon>
-          <Input
-            type="text"
-            placeholder="Cost"
-            onChange={e => setCost(e.target.value)}
-          />
-        </InputGroup>
-      </FormGroup>
-      <FormGroup>
-        <Label for="availableLanguages">Available Languages</Label>
-        <Input
-          type="text"
-          placeholder="Languages..."
-          onChange={e => setAvailableLanguages(e.target.value)}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Label for="recommendation">Recommendation</Label>
-      </FormGroup>
-      <FormGroup>
-        <Label for="comments">Comments</Label>
-        <Input type="textarea" onChange={e => setComments(e.target.value)} />
-      </FormGroup>
-      <FormGroup for="internalNotes">
-        <Label for="internalNotes">Internal Notes</Label>
-        <Input
-          type="textarea"
-          onChange={e => setInternalNotes(e.target.value)}
-        />
-      </FormGroup>
-
-      <Input className="submitButton" type="submit" value="Add Resource" />
+      <Button type="primary" htmlType="submit" className="newResourceSubmit">
+        Add Resource
+      </Button>
     </Form>
   );
 };
 
-export default NewResourceForm;
+export default Form.create({ name: 'newResource' })(NewResourceForm);

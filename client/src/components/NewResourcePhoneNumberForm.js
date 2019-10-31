@@ -6,26 +6,11 @@ TODO: Implement phoneType into form.
 
 import React, { useState } from 'react';
 import '../css/NewResourcePhoneNumberForm.css';
-import {
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  ListGroup,
-  ListGroupItem,
-  Button,
-  Alert,
-} from 'reactstrap';
+import { Input, Form, Button, List, Skeleton } from 'antd';
 
 type PhoneNumber = {|
   phoneNumber: Number,
   phoneType: String,
-|};
-
-type FormProps = {|
-  phoneNumbers: Array<PhoneNumber>,
-  setPhoneNumbers: () => void,
-  setTotalSubmitEnabled: () => void,
 |};
 
 type EntryProps = {|
@@ -34,62 +19,6 @@ type EntryProps = {|
   phoneNumbers: Array<String>,
   setPhoneNumbers: () => void,
 |};
-
-const PhoneNumberEntry = (props: EntryProps) => {
-  const { phoneNumber, phoneType, phoneNumbers, setPhoneNumbers } = props;
-
-  return (
-    <ListGroupItem>
-      <div className="phoneNumberContainer">
-        <div className="phoneNumberView">{phoneNumber}</div>
-        <div className="phoneTypeView">{phoneType}</div>
-        <div className="phoneNumberDeleteButton">
-          <Button
-            color="danger"
-            onClick={e => {
-              e.preventDefault();
-              setPhoneNumbers(
-                phoneNumbers.filter(num => num.phoneNumber !== phoneNumber),
-              );
-            }}
-          >
-            Delete
-          </Button>
-        </div>
-      </div>
-    </ListGroupItem>
-  );
-};
-
-const onSubmit = args => {
-  const {
-    e,
-    submitEnabled,
-    phoneNumber,
-    phoneType,
-    phoneNumbers,
-    setPhoneNumber,
-    setPhoneNumbers,
-    setPhoneType,
-    setErrorMessage,
-  } = args;
-
-  e.preventDefault();
-
-  if (submitEnabled) {
-    if (phoneNumber !== '' && phoneType !== '') {
-      setPhoneNumbers([...phoneNumbers, { phoneNumber, phoneType }]);
-      setPhoneNumber('');
-      setPhoneType('');
-      setErrorMessage('');
-
-      document.getElementById('phoneNumberInput_').value = '';
-      document.getElementById('phoneTypeInput_').value = '';
-    } else {
-      setErrorMessage('A field is missing.');
-    }
-  }
-};
 
 const onInputFocus = (setTotalSubmitEnabled, setSubmitEnabled) => {
   setTotalSubmitEnabled(false);
@@ -106,91 +35,118 @@ const onInputBlur = (
   setErrorMessage('');
 };
 
-const NewResourcePhoneNumberForm = (props: FormProps) => {
-  const { phoneNumbers, setPhoneNumbers, setTotalSubmitEnabled } = props;
+const PhoneNumberForm = Form.create({ name: 'phoneNumber' })(props => {
+  const { setPhoneNumbers, phoneNumbers } = props;
+
+  const { setFieldsValue, getFieldValue, getFieldDecorator } = props.form;
+
+  return (
+    <Form
+      className="phoneNumberForm"
+      onSubmit={e => {
+        const phoneNumber = getFieldValue('phoneNumber');
+        const phoneType = getFieldValue('phoneType') || '';
+
+        if (phoneNumber !== '') {
+          setPhoneNumbers([
+            ...phoneNumbers,
+            {
+              phoneNumber,
+              phoneType,
+            },
+          ]);
+
+          setFieldsValue({
+            phoneNumber: '',
+            phoneType: '',
+          });
+        }
+      }}
+    >
+      <Form.Item>
+        {getFieldDecorator('phoneNumber', {
+          rules: [
+            {
+              required: true,
+              message: 'Please input a phone number!',
+              whitespace: true,
+            },
+          ],
+        })(<Input id="phoneNumberInput" placeholder="Phone Number" />)}
+      </Form.Item>
+      <Form.Item>
+        {getFieldDecorator('phoneType', {
+          rules: [
+            {
+              required: true,
+              message: 'Please input phone type!',
+            },
+          ],
+        })(
+          <Input
+            id="phoneTypeInput"
+            placeholder="Phone Type (i.e. Mobile, Home, etc.)"
+          />,
+        )}
+      </Form.Item>
+      <Button type="primary" htmlType="submit" className="phoneNumberSubmit">
+        Add Phone Number
+      </Button>
+    </Form>
+  );
+});
+
+const NewResourcePhoneNumberFormItem = props => {
+  const {
+    phoneNumbers,
+    setPhoneNumbers,
+    setTotalSubmitEnabled,
+    getFieldDecorator,
+  } = props;
 
   const [submitEnabled, setSubmitEnabled] = useState(false);
-
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [phoneType, setPhoneType] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
   return (
-    <>
-      {errorMessage !== '' && <Alert color="danger">{errorMessage}</Alert>}
-      <ListGroup>
-        {phoneNumbers.map(pnobj => {
-          return PhoneNumberEntry({
-            phoneNumber: pnobj.phoneNumber,
-            phoneType: pnobj.phoneType,
-            phoneNumbers,
-            setPhoneNumbers,
-          });
-        })}
-      </ListGroup>
-      <Form
-        onSubmit={e =>
-          onSubmit({
-            e,
-            submitEnabled,
-            phoneNumber,
-            phoneType,
-            phoneNumbers,
-            setPhoneNumber,
-            setPhoneNumbers,
-            setPhoneType,
-            setErrorMessage,
-          })
-        }
-      >
-        <FormGroup>
-          <div className="phoneInputContainer">
-            <div className="phoneNumberInput">
-              <Input
-                id="phoneNumberInput_"
-                type="text"
-                placeholder="Enter phone number"
-                onChange={e => setPhoneNumber(e.target.value)}
-                onFocus={e =>
-                  onInputFocus(setTotalSubmitEnabled, setSubmitEnabled)
-                }
-                onBlur={e =>
-                  onInputBlur(
-                    setTotalSubmitEnabled,
-                    setSubmitEnabled,
-                    setErrorMessage,
-                  )
-                }
-              />
-            </div>
-            <div className="phoneTypeInput">
-              <Input
-                id="phoneTypeInput_"
-                type="text"
-                placeholder="Enter phone type (i.e. Mobile, Home, ...)"
-                onChange={e => setPhoneType(e.target.value)}
-                onFocus={e =>
-                  onInputFocus(setTotalSubmitEnabled, setSubmitEnabled)
-                }
-                onBlur={e =>
-                  onInputBlur(
-                    setTotalSubmitEnabled,
-                    setSubmitEnabled,
-                    setErrorMessage,
-                  )
-                }
-              />
-            </div>
-          </div>
-        </FormGroup>
-        <Input
-          type="submit"
-          value="Add phone number"
-          onClick={() => setSubmitEnabled(true)}
-        />
-      </Form>
-    </>
+    <Form.Item label="Phone Number">
+      <List
+        className="phoneNumberList"
+        itemLayout="horizontal"
+        dataSource={phoneNumbers}
+        renderItem={item => (
+          <List.Item
+            actions={[
+              <Button
+                onClick={e => {
+                  e.preventDefault();
+                  setPhoneNumbers(
+                    phoneNumbers.filter(
+                      num =>
+                        num.phoneNumber !== item.phoneNumber ||
+                        num.phoneType !== item.phoneType,
+                    ),
+                  );
+                }}
+              >
+                Delete
+              </Button>,
+            ]}
+          >
+            <List.Item.Meta
+              title={item.phoneNumber}
+              description={item.phoneType}
+            />
+          </List.Item>
+        )}
+      />
+
+      <PhoneNumberForm
+        phoneNumbers={phoneNumbers}
+        setPhoneNumbers={setPhoneNumbers}
+        wrappedComponentRef={form => (this.form = form)}
+      />
+    </Form.Item>
   );
 };
 
-export default NewResourcePhoneNumberForm;
+export default NewResourcePhoneNumberFormItem;
