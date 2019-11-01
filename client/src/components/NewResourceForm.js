@@ -8,8 +8,8 @@ TODO: Improve UI and UX.
 
 import React, { useState, useDebugValue, useEffect } from 'react';
 import '../css/NewResourceForm.css';
-import { Form, Input, Button, Cascader, Alert } from 'antd';
-import Select from 'react-select';
+import { Form, Input, Button, Cascader, Alert, Select } from 'antd';
+import fetch from 'isomorphic-fetch';
 import { addResource, getCategories } from '../utils/api';
 import PhoneNumberFormItem from './NewResourcePhoneNumberForm';
 import ContactFormItem from './NewResourceContactForm';
@@ -17,18 +17,29 @@ import FinancialAidFormItem from './NewResourceFinancialAidForm';
 import CategorySelector from './NewResourceCategorySelector';
 
 const { TextArea } = Input;
+const { Option } = Select;
+
+const SERVER_URI = 'https://ymca.now.sh';
 
 const onSubmitNewResourceForm = (e, enabled, resource, onSucc, onErr) => {
   e.preventDefault();
 
   if (enabled) {
-    addResource(resource).then(res => {
-      if (res != null) {
-        onSucc(res);
-      } else {
-        onErr('Something went wrong!');
-      }
-    });
+    fetch(`${SERVER_URI}/api/resources`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(resource),
+    })
+      .then(res => res.json())
+      .then(res => {
+        if (res.code === 201) {
+          onSucc(res.result);
+        } else {
+          onErr(res);
+        }
+      });
   }
 };
 
@@ -76,22 +87,24 @@ const NewResourceForm = (props: FormProps) => {
           {
             category,
             subcategory,
-            resourceName: getFieldValue('resourceName'),
-            description: getFieldValue('description'),
-            website: getFieldValue('website'),
-            email: getFieldValue('email'),
+            name: getFieldValue('resourceName') || '',
+            description: getFieldValue('description') || '',
+            website: getFieldValue('website') || '',
+            email: getFieldValue('email') || '',
             phoneNumbers,
             contacts,
-            address: getFieldValue('email'),
-            city: getFieldValue('city'),
-            hoursOfOperation: getFieldValue('hoursOfOperation'),
-            eligibilityRequirements: getFieldValue('eligibilityRequirements'),
+            address: getFieldValue('email') || '',
+            city: getFieldValue('city') || '',
+            hoursOfOperation: getFieldValue('hoursOfOperation') || '',
+            eligibilityRequirements:
+              getFieldValue('eligibilityRequirements') || '',
             financialAidDetails,
-            cost: getFieldValue('cost'),
-            availableLanguages: getFieldValue('availableLanguages'),
+            cost: getFieldValue('cost') || '',
+            availableLanguages: getFieldValue('availableLanguages') || '',
+            lastedUpdated: Date.now(),
             recommendation: getFieldValue('recommendation'),
-            comments: getFieldValue('comments'),
-            internalNotes: getFieldValue('internalNotes'),
+            comments: getFieldValue('comments') || '',
+            internalNotes: getFieldValue('internalNotes') || '',
           },
           res => {
             setSuccessMessage('Resource successfully created!');
@@ -99,7 +112,7 @@ const NewResourceForm = (props: FormProps) => {
           },
           res => {
             setSuccessMessage('');
-            setErrorMessage('Something went wrong!');
+            setErrorMessage(res.message);
           },
         )
       }
@@ -195,7 +208,14 @@ const NewResourceForm = (props: FormProps) => {
       </Form.Item>
       <Form.Item label="Recommendation">
         {getFieldDecorator('recommendation', {})(
-          <Input placeholder="Recommendation" />,
+          <Select
+            defaultValue="Yes"
+            onChange={e => setRecommendation(e.target.value)}
+          >
+            <Option value="Yes">Yes</Option>
+            <Option value="Maybe">Maybe</Option>
+            <Option value="No">No</Option>
+          </Select>,
         )}
       </Form.Item>
       <Form.Item label="Comments">
