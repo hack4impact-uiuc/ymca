@@ -6,6 +6,7 @@ import ResourceDetail from './ResourceDetail';
 import RegisterForm from './RegisterForm';
 import Login from './Login';
 import Filter from './Filter';
+import AdminResourceManager from './AdminResourceManager';
 
 export default class App extends React.Component {
   render() {
@@ -18,6 +19,7 @@ export default class App extends React.Component {
           <Route path="/resource/:id" component={ResourceDetail} />
           <Route path="/login" exact component={Login} />
           <Route path="/filter" exact component={Filter} />
+          <Route path="/admin" exact component={AdminResourceManager} />
         </Router>
       </>
     );
