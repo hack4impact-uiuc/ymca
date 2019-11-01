@@ -3,6 +3,7 @@ import '../css/ResourceDetail.css';
 import { Row, Col, Card, Icon } from 'antd';
 import PropTypes from 'prop-types';
 import { getResourceByID } from '../utils/api';
+import ResourceBreadcrumb from './ResourceBreadcrumb';
 
 const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
@@ -22,6 +23,8 @@ export default class ResourceDetail extends Component {
       languages: [],
       requiredDocuments: [],
       cost: '',
+      category: '',
+      subcategory: ''
     };
   }
 
@@ -36,6 +39,8 @@ export default class ResourceDetail extends Component {
         phone: result.phoneNumbers,
         description: result.description,
         languages: result.availableLanguages,
+        category: result.category,
+        subcategory: result.subcategory
       });
     } else {
       // redirect to 404
@@ -55,10 +60,16 @@ export default class ResourceDetail extends Component {
       languages,
       requiredDocuments,
       cost,
+      category,
+      subcategory
     } = this.state;
 
     return (
       <div className="ResourceDetail">
+        {category.length > 0 && subcategory.length > 0
+        && <Row>
+          <ResourceBreadcrumb categorySelected={category} subcategorySelected={subcategory} resource={name}/>
+        </Row>}
         <Row>
           <Col span={15}>
             <div className="resourceName">{name}</div>
