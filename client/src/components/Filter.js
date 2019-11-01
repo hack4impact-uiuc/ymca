@@ -42,6 +42,26 @@ export default class Filter extends Component<Props, State> {
     };
   }
 
+  async componentDidMount() {
+    const res = await getCategories();
+    const categories = {};
+    if (res != null) {
+      res.result.forEach(category => {
+        categories[category.name] = category.subcategories;
+      });
+    }
+    this.updateResources();
+    this.setState({
+      categories,
+    });
+  }
+
+  async componentDidUpdate(prevProps) {
+    if (prevProps.location.search !== this.props.location.search) {
+      this.updateResources();
+    }
+  }
+
   getCategorySelectedFromSearch() {
     const { search } = this.props.location;
     const subcategoryIndex = search.indexOf('&');
@@ -58,45 +78,6 @@ export default class Filter extends Component<Props, State> {
     subcategorySelected = subcategorySelected.replace(/%[\d]*/g, ' ');
 
     return [categorySelected, subcategorySelected];
-  }
-
-  async updateResources() {
-    const [
-      categorySelected,
-      subcategorySelected,
-    ] = this.getCategorySelectedFromSearch();
-    const resources =
-      categorySelected === 'All Resources'
-        ? await getResources()
-        : await getResourcesByCategory(categorySelected);
-    this.setState({
-      categorySelected,
-      filteredResources: resources == null ? [] : resources.result,
-      openKeys: [categorySelected],
-      resources: resources == null ? [] : resources.result,
-      subcategorySelected,
-    });
-    this.filterResources('All', 'All', 'All', subcategorySelected);
-  }
-
-  async componentDidMount() {
-    const res = await getCategories();
-    const categories = {};
-    if (res != null) {
-      res.result.forEach(
-        category => (categories[category.name] = category.subcategories),
-      );
-    }
-    this.updateResources();
-    this.setState({
-      categories,
-    });
-  }
-
-  async componentDidUpdate(prevProps) {
-    if (prevProps.location.search !== this.props.location.search) {
-      this.updateResources();
-    }
   }
 
   filterResources = (cost, language, location, subcategory) => {
@@ -160,12 +141,10 @@ export default class Filter extends Component<Props, State> {
 
   onOpenChange = async openKeys => {
     if (openKeys.length === 0) {
-      this.props.history.push({
-        pathname: '/resources',
-        search: `?category=All Resources`,
-      });
+      this.setState({ openKeys: [] });
       return;
     }
+
     const latestOpenKey = openKeys.find(
       key => this.state.openKeys.indexOf(key) === -1,
     );
@@ -205,6 +184,7 @@ export default class Filter extends Component<Props, State> {
                 cost={first.cost}
                 id={first._id}
                 key={first._id}
+                location={first.location}
                 name={first.name}
               />
             </Col>
@@ -215,6 +195,7 @@ export default class Filter extends Component<Props, State> {
                   cost={second.cost}
                   id={second._id}
                   key={second._id}
+                  location={second.location}
                   name={second.name}
                 />
               </Col>
@@ -226,6 +207,7 @@ export default class Filter extends Component<Props, State> {
                   cost={third.cost}
                   id={third._id}
                   key={third._id}
+                  location={third.location}
                   name={third.name}
                 />
               </Col>
@@ -235,21 +217,35 @@ export default class Filter extends Component<Props, State> {
       });
   };
 
+  async updateResources() {
+    const [
+      categorySelected,
+      subcategorySelected,
+    ] = this.getCategorySelectedFromSearch();
+    const resources =
+      categorySelected === 'All Resources'
+        ? await getResources()
+        : await getResourcesByCategory(categorySelected);
+    this.setState({
+      categorySelected,
+      filteredResources: resources == null ? [] : resources.result,
+      openKeys: [categorySelected],
+      resources: resources == null ? [] : resources.result,
+      subcategorySelected,
+    });
+    this.filterResources('All', 'All', 'All', subcategorySelected);
+  }
+
   render() {
     const {
       categories,
       categorySelected,
       costs,
-      costSelected,
       languages,
-      languageSelected,
       locations,
-      locationSelected,
       subcategorySelected,
       openKeys,
     } = this.state;
-
-    console.log(costSelected);
 
     return (
       <Layout>

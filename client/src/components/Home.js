@@ -33,7 +33,7 @@ export default class Home extends Component<Props, State> {
             </Textfit>
             <Row type="flex" justify="center" align="middle" gutter={[16, 16]}>
               <Col span={18}>
-                <Link to="/filter">
+                <Link to="/resources?category=All Resources">
                   <Button
                     className="find-resources-button"
                     type="primary"

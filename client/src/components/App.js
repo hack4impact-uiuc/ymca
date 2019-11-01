@@ -19,6 +19,7 @@ export default class App extends React.Component {
           <Route path="/resources/:id" component={ResourceDetail} />
           <Route path="/login" exact component={Login} />
           <Route path="/resources" exact component={Filter} />
+          <Route path="/admin" exact component={AdminResourceManager} />
         </Router>
       </>
     );

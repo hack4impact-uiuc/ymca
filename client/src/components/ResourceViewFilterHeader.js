@@ -10,10 +10,8 @@ function ResourceViewFilterHeader(props) {
   const [costValue, setCostValue] = useState(costs[0]);
   const [languageValue, setLanguageValue] = useState(languages[0]);
   const [locationValue, setLocationValue] = useState(locations[0]);
-  console.log(costValue);
 
   useEffect(() => {
-    console.log(costValue, languageValue, locationValue);
     handleChangeFilter(costValue, languageValue, locationValue);
   }, [costValue, languageValue, locationValue]);
 
@@ -22,7 +20,7 @@ function ResourceViewFilterHeader(props) {
       <div className="radio-container">
         <h4 className="title">{filterName}</h4>
         <Radio.Group
-          onChange={target => onChange(target['target']['value'])}
+          onChange={target => onChange(target.target.value)}
           value={value}
         >
           {filterOptions.map(option => (
@@ -62,5 +60,12 @@ function ResourceViewFilterHeader(props) {
     </div>
   );
 }
+
+ResourceViewFilterHeader.propTypes = {
+  costs: PropTypes.arrayOf(PropTypes.string).isRequired,
+  languages: PropTypes.arrayOf(PropTypes.string).isRequired,
+  locations: PropTypes.arrayOf(PropTypes.string).isRequired,
+  handleChangeFilter: PropTypes.func.isRequired,
+};
 
 export default ResourceViewFilterHeader;
