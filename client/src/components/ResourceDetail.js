@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../css/ResourceDetail.css';
-import { Container, Row, Col } from 'reactstrap';
+import { Col, Container, Row } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { getResourceByID } from '../utils/api';
 
