@@ -4,6 +4,8 @@ import { Row, Col, Card, Icon } from 'antd';
 import PropTypes from 'prop-types';
 import { getResourceByID } from '../utils/api';
 
+const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
 export default class ResourceDetail extends Component {
   constructor(props) {
     super(props);
@@ -15,7 +17,7 @@ export default class ResourceDetail extends Component {
       address: '',
       website: '',
       description: '',
-      // hours: [],
+      hours: ["", "", "", "", "", "", ""],
       city: '',
       languages: [],
       requiredDocuments: [],
@@ -48,7 +50,7 @@ export default class ResourceDetail extends Component {
       address,
       website,
       description,
-      // hours,
+      hours,
       city,
       languages,
       requiredDocuments,
@@ -141,7 +143,20 @@ export default class ResourceDetail extends Component {
           <Col span={4} className="sectionLabel">
             Schedule
           </Col>
-          <Col span={20} />
+          <Col span={20}>
+            <Row className="cardRow">
+              {hours.map((day, i) => {
+                return (
+                  <Col span={8}>
+                    <Card>
+                      <div className="cardLabel dayLabel">{days[i] + '\n'}</div>
+                      {day.length > 0 ? day : "None"}
+                    </Card>
+                  </Col>
+                )
+              })}
+            </Row>
+          </Col>
         </Row>
       </div>
     );

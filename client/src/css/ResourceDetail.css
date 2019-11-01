@@ -30,7 +30,7 @@
   margin-bottom: 10px;
   margin-left: 5%;
   margin-right: 5%;
-  height: 200px;
+  height: 190px;
 }
 
 .cardRow {
@@ -45,6 +45,10 @@
 .cardLabel {
   font-weight: 600;
   padding-bottom: 5px;
+}
+
+.dayLabel {
+  padding-top: 20px;
 }
 
 .anticon {
