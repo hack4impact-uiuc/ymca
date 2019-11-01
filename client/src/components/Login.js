@@ -6,115 +6,38 @@ import '../css/Login.css';
 
 import { login } from '../utils/auth';
 
-/*
-TODO 1: Add calls to authentication.
-TODO 2: Replace all reactstrap with custom html and css for wireframe.
-TODO 3: Add language selector.
-*/
 class Login extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      email: '',
-      password: '',
-      companyId: '',
-      confirmPassword: '',
-      emailFieldIsEmpty: false,
-      passwordFieldIsEmpty: false,
-      companyIdFieldIsEmpty: false,
-      isPasswordConfirmed: true,
-      showRegisterFields: false,
       isAuthSuccessful: false,
-      isRegisterSuccessful: false,
     };
   }
 
-  setShowRegisterFields = shouldShow => {
-    // reset some fields
-    this.setState({
-      showRegisterFields: shouldShow,
-      confirmPassword: '',
-      companyId: '',
-      // reset errors
-      emailFieldIsEmpty: false,
-      passwordFieldIsEmpty: false,
-      companyIdFieldIsEmpty: false,
-    });
-  };
-
-  onEmailChange = e => {
-    this.setState({ email: e.target.value, emailFieldIsEmpty: false });
-  };
-
-  onPasswordChange = e => {
-    const password = e.target.value;
-    const { confirmPassword } = this.state;
-    this.setState({
-      password,
-      passwordFieldIsEmpty: false,
-      isPasswordConfirmed: password === confirmPassword,
-    });
-  };
-
-  onCompanyIdChange = e => {
-    this.setState({ companyId: e.target.value, companyIdFieldIsEmpty: false });
-  };
-
-  onConfirmPasswordChange = e => {
-    const confirmPassword = e.target.value;
-    const { password } = this.state;
-    this.setState({
-      confirmPassword,
-      isPasswordConfirmed: confirmPassword === password,
-    });
-  };
-
-  loginFieldsValid = () => {
-    const { email, password } = this.state;
-    const emailFieldIsEmpty = email === '';
-    const passwordFieldIsEmpty = password === '';
-
-    this.setState({ emailFieldIsEmpty, passwordFieldIsEmpty });
-    return !emailFieldIsEmpty && !passwordFieldIsEmpty;
-  };
-
-  registerFieldsValid = () => {
-    // verifies email and password
-    const loginValid = this.loginFieldsValid();
-
-    const { companyId, isPasswordConfirmed } = this.state;
-    const companyIdFieldIsEmpty = companyId === '';
-    const registerValid = isPasswordConfirmed && !companyIdFieldIsEmpty;
-
-    this.setState({ companyIdFieldIsEmpty });
-    return loginValid && registerValid;
-  };
-
   onLoginSubmit = e => {
     e.preventDefault();
-    console.log('works');
-    if (this.loginFieldsValid()) {
-      const { email, password } = this.state;
-      // auth
-      login({ email, password }).then(res => {
-        if (res.status === 200) {
-          // go to main menu
-          this.setState({ isAuthSuccessful: true });
-        } else {
-          // show error message
-        }
-      });
-    }
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        const { email, password } = values;
+        login({ email, password }).then(res => {
+          if (res.status === 200) {
+            this.setState({ isAuthSuccessful: true });
+          } else {
+            // show error message
+          }
+        });
+      }
+    });
   };
 
   render() {
     const { isAuthSuccessful } = this.state;
-
     const { getFieldDecorator } = this.props.form;
+
     return (
-      <div>
+      <>
         {isAuthSuccessful && <ToHomePage />}
+
         <Form onSubmit={this.onLoginSubmit} className="login-form">
           <Form.Item>
             {getFieldDecorator('email', {
@@ -176,7 +99,7 @@ class Login extends Component {
             Don&#39;t have an account? <a href="register"> Register Now!</a>
           </Form.Item>
         </Form>
-      </div>
+      </>
     );
   }
 }

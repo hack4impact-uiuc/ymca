@@ -6,28 +6,11 @@ import '../css/RegisterForm.css';
 
 import { register } from '../utils/auth';
 
-/*
-TODO 1: Add calls to authentication.
-TODO 2: Replace all reactstrap with custom html and css for wireframe.
-TODO 3: Add language selector.
-*/
 class RegisterForm extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      email: '',
-      password: '',
-      companyId: '',
-      confirmPassword: '',
-      emailFieldIsEmpty: false,
-      passwordFieldIsEmpty: false,
-      companyIdFieldIsEmpty: false,
-      isPasswordConfirmed: true,
-      showRegisterFields: false,
       isAuthSuccessful: false,
-      isRegisterSuccessful: false,
-      confirmDirty: false,
     };
   }
 
@@ -40,7 +23,7 @@ class RegisterForm extends Component {
     }
   };
 
-  compareToFirstPassword = (value, callback) => {
+  compareToFirstPassword = (rule, value, callback) => {
     const { form } = this.props;
     if (value && value !== form.getFieldValue('password')) {
       callback('The two passwords you entered are inconsistent!');
@@ -49,86 +32,25 @@ class RegisterForm extends Component {
     }
   };
 
-  setShowRegisterFields = shouldShow => {
-    // reset some fields
-    this.setState({
-      showRegisterFields: shouldShow,
-      confirmPassword: '',
-      companyId: '',
-      // reset errors
-      emailFieldIsEmpty: false,
-      passwordFieldIsEmpty: false,
-      companyIdFieldIsEmpty: false,
-    });
-  };
-
-  onEmailChange = e => {
-    this.setState({ email: e.target.value, emailFieldIsEmpty: false });
-  };
-
-  onPasswordChange = e => {
-    const password = e.target.value;
-    const { confirmPassword } = this.state;
-    this.setState({
-      password,
-      passwordFieldIsEmpty: false,
-      isPasswordConfirmed: password === confirmPassword,
-    });
-  };
-
-  onCompanyIdChange = e => {
-    this.setState({ companyId: e.target.value, companyIdFieldIsEmpty: false });
-  };
-
-  onConfirmPasswordChange = e => {
-    const confirmPassword = e.target.value;
-    const { password } = this.state;
-    this.setState({
-      confirmPassword,
-      isPasswordConfirmed: confirmPassword === password,
-    });
-  };
-
-  loginFieldsValid = () => {
-    const { email, password } = this.state;
-    const emailFieldIsEmpty = email === '';
-    const passwordFieldIsEmpty = password === '';
-
-    this.setState({ emailFieldIsEmpty, passwordFieldIsEmpty });
-    return !emailFieldIsEmpty && !passwordFieldIsEmpty;
-  };
-
-  registerFieldsValid = () => {
-    // verifies email and password
-    const loginValid = this.loginFieldsValid();
-
-    const { companyId, isPasswordConfirmed } = this.state;
-    const companyIdFieldIsEmpty = companyId === '';
-    const registerValid = isPasswordConfirmed && !companyIdFieldIsEmpty;
-
-    this.setState({ companyIdFieldIsEmpty });
-    return loginValid && registerValid;
-  };
-
   onRegisterSubmit = e => {
     e.preventDefault();
-    console.log('registers!');
-    if (this.registerFieldsValid()) {
-      const { email, password, companyId } = this.state;
-
-      register({ email, password, companyId }).then(res => {
-        if (res.status === 200) {
-          // auto login and go to main menu
-          this.setState({ isAuthSuccessful: true });
-        } else {
-          // show error message.
-        }
-      });
-    }
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        const { email, password } = values;
+        register({ email, password }).then(res => {
+          if (res.status === 200) {
+            this.setState({ isAuthSuccessful: true });
+          } else {
+            // show error message
+          }
+        });
+      }
+    });
   };
 
   render() {
     const { isAuthSuccessful } = this.state;
+    const { getFieldDecorator } = this.props.form;
 
     const formItemLayout = {
       labelCol: {
@@ -140,6 +62,7 @@ class RegisterForm extends Component {
         sm: { span: 8 },
       },
     };
+
     const tailFormItemLayout = {
       wrapperCol: {
         xs: {
@@ -153,9 +76,8 @@ class RegisterForm extends Component {
       },
     };
 
-    const { getFieldDecorator } = this.props.form;
     return (
-      <div>
+      <>
         {isAuthSuccessful && <ToHomePage />}
         <Form {...formItemLayout} onSubmit={this.onRegisterSubmit}>
           <Form.Item label="E-mail">
@@ -204,7 +126,7 @@ class RegisterForm extends Component {
             </Button>
           </Form.Item>
         </Form>
-      </div>
+      </>
     );
   }
 }
