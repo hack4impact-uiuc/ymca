@@ -40,7 +40,7 @@ function ResourceBreadcrumb(props) {
       );
     } else {
       breadcrumbs.push(
-        <Link className="link" to={`resources?category=All Resources`}>
+        <Link className="link" to="resources?category=All Resources">
           <span>All Resources</span>
         </Link>,
       );

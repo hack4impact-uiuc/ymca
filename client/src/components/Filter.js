@@ -42,43 +42,6 @@ export default class Filter extends Component<Props, State> {
     };
   }
 
-  getCategorySelectedFromSearch() {
-    const { search } = this.props.location;
-    const subcategoryIndex = search.indexOf('&');
-    let categorySelected = search.slice(
-      search.indexOf('=') + 1,
-      subcategoryIndex === -1 ? search.length : subcategoryIndex,
-    );
-    categorySelected = categorySelected.replace(/%[\d]*/g, ' ');
-
-    let subcategorySelected =
-      subcategoryIndex === -1
-        ? ''
-        : search.slice(search.indexOf('=', subcategoryIndex) + 1);
-    subcategorySelected = subcategorySelected.replace(/%[\d]*/g, ' ');
-
-    return [categorySelected, subcategorySelected];
-  }
-
-  async updateResources() {
-    const [
-      categorySelected,
-      subcategorySelected,
-    ] = this.getCategorySelectedFromSearch();
-    const resources =
-      categorySelected === 'All Resources'
-        ? await getResources()
-        : await getResourcesByCategory(categorySelected);
-    this.setState({
-      categorySelected,
-      filteredResources: resources == null ? [] : resources.result,
-      openKeys: [categorySelected],
-      resources: resources == null ? [] : resources.result,
-      subcategorySelected,
-    });
-    this.filterResources('All', 'All', 'All', subcategorySelected);
-  }
-
   async componentDidMount() {
     const res = await getCategories();
     const categories = {};
@@ -283,8 +246,6 @@ export default class Filter extends Component<Props, State> {
       subcategorySelected,
       openKeys,
     } = this.state;
-
-    console.log(costSelected);
 
     return (
       <Layout>
