@@ -15,6 +15,7 @@ import PhoneNumberFormItem from './NewResourcePhoneNumberForm';
 import ContactFormItem from './NewResourceContactForm';
 import FinancialAidFormItem from './NewResourceFinancialAidForm';
 import CategorySelector from './NewResourceCategorySelector';
+import AvailableLanguageFormItem from './NewResourceAvailableLangForm';
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -100,11 +101,11 @@ const NewResourceForm = (props: FormProps) => {
               getFieldValue('eligibilityRequirements') || '',
             financialAidDetails,
             cost: getFieldValue('cost') || '',
-            availableLanguages: getFieldValue('availableLanguages') || '',
+            availableLanguages: availableLanguages || [],
             lastedUpdated: Date.now(),
             recommendation: getFieldValue('recommendation'),
-            comments: getFieldValue('comments') || '',
-            internalNotes: getFieldValue('internalNotes') || '',
+            comments: getFieldValue('comments') || [],
+            internalNotes: getFieldValue('internalNotes') || [],
           },
           res => {
             setSuccessMessage('Resource successfully created!');
@@ -201,17 +202,14 @@ const NewResourceForm = (props: FormProps) => {
           ],
         })(<Input placeholder="Cost" />)}
       </Form.Item>
-      <Form.Item label="Available Languages">
-        {getFieldDecorator('availableLanguages', {})(
-          <Input placeholder="Available Languages" />,
-        )}
-      </Form.Item>
+      {AvailableLanguageFormItem({
+        availableLanguages,
+        setAvailableLanguages,
+        setTotalSubmitEnabled,
+      })}
       <Form.Item label="Recommendation">
         {getFieldDecorator('recommendation', {})(
-          <Select
-            defaultValue="Yes"
-            onChange={e => setRecommendation(e.target.value)}
-          >
+          <Select defaultValue="Yes">
             <Option value="Yes">Yes</Option>
             <Option value="Maybe">Maybe</Option>
             <Option value="No">No</Option>
