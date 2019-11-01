@@ -20,8 +20,15 @@ function FilterPreview(props) {
   description.push(<div style={{ color: 'black' }}>{languages}</div>);
 
   return (
-    <Link to={`resource/${id}`}>
-      <Card cover={<img alt="ymca" src="/logo512.png" />}>
+    <Link to={`resources/${id}`}>
+      <Card
+        cover={
+          <img
+            alt="ymca"
+            src="https://uiuc.hack4impact.org/static/images/team-cheer.jpg"
+          />
+        }
+      >
         <Meta title={name} description={description} />
       </Card>
     </Link>

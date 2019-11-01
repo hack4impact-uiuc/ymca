@@ -1,27 +1,52 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom/';
+
+import '../css/ResourceBreadcrumb.css';
 
 function ResourceBreadcrumb(props) {
   const { categorySelected, subcategorySelected } = props;
 
   const breadcrumbs = [];
-  breadcrumbs.push(<span>All Resources</span>);
-  if (categorySelected !== '') {
-    if (subcategorySelected !== '') {
-      breadcrumbs.push(<span>{` > ${categorySelected}`}</span>);
+
+  if (categorySelected === 'All Resources') {
+    breadcrumbs.push(<span>All Resources</span>);
+  } else {
+    if (categorySelected !== '') {
       breadcrumbs.push(
-        <span>
-          {` > `}
-          <strong>{subcategorySelected}</strong>
-        </span>,
+        <Link className="link" to={`resources?category=All Resources`}>
+          <span>All Resources</span>
+        </Link>,
       );
-    } else {
-      breadcrumbs.push(
-        <span>
-          {` > `}
-          <strong>{categorySelected}</strong>
-        </span>,
-      );
+      if (subcategorySelected !== '') {
+        breadcrumbs.push(
+          <span>
+            {` > `}
+            <Link
+              className="link"
+              to={{
+                pathname: '/resources',
+                search: `?category=${categorySelected}`,
+              }}
+            >
+              {categorySelected}
+            </Link>
+          </span>,
+        );
+        breadcrumbs.push(
+          <span>
+            {` > `}
+            <strong>{subcategorySelected}</strong>
+          </span>,
+        );
+      } else {
+        breadcrumbs.push(
+          <span>
+            {` > `}
+            <strong>{categorySelected}</strong>
+          </span>,
+        );
+      }
     }
   }
 

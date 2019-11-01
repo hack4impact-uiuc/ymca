@@ -3,8 +3,13 @@ import { Col, Layout, Menu, Row } from 'antd';
 
 import '../css/Filter.css';
 import FilterPreview from './FilterPreview';
-import FilterHeader from './FilterHeader';
-import { getCategories, getResourcesByCategory } from '../utils/api';
+import ResourceViewFilterHeader from './ResourceViewFilterHeader';
+import ResourceViewHeader from './ResourceViewHeader';
+import {
+  getCategories,
+  getResources,
+  getResourcesByCategory,
+} from '../utils/api';
 
 const { Sider, Content } = Layout;
 const { SubMenu } = Menu;
@@ -28,95 +33,97 @@ export default class Filter extends Component<Props, State> {
       openKeys: [],
 
       categories: {},
-      languages: ['English', 'Spanish', 'Chinese', 'Japanese'],
-      locations: ['Champaign', 'Urbana', 'Maibana', 'Foopaign'],
-      costs: ['$', '$$', '$$$', '$$$$$'],
+      languages: ['All', 'English', 'Spanish', 'Chinese', 'Japanese'],
+      locations: ['All', 'Champaign', 'Urbana', 'Maibana', 'Foopaign'],
+      costs: ['All', '$', '$$', '$$$', '$$$$'],
 
       resources: [],
       filteredResources: [],
     };
   }
 
-  async componentDidMount() {
-    const res = await getCategories();
-    const categories = {};
-    let categorySelected = null;
-    if (res != null) {
-      res.result.forEach(category => {
-        if (categorySelected === null) {
-          categorySelected = category.name;
-        }
-        categories[category.name] = category.subcategories;
-      });
-    }
-    const resources = await getResourcesByCategory(categorySelected);
+  getCategorySelectedFromSearch() {
+    const { search } = this.props.location;
+    const subcategoryIndex = search.indexOf('&');
+    let categorySelected = search.slice(
+      search.indexOf('=') + 1,
+      subcategoryIndex === -1 ? search.length : subcategoryIndex,
+    );
+    categorySelected = categorySelected.replace(/%[\d]*/g, ' ');
+
+    let subcategorySelected =
+      subcategoryIndex === -1
+        ? ''
+        : search.slice(search.indexOf('=', subcategoryIndex) + 1);
+    subcategorySelected = subcategorySelected.replace(/%[\d]*/g, ' ');
+
+    return [categorySelected, subcategorySelected];
+  }
+
+  async updateResources() {
+    const [
+      categorySelected,
+      subcategorySelected,
+    ] = this.getCategorySelectedFromSearch();
+    const resources =
+      categorySelected === 'All Resources'
+        ? await getResources()
+        : await getResourcesByCategory(categorySelected);
     this.setState({
-      categories,
       categorySelected,
       filteredResources: resources == null ? [] : resources.result,
       openKeys: [categorySelected],
       resources: resources == null ? [] : resources.result,
+      subcategorySelected,
     });
+    this.filterResources('All', 'All', 'All', subcategorySelected);
+  }
+
+  async componentDidMount() {
+    const res = await getCategories();
+    const categories = {};
+    if (res != null) {
+      res.result.forEach(
+        category => (categories[category.name] = category.subcategories),
+      );
+    }
+    this.updateResources();
+    this.setState({
+      categories,
+    });
+  }
+
+  async componentDidUpdate(prevProps) {
+    if (prevProps.location.search !== this.props.location.search) {
+      this.updateResources();
+    }
   }
 
   filterResources = (cost, language, location, subcategory) => {
     const { resources } = this.state;
     const filteredResources = resources.filter(
       resource =>
-        (resource.cost === cost || cost === '') &&
+        (resource.cost === cost || cost === 'All') &&
         (resource.subcategory === subcategory || subcategory === '') &&
-        (resource.availableLanguages.includes(language) || language === '') &&
-        (resource.city === location || location === ''),
+        (resource.availableLanguages.includes(language) ||
+          language === 'All') &&
+        (resource.city === location || location === 'All'),
     );
     this.setState({ filteredResources });
   };
 
-  categorySelect = async value => {
-    let res = null;
-    let categorySelected = '';
-    // Opening the menu
-    if (this.state.categorySelected !== value) {
-      categorySelected = value;
-      res = await getResourcesByCategory(value);
-    }
-    this.setState({
-      categorySelected,
-      costSelected: '',
-      filteredResources: res === null ? [] : res.result,
-      languageSelected: '',
-      locationSelected: '',
-      resources: res === null ? [] : res.result,
-      subcategorySelected: '',
+  categorySelectAll = async () => {
+    this.props.history.push({
+      pathname: '/resources',
+      search: `?category=All Resources`,
     });
   };
 
   subcategorySelect = value => {
-    const {
-      costSelected,
-      filteredResources,
-      languageSelected,
-      locationSelected,
-      subcategorySelected,
-    } = this.state;
-    if (subcategorySelected === '') {
-      const newFilteredResources = filteredResources.filter(
-        resource => resource.subcategory === value,
-      );
-      this.setState({
-        subcategorySelected: value,
-        filteredResources: newFilteredResources,
-      });
-    } else {
-      this.filterResources(
-        costSelected,
-        languageSelected,
-        locationSelected,
-        value,
-      );
-      this.setState({
-        subcategorySelected: value,
-      });
-    }
+    this.props.history.push({
+      pathname: '/resources',
+      search: `?category=${this.state.categorySelected}&subcategory=${value}`,
+    });
   };
 
   languageToggle = () => {
@@ -125,68 +132,24 @@ export default class Filter extends Component<Props, State> {
     }));
   };
 
-  languageSelect = value => {
-    const {
-      costSelected,
-      filteredResources,
-      languageSelected,
-      locationSelected,
-      subcategorySelected,
-    } = this.state;
-    if (languageSelected === '') {
-      const newFilteredResources = filteredResources.filter(resource =>
-        resource.availableLanguages.includes(value),
-      );
-      this.setState({
-        languageSelected: value,
-        filteredResources: newFilteredResources,
-      });
-    } else {
-      this.filterResources(
-        costSelected,
-        value,
-        locationSelected,
-        subcategorySelected,
-      );
-      this.setState({
-        languageSelected: value,
-      });
-    }
-  };
-
   locationToggle = () => {
     this.setState(prevState => ({
       locationDropdownOpen: !prevState.locationDropdownOpen,
     }));
   };
 
-  locationSelect = value => {
-    const {
-      costSelected,
-      filteredResources,
-      languageSelected,
-      locationSelected,
-      subcategorySelected,
-    } = this.state;
-    if (locationSelected === '') {
-      const newFilteredResources = filteredResources.filter(
-        resource => resource.city === value,
-      );
-      this.setState({
-        locationSelected: value,
-        filteredResources: newFilteredResources,
-      });
-    } else {
-      this.filterResources(
-        costSelected,
-        languageSelected,
-        value,
-        subcategorySelected,
-      );
-      this.setState({
-        locationSelected: value,
-      });
-    }
+  handleFilterChange = (cost, language, location) => {
+    this.setState({
+      costSelected: cost,
+      languageSelected: language,
+      locationSelected: location,
+    });
+    this.filterResources(
+      cost,
+      language,
+      location,
+      this.state.subcategorySelected,
+    );
   };
 
   costToggle = () => {
@@ -195,36 +158,14 @@ export default class Filter extends Component<Props, State> {
     }));
   };
 
-  costSelect = value => {
-    const {
-      costSelected,
-      filteredResources,
-      languageSelected,
-      locationSelected,
-      subcategorySelected,
-    } = this.state;
-    if (costSelected === '') {
-      const newFilteredResources = filteredResources.filter(
-        resource => resource.cost === value,
-      );
-      this.setState({
-        costSelected: value,
-        filteredResources: newFilteredResources,
+  onOpenChange = async openKeys => {
+    if (openKeys.length === 0) {
+      this.props.history.push({
+        pathname: '/resources',
+        search: `?category=All Resources`,
       });
-    } else {
-      this.filterResources(
-        value,
-        languageSelected,
-        locationSelected,
-        subcategorySelected,
-      );
-      this.setState({
-        costSelected: value,
-      });
+      return;
     }
-  };
-
-  onOpenChange = openKeys => {
     const latestOpenKey = openKeys.find(
       key => this.state.openKeys.indexOf(key) === -1,
     );
@@ -235,6 +176,11 @@ export default class Filter extends Component<Props, State> {
         openKeys: latestOpenKey ? [latestOpenKey] : [],
       });
     }
+    const categorySelected = latestOpenKey;
+    this.props.history.push({
+      pathname: '/resources',
+      search: `?category=${categorySelected}`,
+    });
   };
 
   getGrid = () => {
@@ -303,27 +249,40 @@ export default class Filter extends Component<Props, State> {
       openKeys,
     } = this.state;
 
+    console.log(costSelected);
+
     return (
       <Layout>
         <>
-          <FilterHeader
+          <ResourceViewHeader
             categorySelected={categorySelected}
             subcategorySelected={subcategorySelected}
           />
+          <ResourceViewFilterHeader
+            costs={costs}
+            languages={languages}
+            locations={locations}
+            handleChangeFilter={this.handleFilterChange}
+          />
           <Layout style={{ background: 'white' }}>
-            <Sider style={{ background: 'white' }}>
+            <Sider style={{ background: 'white', marginTop: '.8em' }}>
               <Menu
                 mode="inline"
+                selectedKeys={
+                  categorySelected === 'All Resources' ? ['All Resources'] : []
+                }
                 openKeys={openKeys}
                 onOpenChange={this.onOpenChange}
               >
+                <Menu.Item
+                  key="All Resources"
+                  onClick={() => this.categorySelectAll()}
+                >
+                  All Resources
+                </Menu.Item>
                 {Object.keys(categories).map(categoryName => {
                   return (
-                    <SubMenu
-                      key={categoryName}
-                      title={categoryName}
-                      onTitleClick={() => this.categorySelect(categoryName)}
-                    >
+                    <SubMenu key={categoryName} title={categoryName}>
                       {categories[categoryName].map(subCategory => {
                         return (
                           <Menu.Item
@@ -344,53 +303,6 @@ export default class Filter extends Component<Props, State> {
                 {this.getGrid()}
               </div>
             </Content>
-            <Sider style={{ background: 'white' }}>
-              <Menu
-                mode="inline"
-                selectedKeys={[
-                  languageSelected,
-                  locationSelected,
-                  costSelected,
-                ]}
-              >
-                <SubMenu key="language" title="Language">
-                  {languages.map(value => {
-                    return (
-                      <Menu.Item
-                        key={value}
-                        onClick={() => this.languageSelect(value)}
-                      >
-                        {value}
-                      </Menu.Item>
-                    );
-                  })}
-                </SubMenu>
-                <SubMenu key="location" title="Location">
-                  {locations.map(value => {
-                    return (
-                      <Menu.Item
-                        key={value}
-                        onClick={() => this.locationSelect(value)}
-                      >
-                        {value}
-                      </Menu.Item>
-                    );
-                  })}
-                </SubMenu>
-                <SubMenu key="cost" title="Cost">
-                  {costs.map(value => {
-                    return (
-                      <Menu.Item
-                        key={value}
-                        onClick={() => this.costSelect(value)}
-                      >
-                        {value}
-                      </Menu.Item>
-                    );
-                  })}
-                </SubMenu>
-              </Menu>
-            </Sider>
           </Layout>
         </>
       </Layout>
