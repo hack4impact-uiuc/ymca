@@ -5,7 +5,18 @@ input[className='submitButton'] {
 
 p {
   margin: 0;
-  padding: 0;
+  padding: 10;
   font-size: 12px;
   color: red;
+}
+
+.login-form {
+  max-width: 400px;
+  margin-left: 520px;
+}
+.login-form-forgot {
+  float: right;
+}
+.login-form-button {
+  width: 100%;
 }
