@@ -4,11 +4,7 @@ import { Col, Layout, Menu, Row } from 'antd';
 import '../css/Filter.css';
 import FilterPreview from './FilterPreview';
 import FilterHeader from './FilterHeader';
-import {
-  getCategories,
-  getResources,
-  getResourcesByCategory,
-} from '../utils/api';
+import { getCategories, getResourcesByCategory } from '../utils/api';
 
 const { Sider, Content } = Layout;
 const { SubMenu } = Menu;
