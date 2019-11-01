@@ -39,11 +39,6 @@ function ResourceBreadcrumb(props) {
         </span>,
       );
     } else {
-      breadcrumbs.push(
-        <Link className="link" to="resources?category=All Resources">
-          <span>All Resources</span>
-        </Link>,
-      );
       if (subcategorySelected !== '') {
         breadcrumbs.push(
           <span>
