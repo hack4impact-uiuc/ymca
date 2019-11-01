@@ -40,11 +40,39 @@ function ResourceBreadcrumb(props) {
       );
     } else {
       breadcrumbs.push(
-        <span>
-          {` > `}
-          <strong>{categorySelected}</strong>
-        </span>,
+        <Link className="link" to={`resources?category=All Resources`}>
+          <span>All Resources</span>
+        </Link>,
       );
+      if (subcategorySelected !== '') {
+        breadcrumbs.push(
+          <span>
+            {` > `}
+            <Link
+              className="link"
+              to={{
+                pathname: '/resources',
+                search: `?category=${categorySelected}`,
+              }}
+            >
+              {categorySelected}
+            </Link>
+          </span>,
+        );
+        breadcrumbs.push(
+          <span>
+            {` > `}
+            <strong>{subcategorySelected}</strong>
+          </span>,
+        );
+      } else {
+        breadcrumbs.push(
+          <span>
+            {` > `}
+            <strong>{categorySelected}</strong>
+          </span>,
+        );
+      }
     }
   }
 
