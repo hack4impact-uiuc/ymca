@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
-import {
-  ButtonDropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
-} from 'reactstrap';
+import { Col, Layout, Menu, Row } from 'antd';
+
 import '../css/Filter.css';
 import FilterPreview from './FilterPreview';
-import FilterCategory from './FilterCategory';
+import FilterHeader from './FilterHeader';
 import {
   getCategories,
   getResources,
   getResourcesByCategory,
 } from '../utils/api';
+
+const { Sider, Content } = Layout;
+const { SubMenu } = Menu;
 
 export default class Filter extends Component<Props, State> {
   constructor(props) {
@@ -30,6 +29,8 @@ export default class Filter extends Component<Props, State> {
       subcategorySelected: '',
       costSelected: '',
 
+      openKeys: [],
+
       categories: {},
       languages: ['English', 'Spanish', 'Chinese', 'Japanese'],
       locations: ['Champaign', 'Urbana', 'Maibana', 'Foopaign'],
@@ -41,16 +42,24 @@ export default class Filter extends Component<Props, State> {
   }
 
   async componentDidMount() {
-    const resources = await getResources();
     const res = await getCategories();
     const categories = {};
-    res.result.forEach(category => {
-      categories[category.name] = category.subcategories;
-    });
+    let categorySelected = null;
+    if (res != null) {
+      res.result.forEach(category => {
+        if (categorySelected === null) {
+          categorySelected = category.name;
+        }
+        categories[category.name] = category.subcategories;
+      });
+    }
+    const resources = await getResourcesByCategory(categorySelected);
     this.setState({
       categories,
-      filteredResources: resources.result,
-      resources: resources.result,
+      categorySelected,
+      filteredResources: resources == null ? [] : resources.result,
+      openKeys: [categorySelected],
+      resources: resources == null ? [] : resources.result,
     });
   }
 
@@ -67,27 +76,21 @@ export default class Filter extends Component<Props, State> {
   };
 
   categorySelect = async value => {
-    const res = await getResourcesByCategory(value);
+    let res = null;
+    let categorySelected = '';
+    // Opening the menu
+    if (this.state.categorySelected !== value) {
+      categorySelected = value;
+      res = await getResourcesByCategory(value);
+    }
     this.setState({
-      categorySelected: value,
+      categorySelected,
       costSelected: '',
-      filteredResources: res.result,
+      filteredResources: res === null ? [] : res.result,
       languageSelected: '',
       locationSelected: '',
-      resources: res.result,
+      resources: res === null ? [] : res.result,
       subcategorySelected: '',
-    });
-  };
-
-  subcategorySelect = value => {
-    const { resources } = this.state;
-    const subResources = resources.filter(
-      resource => resource.subcategory === value,
-    );
-
-    this.setState({
-      subcategorySelected: value,
-      filteredResources: subResources,
     });
   };
 
@@ -225,96 +228,176 @@ export default class Filter extends Component<Props, State> {
     }
   };
 
-  render() {
-    return (
-      <>
-        <div className="filter-component">
-          <div className="filter-component__title">
-            <h1>YMCA Resource Filter</h1>
-          </div>
+  onOpenChange = openKeys => {
+    const latestOpenKey = openKeys.find(
+      key => this.state.openKeys.indexOf(key) === -1,
+    );
+    if (Object.keys(this.state.categories).indexOf(latestOpenKey) === -1) {
+      this.setState({ openKeys });
+    } else {
+      this.setState({
+        openKeys: latestOpenKey ? [latestOpenKey] : [],
+      });
+    }
+  };
 
-          <div className="filter-component__filters">
-            <ButtonDropdown
-              isOpen={this.state.languageDropdownOpen}
-              toggle={this.languageToggle}
-            >
-              <DropdownToggle caret>
-                {this.state.languageSelected === ''
-                  ? 'Language'
-                  : this.state.languageSelected}
-              </DropdownToggle>
-              <DropdownMenu>
-                {this.state.languages.map(value => {
-                  return (
-                    <DropdownItem onClick={() => this.languageSelect(value)}>
-                      {value}
-                    </DropdownItem>
-                  );
-                })}
-              </DropdownMenu>
-            </ButtonDropdown>
-
-            <ButtonDropdown
-              isOpen={this.state.locationDropdownOpen}
-              toggle={this.locationToggle}
-            >
-              <DropdownToggle caret>
-                {this.state.locationSelected === ''
-                  ? 'Location'
-                  : this.state.locationSelected}
-              </DropdownToggle>
-              <DropdownMenu>
-                {this.state.locations.map(value => {
-                  return (
-                    <DropdownItem onClick={() => this.locationSelect(value)}>
-                      {value}
-                    </DropdownItem>
-                  );
-                })}
-              </DropdownMenu>
-            </ButtonDropdown>
-
-            <ButtonDropdown
-              isOpen={this.state.costDropdownOpen}
-              toggle={this.costToggle}
-            >
-              <DropdownToggle caret>
-                {this.state.costSelected === ''
-                  ? 'Cost'
-                  : this.state.costSelected}
-              </DropdownToggle>
-              <DropdownMenu>
-                {this.state.costs.map(value => {
-                  return (
-                    <DropdownItem onClick={() => this.costSelect(value)}>
-                      {value}
-                    </DropdownItem>
-                  );
-                })}
-              </DropdownMenu>
-            </ButtonDropdown>
-          </div>
-
-          <div className="dropdowns-container">
-            {Object.keys(this.state.categories).map(categoryName => {
-              return (
-                <FilterCategory
-                  categoryName={categoryName}
-                  subcategories={this.state.categories[categoryName]}
-                  categoryClickHandler={this.categorySelect}
-                  subcategoryClickHandler={this.subcategorySelect}
+  getGrid = () => {
+    const { filteredResources } = this.state;
+    return Array(Math.ceil(filteredResources.length / 3))
+      .fill()
+      .map((_, index) => {
+        const first = filteredResources[index * 3];
+        const second =
+          index * 3 + 1 < filteredResources.length
+            ? filteredResources[index * 3 + 1]
+            : null;
+        const third =
+          index * 3 + 2 < filteredResources.length
+            ? filteredResources[index * 3 + 2]
+            : null;
+        return (
+          <Row gutter={[32, 32]}>
+            <Col span={8}>
+              <FilterPreview
+                availableLanguages={first.availableLanguages}
+                cost={first.cost}
+                id={first._id}
+                key={first._id}
+                name={first.name}
+              />
+            </Col>
+            {second && (
+              <Col span={8}>
+                <FilterPreview
+                  availableLanguages={second.availableLanguages}
+                  cost={second.cost}
+                  id={second._id}
+                  key={second._id}
+                  name={second.name}
                 />
-              );
-            })}
-          </div>
+              </Col>
+            )}
+            {third && (
+              <Col span={8}>
+                <FilterPreview
+                  availableLanguages={third.availableLanguages}
+                  cost={third.cost}
+                  id={third._id}
+                  key={third._id}
+                  name={third.name}
+                />
+              </Col>
+            )}
+          </Row>
+        );
+      });
+  };
 
-          <div className="filter-preview-container">
-            {this.state.filteredResources.map(value => (
-              <FilterPreview key={value.name} resourceName={value.name} />
-            ))}
-          </div>
-        </div>
-      </>
+  render() {
+    const {
+      categories,
+      categorySelected,
+      costs,
+      costSelected,
+      languages,
+      languageSelected,
+      locations,
+      locationSelected,
+      subcategorySelected,
+      openKeys,
+    } = this.state;
+
+    return (
+      <Layout>
+        <>
+          <FilterHeader
+            categorySelected={categorySelected}
+            subcategorySelected={subcategorySelected}
+          />
+          <Layout style={{ background: 'white' }}>
+            <Sider style={{ background: 'white' }}>
+              <Menu
+                mode="inline"
+                openKeys={openKeys}
+                onOpenChange={this.onOpenChange}
+              >
+                {Object.keys(categories).map(categoryName => {
+                  return (
+                    <SubMenu
+                      key={categoryName}
+                      title={categoryName}
+                      onTitleClick={() => this.categorySelect(categoryName)}
+                    >
+                      {categories[categoryName].map(subCategory => {
+                        return (
+                          <Menu.Item
+                            key={subCategory}
+                            onClick={() => this.subcategorySelect(subCategory)}
+                          >
+                            {subCategory}
+                          </Menu.Item>
+                        );
+                      })}
+                    </SubMenu>
+                  );
+                })}
+              </Menu>
+            </Sider>
+            <Content style={{ maxHeight: '65vh', overflowY: 'scroll' }}>
+              <div style={{ marginLeft: 32, marginRight: 32, marginTop: 16 }}>
+                {this.getGrid()}
+              </div>
+            </Content>
+            <Sider style={{ background: 'white' }}>
+              <Menu
+                mode="inline"
+                selectedKeys={[
+                  languageSelected,
+                  locationSelected,
+                  costSelected,
+                ]}
+              >
+                <SubMenu key="language" title="Language">
+                  {languages.map(value => {
+                    return (
+                      <Menu.Item
+                        key={value}
+                        onClick={() => this.languageSelect(value)}
+                      >
+                        {value}
+                      </Menu.Item>
+                    );
+                  })}
+                </SubMenu>
+                <SubMenu key="location" title="Location">
+                  {locations.map(value => {
+                    return (
+                      <Menu.Item
+                        key={value}
+                        onClick={() => this.locationSelect(value)}
+                      >
+                        {value}
+                      </Menu.Item>
+                    );
+                  })}
+                </SubMenu>
+                <SubMenu key="cost" title="Cost">
+                  {costs.map(value => {
+                    return (
+                      <Menu.Item
+                        key={value}
+                        onClick={() => this.costSelect(value)}
+                      >
+                        {value}
+                      </Menu.Item>
+                    );
+                  })}
+                </SubMenu>
+              </Menu>
+            </Sider>
+          </Layout>
+        </>
+      </Layout>
     );
   }
 }
