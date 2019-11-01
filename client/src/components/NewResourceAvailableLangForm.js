@@ -20,7 +20,7 @@ const AvailableLangFormItem = (props: FormItemProps) => {
   return (
     <StrListFormItem
       formName="availableLanguage"
-      label="Available Language"
+      label="Available Languages"
       placeholder="Available Language"
       listOfStrings={availableLanguages}
       setListOfStrings={setAvailableLanguages}

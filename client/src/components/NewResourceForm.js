@@ -16,6 +16,8 @@ import ContactFormItem from './NewResourceContactForm';
 import FinancialAidFormItem from './NewResourceFinancialAidForm';
 import CategorySelector from './NewResourceCategorySelector';
 import AvailableLanguageFormItem from './NewResourceAvailableLangForm';
+import CommentsFormItem from './NewResourceCommentsForm';
+import InternalNotesFormItem from './NewResourceInternalNotesForm';
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -195,11 +197,7 @@ const NewResourceForm = (props: FormProps) => {
       })}
       <Form.Item label="Cost">
         {getFieldDecorator('cost', {
-          rules: [
-            {
-              type: 'number',
-            },
-          ],
+          rules: [{}],
         })(<Input placeholder="Cost" />)}
       </Form.Item>
       {AvailableLanguageFormItem({
@@ -216,17 +214,16 @@ const NewResourceForm = (props: FormProps) => {
           </Select>,
         )}
       </Form.Item>
-      <Form.Item label="Comments">
-        {getFieldDecorator('comments', {})(
-          <TextArea rows={4} placeholder="Comments..." />,
-        )}
-      </Form.Item>
-      <Form.Item label="Internal Notes">
-        {getFieldDecorator('internalNotes', {})(
-          <TextArea rows={4} placeholder="Internal notes..." />,
-        )}
-      </Form.Item>
-
+      {CommentsFormItem({
+        comments,
+        setComments,
+        setTotalSubmitEnabled,
+      })}
+      {InternalNotesFormItem({
+        internalNotes,
+        setInternalNotes,
+        setTotalSubmitEnabled,
+      })}
       <Button type="primary" htmlType="submit" className="newResourceSubmit">
         Add Resource
       </Button>
