@@ -140,7 +140,7 @@ export default class Home extends Component<Props, State> {
           gutter={[16, 16]}
         >
           <Col span={23}>
-            <Carousel dotPosition="right">
+            <Carousel autoplay dotPosition="right">
               {this.state.testimonials.map(element => {
                 return (
                   <div>
