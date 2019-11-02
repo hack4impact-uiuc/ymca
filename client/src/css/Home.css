@@ -1,0 +1,42 @@
+.home-block-1 {
+  height: 70vh;
+}
+
+.welcome-text {
+  color: white;
+  font-weight: bold;
+}
+
+.find-resources-button {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  background: rgb(136, 216, 208);
+}
+
+.home-block-2 {
+  height: 60vh;
+}
+
+.home-block-2__left {
+  border-right: 2px solid rgb(136, 216, 208);
+  height: 50%;
+}
+
+.home-block-2__right {
+  margin-left: 5%;
+}
+
+.home-block-3 {
+  height: 70vh;
+  background-color: black;
+}
+
+.home-block-4 {
+  height: 70vh;
+}
+
+.home-block-4__partner img {
+  width: 80%;
+  height: 80%;
+}
