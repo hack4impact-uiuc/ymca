@@ -1,11 +1,13 @@
+import { Route, BrowserRouter as Router } from 'react-router-dom';
 import React from 'react';
-import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import Home from './Home';
 import Navigation from './Navigation';
 import ResourceDetail from './ResourceDetail';
+import RegisterForm from './RegisterForm';
 import Login from './Login';
 import Filter from './Filter';
 import NotFound from './NotFound';
+import AdminResourceManager from './AdminResourceManager';
 
 export default class App extends React.Component {
   render() {
@@ -13,11 +15,13 @@ export default class App extends React.Component {
       <>
         <Navigation />
         <Router>
-          <Switch>
+          <Switch>          
             <Route path="/" exact component={Home} />
-            <Route path="/resource" exact component={ResourceDetail} />
+            <Route path="/resource/:id" component={ResourceDetail} />
             <Route path="/login" exact component={Login} />
+            <Route path="/register" exact component={RegisterForm} />
             <Route path="/filter" exact component={Filter} />
+            <Route path="/admin" exact component={AdminResourceManager} />
             <Route component={NotFound} />
           </Switch>
         </Router>

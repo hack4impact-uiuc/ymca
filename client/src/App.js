@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import Login from './components/Login';
-import Home from './components/Home';
+import RegisterForm from './components/RegisterForm';
 
 type Props = {};
 
@@ -20,6 +20,7 @@ class App extends Component<Props, State> {
       <div className="App">
         <header className="App-header">
           <Login />
+          <RegisterForm />
         </header>
       </div>
     );
