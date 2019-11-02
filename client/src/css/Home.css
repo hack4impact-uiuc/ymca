@@ -29,7 +29,17 @@
 
 .home-block-3 {
   height: 70vh;
-  background-color: black;
+  background-image: url('../imgs/homePage/testimonial.png');
+  background-size: cover;
+}
+
+.testimonial-block_left {
+}
+
+.testimonial-block__left__img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
 }
 
 .home-block-4 {

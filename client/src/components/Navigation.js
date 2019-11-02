@@ -8,6 +8,7 @@ export default class Navigation extends Component {
   render() {
     return (
       <Header className="header">
+        <div className="logo" />
         <Menu mode="horizontal">
           <Menu.Item key="home">
             <a href="/">YMCA</a>
