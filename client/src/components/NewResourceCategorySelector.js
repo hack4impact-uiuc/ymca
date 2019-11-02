@@ -90,6 +90,7 @@ const CategorySelector = (props: Props) => {
     <>
       <Form.Item label="Category">
         {getFieldDecorator('category', {
+          initialValue: 'val',
           rules: [
             {
               required: true,
@@ -116,6 +117,7 @@ const CategorySelector = (props: Props) => {
       </Form.Item>
       <Form.Item label="Subcategory">
         {getFieldDecorator('subcategory', {
+          initialValue: 'val',
           rules: [
             {
               required: true,

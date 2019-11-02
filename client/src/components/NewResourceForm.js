@@ -8,7 +8,7 @@ TODO: Improve UI and UX.
 
 import React, { useState, useDebugValue, useEffect } from 'react';
 import '../css/NewResourceForm.css';
-import { Form, Input, Button, Cascader, Alert, Select } from 'antd';
+import { Form, Input, Button, Cascader, Alert, Select, TimePicker } from 'antd';
 import fetch from 'isomorphic-fetch';
 import { addResource, getCategories } from '../utils/api';
 import PhoneNumberFormItem from './NewResourcePhoneNumberForm';
@@ -27,7 +27,7 @@ const SERVER_URI = 'https://ymca.now.sh';
 const onSubmitNewResourceForm = (e, enabled, resource, onSucc, onErr) => {
   e.preventDefault();
 
-  if (enabled) {
+  /* if (enabled) {
     fetch(`${SERVER_URI}/api/resources`, {
       method: 'POST',
       headers: {
@@ -43,7 +43,8 @@ const onSubmitNewResourceForm = (e, enabled, resource, onSucc, onErr) => {
           onErr(res);
         }
       });
-  }
+  } */
+  console.log(resource);
 };
 
 type FormProps = {
@@ -61,20 +62,13 @@ const NewResourceForm = (props: FormProps) => {
 
   const [category, setCategory] = useState('');
   const [subcategory, setSubcategory] = useState('');
-  const [resourceName, setResourceName] = useState('');
-  const [description, setDescription] = useState('');
-  const [website, setWebsite] = useState('');
-  const [email, setEmail] = useState('');
   const [phoneNumbers, setPhoneNumbers] = useState([]);
   const [contacts, setContacts] = useState([]);
-  const [address, setAddress] = useState('');
-  const [city, setCity] = useState('');
   const [hoursOfOperation, setHoursOfOperation] = useState('');
   const [eligibilityRequirements, setEligibilityRequirements] = useState('');
   const [financialAidDetails, setFinancialAidDetails] = useState({});
   const [cost, setCost] = useState('');
   const [availableLanguages, setAvailableLanguages] = useState([]);
-  const [recommendation, setRecommendation] = useState('');
   const [comments, setComments] = useState([]);
   const [internalNotes, setInternalNotes] = useState([]);
 
@@ -83,7 +77,7 @@ const NewResourceForm = (props: FormProps) => {
   return (
     <Form
       className="newResourceForm"
-      onSubmit={e =>
+      onSubmit={e => {
         onSubmitNewResourceForm(
           e,
           totalSubmitEnabled,
@@ -104,10 +98,10 @@ const NewResourceForm = (props: FormProps) => {
             financialAidDetails,
             cost: getFieldValue('cost') || '',
             availableLanguages: availableLanguages || [],
-            lastedUpdated: Date.now(),
+            lastedUpdated: new Date(Date.now()),
             recommendation: getFieldValue('recommendation'),
-            comments: getFieldValue('comments') || [],
-            internalNotes: getFieldValue('internalNotes') || [],
+            comments: comments || [],
+            internalNotes: internalNotes || [],
           },
           res => {
             setSuccessMessage('Resource successfully created!');
@@ -117,8 +111,8 @@ const NewResourceForm = (props: FormProps) => {
             setSuccessMessage('');
             setErrorMessage(res.message);
           },
-        )
-      }
+        );
+      }}
     >
       {successMessage !== '' && (
         <Alert
@@ -164,6 +158,9 @@ const NewResourceForm = (props: FormProps) => {
       <Form.Item label="Website">
         {getFieldDecorator('website', {})(<Input placeholder="Website" />)}
       </Form.Item>
+      <Form.Item label="Email">
+        {getFieldDecorator('email', {})(<Input placeholder="Email" />)}
+      </Form.Item>
       {PhoneNumberFormItem({
         phoneNumbers,
         setPhoneNumbers,
@@ -182,7 +179,7 @@ const NewResourceForm = (props: FormProps) => {
       </Form.Item>
       <Form.Item label="Hours of Operation">
         {getFieldDecorator('hoursOfOperation', {})(
-          <Input placeholder="Hours of Operation" />,
+          <Input placeholder="00:00:00-00:00:00" />,
         )}
       </Form.Item>
       <Form.Item label="Eligibility Requirements">
@@ -206,7 +203,9 @@ const NewResourceForm = (props: FormProps) => {
         setTotalSubmitEnabled,
       })}
       <Form.Item label="Recommendation">
-        {getFieldDecorator('recommendation', {})(
+        {getFieldDecorator('recommendation', {
+          initialValue: 'Yes',
+        })(
           <Select defaultValue="Yes">
             <Option value="Yes">Yes</Option>
             <Option value="Maybe">Maybe</Option>
