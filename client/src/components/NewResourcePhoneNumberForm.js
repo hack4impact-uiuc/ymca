@@ -6,7 +6,7 @@ TODO: Implement phoneType into form.
 
 import React, { useState } from 'react';
 import '../css/NewResourcePhoneNumberForm.css';
-import { Input, Form, Button, List, Skeleton } from 'antd';
+import { Input, Form, Button, List } from 'antd';
 
 const onInputFocus = (setTotalSubmitEnabled, setSubmitEnabled) => {
   setTotalSubmitEnabled(false);
@@ -27,7 +27,7 @@ const PhoneNumberForm = Form.create({ name: 'phoneNumber' })(props => {
   return (
     <Form
       className="phoneNumberForm"
-      onSubmit={e => {
+      onSubmit={() => {
         const phoneNumber = getFieldValue('phoneNumber');
         const phoneType = getFieldValue('phoneType') || '';
 
@@ -59,8 +59,10 @@ const PhoneNumberForm = Form.create({ name: 'phoneNumber' })(props => {
         })(
           <Input
             placeholder="Phone Number"
-            onFocus={e => onInputFocus(setTotalSubmitEnabled, setSubmitEnabled)}
-            onBlur={e => onInputBlur(setTotalSubmitEnabled, setSubmitEnabled)}
+            onFocus={() =>
+              onInputFocus(setTotalSubmitEnabled, setSubmitEnabled)
+            }
+            onBlur={() => onInputBlur(setTotalSubmitEnabled, setSubmitEnabled)}
           />,
         )}
       </Form.Item>
@@ -75,8 +77,10 @@ const PhoneNumberForm = Form.create({ name: 'phoneNumber' })(props => {
         })(
           <Input
             placeholder="Phone Type (i.e. Mobile, Home, etc.)"
-            onFocus={e => onInputFocus(setTotalSubmitEnabled, setSubmitEnabled)}
-            onBlur={e => onInputBlur(setTotalSubmitEnabled, setSubmitEnabled)}
+            onFocus={() =>
+              onInputFocus(setTotalSubmitEnabled, setSubmitEnabled)
+            }
+            onBlur={() => onInputBlur(setTotalSubmitEnabled, setSubmitEnabled)}
           />,
         )}
       </Form.Item>

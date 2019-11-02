@@ -1,7 +1,7 @@
 // @flow
 
 import React, { useState } from 'react';
-import { Input, Form } from 'antd';
+import { Form } from 'antd';
 import Select from 'react-select';
 import { getCategories } from '../utils/api';
 
@@ -45,7 +45,6 @@ const wrappedSetCategory = args => {
 
 type Props = {
   category: String,
-  subcategory: String,
   setCategory: () => void,
   setSubcategory: () => void,
   getFieldDecorator: () => any,
@@ -55,7 +54,6 @@ type Props = {
 const CategorySelector = (props: Props) => {
   const {
     category,
-    subcategory,
     setCategory,
     setSubcategory,
     getFieldDecorator,

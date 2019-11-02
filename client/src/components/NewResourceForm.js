@@ -6,11 +6,10 @@ TODO: Have some fields be more in-depth than just a text bar.
 TODO: Improve UI and UX.
 */
 
-import React, { useState, useDebugValue, useEffect } from 'react';
+import React, { useState } from 'react';
 import '../css/NewResourceForm.css';
-import { Form, Input, Button, Cascader, Alert, Select, TimePicker } from 'antd';
+import { Form, Input, Button, Alert, Select } from 'antd';
 import fetch from 'isomorphic-fetch';
-import { addResource, getCategories } from '../utils/api';
 import PhoneNumberFormItem from './NewResourcePhoneNumberForm';
 import ContactFormItem from './NewResourceContactForm';
 import FinancialAidFormItem from './NewResourceFinancialAidForm';
@@ -27,7 +26,7 @@ const SERVER_URI = 'https://ymca.now.sh';
 const onSubmitNewResourceForm = (e, enabled, resource, onSucc, onErr) => {
   e.preventDefault();
 
-  /* if (enabled) {
+  if (enabled) {
     fetch(`${SERVER_URI}/api/resources`, {
       method: 'POST',
       headers: {
@@ -43,8 +42,7 @@ const onSubmitNewResourceForm = (e, enabled, resource, onSucc, onErr) => {
           onErr(res);
         }
       });
-  } */
-  console.log(resource);
+  }
 };
 
 type FormProps = {
@@ -64,10 +62,7 @@ const NewResourceForm = (props: FormProps) => {
   const [subcategory, setSubcategory] = useState('');
   const [phoneNumbers, setPhoneNumbers] = useState([]);
   const [contacts, setContacts] = useState([]);
-  const [hoursOfOperation, setHoursOfOperation] = useState('');
-  const [eligibilityRequirements, setEligibilityRequirements] = useState('');
   const [financialAidDetails, setFinancialAidDetails] = useState({});
-  const [cost, setCost] = useState('');
   const [availableLanguages, setAvailableLanguages] = useState([]);
   const [comments, setComments] = useState([]);
   const [internalNotes, setInternalNotes] = useState([]);
@@ -103,7 +98,7 @@ const NewResourceForm = (props: FormProps) => {
             comments: comments || [],
             internalNotes: internalNotes || [],
           },
-          res => {
+          () => {
             setSuccessMessage('Resource successfully created!');
             setErrorMessage('');
           },
@@ -119,12 +114,17 @@ const NewResourceForm = (props: FormProps) => {
           type="success"
           closable
           message={successMessage}
-          onClose={e => {}}
+          onClose={() => {}}
         />
       )}
 
       {errorMessage !== '' && (
-        <Alert type="error" closable message={errorMessage} onClose={e => {}} />
+        <Alert
+          type="error"
+          closable
+          message={errorMessage}
+          onClose={() => {}}
+        />
       )}
 
       <CategorySelector

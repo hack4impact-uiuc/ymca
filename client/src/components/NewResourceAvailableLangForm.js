@@ -1,7 +1,6 @@
 // @flow
 
-import React, { useState } from 'react';
-import { Form, Input, Button, List } from 'antd';
+import React from 'react';
 import StrListFormItem from './NewResourceStrListForm';
 
 type FormItemProps = {

@@ -1,9 +1,21 @@
 // @flow
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Form, Input, Button, List } from 'antd';
 
-const StrForm = Form.create({ name: 'availableLanguages' })(props => {
+type FormProps = {
+  listOfStrings: Array<String>,
+  setListOfStrings: () => void,
+  setTotalSubmitEnabled: () => void,
+  placeholder: String,
+  form: {
+    getFieldDecorator: () => any,
+    getFieldValue: () => any,
+    setFieldsValue: () => any,
+  },
+};
+
+const StrForm = (props: FormProps) => {
   const {
     listOfStrings,
     setListOfStrings,
@@ -15,7 +27,7 @@ const StrForm = Form.create({ name: 'availableLanguages' })(props => {
 
   return (
     <Form
-      onSubmit={e => {
+      onSubmit={() => {
         const val = getFieldValue('val');
         setListOfStrings([...listOfStrings, val]);
 
@@ -34,7 +46,7 @@ const StrForm = Form.create({ name: 'availableLanguages' })(props => {
       </Form.Item>
     </Form>
   );
-});
+};
 
 type FormItemProps = {
   formName: String,
@@ -55,7 +67,7 @@ const StrListFormItem = (props: FormItemProps) => {
     placeholder,
   } = props;
 
-  const form = Form.create({ name: formName })(StrForm);
+  const NewFrom = Form.create({ name: formName })(StrForm);
 
   return (
     <Form.Item label={label}>
@@ -78,7 +90,7 @@ const StrListFormItem = (props: FormItemProps) => {
           </List.Item>
         )}
       />
-      <StrForm
+      <NewFrom
         listOfStrings={listOfStrings}
         setListOfStrings={setListOfStrings}
         setTotalSubmitEnabled={setTotalSubmitEnabled}
