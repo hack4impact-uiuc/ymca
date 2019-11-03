@@ -1,8 +1,7 @@
 // @flow
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, Select } from 'antd';
-// import Select from 'react-select';
 import { getCategories } from '../utils/api';
 
 const { Option } = Select;
@@ -14,9 +13,10 @@ const wrappedSetCategory = args => {
     setSubcategory,
     setFieldsValue,
 
-    subcategoryOptions,
-    setSubcategoryStrOptions,
-    categoryOptions,
+    fetchedCategories,
+    setCurrentSubcategories,
+    setSearchCategoryOptions,
+    setSearchSubcategoryOptions,
   } = args;
 
   setCategory(targetCategory);
@@ -26,16 +26,16 @@ const wrappedSetCategory = args => {
     subcategory: 'Select a subcategory...',
   });
 
-  const subcategoryStrs = [];
-  categoryOptions.forEach(key => {
-    if (key === targetCategory) {
-      subcategoryOptions[key].forEach(sub => {
-        subcategoryStrs.push(sub);
-      });
+  // set current subcategories
+  fetchedCategories.forEach(cat => {
+    if (cat.name === targetCategory) {
+      setCurrentSubcategories(cat.subcategories);
+      setSearchSubcategoryOptions(cat.subcategories);
     }
   });
 
-  setSubcategoryStrOptions(subcategoryStrs);
+  // reset search categories list
+  setSearchCategoryOptions(fetchedCategories.map(cat => cat.name));
 };
 
 type Props = {
@@ -55,33 +55,22 @@ const CategorySelector = (props: Props) => {
     setFieldsValue,
   } = props;
 
-  const [categoryOptions, setCategoryOptions] = useState([]);
-  const [subcategoryOptions, setSubcategoryOptions] = useState({});
-  const [subcategoryStrOptions, setSubcategoryStrOptions] = useState([]);
+  const [fetchedCategories, setFetchedCategories] = useState([]);
+  const [currentSubcategories, setCurrentSubcategories] = useState([]);
+  const [searchCategoryOptions, setSearchCategoryOptions] = useState([]);
+  const [searchSubcategoryOptions, setSearchSubcategoryOptions] = useState([]);
 
-  getCategories()
-    .then(res => {
-      if (res.code === 200) {
-        const fetchedCategories = res.result;
-        const categories = [];
-        const subcategories = {};
-
-        Object.values(fetchedCategories).forEach(cat => {
-          categories.push(cat.name);
-          subcategories[cat.name] = [];
-
-          cat.subcategories.forEach(sub => {
-            subcategories[cat.name].push(sub);
-          });
-        });
-
-        setCategoryOptions(categories);
-        setSubcategoryOptions(subcategories);
+  // fetch categories && subcategories
+  useEffect(() => {
+    getCategories().then(res => {
+      if (res !== null) {
+        if (res.code === 200) {
+          setFetchedCategories(res.result);
+          setSearchCategoryOptions(res.result.map(cat => cat.name));
+        }
       }
-    })
-    .then
-    // stop loading bar
-    ();
+    });
+  }, []);
 
   return (
     <>
@@ -97,31 +86,32 @@ const CategorySelector = (props: Props) => {
         })(
           <Select
             className="newResourceSelect"
-            showSearch
             placeholder="Select category..."
+            showSearch
             onSearch={val => {
               const options = [];
-              categoryOptions.forEach(o => {
-                if (o.toLowerCase().includes(val.toLowerCase())) {
-                  options.push(o);
+              fetchedCategories.forEach(cat => {
+                const { name } = cat;
+                if (name.toLowerCase().includes(val.toLowerCase())) {
+                  options.push(name);
                 }
               });
-              setCategoryOptions(options);
+              setSearchCategoryOptions(options);
             }}
             onChange={val =>
               wrappedSetCategory({
                 targetCategory: val,
                 setSubcategory,
                 setCategory,
-                setSubcategoryOptions,
                 setFieldsValue,
-                subcategoryOptions,
-                setSubcategoryStrOptions,
-                categoryOptions,
+                fetchedCategories,
+                setCurrentSubcategories,
+                setSearchCategoryOptions,
+                setSearchSubcategoryOptions,
               })
             }
           >
-            {categoryOptions.map(o => (
+            {searchCategoryOptions.map(o => (
               <Option value={o}>{o}</Option>
             ))}
           </Select>,
@@ -143,33 +133,20 @@ const CategorySelector = (props: Props) => {
             showSearch
             onSearch={val => {
               const options = [];
-              Object.keys(subcategoryOptions).forEach(key => {
-                if (key === category) {
-                  subcategoryOptions[key].forEach(o => {
-                    if (o.toLowerCase().includes(val.toLowerCase())) {
-                      options.push(o);
-                    }
-                  });
+              currentSubcategories.forEach(sub => {
+                if (sub.toLowerCase().includes(val.toLowerCase())) {
+                  options.push(sub);
                 }
               });
-              setSubcategoryStrOptions(options);
+              setSearchSubcategoryOptions(options);
             }}
             onChange={val => {
               setSubcategory(val);
-
-              const options = [];
-              Object.keys(subcategoryOptions).forEach(key => {
-                if (key === category) {
-                  subcategoryOptions[key].forEach(o => {
-                    options.push(o);
-                  });
-                }
-              });
-
-              setSubcategoryStrOptions(options);
+              // reset search subcategories
+              setSearchSubcategoryOptions(currentSubcategories);
             }}
           >
-            {subcategoryStrOptions.map(o => (
+            {searchSubcategoryOptions.map(o => (
               <Option value={o}>{o}</Option>
             ))}
           </Select>,
