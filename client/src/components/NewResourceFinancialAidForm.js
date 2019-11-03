@@ -4,26 +4,14 @@
 TODO: Implement phoneType into form.
 */
 
-import React, { useState } from 'react';
+import React from 'react';
 import '../css/NewResourcePhoneNumberForm.css';
 import { Input, Form, Button, Descriptions } from 'antd';
-
-const onInputFocus = (setSubmitEnabled, setTotalSubmitEnabled) => {
-  setSubmitEnabled(true);
-  setTotalSubmitEnabled(false);
-};
-
-const onInputBlur = (setSubmitEnabled, setTotalSubmitEnabled) => {
-  setSubmitEnabled(false);
-  setTotalSubmitEnabled(true);
-};
 
 const FinancialAidForm = Form.create({ name: 'financialAid' })(props => {
   const { setFinancialAidDetails, setTotalSubmitEnabled } = props;
 
   const { getFieldDecorator, getFieldValue } = props.form;
-
-  const [submitEnabled, setSubmitEnabled] = useState(false);
 
   return (
     <Form
@@ -40,10 +28,8 @@ const FinancialAidForm = Form.create({ name: 'financialAid' })(props => {
         {getFieldDecorator('education', {})(
           <Input
             placeholder="Education"
-            onFocus={() =>
-              onInputFocus(setSubmitEnabled, setTotalSubmitEnabled)
-            }
-            onBlur={() => onInputBlur(setSubmitEnabled, setTotalSubmitEnabled)}
+            onFocus={() => setTotalSubmitEnabled(false)}
+            onBlur={() => setTotalSubmitEnabled(true)}
           />,
         )}
       </Form.Item>
@@ -51,10 +37,8 @@ const FinancialAidForm = Form.create({ name: 'financialAid' })(props => {
         {getFieldDecorator('immigrationStatus', {})(
           <Input
             placeholder="Immigration Status"
-            onFocus={() =>
-              onInputFocus(setSubmitEnabled, setTotalSubmitEnabled)
-            }
-            onBlur={() => onInputBlur(setSubmitEnabled, setTotalSubmitEnabled)}
+            onFocus={() => setTotalSubmitEnabled(false)}
+            onBlur={() => setTotalSubmitEnabled(true)}
           />,
         )}
       </Form.Item>
@@ -62,10 +46,8 @@ const FinancialAidForm = Form.create({ name: 'financialAid' })(props => {
         {getFieldDecorator('deadline', {})(
           <Input
             placeholder="Deadline"
-            onFocus={() =>
-              onInputFocus(setSubmitEnabled, setTotalSubmitEnabled)
-            }
-            onBlur={() => onInputBlur(setSubmitEnabled, setTotalSubmitEnabled)}
+            onFocus={() => setTotalSubmitEnabled(false)}
+            onBlur={() => setTotalSubmitEnabled(true)}
           />,
         )}
       </Form.Item>

@@ -4,7 +4,7 @@
 TODO: Implement phoneType into form.
 */
 
-import React, { useState } from 'react';
+import React from 'react';
 import '../css/NewResourcePhoneNumberForm.css';
 import { Input, Form, Button, List } from 'antd';
 

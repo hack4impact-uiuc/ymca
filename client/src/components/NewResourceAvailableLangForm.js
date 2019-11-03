@@ -23,6 +23,7 @@ const AvailableLangFormItem = (props: FormItemProps) => {
       placeholder="Available Language"
       listOfStrings={availableLanguages}
       setListOfStrings={setAvailableLanguages}
+      setTotalSubmitEnabled={setTotalSubmitEnabled}
     />
   );
 };

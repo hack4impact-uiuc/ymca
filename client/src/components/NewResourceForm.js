@@ -1,14 +1,14 @@
 // @flow
 
 /*
-TODO: Have resource be created.
 TODO: Have some fields be more in-depth than just a text bar.
+TODO: Add clear all fields button.
 TODO: Improve UI and UX.
 */
 
 import React, { useState } from 'react';
 import '../css/NewResourceForm.css';
-import { Form, Input, Button, Alert, Select, Affix, message } from 'antd';
+import { Form, Input, Button, Select, Affix, message } from 'antd';
 import fetch from 'isomorphic-fetch';
 import PhoneNumberFormItem from './NewResourcePhoneNumberForm';
 import ContactFormItem from './NewResourceContactForm';
@@ -56,8 +56,6 @@ type FormProps = {
 };
 
 const NewResourceForm = (props: FormProps) => {
-  const [errorMessage, setErrorMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
   const [totalSubmitEnabled, setTotalSubmitEnabled] = useState(true);
 
   const [category, setCategory] = useState('');
@@ -99,24 +97,6 @@ const NewResourceForm = (props: FormProps) => {
         });
       }}
     >
-      {successMessage !== '' && (
-        <Alert
-          type="success"
-          closable
-          message={successMessage}
-          onClose={() => {}}
-        />
-      )}
-
-      {errorMessage !== '' && (
-        <Alert
-          type="error"
-          closable
-          message={errorMessage}
-          onClose={() => {}}
-        />
-      )}
-
       <CategorySelector
         category={category}
         setCategory={setCategory}

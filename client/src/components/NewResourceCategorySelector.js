@@ -39,7 +39,6 @@ const wrappedSetCategory = args => {
 };
 
 type Props = {
-  category: String,
   setCategory: () => void,
   setSubcategory: () => void,
   getFieldDecorator: () => any,
@@ -48,7 +47,6 @@ type Props = {
 
 const CategorySelector = (props: Props) => {
   const {
-    category,
     setCategory,
     setSubcategory,
     getFieldDecorator,
