@@ -73,9 +73,9 @@ export default class ResourceDetail extends Component {
     } = this.state;
 
     return (
-      <div className="ResourceDetail">
+      <div className="resource-detail">
         <Row
-          className="home-block-3"
+          className="banner"
           type="flex"
           justify="center"
           align="middle"
@@ -83,14 +83,14 @@ export default class ResourceDetail extends Component {
         />
         <Row>
           <Col span={15}>
-            <div className="resourceName">{name}</div>
+            <div className="resource-name">{name}</div>
           </Col>
           <Col span={9}>
             {address.length > 0 || city.length > 0 ? (
-              <div>
+              <>
                 {address.length > 0 && `${address}\n`}
                 {city.length > 0 && `${city}\n`}
-              </div>
+              </>
             ) : (
               'No address provided.'
             )}
@@ -114,14 +114,14 @@ export default class ResourceDetail extends Component {
                   {phone.length > 0 ||
                   email.length > 0 ||
                   website.length > 0 ? (
-                    <div>
+                    <>
                       {phone.length > 0 &&
                         phone.map(num => {
                           return `${num}\n`;
                         })}
                       {email.length > 0 && `${email}\n`}
                       {website.length > 0 && `${website}\n`}
-                    </div>
+                    </>
                   ) : (
                     'None provided.'
                   )}

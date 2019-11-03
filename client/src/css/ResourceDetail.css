@@ -1,31 +1,29 @@
-.ResourceDetail {
+.resource-detail {
   white-space: pre-line;
 }
 
-.resourceName {
+.resource-name {
   font-weight: 700;
   font-size: 175%;
 }
 
-.ant-row {
+.ant-row .resource-detail {
   padding-top: 20px;
   padding-bottom: 20px;
   padding-left: 15%;
   padding-right: 15%;
 }
 
-.section {
+.section .resource-detail {
   background-color: #fbfbfb;
 }
 
-/* D8D8D8 */
-
-.sectionLabel {
+.sectionLabel .resource-detail {
   padding-top: 30px;
   font-weight: 600;
 }
 
-.ant-card {
+.ant-card .resource-detail {
   margin-top: 10px;
   margin-bottom: 10px;
   margin-left: 5%;
@@ -33,37 +31,37 @@
   height: 190px;
 }
 
-.cardRow {
+.cardRow .resource-detail {
   padding-top: 0px;
   padding-bottom: 0px;
 }
 
-.ant-card-bordered {
+.ant-card-bordered .resource-detail {
   border: 1px solid #cacaca;
 }
 
-.cardLabel {
+.cardLabel .resource-detail {
   font-weight: 600;
   padding-bottom: 5px;
 }
 
-.dayLabel {
+.dayLabel .resource-detail {
   padding-top: 20px;
 }
 
-.anticon {
+.anticon .resource-detail {
   margin-bottom: 12px;
   font-size: 150%;
 }
 
-.ant-card-body {
+.ant-card-body .resource-detail {
   padding-top: 15px;
   padding-bottom: 15px;
   padding-left: 24px;
   padding-right: 24px;
 }
 
-.home-block-3 {
+.banner .resource-detail {
   height: 20vh;
   background-image: url('../imgs/homePage/testimonial.png');
   background-size: cover;
