@@ -1,46 +1,41 @@
 // @flow
 
 import React, { useState } from 'react';
-import { Form } from 'antd';
-import Select from 'react-select';
+import { Form, Select } from 'antd';
+// import Select from 'react-select';
 import { getCategories } from '../utils/api';
+
+const { Option } = Select;
 
 const wrappedSetCategory = args => {
   const {
     targetCategory,
-    currentCategory,
     setCategory,
-    setSubcategoryOptions,
     setSubcategory,
     setFieldsValue,
+
+    subcategoryOptions,
+    setSubcategoryStrOptions,
+    categoryOptions,
   } = args;
 
-  if (targetCategory !== currentCategory) {
-    setCategory(targetCategory);
+  setCategory(targetCategory);
+  setSubcategory('');
 
-    getCategories().then(res => {
-      if (res.code === 200) {
-        const subcategories = [];
+  setFieldsValue({
+    subcategory: 'Select a subcategory...',
+  });
 
-        Object.values(res.result).forEach(category => {
-          if (category.name === targetCategory) {
-            category.subcategories.forEach(entry => {
-              subcategories.push({
-                label: entry,
-                value: entry,
-              });
-            });
-          }
-        });
+  const subcategoryStrs = [];
+  categoryOptions.forEach(key => {
+    if (key === targetCategory) {
+      subcategoryOptions[key].forEach(sub => {
+        subcategoryStrs.push(sub);
+      });
+    }
+  });
 
-        setFieldsValue({
-          subcategory: '',
-        });
-        setSubcategory('');
-        setSubcategoryOptions(subcategories);
-      }
-    });
-  }
+  setSubcategoryStrOptions(subcategoryStrs);
 };
 
 type Props = {
@@ -61,34 +56,38 @@ const CategorySelector = (props: Props) => {
   } = props;
 
   const [categoryOptions, setCategoryOptions] = useState([]);
-  const [subcategoryOptions, setSubcategoryOptions] = useState([
-    {
-      label: 'Please select a category first',
-      value: 'null',
-    },
-  ]);
+  const [subcategoryOptions, setSubcategoryOptions] = useState({});
+  const [subcategoryStrOptions, setSubcategoryStrOptions] = useState([]);
 
-  getCategories().then(res => {
-    if (res.code === 200) {
-      const fetchedCategories = res.result;
-      const categories = [];
+  getCategories()
+    .then(res => {
+      if (res.code === 200) {
+        const fetchedCategories = res.result;
+        const categories = [];
+        const subcategories = {};
 
-      Object.values(fetchedCategories).forEach(c => {
-        categories.push({
-          label: c.name,
-          value: c.name,
+        Object.values(fetchedCategories).forEach(cat => {
+          categories.push(cat.name);
+          subcategories[cat.name] = [];
+
+          cat.subcategories.forEach(sub => {
+            subcategories[cat.name].push(sub);
+          });
         });
-      });
 
-      setCategoryOptions(categories);
-    }
-  });
+        setCategoryOptions(categories);
+        setSubcategoryOptions(subcategories);
+      }
+    })
+    .then
+    // stop loading bar
+    ();
 
   return (
     <>
       <Form.Item label="Category">
         {getFieldDecorator('category', {
-          initialValue: 'val',
+          initialValue: 'Select category...',
           rules: [
             {
               required: true,
@@ -98,24 +97,39 @@ const CategorySelector = (props: Props) => {
         })(
           <Select
             className="newResourceSelect"
-            options={categoryOptions}
-            onChange={e =>
+            showSearch
+            placeholder="Select category..."
+            onSearch={val => {
+              const options = [];
+              categoryOptions.forEach(o => {
+                if (o.toLowerCase().includes(val.toLowerCase())) {
+                  options.push(o);
+                }
+              });
+              setCategoryOptions(options);
+            }}
+            onChange={val =>
               wrappedSetCategory({
-                targetCategory: e.value,
-                currentCategory: category,
+                targetCategory: val,
                 setSubcategory,
                 setCategory,
                 setSubcategoryOptions,
                 setFieldsValue,
+                subcategoryOptions,
+                setSubcategoryStrOptions,
+                categoryOptions,
               })
             }
-            placeholder="Select category..."
-          />,
+          >
+            {categoryOptions.map(o => (
+              <Option value={o}>{o}</Option>
+            ))}
+          </Select>,
         )}
       </Form.Item>
       <Form.Item label="Subcategory">
         {getFieldDecorator('subcategory', {
-          initialValue: 'val',
+          initialValue: 'Select subcategory...',
           rules: [
             {
               required: true,
@@ -125,10 +139,40 @@ const CategorySelector = (props: Props) => {
         })(
           <Select
             className="newResourceSelect"
-            options={subcategoryOptions}
-            onChange={e => setSubcategory(e.value)}
             placeholder="Select subcategory..."
-          />,
+            showSearch
+            onSearch={val => {
+              const options = [];
+              Object.keys(subcategoryOptions).forEach(key => {
+                if (key === category) {
+                  subcategoryOptions[key].forEach(o => {
+                    if (o.toLowerCase().includes(val.toLowerCase())) {
+                      options.push(o);
+                    }
+                  });
+                }
+              });
+              setSubcategoryStrOptions(options);
+            }}
+            onChange={val => {
+              setSubcategory(val);
+
+              const options = [];
+              Object.keys(subcategoryOptions).forEach(key => {
+                if (key === category) {
+                  subcategoryOptions[key].forEach(o => {
+                    options.push(o);
+                  });
+                }
+              });
+
+              setSubcategoryStrOptions(options);
+            }}
+          >
+            {subcategoryStrOptions.map(o => (
+              <Option value={o}>{o}</Option>
+            ))}
+          </Select>,
         )}
       </Form.Item>
     </>
