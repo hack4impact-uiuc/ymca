@@ -1,12 +1,69 @@
-.ResourceDetail {
-  margin: 20px;
+.resource-detail {
   white-space: pre-line;
 }
 
-.resourceName {
-  text-align: center;
+.resource-name {
+  font-weight: 700;
+  font-size: 175%;
 }
 
-.col {
+.resource-detail .ant-row {
   padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 15%;
+  padding-right: 15%;
+}
+
+.resource-detail .section {
+  background-color: #fbfbfb;
+}
+
+.resource-detail .section-label {
+  padding-top: 30px;
+  font-weight: 600;
+}
+
+.resource-detail .ant-card {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 5%;
+  margin-right: 5%;
+  height: 190px;
+}
+
+.resource-detail .card-row {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.resource-detail .ant-card-bordered {
+  border: 1px solid #cacaca;
+}
+
+.resource-detail .card-label {
+  font-weight: 600;
+  padding-bottom: 5px;
+}
+
+.resource-detail .day-label {
+  padding-top: 20px;
+}
+
+.resource-detail .anticon {
+  margin-bottom: 12px;
+  font-size: 150%;
+}
+
+.resource-detail .ant-card-body {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.resource-detail .banner {
+  height: 20vh;
+  background-image: url('../imgs/homePage/testimonial.png');
+  background-size: cover;
+  margin-bottom: 10px !important;
 }
