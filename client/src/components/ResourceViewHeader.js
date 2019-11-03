@@ -6,7 +6,7 @@ import ResourceBreadcrumb from './ResourceBreadcrumb';
 
 const { Header } = Layout;
 
-function FilterHeader(props) {
+function ResourceViewHeader(props) {
   const { categorySelected, subcategorySelected } = props;
 
   return (
@@ -15,7 +15,9 @@ function FilterHeader(props) {
         background: '#431C72',
         color: 'white',
         height: 'auto',
-        paddingBottom: '16px',
+        paddingLeft: '235px',
+        paddingBottom: '3em',
+        paddingTop: '2em',
       }}
     >
       <Row>
@@ -31,9 +33,9 @@ function FilterHeader(props) {
   );
 }
 
-FilterHeader.propTypes = {
+ResourceViewHeader.propTypes = {
   categorySelected: PropTypes.string.isRequired,
   subcategorySelected: PropTypes.string.isRequired,
 };
 
-export default FilterHeader;
+export default ResourceViewHeader;
