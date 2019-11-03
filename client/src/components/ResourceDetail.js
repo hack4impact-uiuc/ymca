@@ -3,9 +3,17 @@ import '../css/ResourceDetail.css';
 import { Row, Col, Card, Icon } from 'antd';
 import PropTypes from 'prop-types';
 import { getResourceByID } from '../utils/api';
-import ResourceBreadcrumb from './ResourceBreadcrumb';
+// import ResourceBreadcrumb from './ResourceBreadcrumb';
 
-const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const days = [
+  'Sunday',
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+];
 
 export default class ResourceDetail extends Component {
   constructor(props) {
@@ -18,13 +26,13 @@ export default class ResourceDetail extends Component {
       address: '',
       website: '',
       description: '',
-      hours: ["", "", "", "", "", "", ""],
+      hours: ['', '', '', '', '', '', ''],
       city: '',
       languages: [],
       requiredDocuments: [],
       cost: '',
-      category: '',
-      subcategory: ''
+      // category: '',
+      // subcategory: '',
     };
   }
 
@@ -39,8 +47,8 @@ export default class ResourceDetail extends Component {
         phone: result.phoneNumbers,
         description: result.description,
         languages: result.availableLanguages,
-        category: result.category,
-        subcategory: result.subcategory
+        // category: result.category,
+        // subcategory: result.subcategory,
       });
     } else {
       // redirect to 404
@@ -60,16 +68,19 @@ export default class ResourceDetail extends Component {
       languages,
       requiredDocuments,
       cost,
-      category,
-      subcategory
+      // category,
+      // subcategory,
     } = this.state;
 
     return (
       <div className="ResourceDetail">
-        {category.length > 0 && subcategory.length > 0
-        && <Row>
-          <ResourceBreadcrumb categorySelected={category} subcategorySelected={subcategory} resource={name}/>
-        </Row>}
+        <Row
+          className="home-block-3"
+          type="flex"
+          justify="center"
+          align="middle"
+          gutter={[16, 16]}
+        />
         <Row>
           <Col span={15}>
             <div className="resourceName">{name}</div>
@@ -160,11 +171,11 @@ export default class ResourceDetail extends Component {
                 return (
                   <Col span={8}>
                     <Card>
-                      <div className="cardLabel dayLabel">{days[i] + '\n'}</div>
-                      {day.length > 0 ? day : "None"}
+                      <div className="cardLabel dayLabel">{`${days[i]}\n`}</div>
+                      {day.length > 0 ? day : 'None'}
                     </Card>
                   </Col>
-                )
+                );
               })}
             </Row>
           </Col>

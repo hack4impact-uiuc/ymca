@@ -62,3 +62,10 @@
   padding-left: 24px;
   padding-right: 24px;
 }
+
+.home-block-3 {
+  height: 20vh;
+  background-image: url('../imgs/homePage/testimonial.png');
+  background-size: cover;
+  margin-bottom: 10px !important;
+}
