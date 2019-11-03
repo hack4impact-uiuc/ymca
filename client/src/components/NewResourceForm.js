@@ -214,7 +214,7 @@ const NewResourceForm = (props: FormProps) => {
         setTotalSubmitEnabled,
       })}
 
-      <Affix offsetBottom={10}>
+      <Affix offsetBottom={20}>
         <Button type="primary" htmlType="submit" className="newResourceSubmit">
           Add Resource
         </Button>

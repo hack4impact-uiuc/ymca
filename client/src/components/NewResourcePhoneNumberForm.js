@@ -8,21 +8,9 @@ import React, { useState } from 'react';
 import '../css/NewResourcePhoneNumberForm.css';
 import { Input, Form, Button, List } from 'antd';
 
-const onInputFocus = (setTotalSubmitEnabled, setSubmitEnabled) => {
-  setTotalSubmitEnabled(false);
-  setSubmitEnabled(true);
-};
-
-const onInputBlur = (setTotalSubmitEnabled, setSubmitEnabled) => {
-  setTotalSubmitEnabled(true);
-  setSubmitEnabled(false);
-};
-
 const PhoneNumberForm = Form.create({ name: 'phoneNumber' })(props => {
   const { setPhoneNumbers, phoneNumbers, setTotalSubmitEnabled } = props;
   const { setFieldsValue, getFieldValue, getFieldDecorator } = props.form;
-
-  const [submitEnabled, setSubmitEnabled] = useState(false);
 
   return (
     <Form
@@ -31,7 +19,7 @@ const PhoneNumberForm = Form.create({ name: 'phoneNumber' })(props => {
         const phoneNumber = getFieldValue('phoneNumber');
         const phoneType = getFieldValue('phoneType') || '';
 
-        if (phoneNumber !== '') {
+        if (phoneNumber !== undefined && phoneNumber.trim() !== '') {
           setPhoneNumbers([
             ...phoneNumbers,
             {
@@ -59,10 +47,8 @@ const PhoneNumberForm = Form.create({ name: 'phoneNumber' })(props => {
         })(
           <Input
             placeholder="Phone Number"
-            onFocus={() =>
-              onInputFocus(setTotalSubmitEnabled, setSubmitEnabled)
-            }
-            onBlur={() => onInputBlur(setTotalSubmitEnabled, setSubmitEnabled)}
+            onFocus={() => setTotalSubmitEnabled(false)}
+            onBlur={() => setTotalSubmitEnabled(true)}
           />,
         )}
       </Form.Item>
@@ -77,10 +63,8 @@ const PhoneNumberForm = Form.create({ name: 'phoneNumber' })(props => {
         })(
           <Input
             placeholder="Phone Type (i.e. Mobile, Home, etc.)"
-            onFocus={() =>
-              onInputFocus(setTotalSubmitEnabled, setSubmitEnabled)
-            }
-            onBlur={() => onInputBlur(setTotalSubmitEnabled, setSubmitEnabled)}
+            onFocus={() => setTotalSubmitEnabled(false)}
+            onBlur={() => setTotalSubmitEnabled(true)}
           />,
         )}
       </Form.Item>

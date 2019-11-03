@@ -29,9 +29,12 @@ const StrForm = (props: FormProps) => {
     <Form
       onSubmit={() => {
         const val = getFieldValue('val');
-        setListOfStrings([...listOfStrings, val]);
 
-        setFieldsValue({ val: '' });
+        if (val !== undefined && val.trim() !== '') {
+          setListOfStrings([...listOfStrings, val]);
+
+          setFieldsValue({ val: '' });
+        }
       }}
     >
       <Form.Item>
@@ -40,9 +43,16 @@ const StrForm = (props: FormProps) => {
             {
               required: true,
               message: 'Please input a value!',
+              whitespace: true,
             },
           ],
-        })(<Input placeholder={placeholder} />)}
+        })(
+          <Input
+            placeholder={placeholder}
+            onFocus={() => setTotalSubmitEnabled(false)}
+            onBlur={() => setTotalSubmitEnabled(true)}
+          />,
+        )}
       </Form.Item>
     </Form>
   );

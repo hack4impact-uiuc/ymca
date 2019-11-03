@@ -22,22 +22,10 @@ type FormItemProps = {
   setTotalSubmitEnabled: () => void,
 };
 
-const onInputFocus = (setSubmitEnabled, setTotalSubmitEnabled) => {
-  setSubmitEnabled(true);
-  setTotalSubmitEnabled(false);
-};
-
-const onInputBlur = (setSubmitEnabled, setTotalSubmitEnabled) => {
-  setSubmitEnabled(false);
-  setTotalSubmitEnabled(true);
-};
-
 const ContactForm = Form.create({ name: 'contactForm' })(props => {
   const { contacts, setContacts, setTotalSubmitEnabled } = props;
 
   const { getFieldDecorator, setFieldsValue, getFieldValue } = props.form;
-
-  const [submitEnabled, setSubmitEnabled] = useState(false);
 
   return (
     <Form
@@ -46,7 +34,12 @@ const ContactForm = Form.create({ name: 'contactForm' })(props => {
         const contactName = getFieldValue('contactName');
         const contactRole = getFieldValue('contactRole');
 
-        if (contactName !== '' && contactRole !== '') {
+        if (
+          contactName !== undefined &&
+          contactRole !== undefined &&
+          contactName.trim() !== '' &&
+          contactRole.trim() !== ''
+        ) {
           setContacts([
             ...contacts,
             {
@@ -74,15 +67,14 @@ const ContactForm = Form.create({ name: 'contactForm' })(props => {
             {
               required: true,
               message: 'Please input a name!',
+              whitespace: true,
             },
           ],
         })(
           <Input
             placeholder="Contact Name"
-            onFocus={() =>
-              onInputFocus(setSubmitEnabled, setTotalSubmitEnabled)
-            }
-            onBlur={() => onInputBlur(setSubmitEnabled, setTotalSubmitEnabled)}
+            onFocus={() => setTotalSubmitEnabled(false)}
+            onBlur={() => setTotalSubmitEnabled(true)}
           />,
         )}
       </Form.Item>
@@ -92,15 +84,14 @@ const ContactForm = Form.create({ name: 'contactForm' })(props => {
             {
               required: true,
               message: 'Please input a role!',
+              whitespace: true,
             },
           ],
         })(
           <Input
             placeholder="Contact Role"
-            onFocus={() =>
-              onInputFocus(setSubmitEnabled, setTotalSubmitEnabled)
-            }
-            onBlur={() => onInputBlur(setSubmitEnabled, setTotalSubmitEnabled)}
+            onFocus={() => setTotalSubmitEnabled(false)}
+            onBlur={() => setTotalSubmitEnabled(true)}
           />,
         )}
       </Form.Item>
@@ -114,10 +105,8 @@ const ContactForm = Form.create({ name: 'contactForm' })(props => {
         })(
           <Input
             placeholder="Contact Email"
-            onFocus={() =>
-              onInputFocus(setSubmitEnabled, setTotalSubmitEnabled)
-            }
-            onBlur={() => onInputBlur(setSubmitEnabled, setTotalSubmitEnabled)}
+            onFocus={() => setTotalSubmitEnabled(false)}
+            onBlur={() => setTotalSubmitEnabled(true)}
           />,
         )}
       </Form.Item>
@@ -131,10 +120,8 @@ const ContactForm = Form.create({ name: 'contactForm' })(props => {
         })(
           <Input
             placeholder="Contact Phone Number"
-            onFocus={() =>
-              onInputFocus(setSubmitEnabled, setTotalSubmitEnabled)
-            }
-            onBlur={() => onInputBlur(setSubmitEnabled, setTotalSubmitEnabled)}
+            onFocus={() => setTotalSubmitEnabled(false)}
+            onBlur={() => setTotalSubmitEnabled(true)}
           />,
         )}
       </Form.Item>
@@ -148,10 +135,8 @@ const ContactForm = Form.create({ name: 'contactForm' })(props => {
         })(
           <Input
             placeholder="Contact Note"
-            onFocus={() =>
-              onInputFocus(setSubmitEnabled, setTotalSubmitEnabled)
-            }
-            onBlur={() => onInputBlur(setSubmitEnabled, setTotalSubmitEnabled)}
+            onFocus={() => setTotalSubmitEnabled(false)}
+            onBlur={() => setTotalSubmitEnabled(true)}
           />,
         )}
       </Form.Item>
