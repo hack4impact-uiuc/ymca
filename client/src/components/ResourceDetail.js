@@ -102,15 +102,15 @@ export default class ResourceDetail extends Component {
           </Col>
         </Row>
         <Row className="section">
-          <Col span={4} className="sectionLabel">
+          <Col span={4} className="section-label">
             Basic Information
           </Col>
           <Col span={20}>
-            <Row className="cardRow">
+            <Row className="card-row">
               <Col span={12}>
                 <Card>
                   <Icon type="phone" theme="filled" />
-                  <div className="cardLabel">Contact Information{'\n'}</div>
+                  <div className="card-label">Contact Information{'\n'}</div>
                   {phone.length > 0 ||
                   email.length > 0 ||
                   website.length > 0 ? (
@@ -130,7 +130,7 @@ export default class ResourceDetail extends Component {
               <Col span={12}>
                 <Card>
                   <Icon type="wechat" theme="filled" />
-                  <div className="cardLabel">Languages Spoken{'\n'}</div>
+                  <div className="card-label">Languages Spoken{'\n'}</div>
                   {languages.length > 0
                     ? languages.map(language => {
                         return language;
@@ -139,11 +139,11 @@ export default class ResourceDetail extends Component {
                 </Card>
               </Col>
             </Row>
-            <Row className="cardRow">
+            <Row className="card-row">
               <Col span={12}>
                 <Card>
                   <Icon type="folder-open" theme="filled" />
-                  <div className="cardLabel">Required Documents {'\n'}</div>
+                  <div className="card-label">Required Documents {'\n'}</div>
                   {requiredDocuments.length > 0
                     ? requiredDocuments.map(doc => {
                         return doc;
@@ -154,7 +154,7 @@ export default class ResourceDetail extends Component {
               <Col span={12}>
                 <Card>
                   <Icon type="dollar-circle" theme="filled" />
-                  <div className="cardLabel">Cost{'\n'}</div>
+                  <div className="card-label">Cost{'\n'}</div>
                   {cost.length > 0 ? cost : 'None provided.'}
                 </Card>
               </Col>
@@ -162,7 +162,7 @@ export default class ResourceDetail extends Component {
           </Col>
         </Row>
         <Row>
-          <Col span={4} className="sectionLabel">
+          <Col span={4} className="section-label">
             Schedule
           </Col>
           <Col span={20}>
@@ -171,7 +171,9 @@ export default class ResourceDetail extends Component {
                 return (
                   <Col span={8}>
                     <Card>
-                      <div className="cardLabel dayLabel">{`${days[i]}\n`}</div>
+                      <div className="card-label day-label">
+                        {`${days[i]}\n`}
+                      </div>
                       {day.length > 0 ? day : 'None'}
                     </Card>
                   </Col>

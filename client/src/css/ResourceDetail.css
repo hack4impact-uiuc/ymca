@@ -7,23 +7,23 @@
   font-size: 175%;
 }
 
-.ant-row .resource-detail {
+.resource-detail .ant-row {
   padding-top: 20px;
   padding-bottom: 20px;
   padding-left: 15%;
   padding-right: 15%;
 }
 
-.section .resource-detail {
+.resource-detail .section {
   background-color: #fbfbfb;
 }
 
-.sectionLabel .resource-detail {
+.resource-detail .section-label {
   padding-top: 30px;
   font-weight: 600;
 }
 
-.ant-card .resource-detail {
+.resource-detail .ant-card {
   margin-top: 10px;
   margin-bottom: 10px;
   margin-left: 5%;
@@ -31,37 +31,37 @@
   height: 190px;
 }
 
-.cardRow .resource-detail {
+.resource-detail .card-row {
   padding-top: 0px;
   padding-bottom: 0px;
 }
 
-.ant-card-bordered .resource-detail {
+.resource-detail .ant-card-bordered {
   border: 1px solid #cacaca;
 }
 
-.cardLabel .resource-detail {
+.resource-detail .card-label {
   font-weight: 600;
   padding-bottom: 5px;
 }
 
-.dayLabel .resource-detail {
+.resource-detail .day-label {
   padding-top: 20px;
 }
 
-.anticon .resource-detail {
+.resource-detail .anticon {
   margin-bottom: 12px;
   font-size: 150%;
 }
 
-.ant-card-body .resource-detail {
+.resource-detail .ant-card-body {
   padding-top: 15px;
   padding-bottom: 15px;
   padding-left: 24px;
   padding-right: 24px;
 }
 
-.banner .resource-detail {
+.resource-detail .banner {
   height: 20vh;
   background-image: url('../imgs/homePage/testimonial.png');
   background-size: cover;
