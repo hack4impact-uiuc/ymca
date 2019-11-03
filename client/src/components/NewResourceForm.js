@@ -8,7 +8,7 @@ TODO: Improve UI and UX.
 
 import React, { useState } from 'react';
 import '../css/NewResourceForm.css';
-import { Form, Input, Button, Alert, Select } from 'antd';
+import { Form, Input, Button, Alert, Select, Affix, message } from 'antd';
 import fetch from 'isomorphic-fetch';
 import PhoneNumberFormItem from './NewResourcePhoneNumberForm';
 import ContactFormItem from './NewResourceContactForm';
@@ -23,7 +23,7 @@ const { Option } = Select;
 
 const SERVER_URI = 'https://ymca.now.sh';
 
-const onSubmitNewResourceForm = (e, enabled, resource, onSucc, onErr) => {
+const onSubmitNewResourceForm = (e, enabled, resource) => {
   e.preventDefault();
 
   if (enabled) {
@@ -37,9 +37,11 @@ const onSubmitNewResourceForm = (e, enabled, resource, onSucc, onErr) => {
       .then(res => res.json())
       .then(res => {
         if (res.code === 201) {
-          onSucc(res.result);
+          // on succ
+          message.success('Resource successfully created!');
         } else {
-          onErr(res);
+          // on err
+          message.error(res.message);
         }
       });
   }
@@ -73,40 +75,28 @@ const NewResourceForm = (props: FormProps) => {
     <Form
       className="newResourceForm"
       onSubmit={e => {
-        onSubmitNewResourceForm(
-          e,
-          totalSubmitEnabled,
-          {
-            category,
-            subcategory,
-            name: getFieldValue('resourceName') || '',
-            description: getFieldValue('description') || '',
-            website: getFieldValue('website') || '',
-            email: getFieldValue('email') || '',
-            phoneNumbers,
-            contacts,
-            address: getFieldValue('email') || '',
-            city: getFieldValue('city') || '',
-            hoursOfOperation: getFieldValue('hoursOfOperation') || '',
-            eligibilityRequirements:
-              getFieldValue('eligibilityRequirements') || '',
-            financialAidDetails,
-            cost: getFieldValue('cost') || '',
-            availableLanguages: availableLanguages || [],
-            lastedUpdated: new Date(Date.now()),
-            recommendation: getFieldValue('recommendation'),
-            comments: comments || [],
-            internalNotes: internalNotes || [],
-          },
-          () => {
-            setSuccessMessage('Resource successfully created!');
-            setErrorMessage('');
-          },
-          res => {
-            setSuccessMessage('');
-            setErrorMessage(res.message);
-          },
-        );
+        onSubmitNewResourceForm(e, totalSubmitEnabled, {
+          category,
+          subcategory,
+          name: getFieldValue('resourceName') || '',
+          description: getFieldValue('description') || '',
+          website: getFieldValue('website') || '',
+          email: getFieldValue('email') || '',
+          phoneNumbers,
+          contacts,
+          address: getFieldValue('email') || '',
+          city: getFieldValue('city') || '',
+          hoursOfOperation: getFieldValue('hoursOfOperation') || '',
+          eligibilityRequirements:
+            getFieldValue('eligibilityRequirements') || '',
+          financialAidDetails,
+          cost: getFieldValue('cost') || '',
+          availableLanguages: availableLanguages || [],
+          lastedUpdated: new Date(Date.now()),
+          recommendation: getFieldValue('recommendation'),
+          comments: comments || [],
+          internalNotes: internalNotes || [],
+        });
       }}
     >
       {successMessage !== '' && (
@@ -223,9 +213,12 @@ const NewResourceForm = (props: FormProps) => {
         setInternalNotes,
         setTotalSubmitEnabled,
       })}
-      <Button type="primary" htmlType="submit" className="newResourceSubmit">
-        Add Resource
-      </Button>
+
+      <Affix offsetBottom={10}>
+        <Button type="primary" htmlType="submit" className="newResourceSubmit">
+          Add Resource
+        </Button>
+      </Affix>
     </Form>
   );
 };
