@@ -169,7 +169,7 @@ const NewResourceForm = (props: FormProps) => {
       </Form.Item>
       <Form.Item label="Hours of Operation">
         {getFieldDecorator('hoursOfOperation', {})(
-          <Input placeholder="00:00:00-00:00:00" />,
+          <Input placeholder="Hours of Operation" />,
         )}
       </Form.Item>
       <Form.Item label="Eligibility Requirements">
