@@ -90,7 +90,7 @@ const PhoneNumberFormItem = (props: FormItemProps) => {
   const { phoneNumbers, setPhoneNumbers, setTotalSubmitEnabled } = props;
 
   return (
-    <Form.Item label="Phone Number">
+    <Form.Item label="Phone Numbers">
       <List
         className="phoneNumberList"
         itemLayout="horizontal"
