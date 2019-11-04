@@ -8,7 +8,7 @@ const { Content } = Layout;
 
 function ResourceViewGrid(props) {
   const { filteredResources } = props;
-  console.log(filteredResources)
+
   const cards = Array(Math.ceil(filteredResources.length / 3))
     .fill()
     .map((_, index) => {
@@ -22,8 +22,8 @@ function ResourceViewGrid(props) {
           ? filteredResources[index * 3 + 2]
           : null;
       return (
-        <Row gutter={[32, 32]} type="flex" >
-           <Col xs={24} md={8}>
+        <Row gutter={[32, 32]} type="flex">
+          <Col xs={24} md={8}>
             <FilterPreview
               availableLanguages={first.availableLanguages}
               cost={first.cost}
@@ -63,9 +63,7 @@ function ResourceViewGrid(props) {
 
   return (
     <Content style={{ height: '55vh', overflowY: 'scroll' }}>
-      <div style={{ marginLeft: 32, marginRight: 32 }}>
-        {cards}
-      </div>
+      <div style={{ marginLeft: 32, marginRight: 32 }}>{cards}</div>
     </Content>
   );
 }
@@ -73,6 +71,7 @@ function ResourceViewGrid(props) {
 ResourceViewGrid.propTypes = {
   filteredResources: PropTypes.arrayOf(
     PropTypes.shape({
+      _id: PropTypes.string.isRequired,
       availableLanguages: PropTypes.string,
       category: PropTypes.number.isRequired,
       comments: PropTypes.arrayOf(PropTypes.string),
@@ -81,6 +80,7 @@ ResourceViewGrid.propTypes = {
       description: PropTypes.string.isRequired,
       internalNotes: PropTypes.arrayOf(PropTypes.string),
       lastUpdated: PropTypes.string.isRequired,
+      location: PropTypes.string,
       name: PropTypes.string.isRequired,
       phoneNumbers: PropTypes.arrayOf(PropTypes.string),
       subcategory: PropTypes.string,
