@@ -1,8 +1,19 @@
 import React, { Component } from 'react';
 import '../css/ResourceDetail.css';
-import { Col, Container, Row } from 'reactstrap';
+import { Row, Col, Card, Icon } from 'antd';
 import PropTypes from 'prop-types';
 import { getResourceByID } from '../utils/api';
+// import ResourceBreadcrumb from './ResourceBreadcrumb';
+
+const days = [
+  'Sunday',
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+];
 
 export default class ResourceDetail extends Component {
   constructor(props) {
@@ -15,9 +26,13 @@ export default class ResourceDetail extends Component {
       address: '',
       website: '',
       description: '',
-      hours: [],
+      hours: ['', '', '', '', '', '', ''],
       city: '',
       languages: [],
+      requiredDocuments: [],
+      cost: '',
+      // category: '',
+      // subcategory: '',
     };
   }
 
@@ -32,6 +47,8 @@ export default class ResourceDetail extends Component {
         phone: result.phoneNumbers,
         description: result.description,
         languages: result.availableLanguages,
+        // category: result.category,
+        // subcategory: result.subcategory,
       });
     } else {
       // redirect to 404
@@ -49,89 +66,122 @@ export default class ResourceDetail extends Component {
       hours,
       city,
       languages,
+      requiredDocuments,
+      cost,
+      // category,
+      // subcategory,
     } = this.state;
 
     return (
-      <div>
-        <div className="ResourceDetail">
-          <Container>
-            <Row>
-              <Col className="resourceName">{name}</Col>
-            </Row>
-            <Row>
-              <Col>
-                {description.length > 0
-                  ? description
-                  : 'No description provided.\n'}
+      <div className="resource-detail">
+        <Row
+          className="banner"
+          type="flex"
+          justify="center"
+          align="middle"
+          gutter={[16, 16]}
+        />
+        <Row>
+          <Col span={15}>
+            <div className="resource-name">{name}</div>
+          </Col>
+          <Col span={9}>
+            {address.length > 0 || city.length > 0 ? (
+              <>
+                {address.length > 0 && `${address}\n`}
+                {city.length > 0 && `${city}\n`}
+              </>
+            ) : (
+              'No address provided.'
+            )}
+          </Col>
+        </Row>
+        <Row>
+          <Col span={24}>
+            {description.length > 0 ? description : 'No description provided.'}
+          </Col>
+        </Row>
+        <Row className="section">
+          <Col span={4} className="section-label">
+            Basic Information
+          </Col>
+          <Col span={20}>
+            <Row className="card-row">
+              <Col span={12}>
+                <Card>
+                  <Icon type="phone" theme="filled" />
+                  <div className="card-label">Contact Information{'\n'}</div>
+                  {phone.length > 0 ||
+                  email.length > 0 ||
+                  website.length > 0 ? (
+                    <>
+                      {phone.length > 0 &&
+                        phone.map(num => {
+                          return `${num}\n`;
+                        })}
+                      {email.length > 0 && `${email}\n`}
+                      {website.length > 0 && `${website}\n`}
+                    </>
+                  ) : (
+                    'None provided.'
+                  )}
+                </Card>
               </Col>
-              <Col>
-                {hours.length > 0
-                  ? hours.map((day, index) => {
-                      let dayOfWeek = '';
-
-                      switch (index) {
-                        case 0:
-                          dayOfWeek = 'Monday';
-                          break;
-                        case 1:
-                          dayOfWeek = 'Tuesday';
-                          break;
-                        case 2:
-                          dayOfWeek = 'Wednesday';
-                          break;
-                        case 3:
-                          dayOfWeek = 'Thursday';
-                          break;
-                        case 4:
-                          dayOfWeek = 'Friday';
-                          break;
-                        case 5:
-                          dayOfWeek = 'Saturday';
-                          break;
-                        case 6:
-                          dayOfWeek = 'Sunday';
-                          break;
-                        default:
-                          dayOfWeek = 'ERROR';
-                          break;
-                      }
-
-                      return `${dayOfWeek}: ${day.start} - ${day.end}\n`;
-                    })
-                  : 'No hours of operation available.\n'}
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                {'Contact:\n'}
-                {phone.length > 0
-                  ? phone.map(num => {
-                      return `${num}\n`;
-                    })
-                  : 'No phone numbers.\n'}
-                {'Email: '}
-                {email.length > 0 ? email : 'No email provided.\n'}
-                {'Website: '}
-                {website.length > 0 ? website : 'No website provided.\n'}
-              </Col>
-              <Col>
-                {address.length > 0 || city.length > 0
-                  ? `Map showing ${address}, ${city}\n`
-                  : 'No address provided.\n'}
+              <Col span={12}>
+                <Card>
+                  <Icon type="wechat" theme="filled" />
+                  <div className="card-label">Languages Spoken{'\n'}</div>
+                  {languages.length > 0
+                    ? languages.map(language => {
+                        return language;
+                      })
+                    : 'None provided.'}
+                </Card>
               </Col>
             </Row>
-            <Row>
-              <Col>
-                {'Languages:\n'}
-                {languages.length > 0
-                  ? languages.map(language => {
-                      return `${language}\n`;
-                    })
-                  : 'No languages listed.\n'}
+            <Row className="card-row">
+              <Col span={12}>
+                <Card>
+                  <Icon type="folder-open" theme="filled" />
+                  <div className="card-label">Required Documents {'\n'}</div>
+                  {requiredDocuments.length > 0
+                    ? requiredDocuments.map(doc => {
+                        return doc;
+                      })
+                    : 'None provided.'}
+                </Card>
+              </Col>
+              <Col span={12}>
+                <Card>
+                  <Icon type="dollar-circle" theme="filled" />
+                  <div className="card-label">Cost{'\n'}</div>
+                  {cost.length > 0 ? cost : 'None provided.'}
+                </Card>
               </Col>
             </Row>
-          </Container>
-        </div>
+          </Col>
+        </Row>
+        <Row>
+          <Col span={4} className="section-label">
+            Schedule
+          </Col>
+          <Col span={20}>
+            <Row className="cardRow">
+              {hours.map((day, i) => {
+                return (
+                  <Col span={8}>
+                    <Card>
+                      <div className="card-label day-label">
+                        {`${days[i]}\n`}
+                      </div>
+                      {day.length > 0 ? day : 'None'}
+                    </Card>
+                  </Col>
+                );
+              })}
+            </Row>
+          </Col>
+        </Row>
       </div>
     );
   }
