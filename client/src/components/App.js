@@ -1,4 +1,4 @@
-import { Route, BrowserRouter as Router } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import React from 'react';
 import Home from './Home';
 import Navigation from './Navigation';
@@ -16,14 +16,14 @@ export default class App extends React.Component {
         <Navigation />
         <Router>
           <Switch>
-          <Route path="/register" exact component={RegisterForm} />
-          <Route path="/" exact component={Home} />
-          <Route path="/resources/:id" component={ResourceDetail} />
-          <Route path="/login" exact component={Login} />
-          <Route path="/resources" exact component={Filter} />
-          <Route path="/admin" exact component={AdminResourceManager} />
-      <Route component={NotFound} />
-      </Switch>
+            <Route path="/register" exact component={RegisterForm} />
+            <Route path="/" exact component={Home} />
+            <Route path="/resources/:id" component={ResourceDetail} />
+            <Route path="/login" exact component={Login} />
+            <Route path="/resources" exact component={Filter} />
+            <Route path="/admin" exact component={AdminResourceManager} />
+            <Route component={NotFound} />
+          </Switch>
         </Router>
       </>
     );
