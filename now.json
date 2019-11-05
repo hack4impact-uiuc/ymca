@@ -24,10 +24,17 @@
       "headers": { "cache-control": "s-maxage=31536000,immutable" },
       "dest": "client/static/$1"
     },
-    { "src": "/favicon.ico", "dest": "/client/favicon.ico" },
-    { "src": "/logo192.png", "dest": "/client/logo192.png" },
-    { "src": "/logo512.png", "dest": "/client/logo512.png" },
-    { "src": "/manifest.json", "dest": "client/manifest.json" },
+    {
+      "src": "/asset/icon/(.*)",
+      "headers": { "cache-control": "s-maxage=604800" },
+      "dest": "/icon/$1"
+    },
+    {
+      "src": "/asset/partners/(.*)",
+      "headers": { "cache-control": "s-maxage=604800" },
+      "dest": "/partners/$1"
+    },
+    { "src": "/asset/manifest.json", "dest": "client/asset/manifest.json" },
     {
       "src": "/client/src/service-worker.js",
       "headers": { "cache-control": "s-maxage=0" },
