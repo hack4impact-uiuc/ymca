@@ -25,6 +25,11 @@
       "dest": "client/static/$1"
     },
     {
+      "src": "/asset/images/(.*)",
+      "headers": { "cache-control": "s-maxage=604800" },
+      "dest": "client/asset/images/$1"
+    },
+    {
       "src": "/asset/icon/(.*)",
       "headers": { "cache-control": "s-maxage=604800" },
       "dest": "client/asset/icon/$1"
