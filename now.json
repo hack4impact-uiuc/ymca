@@ -27,12 +27,12 @@
     {
       "src": "/asset/icon/(.*)",
       "headers": { "cache-control": "s-maxage=604800" },
-      "dest": "/icon/$1"
+      "dest": "client/icon/$1"
     },
     {
       "src": "/asset/partners/(.*)",
       "headers": { "cache-control": "s-maxage=604800" },
-      "dest": "/partners/$1"
+      "dest": "client/partners/$1"
     },
     { "src": "/asset/manifest.json", "dest": "client/asset/manifest.json" },
     {
