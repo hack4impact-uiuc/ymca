@@ -10,7 +10,7 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      authSucess: false,
+      authSuccess: false,
     };
   }
 
@@ -21,7 +21,7 @@ class Login extends Component {
         const { email, password } = values;
         login({ email, password }).then(res => {
           if (res.status === 200) {
-            this.setState({ authSucess: true });
+            this.setState({ authSuccess: true });
           } else {
             // show error message
           }
@@ -31,7 +31,7 @@ class Login extends Component {
   };
 
   render() {
-    if (this.state.authSucess) return <Redirect to="/admin" />;
+    if (this.state.authSuccess) return <Redirect to="/admin" />;
 
     const { getFieldDecorator } = this.props.form;
     return (

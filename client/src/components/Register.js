@@ -50,7 +50,7 @@ class Register extends Component {
   };
 
   render() {
-    if (this.state.authSucess) return <Redirect to="/admin" />;
+    if (this.state.authSuccess) return <Redirect to="/admin" />;
 
     const { getFieldDecorator } = this.props.form;
 
