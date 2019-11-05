@@ -3,17 +3,17 @@
   "name": "YMCA Resource Center",
   "icons": [
     {
-      "src": "icon/favicon.ico",
+      "src": "asset/icon/favicon.ico",
       "sizes": "64x64 32x32 16x16",
       "type": "image/x-icon"
     },
     {
-      "src": "icon/logo192.png",
+      "src": "asset/icon/logo192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "icon/logo512.png",
+      "src": "asset/icon/logo512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
