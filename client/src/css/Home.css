@@ -41,7 +41,7 @@
 
 .home-block-3 {
   height: 70vh;
-  background-image: url('../imgs/homePage/testimonial.png');
+  background-image: url('/asset/image/background.png');
   background-size: cover;
 }
 
