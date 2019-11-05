@@ -8,7 +8,6 @@ import {
   getResourcesByCategory,
 } from '../utils/api';
 
-import ResourcePreview from './ResourcePreview';
 import ResourcesBanner from './ResourcesBanner';
 import ResourcesFilter from './ResourcesFilter';
 import ResourcesGrid from './ResourcesGrid';
@@ -19,22 +18,14 @@ const { SubMenu } = Menu;
 export default class Resources extends Component<Props, State> {
   constructor(props) {
     super(props);
-
     this.state = {
-      languageSelected: '',
-      locationSelected: '',
-
       categorySelected: '',
       subcategorySelected: '',
-      costSelected: '',
-
       openKeys: [],
-
       categories: {},
       languages: ['All', 'English', 'Spanish', 'Chinese', 'Japanese'],
       locations: ['All', 'Champaign', 'Urbana', 'Maibana', 'Foopaign'],
       costs: ['All', '$', '$$', '$$$', '$$$$'],
-
       resources: [],
       filteredResources: [],
     };
@@ -106,11 +97,6 @@ export default class Resources extends Component<Props, State> {
   };
 
   handleFilterChange = (cost, language, location) => {
-    this.setState({
-      costSelected: cost,
-      languageSelected: language,
-      locationSelected: location,
-    });
     this.filterResources(
       cost,
       language,
