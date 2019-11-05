@@ -176,33 +176,27 @@ export default class Home extends Component {
             <Row type="flex" justify="center" align="middle" gutter={[16, 16]}>
               <Col className="home-block-4__partner" span={4}>
                 <img
-                  src={require('../imgs/homePage/partners/CU_Fair.jpg')}
+                  src="/asset/partners/cu_fair.jpg"
                   alt="Champaign-Urbana Fair"
                 />
               </Col>
               <Col className="home-block-4__partner" span={4}>
                 <img
-                  src={require('../imgs/homePage/partners/CUPHD.png')}
+                  src="/asset/partners/cuphd.png"
                   alt="Champaign-Urbana Public Health District"
                 />
               </Col>
               <Col className="home-block-4__partner" span={4}>
-                <img
-                  src={require('../imgs/homePage/partners/Dhaitree.jpg')}
-                  alt="Dhairtree"
-                />
+                <img src="/asset/partners/dhai_tree.jpg" alt="Dhairtree" />
               </Col>
               <Col className="home-block-4__partner" span={4}>
                 <img
-                  src={require('../imgs/homePage/partners/Three_Spinners.jpg')}
+                  src="/asset/partners/three_spinners.jpg"
                   alt="Three Spinners"
                 />
               </Col>
               <Col className="home-block-4__partner" span={4}>
-                <img
-                  src={require('../imgs/homePage/partners/trc.jpg')}
-                  alt="The Refugee Center"
-                />
+                <img src="/asset/partners/trc.jpg" alt="The Refugee Center" />
               </Col>
             </Row>
           </Col>
