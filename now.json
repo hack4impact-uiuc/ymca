@@ -27,14 +27,14 @@
     {
       "src": "/asset/icon/(.*)",
       "headers": { "cache-control": "s-maxage=604800" },
-      "dest": "client/icon/$1"
+      "dest": "client/static/icon/$1"
     },
     {
       "src": "/asset/partners/(.*)",
       "headers": { "cache-control": "s-maxage=604800" },
-      "dest": "client/partners/$1"
+      "dest": "client/static/partners/$1"
     },
-    { "src": "/asset/manifest.json", "dest": "client/asset/manifest.json" },
+    { "src": "/asset/manifest.json", "dest": "client/static/asset/manifest.json" },
     {
       "src": "/client/src/service-worker.js",
       "headers": { "cache-control": "s-maxage=0" },
