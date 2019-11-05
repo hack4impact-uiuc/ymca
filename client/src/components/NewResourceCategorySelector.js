@@ -1,8 +1,9 @@
 // @flow
 
 import React, { useState } from 'react';
-import { Input, Form } from 'antd';
+import { Form, Input } from 'antd';
 import Select from 'react-select';
+
 import { getCategories } from '../utils/api';
 
 const wrappedSetCategory = args => {

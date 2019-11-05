@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Row, Col, Button, Carousel } from 'antd';
-import '../css/Home.css';
 import { Textfit } from 'react-textfit';
+import { Button, Carousel, Col, Row } from 'antd';
+import '../css/Home.css';
+
 import headerImg from '../imgs/homePage/headerImg.jpg';
 
 const gradientBox = {

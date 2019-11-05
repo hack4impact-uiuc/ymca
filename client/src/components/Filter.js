@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import { Col, Layout, Menu, Row } from 'antd';
-
 import '../css/Filter.css';
-import FilterPreview from './FilterPreview';
-import ResourceViewFilterHeader from './ResourceViewFilterHeader';
-import ResourceViewHeader from './ResourceViewHeader';
+
 import {
   getCategories,
   getResources,
   getResourcesByCategory,
 } from '../utils/api';
+
+import FilterPreview from './FilterPreview';
+import ResourceViewFilterHeader from './ResourceViewFilterHeader';
+import ResourceViewHeader from './ResourceViewHeader';
 
 const { Sider, Content } = Layout;
 const { SubMenu } = Menu;

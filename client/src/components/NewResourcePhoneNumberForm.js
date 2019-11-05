@@ -5,8 +5,8 @@ TODO: Implement phoneType into form.
 */
 
 import React, { useState } from 'react';
+import { Button, Form, Input, List, Skeleton } from 'antd';
 import '../css/NewResourcePhoneNumberForm.css';
-import { Input, Form, Button, List, Skeleton } from 'antd';
 
 const onInputFocus = (setTotalSubmitEnabled, setSubmitEnabled) => {
   setTotalSubmitEnabled(false);

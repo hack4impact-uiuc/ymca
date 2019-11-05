@@ -5,8 +5,8 @@ TODO: Implement phoneType into form.
 */
 
 import React, { useState } from 'react';
+import { Button, Descriptions, Form, Input, List } from 'antd';
 import '../css/NewResourcePhoneNumberForm.css';
-import { Input, Form, Button, List, Descriptions } from 'antd';
 
 type FinancialAid = {|
   education: String,

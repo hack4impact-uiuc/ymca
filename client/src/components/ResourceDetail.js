@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import '../css/ResourceDetail.css';
-import { Row, Col, Card, Icon } from 'antd';
+import { Card, Col, Icon, Row } from 'antd';
 import PropTypes from 'prop-types';
+import '../css/ResourceDetail.css';
+
 import { getResourceByID } from '../utils/api';
 // import ResourceBreadcrumb from './ResourceBreadcrumb';
 

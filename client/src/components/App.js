@@ -1,13 +1,14 @@
-import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import React from 'react';
+import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
+
+import AdminResourceManager from './AdminResourceManager';
 import Home from './Home';
-import Navigation from './Navigation';
-import ResourceDetail from './ResourceDetail';
-import RegisterForm from './RegisterForm';
 import Login from './Login';
 import Filter from './Filter';
+import Navigation from './Navigation';
 import NotFound from './NotFound';
-import AdminResourceManager from './AdminResourceManager';
+import RegisterForm from './RegisterForm';
+import ResourceDetail from './ResourceDetail';
 
 export default class App extends React.Component {
   render() {
