@@ -67,7 +67,7 @@ export default class Home extends Component<Props, State> {
 
   render() {
     return (
-      <div>
+      <>
         <Row
           className="home-block-1"
           type="flex"
@@ -228,7 +228,7 @@ export default class Home extends Component<Props, State> {
             </Row>
           </Col>
         </Row>
-      </div>
+      </>
     );
   }
 }
