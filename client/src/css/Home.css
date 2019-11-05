@@ -1,5 +1,13 @@
 .home-block-1 {
+  background-image: radial-gradient(
+      50% 141%,
+      rgba(25, 132, 202, 0.6) 1%,
+      rgba(105, 62, 158, 0.6) 100%
+    ),
+    url('../imgs/homePage/headerImg.jpg');
+  background-size: cover;
   height: 70vh;
+  opacity: 1;
 }
 
 .welcome-text {
@@ -7,11 +15,11 @@
   font-weight: bold;
 }
 
-.find-resources-button {
-  display: block;
-  width: 100%;
+.home-block-1 .ant-btn-primary {
+  background-color: rgb(136, 216, 208);
+  border-color: rgb(136, 216, 208);
   margin-top: 10px;
-  background: rgb(136, 216, 208);
+  width: 100%;
 }
 
 .home-block-2 {
@@ -21,6 +29,10 @@
 .home-block-2__left {
   border-right: 2px solid rgb(136, 216, 208);
   height: 50%;
+}
+
+.home-block-2__left .home-block-2__left__text {
+  height: 100%;
 }
 
 .home-block-2__right {
@@ -33,13 +45,20 @@
   background-size: cover;
 }
 
-.testimonial-block_left {
-}
-
 .testimonial-block__left__img {
   width: 100%;
   height: 100%;
   border-radius: 50%;
+}
+
+.testimonial-block__right h1,
+.testimonial-block__right h3 {
+  color: white;
+}
+
+.testimonial-block__right p {
+  color: white;
+  font-size: 2.5vh;
 }
 
 .home-block-4 {

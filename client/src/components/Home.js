@@ -4,16 +4,7 @@ import { Textfit } from 'react-textfit';
 import { Button, Carousel, Col, Row } from 'antd';
 import '../css/Home.css';
 
-import headerImg from '../imgs/homePage/headerImg.jpg';
-
-const gradientBox = {
-  backgroundImage: `radial-gradient(50% 141%, rgba(25,132,202,0.6) 1%,
-  rgba(105,62,158,0.6) 100%), url(${headerImg})`,
-  backgroundSize: 'cover, cover',
-  opacity: '1',
-};
-
-export default class Home extends Component<Props, State> {
+export default class Home extends Component {
   constructor(props) {
     super(props);
 
@@ -74,7 +65,6 @@ export default class Home extends Component<Props, State> {
           justify="center"
           align="middle"
           gutter={[16, 16]}
-          style={gradientBox}
         >
           <Col span={6}>
             <Textfit className="welcome-text" mode="single">
@@ -86,14 +76,7 @@ export default class Home extends Component<Props, State> {
             <Row type="flex" justify="center" align="middle" gutter={[16, 16]}>
               <Col span={18}>
                 <Link to="/resources?category=All Resources">
-                  <Button
-                    className="find-resources-button"
-                    type="primary"
-                    style={{
-                      backgroundColor: 'rgb(136,216,208',
-                      borderColor: ' rgb(136,216,208',
-                    }}
-                  >
+                  <Button type="primary">
                     <strong>Find Resources</strong>
                   </Button>
                 </Link>
@@ -110,15 +93,13 @@ export default class Home extends Component<Props, State> {
         >
           <Col className="home-block-2__left" span={6}>
             <Row
+              className="home-block-2__left__text"
               type="flex"
               justify="left"
               align="middle"
-              style={{ height: '100%' }}
             >
               <Col span={20}>
-                <Textfit className="home-block-2__left__text" mode="single">
-                  About the Guide
-                </Textfit>
+                <Textfit mode="single">About the Guide</Textfit>
               </Col>
             </Row>
           </Col>
@@ -168,11 +149,9 @@ export default class Home extends Component<Props, State> {
                         span={12}
                         offset={1}
                       >
-                        <h1 style={{ color: 'white' }}>{element.person}</h1>
-                        <h3 style={{ color: 'white' }}>{element.country}</h3>
-                        <p style={{ color: 'white', 'font-size': '2.5vh' }}>
-                          {element.testimonial}
-                        </p>
+                        <h1>{element.person}</h1>
+                        <h3>{element.country}</h3>
+                        <p>{element.testimonial}</p>
                       </Col>
                     </Row>
                   </div>
