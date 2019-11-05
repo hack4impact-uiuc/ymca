@@ -3,15 +3,33 @@
     "browser": true,
     "node": true
   },
+  "parser": "babel-eslint",
   "extends": [
     "airbnb",
+    "plugin:flowtype/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
     "prettier",
-    "prettier/react",
-    "plugin:flowtype/recommended"
+    "prettier/react"
   ],
-  "plugins": ["react", "prettier", "flowtype"],
+  "plugins": ["flowtype", "import", "prettier", "react"],
   "rules": {
     "camelcase": ["error", { "allow": ["^UNSAFE_"] }],
+    "global-require": [1],
+    "import/order": [
+      "warn",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index"
+        ],
+        "newlines-between": "always"
+      }
+    ],
     "jsx-a11y/click-events-have-key-events": [0],
     "jsx-a11y/no-static-element-interactions": [0],
     "max-len": ["error", 80],
@@ -22,8 +40,6 @@
     "react/jsx-filename-extension": [1, { "extensions": [".js", "jsx"] }],
     "react/jsx-props-no-spreading": [0],
     "react/no-unused-state": [1],
-    "react/prefer-stateless-function": [0],
-    "global-require": [1]
-    // "sort-imports": [1]
+    "react/prefer-stateless-function": [0]
   }
 }

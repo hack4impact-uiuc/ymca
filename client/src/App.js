@@ -1,30 +1,32 @@
-// @flow
+import React from 'react';
+import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 
-import React, { Component } from 'react';
+import AdminResourceManager from './components/AdminResourceManager';
+import Home from './components/Home';
 import Login from './components/Login';
-import RegisterForm from './components/RegisterForm';
+import Navigation from './components/Navigation';
+import NotFound from './components/NotFound';
+import Register from './components/Register';
+import ResourceDetail from './components/ResourceDetail';
+import Resources from './components/Resources';
 
-type Props = {};
-
-type State = {};
-
-class App extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-
-    this.state = {};
-  }
-
+export default class App extends React.Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <Login />
-          <RegisterForm />
-        </header>
-      </div>
+      <>
+        <Navigation />
+        <Router>
+          <Switch>
+            <Route path="/" exact component={Home} />
+            <Route path="/admin" exact component={AdminResourceManager} />
+            <Route path="/login" exact component={Login} />
+            <Route path="/register" exact component={Register} />
+            <Route path="/resources" exact component={Resources} />
+            <Route path="/resources/:id" component={ResourceDetail} />
+            <Route component={NotFound} />
+          </Switch>
+        </Router>
+      </>
     );
   }
 }
-
-export default App;

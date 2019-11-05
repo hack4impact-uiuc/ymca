@@ -2,11 +2,11 @@ import React from 'react';
 import { Layout, Row } from 'antd';
 import PropTypes from 'prop-types';
 
-import ResourceBreadcrumb from './ResourceBreadcrumb';
+import ResourceBreadcrumb from './ResourcesBreadcrumb';
 
 const { Header } = Layout;
 
-function ResourceViewHeader(props) {
+function ResourcesBanner(props) {
   const { categorySelected, subcategorySelected } = props;
 
   return (
@@ -33,9 +33,9 @@ function ResourceViewHeader(props) {
   );
 }
 
-ResourceViewHeader.propTypes = {
+ResourcesBanner.propTypes = {
   categorySelected: PropTypes.string.isRequired,
   subcategorySelected: PropTypes.string.isRequired,
 };
 
-export default ResourceViewHeader;
+export default ResourcesBanner;

@@ -6,16 +6,18 @@ TODO: Have some fields be more in-depth than just a text bar.
 TODO: Improve UI and UX.
 */
 
-import React, { useState, useDebugValue, useEffect } from 'react';
-import '../css/NewResourceForm.css';
-import { Form, Input, Button, Cascader, Alert, Select } from 'antd';
+import React, { useDebugValue, useEffect, useState } from 'react';
+import { Alert, Button, Cascader, Form, Input, Select } from 'antd';
 import fetch from 'isomorphic-fetch';
+import '../css/NewResourceForm.css';
+
 import { addResource, getCategories } from '../utils/api';
-import PhoneNumberFormItem from './NewResourcePhoneNumberForm';
+
+import AvailableLanguageFormItem from './NewResourceAvailableLangForm';
+import CategorySelector from './NewResourceCategorySelector';
 import ContactFormItem from './NewResourceContactForm';
 import FinancialAidFormItem from './NewResourceFinancialAidForm';
-import CategorySelector from './NewResourceCategorySelector';
-import AvailableLanguageFormItem from './NewResourceAvailableLangForm';
+import PhoneNumberFormItem from './NewResourcePhoneNumberForm';
 
 const { TextArea } = Input;
 const { Option } = Select;
