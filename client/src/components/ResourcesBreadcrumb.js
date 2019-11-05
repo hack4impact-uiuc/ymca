@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom/';
 
-import '../css/ResourceBreadcrumb.css';
+import '../css/ResourcesBreadcrumb.css';
 
-function ResourceBreadcrumb(props) {
+function ResourcesBreadcrumb(props) {
   const { categorySelected, subcategorySelected } = props;
 
   const breadcrumbs = [];
@@ -72,9 +72,9 @@ function ResourceBreadcrumb(props) {
   return breadcrumbs;
 }
 
-ResourceBreadcrumb.propTypes = {
+ResourcesBreadcrumb.propTypes = {
   categorySelected: PropTypes.string.isRequired,
   subcategorySelected: PropTypes.string.isRequired,
 };
 
-export default ResourceBreadcrumb;
+export default ResourcesBreadcrumb;

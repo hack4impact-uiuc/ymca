@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { AutoComplete, Button, Dropdown, Radio } from 'antd';
 import PropTypes from 'prop-types';
 
-import '../css/ResourceViewFilterHeader.css';
+import '../css/ResourcesFilter.css';
 
-function ResourceViewFilterHeader(props) {
+function ResourcesFilter(props) {
   const { costs, languages, locations, handleChangeFilter } = props;
 
   const [costValue, setCostValue] = useState(costs[0]);
@@ -61,11 +61,11 @@ function ResourceViewFilterHeader(props) {
   );
 }
 
-ResourceViewFilterHeader.propTypes = {
+ResourcesFilter.propTypes = {
   costs: PropTypes.arrayOf(PropTypes.string).isRequired,
   languages: PropTypes.arrayOf(PropTypes.string).isRequired,
   locations: PropTypes.arrayOf(PropTypes.string).isRequired,
   handleChangeFilter: PropTypes.func.isRequired,
 };
 
-export default ResourceViewFilterHeader;
+export default ResourcesFilter;

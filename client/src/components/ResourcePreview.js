@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 const { Meta } = Card;
 
-function FilterPreview(props) {
+function ResourcePreview(props) {
   const { availableLanguages, cost, id, location, name } = props;
 
   const description = [];
@@ -36,7 +36,7 @@ function FilterPreview(props) {
   );
 }
 
-FilterPreview.propTypes = {
+ResourcePreview.propTypes = {
   availableLanguages: PropTypes.arrayOf(PropTypes.string).isRequired,
   cost: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
@@ -44,4 +44,4 @@ FilterPreview.propTypes = {
   name: PropTypes.string.isRequired,
 };
 
-export default FilterPreview;
+export default ResourcePreview;

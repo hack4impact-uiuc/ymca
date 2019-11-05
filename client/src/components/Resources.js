@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Layout, Menu } from 'antd';
-import '../css/Filter.css';
+import '../css/Resources.css';
 
 import {
   getCategories,
@@ -8,15 +8,15 @@ import {
   getResourcesByCategory,
 } from '../utils/api';
 
-import FilterPreview from './FilterPreview';
-import ResourceViewFilterHeader from './ResourceViewFilterHeader';
-import ResourceViewGrid from './ResourceViewGrid';
-import ResourceViewHeader from './ResourceViewHeader';
+import ResourcePreview from './ResourcePreview';
+import ResourcesBanner from './ResourcesBanner';
+import ResourcesFilter from './ResourcesFilter';
+import ResourcesGrid from './ResourcesGrid';
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
 
-export default class Filter extends Component<Props, State> {
+export default class Resources extends Component<Props, State> {
   constructor(props) {
     super(props);
 
@@ -175,54 +175,52 @@ export default class Filter extends Component<Props, State> {
 
     return (
       <Layout>
-        <>
-          <ResourceViewHeader
-            categorySelected={categorySelected}
-            subcategorySelected={subcategorySelected}
-          />
-          <ResourceViewFilterHeader
-            costs={costs}
-            languages={languages}
-            locations={locations}
-            handleChangeFilter={this.handleFilterChange}
-          />
-          <Layout style={{ background: 'white' }}>
-            <Sider style={{ background: 'white', marginTop: '-.5vh' }}>
-              <Menu
-                mode="inline"
-                selectedKeys={
-                  categorySelected === 'All Resources' ? ['All Resources'] : []
-                }
-                openKeys={openKeys}
-                onOpenChange={this.onOpenChange}
+        <ResourcesBanner
+          categorySelected={categorySelected}
+          subcategorySelected={subcategorySelected}
+        />
+        <ResourcesFilter
+          costs={costs}
+          languages={languages}
+          locations={locations}
+          handleChangeFilter={this.handleFilterChange}
+        />
+        <Layout style={{ background: 'white' }}>
+          <Sider style={{ background: 'white', marginTop: '-.5vh' }}>
+            <Menu
+              mode="inline"
+              selectedKeys={
+                categorySelected === 'All Resources' ? ['All Resources'] : []
+              }
+              openKeys={openKeys}
+              onOpenChange={this.onOpenChange}
+            >
+              <Menu.Item
+                key="All Resources"
+                onClick={() => this.categorySelectAll()}
               >
-                <Menu.Item
-                  key="All Resources"
-                  onClick={() => this.categorySelectAll()}
-                >
-                  All Resources
-                </Menu.Item>
-                {Object.keys(categories).map(categoryName => {
-                  return (
-                    <SubMenu key={categoryName} title={categoryName}>
-                      {categories[categoryName].map(subCategory => {
-                        return (
-                          <Menu.Item
-                            key={subCategory}
-                            onClick={() => this.subcategorySelect(subCategory)}
-                          >
-                            {subCategory}
-                          </Menu.Item>
-                        );
-                      })}
-                    </SubMenu>
-                  );
-                })}
-              </Menu>
-            </Sider>
-            <ResourceViewGrid filteredResources={filteredResources} />
-          </Layout>
-        </>
+                All Resources
+              </Menu.Item>
+              {Object.keys(categories).map(categoryName => {
+                return (
+                  <SubMenu key={categoryName} title={categoryName}>
+                    {categories[categoryName].map(subCategory => {
+                      return (
+                        <Menu.Item
+                          key={subCategory}
+                          onClick={() => this.subcategorySelect(subCategory)}
+                        >
+                          {subCategory}
+                        </Menu.Item>
+                      );
+                    })}
+                  </SubMenu>
+                );
+              })}
+            </Menu>
+          </Sider>
+          <ResourcesGrid filteredResources={filteredResources} />
+        </Layout>
       </Layout>
     );
   }

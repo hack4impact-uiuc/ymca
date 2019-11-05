@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Button, Form, Input } from 'antd';
 import 'antd/dist/antd.css';
-import '../css/RegisterForm.css';
+import '../css/Register.css';
 
 import { register } from '../utils/auth';
 
-class RegisterForm extends Component {
+class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -130,8 +130,8 @@ class RegisterForm extends Component {
   }
 }
 
-RegisterForm.propTypes = {
+Register.propTypes = {
   form: Form.isRequired,
 };
 
-export default Form.create()(RegisterForm);
+export default Form.create()(Register);

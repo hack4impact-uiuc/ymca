@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Col, Layout, Row } from 'antd';
 
-import FilterPreview from './FilterPreview';
+import ResourcePreview from './ResourcePreview';
 
 const { Content } = Layout;
 
-function ResourceViewGrid(props) {
+function ResourcesGrid(props) {
   const { filteredResources } = props;
 
   const cards = Array(Math.ceil(filteredResources.length / 3))
@@ -24,7 +24,7 @@ function ResourceViewGrid(props) {
       return (
         <Row gutter={[32, 32]} type="flex">
           <Col xs={24} md={8}>
-            <FilterPreview
+            <ResourcePreview
               availableLanguages={first.availableLanguages}
               cost={first.cost}
               id={first._id}
@@ -35,7 +35,7 @@ function ResourceViewGrid(props) {
           </Col>
           {second && (
             <Col xs={24} md={8}>
-              <FilterPreview
+              <ResourcePreview
                 availableLanguages={second.availableLanguages}
                 cost={second.cost}
                 id={second._id}
@@ -47,7 +47,7 @@ function ResourceViewGrid(props) {
           )}
           {third && (
             <Col xs={24} md={8}>
-              <FilterPreview
+              <ResourcePreview
                 availableLanguages={third.availableLanguages}
                 cost={third.cost}
                 id={third._id}
@@ -68,7 +68,7 @@ function ResourceViewGrid(props) {
   );
 }
 
-ResourceViewGrid.propTypes = {
+ResourcesGrid.propTypes = {
   filteredResources: PropTypes.arrayOf(
     PropTypes.shape({
       _id: PropTypes.string.isRequired,
@@ -88,4 +88,4 @@ ResourceViewGrid.propTypes = {
   ).isRequired,
 };
 
-export default ResourceViewGrid;
+export default ResourcesGrid;
