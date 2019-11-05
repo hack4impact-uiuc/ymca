@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Col, Layout, Menu, Row } from 'antd';
+import { Layout, Menu } from 'antd';
 import '../css/Filter.css';
 
 import {
@@ -10,9 +10,10 @@ import {
 
 import FilterPreview from './FilterPreview';
 import ResourceViewFilterHeader from './ResourceViewFilterHeader';
+import ResourceViewGrid from './ResourceViewGrid';
 import ResourceViewHeader from './ResourceViewHeader';
 
-const { Sider, Content } = Layout;
+const { Sider } = Layout;
 const { SubMenu } = Menu;
 
 export default class Filter extends Component<Props, State> {
@@ -20,10 +21,6 @@ export default class Filter extends Component<Props, State> {
     super(props);
 
     this.state = {
-      languageDropdownOpen: false,
-      locationDropdownOpen: false,
-      costDropdownOpen: false,
-
       languageSelected: '',
       locationSelected: '',
 
@@ -108,18 +105,6 @@ export default class Filter extends Component<Props, State> {
     });
   };
 
-  languageToggle = () => {
-    this.setState(prevState => ({
-      languageDropdownOpen: !prevState.languageDropdownOpen,
-    }));
-  };
-
-  locationToggle = () => {
-    this.setState(prevState => ({
-      locationDropdownOpen: !prevState.locationDropdownOpen,
-    }));
-  };
-
   handleFilterChange = (cost, language, location) => {
     this.setState({
       costSelected: cost,
@@ -132,12 +117,6 @@ export default class Filter extends Component<Props, State> {
       location,
       this.state.subcategorySelected,
     );
-  };
-
-  costToggle = () => {
-    this.setState(prevState => ({
-      costDropdownOpen: !prevState.costDropdownOpen,
-    }));
   };
 
   onOpenChange = async openKeys => {
@@ -161,61 +140,6 @@ export default class Filter extends Component<Props, State> {
       pathname: '/resources',
       search: `?category=${categorySelected}`,
     });
-  };
-
-  getGrid = () => {
-    const { filteredResources } = this.state;
-    return Array(Math.ceil(filteredResources.length / 3))
-      .fill()
-      .map((_, index) => {
-        const first = filteredResources[index * 3];
-        const second =
-          index * 3 + 1 < filteredResources.length
-            ? filteredResources[index * 3 + 1]
-            : null;
-        const third =
-          index * 3 + 2 < filteredResources.length
-            ? filteredResources[index * 3 + 2]
-            : null;
-        return (
-          <Row gutter={[32, 32]}>
-            <Col span={8}>
-              <FilterPreview
-                availableLanguages={first.availableLanguages}
-                cost={first.cost}
-                id={first._id}
-                key={first._id}
-                location={first.location}
-                name={first.name}
-              />
-            </Col>
-            {second && (
-              <Col span={8}>
-                <FilterPreview
-                  availableLanguages={second.availableLanguages}
-                  cost={second.cost}
-                  id={second._id}
-                  key={second._id}
-                  location={second.location}
-                  name={second.name}
-                />
-              </Col>
-            )}
-            {third && (
-              <Col span={8}>
-                <FilterPreview
-                  availableLanguages={third.availableLanguages}
-                  cost={third.cost}
-                  id={third._id}
-                  key={third._id}
-                  location={third.location}
-                  name={third.name}
-                />
-              </Col>
-            )}
-          </Row>
-        );
-      });
   };
 
   async updateResources() {
@@ -242,6 +166,7 @@ export default class Filter extends Component<Props, State> {
       categories,
       categorySelected,
       costs,
+      filteredResources,
       languages,
       locations,
       subcategorySelected,
@@ -262,7 +187,7 @@ export default class Filter extends Component<Props, State> {
             handleChangeFilter={this.handleFilterChange}
           />
           <Layout style={{ background: 'white' }}>
-            <Sider style={{ background: 'white', marginTop: '.8em' }}>
+            <Sider style={{ background: 'white', marginTop: '-.5vh' }}>
               <Menu
                 mode="inline"
                 selectedKeys={
@@ -295,11 +220,7 @@ export default class Filter extends Component<Props, State> {
                 })}
               </Menu>
             </Sider>
-            <Content style={{ maxHeight: '65vh', overflowY: 'scroll' }}>
-              <div style={{ marginLeft: 32, marginRight: 32, marginTop: 16 }}>
-                {this.getGrid()}
-              </div>
-            </Content>
+            <ResourceViewGrid filteredResources={filteredResources} />
           </Layout>
         </>
       </Layout>
