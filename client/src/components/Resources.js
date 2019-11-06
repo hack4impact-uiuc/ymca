@@ -8,7 +8,6 @@ import {
   getResourcesByCategory,
 } from '../utils/api';
 
-import ResourcePreview from './ResourcePreview';
 import ResourcesBanner from './ResourcesBanner';
 import ResourcesFilter from './ResourcesFilter';
 import ResourcesGrid from './ResourcesGrid';
@@ -21,19 +20,19 @@ export default class Resources extends Component<Props, State> {
     super(props);
 
     this.state = {
-      languageSelected: '',
-      locationSelected: '',
+      languageSelected: 'All',
+      locationSelected: 'All',
 
       categorySelected: '',
       subcategorySelected: '',
-      costSelected: '',
+      costSelected: 'All',
 
       openKeys: [],
 
       categories: {},
       languages: ['All', 'English', 'Spanish', 'Chinese', 'Japanese'],
       locations: ['All', 'Champaign', 'Urbana', 'Maibana', 'Foopaign'],
-      costs: ['All', '$', '$$', '$$$', '$$$$'],
+      costs: ['All', '$', '$ - $$', '$ - $$$', '$ - $$$$'],
 
       resources: [],
       filteredResources: [],
@@ -80,9 +79,16 @@ export default class Resources extends Component<Props, State> {
 
   filterResources = (cost, language, location, subcategory) => {
     const { resources } = this.state;
+    const costMap = {
+      $: ['$'],
+      '$ - $$': ['$', '$$'],
+      '$ - $$$': ['$', '$$', '$$$'],
+      '$ - $$$$': ['$', '$$', '$$$', '$$$$'],
+    };
+
     const filteredResources = resources.filter(
       resource =>
-        (resource.cost === cost || cost === 'All') &&
+        (cost === 'All' || costMap[cost].includes(resource.cost)) &&
         (resource.subcategory === subcategory || subcategory === '') &&
         (resource.availableLanguages.includes(language) ||
           language === 'All') &&
@@ -153,7 +159,10 @@ export default class Resources extends Component<Props, State> {
         : await getResourcesByCategory(categorySelected);
     this.setState({
       categorySelected,
+      costSelected: 'All',
       filteredResources: resources == null ? [] : resources.result,
+      languageSelected: 'All',
+      locationSelected: 'All',
       openKeys: [categorySelected],
       resources: resources == null ? [] : resources.result,
       subcategorySelected,
@@ -166,9 +175,12 @@ export default class Resources extends Component<Props, State> {
       categories,
       categorySelected,
       costs,
+      costSelected,
       filteredResources,
       languages,
+      languageSelected,
       locations,
+      locationSelected,
       subcategorySelected,
       openKeys,
     } = this.state;
@@ -181,8 +193,11 @@ export default class Resources extends Component<Props, State> {
         />
         <ResourcesFilter
           costs={costs}
+          costSelected={costSelected}
           languages={languages}
+          languageSelected={languageSelected}
           locations={locations}
+          locationSelected={locationSelected}
           handleChangeFilter={this.handleFilterChange}
         />
         <Layout style={{ background: 'white' }}>
