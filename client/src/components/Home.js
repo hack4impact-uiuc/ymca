@@ -1,18 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Row, Col, Button, Carousel } from 'antd';
-import '../css/Home.css';
 import { Textfit } from 'react-textfit';
-import headerImg from '../imgs/homePage/headerImg.jpg';
+import { Button, Carousel, Col, Row } from 'antd';
+import '../css/Home.css';
 
-const gradientBox = {
-  backgroundImage: `radial-gradient(50% 141%, rgba(25,132,202,0.6) 1%,
-  rgba(105,62,158,0.6) 100%), url(${headerImg})`,
-  backgroundSize: 'cover, cover',
-  opacity: '1',
-};
-
-export default class Home extends Component<Props, State> {
+export default class Home extends Component {
   constructor(props) {
     super(props);
 
@@ -66,14 +58,13 @@ export default class Home extends Component<Props, State> {
 
   render() {
     return (
-      <div>
+      <>
         <Row
           className="home-block-1"
           type="flex"
           justify="center"
           align="middle"
           gutter={[16, 16]}
-          style={gradientBox}
         >
           <Col span={6}>
             <Textfit className="welcome-text" mode="single">
@@ -85,14 +76,7 @@ export default class Home extends Component<Props, State> {
             <Row type="flex" justify="center" align="middle" gutter={[16, 16]}>
               <Col span={18}>
                 <Link to="/resources?category=All Resources">
-                  <Button
-                    className="find-resources-button"
-                    type="primary"
-                    style={{
-                      backgroundColor: 'rgb(136,216,208',
-                      borderColor: ' rgb(136,216,208',
-                    }}
-                  >
+                  <Button type="primary">
                     <strong>Find Resources</strong>
                   </Button>
                 </Link>
@@ -109,15 +93,13 @@ export default class Home extends Component<Props, State> {
         >
           <Col className="home-block-2__left" span={6}>
             <Row
+              className="home-block-2__left__text"
               type="flex"
               justify="left"
               align="middle"
-              style={{ height: '100%' }}
             >
               <Col span={20}>
-                <Textfit className="home-block-2__left__text" mode="single">
-                  About the Guide
-                </Textfit>
+                <Textfit mode="single">About the Guide</Textfit>
               </Col>
             </Row>
           </Col>
@@ -167,11 +149,9 @@ export default class Home extends Component<Props, State> {
                         span={12}
                         offset={1}
                       >
-                        <h1 style={{ color: 'white' }}>{element.person}</h1>
-                        <h3 style={{ color: 'white' }}>{element.country}</h3>
-                        <p style={{ color: 'white', 'font-size': '2.5vh' }}>
-                          {element.testimonial}
-                        </p>
+                        <h1>{element.person}</h1>
+                        <h3>{element.country}</h3>
+                        <p>{element.testimonial}</p>
                       </Col>
                     </Row>
                   </div>
@@ -196,38 +176,32 @@ export default class Home extends Component<Props, State> {
             <Row type="flex" justify="center" align="middle" gutter={[16, 16]}>
               <Col className="home-block-4__partner" span={4}>
                 <img
-                  src={require('../imgs/homePage/partners/CU_Fair.jpg')}
+                  src="/asset/partners/cu_fair.jpg"
                   alt="Champaign-Urbana Fair"
                 />
               </Col>
               <Col className="home-block-4__partner" span={4}>
                 <img
-                  src={require('../imgs/homePage/partners/CUPHD.png')}
+                  src="/asset/partners/cuphd.png"
                   alt="Champaign-Urbana Public Health District"
                 />
               </Col>
               <Col className="home-block-4__partner" span={4}>
-                <img
-                  src={require('../imgs/homePage/partners/Dhaitree.jpg')}
-                  alt="Dhairtree"
-                />
+                <img src="/asset/partners/dhai_tree.jpg" alt="Dhairtree" />
               </Col>
               <Col className="home-block-4__partner" span={4}>
                 <img
-                  src={require('../imgs/homePage/partners/Three_Spinners.jpg')}
+                  src="/asset/partners/three_spinners.jpg"
                   alt="Three Spinners"
                 />
               </Col>
               <Col className="home-block-4__partner" span={4}>
-                <img
-                  src={require('../imgs/homePage/partners/trc.jpg')}
-                  alt="The Refugee Center"
-                />
+                <img src="/asset/partners/trc.jpg" alt="The Refugee Center" />
               </Col>
             </Row>
           </Col>
         </Row>
-      </div>
+      </>
     );
   }
 }
