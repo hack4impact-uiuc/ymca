@@ -5,7 +5,7 @@ TODO: Implement phoneType into form.
 */
 
 import React from 'react';
-import '../css/NewResourcePhoneNumberForm.css';
+import '../css/ResourcePhoneNumberForm.css';
 import { Input, Form, Button, List } from 'antd';
 
 type Contact = {|

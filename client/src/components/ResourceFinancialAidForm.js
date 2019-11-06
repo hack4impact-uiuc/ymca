@@ -5,7 +5,7 @@ TODO: Implement phoneType into form.
 */
 
 import React from 'react';
-import '../css/NewResourcePhoneNumberForm.css';
+import '../css/ResourcePhoneNumberForm.css';
 import { Input, Form, Button, Descriptions } from 'antd';
 
 const FinancialAidForm = Form.create({ name: 'financialAid' })(props => {

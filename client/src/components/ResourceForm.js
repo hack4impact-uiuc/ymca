@@ -1,14 +1,14 @@
 // @flow
 
 import React, { useState } from 'react';
-import '../css/NewResourceForm.css';
+import '../css/ResourceForm.css';
 import { Form, Input, Button, Select, Affix, message } from 'antd';
 import fetch from 'isomorphic-fetch';
-import PhoneNumberFormItem from './NewResourcePhoneNumberForm';
-import ContactFormItem from './NewResourceContactForm';
-import FinancialAidFormItem from './NewResourceFinancialAidForm';
-import CategorySelector from './NewResourceCategorySelector';
-import StrListFormItem from './NewResourceStrListForm';
+import PhoneNumberFormItem from './ResourcePhoneNumberForm';
+import ContactFormItem from './ResourceContactForm';
+import FinancialAidFormItem from './ResourceFinancialAidForm';
+import CategorySelector from './ResourceCategorySelector';
+import StrListFormItem from './ResourceStrListForm';
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -47,7 +47,7 @@ type FormProps = {
   },
 };
 
-const NewResourceForm = (props: FormProps) => {
+const ResourceForm = (props: FormProps) => {
   const [totalSubmitEnabled, setTotalSubmitEnabled] = useState(true);
 
   const [category, setCategory] = useState('');
@@ -194,7 +194,6 @@ const NewResourceForm = (props: FormProps) => {
         setListOfStrings={setInternalNotes}
         setTotalSubmitEnabled={setTotalSubmitEnabled}
       />
-
       <Affix offsetBottom={20}>
         <Button type="primary" htmlType="submit" className="newResourceSubmit">
           Add Resource
@@ -204,4 +203,4 @@ const NewResourceForm = (props: FormProps) => {
   );
 };
 
-export default Form.create({ name: 'newResource' })(NewResourceForm);
+export default Form.create({ name: 'newResource' })(ResourceForm);
