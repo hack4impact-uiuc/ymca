@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import '../css/ResourceForm.css';
 import { Form, Input, Button, Select, Affix, message } from 'antd';
 import fetch from 'isomorphic-fetch';
+
 import PhoneNumberFormItem from './ResourcePhoneNumberForm';
 import ContactFormItem from './ResourceContactForm';
 import FinancialAidFormItem from './ResourceFinancialAidForm';

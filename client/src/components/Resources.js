@@ -19,7 +19,7 @@ export default class Resources extends Component<Props, State> {
   constructor(props) {
     super(props);
     this.state = {
-      costSelected: 'All',
+      costSelected: '$ - $$$$',
       languageSelected: 'All',
       locationSelected: 'All',
 
@@ -30,7 +30,7 @@ export default class Resources extends Component<Props, State> {
       categories: {},
       languages: ['All', 'English', 'Spanish', 'Chinese', 'Japanese'],
       locations: ['All', 'Champaign', 'Urbana', 'Maibana', 'Foopaign'],
-      costs: ['All', '$', '$ - $$', '$ - $$$', '$ - $$$$'],
+      costs: ['$', '$ - $$', '$ - $$$', '$ - $$$$'],
 
       resources: [],
       filteredResources: [],
@@ -86,13 +86,19 @@ export default class Resources extends Component<Props, State> {
 
     const filteredResources = resources.filter(
       resource =>
-        (cost === 'All' || costMap[cost].includes(resource.cost)) &&
+        costMap[cost].includes(resource.cost) &&
         (resource.subcategory === subcategory || subcategory === '') &&
         (resource.availableLanguages.includes(language) ||
           language === 'All') &&
         (resource.city === location || location === 'All'),
     );
-    this.setState({ filteredResources });
+    this.setState({
+      costSelected: cost,
+      filteredResources,
+      languageSelected: language,
+      locationSelected: location,
+      subcategorySelected: subcategory,
+    });
   };
 
   categorySelectAll = async () => {
@@ -152,15 +158,12 @@ export default class Resources extends Component<Props, State> {
         : await getResourcesByCategory(categorySelected);
     this.setState({
       categorySelected,
-      costSelected: 'All',
       filteredResources: resources == null ? [] : resources.result,
-      languageSelected: 'All',
-      locationSelected: 'All',
       openKeys: [categorySelected],
       resources: resources == null ? [] : resources.result,
       subcategorySelected,
     });
-    this.filterResources('All', 'All', 'All', subcategorySelected);
+    this.filterResources('$ - $$$$', 'All', 'All', subcategorySelected);
   }
 
   render() {
