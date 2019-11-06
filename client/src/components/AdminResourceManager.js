@@ -1,12 +1,11 @@
 import React from 'react';
-
-import NewResourceForm from './NewResourceForm';
 import '../css/AdminResourceManager.css';
+import ResourceForm from './ResourceForm';
 
 const AdminResourceManager = () => {
   return (
     <>
-      <NewResourceForm className="adminNewResourceForm" />
+      <ResourceForm className="adminNewResourceForm" />
     </>
   );
 };
