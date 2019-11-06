@@ -18,17 +18,15 @@ const { SubMenu } = Menu;
 export default class Resources extends Component<Props, State> {
   constructor(props) {
     super(props);
-
     this.state = {
+      costSelected: 'All',
       languageSelected: 'All',
       locationSelected: 'All',
 
       categorySelected: '',
       subcategorySelected: '',
-      costSelected: 'All',
 
       openKeys: [],
-
       categories: {},
       languages: ['All', 'English', 'Spanish', 'Chinese', 'Japanese'],
       locations: ['All', 'Champaign', 'Urbana', 'Maibana', 'Foopaign'],
@@ -112,11 +110,6 @@ export default class Resources extends Component<Props, State> {
   };
 
   handleFilterChange = (cost, language, location) => {
-    this.setState({
-      costSelected: cost,
-      languageSelected: language,
-      locationSelected: location,
-    });
     this.filterResources(
       cost,
       language,
