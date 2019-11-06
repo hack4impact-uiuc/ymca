@@ -1,11 +1,5 @@
 // @flow
 
-/*
-TODO: Have some fields be more in-depth than just a text bar.
-TODO: Add clear all fields button.
-TODO: Improve UI and UX.
-*/
-
 import React, { useState } from 'react';
 import '../css/NewResourceForm.css';
 import { Form, Input, Button, Select, Affix, message } from 'antd';
@@ -14,9 +8,7 @@ import PhoneNumberFormItem from './NewResourcePhoneNumberForm';
 import ContactFormItem from './NewResourceContactForm';
 import FinancialAidFormItem from './NewResourceFinancialAidForm';
 import CategorySelector from './NewResourceCategorySelector';
-import AvailableLanguageFormItem from './NewResourceAvailableLangForm';
-import CommentsFormItem from './NewResourceCommentsForm';
-import InternalNotesFormItem from './NewResourceInternalNotesForm';
+import StrListFormItem from './NewResourceStrListForm';
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -167,11 +159,14 @@ const NewResourceForm = (props: FormProps) => {
           rules: [{}],
         })(<Input placeholder="Cost" />)}
       </Form.Item>
-      {AvailableLanguageFormItem({
-        availableLanguages,
-        setAvailableLanguages,
-        setTotalSubmitEnabled,
-      })}
+      <StrListFormItem
+        formName="availableLanguage"
+        label="Available Languages"
+        placeholder="Available Language"
+        listOfStrings={availableLanguages}
+        setListOfStrings={setAvailableLanguages}
+        setTotalSubmitEnabled={setTotalSubmitEnabled}
+      />
       <Form.Item label="Recommendation">
         {getFieldDecorator('recommendation', {
           initialValue: 'Yes',
@@ -183,16 +178,22 @@ const NewResourceForm = (props: FormProps) => {
           </Select>,
         )}
       </Form.Item>
-      {CommentsFormItem({
-        comments,
-        setComments,
-        setTotalSubmitEnabled,
-      })}
-      {InternalNotesFormItem({
-        internalNotes,
-        setInternalNotes,
-        setTotalSubmitEnabled,
-      })}
+      <StrListFormItem
+        formName="commentForm"
+        label="Comments"
+        placeholder="Enter a comment"
+        listOfStrings={comments}
+        setListOfStrings={setComments}
+        setTotalSubmitEnabled={setTotalSubmitEnabled}
+      />
+      <StrListFormItem
+        formName="internalNotesForm"
+        label="Internal Notes"
+        placeholder="Enter a note..."
+        listOfStrings={internalNotes}
+        setListOfStrings={setInternalNotes}
+        setTotalSubmitEnabled={setTotalSubmitEnabled}
+      />
 
       <Affix offsetBottom={20}>
         <Button type="primary" htmlType="submit" className="newResourceSubmit">
