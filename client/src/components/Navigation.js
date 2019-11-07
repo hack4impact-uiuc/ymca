@@ -8,6 +8,8 @@ const { Header } = Layout;
 
 type Props = {};
 
+const ToHomePage = () => {};
+
 const Navigation = (props: Props) => {
   return (
     <Header className="header">
