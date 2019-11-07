@@ -1,6 +1,7 @@
 .button {
   border-radius: 20em;
-  width: 100px;
+  width: 11em;
+  font-size: 1.03em;
 }
 
 .button:hover {

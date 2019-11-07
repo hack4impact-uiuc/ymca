@@ -1,26 +1,41 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 import { AutoComplete, Button, Dropdown, Radio } from 'antd';
 import PropTypes from 'prop-types';
 
 import '../css/ResourcesFilter.css';
 
 function ResourcesFilter(props) {
-  const { costs, languages, locations, handleChangeFilter } = props;
+  const {
+    costs,
+    costSelected,
+    languages,
+    languageSelected,
+    locations,
+    locationSelected,
+    handleChangeFilter,
+  } = props;
 
-  const [costValue, setCostValue] = useState(costs[0]);
-  const [languageValue, setLanguageValue] = useState(languages[0]);
-  const [locationValue, setLocationValue] = useState(locations[0]);
+  const onChange = useCallback((filterName, value) => {
+    switch (filterName) {
+      case 'Cost':
+        handleChangeFilter(value, languageSelected, locationSelected);
+        break;
+      case 'Languages Offered':
+        handleChangeFilter(costSelected, value, locationSelected);
+        break;
+      case 'Location':
+        handleChangeFilter(costSelected, languageSelected, value);
+        break;
+      default:
+    }
+  });
 
-  useEffect(() => {
-    handleChangeFilter(costValue, languageValue, locationValue);
-  }, [costValue, languageValue, locationValue]);
-
-  const radio = (filterName, filterOptions, onChange, value) => {
+  const radio = useCallback((filterName, filterOptions, value) => {
     return (
       <div className="radio-container">
         <h4 className="title">{filterName}</h4>
         <Radio.Group
-          onChange={target => onChange(target.target.value)}
+          onChange={target => onChange(filterName, target.target.value)}
           value={value}
         >
           {filterOptions.map(option => (
@@ -31,27 +46,27 @@ function ResourcesFilter(props) {
         </Radio.Group>
       </div>
     );
-  };
+  });
 
   return (
     <div className="header-container">
       <Dropdown
         className="dropdown"
-        overlay={radio('Cost', costs, setCostValue, costValue)}
+        overlay={radio('Cost', costs, costSelected)}
         placement="topLeft"
       >
         <Button className="button">Cost</Button>
       </Dropdown>
       <Dropdown
         className="dropdown"
-        overlay={radio('Language', languages, setLanguageValue, languageValue)}
+        overlay={radio('Languages Offered', languages, languageSelected)}
         placement="topCenter"
       >
-        <Button className="button">Language</Button>
+        <Button className="button">Languages Offered</Button>
       </Dropdown>
       <Dropdown
         className="dropdown"
-        overlay={radio('Location', locations, setLocationValue, locationValue)}
+        overlay={radio('Location', locations, locationSelected)}
         placement="topRight"
       >
         <Button className="button">Location</Button>
@@ -63,8 +78,11 @@ function ResourcesFilter(props) {
 
 ResourcesFilter.propTypes = {
   costs: PropTypes.arrayOf(PropTypes.string).isRequired,
+  costSelected: PropTypes.string.isRequired,
   languages: PropTypes.arrayOf(PropTypes.string).isRequired,
+  languageSelected: PropTypes.string.isRequired,
   locations: PropTypes.arrayOf(PropTypes.string).isRequired,
+  locationSelected: PropTypes.string.isRequired,
   handleChangeFilter: PropTypes.func.isRequired,
 };
 
