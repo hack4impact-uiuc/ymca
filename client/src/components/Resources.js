@@ -46,9 +46,18 @@ export default class Resources extends Component<Props, State> {
       });
     }
     this.updateResources();
+    window.addEventListener('scroll', this.listenScrollEvent)
     this.setState({
       categories,
     });
+  }
+
+  listenScrollEvent = e => {
+    if (window.scrollY > 60) {
+      this.setState({isSmallHeader: true})
+    } else {
+      this.setState({isSmallHeader: false})
+    }
   }
 
   async componentDidUpdate(prevProps) {
@@ -173,6 +182,7 @@ export default class Resources extends Component<Props, State> {
       costs,
       costSelected,
       filteredResources,
+      isSmallHeader,
       languages,
       languageSelected,
       locations,
@@ -183,8 +193,10 @@ export default class Resources extends Component<Props, State> {
 
     return (
       <Layout>
+        <div className="filter-header">
         <ResourcesBanner
           categorySelected={categorySelected}
+          isSmallHeader={isSmallHeader}
           subcategorySelected={subcategorySelected}
         />
         <ResourcesFilter
@@ -195,9 +207,9 @@ export default class Resources extends Component<Props, State> {
           locations={locations}
           locationSelected={locationSelected}
           handleChangeFilter={this.handleFilterChange}
-        />
+        /></div>
         <Layout style={{ background: 'white' }}>
-          <Sider style={{ background: 'white', marginTop: '-.5vh' }}>
+          <Sider className="filter-sider">
             <Menu
               mode="inline"
               selectedKeys={

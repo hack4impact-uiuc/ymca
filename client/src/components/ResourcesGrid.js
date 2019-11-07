@@ -62,9 +62,9 @@ function ResourcesGrid(props) {
     });
 
   return (
-    <Content style={{ height: '55vh', overflowY: 'scroll' }}>
+    // <Content style={{ height: '55vh', overflowY: 'scroll' }}>
       <div style={{ marginLeft: 32, marginRight: 32 }}>{cards}</div>
-    </Content>
+    // </Content>
   );
 }
 

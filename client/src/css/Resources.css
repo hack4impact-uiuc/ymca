@@ -23,3 +23,18 @@
 .filter-component__filters {
   border: 2px solid black;
 }
+
+.filter-header {
+  position: sticky;
+  top: 0px;
+  width: 100%;
+  z-index: 10;
+}
+
+.filter-sider {
+  background: white;
+  margin-top: -.5vh;
+  position: sticky;
+  top: 300px;
+  z-index: 0;
+}
