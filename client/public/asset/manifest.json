@@ -1,0 +1,24 @@
+{
+  "short_name": "YMCA Resource Center",
+  "name": "YMCA Resource Center",
+  "icons": [
+    {
+      "src": "asset/icon/favicon.ico",
+      "sizes": "64x64 32x32 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "asset/icon/logo192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "asset/icon/logo512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
+  "display": "standalone"
+}
