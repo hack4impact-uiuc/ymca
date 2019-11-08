@@ -9,10 +9,6 @@ function ResourcesBreadcrumb(props) {
 
   const breadcrumbs = [];
 
-  const style = {
-    color: resourceSelected ? 'black' : 'white',
-  };
-
   if (categorySelected === 'All Resources') {
     breadcrumbs.push(<span>All Resources</span>);
   } else if (categorySelected !== '') {
@@ -51,7 +47,8 @@ function ResourcesBreadcrumb(props) {
               className="link"
               to={{
                 pathname: '/resources',
-                search: `?category=${categorySelected}&subcategory=${subcategorySelected}`,
+                search: `?category=${categorySelected}
+                        &subcategory=${subcategorySelected}`,
               }}
             >
               {subcategorySelected}
@@ -82,13 +79,17 @@ function ResourcesBreadcrumb(props) {
     }
   }
 
-  return <div style={style}>{breadcrumbs}</div>;
+  return <>{breadcrumbs}</>;
 }
+
+ResourcesBreadcrumb.defaultProps = {
+  resourceSelected: '',
+};
 
 ResourcesBreadcrumb.propTypes = {
   categorySelected: PropTypes.string.isRequired,
   subcategorySelected: PropTypes.string.isRequired,
-  resourceSelected: PropTypes.string.isRequired,
+  resourceSelected: PropTypes.string,
 };
 
 export default ResourcesBreadcrumb;

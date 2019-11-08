@@ -68,12 +68,6 @@
   margin-bottom: 10px !important;
 }
 
-.link {
+.resource-detail .link {
   color: black !important;
-}
-
-.link:hover {
-  color: white;
-  font-weight: bold;
-  text-decoration: none;
 }

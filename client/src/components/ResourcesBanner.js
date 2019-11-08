@@ -9,15 +9,6 @@ const { Header } = Layout;
 function ResourcesBanner(props) {
   const { categorySelected, subcategorySelected } = props;
 
-  // const style = {
-  //   background: '#431C72',
-  //   color: resourceSelected.length > 0 ? 'black' : 'white',
-  //   height: 'auto',
-  //   paddingLeft: '235px',
-  //   paddingBottom: '3em',
-  //   paddingTop: '2em',
-  // }
-
   return (
     <Header
       style={{
@@ -45,7 +36,6 @@ function ResourcesBanner(props) {
 ResourcesBanner.propTypes = {
   categorySelected: PropTypes.string.isRequired,
   subcategorySelected: PropTypes.string.isRequired,
-  resourceSelected: PropTypes.string.isRequired,
 };
 
 export default ResourcesBanner;
