@@ -1,7 +1,8 @@
 .button {
   border-radius: 20em;
   width: 11em;
-  font-size: 1.03em;
+  font-size: 1em;
+  height: 2.5em;
 }
 
 .button:hover {
@@ -16,10 +17,15 @@
 
 .header-container {
   background: white;
-  border-top: 1px solid black;
+  border-bottom: 1px solid rgba(235, 235, 235, 1);
+  border-top: 1px solid rgba(235, 235, 235, 1);
   padding-left: 220px;
-  padding-top: 3vh;
-  padding-bottom: 3vh;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  position: sticky;
+  top: 4em;
+  width: 100%;
+  z-index: 10;
 }
 
 .radio {
@@ -42,6 +48,7 @@
   margin-right: 2em;
   float: right;
   padding-right: 1.5em;
+  padding-top: .4em;
   width: 300px;
 }
 

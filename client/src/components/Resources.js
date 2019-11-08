@@ -46,18 +46,9 @@ export default class Resources extends Component<Props, State> {
       });
     }
     this.updateResources();
-    window.addEventListener('scroll', this.listenScrollEvent)
     this.setState({
       categories,
     });
-  }
-
-  listenScrollEvent = e => {
-    if (window.scrollY > 60) {
-      this.setState({isSmallHeader: true})
-    } else {
-      this.setState({isSmallHeader: false})
-    }
   }
 
   async componentDidUpdate(prevProps) {
@@ -182,7 +173,6 @@ export default class Resources extends Component<Props, State> {
       costs,
       costSelected,
       filteredResources,
-      isSmallHeader,
       languages,
       languageSelected,
       locations,
@@ -193,10 +183,8 @@ export default class Resources extends Component<Props, State> {
 
     return (
       <Layout>
-        <div className="filter-header">
         <ResourcesBanner
           categorySelected={categorySelected}
-          isSmallHeader={isSmallHeader}
           subcategorySelected={subcategorySelected}
         />
         <ResourcesFilter
@@ -207,41 +195,45 @@ export default class Resources extends Component<Props, State> {
           locations={locations}
           locationSelected={locationSelected}
           handleChangeFilter={this.handleFilterChange}
-        /></div>
+        />
         <Layout style={{ background: 'white' }}>
-          <Sider className="filter-sider">
-            <Menu
-              mode="inline"
-              selectedKeys={
-                categorySelected === 'All Resources' ? ['All Resources'] : []
-              }
-              openKeys={openKeys}
-              onOpenChange={this.onOpenChange}
-            >
-              <Menu.Item
-                key="All Resources"
-                onClick={() => this.categorySelectAll()}
+          <div>
+            <Sider className="filter-sider">
+              <Menu
+                mode="inline"
+                selectedKeys={
+                  subcategorySelected === ''
+                    ? categorySelected
+                    : subcategorySelected
+                }
+                openKeys={openKeys}
+                onOpenChange={this.onOpenChange}
               >
-                All Resources
-              </Menu.Item>
-              {Object.keys(categories).map(categoryName => {
-                return (
-                  <SubMenu key={categoryName} title={categoryName}>
-                    {categories[categoryName].map(subCategory => {
-                      return (
-                        <Menu.Item
-                          key={subCategory}
-                          onClick={() => this.subcategorySelect(subCategory)}
-                        >
-                          {subCategory}
-                        </Menu.Item>
-                      );
-                    })}
-                  </SubMenu>
-                );
-              })}
-            </Menu>
-          </Sider>
+                <Menu.Item
+                  key="All Resources"
+                  onClick={() => this.categorySelectAll()}
+                >
+                  All Resources
+                </Menu.Item>
+                {Object.keys(categories).map(categoryName => {
+                  return (
+                    <SubMenu key={categoryName} title={categoryName}>
+                      {categories[categoryName].map(subCategory => {
+                        return (
+                          <Menu.Item
+                            key={subCategory}
+                            onClick={() => this.subcategorySelect(subCategory)}
+                          >
+                            {subCategory}
+                          </Menu.Item>
+                        );
+                      })}
+                    </SubMenu>
+                  );
+                })}
+              </Menu>
+            </Sider>
+          </div>
           <ResourcesGrid filteredResources={filteredResources} />
         </Layout>
       </Layout>
