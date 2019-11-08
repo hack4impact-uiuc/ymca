@@ -30,3 +30,13 @@ export const register = body => {
     }),
   }).then(res => res.json());
 };
+
+export const verify = token => {
+  return fetch(`${AUTH_SERVER_URI}/verify`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      token,
+    },
+  }).then(res => res.json());
+};
