@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import '../css/ResourceDetail.css';
 
 import { getResourceByID } from '../utils/api';
+
 import ResourcesBreadcrumb from './ResourcesBreadcrumb';
 
 const days = [
@@ -35,7 +36,7 @@ export default class ResourceDetail extends Component {
       cost: '',
       category: '',
       subcategory: '',
-      resourceExists: true
+      resourceExists: true,
     };
   }
 
@@ -51,7 +52,7 @@ export default class ResourceDetail extends Component {
         description: result.description,
         languages: result.availableLanguages,
         category: result.category,
-        subcategory: result.subcategory
+        subcategory: result.subcategory,
       });
     } else {
       // redirect to resource unknown page
@@ -77,7 +78,7 @@ export default class ResourceDetail extends Component {
       resourceExists,
     } = this.state;
 
-    if (resourceExists) {
+    if (!resourceExists) {
       return <Redirect to="/resources/unknown" />;
     }
 
@@ -94,7 +95,7 @@ export default class ResourceDetail extends Component {
           <ResourcesBreadcrumb
             categorySelected={category}
             subcategorySelected={subcategory}
-            resourceSelected='sdasd'
+            resourceSelected={name}
           />
         </Row>
         <Row>

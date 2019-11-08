@@ -10,14 +10,20 @@ function ResourcesBreadcrumb(props) {
   const breadcrumbs = [];
 
   const style = {
-    color: resourceSelected ? 'black' : 'white'
-  }
+    color: resourceSelected ? 'black' : 'white',
+  };
 
   if (categorySelected === 'All Resources') {
     breadcrumbs.push(<span>All Resources</span>);
   } else if (categorySelected !== '') {
     breadcrumbs.push(
-      <Link className="link" to="resources?category=All Resources">
+      <Link
+        className="link"
+        to={{
+          pathname: '/resources',
+          search: '?category=All%20Resources',
+        }}
+      >
         <span>All Resources</span>
       </Link>,
     );
@@ -36,12 +42,36 @@ function ResourcesBreadcrumb(props) {
           </Link>
         </span>,
       );
-      breadcrumbs.push(
-        <span>
-          {` > `}
-          <strong>{subcategorySelected}</strong>
-        </span>,
-      );
+
+      if (resourceSelected) {
+        breadcrumbs.push(
+          <span>
+            {` > `}
+            <Link
+              className="link"
+              to={{
+                pathname: '/resources',
+                search: `?category=${categorySelected}&subcategory=${subcategorySelected}`,
+              }}
+            >
+              {subcategorySelected}
+            </Link>
+          </span>,
+        );
+        breadcrumbs.push(
+          <span>
+            {` > `}
+            <strong>{resourceSelected}</strong>
+          </span>,
+        );
+      } else {
+        breadcrumbs.push(
+          <span>
+            {` > `}
+            <strong>{subcategorySelected}</strong>
+          </span>,
+        );
+      }
     } else {
       breadcrumbs.push(
         <span>
@@ -52,16 +82,13 @@ function ResourcesBreadcrumb(props) {
     }
   }
 
-  return (
-    <div style={style}>
-      {breadcrumbs}
-    </div>
-  );
+  return <div style={style}>{breadcrumbs}</div>;
 }
 
 ResourcesBreadcrumb.propTypes = {
   categorySelected: PropTypes.string.isRequired,
   subcategorySelected: PropTypes.string.isRequired,
+  resourceSelected: PropTypes.string.isRequired,
 };
 
 export default ResourcesBreadcrumb;
