@@ -5,9 +5,13 @@ import { Link } from 'react-router-dom/';
 import '../css/ResourcesBreadcrumb.css';
 
 function ResourcesBreadcrumb(props) {
-  const { categorySelected, subcategorySelected } = props;
+  const { categorySelected, subcategorySelected, resourceSelected } = props;
 
   const breadcrumbs = [];
+
+  const style = {
+    color: resourceSelected ? 'black' : 'white'
+  }
 
   if (categorySelected === 'All Resources') {
     breadcrumbs.push(<span>All Resources</span>);
@@ -38,27 +42,6 @@ function ResourcesBreadcrumb(props) {
           <strong>{subcategorySelected}</strong>
         </span>,
       );
-    } else if (subcategorySelected !== '') {
-      breadcrumbs.push(
-        <span>
-          {` > `}
-          <Link
-            className="link"
-            to={{
-              pathname: '/resources',
-              search: `?category=${categorySelected}`,
-            }}
-          >
-            {categorySelected}
-          </Link>
-        </span>,
-      );
-      breadcrumbs.push(
-        <span>
-          {` > `}
-          <strong>{subcategorySelected}</strong>
-        </span>,
-      );
     } else {
       breadcrumbs.push(
         <span>
@@ -69,7 +52,11 @@ function ResourcesBreadcrumb(props) {
     }
   }
 
-  return breadcrumbs;
+  return (
+    <div style={style}>
+      {breadcrumbs}
+    </div>
+  );
 }
 
 ResourcesBreadcrumb.propTypes = {

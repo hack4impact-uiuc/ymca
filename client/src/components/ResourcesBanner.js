@@ -7,7 +7,16 @@ import ResourceBreadcrumb from './ResourcesBreadcrumb';
 const { Header } = Layout;
 
 function ResourcesBanner(props) {
-  const { categorySelected, subcategorySelected } = props;
+  const { categorySelected, subcategorySelected, resourceSelected } = props;
+
+  // const style = {
+  //   background: '#431C72',
+  //   color: resourceSelected.length > 0 ? 'black' : 'white',
+  //   height: 'auto',
+  //   paddingLeft: '235px',
+  //   paddingBottom: '3em',
+  //   paddingTop: '2em',
+  // }
 
   return (
     <Header

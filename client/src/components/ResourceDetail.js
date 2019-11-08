@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import '../css/ResourceDetail.css';
 
 import { getResourceByID } from '../utils/api';
-// import ResourceBreadcrumb from './ResourceBreadcrumb';
+import ResourcesBreadcrumb from './ResourcesBreadcrumb';
 
 const days = [
   'Sunday',
@@ -32,8 +32,8 @@ export default class ResourceDetail extends Component {
       languages: [],
       requiredDocuments: [],
       cost: '',
-      // category: '',
-      // subcategory: '',
+      category: '',
+      subcategory: ''
     };
   }
 
@@ -48,8 +48,8 @@ export default class ResourceDetail extends Component {
         phone: result.phoneNumbers,
         description: result.description,
         languages: result.availableLanguages,
-        // category: result.category,
-        // subcategory: result.subcategory,
+        category: result.category,
+        subcategory: result.subcategory
       });
     } else {
       // redirect to 404
@@ -69,8 +69,8 @@ export default class ResourceDetail extends Component {
       languages,
       requiredDocuments,
       cost,
-      // category,
-      // subcategory,
+      category,
+      subcategory
     } = this.state;
 
     return (
@@ -82,6 +82,13 @@ export default class ResourceDetail extends Component {
           align="middle"
           gutter={[16, 16]}
         />
+        <Row>
+          <ResourcesBreadcrumb
+            categorySelected={category}
+            subcategorySelected={subcategory}
+            resourceSelected='sdasd'
+          />
+        </Row>
         <Row>
           <Col span={15}>
             <div className="resource-name">{name}</div>

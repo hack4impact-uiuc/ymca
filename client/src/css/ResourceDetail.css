@@ -67,3 +67,13 @@
   background-size: cover;
   margin-bottom: 10px !important;
 }
+
+.link {
+  color: black !important;
+}
+
+.link:hover {
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+}
