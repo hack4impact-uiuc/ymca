@@ -63,7 +63,7 @@
 
 .resource-detail .banner {
   height: 20vh;
-  background-image: url('../imgs/homePage/testimonial.png');
+  background-image: url('/asset/images/background.png');
   background-size: cover;
   margin-bottom: 10px !important;
 }

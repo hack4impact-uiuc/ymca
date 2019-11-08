@@ -8,7 +8,6 @@ import {
   getResourcesByCategory,
 } from '../utils/api';
 
-import ResourcePreview from './ResourcePreview';
 import ResourcesBanner from './ResourcesBanner';
 import ResourcesFilter from './ResourcesFilter';
 import ResourcesGrid from './ResourcesGrid';
@@ -19,21 +18,19 @@ const { SubMenu } = Menu;
 export default class Resources extends Component<Props, State> {
   constructor(props) {
     super(props);
-
     this.state = {
-      languageSelected: '',
-      locationSelected: '',
+      costSelected: '$ - $$$$',
+      languageSelected: 'All',
+      locationSelected: 'All',
 
       categorySelected: '',
       subcategorySelected: '',
-      costSelected: '',
 
       openKeys: [],
-
       categories: {},
       languages: ['All', 'English', 'Spanish', 'Chinese', 'Japanese'],
       locations: ['All', 'Champaign', 'Urbana', 'Maibana', 'Foopaign'],
-      costs: ['All', '$', '$$', '$$$', '$$$$'],
+      costs: ['$', '$ - $$', '$ - $$$', '$ - $$$$'],
 
       resources: [],
       filteredResources: [],
@@ -80,15 +77,28 @@ export default class Resources extends Component<Props, State> {
 
   filterResources = (cost, language, location, subcategory) => {
     const { resources } = this.state;
+    const costMap = {
+      $: ['$'],
+      '$ - $$': ['$', '$$'],
+      '$ - $$$': ['$', '$$', '$$$'],
+      '$ - $$$$': ['$', '$$', '$$$', '$$$$'],
+    };
+
     const filteredResources = resources.filter(
       resource =>
-        (resource.cost === cost || cost === 'All') &&
+        costMap[cost].includes(resource.cost) &&
         (resource.subcategory === subcategory || subcategory === '') &&
         (resource.availableLanguages.includes(language) ||
           language === 'All') &&
         (resource.city === location || location === 'All'),
     );
-    this.setState({ filteredResources });
+    this.setState({
+      costSelected: cost,
+      filteredResources,
+      languageSelected: language,
+      locationSelected: location,
+      subcategorySelected: subcategory,
+    });
   };
 
   categorySelectAll = async () => {
@@ -106,11 +116,6 @@ export default class Resources extends Component<Props, State> {
   };
 
   handleFilterChange = (cost, language, location) => {
-    this.setState({
-      costSelected: cost,
-      languageSelected: language,
-      locationSelected: location,
-    });
     this.filterResources(
       cost,
       language,
@@ -158,7 +163,7 @@ export default class Resources extends Component<Props, State> {
       resources: resources == null ? [] : resources.result,
       subcategorySelected,
     });
-    this.filterResources('All', 'All', 'All', subcategorySelected);
+    this.filterResources('$ - $$$$', 'All', 'All', subcategorySelected);
   }
 
   render() {
@@ -166,9 +171,12 @@ export default class Resources extends Component<Props, State> {
       categories,
       categorySelected,
       costs,
+      costSelected,
       filteredResources,
       languages,
+      languageSelected,
       locations,
+      locationSelected,
       subcategorySelected,
       openKeys,
     } = this.state;
@@ -181,8 +189,11 @@ export default class Resources extends Component<Props, State> {
         />
         <ResourcesFilter
           costs={costs}
+          costSelected={costSelected}
           languages={languages}
+          languageSelected={languageSelected}
           locations={locations}
+          locationSelected={locationSelected}
           handleChangeFilter={this.handleFilterChange}
         />
         <Layout style={{ background: 'white' }}>

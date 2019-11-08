@@ -1,0 +1,33 @@
+.phoneNumberContainer {
+  display: flex;
+  direction: row;
+  justify-content: space-between;
+}
+
+.phoneNumberView {
+  order: 0;
+}
+
+.phoneTypeView {
+  order: 1;
+}
+
+.phoneNumberDeleteButton {
+  order: 2;
+}
+
+.phoneInputContainer {
+  display: flex;
+  direction: row;
+  justify-content: space-evenly;
+}
+
+.phoneNumberInput {
+  order: 1;
+  width: 45%;
+}
+
+.phoneTypeInput {
+  order: 2;
+  width: 45%;
+}
