@@ -197,43 +197,41 @@ export default class Resources extends Component<Props, State> {
           handleChangeFilter={this.handleFilterChange}
         />
         <Layout style={{ background: 'white' }}>
-          <div>
-            <Sider className="filter-sider">
-              <Menu
-                mode="inline"
-                selectedKeys={
-                  subcategorySelected === ''
-                    ? categorySelected
-                    : subcategorySelected
-                }
-                openKeys={openKeys}
-                onOpenChange={this.onOpenChange}
+          <Sider className="filter-sider">
+            <Menu
+              mode="inline"
+              selectedKeys={
+                subcategorySelected === ''
+                  ? categorySelected
+                  : subcategorySelected
+              }
+              openKeys={openKeys}
+              onOpenChange={this.onOpenChange}
+            >
+              <Menu.Item
+                key="All Resources"
+                onClick={() => this.categorySelectAll()}
               >
-                <Menu.Item
-                  key="All Resources"
-                  onClick={() => this.categorySelectAll()}
-                >
-                  All Resources
-                </Menu.Item>
-                {Object.keys(categories).map(categoryName => {
-                  return (
-                    <SubMenu key={categoryName} title={categoryName}>
-                      {categories[categoryName].map(subCategory => {
-                        return (
-                          <Menu.Item
-                            key={subCategory}
-                            onClick={() => this.subcategorySelect(subCategory)}
-                          >
-                            {subCategory}
-                          </Menu.Item>
-                        );
-                      })}
-                    </SubMenu>
-                  );
-                })}
-              </Menu>
-            </Sider>
-          </div>
+                All Resources
+              </Menu.Item>
+              {Object.keys(categories).map(categoryName => {
+                return (
+                  <SubMenu key={categoryName} title={categoryName}>
+                    {categories[categoryName].map(subCategory => {
+                      return (
+                        <Menu.Item
+                          key={subCategory}
+                          onClick={() => this.subcategorySelect(subCategory)}
+                        >
+                          {subCategory}
+                        </Menu.Item>
+                      );
+                    })}
+                  </SubMenu>
+                );
+              })}
+            </Menu>
+          </Sider>
           <ResourcesGrid filteredResources={filteredResources} />
         </Layout>
       </Layout>
