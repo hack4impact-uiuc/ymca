@@ -1,3 +1,16 @@
+.resources-filter {
+  background: white;
+  border-bottom: 1px solid rgba(235, 235, 235, 1);
+  border-top: 1px solid rgba(235, 235, 235, 1);
+  padding-left: 220px;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  position: sticky;
+  top: 4em;
+  width: 100%;
+  z-index: 10;
+}
+
 .button {
   border-radius: 20em;
   width: 11em;
@@ -13,19 +26,6 @@
 
 .dropdown {
   margin-left: 2em;
-}
-
-.header-container {
-  background: white;
-  border-bottom: 1px solid rgba(235, 235, 235, 1);
-  border-top: 1px solid rgba(235, 235, 235, 1);
-  padding-left: 220px;
-  padding-top: 1em;
-  padding-bottom: 1em;
-  position: sticky;
-  top: 4em;
-  width: 100%;
-  z-index: 10;
 }
 
 .radio {
@@ -48,7 +48,7 @@
   margin-right: 2em;
   float: right;
   padding-right: 1.5em;
-  padding-top: .4em;
+  padding-top: 0.4em;
   width: 300px;
 }
 

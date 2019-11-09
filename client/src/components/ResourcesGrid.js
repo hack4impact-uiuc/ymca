@@ -60,7 +60,7 @@ function ResourcesGrid(props) {
       );
     });
 
-  return <div className="grid-container">{cards}</div>;
+  return <div className="resources-grid">{cards}</div>;
 }
 
 ResourcesGrid.propTypes = {

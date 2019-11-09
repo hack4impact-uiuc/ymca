@@ -182,7 +182,7 @@ export default class Resources extends Component<Props, State> {
     } = this.state;
 
     return (
-      <Layout>
+      <Layout className="resources">
         <ResourcesBanner
           categorySelected={categorySelected}
           subcategorySelected={subcategorySelected}
