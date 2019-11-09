@@ -49,7 +49,7 @@ function ResourcesFilter(props) {
   });
 
   return (
-    <div className="header-container">
+    <div className="resources-filter">
       <Dropdown
         className="dropdown"
         overlay={radio('Cost', costs, costSelected)}
