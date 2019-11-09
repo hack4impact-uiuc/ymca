@@ -1,13 +1,14 @@
 @import '~antd/dist/antd.css';
 
-.header {
+.navigation {
   background: white;
-  position: sticky; 
+  position: sticky;
   top: 0;
-  z-index: 5; 
+  z-index: 5;
+  padding-top: 0.5em;
 }
 
-.logo {
+.navigation .logo {
   background-color: #ffffff;
   background-image: url('/asset/icon/logo192.png');
   background-position: center;
@@ -18,15 +19,16 @@
   width: 32px;
 }
 
-.ant-menu-horizontal {
+.navigation .ant-menu-horizontal {
   border-bottom: none;
 }
 
-.ant-menu-horizontal {
+.navigation .ant-menu-horizontal {
   float: left;
 }
 
-.ant-menu-horizontal > .ant-menu-item,
+.navigation .ant-menu-horizontal > .ant-menu-item,
 .ant-menu-horizontal > .ant-menu-item:hover {
   border-bottom: none;
+  font-weight: normal;
 }
