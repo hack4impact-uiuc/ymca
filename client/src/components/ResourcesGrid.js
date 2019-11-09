@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Col, Layout, Row } from 'antd';
+import { Col, Row } from 'antd';
 
 import ResourcePreview from './ResourcePreview';
-
-const { Content } = Layout;
+import '../css/ResourcesGrid.css';
 
 function ResourcesGrid(props) {
   const { filteredResources } = props;
@@ -61,11 +60,7 @@ function ResourcesGrid(props) {
       );
     });
 
-  return (
-    <Content style={{ height: '55vh', overflowY: 'scroll' }}>
-      <div style={{ marginLeft: 32, marginRight: 32 }}>{cards}</div>
-    </Content>
-  );
+  return <div className="resources-grid">{cards}</div>;
 }
 
 ResourcesGrid.propTypes = {

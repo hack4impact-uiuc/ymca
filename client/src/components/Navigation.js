@@ -7,8 +7,10 @@ const { Header } = Layout;
 export default class Navigation extends Component {
   render() {
     return (
-      <Header className="header">
-        <div className="logo" />
+      <Header className="navigation">
+        <a href="/" aria-label="logo">
+          <div className="logo" />
+        </a>
         <Menu mode="horizontal">
           <Menu.Item key="home">
             <a href="/">YMCA</a>

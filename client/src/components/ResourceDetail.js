@@ -77,7 +77,7 @@ export default class ResourceDetail extends Component {
       resourceExists,
     } = this.state;
 
-    if (resourceExists) {
+    if (!resourceExists) {
       return <Redirect to="/resources/unknown" />;
     }
 
