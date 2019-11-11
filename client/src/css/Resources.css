@@ -1,25 +1,73 @@
-.filter-component {
-  width: 800px;
-  height: 500px;
-  border: 2px solid black;
+.resources .ant-menu {
+  border-right: initial;
+  color: black;
 }
 
-.dropdowns-container {
-  float: left;
-  width: 30%;
-  border: 2px solid black;
-  height: 100%;
+.resources .ant-menu-item:hover,
+.ant-menu-item-active {
+  color: black;
+  font-weight: bold;
 }
 
-.dropdowns-container ButtonDropdown {
-  width: 100%;
-  display: block;
+.resources .ant-menu-item-selected {
+  color: black;
+  font-weight: bold;
 }
 
-.filter-preview-container {
-  display: inline-block;
+.resources .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+  background-color: white;
 }
 
-.filter-component__filters {
-  border: 2px solid black;
+.resources .ant-menu-inline .ant-menu-item::after {
+  border-right: initial;
+}
+
+.resources .ant-menu-submenu-active,
+.ant-menu-submenu-title:hover {
+  color: black;
+  font-weight: bold;
+}
+
+.resources .ant-menu-submenu-open {
+  font-weight: bold;
+}
+
+.resources
+  .ant-menu-submenu-inline
+  > .ant-menu-submenu-title:hover
+  .ant-menu-submenu-arrow::before {
+  background: black;
+}
+
+.resources
+  .ant-menu-submenu-inline
+  > .ant-menu-submenu-title:hover
+  .ant-menu-submenu-arrow::after {
+  background: black;
+}
+
+.resources .ant-menu-submenu-open .ant-menu-item {
+  color: gray;
+  font-weight: normal;
+}
+
+.resources .ant-menu-sub .ant-menu-item-selected {
+  color: gray;
+  font-weight: bold;
+}
+
+.resources .ant-menu-submenu-open .ant-menu-item:hover,
+.ant-menu-item-active {
+  font-weight: bold;
+}
+
+.resources .ant-menu-submenu-selected {
+  color: black;
+}
+
+.resources .filter-sider {
+  background: white;
+  margin-top: 1em;
+  position: sticky;
+  top: 9.5em;
 }

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import { Card, Col, Icon, Row } from 'antd';
 import PropTypes from 'prop-types';
 import '../css/ResourceDetail.css';
@@ -34,6 +35,7 @@ export default class ResourceDetail extends Component {
       cost: '',
       // category: '',
       // subcategory: '',
+      resourceExists: true,
     };
   }
 
@@ -52,7 +54,8 @@ export default class ResourceDetail extends Component {
         // subcategory: result.subcategory,
       });
     } else {
-      // redirect to 404
+      // redirect to resource unknown page
+      this.setState({ resourceExists: false });
     }
   }
 
@@ -71,7 +74,12 @@ export default class ResourceDetail extends Component {
       cost,
       // category,
       // subcategory,
+      resourceExists,
     } = this.state;
+
+    if (!resourceExists) {
+      return <Redirect to="/resources/unknown" />;
+    }
 
     return (
       <div className="resource-detail">

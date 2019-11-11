@@ -4,41 +4,19 @@
 TODO: Implement phoneType into form.
 */
 
-import React, { useState } from 'react';
-import { Button, Descriptions, Form, Input, List } from 'antd';
-import '../css/NewResourcePhoneNumberForm.css';
-
-type FinancialAid = {|
-  education: String,
-  immigrationStatus: String,
-  deadline: String,
-|};
-
-const onInputFocus = (setSubmitEnabled, setTotalSubmitEnabled) => {
-  setSubmitEnabled(true);
-  setTotalSubmitEnabled(false);
-};
-
-const onInputBlur = (setSubmitEnabled, setTotalSubmitEnabled) => {
-  setSubmitEnabled(false);
-  setTotalSubmitEnabled(true);
-};
+import React from 'react';
+import '../css/ResourcePhoneNumberForm.css';
+import { Input, Form, Button, Descriptions } from 'antd';
 
 const FinancialAidForm = Form.create({ name: 'financialAid' })(props => {
-  const {
-    financialAidDetails,
-    setFinancialAidDetails,
-    setTotalSubmitEnabled,
-  } = props;
+  const { setFinancialAidDetails, setTotalSubmitEnabled } = props;
 
-  const { getFieldDecorator, getFieldValue, setFieldsValue } = props.form;
-
-  const [submitEnabled, setSubmitEnabled] = useState(false);
+  const { getFieldDecorator, getFieldValue } = props.form;
 
   return (
     <Form
       className="financialAidForm"
-      onSubmit={e => {
+      onSubmit={() => {
         setFinancialAidDetails({
           education: getFieldValue('education'),
           immigrationStatus: getFieldValue('immigrationStatus'),
@@ -50,8 +28,8 @@ const FinancialAidForm = Form.create({ name: 'financialAid' })(props => {
         {getFieldDecorator('education', {})(
           <Input
             placeholder="Education"
-            onFocus={e => onInputFocus(setSubmitEnabled, setTotalSubmitEnabled)}
-            onBlur={e => onInputBlur(setSubmitEnabled, setTotalSubmitEnabled)}
+            onFocus={() => setTotalSubmitEnabled(false)}
+            onBlur={() => setTotalSubmitEnabled(true)}
           />,
         )}
       </Form.Item>
@@ -59,8 +37,8 @@ const FinancialAidForm = Form.create({ name: 'financialAid' })(props => {
         {getFieldDecorator('immigrationStatus', {})(
           <Input
             placeholder="Immigration Status"
-            onFocus={e => onInputFocus(setSubmitEnabled, setTotalSubmitEnabled)}
-            onBlur={e => onInputBlur(setSubmitEnabled, setTotalSubmitEnabled)}
+            onFocus={() => setTotalSubmitEnabled(false)}
+            onBlur={() => setTotalSubmitEnabled(true)}
           />,
         )}
       </Form.Item>
@@ -68,8 +46,8 @@ const FinancialAidForm = Form.create({ name: 'financialAid' })(props => {
         {getFieldDecorator('deadline', {})(
           <Input
             placeholder="Deadline"
-            onFocus={e => onInputFocus(setSubmitEnabled, setTotalSubmitEnabled)}
-            onBlur={e => onInputBlur(setSubmitEnabled, setTotalSubmitEnabled)}
+            onFocus={() => setTotalSubmitEnabled(false)}
+            onBlur={() => setTotalSubmitEnabled(true)}
           />,
         )}
       </Form.Item>

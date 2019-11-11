@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Textfit } from 'react-textfit';
+import { PropTypes } from 'prop-types';
 import { Button, Checkbox, Form, Icon, Input, Row, Col } from 'antd';
 import 'antd/dist/antd.css';
 import '../css/Login.css';
@@ -17,11 +18,17 @@ class Login extends Component {
 
   onLoginSubmit = e => {
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
+
+    const { form, setAuthed } = this.props;
+
+    form.validateFields((err, values) => {
       if (!err) {
         const { email, password } = values;
         login({ email, password }).then(res => {
           if (res.status === 200) {
+            localStorage.setItem('token', res.token);
+
+            setAuthed(true);
             this.setState({ authSuccess: true });
           } else {
             // show error message
@@ -32,7 +39,8 @@ class Login extends Component {
   };
 
   render() {
-    if (this.state.authSuccess) return <Redirect to="/admin" />;
+    const { authed } = this.props;
+    if (authed) return <Redirect to="/admin" />;
 
     const { getFieldDecorator } = this.props.form;
     return (
@@ -121,6 +129,8 @@ class Login extends Component {
 
 Login.propTypes = {
   form: Form.isRequired,
+  authed: PropTypes.string.isRequired,
+  setAuthed: PropTypes.func.isRequired,
 };
 
 export default Form.create()(Login);

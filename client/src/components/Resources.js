@@ -19,13 +19,19 @@ export default class Resources extends Component<Props, State> {
   constructor(props) {
     super(props);
     this.state = {
+      costSelected: '$ - $$$$',
+      languageSelected: 'All',
+      locationSelected: 'All',
+
       categorySelected: '',
       subcategorySelected: '',
+
       openKeys: [],
       categories: {},
       languages: ['All', 'English', 'Spanish', 'Chinese', 'Japanese'],
       locations: ['All', 'Champaign', 'Urbana', 'Maibana', 'Foopaign'],
-      costs: ['All', '$', '$$', '$$$', '$$$$'],
+      costs: ['$', '$ - $$', '$ - $$$', '$ - $$$$'],
+
       resources: [],
       filteredResources: [],
     };
@@ -71,15 +77,28 @@ export default class Resources extends Component<Props, State> {
 
   filterResources = (cost, language, location, subcategory) => {
     const { resources } = this.state;
+    const costMap = {
+      $: ['$'],
+      '$ - $$': ['$', '$$'],
+      '$ - $$$': ['$', '$$', '$$$'],
+      '$ - $$$$': ['$', '$$', '$$$', '$$$$'],
+    };
+
     const filteredResources = resources.filter(
       resource =>
-        (resource.cost === cost || cost === 'All') &&
+        costMap[cost].includes(resource.cost) &&
         (resource.subcategory === subcategory || subcategory === '') &&
         (resource.availableLanguages.includes(language) ||
           language === 'All') &&
         (resource.city === location || location === 'All'),
     );
-    this.setState({ filteredResources });
+    this.setState({
+      costSelected: cost,
+      filteredResources,
+      languageSelected: language,
+      locationSelected: location,
+      subcategorySelected: subcategory,
+    });
   };
 
   categorySelectAll = async () => {
@@ -144,7 +163,7 @@ export default class Resources extends Component<Props, State> {
       resources: resources == null ? [] : resources.result,
       subcategorySelected,
     });
-    this.filterResources('All', 'All', 'All', subcategorySelected);
+    this.filterResources('$ - $$$$', 'All', 'All', subcategorySelected);
   }
 
   render() {
@@ -152,59 +171,69 @@ export default class Resources extends Component<Props, State> {
       categories,
       categorySelected,
       costs,
+      costSelected,
       filteredResources,
       languages,
+      languageSelected,
       locations,
+      locationSelected,
       subcategorySelected,
       openKeys,
     } = this.state;
 
     return (
-      <Layout>
+      <Layout className="resources">
         <ResourcesBanner
           categorySelected={categorySelected}
           subcategorySelected={subcategorySelected}
         />
         <ResourcesFilter
           costs={costs}
+          costSelected={costSelected}
           languages={languages}
+          languageSelected={languageSelected}
           locations={locations}
+          locationSelected={locationSelected}
           handleChangeFilter={this.handleFilterChange}
         />
         <Layout style={{ background: 'white' }}>
-          <Sider style={{ background: 'white', marginTop: '-.5vh' }}>
-            <Menu
-              mode="inline"
-              selectedKeys={
-                categorySelected === 'All Resources' ? ['All Resources'] : []
-              }
-              openKeys={openKeys}
-              onOpenChange={this.onOpenChange}
-            >
-              <Menu.Item
-                key="All Resources"
-                onClick={() => this.categorySelectAll()}
+          <div>
+            <Sider className="filter-sider">
+              <Menu
+                mode="inline"
+                selectedKeys={
+                  subcategorySelected === ''
+                    ? categorySelected
+                    : subcategorySelected
+                }
+                openKeys={openKeys}
+                onOpenChange={this.onOpenChange}
               >
-                All Resources
-              </Menu.Item>
-              {Object.keys(categories).map(categoryName => {
-                return (
-                  <SubMenu key={categoryName} title={categoryName}>
-                    {categories[categoryName].map(subCategory => {
-                      return (
-                        <Menu.Item
-                          key={subCategory}
-                          onClick={() => this.subcategorySelect(subCategory)}
-                        >
-                          {subCategory}
-                        </Menu.Item>
-                      );
-                    })}
-                  </SubMenu>
-                );
-              })}
-            </Menu>
-          </Sider>
+                <Menu.Item
+                  key="All Resources"
+                  onClick={() => this.categorySelectAll()}
+                >
+                  All Resources
+                </Menu.Item>
+                {Object.keys(categories).map(categoryName => {
+                  return (
+                    <SubMenu key={categoryName} title={categoryName}>
+                      {categories[categoryName].map(subCategory => {
+                        return (
+                          <Menu.Item
+                            key={subCategory}
+                            onClick={() => this.subcategorySelect(subCategory)}
+                          >
+                            {subCategory}
+                          </Menu.Item>
+                        );
+                      })}
+                    </SubMenu>
+                  );
+                })}
+              </Menu>
+            </Sider>
+          </div>
           <ResourcesGrid filteredResources={filteredResources} />
         </Layout>
       </Layout>
