@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Button, Checkbox, Form, Icon, Input } from 'antd';
+import { Textfit } from 'react-textfit';
+import { Button, Checkbox, Form, Icon, Input, Row, Col } from 'antd';
 import 'antd/dist/antd.css';
 import '../css/Login.css';
 
@@ -35,63 +36,85 @@ class Login extends Component {
 
     const { getFieldDecorator } = this.props.form;
     return (
-      <Form onSubmit={this.onLoginSubmit} className="login-form">
-        <Form.Item>
-          {getFieldDecorator('email', {
-            rules: [
-              {
-                type: 'email',
-                message: 'The input is not valid E-mail!',
-              },
-              {
-                required: true,
-                message: 'Please input your E-mail!',
-              },
-            ],
-          })(
-            <Input
-              prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              placeholder="E-mail"
-            />,
-          )}
-        </Form.Item>
-        <Form.Item hasFeedback>
-          {getFieldDecorator('password', {
-            rules: [
-              {
-                required: true,
-                message: 'Please input your password!',
-              },
-              {
-                validator: this.validateToNextPassword,
-              },
-            ],
-          })(
-            <Input
-              prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              type="password"
-              placeholder="Password"
-            />,
-          )}
-        </Form.Item>
-        <Form.Item>
-          {getFieldDecorator('remember', {
-            valuePropName: 'checked',
-            initialValue: true,
-          })(<Checkbox>Remember me</Checkbox>)}
-          <a className="login-form-forgot" href="home">
-            Forgot password
-          </a>
-          <Button
-            type="primary"
-            htmlType="submit"
-            className="login-form-button"
-          >
-            Log in
-          </Button>
-          Don&#39;t have an account? <a href="register"> Register Now!</a>
-        </Form.Item>
-      </Form>
+      <div className="login-block-1">
+        <Row type="flex" justify="center" gutter={[16, 16]}>
+          <Col span={4} className="top-margin">
+            <img
+              src="/asset/icon/icon-with-words.png"
+              alt=""
+              className="container"
+            />
+            <Textfit className="login-text" mode="single">
+              Admin Login
+            </Textfit>
+          </Col>
+        </Row>
+        <Form
+          justify="center"
+          onSubmit={this.onLoginSubmit}
+          className="login-form"
+        >
+          <Form.Item className="form-text">
+            {getFieldDecorator('email', {
+              rules: [
+                {
+                  type: 'email',
+                  message: 'The input is not valid E-mail!',
+                },
+                {
+                  required: true,
+                  message: 'Please input your E-mail!',
+                },
+              ],
+            })(
+              <Input
+                prefix={
+                  <Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />
+                }
+                placeholder="E-mail"
+              />,
+            )}
+          </Form.Item>
+          <Form.Item hasFeedback className="form-text">
+            {getFieldDecorator('password', {
+              rules: [
+                {
+                  required: true,
+                  message: 'Please input your password!',
+                },
+                {
+                  validator: this.validateToNextPassword,
+                },
+              ],
+            })(
+              <Input
+                prefix={
+                  <Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />
+                }
+                type="password"
+                placeholder="Password"
+              />,
+            )}
+          </Form.Item>
+          <Form.Item>
+            {getFieldDecorator('remember', {
+              valuePropName: 'checked',
+              initialValue: true,
+            })(<Checkbox>Remember me</Checkbox>)}
+            <a className="login-form-forgot" href="home">
+              Forgot password
+            </a>
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="login-form-button"
+            >
+              Log In
+            </Button>
+            Don&#39;t have an account? <a href="register"> Register Now!</a>
+          </Form.Item>
+        </Form>
+      </div>
     );
   }
 }

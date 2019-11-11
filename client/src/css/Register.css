@@ -1,3 +1,35 @@
 .reg-button {
-  margin-left: 192px;
+  background-color: #8bd8d0;
+  margin-left: 128px;
+}
+.register-block-1 {
+  background-image: url('/asset/images/login-background.png');
+  background-size: cover;
+  margin-top: 0;
+  height: 1024px;
+  opacity: 1;
+}
+.top-margin {
+  margin-top: 216px;
+}
+.container img {
+  width: 1%;
+}
+.register-text {
+  color: white;
+  font-weight: bold;
+  font-size: 1000pt;
+  font-family: 'Avenir Black';
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.form-text {
+  font-family: 'Avenir Light';
+  font-weight: bolder;
+  font-size: 15px;
+}
+.register-form {
+  max-width: 1024px;
+  margin-left: auto;
+  margin-right: auto;
 }

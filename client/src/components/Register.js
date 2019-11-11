@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Button, Form, Input } from 'antd';
+import { Textfit } from 'react-textfit';
+import { Button, Form, Input, Row, Col } from 'antd';
 import 'antd/dist/antd.css';
 import '../css/Register.css';
 
@@ -79,53 +80,71 @@ class Register extends Component {
     };
 
     return (
-      <Form {...formItemLayout} onSubmit={this.onRegisterSubmit}>
-        <Form.Item label="E-mail">
-          {getFieldDecorator('email', {
-            rules: [
-              {
-                type: 'email',
-                message: 'The input is not valid E-mail!',
-              },
-              {
-                required: true,
-                message: 'Please input your E-mail!',
-              },
-            ],
-          })(<Input />)}
-        </Form.Item>
-        <Form.Item label="Create Password" hasFeedback>
-          {getFieldDecorator('password', {
-            rules: [
-              {
-                required: true,
-                message: 'Please create a password!',
-              },
-              {
-                validator: this.validateToNextPassword,
-              },
-            ],
-          })(<Input.Password />)}
-        </Form.Item>
-        <Form.Item label="Confirm Password" hasFeedback>
-          {getFieldDecorator('confirm', {
-            rules: [
-              {
-                required: true,
-                message: 'Please confirm your password!',
-              },
-              {
-                validator: this.compareToFirstPassword,
-              },
-            ],
-          })(<Input.Password onBlur={this.handleConfirmBlur} />)}
-        </Form.Item>
-        <Form.Item {...tailFormItemLayout}>
-          <Button className="reg-button" type="primary" htmlType="submit">
-            Register
-          </Button>
-        </Form.Item>
-      </Form>
+      <div className="register-block-1">
+        <Row type="flex" justify="center" gutter={[16, 16]}>
+          <Col span={4} className="top-margin">
+            <img
+              src="/asset/icon/icon-with-words.png"
+              alt=""
+              className="container"
+            />
+            <Textfit className="register-text" mode="single">
+              Registration
+            </Textfit>
+          </Col>
+        </Row>
+        <Form
+          {...formItemLayout}
+          onSubmit={this.onRegisterSubmit}
+          className="register-form"
+        >
+          <Form.Item label="E-mail" className="form-text">
+            {getFieldDecorator('email', {
+              rules: [
+                {
+                  type: 'email',
+                  message: 'The input is not valid E-mail!',
+                },
+                {
+                  required: true,
+                  message: 'Please input your E-mail!',
+                },
+              ],
+            })(<Input />)}
+          </Form.Item>
+          <Form.Item label="Create Password" hasFeedback className="form-text">
+            {getFieldDecorator('password', {
+              rules: [
+                {
+                  required: true,
+                  message: 'Please create a password!',
+                },
+                {
+                  validator: this.validateToNextPassword,
+                },
+              ],
+            })(<Input.Password />)}
+          </Form.Item>
+          <Form.Item label="Confirm Password" hasFeedback className="form-text">
+            {getFieldDecorator('confirm', {
+              rules: [
+                {
+                  required: true,
+                  message: 'Please confirm your password!',
+                },
+                {
+                  validator: this.compareToFirstPassword,
+                },
+              ],
+            })(<Input.Password onBlur={this.handleConfirmBlur} />)}
+          </Form.Item>
+          <Form.Item {...tailFormItemLayout}>
+            <Button className="reg-button" type="primary" htmlType="submit">
+              Register
+            </Button>
+          </Form.Item>
+        </Form>
+      </div>
     );
   }
 }
