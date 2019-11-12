@@ -25,7 +25,7 @@ const Navigation = (props: Props) => {
           <a href="/">YMCA</a>
         </Menu.Item>
         <Menu.Item key="resources">
-          <a href="/resources?category=All Resources">Resources</a>
+          <a href="/resources">Resources</a>
         </Menu.Item>
 
         {authed && (
