@@ -59,6 +59,11 @@ export default class Resources extends Component<Props, State> {
 
   getCategorySelectedFromSearch() {
     const { search } = this.props.location;
+    
+    if (search === '') {
+      return ['All Resources', ''];
+    }
+
     const subcategoryIndex = search.indexOf('&');
     let categorySelected = search.slice(
       search.indexOf('=') + 1,
@@ -104,7 +109,6 @@ export default class Resources extends Component<Props, State> {
   categorySelectAll = async () => {
     this.props.history.push({
       pathname: '/resources',
-      search: `?category=All Resources`,
     });
   };
 
