@@ -68,6 +68,7 @@ router.put(
     const { id } = req.params;
     const updatedResource = await Resource.findByIdAndUpdate(id, req.body, {
       new: true,
+      runValidators: true,
     });
     res.json({
       code: 200,

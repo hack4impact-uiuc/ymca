@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Card, Col, Icon, Row } from 'antd';
+import { Button, Card, Col, Icon, Row } from 'antd';
 import PropTypes from 'prop-types';
 import '../css/ResourceDetail.css';
 
@@ -76,7 +76,7 @@ export default class ResourceDetail extends Component {
       // subcategory,
       resourceExists,
     } = this.state;
-
+    const { authed, match } = this.props;
     if (!resourceExists) {
       return <Redirect to="/resources/unknown" />;
     }
@@ -92,7 +92,12 @@ export default class ResourceDetail extends Component {
         />
         <Row>
           <Col span={15}>
-            <div className="resource-name">{name}</div>
+            <span className="resource-name">{name}</span>
+            {authed && (
+              <span className="resource-edit">
+                <Button href={`/admin/${match.params.id}`}>Edit</Button>
+              </span>
+            )}
           </Col>
           <Col span={9}>
             {address.length > 0 || city.length > 0 ? (
@@ -201,6 +206,7 @@ ResourceDetail.defaultProps = {
 };
 
 ResourceDetail.propTypes = {
+  authed: PropTypes.bool.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({ id: PropTypes.string }),
   }),
