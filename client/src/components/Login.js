@@ -11,9 +11,7 @@ import { login } from '../utils/auth';
 class Login extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      authSuccess: false,
-    };
+    this.state = {};
   }
 
   onLoginSubmit = e => {
@@ -29,7 +27,6 @@ class Login extends Component {
             localStorage.setItem('token', res.token);
 
             setAuthed(true);
-            this.setState({ authSuccess: true });
           } else {
             // show error message
           }
@@ -108,7 +105,9 @@ class Login extends Component {
             {getFieldDecorator('remember', {
               valuePropName: 'checked',
               initialValue: true,
-            })(<Checkbox>Remember me</Checkbox>)}
+            })(
+              <Checkbox className="login-form-checkbox">Remember me</Checkbox>,
+            )}
             <a className="login-form-forgot" href="home">
               Forgot password
             </a>
@@ -119,7 +118,10 @@ class Login extends Component {
             >
               Log In
             </Button>
-            Don&#39;t have an account? <a href="register"> Register Now!</a>
+            Don&#39;t have an account?
+            <a className="login-form-register-now" href="register">
+              Register Now!
+            </a>
           </Form.Item>
         </Form>
       </div>

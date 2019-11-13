@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Textfit } from 'react-textfit';
 import { PropTypes } from 'prop-types';
-import { Button, Form, Input, Row, Col } from 'antd';
+import { Button, Form, Input, Icon, Row, Col } from 'antd';
 import 'antd/dist/antd.css';
 import '../css/Register.css';
 
@@ -12,7 +12,6 @@ class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      authSuccess: false,
       confirmDirty: true,
     };
   }
@@ -47,7 +46,6 @@ class Register extends Component {
             localStorage.setItem('token', res.token);
 
             setAuthed(true);
-            this.setState({ authSuccess: true });
           } else {
             // show error message
           }
@@ -105,7 +103,7 @@ class Register extends Component {
           onSubmit={this.onRegisterSubmit}
           className="register-form"
         >
-          <Form.Item label="E-mail" className="form-text">
+          <Form.Item label="*" className="form-text">
             {getFieldDecorator('email', {
               rules: [
                 {
@@ -117,9 +115,16 @@ class Register extends Component {
                   message: 'Please input your E-mail!',
                 },
               ],
-            })(<Input />)}
+            })(
+              <Input
+                prefix={
+                  <Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />
+                }
+                placeholder="E-mail"
+              />,
+            )}
           </Form.Item>
-          <Form.Item label="Create Password" hasFeedback className="form-text">
+          <Form.Item label="*" hasFeedback className="form-text">
             {getFieldDecorator('password', {
               rules: [
                 {
@@ -130,9 +135,17 @@ class Register extends Component {
                   validator: this.validateToNextPassword,
                 },
               ],
-            })(<Input.Password />)}
+            })(
+              <Input.Password
+                prefix={
+                  <Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />
+                }
+                type="password"
+                placeholder="Create Password"
+              />,
+            )}
           </Form.Item>
-          <Form.Item label="Confirm Password" hasFeedback className="form-text">
+          <Form.Item label="*" hasFeedback className="form-text">
             {getFieldDecorator('confirm', {
               rules: [
                 {
@@ -143,7 +156,16 @@ class Register extends Component {
                   validator: this.compareToFirstPassword,
                 },
               ],
-            })(<Input.Password onBlur={this.handleConfirmBlur} />)}
+            })(
+              <Input.Password
+                onBlur={this.handleConfirmBlur}
+                prefix={
+                  <Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />
+                }
+                type="password"
+                placeholder="Confirm Password"
+              />,
+            )}
           </Form.Item>
           <Form.Item {...tailFormItemLayout}>
             <Button className="reg-button" type="primary" htmlType="submit">

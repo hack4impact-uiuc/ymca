@@ -44,12 +44,31 @@ p {
   margin-right: auto;
 }
 .login-form-forgot {
+  color: #8bd8d0;
   float: right;
+}
+.login-form-forgot:hover {
+  color: #4596d2;
+}
+.login-form-register-now {
+  color: #8bd8d0;
+}
+.login-form-register-now:hover {
+  color: #4596d2;
+}
+.login-form-checkbox .ant-checkbox-inner {
+  background-color: #8bd8d0;
+  border-color: #8bd8d0;
 }
 .login-form-button {
   width: 100%;
   background-color: #8bd8d0;
+  border: 2px solid #8bd8d0;
   font-family: 'Avenir Light';
   font-weight: bolder;
   font-size: 15px;
+}
+
+.login-form-button:hover {
+  background-color: #4596d2;
 }

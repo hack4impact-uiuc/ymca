@@ -1,6 +1,10 @@
 .reg-button {
   background-color: #8bd8d0;
+  border: 2px solid #8bd8d0;
   margin-left: 128px;
+}
+.reg-button:hover {
+  background-color: #4596d2;
 }
 .register-block-1 {
   background-image: url('/asset/images/login-background.png');
@@ -32,4 +36,20 @@
   max-width: 1024px;
   margin-left: auto;
   margin-right: auto;
+}
+
+.form-text .ant-form-item-label > label::after {
+  content: '';
+}
+.form-text .ant-form-item-label > label::before {
+  /* display: inline-block;
+  margin-right: 4px;
+  color: #f5222d;
+  font-size: 14px;
+  font-family: SimSun, sans-serif;
+  line-height: 1; */
+  content: '';
+}
+.form-text .ant-form-item-label > label {
+  color: #f5222d;
 }
