@@ -19,12 +19,15 @@ import {
 import { getUsersForRolesPage, changeRole } from '../utils/auth';
 
 class RolesPage extends Component {
-  state = {
-    users: [],
-    newRole: '',
-    userWithNewRole: -1,
-    password: '',
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      users: [],
+      newRole: '',
+      userWithNewRole: -1,
+      password: '',
+    };
+  }
 
   async componentDidMount() {
     const userData = await getUsersForRolesPage();
@@ -83,7 +86,7 @@ class RolesPage extends Component {
               </thead>
               <tbody>
                 {this.state.users.map((user, idx) => (
-                  <tr key={idx}>
+                  <tr>
                     <th scope="row">{idx + 1}</th>
                     <td>{user.email}</td>
                     <td>{user.role}</td>
@@ -95,13 +98,15 @@ class RolesPage extends Component {
                             : 'New Role'}
                         </DropdownToggle>
                         <DropdownMenu color="info">
-                          <DropdownItem onClick={this.setNewRole('guest', idx)}>
-                            Guest
+                          <DropdownItem
+                            onClick={this.setNewRole('public', idx)}
+                          >
+                            Public
                           </DropdownItem>
                           <DropdownItem
-                            onClick={this.setNewRole('supervisor', idx)}
+                            onClick={this.setNewRole('intern', idx)}
                           >
-                            Supervisor
+                            Intern
                           </DropdownItem>
                           <DropdownItem onClick={this.setNewRole('admin', idx)}>
                             Admin
@@ -122,7 +127,7 @@ class RolesPage extends Component {
                 ))}
               </tbody>
             </Table>
-            {!getCookie('google') ? (
+            {!localStorage.getItem('google') ? (
               <div align="left" style={{ display: 'inline', width: '300px' }}>
                 <FormGroup size="sm">
                   <Label for="examplePassword">Confirm Password</Label>
