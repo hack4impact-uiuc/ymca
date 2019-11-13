@@ -13,7 +13,7 @@ function ResourcesBreadcrumb(props) {
     breadcrumbs.push(<span>All Resources</span>);
   } else if (categorySelected !== '') {
     breadcrumbs.push(
-      <Link className="link" to="resources?category=All Resources">
+      <Link className="link" to="resources">
         <span>All Resources</span>
       </Link>,
     );

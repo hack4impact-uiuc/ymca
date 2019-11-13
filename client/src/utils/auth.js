@@ -69,16 +69,20 @@ export const changeRole = (userEmail, newRole, password) => {
   }
 };
 
-export const verify = () => {
-  try {
-    return fetch(`${AUTH_SERVER_URI}/verify/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        token: localStorage.getItem('token'),
-      },
+export const verify = (token, onErr) => {
+  return fetch(`${AUTH_SERVER_URI}/verify`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      token,
+    },
+  })
+    .then(res => res.json())
+    .then(res => {
+      if (res.status === 200) {
+        localStorage.setItem('token', token);
+      } else {
+        onErr(res);
+      }
     });
-  } catch (err) {
-    console.log(err);
-  }
 };
