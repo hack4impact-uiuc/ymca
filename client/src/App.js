@@ -10,6 +10,7 @@ import Register from './components/Register';
 import ResourceDetail from './components/ResourceDetail';
 import Resources from './components/Resources';
 import ResourceUnknown from './components/ResourceUnknown';
+import RolesPage from './components/RolesPage';
 
 export default class App extends React.Component {
   render() {
@@ -25,6 +26,7 @@ export default class App extends React.Component {
             <Route path="/resources" exact component={Resources} />
             <Route path="/resources/unknown" component={ResourceUnknown} />
             <Route path="/resources/:id" component={ResourceDetail} />
+            <Route path="/userroles" component={RolesPage} />
             <Route component={NotFound} />
           </Switch>
         </Router>
