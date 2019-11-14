@@ -59,7 +59,7 @@ export default class Resources extends Component<Props, State> {
 
   getCategorySelectedFromSearch() {
     const { search } = this.props.location;
-    
+
     if (search === '') {
       return ['All Resources', ''];
     }

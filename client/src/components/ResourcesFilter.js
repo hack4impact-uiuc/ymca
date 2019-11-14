@@ -1,8 +1,12 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { AutoComplete, Button, Dropdown, Radio } from 'antd';
 import PropTypes from 'prop-types';
 
+import { getCategories, getResources } from '../utils/api';
+
 import '../css/ResourcesFilter.css';
+
+const { Option, OptGroup } = AutoComplete;
 
 function ResourcesFilter(props) {
   const {
@@ -14,6 +18,10 @@ function ResourcesFilter(props) {
     locationSelected,
     handleChangeFilter,
   } = props;
+
+  const [allResourceNames, setAllResourceNames] = useState([]);
+  const [allCategories, setAllCategories] = useState([]);
+  const [searchDataSource, setSearchDataSource] = useState([]);
 
   const onChange = useCallback((filterName, value) => {
     switch (filterName) {
@@ -48,6 +56,55 @@ function ResourcesFilter(props) {
     );
   });
 
+  const getResourceNames = useCallback(() => {
+    getResources().then(res => {
+      if (res !== null) {
+        if (res.code === 200) {
+          // there exists null required values in the resource data structures?!
+          setAllResourceNames(
+            Object.values(res.result).map(resource =>
+              resource.name !== null ? resource.name : '_',
+            ),
+          );
+        } else {
+          // show some error
+        }
+      }
+      // also show error
+    });
+  });
+
+  const getCategoryNames = useCallback(() => {
+    getCategories().then(res => {
+      if (res !== null) {
+        if (res.code === 200) {
+          setAllCategories(res.result);
+        } else {
+          // show err
+        }
+      }
+      // show err
+    });
+  });
+
+  const generateOptions = useCallback(() => {
+    const options = [];
+
+    return options;
+  }, [allResourceNames, allCategories]);
+
+  const filterSearchResults = useCallback(
+    (input, option) =>
+      option.props.children
+        .toUpperCase()
+        .substring(0, input.length)
+        .indexOf(input.toUpperCase()) !== -1 ||
+      option.props.children.toUpperCase().indexOf(input.toUpperCase()) !== -1,
+  );
+
+  useEffect(getResourceNames, []);
+  useEffect(getCategoryNames, []);
+
   return (
     <div className="resources-filter">
       <Dropdown
@@ -71,7 +128,20 @@ function ResourcesFilter(props) {
       >
         <Button className="button">Location</Button>
       </Dropdown>
-      <AutoComplete className="searchbar" placeholder="Search for a Resource" />
+      <AutoComplete
+        className="searchbar"
+        dataSource={[
+          <OptGroup key="category" label="Category">
+            <OptGroup key="subcategory" label="Subcategory">
+              <Option key="value" value="value">
+                value
+              </Option>
+            </OptGroup>
+          </OptGroup>,
+        ]}
+        placeholder="Search for a Resource"
+        filterOption={filterSearchResults}
+      />
     </div>
   );
 }
