@@ -75,7 +75,7 @@ export default class Home extends Component {
             </Textfit>
             <Row type="flex" justify="center" align="middle" gutter={[16, 16]}>
               <Col span={18}>
-                <Link to="/resources?category=All Resources">
+                <Link to="/resources">
                   <Button type="primary">
                     <strong>Find Resources</strong>
                   </Button>
