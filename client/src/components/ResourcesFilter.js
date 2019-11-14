@@ -6,8 +6,6 @@ import { getCategories, getResources } from '../utils/api';
 
 import '../css/ResourcesFilter.css';
 
-const { Option, OptGroup } = AutoComplete;
-
 function ResourcesFilter(props) {
   const {
     costs,
@@ -74,25 +72,6 @@ function ResourcesFilter(props) {
     });
   });
 
-  const getCategoryNames = useCallback(() => {
-    getCategories().then(res => {
-      if (res !== null) {
-        if (res.code === 200) {
-          setAllCategories(res.result);
-        } else {
-          // show err
-        }
-      }
-      // show err
-    });
-  });
-
-  const generateOptions = useCallback(() => {
-    const options = [];
-
-    return options;
-  }, [allResourceNames, allCategories]);
-
   const filterSearchResults = useCallback(
     (input, option) =>
       option.props.children
@@ -103,7 +82,6 @@ function ResourcesFilter(props) {
   );
 
   useEffect(getResourceNames, []);
-  useEffect(getCategoryNames, []);
 
   return (
     <div className="resources-filter">
@@ -130,15 +108,7 @@ function ResourcesFilter(props) {
       </Dropdown>
       <AutoComplete
         className="searchbar"
-        dataSource={[
-          <OptGroup key="category" label="Category">
-            <OptGroup key="subcategory" label="Subcategory">
-              <Option key="value" value="value">
-                value
-              </Option>
-            </OptGroup>
-          </OptGroup>,
-        ]}
+        dataSource={allResourceNames}
         placeholder="Search for a Resource"
         filterOption={filterSearchResults}
       />
