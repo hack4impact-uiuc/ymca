@@ -72,12 +72,13 @@ const ResourceForm = (props: FormProps) => {
         const resource = await getResourceByID(id);
         if (resource) {
           const { name, ...result } = resource.result;
+          console.log(result)
           setFieldsValue({ resourceName: name, ...result });
           setCategory(result.category);
           setSubcategory(result.subcategory);
           setPhoneNumbers(result.phoneNumbers);
           setContacts(result.contacts);
-          setFinancialAidDetails(result.financialAidDetails);
+          setFinancialAidDetails(result.financialAidDetails ? result.financialAidDetails : {});
           setAvailableLanguages(result.availableLanguages);
           setComments(result.comments);
           setInternalNotes(result.internalNotes);
