@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import { AutoComplete, Button, Dropdown, Radio } from 'antd';
 import PropTypes from 'prop-types';
 
-import { getCategories, getResources } from '../utils/api';
+import ResourceFilterSearch from './ResourceFilterSearch';
 
 import '../css/ResourcesFilter.css';
 
@@ -16,10 +17,6 @@ function ResourcesFilter(props) {
     locationSelected,
     handleChangeFilter,
   } = props;
-
-  const [allResourceNames, setAllResourceNames] = useState([]);
-  const [allCategories, setAllCategories] = useState([]);
-  const [searchDataSource, setSearchDataSource] = useState([]);
 
   const onChange = useCallback((filterName, value) => {
     switch (filterName) {
@@ -54,35 +51,6 @@ function ResourcesFilter(props) {
     );
   });
 
-  const getResourceNames = useCallback(() => {
-    getResources().then(res => {
-      if (res !== null) {
-        if (res.code === 200) {
-          // there exists null required values in the resource data structures?!
-          setAllResourceNames(
-            Object.values(res.result).map(resource =>
-              resource.name !== null ? resource.name : '_',
-            ),
-          );
-        } else {
-          // show some error
-        }
-      }
-      // also show error
-    });
-  });
-
-  const filterSearchResults = useCallback(
-    (input, option) =>
-      option.props.children
-        .toUpperCase()
-        .substring(0, input.length)
-        .indexOf(input.toUpperCase()) !== -1 ||
-      option.props.children.toUpperCase().indexOf(input.toUpperCase()) !== -1,
-  );
-
-  useEffect(getResourceNames, []);
-
   return (
     <div className="resources-filter">
       <Dropdown
@@ -106,12 +74,7 @@ function ResourcesFilter(props) {
       >
         <Button className="button">Location</Button>
       </Dropdown>
-      <AutoComplete
-        className="searchbar"
-        dataSource={allResourceNames}
-        placeholder="Search for a Resource"
-        filterOption={filterSearchResults}
-      />
+      <ResourceFilterSearch />
     </div>
   );
 }
