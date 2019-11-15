@@ -15,9 +15,7 @@ const wrappedSetCategory = args => {
     setFieldsValue,
 
     fetchedCategories,
-    setCurrentSubcategories,
     setSearchCategoryOptions,
-    setSearchSubcategoryOptions,
   } = args;
 
   setCategory(targetCategory);
@@ -27,19 +25,12 @@ const wrappedSetCategory = args => {
     subcategory: 'Select a subcategory...',
   });
 
-  // set current subcategories
-  fetchedCategories.forEach(cat => {
-    if (cat.name === targetCategory) {
-      setCurrentSubcategories(cat.subcategories);
-      setSearchSubcategoryOptions(cat.subcategories);
-    }
-  });
-
   // reset search categories list
   setSearchCategoryOptions(fetchedCategories.map(cat => cat.name));
 };
 
 type Props = {
+  category: string,
   setCategory: () => void,
   setSubcategory: () => void,
   getFieldDecorator: () => any,
@@ -48,6 +39,7 @@ type Props = {
 
 const CategorySelector = (props: Props) => {
   const {
+    category,
     setCategory,
     setSubcategory,
     getFieldDecorator,
@@ -70,6 +62,21 @@ const CategorySelector = (props: Props) => {
       }
     });
   }, []);
+
+  // set current subcategories
+  useEffect(() => {
+    fetchedCategories.forEach(cat => {
+      if (cat.name === category) {
+        setCurrentSubcategories(cat.subcategories);
+        setSearchSubcategoryOptions(cat.subcategories);
+      }
+    });
+  }, [
+    category,
+    fetchedCategories,
+    setCurrentSubcategories,
+    setSearchSubcategoryOptions,
+  ]);
 
   return (
     <>
