@@ -9,13 +9,18 @@ import '../css/ResourcesFilter.css';
 
 const { Option } = AutoComplete;
 
-type Props = {};
+type Props = {
+  handleChangeFilter: () => any,
+};
 
 /*
 on search have the resource grid be populated with the filtered results here
 */
 const ResourceFilterSearch = (props: Props) => {
+  const { handleChangeFilter } = props;
+
   const history = useHistory();
+
   const [allResources, setAllResources] = useState([]);
   const [allResourceOptions, setAllResourceOptions] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
