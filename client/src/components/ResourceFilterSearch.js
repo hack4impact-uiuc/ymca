@@ -1,7 +1,7 @@
 // @flow
 
 import React, { useState, useCallback, useEffect } from 'react';
-import { Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { AutoComplete } from 'antd';
 
 import { getResources } from '../utils/api';
@@ -13,6 +13,7 @@ type Props = {};
 on search have the resource grid be populated with the filtered results here
 */
 const ResourceFilterSearch = (props: Props) => {
+  const history = useHistory();
   const [allResources, setAllResources] = useState([]);
   const [allResourceNames, setAllResourceNames] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
@@ -47,8 +48,13 @@ const ResourceFilterSearch = (props: Props) => {
   );
 
   const onSearchSelect = useCallback((value, option) => {
-    // allResources.filter(resource => resource.name == value)[0]
-    return <Redirect to="resource/0" />;
+    const filteredResources = allResources.filter(
+      resource => resource.name === value,
+    );
+
+    if (filteredResources.length > 0) {
+      history.push(`/resources/${filteredResources[0]._id}`);
+    }
   });
 
   useEffect(getResourceNames, []);
