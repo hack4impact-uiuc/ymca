@@ -118,7 +118,7 @@ class Login extends Component {
             >
               Log In
             </Button>
-            Don&#39;t have an account?
+            Don&#39;t have an account?{' '}
             <a className="login-form-register-now" href="register">
               Register Now!
             </a>

@@ -25,11 +25,6 @@
   font-size: 16px;
 }
 
-/* input[className='submitButton'] {
-  background: #8BD8D0;
-  color: white;
-} */
-
 p {
   margin: 0;
   padding: 10;
@@ -48,13 +43,13 @@ p {
   float: right;
 }
 .login-form-forgot:hover {
-  color: #4596d2;
+  color: #74cec8;
 }
 .login-form-register-now {
   color: #8bd8d0;
 }
 .login-form-register-now:hover {
-  color: #4596d2;
+  color: #74cec8;
 }
 .login-form-checkbox .ant-checkbox-inner {
   background-color: #8bd8d0;
@@ -70,5 +65,5 @@ p {
 }
 
 .login-form-button:hover {
-  background-color: #4596d2;
+  background-color: #74cec8;
 }
