@@ -79,7 +79,9 @@ export default class Resources extends Component<Props, State> {
     return [categorySelected, subcategorySelected];
   }
 
-  filterResources = (cost, language, location, subcategory) => {
+  filterResources = args => {
+    const { cost, language, location, subcategory, name } = args;
+
     const { resources } = this.state;
     const costMap = {
       $: ['$'],
@@ -94,7 +96,12 @@ export default class Resources extends Component<Props, State> {
         (resource.subcategory === subcategory || subcategory === '') &&
         (resource.availableLanguages.includes(language) ||
           language === 'All') &&
-        (resource.city === location || location === 'All'),
+        (resource.city === location || location === 'All') &&
+        (resource.name
+          .toLowerCase()
+          .substring(0, name.length)
+          .indexOf(name.toLowerCase()) !== -1 ||
+          resource.name.toLowerCase().indexOf(name.toLowerCase()) !== -1),
     );
     this.setState({
       costSelected: cost,
@@ -118,13 +125,15 @@ export default class Resources extends Component<Props, State> {
     });
   };
 
-  handleFilterChange = (cost, language, location) => {
-    this.filterResources(
-      cost,
-      language,
-      location,
-      this.state.subcategorySelected,
-    );
+  handleFilterChange = args => {
+    const { cost, language, location, name } = args;
+    this.filterResources({
+      cost: cost !== undefined && cost !== null ? cost : '$ - $$$$',
+      language: language !== undefined && language !== null ? language : 'All',
+      location: location !== undefined && location !== null ? location : 'All',
+      subcategory: this.state.subcategorySelected || '',
+      name: name !== undefined && name !== null ? name : '',
+    });
   };
 
   onOpenChange = async openKeys => {
@@ -166,7 +175,13 @@ export default class Resources extends Component<Props, State> {
       resources: resources == null ? [] : resources.result,
       subcategorySelected,
     });
-    this.filterResources('$ - $$$$', 'All', 'All', subcategorySelected);
+    this.filterResources({
+      cost: '$ - $$$$',
+      language: 'All',
+      location: 'All',
+      subcategory: subcategorySelected,
+      name: '',
+    });
   }
 
   render() {
