@@ -1,7 +1,6 @@
 // @flow
 
 import React, { useState, useEffect } from 'react';
-import '../css/ResourceForm.css';
 import { Form, Input, Button, Select, Affix, message } from 'antd';
 
 import { addResource, editResource, getResourceByID } from '../utils/api';
@@ -72,13 +71,14 @@ const ResourceForm = (props: FormProps) => {
         const resource = await getResourceByID(id);
         if (resource) {
           const { name, ...result } = resource.result;
-          console.log(result)
           setFieldsValue({ resourceName: name, ...result });
           setCategory(result.category);
           setSubcategory(result.subcategory);
           setPhoneNumbers(result.phoneNumbers);
           setContacts(result.contacts);
-          setFinancialAidDetails(result.financialAidDetails ? result.financialAidDetails : {});
+          setFinancialAidDetails(
+            result.financialAidDetails ? result.financialAidDetails : {},
+          );
           setAvailableLanguages(result.availableLanguages);
           setComments(result.comments);
           setInternalNotes(result.internalNotes);
@@ -90,7 +90,6 @@ const ResourceForm = (props: FormProps) => {
 
   return (
     <Form
-      className="newResourceForm"
       onSubmit={e => {
         onSubmitNewResourceForm(e, totalSubmitEnabled, id, {
           category,

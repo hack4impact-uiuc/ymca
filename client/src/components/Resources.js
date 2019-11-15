@@ -91,7 +91,7 @@ export default class Resources extends Component<Props, State> {
 
     const filteredResources = resources.filter(
       resource =>
-        costMap[cost].includes(resource.cost) &&
+        (costMap[cost].includes(resource.cost) || resource.cost === '') &&
         (resource.subcategory === subcategory || subcategory === '') &&
         (resource.availableLanguages.includes(language) ||
           language === 'All') &&

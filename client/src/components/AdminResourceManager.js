@@ -15,12 +15,9 @@ type Props = {
 
 const AdminResourceManager = (props: Props) => {
   return (
-    <>
-      <ResourceForm
-        className="adminNewResourceForm"
-        id={props.match.params.id}
-      />
-    </>
+    <div className="admin-resource-form">
+      <ResourceForm id={props.match.params.id} />
+    </div>
   );
 };
 
