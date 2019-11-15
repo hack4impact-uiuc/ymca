@@ -9,22 +9,14 @@ import '../css/ResourcesFilter.css';
 
 const { Option } = AutoComplete;
 
-type Props = {
-  handleChangeFilter: () => any,
-};
-
 /*
 on search have the resource grid be populated with the filtered results here
 */
-const ResourceFilterSearch = (props: Props) => {
-  const { handleChangeFilter } = props;
-
+const ResourceFilterSearch = () => {
   const history = useHistory();
 
   const [allResources, setAllResources] = useState([]);
   const [allResourceOptions, setAllResourceOptions] = useState([]);
-  const [allCategories, setAllCategories] = useState([]);
-  const [searchDataSource, setSearchDataSource] = useState([]);
 
   const getResourceNames = useCallback(() => {
     getResources().then(res => {
@@ -56,7 +48,7 @@ const ResourceFilterSearch = (props: Props) => {
       option.props.children.toUpperCase().indexOf(input.toUpperCase()) !== -1,
   );
 
-  const onSearchSelect = useCallback((value, option) => {
+  const onSearchSelect = useCallback(value => {
     history.push(`/resources/${value}`);
   });
 

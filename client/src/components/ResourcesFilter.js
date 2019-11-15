@@ -1,6 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Redirect } from 'react-router-dom';
-import { AutoComplete, Button, Dropdown, Radio } from 'antd';
+import React, { useCallback } from 'react';
+import { Button, Dropdown, Radio } from 'antd';
 import PropTypes from 'prop-types';
 
 import ResourceFilterSearch from './ResourceFilterSearch';

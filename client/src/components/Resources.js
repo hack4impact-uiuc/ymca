@@ -127,7 +127,7 @@ export default class Resources extends Component<Props, State> {
   };
 
   handleFilterChange = args => {
-    const { cost, language, location, subcategory, name } = args;
+    const { cost, language, location, name } = args;
     this.filterResources({
       cost: cost !== undefined && cost !== null ? cost : '$ - $$$$',
       language: language !== undefined && language !== null ? language : 'All',
