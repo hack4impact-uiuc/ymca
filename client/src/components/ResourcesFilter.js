@@ -1,6 +1,8 @@
 import React, { useCallback } from 'react';
-import { AutoComplete, Button, Dropdown, Radio } from 'antd';
+import { Button, Dropdown, Radio } from 'antd';
 import PropTypes from 'prop-types';
+
+import ResourceFilterSearch from './ResourceFilterSearch';
 
 import '../css/ResourcesFilter.css';
 
@@ -18,13 +20,25 @@ function ResourcesFilter(props) {
   const onChange = useCallback((filterName, value) => {
     switch (filterName) {
       case 'Cost':
-        handleChangeFilter(value, languageSelected, locationSelected);
+        handleChangeFilter({
+          cost: value,
+          language: languageSelected,
+          location: locationSelected,
+        });
         break;
       case 'Languages Offered':
-        handleChangeFilter(costSelected, value, locationSelected);
+        handleChangeFilter({
+          cost: costSelected,
+          language: value,
+          location: locationSelected,
+        });
         break;
       case 'Location':
-        handleChangeFilter(costSelected, languageSelected, value);
+        handleChangeFilter({
+          cost: costSelected,
+          language: languageSelected,
+          location: value,
+        });
         break;
       default:
     }
@@ -71,7 +85,7 @@ function ResourcesFilter(props) {
       >
         <Button className="button">Location</Button>
       </Dropdown>
-      <AutoComplete className="searchbar" placeholder="Search for a Resource" />
+      <ResourceFilterSearch handleChangeFilter={handleChangeFilter} />
     </div>
   );
 }
