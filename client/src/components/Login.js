@@ -9,11 +9,6 @@ import '../css/Login.css';
 import { login } from '../utils/auth';
 
 class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
   onLoginSubmit = e => {
     e.preventDefault();
 
