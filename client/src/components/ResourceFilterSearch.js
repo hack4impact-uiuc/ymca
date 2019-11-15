@@ -7,6 +7,8 @@ import { AutoComplete } from 'antd';
 import { getResources } from '../utils/api';
 import '../css/ResourcesFilter.css';
 
+const { Option } = AutoComplete;
+
 type Props = {};
 
 /*
@@ -15,7 +17,7 @@ on search have the resource grid be populated with the filtered results here
 const ResourceFilterSearch = (props: Props) => {
   const history = useHistory();
   const [allResources, setAllResources] = useState([]);
-  const [allResourceNames, setAllResourceNames] = useState([]);
+  const [allResourceOptions, setAllResourceOptions] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
   const [searchDataSource, setSearchDataSource] = useState([]);
 
@@ -25,10 +27,12 @@ const ResourceFilterSearch = (props: Props) => {
         if (res.code === 200) {
           setAllResources(res.result);
 
-          setAllResourceNames(
-            Object.values(res.result).map(resource =>
-              resource.name !== null ? resource.name : '_',
-            ),
+          setAllResourceOptions(
+            Object.values(res.result).map(resource => (
+              <Option key={resource.name} value={resource._id}>
+                {resource.name !== null ? resource.name : '_'}
+              </Option>
+            )),
           );
         } else {
           // show some error
@@ -48,13 +52,7 @@ const ResourceFilterSearch = (props: Props) => {
   );
 
   const onSearchSelect = useCallback((value, option) => {
-    const filteredResources = allResources.filter(
-      resource => resource.name === value,
-    );
-
-    if (filteredResources.length > 0) {
-      history.push(`/resources/${filteredResources[0]._id}`);
-    }
+    history.push(`/resources/${value}`);
   });
 
   useEffect(getResourceNames, []);
@@ -62,7 +60,7 @@ const ResourceFilterSearch = (props: Props) => {
   return (
     <AutoComplete
       className="searchbar"
-      dataSource={allResourceNames}
+      dataSource={allResourceOptions}
       placeholder="Search for a Resource"
       filterOption={filterSearchResults}
       onSelect={onSearchSelect}
