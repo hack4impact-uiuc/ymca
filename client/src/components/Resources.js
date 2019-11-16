@@ -29,7 +29,7 @@ export default class Resources extends Component<Props, State> {
       openKeys: [],
       categories: {},
       languages: ['All', 'English', 'Spanish', 'Chinese', 'Japanese'],
-      locations: ['All', 'Champaign', 'Urbana', 'Maibana', 'Foopaign'],
+      locations: ['All', 'Champaign', 'Urbana', 'Savoy'],
       costs: ['$', '$ - $$', '$ - $$$', '$ - $$$$'],
 
       resources: [],
@@ -92,7 +92,7 @@ export default class Resources extends Component<Props, State> {
 
     const filteredResources = resources.filter(
       resource =>
-        (costMap[cost].includes(resource.cost) || resource.cost === '') &&
+        (costMap[cost].includes(resource.cost) || cost === '$ - $$$$') &&
         (resource.subcategory === subcategory || subcategory === '') &&
         (resource.availableLanguages.includes(language) ||
           language === 'All') &&
