@@ -67,21 +67,24 @@ function ResourcesFilter(props) {
       <Dropdown
         className="dropdown"
         overlay={radio('Cost', costs, costSelected)}
-        placement="topLeft"
+        placement="bottomLeft"
+        trigger={['click']}
       >
         <Button className="button">Cost</Button>
       </Dropdown>
       <Dropdown
         className="dropdown"
         overlay={radio('Languages Offered', languages, languageSelected)}
-        placement="topCenter"
+        placement="bottomCenter"
+        trigger={['click']}
       >
         <Button className="button">Languages Offered</Button>
       </Dropdown>
       <Dropdown
         className="dropdown"
         overlay={radio('Location', locations, locationSelected)}
-        placement="topRight"
+        placement="bottomRight"
+        trigger={['click']}
       >
         <Button className="button">Location</Button>
       </Dropdown>
