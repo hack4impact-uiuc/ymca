@@ -5,8 +5,6 @@ import { Route, Redirect } from 'react-router-dom';
 
 import { verify } from '../utils/auth';
 
-import NotFound from './NotFound';
-
 type Props = {
   authed: Boolean,
   setAuthed: Boolean => void,
