@@ -51,6 +51,46 @@ const CategorySelector = (props: Props) => {
   const [viewableCategories, setViewableCategories] = useState([]);
   const [viewableSubcategories, setViewableSubcategories] = useState([]);
 
+  const onCategoryChange = val => {
+    wrappedSetCategory({
+      targetCategory: val,
+      setSubcategory,
+      setCategory,
+      setFieldsValue,
+      fetchedCategories,
+      setAvailableSubcategories,
+      setViewableCategories,
+      setViewableSubcategories,
+    });
+  };
+
+  const onCategorySearch = val => {
+    const options = [];
+    fetchedCategories.forEach(cat => {
+      const { name } = cat;
+      if (name.toLowerCase().includes(val.toLowerCase())) {
+        options.push(name);
+      }
+    });
+    setViewableCategories(options);
+  };
+
+  const onSubcategorySearch = val => {
+    const options = [];
+    availableSubcategories.forEach(sub => {
+      if (sub.toLowerCase().includes(val.toLowerCase())) {
+        options.push(sub);
+      }
+    });
+    setViewableSubcategories(options);
+  };
+
+  const onSubcategoryChange = val => {
+    setSubcategory(val);
+    // reset search subcategories
+    setViewableSubcategories(availableSubcategories);
+  };
+
   // fetch categories && subcategories
   useEffect(() => {
     getCategories().then(res => {
@@ -94,28 +134,8 @@ const CategorySelector = (props: Props) => {
             className="newResourceSelect"
             placeholder="Select category..."
             showSearch
-            onSearch={val => {
-              const options = [];
-              fetchedCategories.forEach(cat => {
-                const { name } = cat;
-                if (name.toLowerCase().includes(val.toLowerCase())) {
-                  options.push(name);
-                }
-              });
-              setViewableCategories(options);
-            }}
-            onChange={val =>
-              wrappedSetCategory({
-                targetCategory: val,
-                setSubcategory,
-                setCategory,
-                setFieldsValue,
-                fetchedCategories,
-                setAvailableSubcategories,
-                setViewableCategories,
-                setViewableSubcategories,
-              })
-            }
+            onSearch={onCategorySearch}
+            onChange={onCategoryChange}
           >
             {viewableCategories.map(o => (
               <Option value={o}>{o}</Option>
@@ -137,20 +157,8 @@ const CategorySelector = (props: Props) => {
             className="newResourceSelect"
             placeholder="Select subcategory..."
             showSearch
-            onSearch={val => {
-              const options = [];
-              availableSubcategories.forEach(sub => {
-                if (sub.toLowerCase().includes(val.toLowerCase())) {
-                  options.push(sub);
-                }
-              });
-              setViewableSubcategories(options);
-            }}
-            onChange={val => {
-              setSubcategory(val);
-              // reset search subcategories
-              setViewableSubcategories(availableSubcategories);
-            }}
+            onSearch={onSubcategorySearch}
+            onChange={onSubcategoryChange}
           >
             {viewableSubcategories.map(o => (
               <Option value={o}>{o}</Option>
