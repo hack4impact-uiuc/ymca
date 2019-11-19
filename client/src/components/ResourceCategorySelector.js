@@ -15,7 +15,7 @@ const wrappedSetCategory = args => {
     setFieldsValue,
 
     fetchedCategories,
-    setSearchCategoryOptions,
+    setViewableCategories,
   } = args;
 
   setCategory(targetCategory);
@@ -26,7 +26,7 @@ const wrappedSetCategory = args => {
   });
 
   // reset search categories list
-  setSearchCategoryOptions(fetchedCategories.map(cat => cat.name));
+  setViewableCategories(fetchedCategories.map(cat => cat.name));
 };
 
 type Props = {
@@ -47,9 +47,9 @@ const CategorySelector = (props: Props) => {
   } = props;
 
   const [fetchedCategories, setFetchedCategories] = useState([]);
-  const [currentSubcategories, setCurrentSubcategories] = useState([]);
-  const [searchCategoryOptions, setSearchCategoryOptions] = useState([]);
-  const [searchSubcategoryOptions, setSearchSubcategoryOptions] = useState([]);
+  const [availableSubcategories, setAvailableSubcategories] = useState([]);
+  const [viewableCategories, setViewableCategories] = useState([]);
+  const [viewableSubcategories, setViewableSubcategories] = useState([]);
 
   // fetch categories && subcategories
   useEffect(() => {
@@ -57,7 +57,7 @@ const CategorySelector = (props: Props) => {
       if (res !== null) {
         if (res.code === 200) {
           setFetchedCategories(res.result);
-          setSearchCategoryOptions(res.result.map(cat => cat.name));
+          setViewableCategories(res.result.map(cat => cat.name));
         }
       }
     });
@@ -67,15 +67,15 @@ const CategorySelector = (props: Props) => {
   useEffect(() => {
     fetchedCategories.forEach(cat => {
       if (cat.name === category) {
-        setCurrentSubcategories(cat.subcategories);
-        setSearchSubcategoryOptions(cat.subcategories);
+        setAvailableSubcategories(cat.subcategories);
+        setViewableSubcategories(cat.subcategories);
       }
     });
   }, [
     category,
     fetchedCategories,
-    setCurrentSubcategories,
-    setSearchSubcategoryOptions,
+    setAvailableSubcategories,
+    setViewableSubcategories,
   ]);
 
   return (
@@ -102,7 +102,7 @@ const CategorySelector = (props: Props) => {
                   options.push(name);
                 }
               });
-              setSearchCategoryOptions(options);
+              setViewableCategories(options);
             }}
             onChange={val =>
               wrappedSetCategory({
@@ -111,13 +111,13 @@ const CategorySelector = (props: Props) => {
                 setCategory,
                 setFieldsValue,
                 fetchedCategories,
-                setCurrentSubcategories,
-                setSearchCategoryOptions,
-                setSearchSubcategoryOptions,
+                setAvailableSubcategories,
+                setViewableCategories,
+                setViewableSubcategories,
               })
             }
           >
-            {searchCategoryOptions.map(o => (
+            {viewableCategories.map(o => (
               <Option value={o}>{o}</Option>
             ))}
           </Select>,
@@ -139,20 +139,20 @@ const CategorySelector = (props: Props) => {
             showSearch
             onSearch={val => {
               const options = [];
-              currentSubcategories.forEach(sub => {
+              availableSubcategories.forEach(sub => {
                 if (sub.toLowerCase().includes(val.toLowerCase())) {
                   options.push(sub);
                 }
               });
-              setSearchSubcategoryOptions(options);
+              setViewableSubcategories(options);
             }}
             onChange={val => {
               setSubcategory(val);
               // reset search subcategories
-              setSearchSubcategoryOptions(currentSubcategories);
+              setViewableSubcategories(availableSubcategories);
             }}
           >
-            {searchSubcategoryOptions.map(o => (
+            {viewableSubcategories.map(o => (
               <Option value={o}>{o}</Option>
             ))}
           </Select>,
