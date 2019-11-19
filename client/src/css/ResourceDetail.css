@@ -7,6 +7,10 @@
   font-size: 175%;
 }
 
+.resource-detail .resource-edit {
+  margin-left: 1.5em;
+}
+
 .resource-detail .ant-row {
   padding-top: 20px;
   padding-bottom: 20px;
