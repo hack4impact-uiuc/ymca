@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-
-// import withAuth from "../components/withAuth";
-// import NavBar from "../components/navbar";
 import {
   Table,
   Card,
@@ -18,7 +15,7 @@ import {
 
 import { getUsersForRolesPage, changeRole } from '../utils/auth';
 
-class RolesPage extends Component {
+class RoleApproval extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -67,8 +64,6 @@ class RolesPage extends Component {
   render() {
     return (
       <div align="center">
-        {/* <NavBar /> */}
-
         <Card
           className="interview-card"
           style={{ height: '60%', margin: '2%' }}
@@ -149,4 +144,4 @@ class RolesPage extends Component {
   }
 }
 
-export default RolesPage;
+export default RoleApproval;

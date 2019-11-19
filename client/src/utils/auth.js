@@ -36,7 +36,6 @@ export const getUsersForRolesPage = () => {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      // token: getCookie("token"),
       token: localStorage.getItem('token'),
       google: !!localStorage.getItem('google'),
     },
@@ -48,9 +47,7 @@ export const changeRole = (userEmail, newRole, password) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      // token: getCookie("token"),
       token: localStorage.getItem('token'),
-      // google: getCookie("google") ? true : false
     },
     body: JSON.stringify({
       userEmail,

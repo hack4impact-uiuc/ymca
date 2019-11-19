@@ -17,7 +17,7 @@ import Register from './components/Register';
 import ResourceDetail from './components/ResourceDetail';
 import Resources from './components/Resources';
 import ResourceUnknown from './components/ResourceUnknown';
-import RolesPage from './components/RolesPage';
+import RoleApproval from './components/RoleApproval';
 import { verify } from './utils/auth';
 
 const App = () => {
@@ -61,7 +61,12 @@ const App = () => {
           <Route path="/resources" exact component={Resources} />
           <Route path="/resources/unknown" component={ResourceUnknown} />
           <Route path="/resources/:id" component={ResourceDetail} />
-          <Route path="/userroles" component={RolesPage} />
+          <PrivateRoute
+            path="/role-approval"
+            component={RoleApproval}
+            authed={authed}
+            setAuthed={setAuthed}
+          />
           <Route component={NotFound} />
         </Switch>
       </Router>
