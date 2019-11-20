@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 import { Card, Col, Icon, Row } from 'antd';
 import PropTypes from 'prop-types';
 import '../css/ResourceDetail.css';
+import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 
 import { getResourceByID } from '../utils/api';
 
@@ -77,6 +78,12 @@ export default class ResourceDetail extends Component {
       subcategory,
       resourceExists,
     } = this.state;
+
+    const Map = ReactMapboxGl({
+      accessToken:
+        'pk.eyJ1IjoiYW5vb2psYWwiLCJhIjoiY2syemtiYjZoMGp1eDNscXQ3azJzajl0bCJ9.FDSFjP1IfSisbm4uvd70vg',
+      interactive: false
+    })
 
     if (!resourceExists) {
       return <Redirect to="/resources/unknown" />;
@@ -196,6 +203,26 @@ export default class ResourceDetail extends Component {
                   </Col>
                 );
               })}
+            </Row>
+          </Col>
+        </Row>
+        <Row className="section">
+          <Col span={4} className="section-label">
+            Location
+          </Col>
+          <Col span={20}>
+            <Row className="cardRow">
+              <Map
+                style="mapbox://styles/mapbox/streets-v9"
+                containerStyle={{
+                  height: '900px',
+                  width: '900px'
+                }}
+              >
+                <Layer type="symbol" id="marker" layout={{ 'icon-image': 'marker-15' }}>
+                  <Feature coordinates={[-0.481747846041145, 51.3233379650232]} />
+                </Layer>
+              </Map>
             </Row>
           </Col>
         </Row>
