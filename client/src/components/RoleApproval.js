@@ -29,7 +29,6 @@ class RoleApproval extends Component {
   async componentDidMount() {
     const userData = await getUsersForRolesPage();
     const userDataParsed = await userData.json();
-    console.log(userDataParsed);
     if (userDataParsed.user_emails) {
       this.setState({ users: userDataParsed.user_emails });
     }

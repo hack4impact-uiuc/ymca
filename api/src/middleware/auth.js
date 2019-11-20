@@ -1,5 +1,3 @@
-const https = require('https');
-const mongoose = require('mongoose');
 const fetch = require('isomorphic-unfetch');
 
 const AUTH_SERVER_URI = 'https://ymca-auth.now.sh';
@@ -21,16 +19,15 @@ const auth = async (req, res, next) => {
     } else {
       res.set({ token });
     }
-
     next();
+  } else {
+    // if not auth'd (from https://github.com/hack4impact-uiuc/h4i-recruitment/blob/eab33c223314abb367558dc6e5cfa05d90989681/frontend/src/utils/api.js)
+    res.status(403).json({
+      code: 403,
+      message: 'Unauthorized',
+      success: false,
+    });
   }
-
-  // if not auth'd (from https://github.com/hack4impact-uiuc/h4i-recruitment/blob/eab33c223314abb367558dc6e5cfa05d90989681/frontend/src/utils/api.js)
-  res.status(403).json({
-    code: 403,
-    message: 'Unauthorized',
-    success: false,
-  });
 };
 
 module.exports = auth;

@@ -17,19 +17,4 @@ router.get(
   }),
 );
 
-// Create a new category
-router.post(
-  '/',
-  errorWrap(async (req, res) => {
-    const newCategory = new Category(req.body);
-    await newCategory.save();
-    res.status(201).json({
-      code: 201,
-      message: `Successfully created new category ${newCategory.id}`,
-      success: true,
-      result: newCategory,
-    });
-  }),
-);
-
 module.exports = router;
