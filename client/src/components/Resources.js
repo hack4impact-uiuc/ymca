@@ -39,6 +39,7 @@ export default class Resources extends Component<Props, State> {
 
   async componentDidMount() {
     const res = await getCategories();
+    console.log(res);
     const categories = {};
     if (res != null) {
       res.result.forEach(category => {

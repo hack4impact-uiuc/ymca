@@ -2,7 +2,7 @@ const https = require('https');
 const mongoose = require('mongoose');
 const fetch = require('isomorphic-unfetch');
 
-const { AUTH_SERVER_URI } = 'https://ymca-auth.now.sh';
+const AUTH_SERVER_URI = 'https://ymca-auth.now.sh';
 
 const auth = async (req, res, next) => {
   const { token } = req.headers;
