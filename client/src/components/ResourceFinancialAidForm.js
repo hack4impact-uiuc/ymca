@@ -25,7 +25,10 @@ const FinancialAidForm = Form.create({ name: 'financialAid' })(props => {
       }}
     >
       <Form.Item>
-        {getFieldDecorator('education', {})(
+        {getFieldDecorator(
+          'education',
+          {},
+        )(
           <Input
             placeholder="Education"
             onFocus={() => setTotalSubmitEnabled(false)}
@@ -34,7 +37,10 @@ const FinancialAidForm = Form.create({ name: 'financialAid' })(props => {
         )}
       </Form.Item>
       <Form.Item>
-        {getFieldDecorator('immigrationStatus', {})(
+        {getFieldDecorator(
+          'immigrationStatus',
+          {},
+        )(
           <Input
             placeholder="Immigration Status"
             onFocus={() => setTotalSubmitEnabled(false)}
@@ -43,7 +49,10 @@ const FinancialAidForm = Form.create({ name: 'financialAid' })(props => {
         )}
       </Form.Item>
       <Form.Item>
-        {getFieldDecorator('deadline', {})(
+        {getFieldDecorator(
+          'deadline',
+          {},
+        )(
           <Input
             placeholder="Deadline"
             onFocus={() => setTotalSubmitEnabled(false)}
