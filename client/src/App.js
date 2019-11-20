@@ -12,6 +12,7 @@ import Register from './components/Register';
 import ResourceDetail from './components/ResourceDetail';
 import Resources from './components/Resources';
 import ResourceUnknown from './components/ResourceUnknown';
+import RoleApproval from './components/RoleApproval';
 import ScrollToTop from './components/ScrollToTop';
 import { verify } from './utils/auth';
 
@@ -63,6 +64,12 @@ const App = () => {
           />
           <Route path="/resources" exact component={Resources} />
           <Route path="/resources/unknown" component={ResourceUnknown} />
+          <PrivateRoute
+            path="/role-approval"
+            component={RoleApproval}
+            authed={authed}
+            setAuthed={setAuthed}
+          />
           <Route
             path="/resources/:id"
             render={props => <ResourceDetail {...props} authed={authed} />}

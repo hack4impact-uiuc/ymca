@@ -31,6 +31,32 @@ export const register = body => {
   }).then(res => res.json());
 };
 
+export const getUsersForRolesPage = () => {
+  return fetch(`${AUTH_SERVER_URI}/roles`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      token: localStorage.getItem('token'),
+      google: !!localStorage.getItem('google'),
+    },
+  });
+};
+
+export const changeRole = (userEmail, newRole, password) => {
+  return fetch(`${AUTH_SERVER_URI}/roleschange`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      token: localStorage.getItem('token'),
+    },
+    body: JSON.stringify({
+      userEmail,
+      newRole,
+      password,
+    }),
+  });
+};
+
 export const verify = (token, onErr) => {
   return fetch(`${AUTH_SERVER_URI}/verify`, {
     method: 'POST',
