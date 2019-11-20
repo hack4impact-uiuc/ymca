@@ -29,7 +29,7 @@ export default class Resources extends Component<Props, State> {
       openKeys: [],
       categories: {},
       languages: ['All', 'English', 'Spanish', 'Chinese', 'Japanese'],
-      locations: ['All', 'Champaign', 'Urbana', 'Maibana', 'Foopaign'],
+      locations: ['All', 'Champaign', 'Urbana', 'Savoy'],
       costs: ['$', '$ - $$', '$ - $$$', '$ - $$$$'],
 
       resources: [],
@@ -59,6 +59,7 @@ export default class Resources extends Component<Props, State> {
 
   getCategorySelectedFromSearch() {
     const { search } = this.props.location;
+
     if (search === '') {
       return ['All Resources', ''];
     }
@@ -92,8 +93,8 @@ export default class Resources extends Component<Props, State> {
 
     const filteredResources = resources.filter(
       resource =>
-        (costMap[cost].includes(resource.cost) || resource.cost === '') &&
         (resource.subcategory.includes(subcategory) || subcategory === '') &&
+        (costMap[cost].includes(resource.cost) || cost === '$ - $$$$') &&
         (resource.availableLanguages.includes(language) ||
           language === 'All') &&
         (resource.city === location || location === 'All') &&

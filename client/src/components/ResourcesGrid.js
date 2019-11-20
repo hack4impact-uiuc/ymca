@@ -25,22 +25,26 @@ function ResourcesGrid(props) {
           <Col xs={24} md={8}>
             <ResourcePreview
               availableLanguages={first.availableLanguages}
+              category={first.category}
+              city={first.city}
               cost={first.cost}
               id={first._id}
               key={first._id}
-              location={first.location}
               name={first.name}
+              subcategory={first.subcategory}
             />
           </Col>
           {second && (
             <Col xs={24} md={8}>
               <ResourcePreview
                 availableLanguages={second.availableLanguages}
+                category={second.category}
+                city={second.city}
                 cost={second.cost}
                 id={second._id}
                 key={second._id}
-                location={second.location}
                 name={second.name}
+                subcategory={second.subcategory}
               />
             </Col>
           )}
@@ -48,11 +52,13 @@ function ResourcesGrid(props) {
             <Col xs={24} md={8}>
               <ResourcePreview
                 availableLanguages={third.availableLanguages}
+                category={third.category}
+                city={third.city}
                 cost={third.cost}
                 id={third._id}
                 key={third._id}
-                location={third.location}
                 name={third.name}
+                subcategory={third.subcategory}
               />
             </Col>
           )}
@@ -69,13 +75,13 @@ ResourcesGrid.propTypes = {
       _id: PropTypes.string.isRequired,
       availableLanguages: PropTypes.string,
       category: PropTypes.number.isRequired,
+      city: PropTypes.string.isRequired,
       comments: PropTypes.arrayOf(PropTypes.string),
       contacts: PropTypes.arrayOf(PropTypes.string),
       cost: PropTypes.string,
       description: PropTypes.string.isRequired,
       internalNotes: PropTypes.arrayOf(PropTypes.string),
       lastUpdated: PropTypes.string.isRequired,
-      location: PropTypes.string,
       name: PropTypes.string.isRequired,
       phoneNumbers: PropTypes.arrayOf(PropTypes.string),
       subcategory: PropTypes.string,
