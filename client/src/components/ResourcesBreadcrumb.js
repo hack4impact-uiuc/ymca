@@ -13,7 +13,9 @@ function ResourcesBreadcrumb(props) {
     breadcrumbs.push(<span>All Resources</span>);
   } else if (categorySelected !== '') {
     breadcrumbs.push(
-      <Link className="link" to="resources">
+      <Link className="link" to={{
+        pathname: '/resources'
+      }}>
         <span>All Resources</span>
       </Link>,
     );

@@ -1,9 +1,9 @@
 // @flow
 
-import React, { useState } from 'react';
-import '../css/ResourceForm.css';
+import React, { useState, useEffect } from 'react';
 import { Form, Input, Button, Select, Affix, message } from 'antd';
-import fetch from 'isomorphic-fetch';
+
+import { addResource, editResource, getResourceByID } from '../utils/api';
 
 import PhoneNumberFormItem from './ResourcePhoneNumberForm';
 import ContactFormItem from './ResourceContactForm';
@@ -14,33 +14,35 @@ import StrListFormItem from './ResourceStrListForm';
 const { TextArea } = Input;
 const { Option } = Select;
 
-const SERVER_URI = 'https://ymca.now.sh';
-
-const onSubmitNewResourceForm = (e, enabled, resource) => {
+const onSubmitNewResourceForm = async (e, enabled, id, resource) => {
   e.preventDefault();
-
   if (enabled) {
-    fetch(`${SERVER_URI}/api/resources`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(resource),
-    })
-      .then(res => res.json())
-      .then(res => {
-        if (res.code === 201) {
-          // on succ
-          message.success('Resource successfully created!');
-        } else {
-          // on err
-          message.error(res.message);
-        }
-      });
+    if (id) {
+      const editedResource = await editResource(id, resource);
+      if (editedResource) {
+        message.success('Resource successfully edited!');
+      } else {
+        message.error(
+          `Resource could not be edited.
+          ${' '}Please check that all of the required fields are filled out!`,
+        );
+      }
+    } else {
+      const createdResource = await addResource(resource);
+      if (createdResource) {
+        message.success('Resource successfully created!');
+      } else {
+        message.error(
+          `Resource could not be created.
+          ${' '}Please check that all of the required fields are filled out!`,
+        );
+      }
+    }
   }
 };
 
 type FormProps = {
+  id: number,
   form: {
     getFieldDecorator: () => any,
     getFieldValue: () => any,
@@ -60,13 +62,36 @@ const ResourceForm = (props: FormProps) => {
   const [comments, setComments] = useState([]);
   const [internalNotes, setInternalNotes] = useState([]);
 
+  const { id } = props;
   const { getFieldDecorator, getFieldValue, setFieldsValue } = props.form;
+
+  useEffect(() => {
+    async function fetchFields() {
+      if (id) {
+        const resource = await getResourceByID(id);
+        if (resource) {
+          const { name, ...result } = resource.result;
+          setFieldsValue({ resourceName: name, ...result });
+          setCategory(result.category);
+          setSubcategory(result.subcategory);
+          setPhoneNumbers(result.phoneNumbers);
+          setContacts(result.contacts);
+          setFinancialAidDetails(
+            result.financialAidDetails ? result.financialAidDetails : {},
+          );
+          setAvailableLanguages(result.availableLanguages);
+          setComments(result.comments);
+          setInternalNotes(result.internalNotes);
+        }
+      }
+    }
+    fetchFields();
+  }, [id, setFieldsValue]);
 
   return (
     <Form
-      className="newResourceForm"
       onSubmit={e => {
-        onSubmitNewResourceForm(e, totalSubmitEnabled, {
+        onSubmitNewResourceForm(e, totalSubmitEnabled, id, {
           category,
           subcategory,
           name: getFieldValue('resourceName') || '',
@@ -75,7 +100,7 @@ const ResourceForm = (props: FormProps) => {
           email: getFieldValue('email') || '',
           phoneNumbers,
           contacts,
-          address: getFieldValue('email') || '',
+          address: getFieldValue('address') || '',
           city: getFieldValue('city') || '',
           hoursOfOperation: getFieldValue('hoursOfOperation') || '',
           eligibilityRequirements:
@@ -197,7 +222,7 @@ const ResourceForm = (props: FormProps) => {
       />
       <Affix offsetBottom={20}>
         <Button type="primary" htmlType="submit" className="newResourceSubmit">
-          Add Resource
+          {id ? 'Submit Edit' : 'Add Resource'}
         </Button>
       </Affix>
     </Form>

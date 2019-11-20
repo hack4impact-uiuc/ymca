@@ -18,7 +18,7 @@ const Navigation = (props: Props) => {
   return (
     <Header className="navigation">
       <a href="/" aria-label="logo">
-          <div className="logo" />
+        <div className="logo" />
       </a>
       <Menu mode="horizontal">
         <Menu.Item key="home">
