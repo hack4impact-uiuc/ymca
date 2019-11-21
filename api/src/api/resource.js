@@ -10,7 +10,7 @@ router.get(
     const { category } = req.query;
     let resources;
     if (category != null) {
-      resources = await Resource.find({ category });
+      resources = await Resource.find({ category: { $in: category } });
     } else {
       resources = await Resource.find();
     }

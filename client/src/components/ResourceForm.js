@@ -8,7 +8,7 @@ import { addResource, editResource, getResourceByID } from '../utils/api';
 import PhoneNumberFormItem from './ResourcePhoneNumberForm';
 import ContactFormItem from './ResourceContactForm';
 import FinancialAidFormItem from './ResourceFinancialAidForm';
-import CategorySelector from './ResourceCategorySelector';
+import CategorySelector, { CAT_SUB_SPLITTER } from './ResourceCategorySelector';
 import StrListFormItem from './ResourceStrListForm';
 
 const { TextArea } = Input;
@@ -53,8 +53,8 @@ type FormProps = {
 const ResourceForm = (props: FormProps) => {
   const [totalSubmitEnabled, setTotalSubmitEnabled] = useState(true);
 
-  const [category, setCategory] = useState('');
-  const [subcategory, setSubcategory] = useState('');
+  const [categories, setCategories] = useState([]);
+  const [subcategories, setSubcategories] = useState([]);
   const [phoneNumbers, setPhoneNumbers] = useState([]);
   const [contacts, setContacts] = useState([]);
   const [financialAidDetails, setFinancialAidDetails] = useState({});
@@ -70,10 +70,24 @@ const ResourceForm = (props: FormProps) => {
       if (id) {
         const resource = await getResourceByID(id);
         if (resource) {
-          const { name, ...result } = resource.result;
-          setFieldsValue({ resourceName: name, ...result });
-          setCategory(result.category);
-          setSubcategory(result.subcategory);
+          const { name, category, subcategory, ...result } = resource.result;
+
+          // generate initial category values
+          const categoryInitialValues = [];
+          for (let i = 0; i < category.length; ) {
+            categoryInitialValues.push(
+              category[i] + CAT_SUB_SPLITTER + subcategory[i],
+            );
+            i += 1;
+          }
+
+          setFieldsValue({
+            resourceName: name,
+            categorySelect: categoryInitialValues,
+            ...result,
+          });
+          setCategories(category);
+          setSubcategories(subcategory);
           setPhoneNumbers(result.phoneNumbers);
           setContacts(result.contacts);
           setFinancialAidDetails(
@@ -92,8 +106,8 @@ const ResourceForm = (props: FormProps) => {
     <Form
       onSubmit={e => {
         onSubmitNewResourceForm(e, totalSubmitEnabled, id, {
-          category,
-          subcategory,
+          category: categories,
+          subcategory: subcategories,
           name: getFieldValue('resourceName') || '',
           description: getFieldValue('description') || '',
           website: getFieldValue('website') || '',
@@ -116,12 +130,13 @@ const ResourceForm = (props: FormProps) => {
       }}
     >
       <CategorySelector
-        category={category}
-        setCategory={setCategory}
-        subcategory={subcategory}
-        setSubcategory={setSubcategory}
+        categories={categories}
+        subcategories={subcategories}
+        setCategories={setCategories}
+        setSubcategories={setSubcategories}
         getFieldDecorator={getFieldDecorator}
         setFieldsValue={setFieldsValue}
+        getFieldValue={getFieldValue}
       />
       <Form.Item label="Resource Name">
         {getFieldDecorator('resourceName', {
