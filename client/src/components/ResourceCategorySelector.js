@@ -6,72 +6,67 @@ import { Form, Select } from 'antd';
 import { getCategories } from '../utils/api';
 
 const { Option, OptGroup } = Select;
+export const CAT_SUB_SPLITTER = '~';
 
 const wrappedSetCategory = args => {
   const {
-    targetCategory,
-    setCategory,
-    setSubcategory,
-    setFieldsValue,
-
+    selected,
     fetchedCategories,
-    setViewableCategories,
+    categories,
+    subcategories,
+    setCategories,
+    setSubcategories,
+    getFieldDecorator,
+    setFieldsValue,
   } = args;
 
-  setCategory(targetCategory);
-  setSubcategory('');
+  const selectedCategories = [];
+  const selectedSubcategories = [];
+
+  selected.forEach(optionValue => {
+    const tokens = optionValue.split(CAT_SUB_SPLITTER);
+    selectedCategories.push(tokens[0]);
+    selectedSubcategories.push(tokens[1]);
+  });
+
+  setCategories(selectedCategories);
+  setSubcategories(selectedSubcategories);
 
   setFieldsValue({});
-
-  // reset search categories list
-  setViewableCategories(fetchedCategories.map(cat => cat.name));
 };
 
 type Props = {
-  category: string,
-  setCategory: () => void,
-  setSubcategory: () => void,
+  categories: Array<String>,
+  subcategories: Array<String>,
+  setCategories: (Array<String>) => void,
+  setSubcategories: (Array<String>) => void,
   getFieldDecorator: () => any,
   setFieldsValue: () => any,
 };
 
 const CategorySelector = (props: Props) => {
   const {
-    category,
-    setCategory,
-    setSubcategory,
+    categories,
+    subcategories,
+    setCategories,
+    setSubcategories,
     getFieldDecorator,
     setFieldsValue,
   } = props;
 
   const [fetchedCategories, setFetchedCategories] = useState([]);
-  const [availableSubcategories, setAvailableSubcategories] = useState([]);
-  const [viewableCategories, setViewableCategories] = useState([]);
-  const [viewableSubcategories, setViewableSubcategories] = useState([]);
-  // const [options, setOptions] = useState({});
-  // const [viewableOptions, setViewableOptions] = useState([]);
 
-  const onCategoryChange = val => {
+  const onCategoryChange = selected => {
     wrappedSetCategory({
-      targetCategory: val,
-      setSubcategory,
-      setCategory,
-      setFieldsValue,
+      selected,
       fetchedCategories,
-      setAvailableSubcategories,
-      setViewableCategories,
-      setViewableSubcategories,
+      categories,
+      subcategories,
+      setCategories,
+      setSubcategories,
+      getFieldDecorator,
+      setFieldsValue,
     });
-  };
-
-  const onSubcategorySearch = val => {
-    const options = [];
-    availableSubcategories.forEach(sub => {
-      if (sub.toLowerCase().includes(val.toLowerCase())) {
-        options.push(sub);
-      }
-    });
-    setViewableSubcategories(options);
   };
 
   // fetch categories && subcategories
@@ -80,31 +75,15 @@ const CategorySelector = (props: Props) => {
       if (res !== null) {
         if (res.code === 200) {
           setFetchedCategories(res.result);
-          setViewableCategories(res.result.map(cat => cat.name));
         }
       }
     });
   }, []);
 
-  // set current subcategories
-  useEffect(() => {
-    fetchedCategories.forEach(cat => {
-      if (cat.name === category) {
-        setAvailableSubcategories(cat.subcategories);
-        setViewableSubcategories(cat.subcategories);
-      }
-    });
-  }, [
-    category,
-    fetchedCategories,
-    setAvailableSubcategories,
-    setViewableSubcategories,
-  ]);
-
   return (
     <>
       <Form.Item label="Category">
-        {getFieldDecorator('category', {
+        {getFieldDecorator('categorySelect', {
           rules: [
             {
               required: true,
@@ -122,7 +101,9 @@ const CategorySelector = (props: Props) => {
             {fetchedCategories.map(cat => (
               <OptGroup label={cat.name}>
                 {cat.subcategories.map(subcat => (
-                  <Option value={`${cat.name}~${subcat}`}>{subcat}</Option>
+                  <Option value={`${cat.name}${CAT_SUB_SPLITTER}${subcat}`}>
+                    {subcat}
+                  </Option>
                 ))}
               </OptGroup>
             ))}
