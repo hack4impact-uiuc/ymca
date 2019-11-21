@@ -7,6 +7,24 @@ import '../css/ResourcePreview.css';
 
 const { Meta } = Card;
 
+const stockPhotos = {
+  'Abuse/Neglect': '/asset/subcategories/abuse.jpg',
+  'Adult Education': '/asset/subcategories/adultEd.jpg',
+  'Animal Care': '/asset/subcategories/animalhealth.jpg',
+  'Children': '/asset/subcategories/childhealth.jpg',
+  'Children Education': '/asset/subcategories/childEd.jpg',
+  'Clothing Assistance': '/asset/subcategories/clothing.jpg',
+  'Community Information': '/asset/subcategories/community.jpg',
+  'Dental': '/asset/subcategories/dentalhealth.jpg',
+  'Drugs/Alcohol': '/asset/subcategories/alcohol.jpg',
+  'Employment': '/asset/subcategories/employment.jpg',
+  'Finance/Tax Assistance': '/asset/subcategories/financialtax.jpg',
+  'Medical': '/asset/subcategories/medical.jpg',
+  'Mental Health & Counseling': '/asset/subcategories/mentalhealth.jpg',
+  'Students': '/asset/subcategories/studentfinance.jpg',
+  'Vision': '/asset/subcategories/eyehealth.jpg'
+}
+
 function ResourcePreview(props) {
   const {
     availableLanguages,
@@ -20,43 +38,23 @@ function ResourcePreview(props) {
   const [src, setSrc] = useState('');
 
   useEffect(() => {
-    if (subcategory.includes('Abuse/Neglect')) {
-      setSrc('/asset/subcategories/abuse.jpg');
-    } else if (subcategory.includes('Adult Education')) {
-      setSrc('/asset/subcategories/adultEd.jpg');
-    } else if (subcategory.includes('Drugs/Alcohol')) {
-      setSrc('/asset/subcategories/alcohol.jpg');
-    } else if (subcategory.includes('Animal Care')) {
-      setSrc('/asset/subcategories/animalhealth.jpg');
-    } else if (subcategory.includes('Children Education')) {
-      setSrc('/asset/subcategories/childEd.jpg');
-    } else if (subcategory.includes('Children')) {
-      setSrc('/asset/subcategories/childhealth.jpg');
-    } else if (subcategory.includes('Clothing Assistance')) {
-      setSrc('/asset/subcategories/clothing.jpg');
-    } else if (subcategory.includes('Community Information')) {
-      setSrc('/asset/subcategories/community.jpg');
-    } else if (subcategory.includes('Dental')) {
-      setSrc('/asset/subcategories/dentalhealth.jpg');
-    } else if (subcategory.includes('Employment')) {
-      setSrc('/asset/subcategories/employment.jpg');
-    } else if (subcategory.includes('Vision')) {
-      setSrc('/asset/subcategories/eyehealth.jpg');
-    } else if (subcategory.includes('Finance/Tax Assistance')) {
-      setSrc('/asset/subcategories/financialtax.jpg');
-    } else if (subcategory.includes('Medical')) {
-      setSrc('/asset/subcategories/medical.jpg');
-    } else if (subcategory.includes('Mental Health & Counseling')) {
-      setSrc('/asset/subcategories/mentalhealth.jpg');
-    } else if (subcategory.includes('Students')) {
-      setSrc('/asset/subcategories/studentfinance.jpg');
-    } else {
+    let found = false;
+    subcategory.forEach(sub => {
+      if (stockPhotos[sub]) {
+        setSrc(stockPhotos[sub]);
+        found = true;
+        return;
+      }
+    })
+
+    if (!found) {
       setSrc(
         category.includes('Citizenship')
           ? '/asset/subcategories/citizenship.jpg'
           : 'https://uiuc.hack4impact.org/static/images/team-cheer.jpg',
       );
     }
+
   }, [category, setSrc, subcategory]);
 
   const description = [];
