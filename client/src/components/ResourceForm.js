@@ -78,7 +78,6 @@ const ResourceForm = (props: FormProps) => {
             categoryInitialValues.push(
               category[i] + CAT_SUB_SPLITTER + subcategory[i],
             );
-
             i += 1;
           }
 
