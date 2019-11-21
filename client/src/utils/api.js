@@ -1,8 +1,7 @@
 const axios = require('axios');
 
 const instance = axios.create({
-  // baseURL: 'https://ymca.now.sh',
-  baseURL: 'http://localhost:9000',
+  baseURL: 'https://ymca.now.sh',
 });
 
 export const getCategories = () => {
