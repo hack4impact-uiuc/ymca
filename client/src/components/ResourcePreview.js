@@ -7,24 +7,6 @@ import '../css/ResourcePreview.css';
 
 const { Meta } = Card;
 
-const stockPhotos = {
-  'Abuse/Neglect': '/asset/subcategories/abuse.jpg',
-  'Adult Education': '/asset/subcategories/adultEd.jpg',
-  'Animal Care': '/asset/subcategories/animalhealth.jpg',
-  Children: '/asset/subcategories/childhealth.jpg',
-  'Children Education': '/asset/subcategories/childEd.jpg',
-  'Clothing Assistance': '/asset/subcategories/clothing.jpg',
-  'Community Information': '/asset/subcategories/community.jpg',
-  Dental: '/asset/subcategories/dentalhealth.jpg',
-  'Drugs/Alcohol': '/asset/subcategories/alcohol.jpg',
-  Employment: '/asset/subcategories/employment.jpg',
-  'Finance/Tax Assistance': '/asset/subcategories/financialtax.jpg',
-  Medical: '/asset/subcategories/medical.jpg',
-  'Mental Health & Counseling': '/asset/subcategories/mentalhealth.jpg',
-  Students: '/asset/subcategories/studentfinance.jpg',
-  Vision: '/asset/subcategories/eyehealth.jpg',
-};
-
 function ResourcePreview(props) {
   const {
     availableLanguages,
@@ -38,20 +20,59 @@ function ResourcePreview(props) {
   const [src, setSrc] = useState('');
 
   useEffect(() => {
-    let found = false;
-    subcategory.forEach(sub => {
-      if (stockPhotos[sub]) {
-        setSrc(stockPhotos[sub]);
-        found = true;
-      }
-    });
-
-    if (!found) {
-      setSrc(
-        category.includes('Citizenship')
-          ? '/asset/subcategories/citizenship.jpg'
-          : 'https://uiuc.hack4impact.org/static/images/team-cheer.jpg',
-      );
+    switch (subcategory) {
+      case 'Abuse/Neglect':
+        setSrc('/asset/subcategories/abuse.jpg');
+        break;
+      case 'Adult Education':
+        setSrc('/asset/subcategories/adultEd.jpg');
+        break;
+      case 'Drugs/Alcohol':
+        setSrc('/asset/subcategories/alcohol.jpg');
+        break;
+      case 'Animal Care':
+        setSrc('/asset/subcategories/animalhealth.jpg');
+        break;
+      case 'Children Education':
+        setSrc('/asset/subcategories/childEd.jpg');
+        break;
+      case 'Children':
+        setSrc('/asset/subcategories/childhealth.jpg');
+        break;
+      case 'Clothing Assistance':
+        setSrc('/asset/subcategories/clothing.jpg');
+        break;
+      case 'Community Information':
+        setSrc('/asset/subcategories/community.jpg');
+        break;
+      case 'Dental':
+        setSrc('/asset/subcategories/dentalhealth.jpg');
+        break;
+      case 'Employment':
+        setSrc('/asset/subcategories/employment.jpg');
+        break;
+      case 'Vision':
+        setSrc('/asset/subcategories/eyehealth.jpg');
+        break;
+      case 'Finance/Tax Assistance':
+        setSrc('/asset/subcategories/financialtax.jpg');
+        break;
+      case 'Medical':
+        setSrc('/asset/subcategories/medical.jpg');
+        break;
+      case 'Mental Health & Counseling':
+        setSrc('/asset/subcategories/mentalhealth.jpg');
+        break;
+      case 'Students':
+        setSrc('/asset/subcategories/studentfinance.jpg');
+        break;
+      default:
+        setSrc(
+          category === 'Citizenship'
+            ? '/asset/subcategories/citizenship.jpg'
+            : 'https://uiuc.hack4impact.org/static/images/team-cheer.jpg',
+        );
+        break;
     }
   }, [category, setSrc, subcategory]);
 
@@ -88,12 +109,12 @@ function ResourcePreview(props) {
 
 ResourcePreview.propTypes = {
   availableLanguages: PropTypes.arrayOf(PropTypes.string).isRequired,
-  category: PropTypes.arrayOf(PropTypes.string).isRequired,
+  category: PropTypes.string.isRequired,
   city: PropTypes.string.isRequired,
   cost: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  subcategory: PropTypes.arrayOf(PropTypes.string).isRequired,
+  subcategory: PropTypes.string.isRequired,
 };
 
 export default ResourcePreview;
