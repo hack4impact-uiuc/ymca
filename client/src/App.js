@@ -15,9 +15,13 @@ import ResourceUnknown from './components/ResourceUnknown';
 import RoleApproval from './components/RoleApproval';
 import ScrollToTop from './components/ScrollToTop';
 import { verify } from './utils/auth';
+import NavigationMobile from './components_mobile/Navigation';
+import { detectMobile } from './utils/mobile';
 
 const App = () => {
   const [authed, setAuthed] = useState(false);
+
+  const [isMobile, setIsMobile] = useState(detectMobile());
 
   // componentDidMount
   useEffect(() => {
@@ -32,7 +36,8 @@ const App = () => {
 
   return (
     <>
-      <Navigation authed={authed} setAuthed={setAuthed} />
+      {isMobile && <NavigationMobile />}
+      {/* <Navigation authed={authed} setAuthed={setAuthed} /> */}
       <Router>
         <ScrollToTop />
         <Switch>
