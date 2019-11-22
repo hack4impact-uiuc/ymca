@@ -1,8 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import '../css_mobile/Navigation.css';
+import React from 'react';
+import '../../css_mobile/Navigation.css';
 
-const NavigationMobile = () => {
-  return (
+type Props = {
+  authed: Boolean,
+  setAuthed: Boolean => void,
+};
+
+const NavMobile = () => {
+  return(
     <nav role="navigation">
       <div id="menuToggle">
         <input type="checkbox" />
@@ -33,4 +38,4 @@ const NavigationMobile = () => {
   );
 };
 
-export default NavigationMobile;
+export default NavMobile;
