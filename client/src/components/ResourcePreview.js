@@ -11,19 +11,19 @@ const stockPhotos = {
   'Abuse/Neglect': '/asset/subcategories/abuse.jpg',
   'Adult Education': '/asset/subcategories/adultEd.jpg',
   'Animal Care': '/asset/subcategories/animalhealth.jpg',
-  'Children': '/asset/subcategories/childhealth.jpg',
+  Children: '/asset/subcategories/childhealth.jpg',
   'Children Education': '/asset/subcategories/childEd.jpg',
   'Clothing Assistance': '/asset/subcategories/clothing.jpg',
   'Community Information': '/asset/subcategories/community.jpg',
-  'Dental': '/asset/subcategories/dentalhealth.jpg',
+  Dental: '/asset/subcategories/dentalhealth.jpg',
   'Drugs/Alcohol': '/asset/subcategories/alcohol.jpg',
-  'Employment': '/asset/subcategories/employment.jpg',
+  Employment: '/asset/subcategories/employment.jpg',
   'Finance/Tax Assistance': '/asset/subcategories/financialtax.jpg',
-  'Medical': '/asset/subcategories/medical.jpg',
+  Medical: '/asset/subcategories/medical.jpg',
   'Mental Health & Counseling': '/asset/subcategories/mentalhealth.jpg',
-  'Students': '/asset/subcategories/studentfinance.jpg',
-  'Vision': '/asset/subcategories/eyehealth.jpg'
-}
+  Students: '/asset/subcategories/studentfinance.jpg',
+  Vision: '/asset/subcategories/eyehealth.jpg',
+};
 
 function ResourcePreview(props) {
   const {
@@ -43,9 +43,8 @@ function ResourcePreview(props) {
       if (stockPhotos[sub]) {
         setSrc(stockPhotos[sub]);
         found = true;
-        return;
       }
-    })
+    });
 
     if (!found) {
       setSrc(
@@ -54,7 +53,6 @@ function ResourcePreview(props) {
           : 'https://uiuc.hack4impact.org/static/images/team-cheer.jpg',
       );
     }
-
   }, [category, setSrc, subcategory]);
 
   const description = [];
