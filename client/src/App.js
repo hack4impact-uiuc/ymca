@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
+import {
+  Route,
+  BrowserRouter as Router,
+  Switch,
+  Redirect,
+} from 'react-router-dom';
 
 import PrivateRoute from './components/PrivateRoute';
 import AdminResourceManager from './components/AdminResourceManager';
@@ -17,20 +22,23 @@ import ScrollToTop from './components/ScrollToTop';
 import { verify } from './utils/auth';
 
 const App = () => {
-  const [authed, setAuthed] = useState(false);
+  const [authed, setAuthed] = useState(null);
+  const [authRole, setAuthRole] = useState(null);
 
-  // componentDidMount
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      setAuthed(true);
-    }
-
-    // validate token
-    verify(token, () => {});
+    verify(
+      res => {
+        setAuthed(true);
+        setAuthRole(res.role);
+      },
+      () => {
+        setAuthed(false);
+        setAuthRole('');
+      },
+    );
   }, []);
 
-  return (
+  return authed === null && authRole === null ? null : (
     <>
       <Navigation authed={authed} setAuthed={setAuthed} />
       <Router>
@@ -42,25 +50,50 @@ const App = () => {
             component={AdminResourceManager}
             exact
             authed={authed}
-            setAuthed={setAuthed}
+            minRole="admin"
           />
           <PrivateRoute
             path="/admin/:id"
             component={AdminResourceManager}
             authed={authed}
-            setAuthed={setAuthed}
+            minRole="admin"
           />
+
           <Route
             path="/login"
-            render={() => <Login authed={authed} setAuthed={setAuthed} />}
+            render={() =>
+              !authed ? (
+                <Login
+                  authed={authed}
+                  setAuthed={setAuthed}
+                  setAuthRole={setAuthRole}
+                />
+              ) : (
+                <Redirect to="/" />
+              )
+            }
           />
-          <Route
-            path="/logout"
-            render={() => <Logout authed={authed} setAuthed={setAuthed} />}
-          />
+
           <Route
             path="/register"
-            render={() => <Register authed={authed} setAuthed={setAuthed} />}
+            render={() =>
+              !authed ? (
+                <Register
+                  authed={authed}
+                  setAuthed={setAuthed}
+                  setAuthRole={setAuthRole}
+                />
+              ) : (
+                <Redirect to="/" />
+              )
+            }
+          />
+
+          <Route
+            path="/logout"
+            render={() => (
+              <Logout setAuthed={setAuthed} setAuthRole={setAuthRole} />
+            )}
           />
           <Route path="/resources" exact component={Resources} />
           <Route path="/resources/unknown" component={ResourceUnknown} />
@@ -68,7 +101,7 @@ const App = () => {
             path="/role-approval"
             component={RoleApproval}
             authed={authed}
-            setAuthed={setAuthed}
+            minRole="admin"
           />
           <Route
             path="/resources/:id"

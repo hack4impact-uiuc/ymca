@@ -12,7 +12,7 @@ class Login extends Component {
   onLoginSubmit = e => {
     e.preventDefault();
 
-    const { form, setAuthed } = this.props;
+    const { form, setAuthed, setAuthRole } = this.props;
 
     form.validateFields((err, values) => {
       if (!err) {
@@ -22,6 +22,7 @@ class Login extends Component {
             localStorage.setItem('token', res.token);
 
             setAuthed(true);
+            setAuthRole(res.permission);
           } else {
             // show error message
           }
@@ -128,6 +129,7 @@ Login.propTypes = {
   form: Form.isRequired,
   authed: PropTypes.string.isRequired,
   setAuthed: PropTypes.func.isRequired,
+  setAuthRole: PropTypes.func.isRequired,
 };
 
 export default Form.create()(Login);

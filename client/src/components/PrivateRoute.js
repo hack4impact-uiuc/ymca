@@ -1,30 +1,25 @@
 // @flow
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
 import { verify } from '../utils/auth';
 
 type Props = {
-  authed: Boolean,
-  setAuthed: Boolean => void,
-
+  minRole: String,
   path: String,
   component: Object,
+  authed: Boolean,
 };
 
 const PrivateRoute = (props: Props) => {
-  const { authed, setAuthed, path, component } = props;
+  const { minRole, path, component, authed } = props;
 
-  useEffect(() => {
-    verify(localStorage.getItem('token'), () => {});
-  }, [authed, setAuthed]);
-
-  if (localStorage.getItem('token')) {
-    return <Route path={path} exact component={component} />;
-  }
-
-  return <Redirect to="/login" />;
+  return authed ? (
+    <Route path={path} exact component={component} />
+  ) : (
+    <Redirect to="/login" />
+  );
 };
 
 export default PrivateRoute;
