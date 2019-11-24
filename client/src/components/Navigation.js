@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Layout, Menu } from 'antd';
 import '../css/Navigation.css';
 
@@ -8,11 +8,11 @@ const { Header } = Layout;
 
 type Props = {
   authed: Boolean,
-  setAuthed: Boolean => void,
+  authRoleIsEquivalentTo: String => void,
 };
 
 const Navigation = (props: Props) => {
-  const { authed, setAuthed } = props;
+  const { authed, authRoleIsEquivalentTo } = props;
 
   return (
     <Header className="navigation">
@@ -27,7 +27,7 @@ const Navigation = (props: Props) => {
           <a href="/resources">Resources</a>
         </Menu.Item>
 
-        {authed && (
+        {authed && authRoleIsEquivalentTo('admin') && (
           <Menu.Item key="admin">
             <a href="/admin">Admin</a>
           </Menu.Item>
