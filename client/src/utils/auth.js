@@ -81,3 +81,9 @@ export const verify = (onSucc, onErr) => {
       }
     });
 };
+
+export const getAllRoles = () => {
+  return fetch(`${AUTH_SERVER_URI}/roles/all`, {
+    method: 'GET',
+  }).then(res => res.json());
+};
