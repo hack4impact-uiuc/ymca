@@ -66,7 +66,7 @@ router.get("/roles/all", handleAsyncErrors(async function(req, res) {
   const roles = await getAllRoles();
   return res.status(200).send({
     status: 200,
-    message: "Roles succesfully returned",
+    message: "Users succesfully returned",
     roles: roles
   });
 }))
