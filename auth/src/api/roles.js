@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const User = require("../models/User");
 const { sendResponse } = require("./../utils/sendResponse");
-const { getRolesForUser } = require("./../utils/getConfigFile");
+const { getRolesForUser, getAllRoles } = require("./../utils/getConfigFile");
 const fetch = require("node-fetch");
 const handleAsyncErrors = require("../utils/errorHandler");
 const { verifyUser } = require("./../utils/userVerification");
@@ -60,5 +60,15 @@ router.get(
     });
   })
 );
+
+router.get("/roles/all", handleAsyncErrors(async function(req, res) {
+  // Reads the config file and returns all roles in order of priority (first = highest)
+  const roles = await getAllRoles();
+  return res.status(200).send({
+    status: 200,
+    message: "Users succesfully returned",
+    roles: roles
+  });
+}))
 
 module.exports = router;
