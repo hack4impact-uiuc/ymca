@@ -15,7 +15,6 @@ export default class Home extends Component {
           type="flex"
           justify="center"
           align="middle"
-          gutter={[16, 16]}
         >
           <Col span={6}>
             <Textfit className="welcome-text" mode="single">
@@ -24,7 +23,7 @@ export default class Home extends Component {
             <Textfit className="welcome-text" mode="single">
               Urbana-Champaign
             </Textfit>
-            <Row type="flex" justify="center" align="middle" gutter={[16, 16]}>
+            <Row type="flex" justify="center" align="middle">
               <Col span={18}>
                 <Link to="/resources">
                   <Button type="primary">
@@ -40,7 +39,6 @@ export default class Home extends Component {
           type="flex"
           justify="center"
           align="middle"
-          gutter={[16, 16]}
         >
           <Col className="home-block-2__left" span={6}>
             <Row
@@ -70,7 +68,6 @@ export default class Home extends Component {
           type="flex"
           justify="center"
           align="middle"
-          gutter={[16, 16]}
         >
           <Col span={23}>
             <Carousel autoplay dotPosition="right">
@@ -82,7 +79,6 @@ export default class Home extends Component {
                       type="flex"
                       justify="center"
                       align="middle"
-                      gutter={[16, 16]}
                     >
                       <Col
                         className="testimonial-block__left"
@@ -116,15 +112,14 @@ export default class Home extends Component {
           type="flex"
           justify="center"
           align="middle"
-          gutter={[16, 16]}
         >
           <Col>
-            <Row type="flex" justify="center" align="middle" gutter={[16, 16]}>
+            <Row type="flex" justify="center" align="middle">
               <Col>
                 <h1>Partners in the Community</h1>
               </Col>
             </Row>
-            <Row type="flex" justify="center" align="middle" gutter={[16, 16]}>
+            <Row type="flex" justify="center" align="middle">
               <Col className="home-block-4__partner" span={4}>
                 <img
                   src="/asset/partners/cu_fair.jpg"
