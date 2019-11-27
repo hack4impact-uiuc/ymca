@@ -97,7 +97,7 @@ export default class Home extends Component {
                         offset={1}
                       >
                         <h1>{element.person}</h1>
-                        <h3>{element.country}</h3>
+                        <h3>{element.title}</h3>
                         <p>{element.testimonial}</p>
                       </Col>
                     </Row>
