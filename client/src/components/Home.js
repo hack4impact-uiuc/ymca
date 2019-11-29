@@ -15,7 +15,6 @@ export default class Home extends Component {
           type="flex"
           justify="center"
           align="middle"
-          gutter={[16, 16]}
         >
           <Col span={6}>
             <Textfit className="welcome-text" mode="single">
@@ -24,7 +23,7 @@ export default class Home extends Component {
             <Textfit className="welcome-text" mode="single">
               Urbana-Champaign
             </Textfit>
-            <Row type="flex" justify="center" align="middle" gutter={[16, 16]}>
+            <Row type="flex" justify="center" align="middle">
               <Col span={18}>
                 <Link to="/resources">
                   <Button type="primary">
@@ -40,7 +39,6 @@ export default class Home extends Component {
           type="flex"
           justify="center"
           align="middle"
-          gutter={[16, 16]}
         >
           <Col className="home-block-2__left" span={6}>
             <Row
@@ -55,14 +53,17 @@ export default class Home extends Component {
             </Row>
           </Col>
           <Col className="home-block-2__right" span={14}>
-            Juicy meatballs brisket slammin baked shoulder. Juicy smoker soy
-            sauce burgers brisket. polenta mustard hunk greens. Wine technique
-            snack skewers chuck excess. Oil heat slowly. slices natural
-            delicious, set aside magic tbsp skillet, bay leaves brown
-            centerpiece. fruit soften edges frond slices onion snack pork steem
-            on wines excess technique cup; Cover smoker soy sauce fruit snack.
-            Sweet one-dozen scrape delicious, non sheet raw crunch mustard.
-            Minutes clever slotted tongs scrape, brown steem undisturbed rice.
+            Oasis exists to equalize and promote information access to Champaign
+            resources catered to your unique lifestyle and needs. Securing
+            reliable transportation, navigating the healthcare system, finding
+            legal aid — it can be difficult figuring out where to go in a large
+            place like Champaign that has hundreds of resources and a population
+            of over 80,000 people. This virtual guide, built with love by{' '}
+            <a href="https://www.facebook.com/h4iuiuc/">Hack4Impact</a> curates
+            recommendations based on cost, language offerings, and more. As you
+            explore Oasis, we would love to hear about your experiences and
+            feedback through the{' '}
+            <a href="mailto:lalinea@universityymca.org"> Welcome Center.</a>
           </Col>
         </Row>
         <Row
@@ -70,7 +71,6 @@ export default class Home extends Component {
           type="flex"
           justify="center"
           align="middle"
-          gutter={[16, 16]}
         >
           <Col span={23}>
             <Carousel autoplay dotPosition="right">
@@ -82,7 +82,6 @@ export default class Home extends Component {
                       type="flex"
                       justify="center"
                       align="middle"
-                      gutter={[16, 16]}
                     >
                       <Col
                         className="testimonial-block__left"
@@ -101,7 +100,7 @@ export default class Home extends Component {
                         offset={1}
                       >
                         <h1>{element.person}</h1>
-                        <h3>{element.country}</h3>
+                        <h3>{element.title}</h3>
                         <p>{element.testimonial}</p>
                       </Col>
                     </Row>
@@ -116,15 +115,14 @@ export default class Home extends Component {
           type="flex"
           justify="center"
           align="middle"
-          gutter={[16, 16]}
         >
           <Col>
-            <Row type="flex" justify="center" align="middle" gutter={[16, 16]}>
+            <Row type="flex" justify="center" align="middle">
               <Col>
                 <h1>Partners in the Community</h1>
               </Col>
             </Row>
-            <Row type="flex" justify="center" align="middle" gutter={[16, 16]}>
+            <Row type="flex" justify="center" align="middle">
               <Col className="home-block-4__partner" span={4}>
                 <img
                   src="/asset/partners/cu_fair.jpg"
