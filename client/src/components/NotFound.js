@@ -1,8 +1,6 @@
 // @flow
-import React, { Component } from 'react';
+import React from 'react';
 
-export default class NotFound extends Component {
-  render() {
-    return <p>404</p>;
-  }
+export default function NotFound() {
+  return <p>404</p>;
 }
