@@ -21,7 +21,7 @@ const Navigation = (props: Props) => {
       </a>
       <Menu mode="horizontal">
         <Menu.Item key="home">
-          <a href="/">YMCA</a>
+          <a href="/">Home</a>
         </Menu.Item>
         <Menu.Item key="resources">
           <a href="/resources">Resources</a>
