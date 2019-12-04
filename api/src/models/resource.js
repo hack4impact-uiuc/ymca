@@ -19,6 +19,10 @@ const FinancialAid = new mongoose.Schema({
   deadline: { type: String, required: false },
 });
 
+const InternalNote = new mongoose.Schema({
+  
+});
+
 const Resource = new mongoose.Schema({
   category: { type: [String], required: true },
   subcategory: { type: [String], required: true },
