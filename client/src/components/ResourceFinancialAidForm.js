@@ -30,7 +30,8 @@ const FinancialAidForm = Form.create({ name: 'financialAid' })(props => {
           {},
         )(
           <Input
-            placeholder="Education"
+            placeholder="Education | 
+            Ex: College juniors only, must be attending college in US"
             onFocus={() => setTotalSubmitEnabled(false)}
             onBlur={() => setTotalSubmitEnabled(true)}
           />,
@@ -42,7 +43,8 @@ const FinancialAidForm = Form.create({ name: 'financialAid' })(props => {
           {},
         )(
           <Input
-            placeholder="Immigration Status"
+            placeholder="Immigration Status |
+            Ex: no citizenship required"
             onFocus={() => setTotalSubmitEnabled(false)}
             onBlur={() => setTotalSubmitEnabled(true)}
           />,
@@ -54,7 +56,8 @@ const FinancialAidForm = Form.create({ name: 'financialAid' })(props => {
           {},
         )(
           <Input
-            placeholder="Deadline"
+            placeholder="Deadline |
+            Ex: July 31"
             onFocus={() => setTotalSubmitEnabled(false)}
             onBlur={() => setTotalSubmitEnabled(true)}
           />,

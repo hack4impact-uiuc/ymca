@@ -169,6 +169,20 @@ const ResourceForm = (props: FormProps) => {
         setPhoneNumbers,
         setTotalSubmitEnabled,
       })}
+      <StrListFormItem
+        formName="internalNotesForm"
+        style={{ height: '100px' }}
+        label="Internal Notes"
+        placeholder="Ex: 
+        Cases that deal with the courts = NAWC does not accept.
+        Refer to chicago attorney’s. 
+        If letter from immigration authority in chicago 
+        most likely deportation proceedings.
+        No one really in the area does this."
+        listOfStrings={internalNotes}
+        setListOfStrings={setInternalNotes}
+        setTotalSubmitEnabled={setTotalSubmitEnabled}
+      />
       {ContactFormItem({
         contacts,
         setContacts,
@@ -227,14 +241,6 @@ const ResourceForm = (props: FormProps) => {
         placeholder="Enter a comment"
         listOfStrings={comments}
         setListOfStrings={setComments}
-        setTotalSubmitEnabled={setTotalSubmitEnabled}
-      />
-      <StrListFormItem
-        formName="internalNotesForm"
-        label="Internal Notes"
-        placeholder="Enter a note..."
-        listOfStrings={internalNotes}
-        setListOfStrings={setInternalNotes}
         setTotalSubmitEnabled={setTotalSubmitEnabled}
       />
       <Affix offsetBottom={20}>
