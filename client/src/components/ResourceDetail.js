@@ -81,9 +81,10 @@ export default class ResourceDetail extends Component {
 
     const Map = ReactMapboxGl({
       accessToken:
-        'pk.eyJ1IjoiYW5vb2psYWwiLCJhIjoiY2syemtiYjZoMGp1eDNscXQ3azJzajl0bCJ9.FDSFjP1IfSisbm4uvd70vg',
-      interactive: false
-    })
+        'pk.eyJ1IjoiYW5vb2psYWwiLCJhIjoiY2syemtiYjZoMGp1' +
+        'eDNscXQ3azJzajl0bCJ9.FDSFjP1IfSisbm4uvd70vg',
+      interactive: false,
+    });
 
     const { authed, match } = this.props;
     if (!resourceExists) {
@@ -222,11 +223,17 @@ export default class ResourceDetail extends Component {
                 style="mapbox://styles/mapbox/streets-v9"
                 containerStyle={{
                   height: '450px',
-                  width: '675px'
+                  width: '675px',
                 }}
               >
-                <Layer type="symbol" id="marker" layout={{ 'icon-image': 'marker-15' }}>
-                  <Feature coordinates={[-0.481747846041145, 51.3233379650232]} />
+                <Layer
+                  type="symbol"
+                  id="marker"
+                  layout={{ 'icon-image': 'marker-15' }}
+                >
+                  <Feature
+                    coordinates={[-0.481747846041145, 51.3233379650232]}
+                  />
                 </Layer>
               </Map>
             </Row>
