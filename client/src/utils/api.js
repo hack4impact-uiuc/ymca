@@ -5,21 +5,33 @@ const instance = axios.create({
 });
 
 export const getCategories = () => {
-  return instance.get('/api/categories').then(res => res.data, err => null);
+  return instance.get('/api/categories').then(
+    res => res.data,
+    err => null,
+  );
 };
 
 export const getResources = () => {
-  return instance.get('/api/resources').then(res => res.data, err => null);
+  return instance.get('/api/resources').then(
+    res => res.data,
+    err => null,
+  );
 };
 
 export const getResourcesByCategory = category => {
   const requestExtension = `/api/resources?category=${category}`;
-  return instance.get(requestExtension).then(res => res.data, err => null);
+  return instance.get(requestExtension).then(
+    res => res.data,
+    err => null,
+  );
 };
 
 export const getResourceByID = id => {
   const requestExtension = `/api/resources/${id}`;
-  return instance.get(requestExtension).then(res => res.data, err => null);
+  return instance.get(requestExtension).then(
+    res => res.data,
+    err => null,
+  );
 };
 
 export const addResource = resource => {
@@ -29,7 +41,10 @@ export const addResource = resource => {
         token: localStorage.getItem('token'),
       },
     })
-    .then(res => res.data, err => null);
+    .then(
+      res => res.data,
+      err => null,
+    );
 };
 
 export const editResource = (id, resource) => {
@@ -40,7 +55,10 @@ export const editResource = (id, resource) => {
         token: localStorage.getItem('token'),
       },
     })
-    .then(res => res.data, err => null);
+    .then(
+      res => res.data,
+      err => null,
+    );
 };
 
 export const deleteResource = id => {
@@ -51,5 +69,8 @@ export const deleteResource = id => {
         token: localStorage.getItem('token'),
       },
     })
-    .then(res => res.data, err => null);
+    .then(
+      res => res.data,
+      err => null,
+    );
 };
