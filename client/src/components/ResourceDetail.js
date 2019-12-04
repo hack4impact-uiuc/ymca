@@ -4,7 +4,7 @@ import { Button, Card, Col, Icon, Row } from 'antd';
 import PropTypes from 'prop-types';
 import '../css/ResourceDetail.css';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
-import Geocode from "react-geocode";
+import Geocode from 'react-geocode';
 
 import { getResourceByID } from '../utils/api';
 
@@ -57,16 +57,16 @@ export default class ResourceDetail extends Component {
         subcategory: result.subcategory,
       });
 
-      Geocode.setApiKey("AIzaSyAN7CRBnp22ThxvrxDUbylO5TTLVAU8mGU");
+      Geocode.setApiKey('AIzaSyAN7CRBnp22ThxvrxDUbylO5TTLVAU8mGU');
 
-      Geocode.fromAddress("Eiffel Tower").then(
-        response => {
-          const { lat, lng } = response.results[0].geometry.location;
+      Geocode.fromAddress('Eiffel Tower').then(
+        geoResponse => {
+          const { lat, lng } = geoResponse.results[0].geometry.location;
           console.log(lat, lng);
         },
         error => {
           console.error(error);
-        }
+        },
       );
     } else {
       // redirect to resource unknown page
