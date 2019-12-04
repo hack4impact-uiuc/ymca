@@ -12,7 +12,6 @@
     "prop-types": "^15.7.2",
     "react": "^16.10.1",
     "react-dom": "^16.10.1",
-    "react-geocode": "^0.2.1",
     "react-mapbox-gl": "^4.7.3",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.1.2",
