@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import { Layout, Menu } from 'antd';
 
@@ -13,7 +15,7 @@ type Props = {
 const NavDesktop = (props: Props) => {
   const { authed, setAuthed } = props;
 
-  return(
+  return (
     <Header className="navigation">
       <a href="/" aria-label="logo">
         <div className="logo" />

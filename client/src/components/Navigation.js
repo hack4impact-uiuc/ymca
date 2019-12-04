@@ -4,9 +4,10 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Layout, Menu } from 'antd';
 
-import { detectMobile } from '../utils/mobile';
-import NavMobile from './mobile/NavigationMobile'
-import NavDesktop from './desktop/NavigationDesktop'
+import useWindowDimensions from '../utils/mobile';
+
+import NavMobile from './mobile/NavigationMobile';
+import NavDesktop from './desktop/NavigationDesktop';
 
 const { Header } = Layout;
 
@@ -18,13 +19,13 @@ type Props = {
 const Navigation = (props: Props) => {
   const { authed, setAuthed } = props;
 
-  const [isMobile, setIsMobile] = useState(detectMobile());
+  // Mobile Detection
+  const [{ height, width }, isMobile] = useWindowDimensions();
 
-  let desktop = <NavDesktop authed={props.authed} setAuthed={props.setAuthed}/>
-  let mobile = <NavMobile />
-  let renderJSX = isMobile ? mobile : desktop
+  const desktop = <NavDesktop authed={authed} setAuthed={setAuthed} />;
+  const mobile = <NavMobile authed={authed} setAuthed={setAuthed} />;
 
-  return renderJSX;
+  return isMobile ? mobile : desktop;
 };
 
 export default Navigation;

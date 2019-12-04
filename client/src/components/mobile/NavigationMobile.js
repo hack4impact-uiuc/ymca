@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import '../../css_mobile/Navigation.css';
 
@@ -6,8 +8,10 @@ type Props = {
   setAuthed: Boolean => void,
 };
 
-const NavMobile = () => {
-  return(
+const NavMobile = (props: Props) => {
+  const { authed, setAuthed } = props;
+
+  return (
     <nav role="navigation">
       <div id="menuToggle">
         <input type="checkbox" />
@@ -17,21 +21,26 @@ const NavMobile = () => {
         <span />
 
         <ul id="menu">
-          <a href="#">
+          <a href="/">
             <li>Home</li>
           </a>
-          <a href="#">
-            <li>About</li>
+          <a href="/resources">
+            <li>Resources</li>
           </a>
-          <a href="#">
-            <li>Info</li>
-          </a>
-          <a href="#">
-            <li>Contact</li>
-          </a>
-          <a href="https://erikterwan.com/" target="_blank">
-            <li>Show me more</li>
-          </a>
+          {authed && (
+            <a href="/admin">
+              <li>Admin</li>
+            </a>
+          )}
+          {!authed ? (
+            <a href="/login">
+              <li>Login</li>
+            </a>
+          ) : (
+            <a href="/logout">
+              <li>Logout</li>
+            </a>
+          )}
         </ul>
       </div>
     </nav>
