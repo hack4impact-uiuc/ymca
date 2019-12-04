@@ -57,7 +57,8 @@ export const changeRole = (userEmail, newRole, password) => {
   });
 };
 
-export const verify = (token, onErr) => {
+export const verify = (onSucc, onErr) => {
+  const token = localStorage.getItem('token');
   return fetch(`${AUTH_SERVER_URI}/verify`, {
     method: 'POST',
     headers: {
@@ -68,9 +69,21 @@ export const verify = (token, onErr) => {
     .then(res => res.json())
     .then(res => {
       if (res.status === 200) {
-        localStorage.setItem('token', token);
-      } else {
+        if (res.token) {
+          localStorage.setItem('token', res.token);
+        }
+
+        if (onSucc) {
+          onSucc(res);
+        }
+      } else if (onErr) {
         onErr(res);
       }
     });
+};
+
+export const getAllRoles = () => {
+  return fetch(`${AUTH_SERVER_URI}/roles/all`, {
+    method: 'GET',
+  }).then(res => res.json());
 };

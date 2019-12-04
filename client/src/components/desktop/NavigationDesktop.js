@@ -9,11 +9,10 @@ const { Header } = Layout;
 
 type Props = {
   authed: Boolean,
-  setAuthed: Boolean => void,
 };
 
 const NavDesktop = (props: Props) => {
-  const { authed, setAuthed } = props;
+  const { authed } = props;
 
   return (
     <Header className="navigation">

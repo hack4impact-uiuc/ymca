@@ -5,11 +5,10 @@ import '../../css_mobile/Navigation.css';
 
 type Props = {
   authed: Boolean,
-  setAuthed: Boolean => void,
 };
 
 const NavMobile = (props: Props) => {
-  const { authed, setAuthed } = props;
+  const { authed } = props;
 
   return (
     <nav role="navigation">

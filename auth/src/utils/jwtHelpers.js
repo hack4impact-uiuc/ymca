@@ -10,7 +10,7 @@ async function signAuthJWT(id, password) {
     { userId: id, hashedPassword: password },
     String(SECRET_TOKEN[0]),
     {
-      expiresIn: "1d"
+      expiresIn: "2h"
     }
   );
 }

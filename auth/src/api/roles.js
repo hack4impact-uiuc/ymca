@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const User = require("../models/User");
 const { sendResponse } = require("./../utils/sendResponse");
-const { getRolesForUser } = require("./../utils/getConfigFile");
+const { getRolesForUser, getAllRoles } = require("./../utils/getConfigFile");
 const fetch = require("node-fetch");
 const handleAsyncErrors = require("../utils/errorHandler");
 const { verifyUser } = require("./../utils/userVerification");
@@ -25,9 +25,7 @@ router.get(
     } else {
       // If it is a google user, it makes a request to the google API using the token and fetches the email
       const tokenInfoRes = await fetch(
-        `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${
-          req.headers.token
-        }`
+        `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${req.headers.token}`
       );
       const payload = await tokenInfoRes.json();
       // If the user is in the database it finds it or returns an error message.
@@ -57,6 +55,19 @@ router.get(
       status: 200,
       message: "Users succesfully returned",
       user_emails: users
+    });
+  })
+);
+
+router.get(
+  "/roles/all",
+  handleAsyncErrors(async function(req, res) {
+    // Reads the config file and returns all roles in order of priority (first = highest)
+    const roles = await getAllRoles();
+    return res.status(200).send({
+      status: 200,
+      message: "Roles succesfully returned",
+      roles: roles
     });
   })
 );

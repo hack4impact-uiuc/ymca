@@ -1,17 +1,18 @@
 // @flow
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Redirect } from 'react-router-dom';
 
 type Props = {
-  authed: Boolean,
-  setAuthed: Boolean => void,
+  setAuthRole: String => void,
+  setAuthed: boolean => void,
 };
 const Logout = (props: Props) => {
-  const { authed, setAuthed } = props;
+  const { setAuthed, setAuthRole } = props;
 
   localStorage.removeItem('token');
   setAuthed(false);
+  setAuthRole('');
 
   return <Redirect to="/" />;
 };

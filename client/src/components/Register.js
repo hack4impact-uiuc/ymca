@@ -37,7 +37,7 @@ class Register extends Component {
   onRegisterSubmit = e => {
     e.preventDefault();
 
-    const { form, setAuthed } = this.props;
+    const { form, setAuthed, setAuthRole } = this.props;
     form.validateFields((err, values) => {
       if (!err) {
         const { email, password } = values;
@@ -46,6 +46,7 @@ class Register extends Component {
             localStorage.setItem('token', res.token);
 
             setAuthed(true);
+            setAuthRole(res.permission);
           } else {
             // show error message
           }
@@ -86,7 +87,7 @@ class Register extends Component {
 
     return (
       <div className="register-block-1">
-        <Row type="flex" justify="center" gutter={[16, 16]}>
+        <Row type="flex" justify="center">
           <Col span={4} className="top-margin">
             <img
               src="/asset/icon/icon-with-words.png"
@@ -182,6 +183,7 @@ Register.propTypes = {
   form: Form.isRequired,
   authed: PropTypes.string.isRequired,
   setAuthed: PropTypes.func.isRequired,
+  setAuthRole: PropTypes.func.isRequired,
 };
 
 export default Form.create()(Register);
