@@ -14,53 +14,49 @@ function ResourcesFilter(props) {
     languageSelected,
     locations,
     locationSelected,
-    handleChangeFilter,
+    setCost,
+    setLanguage,
+    setLocation,
   } = props;
 
-  const onChange = useCallback((filterName, value) => {
-    switch (filterName) {
-      case 'Cost':
-        handleChangeFilter({
-          cost: value,
-          language: languageSelected,
-          location: locationSelected,
-        });
-        break;
-      case 'Languages Offered':
-        handleChangeFilter({
-          cost: costSelected,
-          language: value,
-          location: locationSelected,
-        });
-        break;
-      case 'Location':
-        handleChangeFilter({
-          cost: costSelected,
-          language: languageSelected,
-          location: value,
-        });
-        break;
-      default:
-    }
-  });
+  const onChange = useCallback(
+    (filterName, value) => {
+      switch (filterName) {
+        case 'Cost':
+          setCost(value);
+          break;
+        case 'Languages Offered':
+          setLanguage(value);
+          break;
+        case 'Location':
+          setLocation(value);
+          break;
+        default:
+      }
+    },
+    [setCost, setLanguage, setLocation],
+  );
 
-  const radio = useCallback((filterName, filterOptions, value) => {
-    return (
-      <div className="radio-container">
-        <h4 className="title">{filterName}</h4>
-        <Radio.Group
-          onChange={target => onChange(filterName, target.target.value)}
-          value={value}
-        >
-          {filterOptions.map(option => (
-            <Radio className="radio" key={option} value={option}>
-              {option}
-            </Radio>
-          ))}
-        </Radio.Group>
-      </div>
-    );
-  });
+  const radio = useCallback(
+    (filterName, filterOptions, value) => {
+      return (
+        <div className="radio-container">
+          <h4 className="title">{filterName}</h4>
+          <Radio.Group
+            onChange={target => onChange(filterName, target.target.value)}
+            value={value}
+          >
+            {filterOptions.map(option => (
+              <Radio className="radio" key={option} value={option}>
+                {option}
+              </Radio>
+            ))}
+          </Radio.Group>
+        </div>
+      );
+    },
+    [onChange],
+  );
 
   return (
     <div className="resources-filter">
@@ -88,7 +84,7 @@ function ResourcesFilter(props) {
       >
         <Button className="button">Location</Button>
       </Dropdown>
-      <ResourceFilterSearch handleChangeFilter={handleChangeFilter} />
+      <ResourceFilterSearch />
     </div>
   );
 }
@@ -100,7 +96,9 @@ ResourcesFilter.propTypes = {
   languageSelected: PropTypes.string.isRequired,
   locations: PropTypes.arrayOf(PropTypes.string).isRequired,
   locationSelected: PropTypes.string.isRequired,
-  handleChangeFilter: PropTypes.func.isRequired,
+  setCost: PropTypes.func.isRequired,
+  setLanguage: PropTypes.func.isRequired,
+  setLocation: PropTypes.func.isRequired,
 };
 
 export default ResourcesFilter;
