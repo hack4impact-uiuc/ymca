@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Textfit } from 'react-textfit';
-import { Button, Carousel, Col, Row } from 'antd';
+import { Button, Col, Row } from 'antd';
 
 import '../css/Home.css';
 import '../css_mobile/Home.css';
 
-import testimonials from '../data/testimonials';
+import useWindowDimensions from '../utils/mobile';
 
-import HomeBlock2Desktop from './desktop/HomeDesktop';
-import HomeBlock2Mobile from './mobile/HomeMobile';
+import { HomeBlock2Desktop, HomeBlock3Desktop } from './desktop/HomeDesktop';
+import { HomeBlock2Mobile, HomeBlock3Mobile } from './mobile/HomeMobile';
 
 const Home = () => {
+  const [{ height, width }, isMobile] = useWindowDimensions();
+
   return (
     <>
       <Row className="home-block-1" type="flex" justify="center" align="middle">
@@ -33,51 +35,17 @@ const Home = () => {
           </Row>
         </Col>
       </Row>
-      {true && <HomeBlock2Desktop />}
-      <Row className="home-block-3" type="flex" justify="center" align="middle">
-        <Col span={23}>
-          <Carousel autoplay dotPosition="right">
-            {testimonials.map(element => {
-              return (
-                <div>
-                  <Row
-                    className="testimonial-block"
-                    type="flex"
-                    justify="center"
-                    align="middle"
-                  >
-                    <Col
-                      className="testimonial-block__left"
-                      span={6}
-                      offset={1}
-                    >
-                      <img
-                        className="testimonial-block__left__img"
-                        src={element.picture}
-                        alt=""
-                      />
-                    </Col>
-                    <Col
-                      className="testimonial-block__right"
-                      span={12}
-                      offset={1}
-                    >
-                      <h1>{element.person}</h1>
-                      <h3>{element.title}</h3>
-                      <p>{element.testimonial}</p>
-                    </Col>
-                  </Row>
-                </div>
-              );
-            })}
-          </Carousel>
-        </Col>
-      </Row>
+      {!isMobile && <HomeBlock2Desktop />}
+      {isMobile && <HomeBlock2Mobile />}
+      {!isMobile && <HomeBlock3Desktop />}
+      {isMobile && <HomeBlock3Mobile />}
       <Row className="home-block-4" type="flex" justify="center" align="middle">
-        <Col>
+        <Col span={24}>
           <Row type="flex" justify="center" align="middle">
-            <Col>
-              <h1>Partners in the Community</h1>
+            <Col span={16} classname="home-block-4__title">
+              <Textfit mode="single">
+                <strong>Partners in the Community</strong>
+              </Textfit>
             </Col>
           </Row>
           <Row type="flex" justify="center" align="middle">

@@ -24,7 +24,10 @@
 }
 
 .home-block-2 {
-  height: 60vh;
+  overflow: auto;
+  padding-top: 5vh;
+  padding-bottom: 5vh;
+  min-height: 60vh;
 }
 
 .home-block-2__left {
@@ -44,6 +47,8 @@
   height: 70vh;
   background-image: url('/asset/images/background.png');
   background-size: cover;
+  background-position: center;
+  overflow: auto;
 }
 
 .testimonial-block__left__img {
@@ -63,10 +68,12 @@
 }
 
 .home-block-4 {
-  height: 70vh;
+  padding-top: 5vh;
+  padding-bottom: 5vh;
 }
 
 .home-block-4__partner img {
+  padding-top: 2vh;
   width: 80%;
   height: 80%;
 }

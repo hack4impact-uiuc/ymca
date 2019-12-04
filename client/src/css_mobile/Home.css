@@ -1,23 +1,50 @@
 /* Mobile CSS Definitions */
 @media (max-width: 700px) {
   div.ant-col-6 {
+    width: 60vw;
+  }
+  .ant-btn-primary {
     width: 40vw;
+    font-size: 12px;
   }
   div.home-block-1 {
     height: 100vh;
   }
-  div.home-block-2 {
-    height: 100vh;
+  div.home-block-2__top__text {
+    border-bottom: 2px solid rgb(136, 216, 208);
+    height: 10%;
+    margin-top: 2vh;
+    margin-bottom: 3vh;
+    padding-left: 5vw;
+    padding-right: 5vw;
+  }
+  div.home-block-2__bottom__text {
+    padding-left: 3vw;
+    padding-right: 3vw;
   }
   div.home-block-3 {
     height: 100vh;
+    overflow: auto;
   }
-  div.home-block-4 {
-    height: 50vh;
+  div.testimonial-block {
+    height: 95vh;
+    width: 90vw;
   }
-  div.home-block-2__left {
-    border-bottom: 2px solid rgb(136, 216, 208);
-    height: 10%;
-    border-right: none;
+  .testimonial-block__top__img {
+    margin-top: 5vh;
+    width: 40vw;
+    border-radius: 50%;
+    margin-bottom: 2vh;
+  }
+  .testimonial-block__bottom h1,
+  .testimonial-block__bottom h3,
+  .testimonial-block__bottom p {
+    text-align: center;
+    color: white;
+    padding-left: 10vw;
+    padding-right: 10vw;
+  }
+  .testimonial-block__bottom p {
+    font-size: 2.5vh;
   }
 }
