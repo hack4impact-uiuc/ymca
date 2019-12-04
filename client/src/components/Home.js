@@ -86,7 +86,7 @@ export default class Home extends Component {
             </Row>
           </Col>
         </Row>
-        {true && HomeBlock2Desktop}
+        {true && <HomeBlock2Desktop />}
         <Row
           className="home-block-3"
           type="flex"
