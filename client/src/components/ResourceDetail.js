@@ -99,7 +99,8 @@ export default class ResourceDetail extends Component {
       interactive: false,
     });
 
-    const { authed, match } = this.props;
+    const { authed, match, authRoleIsEquivalentTo } = this.props;
+
     if (!resourceExists) {
       return <Redirect to="/resources/unknown" />;
     }
@@ -123,7 +124,7 @@ export default class ResourceDetail extends Component {
         <Row>
           <Col span={15}>
             <span className="resource-name">{name}</span>
-            {authed && (
+            {authed && authRoleIsEquivalentTo('admin') && (
               <span className="resource-edit">
                 <Button href={`/admin/${match.params.id}`}>Edit</Button>
               </span>
@@ -263,6 +264,7 @@ ResourceDetail.defaultProps = {
 
 ResourceDetail.propTypes = {
   authed: PropTypes.bool.isRequired,
+  authRoleIsEquivalentTo: PropTypes.func.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({ id: PropTypes.string }),
   }),

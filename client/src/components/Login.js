@@ -13,10 +13,11 @@ type Props = {
   authed: boolean,
   form: Form,
   setAuthed: boolean => void,
+  setAuthRole: Boolean => void,
 };
 
 function Login(props: Props) {
-  const { authed, form, setAuthed } = props;
+  const { authed, form, setAuthed, setAuthRole } = props;
   const { getFieldDecorator } = form;
 
   const onLoginSubmit = useCallback(
@@ -31,6 +32,7 @@ function Login(props: Props) {
               localStorage.setItem('token', res.token);
 
               setAuthed(true);
+              setAuthRole(res.permission);
             } else {
               message.error('Incorrect username or password');
             }
