@@ -166,14 +166,16 @@ const ResourceForm = (props: FormProps) => {
         {getFieldDecorator('city', {})(<Input placeholder="City" />)}
       </Form.Item>
       <Form.Item label="Hours of Operation">
-        {getFieldDecorator('hoursOfOperation', {})(
-          <Input placeholder="Hours of Operation" />,
-        )}
+        {getFieldDecorator(
+          'hoursOfOperation',
+          {},
+        )(<Input placeholder="Hours of Operation" />)}
       </Form.Item>
       <Form.Item label="Eligibility Requirements">
-        {getFieldDecorator('eligibilityRequirements', {})(
-          <Input placeholder="Eligibility Requirements" />,
-        )}
+        {getFieldDecorator(
+          'eligibilityRequirements',
+          {},
+        )(<Input placeholder="Eligibility Requirements" />)}
       </Form.Item>
       {FinancialAidFormItem({
         financialAidDetails,
