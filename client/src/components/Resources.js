@@ -93,8 +93,8 @@ export default class Resources extends Component<Props, State> {
 
     const filteredResources = resources.filter(
       resource =>
+        (resource.subcategory.includes(subcategory) || subcategory === '') &&
         (costMap[cost].includes(resource.cost) || cost === '$ - $$$$') &&
-        (resource.subcategory === subcategory || subcategory === '') &&
         (resource.availableLanguages.includes(language) ||
           language === 'All') &&
         (resource.city === location || location === 'All') &&
@@ -139,6 +139,17 @@ export default class Resources extends Component<Props, State> {
 
   onOpenChange = async openKeys => {
     if (openKeys.length === 0) {
+      if (
+        this.state.categories[this.state.categorySelected].indexOf(
+          this.state.subcategorySelected,
+        ) !== -1
+      ) {
+        this.props.history.push({
+          pathname: '/resources',
+          search: `?category=${this.state.categorySelected}`,
+        });
+        return;
+      }
       this.setState({ openKeys: [] });
       return;
     }

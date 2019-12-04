@@ -53,7 +53,7 @@ function ResourcesFilter(props) {
           value={value}
         >
           {filterOptions.map(option => (
-            <Radio className="radio" value={option}>
+            <Radio className="radio" key={option} value={option}>
               {option}
             </Radio>
           ))}

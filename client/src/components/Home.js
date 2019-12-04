@@ -2,60 +2,11 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Textfit } from 'react-textfit';
 import { Button, Carousel, Col, Row } from 'antd';
+
 import '../css/Home.css';
+import testimonials from '../data/testimonials';
 
 export default class Home extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      testimonials: [
-        {
-          person: 'Kendalyn Hesterson',
-          picture:
-            'https://media.licdn.com/dms/image/C5603AQE4fiq2wYLN4w/' +
-            'profile-displayphoto-shrink_200_200/0?e=1575504000&v=beta&' +
-            't=ENWJca_rj3uyCKSjckj0IkVQj-Z__6hCr9-rSIDvQOc',
-          country: 'Switzerland',
-          testimonial: `Lorem ipsum dolor amet mustache knausgaard +1, 
-                  blue bottle waistcoat tbh semiotics artisan synth stumptown 
-                  gastropub cornhole celiac swag. Brunch raclette vexillologist 
-                  post-ironic glossier ennui XOXO mlkshk godard pour-over blog 
-                  tumblr humblebrag. Blue bottle put a bird on it twee prism 
-                  biodiesel brooklyn. Blue bottle ennui tbh succulents.`,
-        },
-        {
-          person: 'Neeraj Aggarwal',
-          picture:
-            'https://media.licdn.com/dms/image/C5603AQEvEZTMzhTq4w/' +
-            'profile-displayphoto-shrink_800_800/0?e=1577923200&v=beta&' +
-            't=kkhlkYaFc_v6QEnSaWYfPFXOGHVU8qARMo60j6lXMB8',
-          country: 'France',
-          testimonial: `Lorem ipsum dolor amet mustache knausgaard +1, 
-                  blue bottle waistcoat tbh semiotics artisan synth stumptown 
-                  gastropub cornhole celiac swag. Brunch raclette vexillologist 
-                  post-ironic glossier ennui XOXO mlkshk godard pour-over blog 
-                  tumblr humblebrag. Blue bottle put a bird on it twee prism 
-                  biodiesel brooklyn. Blue bottle ennui tbh succulents.`,
-        },
-        {
-          person: 'Annie Gu',
-          picture:
-            'https://media.licdn.com/dms/image/C5603AQHtN2qYAwV4pw/' +
-            'profile-displayphoto-shrink_800_800/0?e=1577923200&v=beta&' +
-            't=tGzGaXGBwFs5BHiOg11JkTCpMl5lgzmYiIGwApypizM',
-          country: 'Turkey',
-          testimonial: `Lorem ipsum dolor amet mustache knausgaard +1, 
-                  blue bottle waistcoat tbh semiotics artisan synth stumptown 
-                  gastropub cornhole celiac swag. Brunch raclette vexillologist 
-                  post-ironic glossier ennui XOXO mlkshk godard pour-over blog 
-                  tumblr humblebrag. Blue bottle put a bird on it twee prism 
-                  biodiesel brooklyn. Blue bottle ennui tbh succulents.`,
-        },
-      ],
-    };
-  }
-
   render() {
     return (
       <>
@@ -64,7 +15,6 @@ export default class Home extends Component {
           type="flex"
           justify="center"
           align="middle"
-          gutter={[16, 16]}
         >
           <Col span={6}>
             <Textfit className="welcome-text" mode="single">
@@ -73,7 +23,7 @@ export default class Home extends Component {
             <Textfit className="welcome-text" mode="single">
               Urbana-Champaign
             </Textfit>
-            <Row type="flex" justify="center" align="middle" gutter={[16, 16]}>
+            <Row type="flex" justify="center" align="middle">
               <Col span={18}>
                 <Link to="/resources">
                   <Button type="primary">
@@ -89,7 +39,6 @@ export default class Home extends Component {
           type="flex"
           justify="center"
           align="middle"
-          gutter={[16, 16]}
         >
           <Col className="home-block-2__left" span={6}>
             <Row
@@ -104,14 +53,17 @@ export default class Home extends Component {
             </Row>
           </Col>
           <Col className="home-block-2__right" span={14}>
-            Juicy meatballs brisket slammin baked shoulder. Juicy smoker soy
-            sauce burgers brisket. polenta mustard hunk greens. Wine technique
-            snack skewers chuck excess. Oil heat slowly. slices natural
-            delicious, set aside magic tbsp skillet, bay leaves brown
-            centerpiece. fruit soften edges frond slices onion snack pork steem
-            on wines excess technique cup; Cover smoker soy sauce fruit snack.
-            Sweet one-dozen scrape delicious, non sheet raw crunch mustard.
-            Minutes clever slotted tongs scrape, brown steem undisturbed rice.
+            Oasis exists to equalize and promote information access to Champaign
+            resources catered to your unique lifestyle and needs. Securing
+            reliable transportation, navigating the healthcare system, finding
+            legal aid — it can be difficult figuring out where to go in a large
+            place like Champaign that has hundreds of resources and a population
+            of over 80,000 people. This virtual guide, built with love by{' '}
+            <a href="https://www.facebook.com/h4iuiuc/">Hack4Impact</a> curates
+            recommendations based on cost, language offerings, and more. As you
+            explore Oasis, we would love to hear about your experiences and
+            feedback through the{' '}
+            <a href="mailto:lalinea@universityymca.org"> Welcome Center.</a>
           </Col>
         </Row>
         <Row
@@ -119,11 +71,10 @@ export default class Home extends Component {
           type="flex"
           justify="center"
           align="middle"
-          gutter={[16, 16]}
         >
           <Col span={23}>
             <Carousel autoplay dotPosition="right">
-              {this.state.testimonials.map(element => {
+              {testimonials.map(element => {
                 return (
                   <div>
                     <Row
@@ -131,7 +82,6 @@ export default class Home extends Component {
                       type="flex"
                       justify="center"
                       align="middle"
-                      gutter={[16, 16]}
                     >
                       <Col
                         className="testimonial-block__left"
@@ -150,7 +100,7 @@ export default class Home extends Component {
                         offset={1}
                       >
                         <h1>{element.person}</h1>
-                        <h3>{element.country}</h3>
+                        <h3>{element.title}</h3>
                         <p>{element.testimonial}</p>
                       </Col>
                     </Row>
@@ -165,15 +115,14 @@ export default class Home extends Component {
           type="flex"
           justify="center"
           align="middle"
-          gutter={[16, 16]}
         >
           <Col>
-            <Row type="flex" justify="center" align="middle" gutter={[16, 16]}>
+            <Row type="flex" justify="center" align="middle">
               <Col>
                 <h1>Partners in the Community</h1>
               </Col>
             </Row>
-            <Row type="flex" justify="center" align="middle" gutter={[16, 16]}>
+            <Row type="flex" justify="center" align="middle">
               <Col className="home-block-4__partner" span={4}>
                 <img
                   src="/asset/partners/cu_fair.jpg"

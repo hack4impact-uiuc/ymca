@@ -1,7 +1,6 @@
 // @flow
 
-import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import React from 'react';
 import { Layout, Menu } from 'antd';
 import '../css/Navigation.css';
 
@@ -22,7 +21,7 @@ const Navigation = (props: Props) => {
       </a>
       <Menu mode="horizontal">
         <Menu.Item key="home">
-          <a href="/">YMCA</a>
+          <a href="/">Home</a>
         </Menu.Item>
         <Menu.Item key="resources">
           <a href="/resources">Resources</a>

@@ -146,8 +146,8 @@ export default class ResourceDetail extends Component {
                   website.length > 0 ? (
                     <>
                       {phone.length > 0 &&
-                        phone.map(num => {
-                          return `${num}\n`;
+                        phone.map(p => {
+                          return `${p.phoneType}: ${p.phoneNumber}\n`;
                         })}
                       {email.length > 0 && `${email}\n`}
                       {website.length > 0 && `${website}\n`}

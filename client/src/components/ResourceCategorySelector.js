@@ -5,51 +5,69 @@ import { Form, Select } from 'antd';
 
 import { getCategories } from '../utils/api';
 
-const { Option } = Select;
+const { Option, OptGroup } = Select;
+export const CAT_SUB_SPLITTER = '~';
 
 const wrappedSetCategory = args => {
   const {
-    targetCategory,
-    setCategory,
-    setSubcategory,
-    setFieldsValue,
-
+    selected,
     fetchedCategories,
-    setSearchCategoryOptions,
+    categories,
+    subcategories,
+    setCategories,
+    setSubcategories,
+    getFieldDecorator,
+    setFieldsValue,
   } = args;
 
-  setCategory(targetCategory);
-  setSubcategory('');
+  const selectedCategories = [];
+  const selectedSubcategories = [];
 
-  setFieldsValue({
-    subcategory: 'Select a subcategory...',
+  selected.forEach(optionValue => {
+    const tokens = optionValue.split(CAT_SUB_SPLITTER);
+    selectedCategories.push(tokens[0]);
+    selectedSubcategories.push(tokens[1]);
   });
 
-  // reset search categories list
-  setSearchCategoryOptions(fetchedCategories.map(cat => cat.name));
+  setCategories(selectedCategories);
+  setSubcategories(selectedSubcategories);
+
+  setFieldsValue({});
 };
 
 type Props = {
-  category: string,
-  setCategory: () => void,
-  setSubcategory: () => void,
+  categories: Array<String>,
+  subcategories: Array<String>,
+  setCategories: (Array<String>) => void,
+  setSubcategories: (Array<String>) => void,
   getFieldDecorator: () => any,
   setFieldsValue: () => any,
 };
 
 const CategorySelector = (props: Props) => {
   const {
-    category,
-    setCategory,
-    setSubcategory,
+    categories,
+    subcategories,
+    setCategories,
+    setSubcategories,
     getFieldDecorator,
     setFieldsValue,
   } = props;
 
   const [fetchedCategories, setFetchedCategories] = useState([]);
-  const [currentSubcategories, setCurrentSubcategories] = useState([]);
-  const [searchCategoryOptions, setSearchCategoryOptions] = useState([]);
-  const [searchSubcategoryOptions, setSearchSubcategoryOptions] = useState([]);
+
+  const onCategoryChange = selected => {
+    wrappedSetCategory({
+      selected,
+      fetchedCategories,
+      categories,
+      subcategories,
+      setCategories,
+      setSubcategories,
+      getFieldDecorator,
+      setFieldsValue,
+    });
+  };
 
   // fetch categories && subcategories
   useEffect(() => {
@@ -57,32 +75,15 @@ const CategorySelector = (props: Props) => {
       if (res !== null) {
         if (res.code === 200) {
           setFetchedCategories(res.result);
-          setSearchCategoryOptions(res.result.map(cat => cat.name));
         }
       }
     });
   }, []);
 
-  // set current subcategories
-  useEffect(() => {
-    fetchedCategories.forEach(cat => {
-      if (cat.name === category) {
-        setCurrentSubcategories(cat.subcategories);
-        setSearchSubcategoryOptions(cat.subcategories);
-      }
-    });
-  }, [
-    category,
-    fetchedCategories,
-    setCurrentSubcategories,
-    setSearchSubcategoryOptions,
-  ]);
-
   return (
     <>
       <Form.Item label="Category">
-        {getFieldDecorator('category', {
-          initialValue: 'Select category...',
+        {getFieldDecorator('categorySelect', {
           rules: [
             {
               required: true,
@@ -93,67 +94,18 @@ const CategorySelector = (props: Props) => {
           <Select
             className="newResourceSelect"
             placeholder="Select category..."
+            mode="multiple"
             showSearch
-            onSearch={val => {
-              const options = [];
-              fetchedCategories.forEach(cat => {
-                const { name } = cat;
-                if (name.toLowerCase().includes(val.toLowerCase())) {
-                  options.push(name);
-                }
-              });
-              setSearchCategoryOptions(options);
-            }}
-            onChange={val =>
-              wrappedSetCategory({
-                targetCategory: val,
-                setSubcategory,
-                setCategory,
-                setFieldsValue,
-                fetchedCategories,
-                setCurrentSubcategories,
-                setSearchCategoryOptions,
-                setSearchSubcategoryOptions,
-              })
-            }
+            onChange={onCategoryChange}
           >
-            {searchCategoryOptions.map(o => (
-              <Option value={o}>{o}</Option>
-            ))}
-          </Select>,
-        )}
-      </Form.Item>
-      <Form.Item label="Subcategory">
-        {getFieldDecorator('subcategory', {
-          initialValue: 'Select subcategory...',
-          rules: [
-            {
-              required: true,
-              message: 'Please select a subcategory!',
-            },
-          ],
-        })(
-          <Select
-            className="newResourceSelect"
-            placeholder="Select subcategory..."
-            showSearch
-            onSearch={val => {
-              const options = [];
-              currentSubcategories.forEach(sub => {
-                if (sub.toLowerCase().includes(val.toLowerCase())) {
-                  options.push(sub);
-                }
-              });
-              setSearchSubcategoryOptions(options);
-            }}
-            onChange={val => {
-              setSubcategory(val);
-              // reset search subcategories
-              setSearchSubcategoryOptions(currentSubcategories);
-            }}
-          >
-            {searchSubcategoryOptions.map(o => (
-              <Option value={o}>{o}</Option>
+            {fetchedCategories.map(cat => (
+              <OptGroup label={cat.name}>
+                {cat.subcategories.map(subcat => (
+                  <Option value={`${cat.name}${CAT_SUB_SPLITTER}${subcat}`}>
+                    {subcat}
+                  </Option>
+                ))}
+              </OptGroup>
             ))}
           </Select>,
         )}
