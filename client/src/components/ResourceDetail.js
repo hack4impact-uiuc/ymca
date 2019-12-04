@@ -3,11 +3,13 @@ import { Redirect } from 'react-router-dom';
 import { Button, Card, Col, Icon, Row } from 'antd';
 import PropTypes from 'prop-types';
 import '../css/ResourceDetail.css';
-import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
+// import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 
 import { getResourceByID } from '../utils/api';
 
 import ResourcesBreadcrumb from './ResourcesBreadcrumb';
+
+const ReactMapboxGl = require('react-mapbox-gl');
 
 const days = [
   'Sunday',
@@ -226,15 +228,15 @@ export default class ResourceDetail extends Component {
                   width: '675px',
                 }}
               >
-                <Layer
+                <ReactMapboxGl.Layer
                   type="symbol"
                   id="marker"
                   layout={{ 'icon-image': 'marker-15' }}
                 >
-                  <Feature
+                  <ReactMapboxGl.Feature
                     coordinates={[-0.481747846041145, 51.3233379650232]}
                   />
-                </Layer>
+                </ReactMapboxGl.Layer>
               </Map>
             </Row>
           </Col>
