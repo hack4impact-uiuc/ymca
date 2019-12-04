@@ -71,3 +71,7 @@
   background-size: cover;
   margin-bottom: 10px !important;
 }
+
+.resource-detail .link {
+  color: black !important;
+}
