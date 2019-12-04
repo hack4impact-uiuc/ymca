@@ -1,0 +1,23 @@
+/* Mobile CSS Definitions */
+@media (max-width: 700px) {
+  div.ant-col-6 {
+    width: 40vw;
+  }
+  div.home-block-1 {
+    height: 100vh;
+  }
+  div.home-block-2 {
+    height: 100vh;
+  }
+  div.home-block-3 {
+    height: 100vh;
+  }
+  div.home-block-4 {
+    height: 50vh;
+  }
+  div.home-block-2__left {
+    border-bottom: 2px solid rgb(136, 216, 208);
+    height: 10%;
+    border-right: none;
+  }
+}
