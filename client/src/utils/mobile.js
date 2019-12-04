@@ -2,7 +2,7 @@
 // get-viewport-window-height-in-reactjs
 import React, { useState, useEffect } from 'react';
 
-const MOBILEWIDTHMAX = 600;
+const MOBILEWIDTHMAX = 700;
 const MOBILEHEIGHTMAX = 600;
 
 function getWindowDimensions() {
@@ -28,9 +28,7 @@ export default function useWindowDimensions() {
     };
   }, []);
 
-  const isMobile =
-    windowDimensions.width < MOBILEWIDTHMAX &&
-    windowDimensions.height < MOBILEHEIGHTMAX;
+  const isMobile = windowDimensions.width < MOBILEWIDTHMAX;
 
   return [windowDimensions, isMobile];
 }

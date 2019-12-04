@@ -1,16 +1,20 @@
 .login-block-1 {
-  background-image: url('/asset/images/login-background.png');
+  background: url('/asset/images/login-background.png');
   background-size: cover;
-  margin-top: 0;
-  height: 1024px;
-  opacity: 1;
+  height: 100%;
+  width: 100%;
+  position: fixed;
 }
-.top-margin {
-  margin-top: 216px;
+
+.first-row-margin {
+  margin-top: 15vh;
+  width: 12em;
 }
+
 .container img {
-  width: 1%;
+  width: 100%;
 }
+
 .login-text {
   color: white;
   font-weight: bold;

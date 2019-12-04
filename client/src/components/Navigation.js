@@ -1,7 +1,6 @@
 // @flow
 
-import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useCallback } from 'react';
 import { Layout, Menu } from 'antd';
 
 import useWindowDimensions from '../utils/mobile';
@@ -13,17 +12,17 @@ const { Header } = Layout;
 
 type Props = {
   authed: Boolean,
-  setAuthed: Boolean => void,
+  authRoleIsEquivalentTo: String => void,
 };
 
 const Navigation = (props: Props) => {
-  const { authed, setAuthed } = props;
+  const { authed, authRoleIsEquivalentTo } = props;
 
   // Mobile Detection
   const [{ height, width }, isMobile] = useWindowDimensions();
 
-  const desktop = <NavDesktop authed={authed} setAuthed={setAuthed} />;
-  const mobile = <NavMobile authed={authed} setAuthed={setAuthed} />;
+  const desktop = <NavDesktop authed={authed} />;
+  const mobile = <NavMobile authed={authed} />;
 
   return isMobile ? mobile : desktop;
 };

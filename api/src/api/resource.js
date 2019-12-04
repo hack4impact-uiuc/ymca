@@ -10,7 +10,7 @@ router.get(
     const { category } = req.query;
     let resources;
     if (category != null) {
-      resources = await Resource.find({ category });
+      resources = await Resource.find({ category: { $in: category } });
     } else {
       resources = await Resource.find();
     }
@@ -42,54 +42,6 @@ router.get(
       message: `Successfully found resource ${id}`,
       success: true,
       result: resource,
-    });
-  }),
-);
-
-// Create a new resource
-router.post(
-  '/',
-  errorWrap(async (req, res) => {
-    const newResource = new Resource(req.body);
-    await newResource.save();
-    res.status(201).json({
-      code: 201,
-      message: `Successfully created new resource ${newResource.id}`,
-      success: true,
-      result: newResource,
-    });
-  }),
-);
-
-// Edit an existing resource
-router.put(
-  '/:id',
-  errorWrap(async (req, res) => {
-    const { id } = req.params;
-    const updatedResource = await Resource.findByIdAndUpdate(id, req.body, {
-      new: true,
-      runValidators: true,
-    });
-    res.json({
-      code: 200,
-      message: `Successfully updated resource ${id}`,
-      success: true,
-      result: updatedResource,
-    });
-  }),
-);
-
-// Delete resource by ID
-router.delete(
-  '/:id',
-  errorWrap(async (req, res) => {
-    const { id } = req.params;
-    await Resource.findByIdAndDelete(id);
-    res.json({
-      code: 200,
-      message: `Successfully deleted resource ${id}`,
-      success: true,
-      result: null,
     });
   }),
 );
