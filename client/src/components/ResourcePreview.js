@@ -4,6 +4,7 @@ import { Card } from 'antd';
 import { Link } from 'react-router-dom';
 
 import '../css/ResourcePreview.css';
+import useWindowDimensions from '../utils/mobile';
 
 const { Meta } = Card;
 
@@ -36,6 +37,7 @@ function ResourcePreview(props) {
     subcategory,
   } = props;
   const [src, setSrc] = useState('');
+  const isMobile = useWindowDimensions()[1];
 
   useEffect(() => {
     let found = false;
@@ -71,7 +73,7 @@ function ResourcePreview(props) {
     <Link to={`resources/${id}`}>
       <Card
         cover={
-          <div className="resource-preview-cover">
+          !isMobile && <div className="resource-preview-cover">
             <img
               className="resource-preview-cover-img"
               alt={subcategory}
