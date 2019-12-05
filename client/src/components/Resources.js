@@ -8,6 +8,8 @@ import {
   getResources,
   getResourcesByCategory,
 } from '../utils/api';
+import languages from '../data/languages';
+import locations from '../data/locations';
 
 import ResourcesBanner from './ResourcesBanner';
 import ResourcesFilter from './ResourcesFilter';
@@ -28,8 +30,6 @@ function Resources(props) {
   const [resources, setResources] = useState([]);
   const [filteredResources, setFilteredResources] = useState([]);
 
-  const languages = ['All', 'English', 'Spanish', 'Chinese', 'Japanese'];
-  const locations = ['All', 'Champaign', 'Urbana', 'Savoy'];
   const costs = ['$', '$ - $$', '$ - $$$', '$ - $$$$'];
 
   const fetchCategories = async () => {
