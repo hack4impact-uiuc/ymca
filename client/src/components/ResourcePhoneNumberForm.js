@@ -68,7 +68,11 @@ const PhoneNumberForm = Form.create({ name: 'phoneNumber' })(props => {
           />,
         )}
       </Form.Item>
-      <Button type="primary" htmlType="submit" className="phoneNumberSubmit">
+      <Button
+        type="primary"
+        htmlType="submit"
+        onClick={() => setTotalSubmitEnabled(false)}
+      >
         Add Phone Number
       </Button>
     </Form>

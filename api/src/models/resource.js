@@ -17,6 +17,12 @@ const FinancialAid = new mongoose.Schema({
   education: { type: String, required: false },
   immigrationStatus: { type: String, required: false },
   deadline: { type: String, required: false },
+  amount: {type: String, required: false},
+});
+
+const InternalNote = new mongoose.Schema({
+  subject: {type: String, required: true},
+  body: {type: String, required: true},
 });
 
 const Resource = new mongoose.Schema({
@@ -37,12 +43,11 @@ const Resource = new mongoose.Schema({
   availableLanguages: { type: [String], default: ['English'], required: false },
   lastUpdated: { type: Date, default: Date.now, required: false },
   recommendation: {
-    type: String,
-    enum: ['Yes', 'Maybe', 'No'],
+    type: Number,
     required: false,
   },
   comments: { type: [String], required: false },
-  internalNotes: { type: [String], required: false },
+  internalNotes: { type: [InternalNote], required: false },
 });
 
 module.exports = mongoose.model('Resource', Resource);

@@ -1,8 +1,9 @@
 // @flow
 
 import React, { useState, useEffect } from 'react';
-import { Form, Input, Button, Select, Affix, message } from 'antd';
+import { Form, Input, Button, Select, Affix, message, Radio, Rate } from 'antd';
 
+import languages from '../data/languages';
 import { addResource, editResource, getResourceByID } from '../utils/api';
 
 import PhoneNumberFormItem from './ResourcePhoneNumberForm';
@@ -10,6 +11,7 @@ import ContactFormItem from './ResourceContactForm';
 import FinancialAidFormItem from './ResourceFinancialAidForm';
 import CategorySelector, { CAT_SUB_SPLITTER } from './ResourceCategorySelector';
 import StrListFormItem from './ResourceStrListForm';
+import InternalNotesFormItem from './ResourceInternalNotesForm';
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -146,7 +148,12 @@ const ResourceForm = (props: FormProps) => {
               message: 'Please input a resource name!',
             },
           ],
-        })(<Input placeholder="Resource Name" />)}
+        })(
+          <Input
+            placeholder="Resource Name"
+            onFocus={() => setTotalSubmitEnabled(true)}
+          />,
+        )}
       </Form.Item>
       <Form.Item label="Description">
         {getFieldDecorator('description', {
@@ -156,17 +163,44 @@ const ResourceForm = (props: FormProps) => {
               message: 'Please input a description!',
             },
           ],
-        })(<TextArea rows={4} placeholder="Description" />)}
+        })(
+          <TextArea
+            rows={4}
+            placeholder="Description"
+            onFocus={() => setTotalSubmitEnabled(true)}
+          />,
+        )}
       </Form.Item>
       <Form.Item label="Website">
-        {getFieldDecorator('website', {})(<Input placeholder="Website" />)}
+        {getFieldDecorator(
+          'website',
+          {},
+        )(
+          <Input
+            placeholder="Website"
+            onFocus={() => setTotalSubmitEnabled(true)}
+          />,
+        )}
       </Form.Item>
       <Form.Item label="Email">
-        {getFieldDecorator('email', {})(<Input placeholder="Email" />)}
+        {getFieldDecorator(
+          'email',
+          {},
+        )(
+          <Input
+            placeholder="Email"
+            onFocus={() => setTotalSubmitEnabled(true)}
+          />,
+        )}
       </Form.Item>
       {PhoneNumberFormItem({
         phoneNumbers,
         setPhoneNumbers,
+        setTotalSubmitEnabled,
+      })}
+      {InternalNotesFormItem({
+        internalNotes,
+        setInternalNotes,
         setTotalSubmitEnabled,
       })}
       {ContactFormItem({
@@ -175,22 +209,50 @@ const ResourceForm = (props: FormProps) => {
         setTotalSubmitEnabled,
       })}
       <Form.Item label="Address">
-        {getFieldDecorator('address', {})(<Input placeholder="Address" />)}
+        {getFieldDecorator(
+          'address',
+          {},
+        )(
+          <Input
+            placeholder="Address"
+            onFocus={() => setTotalSubmitEnabled(true)}
+          />,
+        )}
       </Form.Item>
       <Form.Item label="City">
-        {getFieldDecorator('city', {})(<Input placeholder="City" />)}
+        {getFieldDecorator(
+          'city',
+          {},
+        )(
+          <Input
+            placeholder="City"
+            onFocus={() => setTotalSubmitEnabled(true)}
+          />,
+        )}
       </Form.Item>
       <Form.Item label="Hours of Operation">
         {getFieldDecorator(
           'hoursOfOperation',
           {},
-        )(<Input placeholder="Hours of Operation" />)}
+        )(
+          <Input
+            placeholder="Hours of Operation 
+          | Ex: Monday-Friday 9:00am-5:00pm, Saturday and Sunday 12:00-2:00pm"
+            onFocus={() => setTotalSubmitEnabled(true)}
+          />,
+        )}
       </Form.Item>
       <Form.Item label="Eligibility Requirements">
         {getFieldDecorator(
           'eligibilityRequirements',
           {},
-        )(<Input placeholder="Eligibility Requirements" />)}
+        )(
+          <Input
+            placeholder="Eligibility Requirements 
+          | Ex: visa or receipt letter"
+            onFocus={() => setTotalSubmitEnabled(true)}
+          />,
+        )}
       </Form.Item>
       {FinancialAidFormItem({
         financialAidDetails,
@@ -200,26 +262,29 @@ const ResourceForm = (props: FormProps) => {
       <Form.Item label="Cost">
         {getFieldDecorator('cost', {
           rules: [{}],
-        })(<Input placeholder="Cost" />)}
-      </Form.Item>
-      <StrListFormItem
-        formName="availableLanguage"
-        label="Available Languages"
-        placeholder="Available Language"
-        listOfStrings={availableLanguages}
-        setListOfStrings={setAvailableLanguages}
-        setTotalSubmitEnabled={setTotalSubmitEnabled}
-      />
-      <Form.Item label="Recommendation">
-        {getFieldDecorator('recommendation', {
-          initialValue: 'Yes',
         })(
-          <Select defaultValue="Yes">
-            <Option value="Yes">Yes</Option>
-            <Option value="Maybe">Maybe</Option>
-            <Option value="No">No</Option>
+          <Radio.Group onFocus={() => setTotalSubmitEnabled(true)}>
+            <Radio value="$">$</Radio>
+            <Radio value="$$">$-$$</Radio>
+            <Radio value="$$$">$-$$$</Radio>
+            <Radio value="$$$$">$-$$$$</Radio>
+          </Radio.Group>,
+        )}
+      </Form.Item>
+      <Form.Item label="Available Languages">
+        {getFieldDecorator(
+          'availableLanguages',
+          {},
+        )(
+          <Select mode="multiple" placeholder="Available Languages">
+            {languages.map(lang => (
+              <Option value={lang}>{lang}</Option>
+            ))}
           </Select>,
         )}
+      </Form.Item>
+      <Form.Item label="Recommendation">
+        {getFieldDecorator('recommendation', {})(<Rate />)}
       </Form.Item>
       <StrListFormItem
         formName="commentForm"
@@ -229,16 +294,13 @@ const ResourceForm = (props: FormProps) => {
         setListOfStrings={setComments}
         setTotalSubmitEnabled={setTotalSubmitEnabled}
       />
-      <StrListFormItem
-        formName="internalNotesForm"
-        label="Internal Notes"
-        placeholder="Enter a note..."
-        listOfStrings={internalNotes}
-        setListOfStrings={setInternalNotes}
-        setTotalSubmitEnabled={setTotalSubmitEnabled}
-      />
       <Affix offsetBottom={20}>
-        <Button type="primary" htmlType="submit" className="newResourceSubmit">
+        <Button
+          type="primary"
+          htmlType="submit"
+          className="newResourceSubmit"
+          onClick={() => setTotalSubmitEnabled(true)}
+        >
           {id ? 'Submit Edit' : 'Add Resource'}
         </Button>
       </Affix>

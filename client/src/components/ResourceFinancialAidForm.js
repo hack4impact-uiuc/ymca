@@ -21,6 +21,7 @@ const FinancialAidForm = Form.create({ name: 'financialAid' })(props => {
           education: getFieldValue('education'),
           immigrationStatus: getFieldValue('immigrationStatus'),
           deadline: getFieldValue('deadline'),
+          amount: getFieldValue('amount'),
         });
       }}
     >
@@ -30,7 +31,8 @@ const FinancialAidForm = Form.create({ name: 'financialAid' })(props => {
           {},
         )(
           <Input
-            placeholder="Education"
+            placeholder="Education | 
+            Ex: College juniors only, must be attending college in US"
             onFocus={() => setTotalSubmitEnabled(false)}
             onBlur={() => setTotalSubmitEnabled(true)}
           />,
@@ -42,7 +44,8 @@ const FinancialAidForm = Form.create({ name: 'financialAid' })(props => {
           {},
         )(
           <Input
-            placeholder="Immigration Status"
+            placeholder="Immigration Status |
+            Ex: no citizenship required"
             onFocus={() => setTotalSubmitEnabled(false)}
             onBlur={() => setTotalSubmitEnabled(true)}
           />,
@@ -54,13 +57,32 @@ const FinancialAidForm = Form.create({ name: 'financialAid' })(props => {
           {},
         )(
           <Input
-            placeholder="Deadline"
+            placeholder="Deadline |
+            Ex: July 31"
             onFocus={() => setTotalSubmitEnabled(false)}
             onBlur={() => setTotalSubmitEnabled(true)}
           />,
         )}
       </Form.Item>
-      <Button type="primary" htmlType="submit" className="financialAidForm">
+      <Form.Item>
+        {getFieldDecorator(
+          'amount',
+          {},
+        )(
+          <Input
+            placeholder="Amount |
+          Ex: $500-$1000"
+            onFocus={() => setTotalSubmitEnabled(false)}
+            onBlur={() => setTotalSubmitEnabled(true)}
+          />,
+        )}
+      </Form.Item>
+      <Button
+        type="primary"
+        htmlType="submit"
+        className="financialAidForm"
+        onClick={() => setTotalSubmitEnabled(false)}
+      >
         Add Financial Aid Details
       </Button>
     </Form>
@@ -85,6 +107,9 @@ const FinancialAidFormItem = (props: FormProps) => {
         </Descriptions.Item>
         <Descriptions.Item label="Deadline">
           {financialAidDetails.deadline}
+        </Descriptions.Item>
+        <Descriptions.Item label="Amount">
+          {financialAidDetails.amount}
         </Descriptions.Item>
       </Descriptions>
       <FinancialAidForm
