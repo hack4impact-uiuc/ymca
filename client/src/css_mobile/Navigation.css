@@ -1,4 +1,4 @@
-#nav body {
+#nav-mobile body {
   margin: 0;
   padding: 0;
 
@@ -7,18 +7,18 @@
   font-family: 'Avenir Next', 'Avenir', sans-serif;
 }
 
-#nav nav {
+#nav-mobile nav {
   height: 0px;
 }
 
-#nav a {
+#nav-mobile a {
   text-decoration: none;
   color: #232323;
 
   transition: color 0.3s ease;
 }
 
-#nav a:hover {
+#nav-mobile a:hover {
   color: tomato;
 }
 

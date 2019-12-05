@@ -11,7 +11,7 @@ const NavMobile = (props: Props) => {
   const { authed } = props;
 
   return (
-    <nav id="nav" role="navigation">
+    <nav id="nav-mobile" role="navigation">
       <div id="menuToggle">
         <input type="checkbox" />
 
