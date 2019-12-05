@@ -1,7 +1,7 @@
 // @flow
 
 import React, { useState, useEffect } from 'react';
-import { Form, Input, Button, Select, Affix, message } from 'antd';
+import { Form, Input, Button, Select, Affix, message, Radio } from 'antd';
 
 import { addResource, editResource, getResourceByID } from '../utils/api';
 
@@ -10,6 +10,7 @@ import ContactFormItem from './ResourceContactForm';
 import FinancialAidFormItem from './ResourceFinancialAidForm';
 import CategorySelector, { CAT_SUB_SPLITTER } from './ResourceCategorySelector';
 import StrListFormItem from './ResourceStrListForm';
+import InternalNotesFormItem from './ResourceInternalNotesForm';
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -169,20 +170,9 @@ const ResourceForm = (props: FormProps) => {
         setPhoneNumbers,
         setTotalSubmitEnabled,
       })}
-      <StrListFormItem
-        formName="internalNotesForm"
-        style={{ height: '100px' }}
-        label="Internal Notes"
-        placeholder="Ex: 
-        Cases that deal with the courts = NAWC does not accept.
-        Refer to chicago attorney’s. 
-        If letter from immigration authority in chicago 
-        most likely deportation proceedings.
-        No one really in the area does this."
-        listOfStrings={internalNotes}
-        setListOfStrings={setInternalNotes}
-        setTotalSubmitEnabled={setTotalSubmitEnabled}
-      />
+      {InternalNotesFormItem({
+        setTotalSubmitEnabled,
+      })}
       {ContactFormItem({
         contacts,
         setContacts,
@@ -198,13 +188,23 @@ const ResourceForm = (props: FormProps) => {
         {getFieldDecorator(
           'hoursOfOperation',
           {},
-        )(<Input placeholder="Hours of Operation" />)}
+        )(
+          <Input
+            placeholder="Hours of Operation 
+          | Ex: Monday-Friday 9:00am-5:00pm, Saturday and Sunday 12:00-2:00pm"
+          />,
+        )}
       </Form.Item>
       <Form.Item label="Eligibility Requirements">
         {getFieldDecorator(
           'eligibilityRequirements',
           {},
-        )(<Input placeholder="Eligibility Requirements" />)}
+        )(
+          <Input
+            placeholder="Eligibility Requirements 
+          | Ex: visa or receipt letter"
+          />,
+        )}
       </Form.Item>
       {FinancialAidFormItem({
         financialAidDetails,
@@ -214,7 +214,14 @@ const ResourceForm = (props: FormProps) => {
       <Form.Item label="Cost">
         {getFieldDecorator('cost', {
           rules: [{}],
-        })(<Input placeholder="Cost" />)}
+        })(
+          <Radio.Group>
+            <Radio value="$">$</Radio>
+            <Radio value="$$">$$</Radio>
+            <Radio value="$$$">$$$</Radio>
+            <Radio value="$$$$">$$$$</Radio>
+          </Radio.Group>,
+        )}
       </Form.Item>
       <StrListFormItem
         formName="availableLanguage"
