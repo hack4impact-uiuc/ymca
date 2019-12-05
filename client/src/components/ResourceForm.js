@@ -199,6 +199,8 @@ const ResourceForm = (props: FormProps) => {
         setTotalSubmitEnabled,
       })}
       {InternalNotesFormItem({
+        internalNotes,
+        setInternalNotes,
         setTotalSubmitEnabled,
       })}
       {ContactFormItem({
