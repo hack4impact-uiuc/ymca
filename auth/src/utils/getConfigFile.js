@@ -14,7 +14,7 @@ const getConfigFile = async () => {
 const getAllRoles = async () => {
   const config = await getConfigFile();
   return config["roles"];
-}
+};
 
 const getRolesForUser = async role => {
   const config = await getConfigFile();
@@ -118,5 +118,5 @@ module.exports = {
   isGmailEnabledForForgotPassword,
   getProdURI,
   getSecurityQuestions,
-  getExpiryTime,
+  getExpiryTime
 };

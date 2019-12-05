@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom/';
 import '../css/ResourcesBreadcrumb.css';
 
 function ResourcesBreadcrumb(props) {
-  const { categorySelected, subcategorySelected } = props;
+  const { categorySelected, subcategorySelected, resourceSelected } = props;
 
   const breadcrumbs = [];
 
@@ -13,7 +13,12 @@ function ResourcesBreadcrumb(props) {
     breadcrumbs.push(<span>All Resources</span>);
   } else if (categorySelected !== '') {
     breadcrumbs.push(
-      <Link className="link" to="resources">
+      <Link
+        className="link"
+        to={{
+          pathname: '/resources',
+        }}
+      >
         <span>All Resources</span>
       </Link>,
     );
@@ -32,33 +37,37 @@ function ResourcesBreadcrumb(props) {
           </Link>
         </span>,
       );
-      breadcrumbs.push(
-        <span>
-          {` > `}
-          <strong>{subcategorySelected}</strong>
-        </span>,
-      );
-    } else if (subcategorySelected !== '') {
-      breadcrumbs.push(
-        <span>
-          {` > `}
-          <Link
-            className="link"
-            to={{
-              pathname: '/resources',
-              search: `?category=${categorySelected}`,
-            }}
-          >
-            {categorySelected}
-          </Link>
-        </span>,
-      );
-      breadcrumbs.push(
-        <span>
-          {` > `}
-          <strong>{subcategorySelected}</strong>
-        </span>,
-      );
+
+      if (resourceSelected) {
+        breadcrumbs.push(
+          <span>
+            {` > `}
+            <Link
+              className="link"
+              to={{
+                pathname: '/resources',
+                search: `?category=${categorySelected}
+                        &subcategory=${subcategorySelected}`,
+              }}
+            >
+              {subcategorySelected}
+            </Link>
+          </span>,
+        );
+        breadcrumbs.push(
+          <span>
+            {` > `}
+            <strong>{resourceSelected}</strong>
+          </span>,
+        );
+      } else {
+        breadcrumbs.push(
+          <span>
+            {` > `}
+            <strong>{subcategorySelected}</strong>
+          </span>,
+        );
+      }
     } else {
       breadcrumbs.push(
         <span>
@@ -69,12 +78,17 @@ function ResourcesBreadcrumb(props) {
     }
   }
 
-  return breadcrumbs;
+  return <>{breadcrumbs}</>;
 }
+
+ResourcesBreadcrumb.defaultProps = {
+  resourceSelected: '',
+};
 
 ResourcesBreadcrumb.propTypes = {
   categorySelected: PropTypes.string.isRequired,
   subcategorySelected: PropTypes.string.isRequired,
+  resourceSelected: PropTypes.string,
 };
 
 export default ResourcesBreadcrumb;

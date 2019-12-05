@@ -21,7 +21,7 @@ function ResourcesGrid(props) {
           ? filteredResources[index * 3 + 2]
           : null;
       return (
-        <Row gutter={[32, 32]} type="flex">
+        <Row key={first.name} gutter={[32, 32]} type="flex">
           <Col xs={24} md={8}>
             <ResourcePreview
               availableLanguages={first.availableLanguages}
@@ -73,9 +73,9 @@ ResourcesGrid.propTypes = {
   filteredResources: PropTypes.arrayOf(
     PropTypes.shape({
       _id: PropTypes.string.isRequired,
-      availableLanguages: PropTypes.string,
-      category: PropTypes.number.isRequired,
-      city: PropTypes.string.isRequired,
+      availableLanguages: PropTypes.arrayOf(PropTypes.string),
+      category: PropTypes.arrayOf(PropTypes.string).isRequired,
+      city: PropTypes.string,
       comments: PropTypes.arrayOf(PropTypes.string),
       contacts: PropTypes.arrayOf(PropTypes.string),
       cost: PropTypes.string,
@@ -83,8 +83,13 @@ ResourcesGrid.propTypes = {
       internalNotes: PropTypes.arrayOf(PropTypes.string),
       lastUpdated: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
-      phoneNumbers: PropTypes.arrayOf(PropTypes.string),
-      subcategory: PropTypes.string,
+      phoneNumbers: PropTypes.arrayOf(
+        PropTypes.shape({
+          phoneType: PropTypes.string.isRequired,
+          phoneNumber: PropTypes.string.isRequired,
+        }),
+      ),
+      subcategory: PropTypes.arrayOf(PropTypes.string),
     }),
   ).isRequired,
 };

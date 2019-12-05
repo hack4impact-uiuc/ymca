@@ -3,9 +3,11 @@ import { Redirect } from 'react-router-dom';
 import { Button, Card, Col, Icon, Row } from 'antd';
 import PropTypes from 'prop-types';
 import '../css/ResourceDetail.css';
+import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 
 import { getResourceByID } from '../utils/api';
-// import ResourceBreadcrumb from './ResourceBreadcrumb';
+
+import ResourcesBreadcrumb from './ResourcesBreadcrumb';
 
 const days = [
   'Sunday',
@@ -33,8 +35,8 @@ export default class ResourceDetail extends Component {
       languages: [],
       requiredDocuments: [],
       cost: '',
-      // category: '',
-      // subcategory: '',
+      category: '',
+      subcategory: '',
       resourceExists: true,
     };
   }
@@ -50,8 +52,8 @@ export default class ResourceDetail extends Component {
         phone: result.phoneNumbers,
         description: result.description,
         languages: result.availableLanguages,
-        // category: result.category,
-        // subcategory: result.subcategory,
+        category: result.category,
+        subcategory: result.subcategory,
       });
     } else {
       // redirect to resource unknown page
@@ -72,11 +74,20 @@ export default class ResourceDetail extends Component {
       languages,
       requiredDocuments,
       cost,
-      // category,
-      // subcategory,
+      category,
+      subcategory,
       resourceExists,
     } = this.state;
+
+    const Map = ReactMapboxGl({
+      accessToken:
+        'pk.eyJ1IjoiYW5vb2psYWwiLCJhIjoiY2syemtiYjZoMGp1' +
+        'eDNscXQ3azJzajl0bCJ9.FDSFjP1IfSisbm4uvd70vg',
+      interactive: false,
+    });
+
     const { authed, match, authRoleIsEquivalentTo } = this.props;
+
     if (!resourceExists) {
       return <Redirect to="/resources/unknown" />;
     }
@@ -90,6 +101,13 @@ export default class ResourceDetail extends Component {
           align="middle"
           gutter={[16, 16]}
         />
+        <Row>
+          <ResourcesBreadcrumb
+            categorySelected={category}
+            subcategorySelected={subcategory}
+            resourceSelected={name}
+          />
+        </Row>
         <Row>
           <Col span={15}>
             <span className="resource-name">{name}</span>
@@ -193,6 +211,32 @@ export default class ResourceDetail extends Component {
                   </Col>
                 );
               })}
+            </Row>
+          </Col>
+        </Row>
+        <Row className="section">
+          <Col span={4} className="section-label">
+            Location
+          </Col>
+          <Col span={20}>
+            <Row className="cardRow">
+              <Map
+                style="mapbox://styles/mapbox/streets-v9"
+                containerStyle={{
+                  height: '450px',
+                  width: '675px',
+                }}
+              >
+                <Layer
+                  type="symbol"
+                  id="marker"
+                  layout={{ 'icon-image': 'marker-15' }}
+                >
+                  <Feature
+                    coordinates={[-0.481747846041145, 51.3233379650232]}
+                  />
+                </Layer>
+              </Map>
             </Row>
           </Col>
         </Row>
