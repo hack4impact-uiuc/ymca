@@ -43,8 +43,7 @@ const Resource = new mongoose.Schema({
   availableLanguages: { type: [String], default: ['English'], required: false },
   lastUpdated: { type: Date, default: Date.now, required: false },
   recommendation: {
-    type: String,
-    enum: ['Yes', 'Maybe', 'No'],
+    type: Number,
     required: false,
   },
   comments: { type: [String], required: false },
