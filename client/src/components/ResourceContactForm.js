@@ -140,7 +140,12 @@ const ContactForm = Form.create({ name: 'contactForm' })(props => {
           />,
         )}
       </Form.Item>
-      <Button type="primary" htmlType="submit" className="contactSubmit">
+      <Button
+        type="primary"
+        htmlType="submit"
+        className="contactSubmit"
+        onClick={() => setTotalSubmitEnabled(false)}
+      >
         Add Contact
       </Button>
     </Form>
@@ -151,7 +156,7 @@ const ContactFormItem = (props: FormItemProps) => {
   const { contacts, setContacts, setTotalSubmitEnabled } = props;
 
   return (
-    <Form.Item label="Contacts">
+    <Form.Item label="Recommended Contacts">
       <List
         dataSource={contacts}
         renderItem={contact => (
