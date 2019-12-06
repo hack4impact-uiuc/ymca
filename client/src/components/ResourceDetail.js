@@ -19,6 +19,25 @@ const days = [
   'Saturday',
 ];
 
+async function addressToLatLong(address) {
+  const api_latlong =
+    "http://www.mapquestapi.com/geocoding/v1/address?key=QhpXMYz3yy5F0Yg5qZSqGmA2XFMIMRAi&maxResults=5&outFormat=json&location=" +
+    address +
+    "&boundingBox=40.121581,-88.253981,40.098315,-88.205082";
+
+  const response = await fetch(api_latlong, {});
+  const responseJson = await response.json();
+
+  console.log(responseJson);
+
+  const lat = responseJson["results"][0]["locations"][0]["latLng"]["lat"];
+  const lng = responseJson["results"][0]["locations"][0]["latLng"]["lng"];
+
+  console.log([lat, lng]);
+
+  return [lat, lng];
+}
+
 export default class ResourceDetail extends Component {
   constructor(props) {
     super(props);
@@ -38,6 +57,8 @@ export default class ResourceDetail extends Component {
       category: '',
       subcategory: '',
       resourceExists: true,
+      lat: 0.0,
+      long: 0.0
     };
   }
 
@@ -47,6 +68,10 @@ export default class ResourceDetail extends Component {
     if (response !== null) {
       const { result } = response;
 
+      const coords = await addressToLatLong("New York, USA");
+
+      console.log(coords);
+
       this.setState({
         name: result.name,
         phone: result.phoneNumbers,
@@ -54,7 +79,13 @@ export default class ResourceDetail extends Component {
         languages: result.availableLanguages,
         category: result.category[0],
         subcategory: result.subcategory[0],
+        cost: result.cost,
+        lat: coords[0],
+        long: coords[1]
       });
+
+      console.log(this.state.lat);
+      console.log(this.state.long);
     } else {
       // redirect to resource unknown page
       this.setState({ resourceExists: false });
@@ -77,13 +108,15 @@ export default class ResourceDetail extends Component {
       category,
       subcategory,
       resourceExists,
+      lat,
+      long
     } = this.state;
 
     const Map = ReactMapboxGl({
       accessToken:
         'pk.eyJ1IjoiYW5vb2psYWwiLCJhIjoiY2syemtiYjZoMGp1' +
         'eDNscXQ3azJzajl0bCJ9.FDSFjP1IfSisbm4uvd70vg',
-      interactive: false,
+      interactive: true,
     });
 
     const { authed, match, authRoleIsEquivalentTo } = this.props;
@@ -233,7 +266,7 @@ export default class ResourceDetail extends Component {
                   layout={{ 'icon-image': 'marker-15' }}
                 >
                   <Feature
-                    coordinates={[-0.481747846041145, 51.3233379650232]}
+                    coordinates={[lat, long]}
                   />
                 </Layer>
               </Map>
