@@ -52,8 +52,8 @@ export default class ResourceDetail extends Component {
         phone: result.phoneNumbers,
         description: result.description,
         languages: result.availableLanguages,
-        category: result.category,
-        subcategory: result.subcategory,
+        category: result.category[0],
+        subcategory: result.subcategory[0],
       });
     } else {
       // redirect to resource unknown page
