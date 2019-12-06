@@ -236,8 +236,8 @@ const ResourceForm = (props: FormProps) => {
           {},
         )(
           <Input
-            placeholder="Hours of Operation 
-          | Ex: Monday-Friday 9:00am-5:00pm, Saturday and Sunday 12:00-2:00pm"
+            placeholder="Monday-Friday 9:00am-5:00pm, 
+            Saturday and Sunday 12:00-2:00pm"
             onFocus={() => setTotalSubmitEnabled(true)}
           />,
         )}
@@ -248,8 +248,7 @@ const ResourceForm = (props: FormProps) => {
           {},
         )(
           <Input
-            placeholder="Eligibility Requirements 
-          | Ex: visa or receipt letter"
+            placeholder="Visa or receipt letter"
             onFocus={() => setTotalSubmitEnabled(true)}
           />,
         )}
@@ -265,9 +264,9 @@ const ResourceForm = (props: FormProps) => {
         })(
           <Radio.Group onFocus={() => setTotalSubmitEnabled(true)}>
             <Radio value="$">$</Radio>
-            <Radio value="$$">$-$$</Radio>
-            <Radio value="$$$">$-$$$</Radio>
-            <Radio value="$$$$">$-$$$$</Radio>
+            <Radio value="$$">$$</Radio>
+            <Radio value="$$$">$$$</Radio>
+            <Radio value="$$$$">$$$$</Radio>
           </Radio.Group>,
         )}
       </Form.Item>
@@ -276,7 +275,7 @@ const ResourceForm = (props: FormProps) => {
           'availableLanguages',
           {},
         )(
-          <Select mode="multiple" placeholder="Available Languages">
+          <Select mode="multiple" placeholder="Select available language(s)">
             {languages.map(lang => (
               <Option value={lang}>{lang}</Option>
             ))}
