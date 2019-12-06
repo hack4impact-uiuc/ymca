@@ -35,10 +35,17 @@ const Home = () => {
           </Row>
         </Col>
       </Row>
-      {!isMobile && <HomeBlock2Desktop />}
-      {isMobile && <HomeBlock2Mobile />}
-      {!isMobile && <HomeBlock3Desktop />}
-      {isMobile && <HomeBlock3Mobile />}
+      {isMobile ? (
+        <>
+          <HomeBlock2Mobile />
+          <HomeBlock3Mobile />
+        </>
+      ) : (
+        <>
+          <HomeBlock2Desktop />
+          <HomeBlock3Desktop />
+        </>
+      )}
       <Row className="home-block-4" type="flex" justify="center" align="middle">
         <Col span={24}>
           <Row type="flex" justify="center" align="middle">
