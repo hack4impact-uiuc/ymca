@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Layout, Menu } from 'antd';
+import { Layout } from 'antd';
 import '../css/Resources.css';
 
 import {
@@ -10,13 +10,15 @@ import {
 } from '../utils/api';
 import languages from '../data/languages';
 import locations from '../data/locations';
+import useWindowDimensions from '../utils/mobile';
 
 import ResourcesBanner from './ResourcesBanner';
 import ResourcesFilter from './ResourcesFilter';
 import ResourcesGrid from './ResourcesGrid';
+import ResourceCategoryFilter from './ResourceCategoryFilter';
+import ResourcesFilterMobile from './mobile/ResourcesFilterMobile';
 
 const { Sider } = Layout;
-const { SubMenu } = Menu;
 
 function Resources(props) {
   const [cost, setCost] = useState('$ - $$$$');
@@ -31,6 +33,8 @@ function Resources(props) {
   const [filteredResources, setFilteredResources] = useState([]);
 
   const costs = ['$', '$ - $$', '$ - $$$', '$ - $$$$'];
+
+  const isMobile = useWindowDimensions()[1];
 
   const fetchCategories = async () => {
     const res = await getCategories();
@@ -181,40 +185,33 @@ function Resources(props) {
         setLanguage={setLanguage}
         setLocation={setLocation}
       />
+      {isMobile && (
+        <ResourcesFilterMobile
+          category={category}
+          categories={categories}
+          categorySelectAll={categorySelectAll}
+          onOpenChange={onOpenChange}
+          openKeys={openKeys}
+          subcategory={subcategory}
+          subcategorySelect={subcategorySelect}
+        />
+      )}
       <Layout style={{ background: 'white' }}>
-        <div>
-          <Sider className="filter-sider">
-            <Menu
-              mode="inline"
-              selectedKeys={subcategory === '' ? category : subcategory}
-              openKeys={openKeys}
-              onOpenChange={onOpenChange}
-            >
-              <Menu.Item
-                key="All Resources"
-                onClick={() => categorySelectAll()}
-              >
-                All Resources
-              </Menu.Item>
-              {Object.keys(categories).map(categoryName => {
-                return (
-                  <SubMenu key={categoryName} title={categoryName}>
-                    {categories[categoryName].map(subCategory => {
-                      return (
-                        <Menu.Item
-                          key={subCategory}
-                          onClick={() => subcategorySelect(subCategory)}
-                        >
-                          {subCategory}
-                        </Menu.Item>
-                      );
-                    })}
-                  </SubMenu>
-                );
-              })}
-            </Menu>
-          </Sider>
-        </div>
+        {!isMobile && (
+          <div>
+            <Sider className="filter-sider">
+              <ResourceCategoryFilter
+                category={category}
+                categories={categories}
+                categorySelectAll={categorySelectAll}
+                onOpenChange={onOpenChange}
+                openKeys={openKeys}
+                subcategory={subcategory}
+                subcategorySelect={subcategorySelect}
+              />
+            </Sider>
+          </div>
+        )}
         <ResourcesGrid filteredResources={filteredResources} />
       </Layout>
     </Layout>

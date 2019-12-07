@@ -73,13 +73,15 @@ function ResourcePreview(props) {
     <Link to={`resources/${id}`}>
       <Card
         cover={
-          !isMobile && <div className="resource-preview-cover">
-            <img
-              className="resource-preview-cover-img"
-              alt={subcategory}
-              src={src}
-            />
-          </div>
+          !isMobile && (
+            <div className="resource-preview-cover">
+              <img
+                className="resource-preview-cover-img"
+                alt={subcategory}
+                src={src}
+              />
+            </div>
+          )
         }
       >
         <Meta title={name} description={description} />
