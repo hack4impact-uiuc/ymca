@@ -2,8 +2,13 @@
   background: url('/asset/images/login-background.png');
   background-size: cover;
   height: 100%;
+  font-family: 'Avenir Next', 'Avenir', sans-serif;
   width: 100%;
   position: fixed;
+}
+
+.login-block-1 .ant-input {
+  font-family: 'Avenir Next', 'Avenir', sans-serif;
 }
 
 .first-row-margin {
@@ -19,12 +24,11 @@
   color: white;
   font-weight: bold;
   font-size: 40px;
-  font-family: 'Avenir Black';
   margin-top: 20px;
   margin-bottom: 20px;
 }
+
 .form-text {
-  font-family: 'Avenir Light';
   font-weight: lighter;
   font-size: 16px;
 }
@@ -42,28 +46,33 @@ p {
   margin-left: auto;
   margin-right: auto;
 }
+
 .login-form-forgot {
   color: #8bd8d0;
   float: right;
 }
+
 .login-form-forgot:hover {
   color: #74cec8;
 }
+
 .login-form-register-now {
   color: #8bd8d0;
 }
+
 .login-form-register-now:hover {
   color: #74cec8;
 }
+
 .login-form-checkbox .ant-checkbox-inner {
   background-color: #8bd8d0;
   border-color: #8bd8d0;
 }
+
 .login-form-button {
   width: 100%;
   background-color: #8bd8d0;
   border: 2px solid #8bd8d0;
-  font-family: 'Avenir Light';
   font-weight: bolder;
   font-size: 15px;
 }

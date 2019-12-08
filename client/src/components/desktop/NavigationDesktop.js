@@ -33,6 +33,12 @@ const NavDesktop = (props: Props) => {
           </Menu.Item>
         )}
 
+        {authed && (
+          <Menu.Item key="approval">
+            <a href="/role-approval">Users</a>
+          </Menu.Item>
+        )}
+
         {!authed ? (
           <Menu.Item key="login">
             <a href="/login">Login</a>
