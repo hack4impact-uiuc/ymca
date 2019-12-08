@@ -13,6 +13,7 @@ import { HomeBlock2Mobile, HomeBlock3Mobile } from './mobile/HomeMobile';
 
 const Home = () => {
   const isMobile = useWindowDimensions()[1];
+  const spanNum = isMobile ? 20 : 6;
 
   return (
     <>
@@ -49,7 +50,7 @@ const Home = () => {
       <Row className="home-block-4" type="flex" justify="center" align="middle">
         <Col span={24}>
           <Row type="flex" justify="center" align="middle">
-            <Col span={16} classname="home-block-4__title">
+            <Col span={spanNum} classname="home-block-4__title">
               <Textfit mode="single">
                 <strong>Partners in the Community</strong>
               </Textfit>
