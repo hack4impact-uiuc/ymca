@@ -1,14 +1,11 @@
 // @flow
 
-import React, { useCallback } from 'react';
-import { Layout, Menu } from 'antd';
+import React from 'react';
 
 import useWindowDimensions from '../utils/mobile';
 
 import NavMobile from './mobile/NavigationMobile';
 import NavDesktop from './desktop/NavigationDesktop';
-
-const { Header } = Layout;
 
 type Props = {
   authed: Boolean,
@@ -19,7 +16,7 @@ const Navigation = (props: Props) => {
   const { authed, authRoleIsEquivalentTo } = props;
 
   // Mobile Detection
-  const [{ height, width }, isMobile] = useWindowDimensions();
+  const isMobile = useWindowDimensions()[1];
 
   const desktop = <NavDesktop authed={authed} />;
   const mobile = <NavMobile authed={authed} />;

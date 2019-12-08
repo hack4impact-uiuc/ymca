@@ -1,8 +1,10 @@
 import React from 'react';
 import { Textfit } from 'react-textfit';
-import { Col, Row } from 'antd';
+import { Col, Row, Carousel } from 'antd';
 
-const HomeBlock2Desktop = () => {
+import testimonials from '../../data/testimonials';
+
+export const HomeBlock2Desktop = () => {
   return (
     <Row
       className="home-block-2"
@@ -19,7 +21,9 @@ const HomeBlock2Desktop = () => {
           align="middle"
         >
           <Col span={20}>
-            <Textfit mode="single">About the Guide</Textfit>
+            <Textfit mode="single">
+              <strong>About the Guide</strong>
+            </Textfit>
           </Col>
         </Row>
       </Col>
@@ -40,4 +44,42 @@ const HomeBlock2Desktop = () => {
   );
 };
 
-export default HomeBlock2Desktop;
+export const HomeBlock3Desktop = () => {
+  return (
+    <Row className="home-block-3" type="flex" justify="center" align="middle">
+      <Col span={23}>
+        <Carousel autoplay dotPosition="right">
+          {testimonials.map(element => {
+            return (
+              <div>
+                <Row
+                  className="testimonial-block"
+                  type="flex"
+                  justify="center"
+                  align="middle"
+                >
+                  <Col className="testimonial-block__left" span={6} offset={1}>
+                    <img
+                      className="testimonial-block__left__img"
+                      src={element.picture}
+                      alt=""
+                    />
+                  </Col>
+                  <Col
+                    className="testimonial-block__right"
+                    span={12}
+                    offset={1}
+                  >
+                    <h1>{element.person}</h1>
+                    <h3>{element.title}</h3>
+                    <p>{element.testimonial}</p>
+                  </Col>
+                </Row>
+              </div>
+            );
+          })}
+        </Carousel>
+      </Col>
+    </Row>
+  );
+};

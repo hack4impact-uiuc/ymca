@@ -31,6 +31,11 @@ const NavMobile = (props: Props) => {
               <li>Admin</li>
             </a>
           )}
+          {authed && (
+            <a href="/role-approval">
+              <li>Users</li>
+            </a>
+          )}
           {!authed ? (
             <a href="/login">
               <li>Login</li>
