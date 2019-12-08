@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Textfit } from 'react-textfit';
 import { Button, Col, Row } from 'antd';
@@ -12,7 +12,7 @@ import { HomeBlock2Desktop, HomeBlock3Desktop } from './desktop/HomeDesktop';
 import { HomeBlock2Mobile, HomeBlock3Mobile } from './mobile/HomeMobile';
 
 const Home = () => {
-  const [{ height, width }, isMobile] = useWindowDimensions();
+  const isMobile = useWindowDimensions()[1];
 
   return (
     <>
