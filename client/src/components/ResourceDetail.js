@@ -20,20 +20,15 @@ const days = [
 ];
 
 async function addressToLatLong(address) {
-  const api_latlong =
-    "http://www.mapquestapi.com/geocoding/v1/address?key=QhpXMYz3yy5F0Yg5qZSqGmA2XFMIMRAi&maxResults=5&outFormat=json&location=" +
-    address +
-    "&boundingBox=40.121581,-88.253981,40.098315,-88.205082";
+  const apiLatLong = `${'http://www.mapquestapi.com/geocoding/v1/address?' +
+    'key=QhpXMYz3yy5F0Yg5qZSqGmA2XFMIMRAi&maxResults=5&' +
+    'outFormat=json&location='}${address}&boundingBox=40.121581,-88.253981,40.098315,-88.205082`;
 
-  const response = await fetch(api_latlong, {});
+  const response = await fetch(apiLatLong, {});
   const responseJson = await response.json();
 
-  console.log(responseJson);
-
-  const lat = responseJson["results"][0]["locations"][0]["latLng"]["lat"];
-  const lng = responseJson["results"][0]["locations"][0]["latLng"]["lng"];
-
-  console.log([lat, lng]);
+  const { lat } = responseJson.results[0].locations[0].latLng;
+  const { lng } = responseJson.results[0].locations[0].latLng;
 
   return [lat, lng];
 }
@@ -58,7 +53,8 @@ export default class ResourceDetail extends Component {
       subcategory: '',
       resourceExists: true,
       lat: 0.0,
-      long: 0.0
+      long: 0.0,
+      eligibility: '',
     };
   }
 
@@ -68,9 +64,7 @@ export default class ResourceDetail extends Component {
     if (response !== null) {
       const { result } = response;
 
-      const coords = await addressToLatLong("New York, USA");
-
-      console.log(coords);
+      const coords = await addressToLatLong('New York, USA');
 
       this.setState({
         name: result.name,
@@ -81,11 +75,11 @@ export default class ResourceDetail extends Component {
         subcategory: result.subcategory[0],
         cost: result.cost,
         lat: coords[0],
-        long: coords[1]
+        long: coords[1],
+        email: result.email,
+        website: result.website,
+        eligibility: result.eligibilityRequirements,
       });
-
-      console.log(this.state.lat);
-      console.log(this.state.long);
     } else {
       // redirect to resource unknown page
       this.setState({ resourceExists: false });
@@ -109,7 +103,8 @@ export default class ResourceDetail extends Component {
       subcategory,
       resourceExists,
       lat,
-      long
+      long,
+      eligibility,
     } = this.state;
 
     const Map = ReactMapboxGl({
@@ -164,6 +159,9 @@ export default class ResourceDetail extends Component {
         <Row>
           <Col span={24}>
             {description.length > 0 ? description : 'No description provided.'}
+            {eligibility &&
+              eligibility.length > 0 &&
+              `\n\nEligibility Requirements:\n\n${eligibility}`}
           </Col>
         </Row>
         <Row className="section">
@@ -177,15 +175,21 @@ export default class ResourceDetail extends Component {
                   <Icon type="phone" theme="filled" />
                   <div className="card-label">Contact Information{'\n'}</div>
                   {phone.length > 0 ||
-                  email.length > 0 ||
-                  website.length > 0 ? (
+                  (email && email.length > 0) ||
+                  (website && website.length > 0) ? (
                     <>
                       {phone.length > 0 &&
                         phone.map(p => {
                           return `${p.phoneType}: ${p.phoneNumber}\n`;
                         })}
                       {email.length > 0 && `${email}\n`}
-                      {website.length > 0 && `${website}\n`}
+                      {website.length > 0 && (
+                        <a
+                          href={website}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >{`${website}\n`}</a>
+                      )}
                     </>
                   ) : (
                     'None provided.'
@@ -265,9 +269,7 @@ export default class ResourceDetail extends Component {
                   id="marker"
                   layout={{ 'icon-image': 'marker-15' }}
                 >
-                  <Feature
-                    coordinates={[lat, long]}
-                  />
+                  <Feature coordinates={[lat, long]} />
                 </Layer>
               </Map>
             </Row>
