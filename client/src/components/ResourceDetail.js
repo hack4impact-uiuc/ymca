@@ -54,6 +54,7 @@ export default class ResourceDetail extends Component {
         languages: result.availableLanguages,
         category: result.category[0],
         subcategory: result.subcategory[0],
+        website: result.website,
       });
     } else {
       // redirect to resource unknown page
@@ -118,13 +119,10 @@ export default class ResourceDetail extends Component {
             )}
           </Col>
           <Col span={9}>
-            {address.length > 0 || city.length > 0 ? (
-              <>
-                {address.length > 0 && `${address}\n`}
-                {city.length > 0 && `${city}\n`}
-              </>
+            {website.length > 0 ? (
+              <a href={`${website}`}>{`${website}`}</a>
             ) : (
-              'No address provided.'
+              'No website provided.'
             )}
           </Col>
         </Row>
@@ -152,7 +150,6 @@ export default class ResourceDetail extends Component {
                           return `${p.phoneType}: ${p.phoneNumber}\n`;
                         })}
                       {email.length > 0 && `${email}\n`}
-                      {website.length > 0 && `${website}\n`}
                     </>
                   ) : (
                     'None provided.'
