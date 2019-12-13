@@ -38,6 +38,7 @@ export default class ResourceDetail extends Component {
       category: '',
       subcategory: '',
       resourceExists: true,
+      eligibility: '',
     };
   }
 
@@ -54,6 +55,8 @@ export default class ResourceDetail extends Component {
         languages: result.availableLanguages,
         category: result.category[0],
         subcategory: result.subcategory[0],
+        website: result.website,
+        eligibility: result.eligibilityRequirements,
       });
     } else {
       // redirect to resource unknown page
@@ -77,6 +80,7 @@ export default class ResourceDetail extends Component {
       category,
       subcategory,
       resourceExists,
+      eligibility,
     } = this.state;
 
     const Map = ReactMapboxGl({
@@ -118,19 +122,21 @@ export default class ResourceDetail extends Component {
             )}
           </Col>
           <Col span={9}>
-            {address.length > 0 || city.length > 0 ? (
-              <>
-                {address.length > 0 && `${address}\n`}
-                {city.length > 0 && `${city}\n`}
-              </>
+            {website.length > 0 ? (
+              <a
+                href={website}
+                target="_blank"
+                rel="noopener noreferrer"
+              >{`${website}`}</a>
             ) : (
-              'No address provided.'
+              'No website provided.'
             )}
           </Col>
         </Row>
         <Row>
           <Col span={24}>
             {description.length > 0 ? description : 'No description provided.'}
+            {eligibility && `\n\nEligibility Requirements: ${eligibility}`}
           </Col>
         </Row>
         <Row className="section">
@@ -152,7 +158,6 @@ export default class ResourceDetail extends Component {
                           return `${p.phoneType}: ${p.phoneNumber}\n`;
                         })}
                       {email.length > 0 && `${email}\n`}
-                      {website.length > 0 && `${website}\n`}
                     </>
                   ) : (
                     'None provided.'
