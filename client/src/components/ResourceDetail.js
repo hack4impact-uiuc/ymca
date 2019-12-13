@@ -38,6 +38,7 @@ export default class ResourceDetail extends Component {
       category: '',
       subcategory: '',
       resourceExists: true,
+      eligibility: '',
     };
   }
 
@@ -55,6 +56,7 @@ export default class ResourceDetail extends Component {
         category: result.category[0],
         subcategory: result.subcategory[0],
         website: result.website,
+        eligibility: result.eligibilityRequirements,
       });
     } else {
       // redirect to resource unknown page
@@ -78,6 +80,7 @@ export default class ResourceDetail extends Component {
       category,
       subcategory,
       resourceExists,
+      eligibility,
     } = this.state;
 
     const Map = ReactMapboxGl({
@@ -120,7 +123,11 @@ export default class ResourceDetail extends Component {
           </Col>
           <Col span={9}>
             {website.length > 0 ? (
-              <a href={`${website}`}>{`${website}`}</a>
+              <a
+                href={website}
+                target="_blank"
+                rel="noopener noreferrer"
+              >{`${website}`}</a>
             ) : (
               'No website provided.'
             )}
@@ -129,6 +136,7 @@ export default class ResourceDetail extends Component {
         <Row>
           <Col span={24}>
             {description.length > 0 ? description : 'No description provided.'}
+            {eligibility && `\n\nEligibility Requirements: ${eligibility}`}
           </Col>
         </Row>
         <Row className="section">
