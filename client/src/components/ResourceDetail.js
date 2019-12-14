@@ -55,7 +55,7 @@ export default class ResourceDetail extends Component {
         languages: result.availableLanguages,
         category: result.category[0],
         subcategory: result.subcategory[0],
-        website: result.website,
+        website: result.website || '',
         eligibility: result.eligibilityRequirements,
       });
     } else {
