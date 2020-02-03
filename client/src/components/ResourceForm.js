@@ -132,8 +132,6 @@ const ResourceForm = (props: FormProps) => {
       }}
     >
       <CategorySelector
-        categories={categories}
-        subcategories={subcategories}
         setCategories={setCategories}
         setSubcategories={setSubcategories}
         getFieldDecorator={getFieldDecorator}

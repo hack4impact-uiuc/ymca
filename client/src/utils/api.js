@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 const axios = require('axios');
 
 const instance = axios.create({
@@ -7,14 +9,20 @@ const instance = axios.create({
 export const getCategories = () => {
   return instance.get('/api/categories').then(
     res => res.data,
-    err => null,
+    err => {
+      console.error(err);
+      return null;
+    },
   );
 };
 
 export const getResources = () => {
   return instance.get('/api/resources').then(
     res => res.data,
-    err => null,
+    err => {
+      console.error(err);
+      return null;
+    },
   );
 };
 
@@ -22,7 +30,10 @@ export const getResourcesByCategory = category => {
   const requestExtension = `/api/resources?category=${category}`;
   return instance.get(requestExtension).then(
     res => res.data,
-    err => null,
+    err => {
+      console.error(err);
+      return null;
+    },
   );
 };
 
@@ -30,7 +41,10 @@ export const getResourceByID = id => {
   const requestExtension = `/api/resources/${id}`;
   return instance.get(requestExtension).then(
     res => res.data,
-    err => null,
+    err => {
+      console.error(err);
+      return null;
+    },
   );
 };
 
@@ -43,7 +57,10 @@ export const addResource = resource => {
     })
     .then(
       res => res.data,
-      err => null,
+      err => {
+        console.error(err);
+        return null;
+      },
     );
 };
 
@@ -57,7 +74,10 @@ export const editResource = (id, resource) => {
     })
     .then(
       res => res.data,
-      err => null,
+      err => {
+        console.error(err);
+        return null;
+      },
     );
 };
 
@@ -71,6 +91,9 @@ export const deleteResource = id => {
     })
     .then(
       res => res.data,
-      err => null,
+      err => {
+        console.error(err);
+        return null;
+      },
     );
 };

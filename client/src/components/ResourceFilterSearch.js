@@ -15,15 +15,12 @@ on search have the resource grid be populated with the filtered results here
 const ResourceFilterSearch = () => {
   const history = useHistory();
 
-  const [allResources, setAllResources] = useState([]);
   const [allResourceOptions, setAllResourceOptions] = useState([]);
 
   const getResourceNames = useCallback(() => {
     getResources().then(res => {
       if (res !== null) {
         if (res.code === 200) {
-          setAllResources(res.result);
-
           setAllResourceOptions(
             Object.values(res.result).map(resource => (
               <Option key={resource.name} value={resource._id}>
