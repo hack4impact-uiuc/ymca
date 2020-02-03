@@ -12,11 +12,11 @@ import languages from '../data/languages';
 import locations from '../data/locations';
 import useWindowDimensions from '../utils/mobile';
 
-import ResourcesBanner from './ResourcesBanner';
-import ResourcesFilter from './ResourcesFilter';
-import ResourcesGrid from './ResourcesGrid';
-import ResourceCategoryFilter from './ResourceCategoryFilter';
-import ResourcesFilterMobile from './mobile/ResourcesFilterMobile';
+import ResourcesBanner from '../components/ResourcesBanner';
+import ResourcesFilter from '../components/ResourcesFilter';
+import ResourcesGrid from '../components/ResourcesGrid';
+import ResourceCategoryFilter from '../components/ResourceCategoryFilter';
+import ResourcesFilterMobile from '../components/mobile/ResourcesFilterMobile';
 
 const { Sider } = Layout;
 

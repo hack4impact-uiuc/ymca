@@ -7,7 +7,7 @@ import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 
 import { getResourceByID } from '../utils/api';
 
-import ResourcesBreadcrumb from './ResourcesBreadcrumb';
+import ResourcesBreadcrumb from '../components/ResourcesBreadcrumb';
 
 const days = [
   'Sunday',
