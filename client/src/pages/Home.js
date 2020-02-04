@@ -50,7 +50,7 @@ const Home = () => {
       <Row className="home-block-4" type="flex" justify="center" align="middle">
         <Col span={24}>
           <Row type="flex" justify="center" align="middle">
-            <Col span={spanNum} classname="home-block-4__title">
+            <Col span={spanNum} className="home-block-4__title">
               <Textfit mode="single">
                 <strong>Partners in the Community</strong>
               </Textfit>
