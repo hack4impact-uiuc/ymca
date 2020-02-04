@@ -34,7 +34,7 @@ const ResourceFilterSearch = () => {
       }
       // also show error
     });
-  });
+  }, [setAllResourceOptions]);
 
   const filterSearchResults = useCallback(
     (input, option) =>
@@ -43,11 +43,15 @@ const ResourceFilterSearch = () => {
         .substring(0, input.length)
         .indexOf(input.toUpperCase()) !== -1 ||
       option.props.children.toUpperCase().indexOf(input.toUpperCase()) !== -1,
+    [],
   );
 
-  const onSearchSelect = useCallback(value => {
-    history.push(`/resources/${value}`);
-  });
+  const onSearchSelect = useCallback(
+    value => {
+      history.push(`/resources/${value}`);
+    },
+    [history],
+  );
 
   useEffect(getResourceNames, []);
 
