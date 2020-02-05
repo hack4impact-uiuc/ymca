@@ -3,7 +3,7 @@
 import React from 'react';
 
 import '../css/AdminResourceManager.css';
-import ResourceForm from './ResourceForm';
+import ResourceForm from '../components/ResourceForm';
 
 type Props = {
   match: {

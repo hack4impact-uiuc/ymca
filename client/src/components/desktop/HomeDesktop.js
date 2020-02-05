@@ -17,7 +17,7 @@ export const HomeBlock2Desktop = () => {
         <Row
           className="home-block-2__left__text"
           type="flex"
-          justify="left"
+          justify="start"
           align="middle"
         >
           <Col span={20}>
@@ -51,7 +51,7 @@ export const HomeBlock3Desktop = () => {
         <Carousel autoplay dotPosition="right">
           {testimonials.map(element => {
             return (
-              <div>
+              <div key={element}>
                 <Row
                   className="testimonial-block"
                   type="flex"

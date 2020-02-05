@@ -10,11 +10,12 @@ function ResourcesBreadcrumb(props) {
   const breadcrumbs = [];
 
   if (categorySelected === 'All Resources') {
-    breadcrumbs.push(<span>All Resources</span>);
+    breadcrumbs.push(<span key="all">All Resources</span>);
   } else if (categorySelected !== '') {
     breadcrumbs.push(
       <Link
         className="link"
+        key="all"
         to={{
           pathname: '/resources',
         }}
@@ -24,7 +25,7 @@ function ResourcesBreadcrumb(props) {
     );
     if (subcategorySelected !== '') {
       breadcrumbs.push(
-        <span>
+        <span key="cat">
           {` > `}
           <Link
             className="link"
@@ -40,7 +41,7 @@ function ResourcesBreadcrumb(props) {
 
       if (resourceSelected) {
         breadcrumbs.push(
-          <span>
+          <span key="sub">
             {` > `}
             <Link
               className="link"
@@ -55,14 +56,14 @@ function ResourcesBreadcrumb(props) {
           </span>,
         );
         breadcrumbs.push(
-          <span>
+          <span key="resource">
             {` > `}
             <strong>{resourceSelected}</strong>
           </span>,
         );
       } else {
         breadcrumbs.push(
-          <span>
+          <span key="sub">
             {` > `}
             <strong>{subcategorySelected}</strong>
           </span>,
@@ -70,7 +71,7 @@ function ResourcesBreadcrumb(props) {
       }
     } else {
       breadcrumbs.push(
-        <span>
+        <span key="cat">
           {` > `}
           <strong>{categorySelected}</strong>
         </span>,

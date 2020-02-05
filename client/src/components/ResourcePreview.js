@@ -65,9 +65,21 @@ function ResourcePreview(props) {
   if (languages !== '') {
     languages = languages.slice(0, languages.length - 2);
   }
-  description.push(<div style={{ color: '#431C72' }}>{cost}</div>);
-  description.push(<div style={{ color: 'black' }}>{city}</div>);
-  description.push(<div style={{ color: 'black' }}>{languages}</div>);
+  description.push(
+    <div key="cost" style={{ color: '#431C72' }}>
+      {cost}
+    </div>,
+  );
+  description.push(
+    <div key="city" style={{ color: 'black' }}>
+      {city}
+    </div>,
+  );
+  description.push(
+    <div key="languages" style={{ color: 'black' }}>
+      {languages}
+    </div>,
+  );
 
   return (
     <Link to={`resources/${id}`}>

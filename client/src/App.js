@@ -7,17 +7,17 @@ import {
 } from 'react-router-dom';
 
 import PrivateRoute from './components/PrivateRoute';
-import AdminResourceManager from './components/AdminResourceManager';
-import Home from './components/Home';
-import Login from './components/Login';
-import Logout from './components/Logout';
+import AdminResourceManager from './pages/AdminResourceManager';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Logout from './pages/Logout';
 import Navigation from './components/Navigation';
-import NotFound from './components/NotFound';
-import Register from './components/Register';
-import ResourceDetail from './components/ResourceDetail';
-import Resources from './components/Resources';
-import ResourceUnknown from './components/ResourceUnknown';
-import RoleApproval from './components/RoleApproval';
+import NotFound from './pages/NotFound';
+import Register from './pages/Register';
+import ResourceDetail from './pages/ResourceDetail';
+import Resources from './pages/Resources';
+import ResourceUnknown from './pages/ResourceUnknown';
+import RoleApproval from './pages/RoleApproval';
 import ScrollToTop from './components/ScrollToTop';
 import { verify, getAllRoles } from './utils/auth';
 

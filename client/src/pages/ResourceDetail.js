@@ -6,8 +6,7 @@ import '../css/ResourceDetail.css';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 
 import { getResourceByID } from '../utils/api';
-
-import ResourcesBreadcrumb from './ResourcesBreadcrumb';
+import ResourcesBreadcrumb from '../components/ResourcesBreadcrumb';
 
 const days = [
   'Sunday',
@@ -206,7 +205,7 @@ export default class ResourceDetail extends Component {
             <Row className="cardRow">
               {hours.map((day, i) => {
                 return (
-                  <Col span={8}>
+                  <Col key={day} span={8}>
                     <Card>
                       <div className="card-label day-label">
                         {`${days[i]}\n`}

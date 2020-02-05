@@ -15,15 +15,12 @@ on search have the resource grid be populated with the filtered results here
 const ResourceFilterSearch = () => {
   const history = useHistory();
 
-  const [allResources, setAllResources] = useState([]);
   const [allResourceOptions, setAllResourceOptions] = useState([]);
 
   const getResourceNames = useCallback(() => {
     getResources().then(res => {
       if (res !== null) {
         if (res.code === 200) {
-          setAllResources(res.result);
-
           setAllResourceOptions(
             Object.values(res.result).map(resource => (
               <Option key={resource.name} value={resource._id}>
@@ -37,7 +34,7 @@ const ResourceFilterSearch = () => {
       }
       // also show error
     });
-  });
+  }, [setAllResourceOptions]);
 
   const filterSearchResults = useCallback(
     (input, option) =>
@@ -46,11 +43,15 @@ const ResourceFilterSearch = () => {
         .substring(0, input.length)
         .indexOf(input.toUpperCase()) !== -1 ||
       option.props.children.toUpperCase().indexOf(input.toUpperCase()) !== -1,
+    [],
   );
 
-  const onSearchSelect = useCallback(value => {
-    history.push(`/resources/${value}`);
-  });
+  const onSearchSelect = useCallback(
+    value => {
+      history.push(`/resources/${value}`);
+    },
+    [history],
+  );
 
   useEffect(getResourceNames, []);
 

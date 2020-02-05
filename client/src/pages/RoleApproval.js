@@ -80,7 +80,7 @@ class RoleApproval extends Component {
               </thead>
               <tbody>
                 {this.state.users.map((user, idx) => (
-                  <tr>
+                  <tr key={user.email}>
                     <th scope="row">{idx + 1}</th>
                     <td>{user.email}</td>
                     <td>{user.role}</td>
