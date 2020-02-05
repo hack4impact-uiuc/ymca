@@ -11,7 +11,6 @@ import {
 import languages from '../data/languages';
 import locations from '../data/locations';
 import useWindowDimensions from '../utils/mobile';
-
 import ResourcesBanner from '../components/ResourcesBanner';
 import ResourcesFilter from '../components/ResourcesFilter';
 import ResourcesGrid from '../components/ResourcesGrid';
@@ -227,6 +226,7 @@ Resources.propTypes = {
   location: PropTypes.shape({ search: PropTypes.string }),
   history: PropTypes.shape({
     pathname: PropTypes.string,
+    push: PropTypes.func,
     search: PropTypes.string,
   }),
 };

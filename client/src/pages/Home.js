@@ -7,9 +7,14 @@ import '../css/Home.css';
 import '../css_mobile/Home.css';
 
 import useWindowDimensions from '../utils/mobile';
-
-import { HomeBlock2Desktop, HomeBlock3Desktop } from '../components/desktop/HomeDesktop';
-import { HomeBlock2Mobile, HomeBlock3Mobile } from '../components/mobile/HomeMobile';
+import {
+  HomeBlock2Desktop,
+  HomeBlock3Desktop,
+} from '../components/desktop/HomeDesktop';
+import {
+  HomeBlock2Mobile,
+  HomeBlock3Mobile,
+} from '../components/mobile/HomeMobile';
 
 const Home = () => {
   const isMobile = useWindowDimensions()[1];
