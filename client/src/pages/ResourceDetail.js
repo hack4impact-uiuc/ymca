@@ -206,7 +206,7 @@ export default class ResourceDetail extends Component {
             <Row className="cardRow">
               {hours.map((day, i) => {
                 return (
-                  <Col span={8}>
+                  <Col key={i} span={8}>
                     <Card>
                       <div className="card-label day-label">
                         {`${days[i]}\n`}

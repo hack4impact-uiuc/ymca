@@ -225,12 +225,10 @@ Resources.defaultProps = {
 
 Resources.propTypes = {
   location: PropTypes.shape({ search: PropTypes.string }),
-  history: PropTypes.arrayOf(
-    PropTypes.shape({
-      pathname: PropTypes.string,
-      search: PropTypes.string,
-    }),
-  ),
+  history: PropTypes.shape({
+    pathname: PropTypes.string,
+    search: PropTypes.string,
+  }),
 };
 
 export default Resources;
