@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Textfit } from 'react-textfit';
 import { PropTypes } from 'prop-types';
@@ -8,176 +8,167 @@ import '../css/Register.css';
 
 import { register } from '../utils/auth';
 
-class Register extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      confirmDirty: true,
-    };
-  }
+const formItemLayout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 8 },
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 8 },
+  },
+};
 
-  handleConfirmBlur = e => {
-    const { value } = e.target;
-    if (!!value || this.state.confirmDirty) {
-      this.setState({ confirmDirty: true });
-    } else {
-      this.setState({ confirmDirty: false });
-    }
-  };
+const tailFormItemLayout = {
+  wrapperCol: {
+    xs: {
+      span: 24,
+      offset: 0,
+    },
+    sm: {
+      span: 16,
+      offset: 8,
+    },
+  },
+};
 
-  compareToFirstPassword = (rule, value, callback) => {
-    const { form } = this.props;
-    if (value && value !== form.getFieldValue('password')) {
-      callback('The two passwords you entered are inconsistent!');
-    } else {
-      callback();
-    }
-  };
+const Register = ({ authed, form, setAuthed, setAuthRole }) => {
+  const [confirmDirty, setConfirmDirty] = useState(true);
 
-  onRegisterSubmit = e => {
-    e.preventDefault();
-
-    const { form, setAuthed, setAuthRole } = this.props;
-    form.validateFields((err, values) => {
-      if (!err) {
-        const { email, password } = values;
-        register({ email, password }).then(res => {
-          if (res.status === 200) {
-            localStorage.setItem('token', res.token);
-
-            setAuthed(true);
-            setAuthRole(res.permission);
-          } else {
-            // show error message
-          }
-        });
+  const handleConfirmBlur = useCallback(
+    e => {
+      const { value } = e.target;
+      if (!!value || confirmDirty) {
+        setConfirmDirty(true);
+      } else {
+        setConfirmDirty(false);
       }
-    });
-  };
+    },
+    [confirmDirty, setConfirmDirty],
+  );
 
-  render() {
-    const { authed } = this.props;
-    if (authed) return <Redirect to="/admin" />;
+  const compareToFirstPassword = useCallback(
+    (rule, value, callback) => {
+      if (value && value !== form.getFieldValue('password')) {
+        callback('The two passwords you entered are inconsistent!');
+      } else {
+        callback();
+      }
+    },
+    [form],
+  );
 
-    const { getFieldDecorator } = this.props.form;
+  const onRegisterSubmit = useCallback(
+    e => {
+      e.preventDefault();
 
-    const formItemLayout = {
-      labelCol: {
-        xs: { span: 24 },
-        sm: { span: 8 },
-      },
-      wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 8 },
-      },
-    };
+      form.validateFields((err, values) => {
+        if (!err) {
+          const { email, password } = values;
+          register({ email, password }).then(res => {
+            if (res.status === 200) {
+              localStorage.setItem('token', res.token);
 
-    const tailFormItemLayout = {
-      wrapperCol: {
-        xs: {
-          span: 24,
-          offset: 0,
-        },
-        sm: {
-          span: 16,
-          offset: 8,
-        },
-      },
-    };
+              setAuthed(true);
+              setAuthRole(res.permission);
+            } else {
+              // show error message
+            }
+          });
+        }
+      });
+    },
+    [form, setAuthed, setAuthRole],
+  );
 
-    return (
-      <div className="register-block-1">
-        <Row type="flex" justify="center">
-          <Col span={4} className="first-row-margin">
-            <img
-              src="/asset/icon/icon-with-words.png"
-              alt=""
-              className="container"
-            />
-            <Textfit className="register-text" mode="single">
-              Registration
-            </Textfit>
-          </Col>
-        </Row>
-        <Form
-          {...formItemLayout}
-          onSubmit={this.onRegisterSubmit}
-          className="register-form"
-        >
-          <Form.Item label="*" className="form-text">
-            {getFieldDecorator('email', {
-              rules: [
-                {
-                  type: 'email',
-                  message: 'The input is not valid E-mail!',
-                },
-                {
-                  required: true,
-                  message: 'Please input your E-mail!',
-                },
-              ],
-            })(
-              <Input
-                prefix={
-                  <Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />
-                }
-                placeholder="E-mail"
-              />,
-            )}
-          </Form.Item>
-          <Form.Item label="*" hasFeedback className="form-text">
-            {getFieldDecorator('password', {
-              rules: [
-                {
-                  required: true,
-                  message: 'Please create a password!',
-                },
-                {
-                  validator: this.validateToNextPassword,
-                },
-              ],
-            })(
-              <Input.Password
-                prefix={
-                  <Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />
-                }
-                type="password"
-                placeholder="Create Password"
-              />,
-            )}
-          </Form.Item>
-          <Form.Item label="*" hasFeedback className="form-text">
-            {getFieldDecorator('confirm', {
-              rules: [
-                {
-                  required: true,
-                  message: 'Please confirm your password!',
-                },
-                {
-                  validator: this.compareToFirstPassword,
-                },
-              ],
-            })(
-              <Input.Password
-                onBlur={this.handleConfirmBlur}
-                prefix={
-                  <Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />
-                }
-                type="password"
-                placeholder="Confirm Password"
-              />,
-            )}
-          </Form.Item>
-          <Form.Item {...tailFormItemLayout}>
-            <Button className="reg-button" type="primary" htmlType="submit">
-              Register
-            </Button>
-          </Form.Item>
-        </Form>
-      </div>
-    );
-  }
-}
+  const { getFieldDecorator } = form;
+
+  if (authed) return <Redirect to="/admin" />;
+
+  return (
+    <div className="register-block-1">
+      <Row type="flex" justify="center">
+        <Col span={4} className="first-row-margin">
+          <img
+            src="/asset/icon/icon-with-words.png"
+            alt=""
+            className="container"
+          />
+          <Textfit className="register-text" mode="single">
+            Registration
+          </Textfit>
+        </Col>
+      </Row>
+      <Form
+        {...formItemLayout}
+        onSubmit={e => onRegisterSubmit(e)}
+        className="register-form"
+      >
+        <Form.Item label="*" className="form-text">
+          {getFieldDecorator('email', {
+            rules: [
+              {
+                type: 'email',
+                message: 'The input is not valid E-mail!',
+              },
+              {
+                required: true,
+                message: 'Please input your E-mail!',
+              },
+            ],
+          })(
+            <Input
+              prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+              placeholder="E-mail"
+            />,
+          )}
+        </Form.Item>
+        <Form.Item label="*" hasFeedback className="form-text">
+          {getFieldDecorator('password', {
+            rules: [
+              {
+                required: true,
+                message: 'Please create a password!',
+              },
+            ],
+          })(
+            <Input.Password
+              prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+              type="password"
+              placeholder="Create Password"
+            />,
+          )}
+        </Form.Item>
+        <Form.Item label="*" hasFeedback className="form-text">
+          {getFieldDecorator('confirm', {
+            rules: [
+              {
+                required: true,
+                message: 'Please confirm your password!',
+              },
+              {
+                validator: (rule, value, password) =>
+                  compareToFirstPassword(rule, value, password),
+              },
+            ],
+          })(
+            <Input.Password
+              onBlur={e => handleConfirmBlur(e)}
+              prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+              type="password"
+              placeholder="Confirm Password"
+            />,
+          )}
+        </Form.Item>
+        <Form.Item {...tailFormItemLayout}>
+          <Button className="reg-button" type="primary" htmlType="submit">
+            Register
+          </Button>
+        </Form.Item>
+      </Form>
+    </div>
+  );
+};
 
 Register.propTypes = {
   form: Form.isRequired,
