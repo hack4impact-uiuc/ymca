@@ -83,8 +83,6 @@ const Register = ({ authed, form, setAuthed, setAuthRole }) => {
 
   const { getFieldDecorator } = form;
 
-  if (authed) return <Redirect to="/admin" />;
-
   return (
     <div className="register-block-1">
       <Row type="flex" justify="center">

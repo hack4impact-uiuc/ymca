@@ -43,8 +43,6 @@ function Login(props: Props) {
     [form, setAuthed, setAuthRole],
   );
 
-  if (authed) return <Redirect to="/admin" />;
-
   return (
     <div className="login-block-1">
       <Row type="flex" justify="center">
