@@ -132,8 +132,6 @@ const ResourceForm = (props: FormProps) => {
       }}
     >
       <CategorySelector
-        categories={categories}
-        subcategories={subcategories}
         setCategories={setCategories}
         setSubcategories={setSubcategories}
         getFieldDecorator={getFieldDecorator}
@@ -277,7 +275,9 @@ const ResourceForm = (props: FormProps) => {
         )(
           <Select mode="multiple" placeholder="Select available language(s)">
             {languages.map(lang => (
-              <Option value={lang}>{lang}</Option>
+              <Option key={lang} value={lang}>
+                {lang}
+              </Option>
             ))}
           </Select>,
         )}

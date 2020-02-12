@@ -40,7 +40,7 @@ function Login(props: Props) {
         }
       });
     },
-    [form, setAuthed],
+    [form, setAuthed, setAuthRole],
   );
 
   if (authed) return <Redirect to="/admin" />;

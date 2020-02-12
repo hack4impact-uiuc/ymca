@@ -9,16 +9,7 @@ const { Option, OptGroup } = Select;
 export const CAT_SUB_SPLITTER = '~';
 
 const wrappedSetCategory = args => {
-  const {
-    selected,
-    fetchedCategories,
-    categories,
-    subcategories,
-    setCategories,
-    setSubcategories,
-    getFieldDecorator,
-    setFieldsValue,
-  } = args;
+  const { selected, setCategories, setSubcategories, setFieldsValue } = args;
 
   const selectedCategories = [];
   const selectedSubcategories = [];
@@ -36,8 +27,6 @@ const wrappedSetCategory = args => {
 };
 
 type Props = {
-  categories: Array<String>,
-  subcategories: Array<String>,
   setCategories: (Array<String>) => void,
   setSubcategories: (Array<String>) => void,
   getFieldDecorator: () => any,
@@ -46,8 +35,6 @@ type Props = {
 
 const CategorySelector = (props: Props) => {
   const {
-    categories,
-    subcategories,
     setCategories,
     setSubcategories,
     getFieldDecorator,
@@ -59,12 +46,8 @@ const CategorySelector = (props: Props) => {
   const onCategoryChange = selected => {
     wrappedSetCategory({
       selected,
-      fetchedCategories,
-      categories,
-      subcategories,
       setCategories,
       setSubcategories,
-      getFieldDecorator,
       setFieldsValue,
     });
   };
@@ -99,12 +82,15 @@ const CategorySelector = (props: Props) => {
             onChange={onCategoryChange}
           >
             {fetchedCategories.map(cat => (
-              <OptGroup label={cat.name}>
-                {cat.subcategories.map(subcat => (
-                  <Option value={`${cat.name}${CAT_SUB_SPLITTER}${subcat}`}>
-                    {subcat}
-                  </Option>
-                ))}
+              <OptGroup key={cat.name} label={cat.name}>
+                {cat.subcategories.map(subcat => {
+                  const val = `${cat.name}${CAT_SUB_SPLITTER}${subcat}`;
+                  return (
+                    <Option key={val} value={val}>
+                      {subcat}
+                    </Option>
+                  );
+                })}
               </OptGroup>
             ))}
           </Select>,

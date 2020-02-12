@@ -6,8 +6,7 @@ import '../css/ResourceDetail.css';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 
 import { getResourceByID } from '../utils/api';
-
-import ResourcesBreadcrumb from './ResourcesBreadcrumb';
+import ResourcesBreadcrumb from '../components/ResourcesBreadcrumb';
 
 const days = [
   'Sunday',
@@ -77,7 +76,7 @@ export default class ResourceDetail extends Component {
         lat: coords[0],
         long: coords[1],
         email: result.email,
-        website: result.website,
+        website: result.website || '',
         eligibility: result.eligibilityRequirements,
       });
     } else {
@@ -146,22 +145,21 @@ export default class ResourceDetail extends Component {
             )}
           </Col>
           <Col span={9}>
-            {address.length > 0 || city.length > 0 ? (
-              <>
-                {address.length > 0 && `${address}\n`}
-                {city.length > 0 && `${city}\n`}
-              </>
+            {website.length > 0 ? (
+              <a
+                href={website}
+                target="_blank"
+                rel="noopener noreferrer"
+              >{`${website}`}</a>
             ) : (
-              'No address provided.'
+              'No website provided.'
             )}
           </Col>
         </Row>
         <Row>
           <Col span={24}>
             {description.length > 0 ? description : 'No description provided.'}
-            {eligibility &&
-              eligibility.length > 0 &&
-              `\n\nEligibility Requirements:\n\n${eligibility}`}
+            {eligibility && `\n\nEligibility Requirements: ${eligibility}`}
           </Col>
         </Row>
         <Row className="section">
@@ -238,7 +236,7 @@ export default class ResourceDetail extends Component {
             <Row className="cardRow">
               {hours.map((day, i) => {
                 return (
-                  <Col span={8}>
+                  <Col key={day} span={8}>
                     <Card>
                       <div className="card-label day-label">
                         {`${days[i]}\n`}

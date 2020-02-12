@@ -47,7 +47,8 @@ function ResourceCategoryFilter(props) {
 
 ResourceCategoryFilter.propTypes = {
   category: PropTypes.string.isRequired,
-  categories: PropTypes.arrayOf(PropTypes.string).isRequired,
+  categories: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string))
+    .isRequired,
   categorySelectAll: PropTypes.func.isRequired,
   onOpenChange: PropTypes.func.isRequired,
   openKeys: PropTypes.arrayOf(PropTypes.string).isRequired,

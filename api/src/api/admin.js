@@ -67,4 +67,19 @@ router.post(
   }),
 );
 
+// Delete a category
+router.delete(
+  '/categories/:id',
+  errorWrap(async (req, res) => {
+    const { id } = req.params;
+    await Category.findByIdAndDelete(id);
+    res.json({
+      code: 200,
+      message: `Successfully deleted category ${id}`,
+      success: true,
+      result: null,
+    });
+  }),
+);
+
 module.exports = router;

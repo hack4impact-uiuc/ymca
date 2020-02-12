@@ -67,7 +67,7 @@ const InternalNotesForm = Form.create({ name: 'internalNotes' })(
           body: editNote.body,
         });
       }
-    }, [editNote]);
+    }, [editNote, setFieldsValue]);
 
     return (
       <Form onSubmit={onSubmit}>

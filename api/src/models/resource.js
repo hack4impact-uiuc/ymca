@@ -17,12 +17,12 @@ const FinancialAid = new mongoose.Schema({
   education: { type: String, required: false },
   immigrationStatus: { type: String, required: false },
   deadline: { type: String, required: false },
-  amount: {type: String, required: false},
+  amount: { type: String, required: false },
 });
 
 const InternalNote = new mongoose.Schema({
-  subject: {type: String, required: true},
-  body: {type: String, required: true},
+  subject: { type: String, required: true },
+  body: { type: String, required: true },
 });
 
 const Resource = new mongoose.Schema({
