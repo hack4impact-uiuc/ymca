@@ -28,21 +28,22 @@ const App = () => {
 
   useEffect(() => {
     async function fetchData() {
-      const rolesRes = await getAllRoles();
-      setAuthRoles(Object.keys(rolesRes.roles));
-      verify(
-        res => {
-          setAuthed(true);
-          setAuthRole(res.role);
-        },
-        () => {
-          setAuthed(false);
-          setAuthRole('');
-        },
-      );
+      Promise.all([
+        getAllRoles(),
+        verify(
+          res => {
+            setAuthed(true);
+            setAuthRole(res.role);
+          },
+          () => {
+            setAuthed(false);
+            setAuthRole('');
+          },
+        ),
+      ]).then(vals => setAuthRoles(Object.keys(vals[0].roles)));
     }
     fetchData();
-  }, []);
+  }, [setAuthed, setAuthRole, setAuthRoles]);
 
   const authRoleIsEquivalentTo = useCallback(
     role => {
