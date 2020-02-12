@@ -1,5 +1,4 @@
 import React, { useCallback, useState } from 'react';
-import { Redirect } from 'react-router-dom';
 import { Textfit } from 'react-textfit';
 import { PropTypes } from 'prop-types';
 import { Button, Form, Input, Icon, Row, Col } from 'antd';
@@ -32,7 +31,7 @@ const tailFormItemLayout = {
   },
 };
 
-const Register = ({ authed, form, setAuthed, setAuthRole }) => {
+const Register = ({ form, setAuthed, setAuthRole }) => {
   const [confirmDirty, setConfirmDirty] = useState(true);
 
   const handleConfirmBlur = useCallback(

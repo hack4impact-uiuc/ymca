@@ -1,7 +1,6 @@
 // @flow
 
 import React, { useCallback } from 'react';
-import { Redirect } from 'react-router-dom';
 import { Textfit } from 'react-textfit';
 import { Button, Checkbox, Form, Icon, Input, Row, Col, message } from 'antd';
 import 'antd/dist/antd.css';
@@ -10,14 +9,13 @@ import '../css/Login.css';
 import { login } from '../utils/auth';
 
 type Props = {
-  authed: boolean,
   form: Form,
   setAuthed: boolean => void,
   setAuthRole: Boolean => void,
 };
 
 function Login(props: Props) {
-  const { authed, form, setAuthed, setAuthRole } = props;
+  const { form, setAuthed, setAuthRole } = props;
   const { getFieldDecorator } = form;
 
   const onLoginSubmit = useCallback(
