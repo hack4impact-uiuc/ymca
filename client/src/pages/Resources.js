@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Layout } from 'antd';
 import '../css/Resources.css';
-import Loader from 'react-loader-spinner';  
+import Loader from 'react-loader-spinner';
 
 import {
   getCategories,
@@ -218,7 +218,13 @@ function Resources(props) {
           </div>
         )}
         {loading ? (
-          <Loader className="loader" type="Circles" color="#6A3E9E" height={100} width={100}/>
+          <Loader
+            className="loader"
+            type="Circles"
+            color="#6A3E9E"
+            height={100}
+            width={100}
+          />
         ) : (
           <ResourcesGrid filteredResources={filteredResources} />
         )}
