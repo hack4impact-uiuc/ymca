@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Layout } from 'antd';
 import '../css/Resources.css';
+import Loader from 'react-loader-spinner';
 
 import {
   getCategories,
@@ -25,6 +26,7 @@ function Resources(props) {
   const [location, setLocation] = useState('All');
   const [category, setCategory] = useState('');
   const [subcategory, setSubcategory] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const [openKeys, setOpenKeys] = useState([]);
   const [categories, setCategories] = useState({});
@@ -79,10 +81,14 @@ function Resources(props) {
       subcategorySelected,
     ] = getCategorySelectedFromSearch();
 
+    setLoading(true);
+
     const newResources =
       categorySelected === 'All Resources'
         ? await getResources()
         : await getResourcesByCategory(categorySelected);
+
+    setLoading(false);
 
     setCategory(categorySelected);
     setFilteredResources(newResources == null ? [] : newResources.result);
@@ -211,7 +217,17 @@ function Resources(props) {
             </Sider>
           </div>
         )}
-        <ResourcesGrid filteredResources={filteredResources} />
+        {loading ? (
+          <Loader
+            className="loader"
+            type="Circles"
+            color="#6A3E9E"
+            height={100}
+            width={100}
+          />
+        ) : (
+          <ResourcesGrid filteredResources={filteredResources} />
+        )}
       </Layout>
     </Layout>
   );
