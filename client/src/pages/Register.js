@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Textfit } from 'react-textfit';
 import { PropTypes } from 'prop-types';
-import { Button, Form, Input, Icon, Row, Col } from 'antd';
+import { Button, Form, Input, Icon, Row, Col, message } from 'antd';
 import 'antd/dist/antd.css';
 import '../css/Register.css';
 
@@ -73,6 +73,7 @@ const Register = ({ authed, form, setAuthed, setAuthRole }) => {
               setAuthRole(res.permission);
             } else {
               // show error message
+              message.error('Account already associated with email.');
             }
           });
         }
