@@ -64,32 +64,27 @@ export default class ResourceDetail extends Component {
     }
   }
 
-  showModal() {
+  showModal = () => {
     this.setState({
       modalVisible: true,
     });
-  }
+  };
 
-  handleCancel() {
+  handleCancel = () => {
     this.setState({
       modalVisible: false,
     });
-  }
+  };
 
-  deleteResource(id) {
-    alert('Hi');
-    this.setState({});
-    // return;
-    // const deletedResource = await deleteResource(id);
-    // if (deletedResource) {
-    //   message.success('Resource successfully deleted!');
-    // } else {
-    //   message.error(
-    //     `Resource failed to be deleted.`,
-    //   );
-    //   return;
-    // }
-    // this.props.history.push('/resources');
+  async deleteResource(id) {
+    const deletedResource = await deleteResource(id);
+    if (deletedResource) {
+      message.success('Resource successfully deleted!');
+    } else {
+      message.error(`Resource failed to be deleted.`);
+      return;
+    }
+    this.props.history.push('/resources');
   }
 
   render() {
@@ -130,7 +125,7 @@ export default class ResourceDetail extends Component {
           title="Confirm Delete"
           visible={this.state.modalVisible}
           onOk={() => this.deleteResource(match.params.id)}
-          onCancel={() => this.handleCancel()}
+          onCancel={this.handleCancel}
         >
           <p>Are you sure you want to delete this resource?</p>
         </Modal>
