@@ -1,7 +1,6 @@
 import fetch from 'isomorphic-fetch';
 
-// const AUTH_SERVER_URI = 'https://ymca-auth.now.sh';
-const AUTH_SERVER_URI = 'http://localhost:8000';
+const AUTH_SERVER_URI = 'https://ymca-auth.now.sh';
 
 export const login = body => {
   // auth
