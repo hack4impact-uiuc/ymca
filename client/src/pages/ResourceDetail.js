@@ -127,7 +127,8 @@ export default class ResourceDetail extends Component {
           onOk={() => this.deleteResource(match.params.id)}
           onCancel={this.handleCancel}
         >
-          <p>Are you sure you want to delete this resource?</p>
+          Are you sure you want to delete this resource? Warning: this cannot be
+          undone.
         </Modal>
         <Row
           className="banner"
@@ -284,11 +285,13 @@ export default class ResourceDetail extends Component {
 
 ResourceDetail.defaultProps = {
   match: null,
+  history: null,
 };
 
 ResourceDetail.propTypes = {
   authed: PropTypes.bool.isRequired,
   authRoleIsEquivalentTo: PropTypes.func.isRequired,
+  history: PropTypes.element,
   match: PropTypes.shape({
     params: PropTypes.shape({ id: PropTypes.string }),
   }),
