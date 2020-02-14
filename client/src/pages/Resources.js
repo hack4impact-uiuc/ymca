@@ -21,7 +21,7 @@ import ResourcesFilterMobile from '../components/mobile/ResourcesFilterMobile';
 const { Sider } = Layout;
 
 function Resources(props) {
-  const [cost, setCost] = useState('$ - $$$$');
+  const [cost, setCost] = useState('Free - $$$');
   const [language, setLanguage] = useState('All');
   const [location, setLocation] = useState('All');
   const [category, setCategory] = useState('');
@@ -33,7 +33,7 @@ function Resources(props) {
   const [resources, setResources] = useState([]);
   const [filteredResources, setFilteredResources] = useState([]);
 
-  const costs = ['$', '$ - $$', '$ - $$$', '$ - $$$$'];
+  const costs = ['Free', 'Free - $', 'Free - $$', 'Free - $$$'];
 
   const isMobile = useWindowDimensions()[1];
 
@@ -96,7 +96,7 @@ function Resources(props) {
     setResources(newResources == null ? [] : newResources.result);
     setSubcategory(subcategorySelected);
 
-    setCost('$ - $$$$');
+    setCost('Free - $$$');
     setLanguage('All');
     setLocation('All');
     setSubcategory(subcategorySelected);
@@ -108,16 +108,16 @@ function Resources(props) {
 
   useEffect(() => {
     const costMap = {
-      $: ['$'],
-      '$ - $$': ['$', '$$'],
-      '$ - $$$': ['$', '$$', '$$$'],
-      '$ - $$$$': ['$', '$$', '$$$', '$$$$'],
+      Free: ['Free'],
+      'Free - $': ['Free', '$'],
+      'Free - $$': ['Free', '$', '$$'],
+      'Free - $$$': ['Free', '$', '$$', '$$$'],
     };
 
     const newFilteredResources = resources.filter(
       resource =>
         (resource.subcategory.includes(subcategory) || subcategory === '') &&
-        (costMap[cost].includes(resource.cost) || cost === '$ - $$$$') &&
+        (costMap[cost].includes(resource.cost) || cost === 'Free - $$$') &&
         (resource.availableLanguages.includes(language) ||
           language === 'All') &&
         (resource.city === location || location === 'All'),
