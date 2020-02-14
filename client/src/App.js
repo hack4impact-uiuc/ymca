@@ -90,7 +90,7 @@ const App = () => {
                   setAuthRole={setAuthRole}
                 />
               ) : (
-                <Redirect to="/" />
+                <Redirect to="/admin" />
               )
             }
           />
@@ -105,7 +105,7 @@ const App = () => {
                   setAuthRole={setAuthRole}
                 />
               ) : (
-                <Redirect to="/" />
+                <Redirect to="/admin" />
               )
             }
           />

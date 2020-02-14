@@ -71,3 +71,8 @@
   position: sticky;
   top: 9.5em;
 }
+
+.resources .loader {
+  margin-left: 33%;
+  margin-top: 10%;
+}
