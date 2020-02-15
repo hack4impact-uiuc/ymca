@@ -150,7 +150,11 @@ export default class ResourceDetail extends Component {
             {authed && authRoleIsEquivalentTo('admin') && (
               <span className="resource-edit-delete">
                 <Button href={`/admin/${match.params.id}`}>Edit</Button>
-                <Button onClick={this.showModal}>Delete</Button>
+                <span className="resource-delete">
+                  <Button type="danger" ghost="true" onClick={this.showModal}>
+                    Delete
+                  </Button>
+                </span>
               </span>
             )}
           </Col>
