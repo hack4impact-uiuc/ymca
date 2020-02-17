@@ -7,8 +7,12 @@
   font-size: 175%;
 }
 
-.resource-detail .resource-edit {
+.resource-detail .resource-edit-delete {
   margin-left: 1.5em;
+}
+
+.resource-detail .resource-delete {
+  margin-left: 0.5em;
 }
 
 .resource-detail .ant-row {
