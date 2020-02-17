@@ -4,6 +4,7 @@ import React from 'react';
 import { Layout, Menu } from 'antd';
 
 import '../../css/Navigation.css';
+import { NavLink } from 'react-router-dom';
 
 const { Header } = Layout;
 
@@ -14,38 +15,52 @@ type Props = {
 const NavDesktop = (props: Props) => {
   const { authed } = props;
 
+  const activeStyle = { fontWeight: 'bold', color: 'black' };
+
   return (
     <Header className="navigation">
-      <a href="/" aria-label="logo">
+      <NavLink exact to="/" activeStyle={activeStyle} aria-label="logo">
         <div className="logo" />
-      </a>
+      </NavLink>
       <Menu mode="horizontal">
         <Menu.Item key="home">
-          <a href="/">YMCA</a>
+          <NavLink exact to="/" activeStyle={activeStyle}>
+            YMCA
+          </NavLink>
         </Menu.Item>
         <Menu.Item key="resources">
-          <a href="/resources">Resources</a>
+          <NavLink to="/resources" activeStyle={activeStyle}>
+            Resources
+          </NavLink>
         </Menu.Item>
 
         {authed && (
           <Menu.Item key="admin">
-            <a href="/admin">Admin</a>
+            <NavLink to="/admin" activeStyle={activeStyle}>
+              Admin
+            </NavLink>
           </Menu.Item>
         )}
 
         {authed && (
           <Menu.Item key="approval">
-            <a href="/role-approval">Users</a>
+            <NavLink to="/role-approval" activeStyle={activeStyle}>
+              Users
+            </NavLink>
           </Menu.Item>
         )}
 
         {!authed ? (
           <Menu.Item key="login">
-            <a href="/login">Login</a>
+            <NavLink to="/login" activeStyle={activeStyle}>
+              Login
+            </NavLink>
           </Menu.Item>
         ) : (
           <Menu.Item key="logout">
-            <a href="/logout">Logout</a>
+            <NavLink to="/logout" activeStyle={activeStyle}>
+              Logout
+            </NavLink>
           </Menu.Item>
         )}
       </Menu>
