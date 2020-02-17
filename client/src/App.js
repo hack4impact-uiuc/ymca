@@ -55,14 +55,14 @@ const App = () => {
     [authRole, authRoles],
   );
 
-  return authed === null || authRole === null || authRoles === null ? null : (
+  return (
     <>
-      <Navigation
-        authed={authed}
-        authRoleIsEquivalentTo={authRoleIsEquivalentTo}
-      />
       <Router>
         <ScrollToTop />
+        <Navigation
+          authed={authed}
+          authRoleIsEquivalentTo={authRoleIsEquivalentTo}
+        />
         <Switch>
           <Route path="/" exact component={Home} />
           <PrivateRoute
