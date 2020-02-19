@@ -32,7 +32,7 @@ function Login(props: Props) {
               setAuthed(true);
               setAuthRole(res.permission);
             } else {
-              message.error('Incorrect username or password');
+              message.error(res.message);
             }
           });
         }
