@@ -65,11 +65,17 @@ function Login(props: Props) {
             rules: [
               {
                 type: 'email',
-                message: 'The input is not valid E-mail!',
+                message: (
+                  <div className="less-red-text">
+                    Please input a valid E-mail!
+                  </div>
+                ),
               },
               {
                 required: true,
-                message: 'Please input your E-mail!',
+                message: (
+                  <div className="less-red-text">Please input your E-mail!</div>
+                ),
               },
             ],
           })(
@@ -84,7 +90,11 @@ function Login(props: Props) {
             rules: [
               {
                 required: true,
-                message: 'Please input your password!',
+                message: (
+                  <div className="less-red-text">
+                    Please input your password!
+                  </div>
+                ),
               },
             ],
           })(
@@ -99,7 +109,11 @@ function Login(props: Props) {
           {getFieldDecorator('remember', {
             valuePropName: 'checked',
             initialValue: true,
-          })(<Checkbox className="login-form-checkbox">Remember me</Checkbox>)}
+          })(
+            <Checkbox className="login-form-checkbox">
+              <div className="white-text">Remember me</div>
+            </Checkbox>,
+          )}
           <a className="login-form-forgot" href="home">
             Forgot password
           </a>
@@ -110,7 +124,7 @@ function Login(props: Props) {
           >
             Log In
           </Button>
-          Don&#39;t have an account?{' '}
+          <div className="white-text">Don&#39;t have an account?</div>{' '}
           <a className="login-form-register-now" href="register">
             Register Now!
           </a>
