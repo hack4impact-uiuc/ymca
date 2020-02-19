@@ -40,6 +40,15 @@ p {
   color: #8bd8d0;
 }
 
+.white-text {
+  color: white;
+  display: inline-block;
+}
+
+.less-red-text {
+  color: #b7161f;
+}
+
 .login-form {
   max-width: 350px;
   max-height: 200px;
