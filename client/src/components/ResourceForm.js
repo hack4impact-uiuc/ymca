@@ -261,10 +261,10 @@ const ResourceForm = (props: FormProps) => {
           rules: [{}],
         })(
           <Radio.Group onFocus={() => setTotalSubmitEnabled(true)}>
+            <Radio value="Free">Free</Radio>
             <Radio value="$">$</Radio>
             <Radio value="$$">$$</Radio>
             <Radio value="$$$">$$$</Radio>
-            <Radio value="$$$$">$$$$</Radio>
           </Radio.Group>,
         )}
       </Form.Item>

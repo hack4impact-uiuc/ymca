@@ -1,8 +1,7 @@
 import React, { useCallback, useState } from 'react';
-import { Redirect } from 'react-router-dom';
 import { Textfit } from 'react-textfit';
 import { PropTypes } from 'prop-types';
-import { Button, Form, Input, Icon, Row, Col } from 'antd';
+import { Button, Form, Input, Icon, Row, Col, message } from 'antd';
 import 'antd/dist/antd.css';
 import '../css/Register.css';
 
@@ -32,7 +31,7 @@ const tailFormItemLayout = {
   },
 };
 
-const Register = ({ authed, form, setAuthed, setAuthRole }) => {
+const Register = ({ form, setAuthed, setAuthRole }) => {
   const [confirmDirty, setConfirmDirty] = useState(true);
 
   const handleConfirmBlur = useCallback(
@@ -73,6 +72,7 @@ const Register = ({ authed, form, setAuthed, setAuthRole }) => {
               setAuthRole(res.permission);
             } else {
               // show error message
+              message.error('Account already associated with email.');
             }
           });
         }
@@ -82,8 +82,6 @@ const Register = ({ authed, form, setAuthed, setAuthRole }) => {
   );
 
   const { getFieldDecorator } = form;
-
-  if (authed) return <Redirect to="/admin" />;
 
   return (
     <div className="register-block-1">
