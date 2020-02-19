@@ -25,6 +25,10 @@ const InternalNote = new mongoose.Schema({
   body: { type: String, required: true },
 });
 
+const HoursSchema = new mongoose.Schema({
+  hoursOfOperation: [{day: String, period: [String]}]
+});
+
 const Resource = new mongoose.Schema({
   category: { type: [String], required: true },
   subcategory: { type: [String], required: true },
@@ -36,7 +40,7 @@ const Resource = new mongoose.Schema({
   contacts: { type: [Contact], required: false },
   address: { type: String, required: false },
   city: { type: String, required: false },
-  hoursOfOperation: { type: String, required: false },
+  hoursOfOperation: { type: HoursSchema, required: false },
   eligibilityRequirements: { type: String, required: false },
   financialAidDetails: { type: FinancialAid, required: false },
   cost: { type: String, required: false },
