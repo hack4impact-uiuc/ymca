@@ -31,8 +31,8 @@
 }
 
 .home-block-2__left {
-  border-right: 2px solid rgb(136, 216, 208);
-  height: 50%;
+  border-right: 1px solid rgb(136, 216, 208);
+  line-height: 600%;
 }
 
 .home-block-2__left .home-block-2__left__text {
@@ -57,8 +57,8 @@
   border-radius: 50%;
 }
 
-.testimonial-block__right h1,
-.testimonial-block__right h3 {
+.testimonial-block__right h2,
+.testimonial-block__right h5 {
   color: white;
 }
 
