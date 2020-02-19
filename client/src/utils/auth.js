@@ -32,7 +32,7 @@ export const register = body => {
 };
 
 export const getUsersForRolesPage = () => {
-  return fetch(`${AUTH_SERVER_URI}/roles`, {
+  return fetch(`${AUTH_SERVER_URI}/roles/selfset`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
