@@ -11,7 +11,7 @@
   "license": "MIT",
   "dependencies": {
     "@sendgrid/mail": "^6.3.1",
-    "bcrypt": "3.0.0",
+    "bcrypt": "^3.0.8",
     "body-parser": "^1.18.3",
     "chai": "^4.2.0",
     "cors": "^2.8.5",
@@ -22,7 +22,7 @@
     "express": "^4.16.4",
     "express-jwt": "^5.3.1",
     "express-validator": "^5.3.1",
-    "googleapis": "27",
+    "googleapis": "^47.0.0",
     "js-yaml": "^3.12.1",
     "jsonwebtoken": "^8.5.0",
     "jwt-decode": "^2.2.0",

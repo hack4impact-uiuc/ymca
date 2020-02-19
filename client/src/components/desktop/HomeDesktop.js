@@ -70,8 +70,8 @@ export const HomeBlock3Desktop = () => {
                     span={12}
                     offset={1}
                   >
-                    <h1>{element.person}</h1>
-                    <h3>{element.title}</h3>
+                    <h2>{element.person}</h2>
+                    <h5>{element.title}</h5>
                     <p>{element.testimonial}</p>
                   </Col>
                 </Row>
