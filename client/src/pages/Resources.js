@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Layout } from 'antd';
 import '../css/Resources.css';
+import Loader from 'react-loader-spinner';
 
 import {
   getCategories,
@@ -20,18 +21,19 @@ import ResourcesFilterMobile from '../components/mobile/ResourcesFilterMobile';
 const { Sider } = Layout;
 
 function Resources(props) {
-  const [cost, setCost] = useState('$ - $$$$');
+  const [cost, setCost] = useState('Free - $$$');
   const [language, setLanguage] = useState('All');
   const [location, setLocation] = useState('All');
   const [category, setCategory] = useState('');
   const [subcategory, setSubcategory] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const [openKeys, setOpenKeys] = useState([]);
   const [categories, setCategories] = useState({});
   const [resources, setResources] = useState([]);
   const [filteredResources, setFilteredResources] = useState([]);
 
-  const costs = ['$', '$ - $$', '$ - $$$', '$ - $$$$'];
+  const costs = ['Free', 'Free - $', 'Free - $$', 'Free - $$$'];
 
   const isMobile = useWindowDimensions()[1];
 
@@ -79,10 +81,14 @@ function Resources(props) {
       subcategorySelected,
     ] = getCategorySelectedFromSearch();
 
+    setLoading(true);
+
     const newResources =
       categorySelected === 'All Resources'
         ? await getResources()
         : await getResourcesByCategory(categorySelected);
+
+    setLoading(false);
 
     setCategory(categorySelected);
     setFilteredResources(newResources == null ? [] : newResources.result);
@@ -90,7 +96,7 @@ function Resources(props) {
     setResources(newResources == null ? [] : newResources.result);
     setSubcategory(subcategorySelected);
 
-    setCost('$ - $$$$');
+    setCost('Free - $$$');
     setLanguage('All');
     setLocation('All');
     setSubcategory(subcategorySelected);
@@ -102,16 +108,16 @@ function Resources(props) {
 
   useEffect(() => {
     const costMap = {
-      $: ['$'],
-      '$ - $$': ['$', '$$'],
-      '$ - $$$': ['$', '$$', '$$$'],
-      '$ - $$$$': ['$', '$$', '$$$', '$$$$'],
+      Free: ['Free'],
+      'Free - $': ['Free', '$'],
+      'Free - $$': ['Free', '$', '$$'],
+      'Free - $$$': ['Free', '$', '$$', '$$$'],
     };
 
     const newFilteredResources = resources.filter(
       resource =>
         (resource.subcategory.includes(subcategory) || subcategory === '') &&
-        (costMap[cost].includes(resource.cost) || cost === '$ - $$$$') &&
+        (costMap[cost].includes(resource.cost) || cost === 'Free - $$$') &&
         (resource.availableLanguages.includes(language) ||
           language === 'All') &&
         (resource.city === location || location === 'All'),
@@ -211,7 +217,17 @@ function Resources(props) {
             </Sider>
           </div>
         )}
-        <ResourcesGrid filteredResources={filteredResources} />
+        {loading ? (
+          <Loader
+            className="loader"
+            type="Circles"
+            color="#6A3E9E"
+            height={100}
+            width={100}
+          />
+        ) : (
+          <ResourcesGrid filteredResources={filteredResources} />
+        )}
       </Layout>
     </Layout>
   );

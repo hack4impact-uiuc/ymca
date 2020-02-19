@@ -83,7 +83,7 @@ const RoleApproval = () => {
                   <td>{user.email}</td>
                   <td>{user.role}</td>
                   <td>
-                    <UncontrolledDropdown>
+                    <UncontrolledDropdown style={{ marginLeft: '0px' }}>
                       <DropdownToggle caret>
                         {idx === userWithNewRole ? newRole : 'New Role'}
                       </DropdownToggle>

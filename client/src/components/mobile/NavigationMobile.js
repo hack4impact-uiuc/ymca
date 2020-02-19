@@ -2,6 +2,7 @@
 
 import React from 'react';
 import '../../css_mobile/Navigation.css';
+import { NavLink } from 'react-router-dom';
 
 type Props = {
   authed: Boolean,
@@ -20,30 +21,30 @@ const NavMobile = (props: Props) => {
         <span />
 
         <ul id="menu">
-          <a href="/">
+          <NavLink exact to="/">
             <li>Home</li>
-          </a>
-          <a href="/resources">
+          </NavLink>
+          <NavLink to="/resources">
             <li>Resources</li>
-          </a>
+          </NavLink>
           {authed && (
-            <a href="/admin">
+            <NavLink to="/admin">
               <li>Admin</li>
-            </a>
+            </NavLink>
           )}
           {authed && (
-            <a href="/role-approval">
+            <NavLink to="/role-approval">
               <li>Users</li>
-            </a>
+            </NavLink>
           )}
           {!authed ? (
-            <a href="/login">
+            <NavLink to="/login">
               <li>Login</li>
-            </a>
+            </NavLink>
           ) : (
-            <a href="/logout">
+            <NavLink to="/logout">
               <li>Logout</li>
-            </a>
+            </NavLink>
           )}
         </ul>
       </div>

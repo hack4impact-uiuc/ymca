@@ -28,21 +28,22 @@ const App = () => {
 
   useEffect(() => {
     async function fetchData() {
-      const rolesRes = await getAllRoles();
-      setAuthRoles(Object.keys(rolesRes.roles));
-      verify(
-        res => {
-          setAuthed(true);
-          setAuthRole(res.role);
-        },
-        () => {
-          setAuthed(false);
-          setAuthRole('');
-        },
-      );
+      Promise.all([
+        getAllRoles(),
+        verify(
+          res => {
+            setAuthed(true);
+            setAuthRole(res.role);
+          },
+          () => {
+            setAuthed(false);
+            setAuthRole('');
+          },
+        ),
+      ]).then(vals => setAuthRoles(Object.keys(vals[0].roles)));
     }
     fetchData();
-  }, []);
+  }, [setAuthed, setAuthRole, setAuthRoles]);
 
   const authRoleIsEquivalentTo = useCallback(
     role => {
@@ -54,14 +55,14 @@ const App = () => {
     [authRole, authRoles],
   );
 
-  return authed === null || authRole === null || authRoles === null ? null : (
+  return (
     <>
-      <Navigation
-        authed={authed}
-        authRoleIsEquivalentTo={authRoleIsEquivalentTo}
-      />
       <Router>
         <ScrollToTop />
+        <Navigation
+          authed={authed}
+          authRoleIsEquivalentTo={authRoleIsEquivalentTo}
+        />
         <Switch>
           <Route path="/" exact component={Home} />
           <PrivateRoute
@@ -90,7 +91,7 @@ const App = () => {
                   setAuthRole={setAuthRole}
                 />
               ) : (
-                <Redirect to="/" />
+                <Redirect to="/admin" />
               )
             }
           />
@@ -105,7 +106,7 @@ const App = () => {
                   setAuthRole={setAuthRole}
                 />
               ) : (
-                <Redirect to="/" />
+                <Redirect to="/admin" />
               )
             }
           />

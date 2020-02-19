@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Button, Card, Col, Icon, Row } from 'antd';
+import { Button, Card, Col, Icon, message, Modal, Row } from 'antd';
 import PropTypes from 'prop-types';
 import '../css/ResourceDetail.css';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 
-import { getResourceByID } from '../utils/api';
+import { deleteResource, getResourceByID } from '../utils/api';
 import ResourcesBreadcrumb from '../components/ResourcesBreadcrumb';
 
 const days = [
@@ -54,6 +54,7 @@ export default class ResourceDetail extends Component {
       lat: 0.0,
       long: 0.0,
       eligibility: '',
+      modalVisible: false,
     };
   }
 
@@ -83,6 +84,29 @@ export default class ResourceDetail extends Component {
       // redirect to resource unknown page
       this.setState({ resourceExists: false });
     }
+  }
+
+  showModal = () => {
+    this.setState({
+      modalVisible: true,
+    });
+  };
+
+  handleCancel = () => {
+    this.setState({
+      modalVisible: false,
+    });
+  };
+
+  async deleteResource(id) {
+    const deletedResource = await deleteResource(id);
+    if (deletedResource) {
+      message.success('Resource successfully deleted!');
+    } else {
+      message.error(`Resource failed to be deleted.`);
+      return;
+    }
+    this.props.history.push('/resources');
   }
 
   render() {
@@ -121,6 +145,15 @@ export default class ResourceDetail extends Component {
 
     return (
       <div className="resource-detail">
+        <Modal
+          title="Confirm Delete"
+          visible={this.state.modalVisible}
+          onOk={() => this.deleteResource(match.params.id)}
+          onCancel={this.handleCancel}
+        >
+          Are you sure you want to delete this resource? Warning: this cannot be
+          undone.
+        </Modal>
         <Row
           className="banner"
           type="flex"
@@ -139,8 +172,13 @@ export default class ResourceDetail extends Component {
           <Col span={15}>
             <span className="resource-name">{name}</span>
             {authed && authRoleIsEquivalentTo('admin') && (
-              <span className="resource-edit">
+              <span className="resource-edit-delete">
                 <Button href={`/admin/${match.params.id}`}>Edit</Button>
+                <span className="resource-delete">
+                  <Button type="danger" ghost="true" onClick={this.showModal}>
+                    Delete
+                  </Button>
+                </span>
               </span>
             )}
           </Col>
@@ -280,11 +318,13 @@ export default class ResourceDetail extends Component {
 
 ResourceDetail.defaultProps = {
   match: null,
+  history: null,
 };
 
 ResourceDetail.propTypes = {
   authed: PropTypes.bool.isRequired,
   authRoleIsEquivalentTo: PropTypes.func.isRequired,
+  history: PropTypes.element,
   match: PropTypes.shape({
     params: PropTypes.shape({ id: PropTypes.string }),
   }),
