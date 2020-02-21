@@ -40,17 +40,17 @@ const App = () => {
             setAuthRole('');
           },
         ),
-      ]).then(vals => setAuthRoles(Object.keys(vals[0].roles)));
+      ]).then(vals => setAuthRoles(Object.keys(vals[0].roles).concat('')));
     }
     fetchData();
   }, [setAuthed, setAuthRole, setAuthRoles]);
 
   const authRoleIsEquivalentTo = useCallback(
     role => {
-      return (
-        authRoles.indexOf(authRole.toLowerCase()) <=
-        authRoles.indexOf(role.toLowerCase())
-      );
+      return authRole == null || authRoles == null
+        ? null
+        : authRoles.indexOf(authRole.toLowerCase()) <=
+            authRoles.indexOf(role.toLowerCase());
     },
     [authRole, authRoles],
   );
@@ -83,32 +83,52 @@ const App = () => {
 
           <Route
             path="/login"
-            render={() =>
-              !authed ? (
-                <Login
-                  authed={authed}
-                  setAuthed={setAuthed}
-                  setAuthRole={setAuthRole}
-                />
-              ) : (
-                <Redirect to="/admin" />
-              )
-            }
+            render={() => {
+              if (authed != null) {
+                if (!authed) {
+                  return (
+                    <Login
+                      authed={authed}
+                      setAuthed={setAuthed}
+                      setAuthRole={setAuthRole}
+                    />
+                  );
+                }
+
+                if (authRoleIsEquivalentTo('admin')) {
+                  return <Redirect to="/admin" />;
+                }
+
+                return <Redirect to="/" />;
+              }
+
+              return null;
+            }}
           />
 
           <Route
             path="/register"
-            render={() =>
-              !authed ? (
-                <Register
-                  authed={authed}
-                  setAuthed={setAuthed}
-                  setAuthRole={setAuthRole}
-                />
-              ) : (
-                <Redirect to="/admin" />
-              )
-            }
+            render={() => {
+              if (authed != null) {
+                if (!authed) {
+                  return (
+                    <Register
+                      authed={authed}
+                      setAuthed={setAuthed}
+                      setAuthRole={setAuthRole}
+                    />
+                  );
+                }
+
+                if (authRoleIsEquivalentTo('admin')) {
+                  return <Redirect to="/admin" />;
+                }
+
+                return <Redirect to="/" />;
+              }
+
+              return null;
+            }}
           />
 
           <Route
