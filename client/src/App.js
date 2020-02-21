@@ -55,6 +55,25 @@ const App = () => {
     [authRole, authRoles],
   );
 
+  const showIfUnauthed = useCallback(
+    component => {
+      if (authed != null) {
+        if (!authed) {
+          return component;
+        }
+
+        if (authRoleIsEquivalentTo('admin')) {
+          return <Redirect to="/admin" />;
+        }
+
+        return <Redirect to="/" />;
+      }
+
+      return null;
+    },
+    [authRoleIsEquivalentTo, authed],
+  );
+
   return (
     <>
       <Router>
@@ -83,52 +102,28 @@ const App = () => {
 
           <Route
             path="/login"
-            render={() => {
-              if (authed != null) {
-                if (!authed) {
-                  return (
-                    <Login
-                      authed={authed}
-                      setAuthed={setAuthed}
-                      setAuthRole={setAuthRole}
-                    />
-                  );
-                }
-
-                if (authRoleIsEquivalentTo('admin')) {
-                  return <Redirect to="/admin" />;
-                }
-
-                return <Redirect to="/" />;
-              }
-
-              return null;
-            }}
+            render={() =>
+              showIfUnauthed(
+                <Login
+                  authed={authed}
+                  setAuthed={setAuthed}
+                  setAuthRole={setAuthRole}
+                />,
+              )
+            }
           />
 
           <Route
             path="/register"
-            render={() => {
-              if (authed != null) {
-                if (!authed) {
-                  return (
-                    <Register
-                      authed={authed}
-                      setAuthed={setAuthed}
-                      setAuthRole={setAuthRole}
-                    />
-                  );
-                }
-
-                if (authRoleIsEquivalentTo('admin')) {
-                  return <Redirect to="/admin" />;
-                }
-
-                return <Redirect to="/" />;
-              }
-
-              return null;
-            }}
+            render={() =>
+              showIfUnauthed(
+                <Register
+                  authed={authed}
+                  setAuthed={setAuthed}
+                  setAuthRole={setAuthRole}
+                />,
+              )
+            }
           />
 
           <Route
