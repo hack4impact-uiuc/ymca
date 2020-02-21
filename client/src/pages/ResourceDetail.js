@@ -39,6 +39,7 @@ export default class ResourceDetail extends Component {
       resourceExists: true,
       eligibility: '',
       modalVisible: false,
+      internalNotes: [],
     };
   }
 
@@ -57,6 +58,7 @@ export default class ResourceDetail extends Component {
         subcategory: result.subcategory[0],
         website: result.website || '',
         eligibility: result.eligibilityRequirements,
+        internalNotes: result.internalNotes,
       });
     } else {
       // redirect to resource unknown page
@@ -74,6 +76,15 @@ export default class ResourceDetail extends Component {
     this.setState({
       modalVisible: false,
     });
+  };
+
+  displayNote = note => {
+    if (note.body.length > 0) {
+      if (note.subject.length > 0)
+        return <li>{`${note.subject}: ${note.body}`}</li>;
+      return <li>{note.body}</li>;
+    }
+    return null;
   };
 
   async deleteResource(id) {
@@ -104,6 +115,7 @@ export default class ResourceDetail extends Component {
       subcategory,
       resourceExists,
       eligibility,
+      internalNotes,
     } = this.state;
 
     const Map = ReactMapboxGl({
@@ -279,6 +291,18 @@ export default class ResourceDetail extends Component {
                   />
                 </Layer>
               </Map>
+            </Row>
+          </Col>
+        </Row>
+        <Row>
+          <Col span={4} className="section-label">
+            Internal Notes
+          </Col>
+          <Col span={20}>
+            <Row className="cardRow">
+              {internalNotes.length > 0
+                ? internalNotes.map(note => this.displayNote(note))
+                : 'No internal notes provided'}
             </Row>
           </Col>
         </Row>

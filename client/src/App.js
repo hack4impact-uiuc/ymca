@@ -47,7 +47,7 @@ const App = () => {
 
   const authRoleIsEquivalentTo = useCallback(
     role => {
-      return authRole == null || authRoles == null
+      return authRole === null || authRoles === null
         ? null
         : authRoles.indexOf(authRole.toLowerCase()) <=
             authRoles.indexOf(role.toLowerCase());
