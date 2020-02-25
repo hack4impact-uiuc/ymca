@@ -3,11 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "dotenv node src/appListener.js && node ./bin/www",
+    "start": "set NODE_ENV=dev && dotenv node src/appListener.js && node ./bin/www",
     "lint": "eslint --fix src -c .eslintrc.json --ext js",
     "test": "echo \"Test not created yet\" && exit 0"
   },
   "dependencies": {
+    "config": "^3.2.6",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
@@ -21,10 +22,12 @@
   },
   "devDependencies": {
     "babel-eslint": "^10.0.3",
+    "chai": "^4.2.0",
     "dotenv-cli": "^2.0.1",
     "eslint": "^6.5.1",
     "eslint-config-prettier": "^6.3.0",
     "eslint-plugin-prettier": "^3.1.1",
+    "mocha": "^7.0.1",
     "prettier": "^1.18.2"
   }
 }

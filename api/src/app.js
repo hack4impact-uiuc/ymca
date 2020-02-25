@@ -7,6 +7,7 @@ const logger = require('morgan');
 const mongoose = require('mongoose');
 const path = require('path');
 const routes = require('./routes');
+const config = require('config');
 
 const { errorHandler } = require('./middleware');
 
@@ -22,10 +23,11 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('/', routes);
 
-mongoose.connect(process.env.MONGO_URL, {
+mongoose.connect(config.DB, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
+
 mongoose.Promise = global.Promise;
 mongoose.connection
   .once('open', () => console.log('Connected to MongoLab instance.'))
