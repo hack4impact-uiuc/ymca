@@ -8,7 +8,6 @@
     "test": "jest"
   },
   "dependencies": {
-    "config": "^3.2.6",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
