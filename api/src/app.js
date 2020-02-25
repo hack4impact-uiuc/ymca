@@ -23,15 +23,20 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('/', routes);
 
+app.get('/', (req, res) => res.json('API working!'));
+
 mongoose.connect(config.DB, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
 mongoose.Promise = global.Promise;
-mongoose.connection
-  .once('open', () => console.log('Connected to MongoLab instance.'))
-  .on('error', error => console.log('Error connecting to MongoLab:', error));
+
+if (config.util.getEnv('NODE_ENV') !== 'test') {
+  mongoose.connection
+    .once('open', () => console.log('Connected to MongoLab instance.'))
+    .on('error', error => console.log('Error connecting to MongoLab:', error));
+}
 
 app.get('/favicon.ico', (req, res) => res.status(204));
 app.use(function(req, res, next) {
