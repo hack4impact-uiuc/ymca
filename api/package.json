@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "set NODE_ENV=dev && dotenv node src/appListener.js && node ./bin/www",
+    "start": "dotenv node src/appListener.js && node ./bin/www",
+    "start-prod": "set NODE_ENV=prod && dotenv node src/appListener.js && node ./bin/www",
     "lint": "eslint --fix src -c .eslintrc.json --ext js",
     "test": "set NODE_ENV=test && jest"
   },
