@@ -2,9 +2,13 @@
 
 This folder contains the backend api of the application.
 
+## Environments
+
+There are three environments that the backend runs in: `production`, `dev`, and `test`, each with their own database. `production` is set on deployment, `dev` is set whenever running locally, and `test` is set when tests are running. These environments are automatically set based on the task.
+
 ## Install & Run
 
-To set up, first create a `.env` file in the `/api` directory that contains the following field.
+To set up, first create a `/config` directory in the `/api` directory. Then, create three `.env` files: `production.env`, `dev.env`, and `test.env`. Each should contain the following field, with unique values (a seperate database for each environment).
 
 ```
 MONGO_URL=mongodb://<username>:<password>@<id>.mlab.com:<id/project>
@@ -27,10 +31,6 @@ This will create a server on [http://localhost:9000](http://localhost:9000).
 ## Technologies
 
 Built with [Express](https://expressjs.com/) and [MongoDB](https://www.mongodb.com/).
-
-## Environments
-
-There are three environments that the backend runs in: `production`, `dev`, and `test`, each with their own database. `production` is set on deployment, `dev` is set whenever running locally, and `test` is set when tests are running. These environments are automatically set based on the task.
 
 ## Development
 
