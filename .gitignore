@@ -12,8 +12,9 @@ TODOS.txt
 yarn.lock
 
 # api
-./api/.env
-./api/src/logs
+api/.env
+api/src/logs
+api/config
 
 # auth
 ./auth/node_modules
