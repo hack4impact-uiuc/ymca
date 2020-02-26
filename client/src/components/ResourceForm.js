@@ -1,7 +1,20 @@
 // @flow
 
 import React, { useState, useEffect } from 'react';
-import { Form, Input, Button, Select, Affix, message, Radio, Rate } from 'antd';
+import {
+  Form,
+  Input,
+  Button,
+  Select,
+  Affix,
+  message,
+  Radio,
+  Rate,
+  Row,
+  Col,
+  Layout,
+} from 'antd';
+import { Textfit } from 'react-textfit';
 
 import languages from '../data/languages';
 import { addResource, editResource, getResourceByID } from '../utils/api';
@@ -13,8 +26,11 @@ import CategorySelector, { CAT_SUB_SPLITTER } from './ResourceCategorySelector';
 import StrListFormItem from './ResourceStrListForm';
 import InternalNotesFormItem from './ResourceInternalNotesForm';
 
+import '../css/ResourceForm.css';
+
 const { TextArea } = Input;
 const { Option } = Select;
+const { Header, Content } = Layout;
 
 const onSubmitNewResourceForm = async (e, enabled, id, resource) => {
   e.preventDefault();
@@ -105,205 +121,217 @@ const ResourceForm = (props: FormProps) => {
   }, [id, setFieldsValue]);
 
   return (
-    <Form
-      onSubmit={e => {
-        onSubmitNewResourceForm(e, totalSubmitEnabled, id, {
-          category: categories,
-          subcategory: subcategories,
-          name: getFieldValue('resourceName') || '',
-          description: getFieldValue('description') || '',
-          website: getFieldValue('website') || '',
-          email: getFieldValue('email') || '',
-          phoneNumbers,
-          contacts,
-          address: getFieldValue('address') || '',
-          city: getFieldValue('city') || '',
-          hoursOfOperation: getFieldValue('hoursOfOperation') || '',
-          eligibilityRequirements:
-            getFieldValue('eligibilityRequirements') || '',
-          financialAidDetails,
-          cost: getFieldValue('cost') || '',
-          availableLanguages: availableLanguages || [],
-          lastedUpdated: new Date(Date.now()),
-          recommendation: getFieldValue('recommendation'),
-          comments: comments || [],
-          internalNotes: internalNotes || [],
-        });
-      }}
-    >
-      <CategorySelector
-        setCategories={setCategories}
-        setSubcategories={setSubcategories}
-        getFieldDecorator={getFieldDecorator}
-        setFieldsValue={setFieldsValue}
-        getFieldValue={getFieldValue}
-      />
-      <Form.Item label="Resource Name">
-        {getFieldDecorator('resourceName', {
-          rules: [
-            {
-              required: true,
-              message: 'Please input a resource name!',
-            },
-          ],
-        })(
-          <Input
-            placeholder="Resource Name"
-            onFocus={() => setTotalSubmitEnabled(true)}
-          />,
-        )}
-      </Form.Item>
-      <Form.Item label="Description">
-        {getFieldDecorator('description', {
-          rules: [
-            {
-              required: true,
-              message: 'Please input a description!',
-            },
-          ],
-        })(
-          <TextArea
-            rows={4}
-            placeholder="Description"
-            onFocus={() => setTotalSubmitEnabled(true)}
-          />,
-        )}
-      </Form.Item>
-      <Form.Item label="Website">
-        {getFieldDecorator(
-          'website',
-          {},
-        )(
-          <Input
-            placeholder="Website"
-            onFocus={() => setTotalSubmitEnabled(true)}
-          />,
-        )}
-      </Form.Item>
-      <Form.Item label="Email">
-        {getFieldDecorator(
-          'email',
-          {},
-        )(
-          <Input
-            placeholder="Email"
-            onFocus={() => setTotalSubmitEnabled(true)}
-          />,
-        )}
-      </Form.Item>
-      {PhoneNumberFormItem({
-        phoneNumbers,
-        setPhoneNumbers,
-        setTotalSubmitEnabled,
-      })}
-      {InternalNotesFormItem({
-        internalNotes,
-        setInternalNotes,
-        setTotalSubmitEnabled,
-      })}
-      {ContactFormItem({
-        contacts,
-        setContacts,
-        setTotalSubmitEnabled,
-      })}
-      <Form.Item label="Address">
-        {getFieldDecorator(
-          'address',
-          {},
-        )(
-          <Input
-            placeholder="Address"
-            onFocus={() => setTotalSubmitEnabled(true)}
-          />,
-        )}
-      </Form.Item>
-      <Form.Item label="City">
-        {getFieldDecorator(
-          'city',
-          {},
-        )(
-          <Input
-            placeholder="City"
-            onFocus={() => setTotalSubmitEnabled(true)}
-          />,
-        )}
-      </Form.Item>
-      <Form.Item label="Hours of Operation">
-        {getFieldDecorator(
-          'hoursOfOperation',
-          {},
-        )(
-          <Input
-            placeholder="Monday-Friday 9:00am-5:00pm, 
-            Saturday and Sunday 12:00-2:00pm"
-            onFocus={() => setTotalSubmitEnabled(true)}
-          />,
-        )}
-      </Form.Item>
-      <Form.Item label="Eligibility Requirements">
-        {getFieldDecorator(
-          'eligibilityRequirements',
-          {},
-        )(
-          <Input
-            placeholder="Visa or receipt letter"
-            onFocus={() => setTotalSubmitEnabled(true)}
-          />,
-        )}
-      </Form.Item>
-      {FinancialAidFormItem({
-        financialAidDetails,
-        setFinancialAidDetails,
-        setTotalSubmitEnabled,
-      })}
-      <Form.Item label="Cost">
-        {getFieldDecorator('cost', {
-          rules: [{}],
-        })(
-          <Radio.Group onFocus={() => setTotalSubmitEnabled(true)}>
-            <Radio value="Free">Free</Radio>
-            <Radio value="$">$</Radio>
-            <Radio value="$$">$$</Radio>
-            <Radio value="$$$">$$$</Radio>
-          </Radio.Group>,
-        )}
-      </Form.Item>
-      <Form.Item label="Available Languages">
-        {getFieldDecorator(
-          'availableLanguages',
-          {},
-        )(
-          <Select mode="multiple" placeholder="Select available language(s)">
-            {languages.map(lang => (
-              <Option key={lang} value={lang}>
-                {lang}
-              </Option>
-            ))}
-          </Select>,
-        )}
-      </Form.Item>
-      <Form.Item label="Recommendation">
-        {getFieldDecorator('recommendation', {})(<Rate />)}
-      </Form.Item>
-      <StrListFormItem
-        formName="commentForm"
-        label="Comments"
-        placeholder="Enter a comment"
-        listOfStrings={comments}
-        setListOfStrings={setComments}
-        setTotalSubmitEnabled={setTotalSubmitEnabled}
-      />
-      <Affix offsetBottom={20}>
-        <Button
-          type="primary"
-          htmlType="submit"
-          className="newResourceSubmit"
-          onClick={() => setTotalSubmitEnabled(true)}
+    <Layout className="resourceForm">
+      <Header className="header">
+        <Row justify="center" type="flex">
+          <h2>Add a Resource</h2>
+        </Row>
+      </Header>
+      <Content className="form">
+        <Form
+          onSubmit={e => {
+            onSubmitNewResourceForm(e, totalSubmitEnabled, id, {
+              category: categories,
+              subcategory: subcategories,
+              name: getFieldValue('resourceName') || '',
+              description: getFieldValue('description') || '',
+              website: getFieldValue('website') || '',
+              email: getFieldValue('email') || '',
+              phoneNumbers,
+              contacts,
+              address: getFieldValue('address') || '',
+              city: getFieldValue('city') || '',
+              hoursOfOperation: getFieldValue('hoursOfOperation') || '',
+              eligibilityRequirements:
+                getFieldValue('eligibilityRequirements') || '',
+              financialAidDetails,
+              cost: getFieldValue('cost') || '',
+              availableLanguages: availableLanguages || [],
+              lastedUpdated: new Date(Date.now()),
+              recommendation: getFieldValue('recommendation'),
+              comments: comments || [],
+              internalNotes: internalNotes || [],
+            });
+          }}
         >
-          {id ? 'Submit Edit' : 'Add Resource'}
-        </Button>
-      </Affix>
-    </Form>
+          <CategorySelector
+            setCategories={setCategories}
+            setSubcategories={setSubcategories}
+            getFieldDecorator={getFieldDecorator}
+            setFieldsValue={setFieldsValue}
+            getFieldValue={getFieldValue}
+          />
+          <Form.Item label="Resource Name">
+            {getFieldDecorator('resourceName', {
+              rules: [
+                {
+                  required: true,
+                  message: 'Please input a resource name!',
+                },
+              ],
+            })(
+              <Input
+                placeholder="Resource Name"
+                onFocus={() => setTotalSubmitEnabled(true)}
+              />,
+            )}
+          </Form.Item>
+          <Form.Item label="Description">
+            {getFieldDecorator('description', {
+              rules: [
+                {
+                  required: true,
+                  message: 'Please input a description!',
+                },
+              ],
+            })(
+              <TextArea
+                rows={4}
+                placeholder="Description"
+                onFocus={() => setTotalSubmitEnabled(true)}
+              />,
+            )}
+          </Form.Item>
+          <Form.Item label="Website">
+            {getFieldDecorator(
+              'website',
+              {},
+            )(
+              <Input
+                placeholder="Website"
+                onFocus={() => setTotalSubmitEnabled(true)}
+              />,
+            )}
+          </Form.Item>
+          <Form.Item label="Email">
+            {getFieldDecorator(
+              'email',
+              {},
+            )(
+              <Input
+                placeholder="Email"
+                onFocus={() => setTotalSubmitEnabled(true)}
+              />,
+            )}
+          </Form.Item>
+          {PhoneNumberFormItem({
+            phoneNumbers,
+            setPhoneNumbers,
+            setTotalSubmitEnabled,
+          })}
+          {InternalNotesFormItem({
+            internalNotes,
+            setInternalNotes,
+            setTotalSubmitEnabled,
+          })}
+          {ContactFormItem({
+            contacts,
+            setContacts,
+            setTotalSubmitEnabled,
+          })}
+          <Form.Item label="Address">
+            {getFieldDecorator(
+              'address',
+              {},
+            )(
+              <Input
+                placeholder="Address"
+                onFocus={() => setTotalSubmitEnabled(true)}
+              />,
+            )}
+          </Form.Item>
+          <Form.Item label="City">
+            {getFieldDecorator(
+              'city',
+              {},
+            )(
+              <Input
+                placeholder="City"
+                onFocus={() => setTotalSubmitEnabled(true)}
+              />,
+            )}
+          </Form.Item>
+          <Form.Item label="Hours of Operation">
+            {getFieldDecorator(
+              'hoursOfOperation',
+              {},
+            )(
+              <Input
+                placeholder="Monday-Friday 9:00am-5:00pm, 
+                Saturday and Sunday 12:00-2:00pm"
+                onFocus={() => setTotalSubmitEnabled(true)}
+              />,
+            )}
+          </Form.Item>
+          <Form.Item label="Eligibility Requirements">
+            {getFieldDecorator(
+              'eligibilityRequirements',
+              {},
+            )(
+              <Input
+                placeholder="Visa or receipt letter"
+                onFocus={() => setTotalSubmitEnabled(true)}
+              />,
+            )}
+          </Form.Item>
+          {FinancialAidFormItem({
+            financialAidDetails,
+            setFinancialAidDetails,
+            setTotalSubmitEnabled,
+          })}
+          <Form.Item label="Cost">
+            {getFieldDecorator('cost', {
+              rules: [{}],
+            })(
+              <Radio.Group onFocus={() => setTotalSubmitEnabled(true)}>
+                <Radio value="Free">Free</Radio>
+                <Radio value="$">$</Radio>
+                <Radio value="$$">$$</Radio>
+                <Radio value="$$$">$$$</Radio>
+              </Radio.Group>,
+            )}
+          </Form.Item>
+          <Form.Item label="Available Languages">
+            {getFieldDecorator(
+              'availableLanguages',
+              {},
+            )(
+              <Select
+                mode="multiple"
+                placeholder="Select available language(s)"
+              >
+                {languages.map(lang => (
+                  <Option key={lang} value={lang}>
+                    {lang}
+                  </Option>
+                ))}
+              </Select>,
+            )}
+          </Form.Item>
+          <Form.Item label="Recommendation">
+            {getFieldDecorator('recommendation', {})(<Rate />)}
+          </Form.Item>
+          <StrListFormItem
+            formName="commentForm"
+            label="Comments"
+            placeholder="Enter a comment"
+            listOfStrings={comments}
+            setListOfStrings={setComments}
+            setTotalSubmitEnabled={setTotalSubmitEnabled}
+          />
+          <Affix offsetBottom={20}>
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="newResourceSubmit"
+              onClick={() => setTotalSubmitEnabled(true)}
+            >
+              {id ? 'Submit Edit' : 'Add Resource'}
+            </Button>
+          </Affix>
+        </Form>
+      </Content>
+    </Layout>
   );
 };
 
