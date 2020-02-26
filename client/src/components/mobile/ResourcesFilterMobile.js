@@ -1,50 +1,104 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
+import { Button, Dropdown, Radio } from 'antd';
 import PropTypes from 'prop-types';
-import { Drawer, Menu } from 'antd';
 
-import ResourceCategoryFilter from '../ResourceCategoryFilter';
-import useWindowDimensions from '../../utils/mobile';
+import ResourceFilterSearch from '../ResourceFilterSearch';
 
-const { SubMenu } = Menu;
+import '../../css_mobile/ResourcesFilterMobile.css';
 
 function ResourcesFilterMobile(props) {
-  const [visible, setVisible] = useState(false);
-  const { height } = useWindowDimensions()[0];
+  const {
+    costs,
+    costSelected,
+    languages,
+    languageSelected,
+    locations,
+    locationSelected,
+    setCost,
+    setLanguage,
+    setLocation,
+  } = props;
 
-  // Makes the dropdown disappear if the user selects a different subcategory
-  useEffect(() => {
-    if (props.subcategory !== '') {
-      setVisible(false);
-    }
-  }, [props.subcategory]);
+  const onChange = useCallback(
+    (filterName, value) => {
+      switch (filterName) {
+        case 'Cost':
+          setCost(value);
+          break;
+        case 'Languages Offered':
+          setLanguage(value);
+          break;
+        case 'Location':
+          setLocation(value);
+          break;
+        default:
+      }
+    },
+    [setCost, setLanguage, setLocation],
+  );
+
+  const radio = useCallback(
+    (filterName, filterOptions, value) => {
+      return (
+        <div className="radio-container">
+          <h4 className="title">{filterName}</h4>
+          <Radio.Group
+            onChange={target => onChange(filterName, target.target.value)}
+            value={value}
+          >
+            {filterOptions.map(option => (
+              <Radio className="radio" key={option} value={option}>
+                {option}
+              </Radio>
+            ))}
+          </Radio.Group>
+        </div>
+      );
+    },
+    [onChange],
+  );
 
   return (
-    <nav>
-      <div>
-        <Menu mode="inline" openKeys={visible ? ['categories'] : []}>
-          <SubMenu
-            key="categories"
-            onTitleClick={() => setVisible(true)}
-            title="Resource Categories"
-          />
-        </Menu>
-        <Drawer
-          title="Resource Categories"
-          placement="bottom"
-          height={(height * 4) / 5}
-          closable={false}
-          onClose={() => setVisible(false)}
-          visible={visible}
-        >
-          <ResourceCategoryFilter {...props} />
-        </Drawer>
-      </div>
-    </nav>
+    <div className="resources-filter-mobile">
+      <div className="filter-search-mobile"><ResourceFilterSearch /></div>
+      <Dropdown
+        className="dropdown"
+        overlay={radio('Cost', costs, costSelected)}
+        placement="bottomLeft"
+        trigger={['click']}
+      >
+        <Button className="button-mobile">Cost</Button>
+      </Dropdown>
+      <Dropdown
+        className="dropdown"
+        overlay={radio('Languages Offered', languages, languageSelected)}
+        placement="bottomCenter"
+        trigger={['click']}
+      >
+        <Button className="button-mobile">Language</Button>
+      </Dropdown>
+      <Dropdown
+        className="dropdown"
+        overlay={radio('Location', locations, locationSelected)}
+        placement="bottomRight"
+        trigger={['click']}
+      >
+        <Button className="button-mobile">Location</Button>
+      </Dropdown>
+    </div>
   );
 }
 
 ResourcesFilterMobile.propTypes = {
-  subcategory: PropTypes.string.isRequired,
+  costs: PropTypes.arrayOf(PropTypes.string).isRequired,
+  costSelected: PropTypes.string.isRequired,
+  languages: PropTypes.arrayOf(PropTypes.string).isRequired,
+  languageSelected: PropTypes.string.isRequired,
+  locations: PropTypes.arrayOf(PropTypes.string).isRequired,
+  locationSelected: PropTypes.string.isRequired,
+  setCost: PropTypes.func.isRequired,
+  setLanguage: PropTypes.func.isRequired,
+  setLocation: PropTypes.func.isRequired,
 };
 
 export default ResourcesFilterMobile;

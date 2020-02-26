@@ -14,9 +14,10 @@ import locations from '../data/locations';
 import useWindowDimensions from '../utils/mobile';
 import ResourcesBanner from '../components/ResourcesBanner';
 import ResourcesFilter from '../components/ResourcesFilter';
+import ResourcesFilterMobile from '../components/mobile/ResourcesFilterMobile';
 import ResourcesGrid from '../components/ResourcesGrid';
 import ResourceCategoryFilter from '../components/ResourceCategoryFilter';
-import ResourcesFilterMobile from '../components/mobile/ResourcesFilterMobile';
+import ResourcesCategoryFilterMobile from '../components/mobile/ResourcesCategoryFilterMobile';
 
 const { Sider } = Layout;
 
@@ -175,11 +176,7 @@ function Resources(props) {
 
   return (
     <Layout className="resources">
-      <ResourcesBanner
-        categorySelected={category}
-        subcategorySelected={subcategory}
-      />
-      <ResourcesFilter
+      {isMobile && <ResourcesFilterMobile
         costs={costs}
         costSelected={cost}
         languages={languages}
@@ -189,9 +186,24 @@ function Resources(props) {
         setCost={setCost}
         setLanguage={setLanguage}
         setLocation={setLocation}
+      />}
+      <ResourcesBanner
+        categorySelected={category}
+        subcategorySelected={subcategory}
       />
+      {!isMobile && <ResourcesFilter
+        costs={costs}
+        costSelected={cost}
+        languages={languages}
+        languageSelected={language}
+        locations={locations}
+        locationSelected={location}
+        setCost={setCost}
+        setLanguage={setLanguage}
+        setLocation={setLocation}
+      />}
       {isMobile && (
-        <ResourcesFilterMobile
+        <ResourcesCategoryFilterMobile
           category={category}
           categories={categories}
           categorySelectAll={categorySelectAll}

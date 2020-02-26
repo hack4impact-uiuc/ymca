@@ -74,7 +74,7 @@ function ResourcesFilter(props) {
         placement="bottomCenter"
         trigger={['click']}
       >
-        <Button className="button">Languages Offered</Button>
+        <Button className="button">Language</Button>
       </Dropdown>
       <Dropdown
         className="dropdown"
