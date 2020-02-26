@@ -8,16 +8,6 @@ import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 import { deleteResource, getResourceByID } from '../utils/api';
 import ResourcesBreadcrumb from '../components/ResourcesBreadcrumb';
 
-const days = [
-  'Sunday',
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday',
-];
-
 async function addressToLatLong(address) {
   const apiLatLong = `${'http://www.mapquestapi.com/geocoding/v1/address?' +
     'key=QhpXMYz3yy5F0Yg5qZSqGmA2XFMIMRAi&maxResults=5&' +
@@ -43,7 +33,6 @@ export default class ResourceDetail extends Component {
       address: '',
       website: '',
       description: '',
-      hours: ['', '', '', '', '', '', ''],
       city: '',
       languages: [],
       requiredDocuments: [],
@@ -56,6 +45,7 @@ export default class ResourceDetail extends Component {
       eligibility: '',
       modalVisible: false,
       internalNotes: [],
+      hours: [],
     };
   }
 
@@ -81,6 +71,9 @@ export default class ResourceDetail extends Component {
         website: result.website || '',
         eligibility: result.eligibilityRequirements,
         internalNotes: result.internalNotes,
+        hours: result.hoursOfOperation
+          ? result.hoursOfOperation.hoursOfOperation
+          : [],
       });
     } else {
       // redirect to resource unknown page
@@ -128,7 +121,6 @@ export default class ResourceDetail extends Component {
       address,
       website,
       description,
-      hours,
       city,
       languages,
       requiredDocuments,
@@ -140,6 +132,7 @@ export default class ResourceDetail extends Component {
       long,
       eligibility,
       internalNotes,
+      hours,
     } = this.state;
 
     const Map = ReactMapboxGl({
@@ -284,18 +277,22 @@ export default class ResourceDetail extends Component {
           </Col>
           <Col span={20}>
             <Row className="cardRow">
-              {hours.map((day, i) => {
-                return (
-                  <Col key={day} span={8}>
-                    <Card>
-                      <div className="card-label day-label">
-                        {`${days[i]}\n`}
-                      </div>
-                      {day.length > 0 ? day : 'None'}
-                    </Card>
-                  </Col>
-                );
-              })}
+              {hours.length > 0
+                ? hours.map(day => {
+                    return (
+                      <Col key={day.day} span={8}>
+                        <Card>
+                          <div className="card-label day-label">
+                            {`${day.day}\n`}
+                          </div>
+                          {day.period.length > 0
+                            ? day.period[0] + ' - ' + day.period[1]
+                            : 'None'}
+                        </Card>
+                      </Col>
+                    );
+                  })
+                : 'No schedule provided'}
             </Row>
           </Col>
         </Row>
