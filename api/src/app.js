@@ -12,11 +12,11 @@ const routes = require('./routes');
 const app = express();
 const { errorHandler } = require('./middleware');
 
-if (!process.env.NODE_ENV) process.env.NODE_ENV = 'dev';
-
-dotenv.config({
-  path: path.resolve(__dirname, `../config/${process.env.NODE_ENV}.env`),
-});
+if (process.env.NODE_ENV != 'production') {
+  dotenv.config({
+    path: path.resolve(__dirname, `../config/${process.env.NODE_ENV}.env`),
+  });
+}
 
 mongoose.connect(process.env.MONGO_URL, {
   useNewUrlParser: true,
