@@ -9,9 +9,11 @@ import { deleteResource, getResourceByID } from '../utils/api';
 import ResourcesBreadcrumb from '../components/ResourcesBreadcrumb';
 
 async function addressToLatLong(address) {
-  const apiLatLong = `${'http://www.mapquestapi.com/geocoding/v1/address?' +
-    'key=QhpXMYz3yy5F0Yg5qZSqGmA2XFMIMRAi&maxResults=5&' +
-    'outFormat=json&location='}${address}&boundingBox=40.121581,-88.253981,40.098315,-88.205082`;
+  const apiLatLong =
+    `${'http://www.mapquestapi.com/geocoding/v1/address?' +
+      'key=QhpXMYz3yy5F0Yg5qZSqGmA2XFMIMRAi&maxResults=5&' +
+      'outFormat=json&location='}${address}}&boundingBox=` +
+    `40.121581,-88.253981,40.098315,-88.205082`;
 
   const response = await fetch(apiLatLong, {});
   const responseJson = await response.json();
@@ -30,10 +32,10 @@ export default class ResourceDetail extends Component {
       name: 'Resource Name',
       phone: [],
       email: '',
-      address: '',
+      // address: '',
       website: '',
       description: '',
-      city: '',
+      // city: '',
       languages: [],
       requiredDocuments: [],
       cost: '',
@@ -118,10 +120,8 @@ export default class ResourceDetail extends Component {
       name,
       phone,
       email,
-      address,
       website,
       description,
-      city,
       languages,
       requiredDocuments,
       cost,
@@ -286,7 +286,7 @@ export default class ResourceDetail extends Component {
                             {`${day.day}\n`}
                           </div>
                           {day.period.length > 0
-                            ? day.period[0] + ' - ' + day.period[1]
+                            ? `${day.period[0]} - ${day.period[1]}`
                             : 'None'}
                         </Card>
                       </Col>
