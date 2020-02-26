@@ -128,6 +128,9 @@ const ResourceForm = (props: FormProps) => {
         </Row>
       </Header>
       <Content className="form">
+        <div className="formLabel">
+          <p>Basic Information</p>
+        </div>
         <Form
           onSubmit={e => {
             onSubmitNewResourceForm(e, totalSubmitEnabled, id, {

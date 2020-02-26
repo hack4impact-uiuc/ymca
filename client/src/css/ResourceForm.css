@@ -8,10 +8,22 @@
 
 .resourceForm .header h2 {
   color: white;
-  text-align: center;
 }
 
 .resourceForm .form {
   background-color: white;
-  padding: auto;
+}
+
+.resourceForm .formLabel {
+  background-color: #6bdbd0;
+  margin-right: 88vw;
+  margin-top: 1em;
+}
+
+.resourceForm .formLabel p {
+  color: white;
+  text-align: right;
+  padding-right: 1em;
+  padding-top: 2px;
+  padding-bottom: 2px;
 }
