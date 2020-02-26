@@ -3,9 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "dotenv node src/appListener.js && node ./bin/www",
+    "start": "if-env NODE_ENV=production ?? npm run start:prod || npm run start:dev",
+    "start:prod": "dotenv node src/appListener.js && node ./bin/www",
+    "start:dev": "NODE_ENV=dev dotenv node src/appListener.js && node ./bin/www",
     "lint": "eslint --fix src -c .eslintrc.json --ext js",
-    "test": "echo \"Test not created yet\" && exit 0"
+    "test": "jest"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -14,6 +16,7 @@
     "express": "~4.16.1",
     "helmet": "^3.21.1",
     "http-errors": "~1.6.3",
+    "if-env": "^1.0.4",
     "isomorphic-unfetch": "^3.0.0",
     "mongodb": "^3.3.2",
     "mongoose": "^5.7.5",
@@ -25,6 +28,8 @@
     "eslint": "^6.5.1",
     "eslint-config-prettier": "^6.3.0",
     "eslint-plugin-prettier": "^3.1.1",
-    "prettier": "^1.18.2"
+    "jest": "^25.1.0",
+    "prettier": "^1.18.2",
+    "supertest": "^4.0.2"
   }
 }
