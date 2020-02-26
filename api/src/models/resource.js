@@ -26,7 +26,7 @@ const InternalNote = new mongoose.Schema({
 });
 
 const HoursSchema = new mongoose.Schema({
-  hoursOfOperation: [{day: String, period: [String]}]
+  hoursOfOperation: [{ day: String, period: [String] }],
 });
 
 const Resource = new mongoose.Schema({
