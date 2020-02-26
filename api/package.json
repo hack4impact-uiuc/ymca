@@ -5,7 +5,7 @@
   "scripts": {
     "start": "set NODE_ENV=dev && dotenv node src/appListener.js && node ./bin/www",
     "lint": "eslint --fix src -c .eslintrc.json --ext js",
-    "test": "jest"
+    "test": "set NODE_ENV=test && jest"
   },
   "dependencies": {
     "cors": "^2.8.5",
