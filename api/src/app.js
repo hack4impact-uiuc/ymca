@@ -1,4 +1,3 @@
-const app = express();
 const createError = require('http-errors');
 const cors = require('cors');
 const dotenv = require('dotenv');
@@ -10,6 +9,7 @@ const mongoose = require('mongoose');
 const path = require('path');
 const routes = require('./routes');
 
+const app = express();
 const { errorHandler } = require('./middleware');
 
 dotenv.config({
