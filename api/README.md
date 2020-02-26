@@ -28,6 +28,10 @@ This will create a server on [http://localhost:9000](http://localhost:9000).
 
 Built with [Express](https://expressjs.com/) and [MongoDB](https://www.mongodb.com/).
 
+## Environments
+
+There are three environments that the backend runs in: `production`, `dev`, and `test`, each with their own database. `production` is set on deployment, `dev` is set whenever running locally, and `test` is set when tests are running. These environments are automatically set based on the task.
+
 ## Development
 
 If you are working with the API, remember to change the `baseURL` in [`client/src/utils/api.js`](https://github.com/hack4impact-uiuc/ymca/blob/master/client/src/utils/api.js) to the local server `http://localhost:9000/`.
@@ -35,3 +39,13 @@ If you are working with the API, remember to change the `baseURL` in [`client/sr
 ### Code Style
 
 Use [ESLint](https://eslint.org) with [Prettier](https://prettier.io/).
+
+## Testing
+
+The unit tests are written with [Jest](https://jestjs.io/) and [SuperTest](https://github.com/visionmedia/supertest).
+
+To test,
+
+```js
+yarn test
+```
