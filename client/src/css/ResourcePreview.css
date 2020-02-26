@@ -1,10 +1,12 @@
 .resource-preview-cover {
   display: flex;
-  max-height: 20em;
   justify-content: center;
 }
 
 .resource-preview-cover-img {
-  max-height: 100%;
-  max-width: 100%;
+  width: 100%;
+}
+
+.resource-preview-card {
+  height: 100%;
 }

@@ -72,7 +72,7 @@ const Register = ({ form, setAuthed, setAuthRole }) => {
               setAuthRole(res.permission);
             } else {
               // show error message
-              message.error('Account already associated with email.');
+              message.error(res.message);
             }
           });
         }

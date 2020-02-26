@@ -40,19 +40,38 @@ const App = () => {
             setAuthRole('');
           },
         ),
-      ]).then(vals => setAuthRoles(Object.keys(vals[0].roles)));
+      ]).then(vals => setAuthRoles(Object.keys(vals[0].roles).concat('')));
     }
     fetchData();
   }, [setAuthed, setAuthRole, setAuthRoles]);
 
   const authRoleIsEquivalentTo = useCallback(
     role => {
-      return (
-        authRoles.indexOf(authRole.toLowerCase()) <=
-        authRoles.indexOf(role.toLowerCase())
-      );
+      return authRole === null || authRoles === null
+        ? null
+        : authRoles.indexOf(authRole.toLowerCase()) <=
+            authRoles.indexOf(role.toLowerCase());
     },
     [authRole, authRoles],
+  );
+
+  const showIfUnauthed = useCallback(
+    component => {
+      if (authed != null) {
+        if (!authed) {
+          return component;
+        }
+
+        if (authRoleIsEquivalentTo('admin')) {
+          return <Redirect to="/admin" />;
+        }
+
+        return <Redirect to="/" />;
+      }
+
+      return null;
+    },
+    [authRoleIsEquivalentTo, authed],
   );
 
   return (
@@ -84,14 +103,12 @@ const App = () => {
           <Route
             path="/login"
             render={() =>
-              !authed ? (
+              showIfUnauthed(
                 <Login
                   authed={authed}
                   setAuthed={setAuthed}
                   setAuthRole={setAuthRole}
-                />
-              ) : (
-                <Redirect to="/admin" />
+                />,
               )
             }
           />
@@ -99,14 +116,12 @@ const App = () => {
           <Route
             path="/register"
             render={() =>
-              !authed ? (
+              showIfUnauthed(
                 <Register
                   authed={authed}
                   setAuthed={setAuthed}
                   setAuthRole={setAuthRole}
-                />
-              ) : (
-                <Redirect to="/admin" />
+                />,
               )
             }
           />

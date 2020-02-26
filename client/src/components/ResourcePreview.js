@@ -84,6 +84,7 @@ function ResourcePreview(props) {
   return (
     <Link to={`resources/${id}`}>
       <Card
+        className="resource-preview-card"
         cover={
           !isMobile && (
             <div className="resource-preview-cover">
