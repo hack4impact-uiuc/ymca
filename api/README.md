@@ -46,6 +46,12 @@ The unit tests are written with [Jest](https://jestjs.io/) and [SuperTest](https
 
 To test,
 
-```js
+```bash
 yarn test
+```
+
+If you are recieving the warning about [mismatched binaries](https://github.com/nodenv/nodenv/wiki/FAQ#npm-warning-about-mismatched-binaries), run
+
+```bash
+npm config set scripts-prepend-node-path auto
 ```
