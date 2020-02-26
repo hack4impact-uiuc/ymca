@@ -24,7 +24,7 @@ export const register = body => {
     body: JSON.stringify({
       email,
       password,
-      role: 'admin',
+      role: 'public',
       questionIdx: 0,
       answer: '_',
     }),
@@ -32,7 +32,7 @@ export const register = body => {
 };
 
 export const getUsersForRolesPage = () => {
-  return fetch(`${AUTH_SERVER_URI}/roles`, {
+  return fetch(`${AUTH_SERVER_URI}/roles/selfset`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

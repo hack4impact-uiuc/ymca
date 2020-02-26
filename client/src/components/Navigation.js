@@ -18,8 +18,18 @@ const Navigation = (props: Props) => {
   // Mobile Detection
   const isMobile = useWindowDimensions()[1];
 
-  const desktop = <NavDesktop authed={authed} />;
-  const mobile = <NavMobile authed={authed} />;
+  const desktop = (
+    <NavDesktop
+      authed={authed}
+      authRoleIsEquivalentTo={authRoleIsEquivalentTo}
+    />
+  );
+  const mobile = (
+    <NavMobile
+      authed={authed}
+      authRoleIsEquivalentTo={authRoleIsEquivalentTo}
+    />
+  );
 
   return isMobile ? mobile : desktop;
 };
