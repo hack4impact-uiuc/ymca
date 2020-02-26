@@ -1,6 +1,5 @@
 <h1 align="center">
-  <br>
-  <a href="https://universityymca.org/"><img src="https://hampton.gov/ImageRepository/Document?documentID=25468" alt="YMCA logo" width="200"></a>
+  <a href="https://universityymca.org/"><img src="https://hampton.gov/ImageRepository/Document?documentID=25468" alt="YMCA logo" width="150"></a>
   <br/>
     YMCA
   </br>
@@ -26,8 +25,6 @@
 Champaign County is home to over 24,000 immigrants from nearly 80 countries around the world. Starting a new life in a new place is a daunting task — newcomers grapple with a wide variety of challenges including but not limited to: language barriers, cultural differences, and work-life balance. In Champaign, there are over 100+ available resources addressing those challenges; however, valuable information about those resources are scattered and difficult to find. This information gap is preventing newcomers from reliably accessing resources that they need the most. Local organizations have taken steps to centralize this information, but it remains largely inaccessible due to language limitations and other barriers.
 
 Our team has partnered with the YMCA New American Welcome Center (NAWC) to build a centralized virtual resource hub aimed to equalize and promote information access to vital community resources. This product will allow immigrants to independently access resources according to their personal needs, and also enable NAWC and other local organizations to better serve the community through more informed recommendations.
-
-This product will be piloted at the end of 2019 / beginning of 2020.
 
 ## Usage
 
@@ -80,4 +77,4 @@ This application is built with React, Express, and MongoDB. Now is used for auto
 
 [MIT](https://github.com/hack4impact-uiuc/ymca/blob/master/LICENSE) licensed.<br>
 
-Copyright © 2019 [Hack4Impact UIUC](https://github.com/hack4impact-uiuc).
+Copyright © 2020 [Hack4Impact UIUC](https://github.com/hack4impact-uiuc).
