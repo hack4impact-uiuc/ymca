@@ -1,27 +1,51 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const router = express.Router();
 const { errorWrap } = require('../middleware');
 const User = require('../../../auth/src/models/User');
-const { jwt_decode } = require('jwt-decode');
+const Resource = require('../models/resource');
+const jwt_decode = require('jwt-decode');
 
-// Add resource to saved resources of user
 router.get(
-    '/',
+    '/resources',
     errorWrap(async (req, res) => {
+        const userId = jwt_decode(req.headers.token)['userId'];
+        const user = await User.findById(userId);
         res.status(200).json({
             code: 200,
-            message: `Successfully called get lol`,
+            message: `Succesfully got saved resources`,
             success: true,
-        })
+            result: user.savedResources;
+        });
+    })
+)
+
+// Deleted resource to saved resources of user
+router.put(
+    '/deleteresource',
+    errorWrap(async (req, res) => {
+        const { resourceId } = req.params;
+        const userId = jwt_decode(req.headers.token)['userId'];
+        const user = await User.findById(userId);
+        var index = user.savedResources.indexOf(resourceId);
+        if (index !== -1) {
+            user.savedResources.splice(index, 1);
+        }
+        user.save()
+        res.status(200).json({
+            code: 200,
+            message: `Successfully deleted saved resource`,
+            success: true,
+            result: resourceId,
+        });
     }),
 );
 
 router.put(
-    '/',
+    '/addresource',
     errorWrap(async (req, res) => {
-        // Verifies the token and checks that the user is registered
         const { resourceId } = req.params;
-        const userId = jwt_decode(req.headers.token);
+        const userId = jwt_decode(req.headers.token)['userId'];
         const user = await User.findById(userId);
         user.savedResources.push(resourceId);
         user.save()

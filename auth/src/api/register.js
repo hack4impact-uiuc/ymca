@@ -48,7 +48,8 @@ router.post(
       email: String(req.body.email).toLowerCase(),
       password: encodedPassword,
       role: req.body.role,
-      verified: false
+      verified: false,
+      savedResources: [],
     };
 
     // If the security question is enabled, checks that the security question index is valid and that there is an answer
