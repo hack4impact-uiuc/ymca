@@ -25,6 +25,7 @@ import FinancialAidFormItem from './ResourceFinancialAidForm';
 import CategorySelector, { CAT_SUB_SPLITTER } from './ResourceCategorySelector';
 import StrListFormItem from './ResourceStrListForm';
 import InternalNotesFormItem from './ResourceInternalNotesForm';
+import LabelWrapper from './LabelWrapper';
 
 import '../css/ResourceForm.css';
 
@@ -127,11 +128,12 @@ const ResourceForm = (props: FormProps) => {
           <h2>Add a Resource</h2>
         </Row>
       </Header>
-      <Content className="form">
+      <Content className="content">
         <div className="formLabel">
           <p>Basic Information</p>
         </div>
         <Form
+          className="form"
           onSubmit={e => {
             onSubmitNewResourceForm(e, totalSubmitEnabled, id, {
               category: categories,
@@ -157,66 +159,201 @@ const ResourceForm = (props: FormProps) => {
             });
           }}
         >
-          <CategorySelector
-            setCategories={setCategories}
-            setSubcategories={setSubcategories}
-            getFieldDecorator={getFieldDecorator}
-            setFieldsValue={setFieldsValue}
-            getFieldValue={getFieldValue}
+          <LabelWrapper
+            label="Categories"
+            required
+            component={
+              <CategorySelector
+                setCategories={setCategories}
+                setSubcategories={setSubcategories}
+                getFieldDecorator={getFieldDecorator}
+                setFieldsValue={setFieldsValue}
+                getFieldValue={getFieldValue}
+              />
+            }
           />
-          <Form.Item label="Resource Name">
-            {getFieldDecorator('resourceName', {
-              rules: [
-                {
-                  required: true,
-                  message: 'Please input a resource name!',
-                },
-              ],
-            })(
-              <Input
-                placeholder="Resource Name"
-                onFocus={() => setTotalSubmitEnabled(true)}
-              />,
-            )}
-          </Form.Item>
-          <Form.Item label="Description">
-            {getFieldDecorator('description', {
-              rules: [
-                {
-                  required: true,
-                  message: 'Please input a description!',
-                },
-              ],
-            })(
-              <TextArea
-                rows={4}
-                placeholder="Description"
-                onFocus={() => setTotalSubmitEnabled(true)}
-              />,
-            )}
-          </Form.Item>
-          <Form.Item label="Website">
-            {getFieldDecorator(
-              'website',
-              {},
-            )(
-              <Input
-                placeholder="Website"
-                onFocus={() => setTotalSubmitEnabled(true)}
-              />,
-            )}
-          </Form.Item>
-          <Form.Item label="Email">
-            {getFieldDecorator(
-              'email',
-              {},
-            )(
-              <Input
-                placeholder="Email"
-                onFocus={() => setTotalSubmitEnabled(true)}
-              />,
-            )}
-          </Form.Item>
+          <LabelWrapper
+            label="Resource Name"
+            required
+            component={
+              <Form.Item>
+                {getFieldDecorator('resourceName', {
+                  rules: [
+                    {
+                      required: true,
+                      message: 'Please input a resource name!',
+                    },
+                  ],
+                })(
+                  <Input
+                    placeholder="Resource Name"
+                    onFocus={() => setTotalSubmitEnabled(true)}
+                  />,
+                )}
+              </Form.Item>
+            }
+          />
+          <LabelWrapper
+            label="Description"
+            required
+            component={
+              <Form.Item>
+                {getFieldDecorator('description', {
+                  rules: [
+                    {
+                      required: true,
+                      message: 'Please input a description!',
+                    },
+                  ],
+                })(
+                  <TextArea
+                    rows={4}
+                    placeholder="Description"
+                    onFocus={() => setTotalSubmitEnabled(true)}
+                  />,
+                )}
+              </Form.Item>
+            }
+          />
+          <LabelWrapper
+            label="Address"
+            required
+            component={
+              <Form.Item>
+                {getFieldDecorator(
+                  'address',
+                  {},
+                )(
+                  <Input
+                    placeholder="Address"
+                    onFocus={() => setTotalSubmitEnabled(true)}
+                  />,
+                )}
+              </Form.Item>
+            }
+          />
+          <Row>
+            <Col span={18}>
+              <LabelWrapper
+                label="Address Line 2"
+                component={
+                  <Form.Item>
+                    {getFieldDecorator(
+                      'address2',
+                      {},
+                    )(
+                      <Input
+                        placeholder="Address 2"
+                        onFocus={() => setTotalSubmitEnabled(true)}
+                      />,
+                    )}
+                  </Form.Item>
+                }
+              />
+              <Col span={12}>
+                <LabelWrapper
+                  label="City"
+                  component={
+                    <Form.Item>
+                      {getFieldDecorator(
+                        'city',
+                        {},
+                      )(
+                        <Input
+                          placeholder="City"
+                          onFocus={() => setTotalSubmitEnabled(true)}
+                        />,
+                      )}
+                    </Form.Item>
+                  }
+                />
+              </Col>
+              <Col span={12}>
+                <LabelWrapper
+                  label="State"
+                  component={
+                    <Form.Item>
+                      {getFieldDecorator(
+                        'state',
+                        {},
+                      )(
+                        <Input
+                          placeholder="State"
+                          onFocus={() => setTotalSubmitEnabled(true)}
+                        />,
+                      )}
+                    </Form.Item>
+                  }
+                />
+              </Col>
+            </Col>
+            <Col span={6}>
+              <LabelWrapper
+                label="Apt/Unit/Suite"
+                component={
+                  <Form.Item>
+                    {getFieldDecorator(
+                      'aptUnitSuite',
+                      {},
+                    )(
+                      <Input
+                        placeholder=""
+                        onFocus={() => setTotalSubmitEnabled(true)}
+                      />,
+                    )}
+                  </Form.Item>
+                }
+              />
+              <LabelWrapper
+                label="Zip"
+                component={
+                  <Form.Item>
+                    {getFieldDecorator(
+                      'zip',
+                      {},
+                    )(
+                      <Input
+                        placeholder="Zip"
+                        onFocus={() => setTotalSubmitEnabled(true)}
+                      />,
+                    )}
+                  </Form.Item>
+                }
+              />
+            </Col>
+          </Row>
+          <LabelWrapper
+            label="Website"
+            component={
+              <Form.Item>
+                {getFieldDecorator(
+                  'website',
+                  {},
+                )(
+                  <Input
+                    placeholder="Website"
+                    onFocus={() => setTotalSubmitEnabled(true)}
+                  />,
+                )}
+              </Form.Item>
+            }
+          />
+          <LabelWrapper
+            label="Email"
+            component={
+              <Form.Item>
+                {getFieldDecorator(
+                  'email',
+                  {},
+                )(
+                  <Input
+                    placeholder="Email"
+                    onFocus={() => setTotalSubmitEnabled(true)}
+                  />,
+                )}
+              </Form.Item>
+            }
+          />
           {PhoneNumberFormItem({
             phoneNumbers,
             setPhoneNumbers,
@@ -232,29 +369,9 @@ const ResourceForm = (props: FormProps) => {
             setContacts,
             setTotalSubmitEnabled,
           })}
-          <Form.Item label="Address">
-            {getFieldDecorator(
-              'address',
-              {},
-            )(
-              <Input
-                placeholder="Address"
-                onFocus={() => setTotalSubmitEnabled(true)}
-              />,
-            )}
-          </Form.Item>
-          <Form.Item label="City">
-            {getFieldDecorator(
-              'city',
-              {},
-            )(
-              <Input
-                placeholder="City"
-                onFocus={() => setTotalSubmitEnabled(true)}
-              />,
-            )}
-          </Form.Item>
-          <Form.Item label="Hours of Operation">
+
+          <Form.Item className="input" label="City"></Form.Item>
+          <Form.Item className="input" label="Hours of Operation">
             {getFieldDecorator(
               'hoursOfOperation',
               {},
@@ -266,7 +383,7 @@ const ResourceForm = (props: FormProps) => {
               />,
             )}
           </Form.Item>
-          <Form.Item label="Eligibility Requirements">
+          <Form.Item className="input" label="Eligibility Requirements">
             {getFieldDecorator(
               'eligibilityRequirements',
               {},
@@ -282,7 +399,7 @@ const ResourceForm = (props: FormProps) => {
             setFinancialAidDetails,
             setTotalSubmitEnabled,
           })}
-          <Form.Item label="Cost">
+          <Form.Item className="input" label="Cost">
             {getFieldDecorator('cost', {
               rules: [{}],
             })(
@@ -294,7 +411,7 @@ const ResourceForm = (props: FormProps) => {
               </Radio.Group>,
             )}
           </Form.Item>
-          <Form.Item label="Available Languages">
+          <Form.Item className="input" label="Available Languages">
             {getFieldDecorator(
               'availableLanguages',
               {},
@@ -311,10 +428,11 @@ const ResourceForm = (props: FormProps) => {
               </Select>,
             )}
           </Form.Item>
-          <Form.Item label="Recommendation">
+          <Form.Item className="input" label="Recommendation">
             {getFieldDecorator('recommendation', {})(<Rate />)}
           </Form.Item>
           <StrListFormItem
+            className="input"
             formName="commentForm"
             label="Comments"
             placeholder="Enter a comment"
