@@ -3,12 +3,12 @@ const fetch = require('isomorphic-unfetch');
 const AUTH_SERVER_URI = 'https://ymca-auth.now.sh';
 
 const authAdmin = async (req, res, next) => {
-  auth(req, res, next, ["admin"]);
-}
+  auth(req, res, next, ['admin']);
+};
 
 const authGeneral = async (req, res, next) => {
   auth(req, res, next, []);
-}
+};
 
 const auth = async (req, res, next, roles) => {
   const { token } = req.headers;
@@ -46,4 +46,4 @@ const auth = async (req, res, next, roles) => {
   }
 };
 
-module.exports = {authAdmin, authGeneral};
+module.exports = { authAdmin, authGeneral };
