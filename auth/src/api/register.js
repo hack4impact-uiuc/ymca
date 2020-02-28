@@ -75,15 +75,6 @@ router.post(
       userData["answer"] = req.body.answer.toLowerCase().replace(/\s/g, "");
     }
 
-    // Checks the permission level of the user using the config file
-    const requiredAuthFrom = await getSuperiorsForRole(req.body.role);
-    if (requiredAuthFrom != null && requiredAuthFrom.length > 0) {
-      return sendResponse(
-        res,
-        400,
-        "User needs a higher permission level for that role"
-      );
-    }
     const user = new User(userData);
 
     // If gmail is enabled, it sends an email with a generated PIN to verify the user

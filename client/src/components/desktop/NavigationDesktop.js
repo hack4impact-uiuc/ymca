@@ -10,10 +10,11 @@ const { Header } = Layout;
 
 type Props = {
   authed: Boolean,
+  authRoleIsEquivalentTo: String => void,
 };
 
 const NavDesktop = (props: Props) => {
-  const { authed } = props;
+  const { authed, authRoleIsEquivalentTo } = props;
 
   const activeStyle = { fontWeight: 'bold', color: 'black' };
 
@@ -34,7 +35,7 @@ const NavDesktop = (props: Props) => {
           </NavLink>
         </Menu.Item>
 
-        {authed && (
+        {authRoleIsEquivalentTo('admin') && (
           <Menu.Item key="admin">
             <NavLink to="/admin" activeStyle={activeStyle}>
               Admin
@@ -42,7 +43,7 @@ const NavDesktop = (props: Props) => {
           </Menu.Item>
         )}
 
-        {authed && (
+        {authRoleIsEquivalentTo('admin') && (
           <Menu.Item key="approval">
             <NavLink to="/role-approval" activeStyle={activeStyle}>
               Users
