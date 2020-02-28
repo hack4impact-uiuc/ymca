@@ -265,7 +265,7 @@ export default class ResourceDetail extends Component {
                 <Card>
                   <Icon type="dollar-circle" theme="filled" />
                   <div className="card-label">Cost{'\n'}</div>
-                  {cost.length > 0 ? cost : 'None provided.'}
+                  {cost != null ? cost : 'None provided.'}
                 </Card>
               </Col>
             </Row>
