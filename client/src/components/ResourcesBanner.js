@@ -15,7 +15,7 @@ function ResourcesBanner(props) {
         background: '#431C72',
         color: 'white',
         height: 'auto',
-        paddingLeft: '235px',
+        paddingLeft: '10%',
         paddingBottom: '1em',
         paddingTop: '1em',
       }}

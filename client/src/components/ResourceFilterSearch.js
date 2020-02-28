@@ -57,13 +57,13 @@ const ResourceFilterSearch = () => {
 
   return (
     <AutoComplete
-      className="searchbar"
+      className="searchbar-filter"
       dataSource={allResourceOptions}
       placeholder="Search for a Resource"
       filterOption={filterSearchResults}
       onSelect={onSearchSelect}
     >
-      <Input suffix={<Icon type="search"/>} />
+      <Input suffix={<Icon type="search" />} />
     </AutoComplete>
   );
 };

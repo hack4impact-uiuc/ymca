@@ -59,8 +59,10 @@ function ResourcesFilterMobile(props) {
   );
 
   return (
-    <div className="resources-filter-mobile">
-      <div className="filter-search-mobile"><ResourceFilterSearch /></div>
+    <div className="resources-filter-mobile" align="right">
+      <div className="filter-search-mobile">
+        <ResourceFilterSearch />
+      </div>
       <Dropdown
         className="dropdown"
         overlay={radio('Cost', costs, costSelected)}

@@ -37,7 +37,6 @@ function ResourcePreview(props) {
     subcategory,
   } = props;
   const [src, setSrc] = useState('');
-  const isMobile = useWindowDimensions()[1];
 
   useEffect(() => {
     let found = false;
@@ -86,15 +85,13 @@ function ResourcePreview(props) {
       <Card
         className="resource-preview-card"
         cover={
-          !isMobile && (
-            <div className="resource-preview-cover">
-              <img
-                className="resource-preview-cover-img"
-                alt={subcategory}
-                src={src}
-              />
-            </div>
-          )
+          <div className="resource-preview-cover">
+            <img
+              className="resource-preview-cover-img"
+              alt={subcategory}
+              src={src}
+            />
+          </div>
         }
       >
         <Meta title={name} description={description} />

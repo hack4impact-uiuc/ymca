@@ -176,32 +176,36 @@ function Resources(props) {
 
   return (
     <Layout className="resources">
-      {isMobile && <ResourcesFilterMobile
-        costs={costs}
-        costSelected={cost}
-        languages={languages}
-        languageSelected={language}
-        locations={locations}
-        locationSelected={location}
-        setCost={setCost}
-        setLanguage={setLanguage}
-        setLocation={setLocation}
-      />}
+      {isMobile && (
+        <ResourcesFilterMobile
+          costs={costs}
+          costSelected={cost}
+          languages={languages}
+          languageSelected={language}
+          locations={locations}
+          locationSelected={location}
+          setCost={setCost}
+          setLanguage={setLanguage}
+          setLocation={setLocation}
+        />
+      )}
       <ResourcesBanner
         categorySelected={category}
         subcategorySelected={subcategory}
       />
-      {!isMobile && <ResourcesFilter
-        costs={costs}
-        costSelected={cost}
-        languages={languages}
-        languageSelected={language}
-        locations={locations}
-        locationSelected={location}
-        setCost={setCost}
-        setLanguage={setLanguage}
-        setLocation={setLocation}
-      />}
+      {!isMobile && (
+        <ResourcesFilter
+          costs={costs}
+          costSelected={cost}
+          languages={languages}
+          languageSelected={language}
+          locations={locations}
+          locationSelected={location}
+          setCost={setCost}
+          setLanguage={setLanguage}
+          setLocation={setLocation}
+        />
+      )}
       {isMobile && (
         <ResourcesCategoryFilterMobile
           category={category}

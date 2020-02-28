@@ -84,7 +84,9 @@ function ResourcesFilter(props) {
       >
         <Button className="button">Location</Button>
       </Dropdown>
-      <ResourceFilterSearch />
+      <div className="searchbar-align-right">
+        <ResourceFilterSearch />
+      </div>
     </div>
   );
 }
