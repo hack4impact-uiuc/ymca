@@ -2,22 +2,20 @@
   "version": 2,
   "name": "ymca",
   "alias": "ymca.now.sh",
+  "env": {
+    "MONGO_URL": "@ymca_db_uri",
+    "REACT_APP_MAPBOX_KEY": "@ymca_mapbox_key"
+  },
   "builds": [
     {
       "src": "api/src/app.js",
-      "use": "@now/node",
-      "env": {
-        "MONGO_URL": "@ymca_db_uri"
-      }
+      "use": "@now/node"
     },
     {
       "src": "client/package.json",
       "use": "@now/static-build",
       "config": {
         "distDir": "build"
-      },
-      "env": {
-        "REACT_APP_MAPBOX_KEY": "@ymca_mapbox_key"
       }
     }
   ],

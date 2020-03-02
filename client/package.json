@@ -23,7 +23,7 @@
   "scripts": {
     "start": "react-scripts start",
     "lint": "eslint --fix src -c .eslintrc.json --ext js,jsx",
-    "build": "react-scripts build",
+    "build": "REACT_APP_MAPBOX_KEY=@ymca_mapbox_key react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "flow": "flow"
