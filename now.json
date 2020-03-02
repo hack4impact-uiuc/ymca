@@ -3,8 +3,7 @@
   "name": "ymca",
   "alias": "ymca.now.sh",
   "env": {
-    "MONGO_URL": "@ymca_db_uri",
-    // "REACT_APP_MAPBOX_KEY": "$ymca_mapbox_key"
+    "MONGO_URL": "@ymca_db_uri"
   },
   "build": {
     "env": {
