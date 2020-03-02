@@ -10,10 +10,8 @@ import ResourcesBreadcrumb from '../components/ResourcesBreadcrumb';
 
 async function addressToLatLong(address) {
   const apiLatLong =
-    `${'http://www.mapquestapi.com/geocoding/v1/address?' +
-      'key=QhpXMYz3yy5F0Yg5qZSqGmA2XFMIMRAi&maxResults=5&' +
-      'outFormat=json&location='}${address}}&boundingBox=` +
-    `40.121581,-88.253981,40.098315,-88.205082`;
+    `https://www.mapquestapi.com/geocoding/v1/address?key=` +
+    `${process.env.REACT_APP_MAPBOX_KEY}&maxResults=5&location=${address}`;
 
   const response = await fetch(apiLatLong, {});
   const responseJson = await response.json();
@@ -32,10 +30,8 @@ export default class ResourceDetail extends Component {
       name: 'Resource Name',
       phone: [],
       email: '',
-      // address: '',
       website: '',
       description: '',
-      // city: '',
       languages: [],
       requiredDocuments: [],
       cost: '',
@@ -56,8 +52,7 @@ export default class ResourceDetail extends Component {
 
     if (response !== null) {
       const { result } = response;
-
-      const coords = await addressToLatLong('New York, USA');
+      const coords = await addressToLatLong(result.address);
 
       this.setState({
         name: result.name,
@@ -304,10 +299,12 @@ export default class ResourceDetail extends Component {
             <Row className="cardRow">
               <Map
                 style="mapbox://styles/mapbox/streets-v9"
+                center={[long, lat]}
                 containerStyle={{
                   height: '450px',
                   width: '675px',
                 }}
+                zoom={[15]}
               >
                 <Layer
                   type="symbol"
