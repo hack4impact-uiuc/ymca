@@ -9,6 +9,7 @@ import { deleteResource, getResourceByID } from '../utils/api';
 import ResourcesBreadcrumb from '../components/ResourcesBreadcrumb';
 
 async function addressToLatLong(address) {
+  console.log(process.env);
   const apiLatLong =
     `https://www.mapquestapi.com/geocoding/v1/address?key=` +
     `${process.env.REACT_APP_MAPBOX_KEY}&maxResults=5&location=${address}`;
