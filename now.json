@@ -9,6 +9,7 @@
   "build": {
     "env": {
       "REACT_APP_MAPBOX_KEY": "$ymca_mapbox_key"
+    }
   },
   "builds": [
     {
