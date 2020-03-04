@@ -53,7 +53,8 @@ router.post(
     };
 
     // If the security question is enabled, checks that the security question index is valid and that there is an answer
-    const securityQuestionEnabled = await isSecurityQuestionEnabled();
+    // const securityQuestionEnabled = await isSecurityQuestionEnabled();
+    const securityQuestionEnabled = false;
     if (securityQuestionEnabled) {
       const securityQuestionsResponse = await getSecurityQuestions();
       if (!securityQuestionsResponse.success) {

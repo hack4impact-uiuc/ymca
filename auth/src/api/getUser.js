@@ -39,7 +39,8 @@ router.get("/getUser", async function(req, res) {
     user_email: user.email,
     user_verified: user.verified || req.headers.google,
     user_role: user.role,
-    user_id: user._id
+    user_id: user._id,
+    savedResources: user.savedResources,
   });
 });
 

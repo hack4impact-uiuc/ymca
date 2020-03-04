@@ -45,8 +45,13 @@ router.put(
   '/addresource',
   errorWrap(async (req, res) => {
     const { resourceId } = req.params;
+    console.log("here???");
     const userId = jwt_decode(req.headers.token)['userId'];
+    console.log(jwt_decode(req.headers.token))
+    console.log(userId)
+    console.log("here");
     const user = await User.findById(userId);
+    console.log("here1");
     user.savedResources.push(resourceId);
     user.save();
     res.status(200).json({
