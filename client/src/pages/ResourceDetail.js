@@ -195,26 +195,23 @@ export default class ResourceDetail extends Component {
                 <Card>
                   <Icon type="phone" theme="filled" />
                   <div className="card-label">Contact Information{'\n'}</div>
-                  {phone.length > 0 ||
-                  (email && email.length > 0) ||
-                  (website && website.length > 0) ? (
-                    <>
-                      {phone.length > 0 &&
-                        phone.map(p => {
-                          return `${p.phoneType}: ${p.phoneNumber}\n`;
-                        })}
-                      {email.length > 0 && `${email}\n`}
-                      {website.length > 0 && (
-                        <a
-                          href={website}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >{`${website}\n`}</a>
-                      )}
-                    </>
-                  ) : (
-                    'None provided.'
+                  {phone.length > 0 &&
+                    phone.map(p => {
+                      return `${p.phoneType}: ${p.phoneNumber}\n`;
+                    })}
+                  {email && email.length > 0 && `${email}\n`}
+                  {website && website.length > 0 && website.length > 0 && (
+                    <a
+                      href={website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >{`${website}\n`}</a>
                   )}
+                  {website == null ||
+                    website.length === 0 ||
+                    email == null ||
+                    email.length === 0 ||
+                    (phone.length === 0 && 'None provided')}
                 </Card>
               </Col>
               <Col span={12}>
