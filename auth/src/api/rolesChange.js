@@ -59,11 +59,6 @@ router.post(
       authenticated = true;
     }
 
-    // Check that the user is verified, and if not return an error message
-    if (!user.verified) {
-      sendResponse(res, 400, "Unverified users can not promote/demote anyone");
-    }
-
     // Find the user that is being promoted and he or she is in the database
     let userToBePromoted = await User.find({ email: req.body.userEmail });
     if (userToBePromoted.length === 0) {
@@ -72,6 +67,8 @@ router.post(
 
     // If the current user has the correct permission level, promote the user or send a corresponding success or error message
     const roles = await getRolesForUser(user.role);
+    roles.push(user.role);
+
     userToBePromoted = userToBePromoted[0];
     if (roles.indexOf(req.body.newRole) >= 0 && authenticated) {
       userToBePromoted.role = req.body.newRole;
