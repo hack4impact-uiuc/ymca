@@ -232,7 +232,7 @@ const ResourceForm = (props: FormProps) => {
               </Form.Item>
             }
           />
-          <Row>
+          <Row gutter={16}>
             <Col span={18}>
               <LabelWrapper
                 label="Address Line 2"
@@ -250,42 +250,6 @@ const ResourceForm = (props: FormProps) => {
                   </Form.Item>
                 }
               />
-              <Col span={12}>
-                <LabelWrapper
-                  label="City"
-                  component={
-                    <Form.Item>
-                      {getFieldDecorator(
-                        'city',
-                        {},
-                      )(
-                        <Input
-                          placeholder="City"
-                          onFocus={() => setTotalSubmitEnabled(true)}
-                        />,
-                      )}
-                    </Form.Item>
-                  }
-                />
-              </Col>
-              <Col span={12}>
-                <LabelWrapper
-                  label="State"
-                  component={
-                    <Form.Item>
-                      {getFieldDecorator(
-                        'state',
-                        {},
-                      )(
-                        <Input
-                          placeholder="State"
-                          onFocus={() => setTotalSubmitEnabled(true)}
-                        />,
-                      )}
-                    </Form.Item>
-                  }
-                />
-              </Col>
             </Col>
             <Col span={6}>
               <LabelWrapper
@@ -304,6 +268,46 @@ const ResourceForm = (props: FormProps) => {
                   </Form.Item>
                 }
               />
+            </Col>
+          </Row>
+          <Row justify="space-around" gutter={16}>
+            <Col span={8}>
+              <LabelWrapper
+                label="City"
+                component={
+                  <Form.Item>
+                    {getFieldDecorator(
+                      'city',
+                      {},
+                    )(
+                      <Input
+                        placeholder="City"
+                        onFocus={() => setTotalSubmitEnabled(true)}
+                      />,
+                    )}
+                  </Form.Item>
+                }
+              />
+            </Col>
+            <Col span={8}>
+              <LabelWrapper
+                label="State"
+                component={
+                  <Form.Item>
+                    {getFieldDecorator(
+                      'state',
+                      {},
+                    )(
+                      <Input
+                        placeholder="State"
+                        onFocus={() => setTotalSubmitEnabled(true)}
+                      />,
+                    )}
+                  </Form.Item>
+                }
+              />
+            </Col>
+            <Col span={8}>
               <LabelWrapper
                 label="Zip"
                 component={

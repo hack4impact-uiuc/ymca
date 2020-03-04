@@ -28,11 +28,11 @@
   padding-bottom: 3px;
 }
 
-.resourceForm .input span {
+.resourceForm label[htmlFor='input'] span {
   color: #6bdbd0;
 }
 
-.resourceForm .input label {
+.resourceForm label[htmlFor='input'] {
   color: #492179;
 }
 

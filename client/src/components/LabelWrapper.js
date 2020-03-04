@@ -12,8 +12,10 @@ const LabelWrapper = (props: LabelWrapperProps) => {
 
   return (
     <div>
-      <span>
-        <label htmlFor="input">{label}</label>
+      <span style={{ color: '#6bdbd0' }}>
+        <label htmlFor="input" style={{ color: '#492179' }}>
+          {label}
+        </label>
         {(required !== undefined && '*') || null}
       </span>
 
