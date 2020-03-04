@@ -3,7 +3,8 @@
 const axios = require('axios');
 
 const instance = axios.create({
-  baseURL: 'https://ymca.now.sh',
+  // baseURL: 'https://ymca.now.sh',
+  baseURL: 'http://localhost:9000'
 });
 
 export const getCategories = () => {
@@ -37,8 +38,8 @@ export const getResourcesByCategory = category => {
   );
 };
 
-export const getResourceByID = id => {
-  const requestExtension = `/api/resources/${id}`;
+export const getResourceByID = (id, needLatLong) => {
+  const requestExtension = `/api/resources/${id}?requireLatLong=${needLatLong}`;
   return instance.get(requestExtension).then(
     res => res.data,
     err => {

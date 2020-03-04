@@ -48,11 +48,10 @@ export default class ResourceDetail extends Component {
   }
 
   async componentDidMount() {
-    const response = await getResourceByID(this.props.match.params.id);
+    const response = await getResourceByID(this.props.match.params.id, true);
 
     if (response !== null) {
       const { result } = response;
-      const coords = await addressToLatLong(result.address);
 
       this.setState({
         name: result.name,
@@ -62,8 +61,8 @@ export default class ResourceDetail extends Component {
         category: result.category[0],
         subcategory: result.subcategory[0],
         cost: result.cost,
-        lat: coords[0],
-        long: coords[1],
+        lat: result.lat,
+        lng: result.long,
         email: result.email,
         website: result.website || '',
         eligibility: result.eligibilityRequirements,
