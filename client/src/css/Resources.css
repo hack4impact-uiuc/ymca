@@ -76,3 +76,8 @@
   margin-left: 33%;
   margin-top: 10%;
 }
+
+.resources .bar {
+  margin: 0;
+  height: '1px';
+}

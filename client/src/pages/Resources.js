@@ -17,7 +17,7 @@ import ResourcesFilter from '../components/ResourcesFilter';
 import ResourcesFilterMobile from '../components/mobile/ResourcesFilterMobile';
 import ResourcesGrid from '../components/ResourcesGrid';
 import ResourceCategoryFilter from '../components/ResourceCategoryFilter';
-import ResourcesBarMobile from '../components/mobile/ResourcesBarMobile';
+import ResourcesCatMobile from '../components/mobile/ResourcesCatMobile';
 import ResourcesBannerMobile from '../components/mobile/ResourcesBannerMobile';
 
 const { Sider } = Layout;
@@ -215,7 +215,7 @@ function Resources(props) {
             categorySelected={category}
             subcategorySelected={subcategory}
           />
-          <ResourcesBarMobile
+          <ResourcesCatMobile
             category={category}
             categories={categories}
             categorySelectAll={categorySelectAll}
@@ -224,12 +224,7 @@ function Resources(props) {
             subcategory={subcategory}
             subcategorySelect={subcategorySelect}
           />
-          <hr
-            style={{
-              margin: 0,
-              height: '1px',
-            }}
-          />
+          <hr className="bar" />
         </div>
       )}
       <Layout style={{ background: 'white' }}>

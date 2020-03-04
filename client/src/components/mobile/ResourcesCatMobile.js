@@ -5,11 +5,11 @@ import { Drawer, Menu } from 'antd';
 import ResourceCategoryFilter from '../ResourceCategoryFilter';
 import useWindowDimensions from '../../utils/mobile';
 
-import '../../css_mobile/ResourcesBarMobile.css';
+import '../../css_mobile/ResourcesCatMobile.css';
 
 const { SubMenu } = Menu;
 
-function ResourcesBarMobile(props) {
+function ResourcesCatMobile(props) {
   const [visible, setVisible] = useState(false);
   const { height } = useWindowDimensions()[0];
 
@@ -45,8 +45,8 @@ function ResourcesBarMobile(props) {
   );
 }
 
-ResourcesBarMobile.propTypes = {
+ResourcesCatMobile.propTypes = {
   subcategory: PropTypes.string.isRequired,
 };
 
-export default ResourcesBarMobile;
+export default ResourcesCatMobile;
