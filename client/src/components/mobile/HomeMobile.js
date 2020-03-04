@@ -69,7 +69,9 @@ export const HomeBlock3Mobile = () => {
                 <Row className="testimonial-block__bottom">
                   <Col>
                     <h1>{element.person}</h1>
-                    <h3>{element.title}</h3>
+                    <p>
+                      <Textfit mode="multi">{element.title}</Textfit>
+                    </p>
                     <p>
                       <Textfit mode="multi">{element.testimonial}</Textfit>
                     </p>
