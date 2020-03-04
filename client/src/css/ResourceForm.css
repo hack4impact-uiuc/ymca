@@ -44,3 +44,15 @@
   padding-left: 4em;
   padding-right: 4em;
 }
+
+.formCarousel .slick-slide {
+  overflow: hidden;
+}
+
+.formCarousel .slick-dots-bottom li {
+  background: #ccc;
+}
+
+.formCarousel .slick-dots li.slick-active button {
+  background: #492179 !important;
+}

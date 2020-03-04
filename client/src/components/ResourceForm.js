@@ -13,6 +13,7 @@ import {
   Row,
   Col,
   Layout,
+  Carousel,
 } from 'antd';
 import { Textfit } from 'react-textfit';
 
@@ -159,173 +160,182 @@ const ResourceForm = (props: FormProps) => {
             });
           }}
         >
-          <LabelWrapper
-            label="Categories"
-            required
-            component={
-              <CategorySelector
-                setCategories={setCategories}
-                setSubcategories={setSubcategories}
-                getFieldDecorator={getFieldDecorator}
-                setFieldsValue={setFieldsValue}
-                getFieldValue={getFieldValue}
-              />
-            }
-          />
-          <LabelWrapper
-            label="Resource Name"
-            required
-            component={
-              <Form.Item>
-                {getFieldDecorator('resourceName', {
-                  rules: [
-                    {
-                      required: true,
-                      message: 'Please input a resource name!',
-                    },
-                  ],
-                })(
-                  <Input
-                    placeholder="Resource Name"
-                    onFocus={() => setTotalSubmitEnabled(true)}
-                  />,
-                )}
-              </Form.Item>
-            }
-          />
-          <LabelWrapper
-            label="Description"
-            required
-            component={
-              <Form.Item>
-                {getFieldDecorator('description', {
-                  rules: [
-                    {
-                      required: true,
-                      message: 'Please input a description!',
-                    },
-                  ],
-                })(
-                  <TextArea
-                    rows={4}
-                    placeholder="Description"
-                    onFocus={() => setTotalSubmitEnabled(true)}
-                  />,
-                )}
-              </Form.Item>
-            }
-          />
-          <LabelWrapper
-            label="Address"
-            required
-            component={
-              <Form.Item>
-                {getFieldDecorator(
-                  'address',
-                  {},
-                )(
-                  <Input
-                    placeholder="Address"
-                    onFocus={() => setTotalSubmitEnabled(true)}
-                  />,
-                )}
-              </Form.Item>
-            }
-          />
-          <Row gutter={16}>
-            <Col span={18}>
+          <Carousel
+            className="formCarousel"
+            dotPosition="bottom"
+            onChange={() => {}}
+          >
+            <>
               <LabelWrapper
-                label="Address Line 2"
+                label="Categories"
+                required
+                component={
+                  <CategorySelector
+                    setCategories={setCategories}
+                    setSubcategories={setSubcategories}
+                    getFieldDecorator={getFieldDecorator}
+                    setFieldsValue={setFieldsValue}
+                    getFieldValue={getFieldValue}
+                  />
+                }
+              />
+              <LabelWrapper
+                label="Resource Name"
+                required
                 component={
                   <Form.Item>
-                    {getFieldDecorator(
-                      'address2',
-                      {},
-                    )(
+                    {getFieldDecorator('resourceName', {
+                      rules: [
+                        {
+                          required: true,
+                          message: 'Please input a resource name!',
+                        },
+                      ],
+                    })(
                       <Input
-                        placeholder="Address 2"
+                        placeholder="Resource Name"
                         onFocus={() => setTotalSubmitEnabled(true)}
                       />,
                     )}
                   </Form.Item>
                 }
               />
-            </Col>
-            <Col span={6}>
               <LabelWrapper
-                label="Apt/Unit/Suite"
+                label="Description"
+                required
                 component={
                   <Form.Item>
-                    {getFieldDecorator(
-                      'aptUnitSuite',
-                      {},
-                    )(
-                      <Input
-                        placeholder=""
+                    {getFieldDecorator('description', {
+                      rules: [
+                        {
+                          required: true,
+                          message: 'Please input a description!',
+                        },
+                      ],
+                    })(
+                      <TextArea
+                        rows={4}
+                        placeholder="Description"
                         onFocus={() => setTotalSubmitEnabled(true)}
                       />,
                     )}
                   </Form.Item>
                 }
               />
-            </Col>
-          </Row>
-          <Row justify="space-around" gutter={16}>
-            <Col span={8}>
               <LabelWrapper
-                label="City"
+                label="Address"
+                required
                 component={
                   <Form.Item>
                     {getFieldDecorator(
-                      'city',
+                      'address',
                       {},
                     )(
                       <Input
-                        placeholder="City"
+                        placeholder="Address"
                         onFocus={() => setTotalSubmitEnabled(true)}
                       />,
                     )}
                   </Form.Item>
                 }
               />
-            </Col>
-            <Col span={8}>
-              <LabelWrapper
-                label="State"
-                component={
-                  <Form.Item>
-                    {getFieldDecorator(
-                      'state',
-                      {},
-                    )(
-                      <Input
-                        placeholder="State"
-                        onFocus={() => setTotalSubmitEnabled(true)}
-                      />,
-                    )}
-                  </Form.Item>
-                }
-              />
-            </Col>
-            <Col span={8}>
-              <LabelWrapper
-                label="Zip"
-                component={
-                  <Form.Item>
-                    {getFieldDecorator(
-                      'zip',
-                      {},
-                    )(
-                      <Input
-                        placeholder="Zip"
-                        onFocus={() => setTotalSubmitEnabled(true)}
-                      />,
-                    )}
-                  </Form.Item>
-                }
-              />
-            </Col>
-          </Row>
+              <Row gutter={16}>
+                <Col span={18}>
+                  <LabelWrapper
+                    label="Address Line 2"
+                    component={
+                      <Form.Item>
+                        {getFieldDecorator(
+                          'address2',
+                          {},
+                        )(
+                          <Input
+                            placeholder="Address 2"
+                            onFocus={() => setTotalSubmitEnabled(true)}
+                          />,
+                        )}
+                      </Form.Item>
+                    }
+                  />
+                </Col>
+                <Col span={6}>
+                  <LabelWrapper
+                    label="Apt/Unit/Suite"
+                    component={
+                      <Form.Item>
+                        {getFieldDecorator(
+                          'aptUnitSuite',
+                          {},
+                        )(
+                          <Input
+                            placeholder=""
+                            onFocus={() => setTotalSubmitEnabled(true)}
+                          />,
+                        )}
+                      </Form.Item>
+                    }
+                  />
+                </Col>
+              </Row>
+              <Row justify="space-around" gutter={16}>
+                <Col span={8}>
+                  <LabelWrapper
+                    label="City"
+                    component={
+                      <Form.Item>
+                        {getFieldDecorator(
+                          'city',
+                          {},
+                        )(
+                          <Input
+                            placeholder="City"
+                            onFocus={() => setTotalSubmitEnabled(true)}
+                          />,
+                        )}
+                      </Form.Item>
+                    }
+                  />
+                </Col>
+                <Col span={8}>
+                  <LabelWrapper
+                    label="State"
+                    component={
+                      <Form.Item>
+                        {getFieldDecorator(
+                          'state',
+                          {},
+                        )(
+                          <Input
+                            placeholder="State"
+                            onFocus={() => setTotalSubmitEnabled(true)}
+                          />,
+                        )}
+                      </Form.Item>
+                    }
+                  />
+                </Col>
+                <Col span={8}>
+                  <LabelWrapper
+                    label="Zip"
+                    component={
+                      <Form.Item>
+                        {getFieldDecorator(
+                          'zip',
+                          {},
+                        )(
+                          <Input
+                            placeholder="Zip"
+                            onFocus={() => setTotalSubmitEnabled(true)}
+                          />,
+                        )}
+                      </Form.Item>
+                    }
+                  />
+                </Col>
+              </Row>
+            </>
+            <></>
+          </Carousel>
           <LabelWrapper
             label="Website"
             component={
