@@ -64,23 +64,22 @@ function ResourcesFilterMobile(props) {
         <ResourceFilterSearch />
       </div>
       <Dropdown
-        className="dropdown"
         overlay={radio('Cost', costs, costSelected)}
         placement="bottomLeft"
         trigger={['click']}
       >
         <Button className="button-mobile">Cost</Button>
       </Dropdown>
+      {' '}
       <Dropdown
-        className="dropdown"
         overlay={radio('Languages Offered', languages, languageSelected)}
         placement="bottomCenter"
         trigger={['click']}
       >
         <Button className="button-mobile">Language</Button>
       </Dropdown>
+      {' '}
       <Dropdown
-        className="dropdown"
         overlay={radio('Location', locations, locationSelected)}
         placement="bottomRight"
         trigger={['click']}
