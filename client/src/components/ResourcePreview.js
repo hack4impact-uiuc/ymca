@@ -4,7 +4,6 @@ import { Card } from 'antd';
 import { Link } from 'react-router-dom';
 
 import '../css/ResourcePreview.css';
-import useWindowDimensions from '../utils/mobile';
 
 const { Meta } = Card;
 

@@ -1,0 +1,55 @@
+.resources-filter-mobile {
+    background: white;
+    border-bottom: 1px solid rgba(235, 235, 235, 1);
+    border-top: 1px solid rgba(235, 235, 235, 1);
+    padding-top: 1em;
+    padding-bottom: 1em;
+    padding-right: 2em;
+    position: sticky;
+    top: 0em;
+    width: 100%;
+    align-self: flex-start;
+    z-index: 10;
+}
+
+.filter-search-mobile {
+    width: 100%;
+    padding-bottom: 1em;
+}
+
+.button-mobile {
+    border-radius: 20em;
+    width: 7em;
+    font-size: .9em;
+    height: 2em;
+}
+
+.button-mobile:hover, .button-mobile:focus {
+    background-color: #431c72;
+    border-color: white;
+    color: white;
+}
+
+.dropdown {
+    margin-left: 2em;
+}
+
+.radio {
+    display: block;
+    height: 3em;
+    line-height: 3em;
+}
+
+.radio-container {
+    background: white;
+    box-shadow: 1px 1px 3px grey;
+    padding-bottom: 1em;
+    padding-left: 3em;
+    padding-right: 3em;
+    padding-top: 1em;
+    text-align: left;
+}
+
+.title {
+    text-align: center;
+}

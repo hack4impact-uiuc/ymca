@@ -1,0 +1,58 @@
+.resources-filter {
+    background: white;
+    border-bottom: 1px solid rgba(235, 235, 235, 1);
+    border-top: 1px solid rgba(235, 235, 235, 1);
+    padding-left: 220px;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    position: sticky;
+    top: 4em;
+    width: 100%;
+    z-index: 10;
+  }
+  
+  .button {
+    border-radius: 20em;
+    width: 11em;
+    font-size: 1em;
+    height: 2.5em;
+  }
+  
+  .button:hover, .button:focus {
+    background-color: #431c72;
+    border-color: white;
+    color: white;
+  }
+  
+  .dropdown {
+    margin-left: 2em;
+  }
+  
+  .radio {
+    display: block;
+    height: 3em;
+    line-height: 3em;
+  }
+  
+  .radio-container {
+    background: white;
+    box-shadow: 1px 1px 3px grey;
+    padding-bottom: 1em;
+    padding-left: 3em;
+    padding-right: 3em;
+    padding-top: 1em;
+    text-align: left;
+  }
+  
+  .searchbar {
+    margin-right: 2em;
+    float: right;
+    padding-right: 1.5em;
+    padding-top: 0.4em;
+    width: 300px;
+  }
+  
+  .title {
+    text-align: center;
+  }
+  

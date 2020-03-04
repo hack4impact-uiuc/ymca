@@ -17,7 +17,8 @@ import ResourcesFilter from '../components/ResourcesFilter';
 import ResourcesFilterMobile from '../components/mobile/ResourcesFilterMobile';
 import ResourcesGrid from '../components/ResourcesGrid';
 import ResourceCategoryFilter from '../components/ResourceCategoryFilter';
-import ResourcesCategoryFilterMobile from '../components/mobile/ResourcesCategoryFilterMobile';
+import ResourcesBarMobile from '../components/mobile/ResourcesBarMobile';
+import ResourcesBannerMobile from '../components/mobile/ResourcesBannerMobile';
 
 const { Sider } = Layout;
 
@@ -189,33 +190,47 @@ function Resources(props) {
           setLocation={setLocation}
         />
       )}
-      <ResourcesBanner
-        categorySelected={category}
-        subcategorySelected={subcategory}
-      />
       {!isMobile && (
-        <ResourcesFilter
-          costs={costs}
-          costSelected={cost}
-          languages={languages}
-          languageSelected={language}
-          locations={locations}
-          locationSelected={location}
-          setCost={setCost}
-          setLanguage={setLanguage}
-          setLocation={setLocation}
-        />
+        <div>
+          <ResourcesBanner
+            categorySelected={category}
+            subcategorySelected={subcategory}
+          />
+          <ResourcesFilter
+            costs={costs}
+            costSelected={cost}
+            languages={languages}
+            languageSelected={language}
+            locations={locations}
+            locationSelected={location}
+            setCost={setCost}
+            setLanguage={setLanguage}
+            setLocation={setLocation}
+          />
+        </div>
       )}
       {isMobile && (
-        <ResourcesCategoryFilterMobile
-          category={category}
-          categories={categories}
-          categorySelectAll={categorySelectAll}
-          onOpenChange={onOpenChange}
-          openKeys={openKeys}
-          subcategory={subcategory}
-          subcategorySelect={subcategorySelect}
-        />
+        <div>
+          <ResourcesBannerMobile
+            categorySelected={category}
+            subcategorySelected={subcategory}
+          />
+          <ResourcesBarMobile
+            category={category}
+            categories={categories}
+            categorySelectAll={categorySelectAll}
+            onOpenChange={onOpenChange}
+            openKeys={openKeys}
+            subcategory={subcategory}
+            subcategorySelect={subcategorySelect}
+          />
+          <hr
+            style={{
+              margin: 0,
+              height: '1px',
+            }}
+          />
+        </div>
       )}
       <Layout style={{ background: 'white' }}>
         {!isMobile && (
