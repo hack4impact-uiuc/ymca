@@ -5,8 +5,6 @@ import { Drawer, Menu } from 'antd';
 import ResourceCategoryFilter from '../ResourceCategoryFilter';
 import useWindowDimensions from '../../utils/mobile';
 
-import '../../css_mobile/ResourcesCatMobile.css';
-
 const { SubMenu } = Menu;
 
 function ResourcesCatMobile(props) {
@@ -34,7 +32,7 @@ function ResourcesCatMobile(props) {
           title="Resource Categories"
           placement="bottom"
           height={(height * 4) / 5}
-          closable={false}
+          closable
           onClose={() => setVisible(false)}
           visible={visible}
         >

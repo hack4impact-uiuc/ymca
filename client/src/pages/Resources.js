@@ -191,30 +191,33 @@ function Resources(props) {
         />
       )}
       {!isMobile && (
-        <div>
-          <ResourcesBanner
-            categorySelected={category}
-            subcategorySelected={subcategory}
-          />
-          <ResourcesFilter
-            costs={costs}
-            costSelected={cost}
-            languages={languages}
-            languageSelected={language}
-            locations={locations}
-            locationSelected={location}
-            setCost={setCost}
-            setLanguage={setLanguage}
-            setLocation={setLocation}
-          />
-        </div>
+        <ResourcesBanner
+          categorySelected={category}
+          subcategorySelected={subcategory}
+        />
       )}
       {isMobile && (
-        <div>
-          <ResourcesBannerMobile
-            categorySelected={category}
-            subcategorySelected={subcategory}
-          />
+        <ResourcesBannerMobile
+          categorySelected={category}
+          subcategorySelected={subcategory}
+        />
+      )}
+      {!isMobile && (
+        <ResourcesFilter
+          costs={costs}
+          costSelected={cost}
+          languages={languages}
+          languageSelected={language}
+          locations={locations}
+          locationSelected={location}
+          setCost={setCost}
+          setLanguage={setLanguage}
+          setLocation={setLocation}
+        />
+      )}
+      {isMobile && (
+        <div className="filter-bar">
+          <hr className="line" />
           <ResourcesCatMobile
             category={category}
             categories={categories}
@@ -224,7 +227,7 @@ function Resources(props) {
             subcategory={subcategory}
             subcategorySelect={subcategorySelect}
           />
-          <hr className="bar" />
+          <hr className="line" />
         </div>
       )}
       <Layout style={{ background: 'white' }}>
