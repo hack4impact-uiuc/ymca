@@ -37,6 +37,17 @@ export const getResourcesByCategory = category => {
   );
 };
 
+export const getSavedResources = userToken => {
+  const requestExtension = `/api/resources?token=${userToken}`;
+  return instance.get(requestExtension).then(
+    res => res.data,
+    err => {
+      console.error(err);
+      return null;
+    },
+  );
+};
+
 export const getResourceByID = id => {
   const requestExtension = `/api/resources/${id}`;
   return instance.get(requestExtension).then(

@@ -8,6 +8,7 @@ import {
   getCategories,
   getResources,
   getResourcesByCategory,
+  getSavedResources,
 } from '../utils/api';
 import languages from '../data/languages';
 import locations from '../data/locations';
@@ -83,10 +84,14 @@ function Resources(props) {
 
     setLoading(true);
 
-    const newResources =
+    let newResources =
       categorySelected === 'All Resources'
         ? await getResources()
         : await getResourcesByCategory(categorySelected);
+
+    if (props.saved.userToken !== '') {
+      newResources = getSavedResources(props.saved.userToken);
+    }
 
     setLoading(false);
 
@@ -236,6 +241,7 @@ function Resources(props) {
 Resources.defaultProps = {
   location: { search: '' },
   history: { pathname: '', search: '' },
+  saved: { userToken: '' },
 };
 
 Resources.propTypes = {
@@ -245,6 +251,7 @@ Resources.propTypes = {
     push: PropTypes.func,
     search: PropTypes.string,
   }),
+  saved: PropTypes.shape({ userToken: PropTypes.string }),
 };
 
 export default Resources;
