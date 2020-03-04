@@ -12,8 +12,8 @@ import {
 import languages from '../data/languages';
 import locations from '../data/locations';
 import useWindowDimensions from '../utils/mobile';
-import ResourcesBanner from '../components/ResourcesBanner';
-import ResourcesFilter from '../components/ResourcesFilter';
+import ResourcesBanner from '../components/desktop/ResourcesBanner';
+import ResourcesFilter from '../components/desktop/ResourcesFilter';
 import ResourcesFilterMobile from '../components/mobile/ResourcesFilterMobile';
 import ResourcesGrid from '../components/ResourcesGrid';
 import ResourceCategoryFilter from '../components/ResourceCategoryFilter';

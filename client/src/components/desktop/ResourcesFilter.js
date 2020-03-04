@@ -2,9 +2,9 @@ import React, { useCallback } from 'react';
 import { Button, Dropdown, Radio } from 'antd';
 import PropTypes from 'prop-types';
 
-import ResourceFilterSearch from './ResourceFilterSearch';
+import ResourceFilterSearch from '../ResourceFilterSearch';
 
-import '../css/ResourcesFilter.css';
+import '../../css/ResourcesFilter.css';
 
 function ResourcesFilter(props) {
   const {
