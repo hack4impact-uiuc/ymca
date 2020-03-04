@@ -8,20 +8,6 @@ import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 import { deleteResource, getResourceByID } from '../utils/api';
 import ResourcesBreadcrumb from '../components/ResourcesBreadcrumb';
 
-async function addressToLatLong(address) {
-  const apiLatLong =
-    `https://www.mapquestapi.com/geocoding/v1/address?key=` +
-    `${process.env.REACT_APP_MAPBOX_KEY}&maxResults=5&location=${address}`;
-
-  const response = await fetch(apiLatLong, {});
-  const responseJson = await response.json();
-
-  const { lat } = responseJson.results[0].locations[0].latLng;
-  const { lng } = responseJson.results[0].locations[0].latLng;
-
-  return [lat, lng];
-}
-
 export default class ResourceDetail extends Component {
   constructor(props) {
     super(props);
@@ -39,7 +25,7 @@ export default class ResourceDetail extends Component {
       subcategory: '',
       resourceExists: true,
       lat: 0.0,
-      long: 0.0,
+      lng: 0.0,
       eligibility: '',
       modalVisible: false,
       internalNotes: [],
@@ -62,7 +48,7 @@ export default class ResourceDetail extends Component {
         subcategory: result.subcategory[0],
         cost: result.cost,
         lat: result.lat,
-        lng: result.long,
+        lng: result.lng,
         email: result.email,
         website: result.website || '',
         eligibility: result.eligibilityRequirements,
@@ -123,7 +109,7 @@ export default class ResourceDetail extends Component {
       subcategory,
       resourceExists,
       lat,
-      long,
+      lng,
       eligibility,
       internalNotes,
       hours,
@@ -297,8 +283,8 @@ export default class ResourceDetail extends Component {
           <Col span={20}>
             <Row className="cardRow">
               <Map
-                style="mapbox://styles/mapbox/streets-v9"
-                center={[long, lat]}
+                style="mapbox://styles/mapbox/light-v9"
+                center={[lng, lat]}
                 containerStyle={{
                   height: '450px',
                   width: '675px',
@@ -310,7 +296,7 @@ export default class ResourceDetail extends Component {
                   id="marker"
                   layout={{ 'icon-image': 'marker-15' }}
                 >
-                  <Feature coordinates={[lat, long]} />
+                  <Feature coordinates={[lng, lat]} />
                 </Layer>
               </Map>
             </Row>
