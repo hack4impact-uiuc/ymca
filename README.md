@@ -1,6 +1,5 @@
 <h1 align="center">
-  <br>
-  <a href="https://universityymca.org/"><img src="https://hampton.gov/ImageRepository/Document?documentID=25468" alt="YMCA logo" width="200"></a>
+  <a href="https://universityymca.org/"><img src="https://hampton.gov/ImageRepository/Document?documentID=25468" alt="YMCA logo" width="150"></a>
   <br/>
     YMCA
   </br>
@@ -27,8 +26,6 @@ Champaign County is home to over 24,000 immigrants from nearly 80 countries arou
 
 Our team has partnered with the YMCA New American Welcome Center (NAWC) to build a centralized virtual resource hub aimed to equalize and promote information access to vital community resources. This product will allow immigrants to independently access resources according to their personal needs, and also enable NAWC and other local organizations to better serve the community through more informed recommendations.
 
-This product will be piloted at the end of 2019 / beginning of 2020.
-
 ## Usage
 
 The latest version of this application can be found at [ymca.now.sh](https://ymca.now.sh/).
@@ -37,7 +34,7 @@ To install and set up locally, follow the instructions in the [`/client`](https:
 
 ## Technologies
 
-This application is built with React, Express, and MongoDB. Now is used for automatic deployment.
+This application is built with React, Express, MongoDB, and tested with Jest. Now is used for automatic deployment.
 
 ## Team
 
@@ -80,4 +77,4 @@ This application is built with React, Express, and MongoDB. Now is used for auto
 
 [MIT](https://github.com/hack4impact-uiuc/ymca/blob/master/LICENSE) licensed.<br>
 
-Copyright © 2019 [Hack4Impact UIUC](https://github.com/hack4impact-uiuc).
+Copyright © 2020 [Hack4Impact UIUC](https://github.com/hack4impact-uiuc).
