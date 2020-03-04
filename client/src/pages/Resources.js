@@ -178,6 +178,13 @@ function Resources(props) {
   return (
     <Layout className="resources">
       {isMobile && (
+        // This is a band-aid to fix hamburger overlapping
+        <h>
+          <br />
+          <br />
+        </h>
+      )}
+      {isMobile && (
         <ResourcesFilterMobile
           costs={costs}
           costSelected={cost}
