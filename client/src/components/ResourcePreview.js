@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Card } from 'antd';
+import { Button, Card, Icon } from 'antd';
 import { Link } from 'react-router-dom';
 
 import '../css/ResourcePreview.css';
 import useWindowDimensions from '../utils/mobile';
+// import { saveResource } from '../utils/api';
 
 const { Meta } = Card;
 
@@ -38,6 +39,12 @@ function ResourcePreview(props) {
   } = props;
   const [src, setSrc] = useState('');
   const isMobile = useWindowDimensions()[1];
+
+  const saveResource = async (_e, _id) => {
+    console.log('Jackie');
+    // e.stopPropagation();
+    // await saveResource(id);
+  };
 
   useEffect(() => {
     let found = false;
@@ -97,6 +104,15 @@ function ResourcePreview(props) {
           )
         }
       >
+        <a onClick={e => e.preventDefault()}>
+          <Button
+            onClick={async e => {
+              await saveResource(e, id);
+            }}
+          >
+            <Icon type="star" style={{ fontSize: '16px' }} />
+          </Button>
+        </a>
         <Meta title={name} description={description} />
       </Card>
     </Link>

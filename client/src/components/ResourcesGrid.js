@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Col, Row } from 'antd';
+import { Button, Col, Row } from 'antd';
 
 import ResourcePreview from './ResourcePreview';
 import '../css/ResourcesGrid.css';
