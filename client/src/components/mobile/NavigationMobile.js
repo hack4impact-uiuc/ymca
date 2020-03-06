@@ -22,61 +22,62 @@ const NavMobile = (props: Props) => {
   };
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll)
-  })
-  
+    window.addEventListener('scroll', handleScroll);
+  });
+
   return (
     <nav>
-      {menuVisible ? 
-      <div className="nav-mobile">
-        <Button
-          onClick={() => setDrawerVisible(true)}
-          block
-          type="link"
-          id="navbar"
-        >
-          <div align="left" style={{ color: 'black' }}>
-            <Icon type="menu" style={{ fontSize: '2em', color: 'gray' }} />
-          </div>
-        </Button>
-        <Drawer
-          placement="left"
-          width="10em"
-          closable={false}
-          onClose={() => setDrawerVisible(false)}
-          visible={drawerVisible}
-        >
-          <Menu>
-            <Menu.Item>
-              <NavLink exact to="/">
-                Home
-              </NavLink>
-            </Menu.Item>
-            <Menu.Item>
-              <NavLink to="/resources">Resources</NavLink>
-            </Menu.Item>
-            {authed && (
+      {menuVisible ? (
+        <div className="nav-mobile">
+          <Button
+            onClick={() => setDrawerVisible(true)}
+            block
+            type="link"
+            id="navbar"
+          >
+            <div align="left">
+              <Icon type="menu" style={{ fontSize: '2em', color: 'gray' }} />
+            </div>
+          </Button>
+          <Drawer
+            placement="left"
+            width="10em"
+            closable={false}
+            onClose={() => setDrawerVisible(false)}
+            visible={drawerVisible}
+          >
+            <Menu>
               <Menu.Item>
-                <NavLink to="/admin">Admin</NavLink>
+                <NavLink exact to="/">
+                  Home
+                </NavLink>
               </Menu.Item>
-            )}
-            {authed && (
               <Menu.Item>
-                <NavLink to="/role-approval">Users</NavLink>
+                <NavLink to="/resources">Resources</NavLink>
               </Menu.Item>
-            )}
-            {!authed ? (
-              <Menu.Item>
-                <NavLink to="/login">Login</NavLink>
-              </Menu.Item>
-            ) : (
-              <Menu.Item>
-                <NavLink to="/logout">Logout</NavLink>
-              </Menu.Item>
-            )}
-          </Menu>
-        </Drawer>
-      </div> : null}
+              {authed && (
+                <Menu.Item>
+                  <NavLink to="/admin">Admin</NavLink>
+                </Menu.Item>
+              )}
+              {authed && (
+                <Menu.Item>
+                  <NavLink to="/role-approval">Users</NavLink>
+                </Menu.Item>
+              )}
+              {!authed ? (
+                <Menu.Item>
+                  <NavLink to="/login">Login</NavLink>
+                </Menu.Item>
+              ) : (
+                <Menu.Item>
+                  <NavLink to="/logout">Logout</NavLink>
+                </Menu.Item>
+              )}
+            </Menu>
+          </Drawer>
+        </div>
+      ) : null}
     </nav>
   );
 };
