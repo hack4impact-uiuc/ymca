@@ -37,8 +37,8 @@ export const getResourcesByCategory = category => {
   );
 };
 
-export const getResourceByID = id => {
-  const requestExtension = `/api/resources/${id}`;
+export const getResourceByID = (id, needLatLong) => {
+  const requestExtension = `/api/resources/${id}?requireLatLong=${needLatLong}`;
   return instance.get(requestExtension).then(
     res => res.data,
     err => {

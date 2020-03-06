@@ -28,7 +28,9 @@ router.get(
   '/:id',
   errorWrap(async (req, res) => {
     const { id } = req.params;
-    const resource = await Resource.findById(id);
+    const { requireLatLong } = req.query;
+    let resource = await Resource.findById(id);
+
     if (resource === null) {
       res.status(400).json({
         code: 400,
@@ -37,6 +39,22 @@ router.get(
         result: null,
       });
     }
+
+    if (requireLatLong) {
+      const apiLatLong =
+        `https://www.mapquestapi.com/geocoding/v1/address?key=` +
+        `${process.env.MAPBOX_KEY}&maxResults=5&location=${resource.address}`;
+      const response = await fetch(apiLatLong, {});
+      const responseJson = await response.json();
+
+      if (responseJson.info.statuscode === 0) {
+        resource = {
+          ...resource._doc,
+          ...responseJson.results[0].locations[0].latLng,
+        };
+      }
+    }
+
     res.json({
       code: 200,
       message: `Successfully found resource ${id}`,

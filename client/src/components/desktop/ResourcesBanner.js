@@ -2,7 +2,7 @@ import React from 'react';
 import { Layout, Row } from 'antd';
 import PropTypes from 'prop-types';
 
-import ResourceBreadcrumb from './ResourcesBreadcrumb';
+import ResourceBreadcrumb from '../ResourcesBreadcrumb';
 
 const { Header } = Layout;
 
@@ -15,7 +15,7 @@ function ResourcesBanner(props) {
         background: '#431C72',
         color: 'white',
         height: 'auto',
-        paddingLeft: '235px',
+        paddingLeft: '10%',
         paddingBottom: '1em',
         paddingTop: '1em',
       }}
