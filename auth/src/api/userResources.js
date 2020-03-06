@@ -18,13 +18,13 @@ router.get(
 );
 
 // Delete resource from the saved resources of user
-router.put(
-  '/deleteresource',
+router.delete(
+  '/resource',
   async (req, res) => {
     const { resourceId } = req.body;
     const userId = jwt_decode(req.headers.token)['userId'];
     const user = await User.findById(userId);
-    var index = user.savedResources.indexOf(resourceId);
+    const index = user.savedResources.indexOf(resourceId);
     if (index !== -1) {
       user.savedResources.splice(index, 1);
     }
@@ -47,7 +47,7 @@ router.put(
 
 // Add resource to the saved resources of the user
 router.put(
-  '/addresource',
+  '/resource',
   async (req, res) => {
     const { resourceId } = req.body;
     const userId = jwt_decode(req.headers.token).userId;
