@@ -12,7 +12,7 @@ type Props = {
 const NavMobile = (props: Props) => {
   const { authed } = props;
   const [drawerVisible, setDrawerVisible] = useState(false);
-  const [menuVisible, setMenuVisible] = useState(false);
+  const [menuVisible, setMenuVisible] = useState(true);
   const [prevScroll, setPrevScroll] = useState(0);
   const handleScroll = () => {
     const lastScroll = prevScroll;
@@ -28,7 +28,7 @@ const NavMobile = (props: Props) => {
   return (
     <nav>
       {menuVisible ? 
-      <div style={{top: 0, position: "sticky"}}>
+      <div className="nav-mobile">
         <Button
           onClick={() => setDrawerVisible(true)}
           block
