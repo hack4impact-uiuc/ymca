@@ -12,7 +12,7 @@ const schema = mongoose.Schema({
   userLevel: "string",
   googleAuth: "boolean",
   role: "string",
-  savedResources: ["number"]
+  savedResources: ["string"]
 });
 
 const User = mongoose.model("User", schema);

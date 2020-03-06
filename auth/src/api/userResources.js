@@ -1,14 +1,11 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const router = express.Router();
-const { errorWrap } = require('../middleware');
-const User = require('../../../auth/src/models/User');
-const Resource = require('../models/resource');
+const router = require("express").Router();
+const User = require('../models/User');
 const jwt_decode = require('jwt-decode');
+
 
 router.get(
   '/resources',
-  errorWrap(async (req, res) => {
+  async (req, res) => {
     const userId = jwt_decode(req.headers.token)['userId'];
     const user = await User.findById(userId);
     res.status(200).json({
@@ -17,19 +14,26 @@ router.get(
       success: true,
       result: user.savedResources,
     });
-  }),
+  },
 );
 
 // Deleted resource to saved resources of user
 router.put(
   '/deleteresource',
-  errorWrap(async (req, res) => {
-    const { resourceId } = req.params;
+  async (req, res) => {
+    const { resourceId } = req.body;
     const userId = jwt_decode(req.headers.token)['userId'];
     const user = await User.findById(userId);
     var index = user.savedResources.indexOf(resourceId);
     if (index !== -1) {
       user.savedResources.splice(index, 1);
+    }
+    else {
+      res.status(400).json({
+        code: 400,
+        message: `Could not find the resource id provided!`,
+        success: false,
+      })
     }
     user.save();
     res.status(200).json({
@@ -38,20 +42,15 @@ router.put(
       success: true,
       result: resourceId,
     });
-  }),
+  },
 );
 
 router.put(
   '/addresource',
-  errorWrap(async (req, res) => {
-    const { resourceId } = req.params;
-    console.log("here???");
-    const userId = jwt_decode(req.headers.token)['userId'];
-    console.log(jwt_decode(req.headers.token))
-    console.log(userId)
-    console.log("here");
+  async (req, res) => {
+    const { resourceId } = req.body;
+    const userId = jwt_decode(req.headers.token).userId;
     const user = await User.findById(userId);
-    console.log("here1");
     user.savedResources.push(resourceId);
     user.save();
     res.status(200).json({
@@ -60,7 +59,7 @@ router.put(
       success: true,
       result: resourceId,
     });
-  }),
+  },
 );
 
 module.exports = router;

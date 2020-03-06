@@ -7,5 +7,4 @@ module.exports = {
   admin,
   category,
   resource,
-  user,
 };
