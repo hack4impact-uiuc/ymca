@@ -118,3 +118,9 @@
 #menuToggle input:checked ~ ul {
   transform: none;
 }
+
+.nav-mobile {
+  top: 0;
+  position: "sticky";
+  transition: "top 0.3s";
+}

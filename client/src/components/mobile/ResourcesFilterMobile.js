@@ -69,16 +69,14 @@ function ResourcesFilterMobile(props) {
         trigger={['click']}
       >
         <Button className="button-mobile">Cost</Button>
-      </Dropdown>
-      {' '}
+      </Dropdown>{' '}
       <Dropdown
         overlay={radio('Languages Offered', languages, languageSelected)}
         placement="bottomCenter"
         trigger={['click']}
       >
         <Button className="button-mobile">Language</Button>
-      </Dropdown>
-      {' '}
+      </Dropdown>{' '}
       <Dropdown
         overlay={radio('Location', locations, locationSelected)}
         placement="bottomRight"
