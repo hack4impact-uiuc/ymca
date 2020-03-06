@@ -12,11 +12,13 @@ import {
 import languages from '../data/languages';
 import locations from '../data/locations';
 import useWindowDimensions from '../utils/mobile';
-import ResourcesBanner from '../components/ResourcesBanner';
-import ResourcesFilter from '../components/ResourcesFilter';
+import ResourcesBanner from '../components/desktop/ResourcesBanner';
+import ResourcesFilter from '../components/desktop/ResourcesFilter';
+import ResourcesFilterMobile from '../components/mobile/ResourcesFilterMobile';
 import ResourcesGrid from '../components/ResourcesGrid';
 import ResourceCategoryFilter from '../components/ResourceCategoryFilter';
-import ResourcesFilterMobile from '../components/mobile/ResourcesFilterMobile';
+import ResourcesCatMobile from '../components/mobile/ResourcesCatMobile';
+import ResourcesBannerMobile from '../components/mobile/ResourcesBannerMobile';
 
 const { Sider } = Layout;
 
@@ -175,31 +177,65 @@ function Resources(props) {
 
   return (
     <Layout className="resources">
-      <ResourcesBanner
-        categorySelected={category}
-        subcategorySelected={subcategory}
-      />
-      <ResourcesFilter
-        costs={costs}
-        costSelected={cost}
-        languages={languages}
-        languageSelected={language}
-        locations={locations}
-        locationSelected={location}
-        setCost={setCost}
-        setLanguage={setLanguage}
-        setLocation={setLocation}
-      />
+      {isMobile && (
+        // This is a band-aid to fix hamburger overlapping
+        <h>
+          <br />
+          <br />
+        </h>
+      )}
       {isMobile && (
         <ResourcesFilterMobile
-          category={category}
-          categories={categories}
-          categorySelectAll={categorySelectAll}
-          onOpenChange={onOpenChange}
-          openKeys={openKeys}
-          subcategory={subcategory}
-          subcategorySelect={subcategorySelect}
+          costs={costs}
+          costSelected={cost}
+          languages={languages}
+          languageSelected={language}
+          locations={locations}
+          locationSelected={location}
+          setCost={setCost}
+          setLanguage={setLanguage}
+          setLocation={setLocation}
         />
+      )}
+      {!isMobile && (
+        <ResourcesBanner
+          categorySelected={category}
+          subcategorySelected={subcategory}
+        />
+      )}
+      {isMobile && (
+        <ResourcesBannerMobile
+          categorySelected={category}
+          subcategorySelected={subcategory}
+        />
+      )}
+      {!isMobile && (
+        <ResourcesFilter
+          costs={costs}
+          costSelected={cost}
+          languages={languages}
+          languageSelected={language}
+          locations={locations}
+          locationSelected={location}
+          setCost={setCost}
+          setLanguage={setLanguage}
+          setLocation={setLocation}
+        />
+      )}
+      {isMobile && (
+        <div className="filter-bar">
+          <hr className="line" />
+          <ResourcesCatMobile
+            category={category}
+            categories={categories}
+            categorySelectAll={categorySelectAll}
+            onOpenChange={onOpenChange}
+            openKeys={openKeys}
+            subcategory={subcategory}
+            subcategorySelect={subcategorySelect}
+          />
+          <hr className="line" />
+        </div>
       )}
       <Layout style={{ background: 'white' }}>
         {!isMobile && (

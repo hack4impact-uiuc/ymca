@@ -44,10 +44,13 @@
   text-align: left;
 }
 
-.searchbar {
+.searchbar-align-right {
   margin-right: 2em;
   float: right;
   padding-right: 1.5em;
+}
+
+.searchbar-filter {
   padding-top: 0.4em;
   width: 300px;
 }
