@@ -2,7 +2,7 @@ const router = require("express").Router();
 const User = require('../models/User');
 const jwt_decode = require('jwt-decode');
 
-
+// Get saved resources of a user
 router.get(
   '/resources',
   async (req, res) => {
@@ -17,7 +17,7 @@ router.get(
   },
 );
 
-// Deleted resource to saved resources of user
+// Delete resource from the saved resources of user
 router.put(
   '/deleteresource',
   async (req, res) => {
@@ -45,6 +45,7 @@ router.put(
   },
 );
 
+// Add resource to the saved resources of the user
 router.put(
   '/addresource',
   async (req, res) => {

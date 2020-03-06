@@ -4,7 +4,7 @@ const { check, validationResult } = require("express-validator/check");
 const User = require("../models/User");
 const { sendResponse } = require("./../utils/sendResponse");
 const {
-  // getRolesForUser,
+  getRolesForUser,
   getSuperiorsForRole,
   getSecurityQuestions
 } = require("./../utils/getConfigFile");
@@ -53,8 +53,7 @@ router.post(
     };
 
     // If the security question is enabled, checks that the security question index is valid and that there is an answer
-    // const securityQuestionEnabled = await isSecurityQuestionEnabled();
-    const securityQuestionEnabled = false;
+    const securityQuestionEnabled = await isSecurityQuestionEnabled();
     if (securityQuestionEnabled) {
       const securityQuestionsResponse = await getSecurityQuestions();
       if (!securityQuestionsResponse.success) {
