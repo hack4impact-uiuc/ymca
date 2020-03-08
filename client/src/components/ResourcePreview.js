@@ -41,8 +41,8 @@ function ResourcePreview(props) {
 
   const saveResource = async (_e, _id) => {
     console.log('Jackie');
-    // e.stopPropagation();
-    // await saveResource(id);
+    _e.stopPropagation();
+    await saveResource();
   };
 
   useEffect(() => {

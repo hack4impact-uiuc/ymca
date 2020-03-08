@@ -37,38 +37,6 @@ export const getResourcesByCategory = category => {
   );
 };
 
-export const getSavedResources = () => {
-  return instance
-    .get(`/api/resources/`, {
-      headers: {
-        token: localStorage.getItem('token'),
-      },
-    })
-    .then(
-      res => res.data,
-      err => {
-        console.error(err);
-        return null;
-      },
-    );
-};
-
-export const saveResource = resource => {
-  return instance
-    .put(`/api/resources/`, resource, {
-      headers: {
-        token: localStorage.getItem('token'),
-      },
-    })
-    .then(
-      res => res.data,
-      err => {
-        console.error(err);
-        return null;
-      },
-    );
-};
-
 export const getResourceByID = (id, needLatLong) => {
   const requestExtension = `/api/resources/${id}?requireLatLong=${needLatLong}`;
   return instance.get(requestExtension).then(

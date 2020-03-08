@@ -5,7 +5,8 @@ import PropTypes from 'prop-types';
 import '../css/ResourceDetail.css';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 
-import { deleteResource, getResourceByID, saveResource } from '../utils/api';
+import { deleteResource, getResourceByID } from '../utils/api';
+import { saveResource } from '../utils/auth';
 import ResourcesBreadcrumb from '../components/ResourcesBreadcrumb';
 
 export default class ResourceDetail extends Component {
@@ -84,8 +85,9 @@ export default class ResourceDetail extends Component {
     return null;
   };
 
-  saveResourceHandler = async id => {
-    await saveResource(id);
+  saveResourceHandler = async () => {
+    console.log(this.props.match.params.id);
+    await saveResource();
   };
 
   async deleteResource(id) {
@@ -160,7 +162,7 @@ export default class ResourceDetail extends Component {
         <Row>
           <Col span={15}>
             <span className="resource-name">{name}</span>
-            <Button onClick={this.saveResourceHandler(match.params.id)}>
+            <Button onClick={this.saveResourceHandler}>
               <Icon type="star" style={{ fontSize: '16px' }} />
             </Button>
             {authed && authRoleIsEquivalentTo('admin') && (

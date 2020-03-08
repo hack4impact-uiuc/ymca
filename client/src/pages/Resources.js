@@ -8,8 +8,8 @@ import {
   getCategories,
   getResources,
   getResourcesByCategory,
-  getSavedResources,
 } from '../utils/api';
+import { getSavedResources } from '../utils/auth';
 import languages from '../data/languages';
 import locations from '../data/locations';
 import useWindowDimensions from '../utils/mobile';
