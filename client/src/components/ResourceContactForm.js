@@ -143,7 +143,7 @@ const ContactForm = Form.create({ name: 'contactForm' })(props => {
       <Button
         type="primary"
         htmlType="submit"
-        className="contactSubmit"
+        className="contactSubmit formBtn"
         onClick={() => setTotalSubmitEnabled(false)}
       >
         Add Contact

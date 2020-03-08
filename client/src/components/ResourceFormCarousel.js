@@ -337,6 +337,63 @@ const FormCarousel = React.forwardRef((props: CarouselProps, ref) => {
           setFinancialAidDetails,
           setTotalSubmitEnabled,
         })}
+        <Form.Item className="input" label="Cost">
+          {getFieldDecorator('cost', {
+            rules: [{}],
+          })(
+            <Radio.Group onFocus={() => setTotalSubmitEnabled(true)}>
+              <Radio value="Free">Free</Radio>
+              <Radio value="$">$</Radio>
+              <Radio value="$$">$$</Radio>
+              <Radio value="$$$">$$$</Radio>
+            </Radio.Group>,
+          )}
+        </Form.Item>
+        <Form.Item className="input" label="Available Languages">
+          {getFieldDecorator(
+            'availableLanguages',
+            {},
+          )(
+            <Select mode="multiple" placeholder="Select available language(s)">
+              {languages.map(lang => (
+                <Option key={lang} value={lang}>
+                  {lang}
+                </Option>
+              ))}
+            </Select>,
+          )}
+        </Form.Item>
+      </div>
+      <div htmlFor="other">
+        {InternalNotesFormItem({
+          internalNotes,
+          setInternalNotes,
+          setTotalSubmitEnabled,
+        })}
+        <Form.Item className="input" label="Eligibility Requirements">
+          {getFieldDecorator(
+            'eligibilityRequirements',
+            {},
+          )(
+            <Input
+              placeholder="Visa or receipt letter"
+              onFocus={() => setTotalSubmitEnabled(true)}
+            />,
+          )}
+        </Form.Item>
+
+        <Form.Item className="input" label="Recommendation">
+          {getFieldDecorator('recommendation', {})(<Rate />)}
+        </Form.Item>
+        <StrListFormItem
+          className="input"
+          formName="commentForm"
+          label="Comments"
+          placeholder="Enter a comment"
+          listOfStrings={comments}
+          setListOfStrings={setComments}
+          setTotalSubmitEnabled={setTotalSubmitEnabled}
+        />
       </div>
     </Carousel>
   );

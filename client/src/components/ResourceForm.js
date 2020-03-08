@@ -160,6 +160,9 @@ const ResourceForm = (props: FormProps) => {
           <div>
             <p>Financial Aid</p>
           </div>
+          <div>
+            <p>Other</p>
+          </div>
         </Carousel>
         <Form
           className="form"
@@ -223,85 +226,11 @@ const ResourceForm = (props: FormProps) => {
             Next
           </Button>
 
-          {InternalNotesFormItem({
-            internalNotes,
-            setInternalNotes,
-            setTotalSubmitEnabled,
-          })}
-
-          <Form.Item className="input" label="Hours of Operation">
-            <span>
-              <p>Monday </p>
-              {getFieldDecorator(
-                'hoursOfOperation',
-                {},
-              )(
-                <Input
-                  placeholder="Monday-Friday 9:00am-5:00pm, 
-                  Saturday and Sunday 12:00-2:00pm"
-                  onFocus={() => setTotalSubmitEnabled(true)}
-                />,
-              )}
-            </span>
-          </Form.Item>
-          <Form.Item className="input" label="Eligibility Requirements">
-            {getFieldDecorator(
-              'eligibilityRequirements',
-              {},
-            )(
-              <Input
-                placeholder="Visa or receipt letter"
-                onFocus={() => setTotalSubmitEnabled(true)}
-              />,
-            )}
-          </Form.Item>
-
-          <Form.Item className="input" label="Cost">
-            {getFieldDecorator('cost', {
-              rules: [{}],
-            })(
-              <Radio.Group onFocus={() => setTotalSubmitEnabled(true)}>
-                <Radio value="Free">Free</Radio>
-                <Radio value="$">$</Radio>
-                <Radio value="$$">$$</Radio>
-                <Radio value="$$$">$$$</Radio>
-              </Radio.Group>,
-            )}
-          </Form.Item>
-          <Form.Item className="input" label="Available Languages">
-            {getFieldDecorator(
-              'availableLanguages',
-              {},
-            )(
-              <Select
-                mode="multiple"
-                placeholder="Select available language(s)"
-              >
-                {languages.map(lang => (
-                  <Option key={lang} value={lang}>
-                    {lang}
-                  </Option>
-                ))}
-              </Select>,
-            )}
-          </Form.Item>
-          <Form.Item className="input" label="Recommendation">
-            {getFieldDecorator('recommendation', {})(<Rate />)}
-          </Form.Item>
-          <StrListFormItem
-            className="input"
-            formName="commentForm"
-            label="Comments"
-            placeholder="Enter a comment"
-            listOfStrings={comments}
-            setListOfStrings={setComments}
-            setTotalSubmitEnabled={setTotalSubmitEnabled}
-          />
-          <Affix offsetBottom={20}>
+          <Affix offsetBottom={33}>
             <Button
               type="primary"
               htmlType="submit"
-              className="newResourceSubmit"
+              className="newResourceSubmit formBtn"
               onClick={() => setTotalSubmitEnabled(true)}
             >
               {id ? 'Submit Edit' : 'Add Resource'}

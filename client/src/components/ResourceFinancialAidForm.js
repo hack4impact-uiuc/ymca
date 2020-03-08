@@ -80,7 +80,7 @@ const FinancialAidForm = Form.create({ name: 'financialAid' })(props => {
       <Button
         type="primary"
         htmlType="submit"
-        className="financialAidForm"
+        className="financialAidForm formBtn"
         onClick={() => setTotalSubmitEnabled(false)}
       >
         Add Financial Aid Details

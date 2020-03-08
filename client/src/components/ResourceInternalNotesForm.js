@@ -113,6 +113,7 @@ const InternalNotesForm = Form.create({ name: 'internalNotes' })(
         <Button
           type="primary"
           htmlType="submit"
+          className="formBtn"
           onClick={() => setTotalSubmitEnabled(false)}
         >
           {editNote == null ? 'Add Note' : 'Edit Note'}
