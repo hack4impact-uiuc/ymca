@@ -8,22 +8,6 @@ import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 import { deleteResource, getResourceByID } from '../utils/api';
 import ResourcesBreadcrumb from '../components/ResourcesBreadcrumb';
 
-async function addressToLatLong(address) {
-  const apiLatLong =
-    `${'http://www.mapquestapi.com/geocoding/v1/address?' +
-      'key=QhpXMYz3yy5F0Yg5qZSqGmA2XFMIMRAi&maxResults=5&' +
-      'outFormat=json&location='}${address}}&boundingBox=` +
-    `40.121581,-88.253981,40.098315,-88.205082`;
-
-  const response = await fetch(apiLatLong, {});
-  const responseJson = await response.json();
-
-  const { lat } = responseJson.results[0].locations[0].latLng;
-  const { lng } = responseJson.results[0].locations[0].latLng;
-
-  return [lat, lng];
-}
-
 export default class ResourceDetail extends Component {
   constructor(props) {
     super(props);
@@ -32,10 +16,8 @@ export default class ResourceDetail extends Component {
       name: 'Resource Name',
       phone: [],
       email: '',
-      // address: '',
       website: '',
       description: '',
-      // city: '',
       languages: [],
       requiredDocuments: [],
       cost: '',
@@ -43,7 +25,7 @@ export default class ResourceDetail extends Component {
       subcategory: '',
       resourceExists: true,
       lat: 0.0,
-      long: 0.0,
+      lng: 0.0,
       eligibility: '',
       modalVisible: false,
       internalNotes: [],
@@ -52,12 +34,10 @@ export default class ResourceDetail extends Component {
   }
 
   async componentDidMount() {
-    const response = await getResourceByID(this.props.match.params.id);
+    const response = await getResourceByID(this.props.match.params.id, true);
 
     if (response !== null) {
       const { result } = response;
-
-      const coords = await addressToLatLong('New York, USA');
 
       this.setState({
         name: result.name,
@@ -67,8 +47,8 @@ export default class ResourceDetail extends Component {
         category: result.category[0],
         subcategory: result.subcategory[0],
         cost: result.cost,
-        lat: coords[0],
-        long: coords[1],
+        lat: Number.isNaN(result.lat) || result.lat == null ? 0.0 : result.lat,
+        lng: Number.isNaN(result.lng) || result.lng == null ? 0.0 : result.lng,
         email: result.email,
         website: result.website || '',
         eligibility: result.eligibilityRequirements,
@@ -129,7 +109,7 @@ export default class ResourceDetail extends Component {
       subcategory,
       resourceExists,
       lat,
-      long,
+      lng,
       eligibility,
       internalNotes,
       hours,
@@ -215,26 +195,23 @@ export default class ResourceDetail extends Component {
                 <Card>
                   <Icon type="phone" theme="filled" />
                   <div className="card-label">Contact Information{'\n'}</div>
-                  {phone.length > 0 ||
-                  (email && email.length > 0) ||
-                  (website && website.length > 0) ? (
-                    <>
-                      {phone.length > 0 &&
-                        phone.map(p => {
-                          return `${p.phoneType}: ${p.phoneNumber}\n`;
-                        })}
-                      {email.length > 0 && `${email}\n`}
-                      {website.length > 0 && (
-                        <a
-                          href={website}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >{`${website}\n`}</a>
-                      )}
-                    </>
-                  ) : (
-                    'None provided.'
+                  {phone.length > 0 &&
+                    phone.map(p => {
+                      return `${p.phoneType}: ${p.phoneNumber}\n`;
+                    })}
+                  {email && email.length > 0 && `${email}\n`}
+                  {website && website.length > 0 && website.length > 0 && (
+                    <a
+                      href={website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >{`${website}\n`}</a>
                   )}
+                  {website == null ||
+                    website.length === 0 ||
+                    email == null ||
+                    email.length === 0 ||
+                    (phone.length === 0 && 'None provided')}
                 </Card>
               </Col>
               <Col span={12}>
@@ -303,18 +280,20 @@ export default class ResourceDetail extends Component {
           <Col span={20}>
             <Row className="cardRow">
               <Map
-                style="mapbox://styles/mapbox/streets-v9"
+                style="mapbox://styles/mapbox/light-v9"
+                center={[lng, lat]}
                 containerStyle={{
                   height: '450px',
                   width: '675px',
                 }}
+                zoom={[15]}
               >
                 <Layer
                   type="symbol"
                   id="marker"
                   layout={{ 'icon-image': 'marker-15' }}
                 >
-                  <Feature coordinates={[lat, long]} />
+                  <Feature coordinates={[lng, lat]} />
                 </Layer>
               </Map>
             </Row>

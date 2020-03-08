@@ -46,9 +46,7 @@ router.post(
     } else {
       // If it is a google user, it makes a request to the google API using the token and fetches the email. If the user is in the database it finds it or returns an error message.
       const tokenInfoRes = await fetch(
-        `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${
-          req.headers.token
-        }`
+        `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${req.headers.token}`
       );
       const payload = await tokenInfoRes.json();
       user = await User.findOne({ email: payload.email, googleAuth: true });
