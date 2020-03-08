@@ -8,16 +8,6 @@ import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 import { deleteResource, getResourceByID, saveResource } from '../utils/api';
 import ResourcesBreadcrumb from '../components/ResourcesBreadcrumb';
 
-const days = [
-  'Sunday',
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday',
-];
-
 export default class ResourceDetail extends Component {
   constructor(props) {
     super(props);
@@ -26,25 +16,25 @@ export default class ResourceDetail extends Component {
       name: 'Resource Name',
       phone: [],
       email: '',
-      address: '',
       website: '',
       description: '',
-      hours: ['', '', '', '', '', '', ''],
-      city: '',
       languages: [],
       requiredDocuments: [],
       cost: '',
       category: '',
       subcategory: '',
       resourceExists: true,
+      lat: 0.0,
+      lng: 0.0,
       eligibility: '',
       modalVisible: false,
       internalNotes: [],
+      hours: [],
     };
   }
 
   async componentDidMount() {
-    const response = await getResourceByID(this.props.match.params.id);
+    const response = await getResourceByID(this.props.match.params.id, true);
 
     if (response !== null) {
       const { result } = response;
@@ -56,9 +46,16 @@ export default class ResourceDetail extends Component {
         languages: result.availableLanguages,
         category: result.category[0],
         subcategory: result.subcategory[0],
+        cost: result.cost,
+        lat: Number.isNaN(result.lat) || result.lat == null ? 0.0 : result.lat,
+        lng: Number.isNaN(result.lng) || result.lng == null ? 0.0 : result.lng,
+        email: result.email,
         website: result.website || '',
         eligibility: result.eligibilityRequirements,
         internalNotes: result.internalNotes,
+        hours: result.hoursOfOperation
+          ? result.hoursOfOperation.hoursOfOperation
+          : [],
       });
     } else {
       // redirect to resource unknown page
@@ -107,26 +104,26 @@ export default class ResourceDetail extends Component {
       name,
       phone,
       email,
-      address,
       website,
       description,
-      hours,
-      city,
       languages,
       requiredDocuments,
       cost,
       category,
       subcategory,
       resourceExists,
+      lat,
+      lng,
       eligibility,
       internalNotes,
+      hours,
     } = this.state;
 
     const Map = ReactMapboxGl({
       accessToken:
         'pk.eyJ1IjoiYW5vb2psYWwiLCJhIjoiY2syemtiYjZoMGp1' +
         'eDNscXQ3azJzajl0bCJ9.FDSFjP1IfSisbm4uvd70vg',
-      interactive: false,
+      interactive: true,
     });
 
     const { authed, match, authRoleIsEquivalentTo } = this.props;
@@ -205,19 +202,23 @@ export default class ResourceDetail extends Component {
                 <Card>
                   <Icon type="phone" theme="filled" />
                   <div className="card-label">Contact Information{'\n'}</div>
-                  {phone.length > 0 ||
-                  email.length > 0 ||
-                  website.length > 0 ? (
-                    <>
-                      {phone.length > 0 &&
-                        phone.map(p => {
-                          return `${p.phoneType}: ${p.phoneNumber}\n`;
-                        })}
-                      {email.length > 0 && `${email}\n`}
-                    </>
-                  ) : (
-                    'None provided.'
+                  {phone.length > 0 &&
+                    phone.map(p => {
+                      return `${p.phoneType}: ${p.phoneNumber}\n`;
+                    })}
+                  {email && email.length > 0 && `${email}\n`}
+                  {website && website.length > 0 && website.length > 0 && (
+                    <a
+                      href={website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >{`${website}\n`}</a>
                   )}
+                  {website == null ||
+                    website.length === 0 ||
+                    email == null ||
+                    email.length === 0 ||
+                    (phone.length === 0 && 'None provided')}
                 </Card>
               </Col>
               <Col span={12}>
@@ -248,7 +249,7 @@ export default class ResourceDetail extends Component {
                 <Card>
                   <Icon type="dollar-circle" theme="filled" />
                   <div className="card-label">Cost{'\n'}</div>
-                  {cost.length > 0 ? cost : 'None provided.'}
+                  {cost != null ? cost : 'None provided.'}
                 </Card>
               </Col>
             </Row>
@@ -260,18 +261,22 @@ export default class ResourceDetail extends Component {
           </Col>
           <Col span={20}>
             <Row className="cardRow">
-              {hours.map((day, i) => {
-                return (
-                  <Col key={day} span={8}>
-                    <Card>
-                      <div className="card-label day-label">
-                        {`${days[i]}\n`}
-                      </div>
-                      {day.length > 0 ? day : 'None'}
-                    </Card>
-                  </Col>
-                );
-              })}
+              {hours.length > 0
+                ? hours.map(day => {
+                    return (
+                      <Col key={day.day} span={8}>
+                        <Card>
+                          <div className="card-label day-label">
+                            {`${day.day}\n`}
+                          </div>
+                          {day.period.length > 0
+                            ? `${day.period[0]} - ${day.period[1]}`
+                            : 'None'}
+                        </Card>
+                      </Col>
+                    );
+                  })
+                : 'No schedule provided'}
             </Row>
           </Col>
         </Row>
@@ -282,20 +287,20 @@ export default class ResourceDetail extends Component {
           <Col span={20}>
             <Row className="cardRow">
               <Map
-                style="mapbox://styles/mapbox/streets-v9"
+                style="mapbox://styles/mapbox/light-v9"
+                center={[lng, lat]}
                 containerStyle={{
                   height: '450px',
                   width: '675px',
                 }}
+                zoom={[15]}
               >
                 <Layer
                   type="symbol"
                   id="marker"
                   layout={{ 'icon-image': 'marker-15' }}
                 >
-                  <Feature
-                    coordinates={[-0.481747846041145, 51.3233379650232]}
-                  />
+                  <Feature coordinates={[lng, lat]} />
                 </Layer>
               </Map>
             </Row>

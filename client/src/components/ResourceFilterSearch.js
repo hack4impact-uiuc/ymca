@@ -2,7 +2,7 @@
 
 import React, { useState, useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { AutoComplete } from 'antd';
+import { AutoComplete, Icon, Input } from 'antd';
 
 import { getResources } from '../utils/api';
 import '../css/ResourcesFilter.css';
@@ -57,12 +57,14 @@ const ResourceFilterSearch = () => {
 
   return (
     <AutoComplete
-      className="searchbar"
+      className="searchbar-filter"
       dataSource={allResourceOptions}
       placeholder="Search for a Resource"
       filterOption={filterSearchResults}
       onSelect={onSearchSelect}
-    />
+    >
+      <Input suffix={<Icon type="search" />} />
+    </AutoComplete>
   );
 };
 

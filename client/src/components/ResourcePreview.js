@@ -38,7 +38,6 @@ function ResourcePreview(props) {
     subcategory,
   } = props;
   const [src, setSrc] = useState('');
-  const isMobile = useWindowDimensions()[1];
 
   const saveResource = async (_e, _id) => {
     console.log('Jackie');
@@ -93,15 +92,13 @@ function ResourcePreview(props) {
       <Card
         className="resource-preview-card"
         cover={
-          !isMobile && (
-            <div className="resource-preview-cover">
-              <img
-                className="resource-preview-cover-img"
-                alt={subcategory}
-                src={src}
-              />
-            </div>
-          )
+          <div className="resource-preview-cover">
+            <img
+              className="resource-preview-cover-img"
+              alt={subcategory}
+              src={src}
+            />
+          </div>
         }
       >
         <a onClick={e => e.preventDefault()}>
