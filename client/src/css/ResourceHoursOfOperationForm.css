@@ -1,3 +1,7 @@
+.hoursOfOperationInput {
+  padding-bottom: 1em;
+}
+
 .hoursOfOperationInput p {
-    color: black;
+  color: black;
 }

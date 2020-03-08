@@ -1,7 +1,7 @@
 // @flow
-import React from 'react';
+import React, { useCallback } from 'react';
 import '../css/ResourcePhoneNumberForm.css';
-import { Input, Form, Button, List, Row, Col } from 'antd';
+import { Input, Form, Button, List, Row, Col, TimePicker } from 'antd';
 
 import LabelWrapper from './LabelWrapper';
 // import { KeyboardTimePicker } from "@material-ui/pickers";
@@ -11,71 +11,68 @@ import '../css/ResourceHoursOfOperationForm.css';
 type InputProps = {
   setTotalSubmitEnabled: Boolean => void,
   day: String,
-  getFieldDecorator: (any) => any,
+  getFieldDecorator: any => any,
+  setFieldsValue: any => any,
 };
 const HoursOfOperationInput = (props: InputProps) => {
-  const { day, getFieldDecorator, setTotalSubmitEnabled } = props;
+  const {
+    day,
+    setFieldsValue,
+    getFieldDecorator,
+    setTotalSubmitEnabled,
+  } = props;
+  const dayLowerCase = day.toLowerCase();
   return (
     <Row className="hoursOfOperationInput" gutter={16}>
       <Col span={2}>
         <p>{day} </p>
       </Col>
       <Col span={3}>
-        {getFieldDecorator(`${day.toLowerCase()}Start`, {
+        {getFieldDecorator(`${dayLowerCase}Start`, {
           rules: [],
         })(
-          <Input maxLength={30} onFocus={() => setTotalSubmitEnabled(true)} />,
+          <TimePicker
+            use12Hours
+            format="h:mm a"
+            onChange={(time, timeString) => {
+              setFieldsValue({
+                [`${dayLowerCase}Start`]: timeString,
+              });
+            }}
+          />,
         )}
       </Col>
       <Col span={2}>
         <p style={{ textAlign: 'center' }}>to</p>
       </Col>
       <Col span={3}>
-        {getFieldDecorator(`${day.toLowerCase()}End`, {
+        {getFieldDecorator(`${dayLowerCase}End`, {
           rules: [],
         })(
-          <Input maxLength={30} onFocus={() => setTotalSubmitEnabled(true)} />,
+          <TimePicker
+            use12Hours
+            format="h:mm a"
+            onChange={(time, timeString) => {
+              setFieldsValue({
+                [`${dayLowerCase}Start`]: timeString,
+              });
+            }}
+          />,
         )}
       </Col>
     </Row>
   );
 };
 
-const generateInputs = props => {
-  const {
-    setHoursOfOperations,
-    hoursOfOperation,
-    setTotalSubmitEnabled,
-    setFieldsValue,
-    getFieldValue,
-    getFieldDecorator,
-  } = props;
-
-  const days = [
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-    'Sunday',
-  ];
-
-  return days.map(day => {
-    return (
-      <HoursOfOperationInput
-        day={day}
-        setFieldsValue={setFieldsValue}
-        getFieldValue={getFieldValue}
-        getFieldDecorator={getFieldDecorator}
-        setTotalSubmitEnabled={setTotalSubmitEnabled}
-      />
-    );
-  });
-};
-
 type FormProps = {
-  setHoursOfOperations: (any) => any,
+  setHoursOfOperations: any => any,
+  hoursOfOperation: any,
+  setTotalSubmitEnabled: Boolean => any,
+  form: {
+    setFieldsValue: any => any,
+    getFieldValue: any => any,
+    getFieldDecorator: any => any,
+  },
 };
 const HoursOfOperationsForm = Form.create({ name: 'hoursOfOperation' })(
   props => {
@@ -85,6 +82,37 @@ const HoursOfOperationsForm = Form.create({ name: 'hoursOfOperation' })(
       setTotalSubmitEnabled,
     } = props;
     const { setFieldsValue, getFieldValue, getFieldDecorator } = props.form;
+
+    const generateInputs = useCallback(() => {
+      const days = [
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
+        'Sunday',
+      ];
+
+      return days.map(day => {
+        return (
+          <HoursOfOperationInput
+            day={day}
+            setFieldsValue={setFieldsValue}
+            getFieldValue={getFieldValue}
+            getFieldDecorator={getFieldDecorator}
+            setTotalSubmitEnabled={setTotalSubmitEnabled}
+          />
+        );
+      });
+    }, [
+      setHoursOfOperations,
+      hoursOfOperation,
+      setTotalSubmitEnabled,
+      setFieldsValue,
+      getFieldValue,
+      getFieldDecorator,
+    ]);
 
     return (
       <Form
@@ -114,7 +142,11 @@ const HoursOfOperationsForm = Form.create({ name: 'hoursOfOperation' })(
   },
 );
 
-type FormItemProps = {};
+type FormItemProps = {
+  setHoursOfOperations: any => any,
+  hoursOfOperation: any,
+  setTotalSubmitEnabled: Boolean => any,
+};
 
 const HoursOfOperationsItemForm = (props: FormProps) => {
   const {
