@@ -45,6 +45,11 @@
   padding-right: 4em;
 }
 
+.formCarousel {
+  margin-left: 10vw;
+  margin-right: 10vw;
+}
+
 .formCarousel .slick-slide {
   overflow: hidden;
 }
@@ -55,4 +60,17 @@
 
 .formCarousel .slick-dots li.slick-active button {
   background: #492179 !important;
+}
+
+.formCarousel .carouselNextBtn {
+  display: inline-block;
+
+  background: #6bdbd0;
+  color: white;
+  margin: auto;
+  border-radius: 0px;
+  box-shadow: none;
+  border: 0px;
+  margin-bottom: 3em;
+  margin-left: 34vw;
 }

@@ -27,6 +27,7 @@ import CategorySelector, { CAT_SUB_SPLITTER } from './ResourceCategorySelector';
 import StrListFormItem from './ResourceStrListForm';
 import InternalNotesFormItem from './ResourceInternalNotesForm';
 import LabelWrapper from './LabelWrapper';
+import HoursOfOperationFormItem from './ResourceHoursOfOperationForm';
 
 import '../css/ResourceForm.css';
 
@@ -81,6 +82,7 @@ const ResourceForm = (props: FormProps) => {
   const [availableLanguages, setAvailableLanguages] = useState([]);
   const [comments, setComments] = useState([]);
   const [internalNotes, setInternalNotes] = useState([]);
+  const [hoursOfOperation, setHoursOfOperation] = useState({});
 
   const { id } = props;
   const { getFieldDecorator, getFieldValue, setFieldsValue } = props.form;
@@ -165,7 +167,7 @@ const ResourceForm = (props: FormProps) => {
             dotPosition="bottom"
             onChange={() => {}}
           >
-            <>
+            <div htmlFor="basicInfomation">
               <LabelWrapper
                 label="Categories"
                 required
@@ -333,69 +335,101 @@ const ResourceForm = (props: FormProps) => {
                   />
                 </Col>
               </Row>
-            </>
-            <></>
+              <Row>
+                <LabelWrapper
+                  label="Hours of Operation"
+                  component={
+                    <HoursOfOperationFormItem
+                      setHoursOfOperation={setHoursOfOperation}
+                      hoursOfOperation={hoursOfOperation}
+                      setTotalSubmitEnabled={setTotalSubmitEnabled}
+                    />
+                  }
+                />
+              </Row>
+              <Button
+                type="default"
+                className="carouselNextBtn"
+                onClick={() => {}}
+              >
+                Next
+              </Button>
+            </div>
+            <div htmlFor="contactInformation">
+              <LabelWrapper
+                label="Website"
+                component={
+                  <Form.Item>
+                    {getFieldDecorator(
+                      'website',
+                      {},
+                    )(
+                      <Input
+                        placeholder="Website"
+                        onFocus={() => setTotalSubmitEnabled(true)}
+                      />,
+                    )}
+                  </Form.Item>
+                }
+              />
+              <LabelWrapper
+                label="Email"
+                component={
+                  <Form.Item>
+                    {getFieldDecorator(
+                      'email',
+                      {},
+                    )(
+                      <Input
+                        placeholder="Email"
+                        onFocus={() => setTotalSubmitEnabled(true)}
+                      />,
+                    )}
+                  </Form.Item>
+                }
+              />
+              {PhoneNumberFormItem({
+                phoneNumbers,
+                setPhoneNumbers,
+                setTotalSubmitEnabled,
+              })}
+            </div>
+            <div htmlFor="recommendedContacts">
+              {ContactFormItem({
+                contacts,
+                setContacts,
+                setTotalSubmitEnabled,
+              })}
+            </div>
+            <div htmlFor="financialAid">
+              {FinancialAidFormItem({
+                financialAidDetails,
+                setFinancialAidDetails,
+                setTotalSubmitEnabled,
+              })}
+            </div>
           </Carousel>
-          <LabelWrapper
-            label="Website"
-            component={
-              <Form.Item>
-                {getFieldDecorator(
-                  'website',
-                  {},
-                )(
-                  <Input
-                    placeholder="Website"
-                    onFocus={() => setTotalSubmitEnabled(true)}
-                  />,
-                )}
-              </Form.Item>
-            }
-          />
-          <LabelWrapper
-            label="Email"
-            component={
-              <Form.Item>
-                {getFieldDecorator(
-                  'email',
-                  {},
-                )(
-                  <Input
-                    placeholder="Email"
-                    onFocus={() => setTotalSubmitEnabled(true)}
-                  />,
-                )}
-              </Form.Item>
-            }
-          />
-          {PhoneNumberFormItem({
-            phoneNumbers,
-            setPhoneNumbers,
-            setTotalSubmitEnabled,
-          })}
+
           {InternalNotesFormItem({
             internalNotes,
             setInternalNotes,
             setTotalSubmitEnabled,
           })}
-          {ContactFormItem({
-            contacts,
-            setContacts,
-            setTotalSubmitEnabled,
-          })}
 
-          <Form.Item className="input" label="City"></Form.Item>
           <Form.Item className="input" label="Hours of Operation">
-            {getFieldDecorator(
-              'hoursOfOperation',
-              {},
-            )(
-              <Input
-                placeholder="Monday-Friday 9:00am-5:00pm, 
-                Saturday and Sunday 12:00-2:00pm"
-                onFocus={() => setTotalSubmitEnabled(true)}
-              />,
-            )}
+            <span>
+              <p>Monday </p>
+              {getFieldDecorator(
+                'hoursOfOperation',
+                {},
+              )(
+                <Input
+                  placeholder="Monday-Friday 9:00am-5:00pm, 
+                  Saturday and Sunday 12:00-2:00pm"
+                  onFocus={() => setTotalSubmitEnabled(true)}
+                />,
+              )}
+            </span>
           </Form.Item>
           <Form.Item className="input" label="Eligibility Requirements">
             {getFieldDecorator(
@@ -408,11 +442,7 @@ const ResourceForm = (props: FormProps) => {
               />,
             )}
           </Form.Item>
-          {FinancialAidFormItem({
-            financialAidDetails,
-            setFinancialAidDetails,
-            setTotalSubmitEnabled,
-          })}
+
           <Form.Item className="input" label="Cost">
             {getFieldDecorator('cost', {
               rules: [{}],
