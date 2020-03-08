@@ -98,7 +98,7 @@ const FinancialAidFormItem = (props: FormProps) => {
 
   return (
     <Form.Item>
-      <Descriptions title="Financial Aid Details">
+      <Descriptions>
         <Descriptions.Item label="Education">
           {financialAidDetails.education}
         </Descriptions.Item>

@@ -156,7 +156,7 @@ const ContactFormItem = (props: FormItemProps) => {
   const { contacts, setContacts, setTotalSubmitEnabled } = props;
 
   return (
-    <Form.Item label="Recommended Contacts">
+    <Form.Item>
       <List
         dataSource={contacts}
         renderItem={contact => (

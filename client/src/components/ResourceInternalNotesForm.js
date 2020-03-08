@@ -167,7 +167,7 @@ const InternalNotesFormItem = (props: FormItemProps) => {
   );
 
   return (
-    <Form.Item label="Internal Notes">
+    <Form.Item>
       <List
         itemLayout="horizontal"
         dataSource={internalNotes}

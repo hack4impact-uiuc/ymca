@@ -318,81 +318,119 @@ const FormCarousel = React.forwardRef((props: CarouselProps, ref) => {
             </Form.Item>
           }
         />
-        {PhoneNumberFormItem({
-          phoneNumbers,
-          setPhoneNumbers,
-          setTotalSubmitEnabled,
-        })}
+        <LabelWrapper
+          label="Phone Numbers"
+          component={PhoneNumberFormItem({
+            phoneNumbers,
+            setPhoneNumbers,
+            setTotalSubmitEnabled,
+          })}
+        />
       </div>
       <div htmlFor="recommendedContacts">
-        {ContactFormItem({
-          contacts,
-          setContacts,
-          setTotalSubmitEnabled,
-        })}
+        <LabelWrapper
+          label="Recommended Contacts"
+          component={ContactFormItem({
+            contacts,
+            setContacts,
+            setTotalSubmitEnabled,
+          })}
+        />
       </div>
       <div htmlFor="financialAid">
-        {FinancialAidFormItem({
-          financialAidDetails,
-          setFinancialAidDetails,
-          setTotalSubmitEnabled,
-        })}
-        <Form.Item className="input" label="Cost">
-          {getFieldDecorator('cost', {
-            rules: [{}],
-          })(
-            <Radio.Group onFocus={() => setTotalSubmitEnabled(true)}>
-              <Radio value="Free">Free</Radio>
-              <Radio value="$">$</Radio>
-              <Radio value="$$">$$</Radio>
-              <Radio value="$$$">$$$</Radio>
-            </Radio.Group>,
-          )}
-        </Form.Item>
-        <Form.Item className="input" label="Available Languages">
-          {getFieldDecorator(
-            'availableLanguages',
-            {},
-          )(
-            <Select mode="multiple" placeholder="Select available language(s)">
-              {languages.map(lang => (
-                <Option key={lang} value={lang}>
-                  {lang}
-                </Option>
-              ))}
-            </Select>,
-          )}
-        </Form.Item>
+        <LabelWrapper
+          label="Financial Aid Details"
+          component={FinancialAidFormItem({
+            financialAidDetails,
+            setFinancialAidDetails,
+            setTotalSubmitEnabled,
+          })}
+        />
+        <LabelWrapper
+          label="Cost"
+          component={
+            <Form.Item className="input">
+              {getFieldDecorator('cost', {
+                rules: [{}],
+              })(
+                <Radio.Group onFocus={() => setTotalSubmitEnabled(true)}>
+                  <Radio value="Free">Free</Radio>
+                  <Radio value="$">$</Radio>
+                  <Radio value="$$">$$</Radio>
+                  <Radio value="$$$">$$$</Radio>
+                </Radio.Group>,
+              )}
+            </Form.Item>
+          }
+        />
+        <LabelWrapper
+          label="Available Languages"
+          component={
+            <Form.Item className="input">
+              {getFieldDecorator(
+                'availableLanguages',
+                {},
+              )(
+                <Select
+                  mode="multiple"
+                  placeholder="Select available language(s)"
+                >
+                  {languages.map(lang => (
+                    <Option key={lang} value={lang}>
+                      {lang}
+                    </Option>
+                  ))}
+                </Select>,
+              )}
+            </Form.Item>
+          }
+        />
       </div>
       <div htmlFor="other">
-        {InternalNotesFormItem({
-          internalNotes,
-          setInternalNotes,
-          setTotalSubmitEnabled,
-        })}
-        <Form.Item className="input" label="Eligibility Requirements">
-          {getFieldDecorator(
-            'eligibilityRequirements',
-            {},
-          )(
-            <Input
-              placeholder="Visa or receipt letter"
-              onFocus={() => setTotalSubmitEnabled(true)}
-            />,
-          )}
-        </Form.Item>
-
-        <Form.Item className="input" label="Recommendation">
-          {getFieldDecorator('recommendation', {})(<Rate />)}
-        </Form.Item>
-        <StrListFormItem
-          className="input"
-          formName="commentForm"
+        <LabelWrapper
+          label="Internal Notes"
+          component={InternalNotesFormItem({
+            internalNotes,
+            setInternalNotes,
+            setTotalSubmitEnabled,
+          })}
+        />
+        <LabelWrapper
+          label="Eligibility Requirements"
+          component={
+            <Form.Item className="input">
+              {getFieldDecorator(
+                'eligibilityRequirements',
+                {},
+              )(
+                <Input
+                  placeholder="Visa or receipt letter"
+                  onFocus={() => setTotalSubmitEnabled(true)}
+                />,
+              )}
+            </Form.Item>
+          }
+        />
+        <LabelWrapper
+          label="Recommendation"
+          component={
+            <Form.Item className="input">
+              {getFieldDecorator('recommendation', {})(<Rate />)}
+            </Form.Item>
+          }
+        />
+        <LabelWrapper
           label="Comments"
-          placeholder="Enter a comment"
-          listOfStrings={comments}
-          setListOfStrings={setComments}
-          setTotalSubmitEnabled={setTotalSubmitEnabled}
+          component={
+            <StrListFormItem
+              className="input"
+              formName="commentForm"
+              placeholder="Enter a comment"
+              listOfStrings={comments}
+              setListOfStrings={setComments}
+              setTotalSubmitEnabled={setTotalSubmitEnabled}
+            />
+          }
         />
       </div>
     </Carousel>
