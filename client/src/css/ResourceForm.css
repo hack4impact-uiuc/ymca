@@ -18,6 +18,7 @@
   background-color: #6bdbd0;
   width: 10em;
   margin-top: 1em;
+  height: 2em;
 }
 
 .resourceForm .formLabel p {
@@ -62,15 +63,13 @@
   background: #492179 !important;
 }
 
-.formCarousel .carouselNextBtn {
-  display: inline-block;
-
-  background: #6bdbd0;
-  color: white;
+.carouselNextBtn {
+  background: #6bdbd0 !important;
+  color: white !important;
   margin: auto;
-  border-radius: 0px;
-  box-shadow: none;
-  border: 0px;
-  margin-bottom: 3em;
-  margin-left: 34vw;
+  border-radius: 0px !important;
+  box-shadow: none !important;
+  border: 0px !important;
+  /* margin-bottom: 3em; */
+  margin-left: 44vw;
 }

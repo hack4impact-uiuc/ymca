@@ -1,6 +1,6 @@
 // @flow
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import {
   Form,
   Input,
@@ -28,6 +28,7 @@ import StrListFormItem from './ResourceStrListForm';
 import InternalNotesFormItem from './ResourceInternalNotesForm';
 import LabelWrapper from './LabelWrapper';
 import HoursOfOperationFormItem from './ResourceHoursOfOperationForm';
+import FormCarousel from './ResourceFormCarousel';
 
 import '../css/ResourceForm.css';
 
@@ -124,6 +125,20 @@ const ResourceForm = (props: FormProps) => {
     fetchFields();
   }, [id, setFieldsValue]);
 
+  const formCarouselRef = useRef();
+  const formLabelRef = useRef();
+
+  const onNextButtonClick = useCallback(() => {
+    formCarouselRef.current.next();
+  }, [formCarouselRef]);
+
+  const onFormCarouselChange = useCallback(
+    (current, to) => {
+      formLabelRef.current.goTo(to);
+    },
+    [formLabelRef],
+  );
+
   return (
     <Layout className="resourceForm">
       <Header className="header">
@@ -132,9 +147,20 @@ const ResourceForm = (props: FormProps) => {
         </Row>
       </Header>
       <Content className="content">
-        <div className="formLabel">
-          <p>Basic Information</p>
-        </div>
+        <Carousel ref={formLabelRef} className="formLabel" dots={false}>
+          <div>
+            <p>Basic Information</p>
+          </div>
+          <div>
+            <p>Contact Information</p>
+          </div>
+          <div>
+            <p>Recommend Contacts</p>
+          </div>
+          <div>
+            <p>Financial Aid</p>
+          </div>
+        </Carousel>
         <Form
           className="form"
           onSubmit={e => {
@@ -162,253 +188,40 @@ const ResourceForm = (props: FormProps) => {
             });
           }}
         >
-          <Carousel
-            className="formCarousel"
-            dotPosition="bottom"
-            onChange={() => {}}
+          <FormCarousel
+            ref={formCarouselRef}
+            beforeChange={onFormCarouselChange}
+            categories={categories}
+            setCategories={setCategories}
+            subcategories={subcategories}
+            setSubcategories={setSubcategories}
+            phoneNumbers={phoneNumbers}
+            setPhoneNumbers={setPhoneNumbers}
+            contacts={contacts}
+            setContacts={setContacts}
+            financialAidDetails={financialAidDetails}
+            setFinancialAidDetails={setFinancialAidDetails}
+            availableLanguages={availableLanguages}
+            setAvailableLanguages={setAvailableLanguages}
+            comments={comments}
+            setComments={setComments}
+            internalNotes={internalNotes}
+            setInternalNotes={setInternalNotes}
+            hoursOfOperation={hoursOfOperation}
+            setHoursOfOperation={setHoursOfOperation}
+            totalSubmitEnabled={totalSubmitEnabled}
+            setTotalSubmitEnabled={setTotalSubmitEnabled}
+            setFieldsValue={setFieldsValue}
+            getFieldValue={getFieldValue}
+            getFieldDecorator={getFieldDecorator}
+          />
+          <Button
+            type="default"
+            className="carouselNextBtn"
+            onClick={onNextButtonClick}
           >
-            <div htmlFor="basicInfomation">
-              <LabelWrapper
-                label="Categories"
-                required
-                component={
-                  <CategorySelector
-                    setCategories={setCategories}
-                    setSubcategories={setSubcategories}
-                    getFieldDecorator={getFieldDecorator}
-                    setFieldsValue={setFieldsValue}
-                    getFieldValue={getFieldValue}
-                  />
-                }
-              />
-              <LabelWrapper
-                label="Resource Name"
-                required
-                component={
-                  <Form.Item>
-                    {getFieldDecorator('resourceName', {
-                      rules: [
-                        {
-                          required: true,
-                          message: 'Please input a resource name!',
-                        },
-                      ],
-                    })(
-                      <Input
-                        placeholder="Resource Name"
-                        onFocus={() => setTotalSubmitEnabled(true)}
-                      />,
-                    )}
-                  </Form.Item>
-                }
-              />
-              <LabelWrapper
-                label="Description"
-                required
-                component={
-                  <Form.Item>
-                    {getFieldDecorator('description', {
-                      rules: [
-                        {
-                          required: true,
-                          message: 'Please input a description!',
-                        },
-                      ],
-                    })(
-                      <TextArea
-                        rows={4}
-                        placeholder="Description"
-                        onFocus={() => setTotalSubmitEnabled(true)}
-                      />,
-                    )}
-                  </Form.Item>
-                }
-              />
-              <LabelWrapper
-                label="Address"
-                required
-                component={
-                  <Form.Item>
-                    {getFieldDecorator(
-                      'address',
-                      {},
-                    )(
-                      <Input
-                        placeholder="Address"
-                        onFocus={() => setTotalSubmitEnabled(true)}
-                      />,
-                    )}
-                  </Form.Item>
-                }
-              />
-              <Row gutter={16}>
-                <Col span={18}>
-                  <LabelWrapper
-                    label="Address Line 2"
-                    component={
-                      <Form.Item>
-                        {getFieldDecorator(
-                          'address2',
-                          {},
-                        )(
-                          <Input
-                            placeholder="Address 2"
-                            onFocus={() => setTotalSubmitEnabled(true)}
-                          />,
-                        )}
-                      </Form.Item>
-                    }
-                  />
-                </Col>
-                <Col span={6}>
-                  <LabelWrapper
-                    label="Apt/Unit/Suite"
-                    component={
-                      <Form.Item>
-                        {getFieldDecorator(
-                          'aptUnitSuite',
-                          {},
-                        )(
-                          <Input
-                            placeholder=""
-                            onFocus={() => setTotalSubmitEnabled(true)}
-                          />,
-                        )}
-                      </Form.Item>
-                    }
-                  />
-                </Col>
-              </Row>
-              <Row justify="space-around" gutter={16}>
-                <Col span={8}>
-                  <LabelWrapper
-                    label="City"
-                    component={
-                      <Form.Item>
-                        {getFieldDecorator(
-                          'city',
-                          {},
-                        )(
-                          <Input
-                            placeholder="City"
-                            onFocus={() => setTotalSubmitEnabled(true)}
-                          />,
-                        )}
-                      </Form.Item>
-                    }
-                  />
-                </Col>
-                <Col span={8}>
-                  <LabelWrapper
-                    label="State"
-                    component={
-                      <Form.Item>
-                        {getFieldDecorator(
-                          'state',
-                          {},
-                        )(
-                          <Input
-                            placeholder="State"
-                            onFocus={() => setTotalSubmitEnabled(true)}
-                          />,
-                        )}
-                      </Form.Item>
-                    }
-                  />
-                </Col>
-                <Col span={8}>
-                  <LabelWrapper
-                    label="Zip"
-                    component={
-                      <Form.Item>
-                        {getFieldDecorator(
-                          'zip',
-                          {},
-                        )(
-                          <Input
-                            placeholder="Zip"
-                            onFocus={() => setTotalSubmitEnabled(true)}
-                          />,
-                        )}
-                      </Form.Item>
-                    }
-                  />
-                </Col>
-              </Row>
-              <Row>
-                <LabelWrapper
-                  label="Hours of Operation"
-                  component={
-                    <HoursOfOperationFormItem
-                      setHoursOfOperation={setHoursOfOperation}
-                      hoursOfOperation={hoursOfOperation}
-                      setTotalSubmitEnabled={setTotalSubmitEnabled}
-                    />
-                  }
-                />
-              </Row>
-              <Button
-                type="default"
-                className="carouselNextBtn"
-                onClick={() => {}}
-              >
-                Next
-              </Button>
-            </div>
-            <div htmlFor="contactInformation">
-              <LabelWrapper
-                label="Website"
-                component={
-                  <Form.Item>
-                    {getFieldDecorator(
-                      'website',
-                      {},
-                    )(
-                      <Input
-                        placeholder="Website"
-                        onFocus={() => setTotalSubmitEnabled(true)}
-                      />,
-                    )}
-                  </Form.Item>
-                }
-              />
-              <LabelWrapper
-                label="Email"
-                component={
-                  <Form.Item>
-                    {getFieldDecorator(
-                      'email',
-                      {},
-                    )(
-                      <Input
-                        placeholder="Email"
-                        onFocus={() => setTotalSubmitEnabled(true)}
-                      />,
-                    )}
-                  </Form.Item>
-                }
-              />
-              {PhoneNumberFormItem({
-                phoneNumbers,
-                setPhoneNumbers,
-                setTotalSubmitEnabled,
-              })}
-            </div>
-            <div htmlFor="recommendedContacts">
-              {ContactFormItem({
-                contacts,
-                setContacts,
-                setTotalSubmitEnabled,
-              })}
-            </div>
-            <div htmlFor="financialAid">
-              {FinancialAidFormItem({
-                financialAidDetails,
-                setFinancialAidDetails,
-                setTotalSubmitEnabled,
-              })}
-            </div>
-          </Carousel>
+            Next
+          </Button>
 
           {InternalNotesFormItem({
             internalNotes,

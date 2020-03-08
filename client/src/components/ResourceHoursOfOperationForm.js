@@ -1,9 +1,9 @@
 // @flow
 import React, { useCallback } from 'react';
 import '../css/ResourcePhoneNumberForm.css';
-import { Input, Form, Button, List, Row, Col, TimePicker } from 'antd';
+import { Form, Button, Row, Col, TimePicker } from 'antd';
 
-import LabelWrapper from './LabelWrapper';
+// import LabelWrapper from './LabelWrapper';
 // import { KeyboardTimePicker } from "@material-ui/pickers";
 
 import '../css/ResourceHoursOfOperationForm.css';
@@ -33,6 +33,7 @@ const HoursOfOperationInput = (props: InputProps) => {
         })(
           <TimePicker
             use12Hours
+            clearIcon
             format="h:mm a"
             onChange={(time, timeString) => {
               setFieldsValue({

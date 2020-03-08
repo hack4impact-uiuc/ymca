@@ -8,8 +8,6 @@ import React from 'react';
 import '../css/ResourcePhoneNumberForm.css';
 import { Input, Form, Button, List } from 'antd';
 
-import LabelWrapper from './LabelWrapper';
-
 const PhoneNumberForm = Form.create({ name: 'phoneNumber' })(props => {
   const { setPhoneNumbers, phoneNumbers, setTotalSubmitEnabled } = props;
   const { setFieldsValue, getFieldValue, getFieldDecorator } = props.form;
