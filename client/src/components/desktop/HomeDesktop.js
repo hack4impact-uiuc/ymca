@@ -6,13 +6,7 @@ import testimonials from '../../data/testimonials';
 
 export const HomeBlock2Desktop = () => {
   return (
-    <Row
-      className="home-block-2"
-      type="flex"
-      justify="center"
-      align="middle"
-      gutter={[16, 16]}
-    >
+    <Row className="home-block-2" type="flex" justify="center" align="middle">
       <Col className="home-block-2__left" span={6}>
         <Row
           className="home-block-2__left__text"

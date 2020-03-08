@@ -91,7 +91,7 @@ const ResourceForm = (props: FormProps) => {
   useEffect(() => {
     async function fetchFields() {
       if (id) {
-        const resource = await getResourceByID(id);
+        const resource = await getResourceByID(id, false);
         if (resource) {
           const { name, category, subcategory, ...result } = resource.result;
 

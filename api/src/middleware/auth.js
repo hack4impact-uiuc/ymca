@@ -2,7 +2,15 @@ const fetch = require('isomorphic-unfetch');
 
 const AUTH_SERVER_URI = 'https://ymca-auth.now.sh';
 
-const auth = async (req, res, next) => {
+const authAdmin = async (req, res, next) => {
+  auth(req, res, next, ['admin']);
+};
+
+const authGeneral = async (req, res, next) => {
+  auth(req, res, next, []);
+};
+
+const auth = async (req, res, next, roles) => {
   const { token } = req.headers;
   const authReq = await fetch(`${AUTH_SERVER_URI}/verify`, {
     method: 'POST',
@@ -13,7 +21,15 @@ const auth = async (req, res, next) => {
 
   const authRes = await authReq.json();
   if (authRes.status === 200) {
-    const { role, uid, newToken } = authReq;
+    const { role, newToken } = authReq;
+    if (Array.isArray(roles) && roles.length && roles.includes(role)) {
+      res.status(403).json({
+        code: 403,
+        message: 'Unauthorized',
+        success: false,
+      });
+      return;
+    }
     if (newToken !== undefined) {
       res.set({ token: newToken });
     } else {
@@ -30,4 +46,4 @@ const auth = async (req, res, next) => {
   }
 };
 
-module.exports = auth;
+module.exports = { authAdmin, authGeneral };

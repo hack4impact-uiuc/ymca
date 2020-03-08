@@ -22,15 +22,24 @@ const Home = () => {
 
   return (
     <>
-      <Row className="home-block-1" type="flex" justify="center" align="middle">
-        <Col span={6}>
-          <Textfit className="welcome-text" mode="single">
+      <Row
+        className="home-block-1"
+        type="flex"
+        justify={isMobile ? 'center' : 'left'}
+        align="middle"
+      >
+        <Col className="welcome-text" span={6}>
+          <Textfit className="welcome-text welcome-to" mode="single">
             Welcome to
           </Textfit>
-          <Textfit className="welcome-text" mode="single">
-            Urbana-Champaign
+          <Textfit className="welcome-text urbana-champaign" mode="single">
+            {isMobile ? (
+              <div style={{ 'white-space': 'normal' }}>Urbana-Champaign</div>
+            ) : (
+              'Urbana-Champaign'
+            )}
           </Textfit>
-          <Row type="flex" justify="center" align="middle">
+          <Row type="flex" justify={isMobile ? 'center' : 'left'} align="left">
             <Col span={18}>
               <Link to="/resources">
                 <Button type="primary">
@@ -62,28 +71,28 @@ const Home = () => {
             </Col>
           </Row>
           <Row type="flex" justify="center" align="middle">
-            <Col className="home-block-4__partner" span={4}>
+            <Col className="home-block-4__partner" span={isMobile ? 10 : 4}>
               <img
                 src="/asset/partners/cu_fair.jpg"
                 alt="Champaign-Urbana Fair"
               />
             </Col>
-            <Col className="home-block-4__partner" span={4}>
+            <Col className="home-block-4__partner" span={isMobile ? 10 : 4}>
               <img
                 src="/asset/partners/cuphd.png"
                 alt="Champaign-Urbana Public Health District"
               />
             </Col>
-            <Col className="home-block-4__partner" span={4}>
+            <Col className="home-block-4__partner" span={isMobile ? 10 : 4}>
               <img src="/asset/partners/dhai_tree.jpg" alt="Dhairtree" />
             </Col>
-            <Col className="home-block-4__partner" span={4}>
+            <Col className="home-block-4__partner" span={isMobile ? 10 : 4}>
               <img
                 src="/asset/partners/three_spinners.jpg"
                 alt="Three Spinners"
               />
             </Col>
-            <Col className="home-block-4__partner" span={4}>
+            <Col className="home-block-4__partner" span={isMobile ? 10 : 4}>
               <img src="/asset/partners/trc.jpg" alt="The Refugee Center" />
             </Col>
           </Row>

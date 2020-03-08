@@ -2,9 +2,9 @@ import React, { useCallback } from 'react';
 import { Button, Dropdown, Radio } from 'antd';
 import PropTypes from 'prop-types';
 
-import ResourceFilterSearch from './ResourceFilterSearch';
+import ResourceFilterSearch from '../ResourceFilterSearch';
 
-import '../css/ResourcesFilter.css';
+import '../../css/ResourcesFilter.css';
 
 function ResourcesFilter(props) {
   const {
@@ -74,7 +74,7 @@ function ResourcesFilter(props) {
         placement="bottomCenter"
         trigger={['click']}
       >
-        <Button className="button">Languages Offered</Button>
+        <Button className="button">Language</Button>
       </Dropdown>
       <Dropdown
         className="dropdown"
@@ -84,7 +84,9 @@ function ResourcesFilter(props) {
       >
         <Button className="button">Location</Button>
       </Dropdown>
-      <ResourceFilterSearch />
+      <div className="searchbar-align-right">
+        <ResourceFilterSearch />
+      </div>
     </div>
   );
 }

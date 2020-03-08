@@ -24,6 +24,7 @@ api/config
 ./auth/yarn-error.log
 ./auth/.DS_Store
 ./auth/lib
+./auth/.now
 
 
 # auth/
