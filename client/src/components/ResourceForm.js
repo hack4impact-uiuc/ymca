@@ -226,7 +226,7 @@ const ResourceForm = (props: FormProps) => {
             Next
           </Button>
 
-          <Affix offsetBottom={33}>
+          <Affix offsetBottom={33} style={{ width: '10em' }}>
             <Button
               type="primary"
               htmlType="submit"
