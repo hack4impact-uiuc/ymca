@@ -35,6 +35,16 @@ const NavDesktop = (props: Props) => {
           </NavLink>
         </Menu.Item>
 
+        {/* {resources.id ? (
+          <Menu.Item key="resources">
+            <NavLink to="/resources" activeStyle={activeStyle}>
+              Saved Resources
+            </NavLink>
+          </Menu.Item>
+        ) : (
+          <div />
+        )} */}
+
         {authRoleIsEquivalentTo('admin') && (
           <Menu.Item key="admin">
             <NavLink to="/admin" activeStyle={activeStyle}>
