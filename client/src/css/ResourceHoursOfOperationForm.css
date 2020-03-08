@@ -5,3 +5,7 @@
 .hoursOfOperationInput p {
   color: black;
 }
+
+.hoursOfOperationTimePicker svg[data-icon='clock-circle'] {
+  display: none;
+}

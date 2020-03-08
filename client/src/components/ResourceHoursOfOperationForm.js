@@ -32,9 +32,11 @@ const HoursOfOperationInput = (props: InputProps) => {
           rules: [],
         })(
           <TimePicker
+            className="hoursOfOperationTimePicker"
             use12Hours
             clearIcon
             format="h:mm a"
+            placeholder="    :"
             onChange={(time, timeString) => {
               setFieldsValue({
                 [`${dayLowerCase}Start`]: timeString,
@@ -51,11 +53,14 @@ const HoursOfOperationInput = (props: InputProps) => {
           rules: [],
         })(
           <TimePicker
+            className="hoursOfOperationTimePicker"
             use12Hours
             format="h:mm a"
+            placeholder="    :"
+            suffixIcon={null}
             onChange={(time, timeString) => {
               setFieldsValue({
-                [`${dayLowerCase}Start`]: timeString,
+                [`${dayLowerCase}End`]: timeString,
               });
             }}
           />,
