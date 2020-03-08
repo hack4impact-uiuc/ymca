@@ -86,8 +86,8 @@ export default class ResourceDetail extends Component {
   };
 
   saveResourceHandler = async () => {
-    console.log(this.props.match.params.id);
-    await saveResource();
+    const res = await saveResource(this.props.match.params.id);
+    console.log(res);
   };
 
   async deleteResource(id) {

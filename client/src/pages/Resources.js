@@ -86,13 +86,21 @@ function Resources(props) {
 
     setLoading(true);
 
-    let newResources =
+    const newResources =
       categorySelected === 'All Resources'
         ? await getResources()
         : await getResourcesByCategory(categorySelected);
 
-    if (props.saved.userToken !== '') {
-      newResources = getSavedResources(props.saved.userToken);
+    if (props.saved) {
+      console.log('SAVED');
+      const json = await getSavedResources();
+      const savedSet = new Set(json.result);
+
+      newResources.result = newResources.result.filter(newResource =>
+        savedSet.has(newResource._id),
+      );
+
+      console.log(newResources);
     }
 
     setLoading(false);
@@ -277,7 +285,7 @@ function Resources(props) {
 Resources.defaultProps = {
   location: { search: '' },
   history: { pathname: '', search: '' },
-  saved: { userToken: '' },
+  saved: false,
 };
 
 Resources.propTypes = {
@@ -287,7 +295,7 @@ Resources.propTypes = {
     push: PropTypes.func,
     search: PropTypes.string,
   }),
-  saved: PropTypes.shape({ userToken: PropTypes.string }),
+  saved: PropTypes.bool,
 };
 
 export default Resources;

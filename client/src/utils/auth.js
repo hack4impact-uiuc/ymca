@@ -88,52 +88,26 @@ export const getAllRoles = () => {
   }).then(res => res.json());
 };
 
-export const getSavedResources = body => {
+export const getSavedResources = () => {
   return fetch(`${AUTH_SERVER_URI}/resources`, {
     method: 'GET',
     headers: {
+      'Content-Type': 'application/json',
       token: localStorage.getItem('token'),
     },
   }).then(res => res.json());
 };
 
-export const saveResource = body => {
+export const saveResource = resID => {
+  console.log(resID);
   return fetch(`${AUTH_SERVER_URI}/resource`, {
     method: 'PUT',
     headers: {
+      'Content-Type': 'application/json',
       token: localStorage.getItem('token'),
     },
+    body: JSON.stringify({
+      resourceId: resID,
+    }),
   }).then(res => res.json());
 };
-
-// export const getSavedResources = () => {
-//   return instance
-//     .get(`/auth/resources/`, {
-//       headers: {
-//         token: localStorage.getItem('token'),
-//       },
-//     })
-//     .then(
-//       res => res.data,
-//       err => {
-//         console.error(err);
-//         return null;
-//       },
-//     );
-// };
-
-// export const saveResource = resource => {
-//   return instance
-//     .put(`/auth/resource/`, resource, {
-//       headers: {
-//         token: localStorage.getItem('token'),
-//       },
-//     })
-//     .then(
-//       res => res.data,
-//       err => {
-//         console.error(err);
-//         return null;
-//       },
-//     );
-// };

@@ -100,6 +100,8 @@ const App = () => {
             minRole="admin"
           />
 
+          <Route path="/saved" render={() => <Resources saved />} />
+
           <Route
             path="/login"
             render={() =>
@@ -132,7 +134,11 @@ const App = () => {
               <Logout setAuthed={setAuthed} setAuthRole={setAuthRole} />
             )}
           />
-          <Route path="/resources" exact component={Resources} />
+          <Route
+            path="/resources"
+            exact
+            render={() => <Resources saved={false} />}
+          />
           <Route path="/resources/unknown" component={ResourceUnknown} />
           <PrivateRoute
             path="/role-approval"
