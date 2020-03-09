@@ -74,10 +74,11 @@
 .home-block-4 {
   padding-top: 5vh;
   padding-bottom: 5vh;
+  text-align: center;
 }
 
 .home-block-4__partner img {
   padding-top: 2vh;
-  width: 80%;
-  height: 80%;
+  width: 60%;
+  height: 60%;
 }
