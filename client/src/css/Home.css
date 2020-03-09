@@ -14,7 +14,7 @@
 }
 
 .welcome-text {
-  color: white;
+  color: #fff;
   font-weight: bold;
   font-size: 60px !important;
   line-height: 1.5;
@@ -65,11 +65,11 @@
 
 .testimonial-text h2,
 .testimonial-text h5 {
-  color: white;
+  color: #fff;
 }
 
 .testimonial-text p {
-  color: white;
+  color: #fff;
   font-size: 16px;
 }
 

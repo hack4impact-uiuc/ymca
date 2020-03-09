@@ -1,5 +1,5 @@
 .resources-filter {
-  background: white;
+  background: #fff;
   border-bottom: 1px solid rgba(235, 235, 235, 1);
   border-top: 1px solid rgba(235, 235, 235, 1);
   padding-left: 220px;
@@ -21,8 +21,8 @@
 .button:hover,
 .button:focus {
   background-color: #431c72;
-  border-color: white;
-  color: white;
+  border-color: #fff;
+  color: #fff;
 }
 
 .dropdown {
