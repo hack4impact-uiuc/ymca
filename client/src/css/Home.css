@@ -34,41 +34,43 @@
   min-height: 60vh;
 }
 
-.home-block-2__left {
+.home-block-2-divider {
   border-right: 2px solid rgb(136, 216, 208);
   line-height: 600%;
 }
 
-.home-block-2__left .home-block-2__left__text {
-  height: 100%;
+.home-block-2-left {
+  font-size: 30px;
+  text-align: center;
+  font-weight: bold;
 }
 
-.home-block-2__right {
+.home-block-2-right {
   margin-left: 5%;
 }
 
 .home-block-3 {
-  height: 70vh;
+  height: 60vh;
   background-image: url('/asset/images/background.png');
   background-size: cover;
   background-position: center;
   overflow: auto;
 }
 
-.testimonial-block__left__img {
-  width: 100%;
-  height: 100%;
+.testimonial-img {
+  width: 250px;
+  height: 250px;
   border-radius: 50%;
 }
 
-.testimonial-block__right h2,
-.testimonial-block__right h5 {
+.testimonial-text h2,
+.testimonial-text h5 {
   color: white;
 }
 
-.testimonial-block__right p {
+.testimonial-text p {
   color: white;
-  font-size: 2.5vh;
+  font-size: 16px;
 }
 
 .home-block-4 {
