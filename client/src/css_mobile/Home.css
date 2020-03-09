@@ -5,15 +5,6 @@
     text-align: center;
   }
 
-  div.welcome-to {
-    font-size: 130% !important;
-  }
-
-  div.urbana-champaign {
-    font-size: 300% !important;
-    padding-bottom: 25px;
-  }
-
   .ant-btn-primary {
     width: 40vw;
     font-size: 12px;
