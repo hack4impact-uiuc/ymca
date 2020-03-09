@@ -21,10 +21,7 @@
 
 .navigation .ant-menu-horizontal {
   border-bottom: none;
-}
-
-.navigation .ant-menu-horizontal {
-  float: left;
+  float: right;
 }
 
 .navigation .ant-menu-horizontal > .ant-menu-item,

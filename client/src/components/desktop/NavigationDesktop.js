@@ -26,7 +26,7 @@ const NavDesktop = (props: Props) => {
       <Menu mode="horizontal">
         <Menu.Item key="home">
           <NavLink exact to="/" activeStyle={activeStyle}>
-            YMCA
+            Home
           </NavLink>
         </Menu.Item>
         <Menu.Item key="resources">
