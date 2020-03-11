@@ -25,9 +25,10 @@
 }
 
 .register-text {
+  text-align: center;
   color: #fff;
   font-weight: bold;
-  font-size: 1000pt;
+  font-size: 36px;
   margin-top: 20px;
   margin-bottom: 20px;
 }

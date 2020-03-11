@@ -92,9 +92,9 @@ const Register = ({ form, setAuthed, setAuthRole }) => {
             alt=""
             className="container"
           />
-          <Textfit className="register-text" mode="single">
-            Registration
-          </Textfit>
+          {/* <Textfit className="register-text" mode="single"> */}
+          <div className="register-text">Registration</div>
+          {/* </Textfit> */}
         </Col>
       </Row>
       <Form

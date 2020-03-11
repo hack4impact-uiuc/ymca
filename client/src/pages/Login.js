@@ -50,9 +50,7 @@ function Login(props: Props) {
             alt=""
             className="container"
           />
-          <Textfit className="login-text" mode="single">
-            Admin Login
-          </Textfit>
+          <div className="login-text">Login</div>
         </Col>
       </Row>
       <Form
