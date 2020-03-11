@@ -67,19 +67,20 @@
 }
 
 .testimonial-text h2,
-.testimonial-text h5 {
+.testimonial-text h4 {
   color: #fff;
 }
 
 .testimonial-text p {
   color: #fff;
-  font-size: 16px;
+  font-size: 20px;
 }
 
 .home-block-4 {
   padding-top: 5vh;
   padding-bottom: 5vh;
   text-align: center;
+  font-weight: 500;
 }
 
 .home-block-4__partner img {

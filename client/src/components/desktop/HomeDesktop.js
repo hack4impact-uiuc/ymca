@@ -48,7 +48,7 @@ export const HomeBlock3Desktop = () => {
                   </Col>
                   <Col className="testimonial-text" span={12} offset={1}>
                     <h2>{element.person}</h2>
-                    <h5>{element.title}</h5>
+                    <h4>{element.title}</h4>
                     <p>{element.testimonial}</p>
                   </Col>
                 </Row>
