@@ -27,57 +27,63 @@ const NavMobile = (props: Props) => {
 
   return (
     <nav>
-      {menuVisible ? (
-        <div className="nav-mobile">
-          <Button
-            onClick={() => setDrawerVisible(true)}
-            block
-            type="link"
-            id="navbar"
-          >
-            <div align="left">
-              <Icon type="menu" style={{ fontSize: '2em', color: 'gray' }} />
-            </div>
-          </Button>
-          <Drawer
-            placement="left"
-            width="10em"
-            closable={false}
-            onClose={() => setDrawerVisible(false)}
-            visible={drawerVisible}
-          >
-            <Menu>
-              <Menu.Item>
-                <NavLink exact to="/">
-                  Home
-                </NavLink>
-              </Menu.Item>
-              <Menu.Item>
-                <NavLink to="/resources">Resources</NavLink>
-              </Menu.Item>
-              {authed && (
-                <Menu.Item>
-                  <NavLink to="/admin">Admin</NavLink>
-                </Menu.Item>
-              )}
-              {authed && (
-                <Menu.Item>
-                  <NavLink to="/role-approval">Users</NavLink>
-                </Menu.Item>
-              )}
-              {!authed ? (
-                <Menu.Item>
-                  <NavLink to="/login">Login</NavLink>
-                </Menu.Item>
-              ) : (
-                <Menu.Item>
-                  <NavLink to="/logout">Logout</NavLink>
-                </Menu.Item>
-              )}
-            </Menu>
-          </Drawer>
-        </div>
-      ) : null}
+      <div className="nav-mobile" style={{ top: menuVisible ? '0em' : '-2em' }}>
+        <Button
+          onClick={() => setDrawerVisible(true)}
+          block
+          type="link"
+          id="navbar"
+        >
+          <div align="left">
+            <Icon type="menu" style={{ fontSize: '2em', color: 'gray' }} />
+          </div>
+        </Button>
+        <Drawer
+          align="center"
+          placement="top"
+          closable={false}
+          onClose={() => setDrawerVisible(false)}
+          visible={drawerVisible}
+        >
+          <p>
+            <NavLink className="nav-mobile-option" exact to="/">
+              Home
+            </NavLink>
+          </p>
+          <p>
+            <NavLink className="nav-mobile-option" to="/resources">
+              Resources
+            </NavLink>
+          </p>
+          {authed && (
+            <p>
+              <NavLink className="nav-mobile-option" to="/admin">
+                Admin
+              </NavLink>
+            </p>
+          )}
+          {authed && (
+            <p>
+              <NavLink className="nav-mobile-option" to="/role-approval">
+                Users
+              </NavLink>
+            </p>
+          )}
+          {!authed ? (
+            <p>
+              <NavLink className="nav-mobile-option" to="/login">
+                Login
+              </NavLink>
+            </p>
+          ) : (
+            <p>
+              <NavLink className="nav-mobile-option" to="/logout">
+                Logout
+              </NavLink>
+            </p>
+          )}
+        </Drawer>
+      </div>
     </nav>
   );
 };

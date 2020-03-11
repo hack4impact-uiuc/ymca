@@ -5,11 +5,8 @@
     padding-top: 1em;
     padding-bottom: 1em;
     padding-left: 1em;
-    position: sticky;
-    top: 0em;
     width: 100%;
     align-self: flex-start;
-    z-index: 10;
 }
 
 .filter-search-mobile {

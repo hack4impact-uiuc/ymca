@@ -15,7 +15,6 @@ type Props = {
 const Navigation = (props: Props) => {
   const { authed, authRoleIsEquivalentTo } = props;
 
-  // Mobile Detection
   const isMobile = useWindowDimensions()[1];
 
   const desktop = (
