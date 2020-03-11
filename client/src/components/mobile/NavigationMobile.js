@@ -43,6 +43,7 @@ const NavMobile = (props: Props) => {
           placement="top"
           closable={false}
           onClose={() => setDrawerVisible(false)}
+          onClick={() => setDrawerVisible(false)}
           visible={drawerVisible}
         >
           <p>
