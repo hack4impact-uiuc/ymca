@@ -64,18 +64,8 @@ function ResourcePreview(props) {
     languages = languages.slice(0, languages.length - 2);
   }
   description.push(
-    <div key="cost" style={{ color: '#431C72' }}>
-      {cost}
-    </div>,
-  );
-  description.push(
-    <div key="city" style={{ color: 'black' }}>
-      {city}
-    </div>,
-  );
-  description.push(
-    <div key="languages" style={{ color: 'black' }}>
-      {languages}
+    <div key="cost" style={{ color: 'black' }}>
+      {cost} ------- {city} ------- {languages}
     </div>,
   );
 
