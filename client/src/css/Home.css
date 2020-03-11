@@ -15,16 +15,18 @@
 
 .welcome-text {
   color: #fff;
-  font-weight: bold;
-  font-size: 60px !important;
-  line-height: 1.5;
+  font-weight: 700;
+  font-size: 70px !important;
+  line-height: 1.25;
 }
 
 .home-block-1 .ant-btn-primary {
   background-color: rgb(136, 216, 208);
   border-color: rgb(136, 216, 208);
   font-size: 18px;
-  width: 100%;
+  width: 80%;
+  height: 40px;
+  font-weight: 600;
 }
 
 .home-block-2 {
