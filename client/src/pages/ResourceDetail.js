@@ -35,7 +35,6 @@ export default class ResourceDetail extends Component {
 
   async componentDidMount() {
     const response = await getResourceByID(this.props.match.params.id, true);
-    console.log(this.props.authRoleIsEquivalentTo);
 
     if (response !== null) {
       const { result } = response;
