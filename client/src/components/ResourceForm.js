@@ -74,6 +74,9 @@ type FormProps = {
 
 const ResourceForm = (props: FormProps) => {
   const [totalSubmitEnabled, setTotalSubmitEnabled] = useState(true);
+  const [carouselIndex, setCarouselIndex] = useState(0);
+  const [showBackButton, setShowBackButton] = useState(false);
+  const [showSubmitButton, setShowSubmitButton] = useState(false);
 
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
@@ -128,15 +131,23 @@ const ResourceForm = (props: FormProps) => {
   const formCarouselRef = useRef();
   const formLabelRef = useRef();
 
+  const onBackButtonClick = useCallback(() => {
+    formCarouselRef.current.prev();
+  }, [formCarouselRef, carouselIndex, setShowBackButton]);
+
   const onNextButtonClick = useCallback(() => {
     formCarouselRef.current.next();
-  }, [formCarouselRef]);
+  }, [formCarouselRef, carouselIndex, setShowBackButton]);
 
   const onFormCarouselChange = useCallback(
     (current, to) => {
       formLabelRef.current.goTo(to);
+      setCarouselIndex(to);
+
+      setShowBackButton(to > 0);
+      // setShowSubmitButton(to == FormCarousel.defaultProps.children.length);
     },
-    [formLabelRef],
+    [formLabelRef, setCarouselIndex, setShowBackButton],
   );
 
   return (
@@ -219,13 +230,15 @@ const ResourceForm = (props: FormProps) => {
             getFieldDecorator={getFieldDecorator}
           />
           <div className="carousel-move-btn-container">
-            <Button
-              type="default"
-              className="carousel-move-btn"
-              onClick={onNextButtonClick}
-            >
-              Back
-            </Button>
+            {showBackButton && (
+              <Button
+                type="default"
+                className="carousel-move-btn"
+                onClick={onBackButtonClick}
+              >
+                Back
+              </Button>
+            )}
             <Button
               type="default"
               className="carousel-move-btn"
