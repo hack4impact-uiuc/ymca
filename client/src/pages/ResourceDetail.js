@@ -35,6 +35,7 @@ export default class ResourceDetail extends Component {
 
   async componentDidMount() {
     const response = await getResourceByID(this.props.match.params.id, true);
+    console.log(this.props.authRoleIsEquivalentTo);
 
     if (response !== null) {
       const { result } = response;
@@ -299,18 +300,20 @@ export default class ResourceDetail extends Component {
             </Row>
           </Col>
         </Row>
-        <Row>
-          <Col span={4} className="section-label">
-            Internal Notes
-          </Col>
-          <Col span={20}>
-            <Row className="cardRow">
-              {internalNotes.length > 0
-                ? internalNotes.map(note => this.displayNote(note))
-                : 'No internal notes provided'}
-            </Row>
-          </Col>
-        </Row>
+        {authRoleIsEquivalentTo('admin') && (
+          <Row>
+            <Col span={4} className="section-label">
+              Internal Notes
+            </Col>
+            <Col span={20}>
+              <Row className="cardRow">
+                {internalNotes.length > 0
+                  ? internalNotes.map(note => this.displayNote(note))
+                  : 'No internal notes provided'}
+              </Row>
+            </Col>
+          </Row>
+        )}
       </div>
     );
   }
