@@ -35,6 +35,7 @@
   font-weight: 400;
 }
 
-.ant-menu-horizontal > .ant-menu-item > a:hover {
+.ant-menu-horizontal > .ant-menu-item > a:hover,
+.ant-menu-horizontal > .ant-menu-item-selected > a {
   color: rgba(0, 0, 0, 0.65);
 }
