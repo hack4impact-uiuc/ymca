@@ -1,11 +1,11 @@
-.hoursOfOperationInput {
+.hours-of-operation-input {
   padding-bottom: 1em;
 }
 
-.hoursOfOperationInput p {
+.hours-of-operation-input p {
   color: black;
 }
 
-.hoursOfOperationTimePicker svg[data-icon='clock-circle'] {
+.hours-of-operation-timepicker svg[data-icon='clock-circle'] {
   display: none;
 }

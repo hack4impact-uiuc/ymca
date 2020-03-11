@@ -14,7 +14,7 @@ const PhoneNumberForm = Form.create({ name: 'phoneNumber' })(props => {
 
   return (
     <Form
-      className="phoneNumberForm"
+      className="phone-number-form"
       onSubmit={() => {
         const phoneNumber = getFieldValue('phoneNumber');
         const phoneType = getFieldValue('phoneType') || '';
@@ -70,7 +70,7 @@ const PhoneNumberForm = Form.create({ name: 'phoneNumber' })(props => {
       </Form.Item>
       <Button
         type="primary"
-        className="formBtn"
+        className="form-btn"
         htmlType="submit"
         onClick={() => setTotalSubmitEnabled(false)}
       >
@@ -97,7 +97,7 @@ const PhoneNumberFormItem = (props: FormItemProps) => {
   return (
     <Form.Item>
       <List
-        className="phoneNumberList"
+        className="phone-number-list"
         itemLayout="horizontal"
         dataSource={phoneNumbers}
         renderItem={item => (

@@ -99,7 +99,7 @@ const FormCarousel = React.forwardRef((props: CarouselProps, ref) => {
   return (
     <Carousel
       ref={ref}
-      className="formCarousel"
+      className="form-carousel"
       dotPosition="bottom"
       onChange={() => {}}
       beforeChange={beforeChange}

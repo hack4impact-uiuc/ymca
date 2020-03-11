@@ -140,14 +140,14 @@ const ResourceForm = (props: FormProps) => {
   );
 
   return (
-    <Layout className="resourceForm">
+    <Layout className="resource-form">
       <Header className="header">
         <Row justify="center" type="flex">
           <h2>Add a Resource</h2>
         </Row>
       </Header>
       <Content className="content">
-        <Carousel ref={formLabelRef} className="formLabel" dots={false}>
+        <Carousel ref={formLabelRef} className="form-label" dots={false}>
           <div>
             <p>Basic Information</p>
           </div>
@@ -218,19 +218,28 @@ const ResourceForm = (props: FormProps) => {
             getFieldValue={getFieldValue}
             getFieldDecorator={getFieldDecorator}
           />
-          <Button
-            type="default"
-            className="carouselNextBtn"
-            onClick={onNextButtonClick}
-          >
-            Next
-          </Button>
+          <div className="carousel-move-btn-container">
+            <Button
+              type="default"
+              className="carousel-move-btn"
+              onClick={onNextButtonClick}
+            >
+              Back
+            </Button>
+            <Button
+              type="default"
+              className="carousel-move-btn"
+              onClick={onNextButtonClick}
+            >
+              Next
+            </Button>
+          </div>
 
           <Affix offsetBottom={33} style={{ width: '10em' }}>
             <Button
               type="primary"
               htmlType="submit"
-              className="newResourceSubmit formBtn"
+              className="new-resource-submit form-btn"
               onClick={() => setTotalSubmitEnabled(true)}
             >
               {id ? 'Submit Edit' : 'Add Resource'}

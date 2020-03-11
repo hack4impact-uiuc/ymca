@@ -23,7 +23,7 @@ const HoursOfOperationInput = (props: InputProps) => {
   } = props;
   const dayLowerCase = day.toLowerCase();
   return (
-    <Row className="hoursOfOperationInput" gutter={16}>
+    <Row className="hours-of-operation-input" gutter={16}>
       <Col span={2}>
         <p>{day} </p>
       </Col>
@@ -32,7 +32,7 @@ const HoursOfOperationInput = (props: InputProps) => {
           rules: [],
         })(
           <TimePicker
-            className="hoursOfOperationTimePicker"
+            className="hours-of-operation-timepicker"
             use12Hours
             clearIcon
             format="h:mm a"
@@ -53,7 +53,7 @@ const HoursOfOperationInput = (props: InputProps) => {
           rules: [],
         })(
           <TimePicker
-            className="hoursOfOperationTimePicker"
+            className="hours-of-operation-timepicker"
             use12Hours
             format="h:mm a"
             placeholder="    :"
@@ -122,7 +122,7 @@ const HoursOfOperationsForm = Form.create({ name: 'hoursOfOperation' })(
 
     return (
       <Form
-        className="hoursOfOperationForm"
+        className="hours-of-operation-form"
         onSubmit={() => {
           const mondayStart = getFieldValue('mondayStart');
           console.log(mondayStart);
@@ -138,7 +138,7 @@ const HoursOfOperationsForm = Form.create({ name: 'hoursOfOperation' })(
         })}
         <Button
           type="primary"
-          className="formBtn"
+          className="form-btn"
           htmlType="submit"
           onClick={() => setTotalSubmitEnabled(false)}
         >
