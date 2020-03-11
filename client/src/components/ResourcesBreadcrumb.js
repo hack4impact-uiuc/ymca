@@ -47,8 +47,9 @@ function ResourcesBreadcrumb(props) {
               className="link"
               to={{
                 pathname: '/resources',
-                search: `?category=${categorySelected}
-                        &subcategory=${subcategorySelected}`,
+                search:
+                  `?category=${categorySelected}` +
+                  `&subcategory=${subcategorySelected}`,
               }}
             >
               {subcategorySelected}
