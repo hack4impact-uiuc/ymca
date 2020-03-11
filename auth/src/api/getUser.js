@@ -20,9 +20,7 @@ router.get("/getUser", async function(req, res) {
   } else {
     // If it is a google user, makes a request to the google API with the token to get the user's email, and then checks if a user with that email exists.
     const tokenInfoRes = await fetch(
-      `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${
-        req.headers.token
-      }`
+      `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${req.headers.token}`
     );
     const payload = await tokenInfoRes.json();
     user = await User.findOne({ email: payload.email, googleAuth: true });
