@@ -1,7 +1,6 @@
 // @flow
 
 import React, { useCallback } from 'react';
-import { Textfit } from 'react-textfit';
 import { Button, Checkbox, Form, Icon, Input, Row, Col, message } from 'antd';
 import 'antd/dist/antd.css';
 import '../css/Login.css';

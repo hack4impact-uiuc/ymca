@@ -36,10 +36,10 @@ export const HomeBlock2Mobile = () => {
               to go in a large place like Champaign that has hundreds of
               resources and a population of over 80,000 people. This virtual
               guide, built with love by{' '}
-              <a href="https://www.facebook.com/h4iuiuc/">Hack4Impact</a>{' '}
-              curates recommendations based on cost, language offerings, and
-              more. As you explore Oasis, we would love to hear about your
-              experiences and feedback through the{' '}
+              <a href="https://uiuc.hack4impact.org/">Hack4Impact</a> curates
+              recommendations based on cost, language offerings, and more. As
+              you explore Oasis, we would love to hear about your experiences
+              and feedback through the{' '}
               <a href="mailto:lalinea@universityymca.org"> Welcome Center.</a>
             </Textfit>
           </Col>
