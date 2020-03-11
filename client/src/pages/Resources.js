@@ -236,7 +236,7 @@ function Resources(props) {
       {isMobile && (
         <div
           className="filter-bar"
-          style={{ top: offsetFilters ? '9em' : '7em' }}
+          style={{ top: offsetFilters ? '8.8em' : '6.8em' }}
         >
           <hr className="line" />
           <ResourcesCatMobile
