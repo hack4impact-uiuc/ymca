@@ -22,19 +22,24 @@ const Home = () => {
 
   return (
     <>
-      <Row className="home-block-1" type="flex" justify="center" align="middle">
+      <Row
+        className="home-block-1"
+        type="flex"
+        justify={isMobile ? 'center' : 'left'}
+        align="middle"
+      >
         <Col className="welcome-text" span={6}>
-          <Textfit className="welcome-text welcome-to" mode="single">
+          <Textfit className="welcome-text" mode="single">
             Welcome to
           </Textfit>
-          <Textfit className="welcome-text urbana-champaign" mode="single">
+          <Textfit className="welcome-text" mode="single">
             {isMobile ? (
               <div style={{ 'white-space': 'normal' }}>Urbana-Champaign</div>
             ) : (
               'Urbana-Champaign'
             )}
           </Textfit>
-          <Row type="flex" justify="center" align="middle">
+          <Row type="flex" justify={isMobile ? 'center' : 'left'} align="left">
             <Col span={18}>
               <Link to="/resources">
                 <Button type="primary">

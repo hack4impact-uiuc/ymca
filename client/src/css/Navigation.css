@@ -1,7 +1,7 @@
 @import '~antd/dist/antd.css';
 
 .navigation {
-  background: white;
+  background: #fff;
   position: sticky;
   top: 0;
   z-index: 5;
@@ -9,7 +9,7 @@
 }
 
 .navigation .logo {
-  background-color: #ffffff;
+  background-color: #fff;
   background-image: url('/asset/icon/logo192.png');
   background-position: center;
   background-size: cover;
@@ -21,10 +21,7 @@
 
 .navigation .ant-menu-horizontal {
   border-bottom: none;
-}
-
-.navigation .ant-menu-horizontal {
-  float: left;
+  float: right;
 }
 
 .navigation .ant-menu-horizontal > .ant-menu-item,
