@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Button, Card, Col, Icon, message, Modal, Row } from 'antd';
+import { Button, Card, Col, Icon, message, Modal, Row, Layout } from 'antd';
 import PropTypes from 'prop-types';
 import '../css/ResourceDetail.css';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 
 import { deleteResource, getResourceByID } from '../utils/api';
 import ResourcesBreadcrumb from '../components/ResourcesBreadcrumb';
+
+const { Header } = Layout;
 
 export default class ResourceDetail extends Component {
   constructor(props) {
@@ -139,20 +141,15 @@ export default class ResourceDetail extends Component {
           Are you sure you want to delete this resource? Warning: this cannot be
           undone.
         </Modal>
-        <Row
-          className="banner"
-          type="flex"
-          justify="center"
-          align="middle"
-          gutter={[16, 16]}
-        />
-        <Row>
-          <ResourcesBreadcrumb
-            categorySelected={category}
-            subcategorySelected={subcategory}
-            resourceSelected={name}
-          />
-        </Row>
+        <Header className="banner" type="flex" justify="center">
+          <Row style={{ paddingTop: '2%' }}>
+            <ResourcesBreadcrumb
+              categorySelected={category}
+              subcategorySelected={subcategory}
+              resourceSelected={name}
+            />
+          </Row>
+        </Header>
         <Row>
           <Col span={15}>
             <span className="resource-name">{name}</span>
