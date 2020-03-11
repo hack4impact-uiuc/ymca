@@ -1,9 +1,9 @@
 .link {
-  color: white;
+  color: #fff;
 }
 
 .link:hover {
-  color: white;
+  color: #fff;
   font-weight: bold;
   text-decoration: none;
 }

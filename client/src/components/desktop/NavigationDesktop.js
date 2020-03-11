@@ -2,9 +2,8 @@
 
 import React from 'react';
 import { Layout, Menu } from 'antd';
-
-import '../../css/Navigation.css';
 import { NavLink } from 'react-router-dom';
+import '../../css/Navigation.css';
 
 const { Header } = Layout;
 
@@ -26,7 +25,7 @@ const NavDesktop = (props: Props) => {
       <Menu mode="horizontal">
         <Menu.Item key="home">
           <NavLink exact to="/" activeStyle={activeStyle}>
-            YMCA
+            Home
           </NavLink>
         </Menu.Item>
         <Menu.Item key="resources">

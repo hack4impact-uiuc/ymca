@@ -12,12 +12,11 @@ function ResourcesBanner(props) {
   return (
     <Header
       style={{
-        background: '#431C72',
+        backgroundImage: `linear-gradient(70deg, #431C72 0%, #8450c4 99%)`,
         color: 'white',
         height: 'auto',
         paddingLeft: '10%',
-        paddingBottom: '1em',
-        paddingTop: '1em',
+        paddingBottom: '0.5em',
       }}
     >
       <Row>
