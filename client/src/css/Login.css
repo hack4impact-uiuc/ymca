@@ -2,13 +2,8 @@
   background: url('/asset/images/login-background.png');
   background-size: cover;
   height: 100%;
-  font-family: 'Avenir Next', 'Avenir', sans-serif;
   width: 100%;
   position: fixed;
-}
-
-.login-block-1 .ant-input {
-  font-family: 'Avenir Next', 'Avenir', sans-serif;
 }
 
 .first-row-margin {

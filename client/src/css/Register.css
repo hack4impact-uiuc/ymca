@@ -2,13 +2,8 @@
   background-image: url('/asset/images/login-background.png');
   background-size: cover;
   height: 100%;
-  font-family: 'Avenir Next', 'Avenir', sans-serif;
   width: 100%;
   position: fixed;
-}
-
-.register-block-1 .ant-input {
-  font-family: 'Avenir Next', 'Avenir', sans-serif;
 }
 
 .reg-button {

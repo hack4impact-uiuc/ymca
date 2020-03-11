@@ -19,6 +19,10 @@
   width: 32px;
 }
 
+.navigation .ant-menu {
+  font-size: 16px;
+}
+
 .navigation .ant-menu-horizontal {
   border-bottom: none;
   float: right;

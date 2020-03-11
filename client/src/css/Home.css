@@ -15,8 +15,8 @@
 
 .welcome-text {
   color: #fff;
-  font-weight: 700;
-  font-size: 70px !important;
+  font-weight: 600;
+  font-size: 65px !important;
   line-height: 1.25;
 }
 
@@ -33,7 +33,7 @@
   overflow: auto;
   padding-top: 5vh;
   padding-bottom: 5vh;
-  min-height: 60vh;
+  min-height: 50vh;
 }
 
 .home-block-2-divider {
@@ -42,13 +42,14 @@
 }
 
 .home-block-2-left {
-  font-size: 30px;
+  font-size: 34px;
   text-align: center;
-  font-weight: bold;
+  font-weight: 600;
 }
 
 .home-block-2-right {
   margin-left: 5%;
+  font-size: 18px;
 }
 
 .home-block-3 {
