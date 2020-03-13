@@ -2,8 +2,8 @@
 
 import React from 'react';
 import { Layout, Menu } from 'antd';
-import { NavLink } from 'react-router-dom';
 import '../../css/Navigation.css';
+import { NavLink } from 'react-router-dom';
 
 const { Header } = Layout;
 
