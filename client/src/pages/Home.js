@@ -29,10 +29,10 @@ const Home = () => {
         align="middle"
       >
         <Col className="welcome-text" span={6}>
-          <Textfit className="welcome-text welcome-to" mode="single">
+          <Textfit className="welcome-text" mode="single">
             Welcome to
           </Textfit>
-          <Textfit className="welcome-text urbana-champaign" mode="single">
+          <Textfit className="welcome-text" mode="single">
             {isMobile ? (
               <div style={{ 'white-space': 'normal' }}>Urbana-Champaign</div>
             ) : (
