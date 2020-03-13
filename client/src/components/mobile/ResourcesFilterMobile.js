@@ -59,7 +59,7 @@ function ResourcesFilterMobile(props) {
   );
 
   return (
-    <div className="resources-filter-mobile" align="left">
+    <div className="resources-filter-mobile" align="center">
       <div className="filter-search-mobile">
         <ResourceFilterSearch />
       </div>
