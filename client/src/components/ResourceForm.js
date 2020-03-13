@@ -39,27 +39,31 @@ const { Header, Content } = Layout;
 const onSubmitNewResourceForm = async (e, enabled, id, resource) => {
   e.preventDefault();
   if (enabled) {
-    if (id) {
-      const editedResource = await editResource(id, resource);
-      if (editedResource) {
-        message.success('Resource successfully edited!');
-      } else {
-        message.error(
-          `Resource could not be edited.
-          ${' '}Please check that all of the required fields are filled out!`,
-        );
-      }
-    } else {
-      const createdResource = await addResource(resource);
-      if (createdResource) {
-        message.success('Resource successfully created!');
-      } else {
-        message.error(
-          `Resource could not be created.
-          ${' '}Please check that all of the required fields are filled out!`,
-        );
-      }
-    }
+    console.log(resource);
+
+    // if (id) {
+    //   const editedResource = await editResource(id, resource);
+    //   if (editedResource) {
+    //     message.success('Resource successfully edited!');
+    //   } else {
+    //     message.error(
+    //       `Resource could not be edited.
+    //       ${' '}Please check that all of the required fields
+    // are filled out!`,
+    //     );
+    //   }
+    // } else {
+    //   const createdResource = await addResource(resource);
+    //   if (createdResource) {
+    //     message.success('Resource successfully created!');
+    //   } else {
+    //     message.error(
+    //       `Resource could not be created.
+    //       ${' '}Please check that all of the required fields
+    // are filled out!`,
+    //     );
+    //   }
+    // }
   }
 };
 
