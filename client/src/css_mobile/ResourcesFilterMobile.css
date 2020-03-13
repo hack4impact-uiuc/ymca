@@ -14,6 +14,15 @@
   padding-bottom: 1em;
 }
 
+.ant-dropdown-trigger {
+  margin-left: 0.3em;
+  margin-right: 0.3em;
+}
+
+.dropdown-filter {
+  margin-left: 4%;
+}
+
 .button-mobile {
   border-radius: 20em;
   width: 7em;
