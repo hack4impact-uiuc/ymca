@@ -39,7 +39,7 @@ const HoursOfOperationInput = (props: InputProps) => {
             placeholder="    :"
             onChange={(time, timeString) => {
               setFieldsValue({
-                [`${dayLowerCase}Start`]: timeString,
+                [`${dayLowerCase}Start`]: time,
               });
             }}
           />,
@@ -60,7 +60,7 @@ const HoursOfOperationInput = (props: InputProps) => {
             suffixIcon={null}
             onChange={(time, timeString) => {
               setFieldsValue({
-                [`${dayLowerCase}End`]: timeString,
+                [`${dayLowerCase}End`]: time,
               });
             }}
           />,
@@ -70,8 +70,58 @@ const HoursOfOperationInput = (props: InputProps) => {
   );
 };
 
+const updateHoursOfOperation = args => {
+  const { hoursOfOperation, setHoursOfOperation, getFieldValue } = args;
+
+  const mondayStart = getFieldValue('mondayStart') || '';
+  const mondayEnd = getFieldValue('mondayEnd') || '';
+  const tuesdayStart = getFieldValue('tuesdayStart') || '';
+  const tuesdayEnd = getFieldValue('tuesdayEnd') || '';
+  const wednesdayStart = getFieldValue('wednesdayStart') || '';
+  const wednesdayEnd = getFieldValue('wednesdayEnd') || '';
+  const thursdayStart = getFieldValue('thursdayStart') || '';
+  const thursdayEnd = getFieldValue('thursdayEnd') || '';
+  const fridayStart = getFieldValue('fridayStart') || '';
+  const fridayEnd = getFieldValue('fridayEnd') || '';
+  const saturdayStart = getFieldValue('saturdayStart') || '';
+  const saturdayEnd = getFieldValue('saturdayEnd') || '';
+  const sundayStart = getFieldValue('sundayStart') || '';
+  const sundayEnd = getFieldValue('sundayEnd') || '';
+
+  setHoursOfOperation([
+    {
+      day: 'Monday',
+      period: `${mondayStart}!${mondayEnd}`,
+    },
+    {
+      day: 'Tuesday',
+      period: `${tuesdayStart}!${tuesdayEnd}`,
+    },
+    {
+      day: 'Wednesday',
+      period: `${wednesdayStart}!${wednesdayEnd}`,
+    },
+    {
+      day: 'Thursday',
+      period: `${thursdayStart}!${thursdayEnd}`,
+    },
+    {
+      day: 'Friday',
+      period: `${fridayStart}!${fridayEnd}`,
+    },
+    {
+      day: 'Saturday',
+      period: `${saturdayStart}!${saturdayEnd}`,
+    },
+    {
+      day: 'Sunday',
+      period: `${sundayStart}!${sundayEnd}`,
+    },
+  ]);
+};
+
 type FormProps = {
-  setHoursOfOperations: any => any,
+  setHoursOfOperation: any => any,
   hoursOfOperation: any,
   setTotalSubmitEnabled: Boolean => any,
   form: {
@@ -83,7 +133,7 @@ type FormProps = {
 const HoursOfOperationsForm = Form.create({ name: 'hoursOfOperation' })(
   props => {
     const {
-      setHoursOfOperations,
+      setHoursOfOperation,
       hoursOfOperation,
       setTotalSubmitEnabled,
     } = props;
@@ -112,7 +162,7 @@ const HoursOfOperationsForm = Form.create({ name: 'hoursOfOperation' })(
         );
       });
     }, [
-      setHoursOfOperations,
+      setHoursOfOperation,
       hoursOfOperation,
       setTotalSubmitEnabled,
       setFieldsValue,
@@ -121,15 +171,9 @@ const HoursOfOperationsForm = Form.create({ name: 'hoursOfOperation' })(
     ]);
 
     return (
-      <Form
-        className="hours-of-operation-form"
-        onSubmit={() => {
-          const mondayStart = getFieldValue('mondayStart');
-          console.log(mondayStart);
-        }}
-      >
+      <Form className="hours-of-operation-form" onSubmit={() => {}}>
         {generateInputs({
-          setHoursOfOperations,
+          setHoursOfOperation,
           hoursOfOperation,
           setTotalSubmitEnabled,
           setFieldsValue,
@@ -140,7 +184,14 @@ const HoursOfOperationsForm = Form.create({ name: 'hoursOfOperation' })(
           type="primary"
           className="form-btn"
           htmlType="submit"
-          onClick={() => setTotalSubmitEnabled(false)}
+          onClick={() => {
+            setTotalSubmitEnabled(false);
+            updateHoursOfOperation({
+              hoursOfOperation,
+              setHoursOfOperation,
+              getFieldValue,
+            });
+          }}
         >
           Update Hours of Operation
         </Button>
@@ -150,21 +201,21 @@ const HoursOfOperationsForm = Form.create({ name: 'hoursOfOperation' })(
 );
 
 type FormItemProps = {
-  setHoursOfOperations: any => any,
+  setHoursOfOperation: any => any,
   hoursOfOperation: any,
   setTotalSubmitEnabled: Boolean => any,
 };
 
 const HoursOfOperationsItemForm = (props: FormProps) => {
   const {
-    setHoursOfOperations,
+    setHoursOfOperation,
     hoursOfOperation,
     setTotalSubmitEnabled,
   } = props;
   return (
     <Form.Item>
       <HoursOfOperationsForm
-        setHoursOfOperations={setHoursOfOperations}
+        setHoursOfOperation={setHoursOfOperation}
         hoursOfOperation={hoursOfOperation}
         setTotalSubmitEnabled={setTotalSubmitEnabled}
       />

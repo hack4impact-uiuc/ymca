@@ -206,7 +206,7 @@ const ResourceForm = (props: FormProps) => {
               contacts,
               address: getFieldValue('address') || '',
               city: getFieldValue('city') || '',
-              hoursOfOperation: getFieldValue('hoursOfOperation') || '',
+              hoursOfOperation: hoursOfOperation || [],
               eligibilityRequirements:
                 getFieldValue('eligibilityRequirements') || '',
               financialAidDetails,
