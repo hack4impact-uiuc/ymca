@@ -18,6 +18,10 @@
   margin-right: 0.3em;
 }
 
+.dropdown-filter {
+  margin-left: 4%;
+}
+
 .button-mobile {
   border-radius: 20em;
   width: 7em;
