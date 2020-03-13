@@ -1,5 +1,5 @@
 .resources-filter {
-  background: white;
+  background: #fff;
   border-bottom: 1px solid rgba(235, 235, 235, 1);
   border-top: 1px solid rgba(235, 235, 235, 1);
   padding-left: 220px;
@@ -12,17 +12,17 @@
 }
 
 .button {
-  border-radius: 20em;
-  width: 11em;
+  border-radius: 4px;
+  width: 10%;
   font-size: 1em;
-  height: 2.5em;
+  height: 2em;
 }
 
 .button:hover,
 .button:focus {
   background-color: #431c72;
-  border-color: white;
-  color: white;
+  border-color: #fff;
+  color: #fff;
 }
 
 .dropdown {
@@ -36,12 +36,8 @@
 }
 
 .radio-container {
-  background: white;
   box-shadow: 1px 1px 3px grey;
-  padding-bottom: 1em;
-  padding-left: 3em;
-  padding-right: 3em;
-  padding-top: 1em;
+  padding: 1em 3em;
   text-align: left;
 }
 
@@ -52,7 +48,6 @@
 }
 
 .searchbar-filter {
-  padding-top: 0.4em;
   width: 300px;
 }
 

@@ -5,15 +5,6 @@
     text-align: center;
   }
 
-  div.welcome-to {
-    font-size: 130% !important;
-  }
-
-  div.urbana-champaign {
-    font-size: 300% !important;
-    padding-bottom: 25px;
-  }
-
   .ant-btn-primary {
     width: 40vw;
     font-size: 12px;
@@ -55,6 +46,7 @@
     padding-left: 3vw;
     padding-right: 3vw;
   }
+
   div.home-block-3 {
     height: 100vh;
     overflow: auto;
@@ -73,7 +65,7 @@
   .testimonial-block__bottom h3,
   .testimonial-block__bottom p {
     text-align: center;
-    color: white;
+    color: #fff;
     padding-left: 10vw;
     padding-right: 10vw;
   }

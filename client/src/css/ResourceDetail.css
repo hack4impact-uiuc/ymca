@@ -70,12 +70,9 @@
 }
 
 .resource-detail .banner {
-  height: 20vh;
+  padding: 0;
+  height: 15vh;
   background-image: url('/asset/images/background.png');
   background-size: cover;
-  margin-bottom: 10px !important;
-}
-
-.resource-detail .link {
-  color: black !important;
+  color: #fff;
 }
