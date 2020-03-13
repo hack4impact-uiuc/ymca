@@ -1,5 +1,4 @@
 import React, { useCallback, useState } from 'react';
-import { Textfit } from 'react-textfit';
 import { PropTypes } from 'prop-types';
 import { Button, Form, Input, Icon, Row, Col, message } from 'antd';
 import 'antd/dist/antd.css';
@@ -92,9 +91,7 @@ const Register = ({ form, setAuthed, setAuthRole }) => {
             alt=""
             className="container"
           />
-          <Textfit className="register-text" mode="single">
-            Registration
-          </Textfit>
+          <div className="register-text">Registration</div>
         </Col>
       </Row>
       <Form
