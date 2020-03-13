@@ -75,8 +75,25 @@ type FormProps = {
 const ResourceForm = (props: FormProps) => {
   const [totalSubmitEnabled, setTotalSubmitEnabled] = useState(true);
   const [carouselIndex, setCarouselIndex] = useState(0);
+  const [carouselCategory, setCarouselCategory] = useState('');
   const [showBackButton, setShowBackButton] = useState(false);
   const [showSubmitButton, setShowSubmitButton] = useState(false);
+
+  const CAROUSEL_CATEGORIES = [
+    'Basic Information',
+    'Contact Information',
+    'Recommended Contacts',
+    'Financial Aid',
+    'Other',
+  ];
+
+  const createCarouselCategories = useCallback(() => {
+    return CAROUSEL_CATEGORIES.map(category => (
+      <div>
+        <p>{category}</p>
+      </div>
+    ));
+  }, []);
 
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
@@ -143,11 +160,21 @@ const ResourceForm = (props: FormProps) => {
     (current, to) => {
       formLabelRef.current.goTo(to);
       setCarouselIndex(to);
+      setCarouselCategory(CAROUSEL_CATEGORIES[to]);
 
       setShowBackButton(to > 0);
-      // setShowSubmitButton(to == FormCarousel.defaultProps.children.length);
+      setShowSubmitButton(
+        CAROUSEL_CATEGORIES[to] ===
+          CAROUSEL_CATEGORIES[CAROUSEL_CATEGORIES.length - 1],
+      );
     },
-    [formLabelRef, setCarouselIndex, setShowBackButton],
+    [
+      formLabelRef,
+      setCarouselIndex,
+      setShowBackButton,
+      setCarouselCategory,
+      setShowSubmitButton,
+    ],
   );
 
   return (
@@ -159,21 +186,7 @@ const ResourceForm = (props: FormProps) => {
       </Header>
       <Content className="content">
         <Carousel ref={formLabelRef} className="form-label" dots={false}>
-          <div>
-            <p>Basic Information</p>
-          </div>
-          <div>
-            <p>Contact Information</p>
-          </div>
-          <div>
-            <p>Recommend Contacts</p>
-          </div>
-          <div>
-            <p>Financial Aid</p>
-          </div>
-          <div>
-            <p>Other</p>
-          </div>
+          {createCarouselCategories()}
         </Carousel>
         <Form
           className="form"
@@ -230,34 +243,38 @@ const ResourceForm = (props: FormProps) => {
             getFieldDecorator={getFieldDecorator}
           />
           <div className="carousel-move-btn-container">
-            {showBackButton && (
-              <Button
-                type="default"
-                className="carousel-move-btn"
-                onClick={onBackButtonClick}
-              >
-                Back
-              </Button>
+            {!showSubmitButton ? (
+              <>
+                {showBackButton && (
+                  <Button
+                    type="default"
+                    className="carousel-move-btn"
+                    onClick={onBackButtonClick}
+                  >
+                    Back
+                  </Button>
+                )}
+                <Button
+                  type="default"
+                  className="carousel-move-btn"
+                  onClick={onNextButtonClick}
+                >
+                  Next
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button
+                  type="default"
+                  htmlType="submit"
+                  className="carousel-move-btn new-resource-submit"
+                  onClick={() => setTotalSubmitEnabled(true)}
+                >
+                  {id ? 'Submit Edit' : 'Add Resource'}
+                </Button>
+              </>
             )}
-            <Button
-              type="default"
-              className="carousel-move-btn"
-              onClick={onNextButtonClick}
-            >
-              Next
-            </Button>
           </div>
-
-          <Affix offsetBottom={33} style={{ width: '10em' }}>
-            <Button
-              type="primary"
-              htmlType="submit"
-              className="new-resource-submit form-btn"
-              onClick={() => setTotalSubmitEnabled(true)}
-            >
-              {id ? 'Submit Edit' : 'Add Resource'}
-            </Button>
-          </Affix>
         </Form>
       </Content>
     </Layout>
