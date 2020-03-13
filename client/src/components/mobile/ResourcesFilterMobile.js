@@ -59,31 +59,33 @@ function ResourcesFilterMobile(props) {
   );
 
   return (
-    <div className="resources-filter-mobile" align="left">
-      <div className="filter-search-mobile">
+    <div className="resources-filter-mobile">
+      <div className="filter-search-mobile" align="center">
         <ResourceFilterSearch />
       </div>
-      <Dropdown
-        overlay={radio('Cost', costs, costSelected)}
-        placement="bottomLeft"
-        trigger={['click']}
-      >
-        <Button className="button-mobile">Cost</Button>
-      </Dropdown>{' '}
-      <Dropdown
-        overlay={radio('Languages Offered', languages, languageSelected)}
-        placement="bottomCenter"
-        trigger={['click']}
-      >
-        <Button className="button-mobile">Language</Button>
-      </Dropdown>{' '}
-      <Dropdown
-        overlay={radio('Location', locations, locationSelected)}
-        placement="bottomRight"
-        trigger={['click']}
-      >
-        <Button className="button-mobile">Location</Button>
-      </Dropdown>
+      <div className="dropdown-filter" align="left">
+        <Dropdown
+          overlay={radio('Cost', costs, costSelected)}
+          placement="bottomLeft"
+          trigger={['click']}
+        >
+          <Button className="button-mobile">Cost</Button>
+        </Dropdown>{' '}
+        <Dropdown
+          overlay={radio('Languages Offered', languages, languageSelected)}
+          placement="bottomCenter"
+          trigger={['click']}
+        >
+          <Button className="button-mobile">Language</Button>
+        </Dropdown>{' '}
+        <Dropdown
+          overlay={radio('Location', locations, locationSelected)}
+          placement="bottomRight"
+          trigger={['click']}
+        >
+          <Button className="button-mobile">Location</Button>
+        </Dropdown>
+      </div>
     </div>
   );
 }
