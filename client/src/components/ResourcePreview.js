@@ -63,21 +63,19 @@ function ResourcePreview(props) {
   if (languages !== '') {
     languages = languages.slice(0, languages.length - 2);
   }
-  let costText = '';
+  let descriptionText = '';
   if (cost && cost !== '') {
-    costText += `• ${cost}`;
+    descriptionText += `• ${cost} `;
   }
-  let cityText = '';
   if (city && city !== '') {
-    cityText += `• ${city}`;
+    descriptionText += `• ${city} `;
   }
-  let languageText = '';
   if (languages && languages !== '') {
-    languageText += `• ${languages}`;
+    descriptionText += `• ${languages} `;
   }
   description.push(
     <div key="description" style={{ color: 'black' }}>
-      {costText}&nbsp;&nbsp;&nbsp;{cityText}&nbsp;&nbsp;&nbsp;{languageText}
+      {descriptionText}
     </div>,
   );
 
