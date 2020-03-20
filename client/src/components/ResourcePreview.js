@@ -65,13 +65,19 @@ function ResourcePreview(props) {
   }
   let descriptionText = '';
   if (cost && cost !== '') {
-    descriptionText += `• ${cost} `;
+    descriptionText += `${cost} `;
   }
   if (city && city !== '') {
-    descriptionText += `• ${city} `;
+    if (descriptionText !== '') {
+      descriptionText += '• ';
+    }
+    descriptionText += `${city} `;
   }
   if (languages && languages !== '') {
-    descriptionText += `• ${languages} `;
+    if (descriptionText !== '') {
+      descriptionText += '• ';
+    }
+    descriptionText += `${languages} `;
   }
   description.push(
     <div key="description" style={{ color: 'black' }}>
