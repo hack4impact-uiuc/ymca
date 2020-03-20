@@ -104,7 +104,7 @@ function Login(props: Props) {
             />,
           )}
         </Form.Item>
-        <div className="error-text">{error}</div>
+        <font color="#bb0000">{error}</font>
         <Form.Item>
           {getFieldDecorator('remember', {
             valuePropName: 'checked',
