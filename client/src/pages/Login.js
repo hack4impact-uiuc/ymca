@@ -1,7 +1,7 @@
 // @flow
 
-import React, { useCallback } from 'react';
-import { Button, Checkbox, Form, Icon, Input, Row, Col, message } from 'antd';
+import React, { useCallback, useState } from 'react';
+import { Button, Checkbox, Form, Icon, Input, Row, Col } from 'antd';
 import 'antd/dist/antd.css';
 import '../css/Login.css';
 
@@ -16,6 +16,7 @@ type Props = {
 function Login(props: Props) {
   const { form, setAuthed, setAuthRole } = props;
   const { getFieldDecorator } = form;
+  const [error, setError] = useState('');
 
   const onLoginSubmit = useCallback(
     e => {
@@ -30,8 +31,9 @@ function Login(props: Props) {
 
               setAuthed(true);
               setAuthRole(res.permission);
+              setError('');
             } else {
-              message.error(res.message);
+              setError(res.message);
             }
           });
         }
@@ -102,6 +104,7 @@ function Login(props: Props) {
             />,
           )}
         </Form.Item>
+        <div className="error-text">{error}</div>
         <Form.Item>
           {getFieldDecorator('remember', {
             valuePropName: 'checked',

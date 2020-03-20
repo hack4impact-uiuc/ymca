@@ -1,3 +1,7 @@
+.ant-form-item {
+  margin-bottom: 8px;
+}
+
 .login-block-1 {
   background: url('/asset/images/login-background.png');
   background-size: cover;
@@ -23,6 +27,11 @@
 .form-text {
   font-weight: lighter;
   font-size: 16px;
+}
+
+.error-text {
+  /* margin-top: -1em; */
+  color: #bb0000;
 }
 
 p {
