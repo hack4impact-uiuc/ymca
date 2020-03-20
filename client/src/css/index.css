@@ -1,10 +1,143 @@
 body {
   margin: 100;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'ttc', -apple-system, BlinkMacSystemFont;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+@font-face {
+  font-family: 'ttc';
+  font-weight: 100;
+  src: local('ttc'), url('../fonts/ttc-Thin.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ttc';
+  font-weight: 100;
+  src: local('ttc'), url('../fonts/ttc-ThinItalic.ttf') format('truetype');
+  font-display: swap;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'ttc';
+  font-weight: 200;
+  src: local('ttc'), url('../fonts/ttc-ExtraLight.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ttc';
+  font-weight: 200;
+  src: local('ttc'), url('../fonts/ttc-ExtraLightItalic.ttf') format('truetype');
+  font-display: swap;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'ttc';
+  font-weight: 300;
+  src: local('ttc'), url('../fonts/ttc-Light.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ttc';
+  font-weight: 300;
+  src: local('ttc'), url('../fonts/ttc-LightItalic.ttf') format('truetype');
+  font-display: swap;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'ttc';
+  font-weight: 400;
+  src: local('ttc'), url('../fonts/ttc-Regular.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ttc';
+  font-weight: 400;
+  src: local('ttc'), url('../fonts/ttc-Italic.ttf') format('truetype');
+  font-display: swap;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'ttc';
+  font-weight: 500;
+  src: local('ttc'), url('../fonts/ttc-Medium.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ttc';
+  font-weight: 500;
+  src: local('ttc'), url('../fonts/ttc-MediumItalic.ttf') format('truetype');
+  font-display: swap;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'ttc';
+  font-weight: 600;
+  src: local('ttc'), url('../fonts/ttc-DemiBold.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ttc';
+  font-weight: 600;
+  src: local('ttc'), url('../fonts/ttc-DemiBoldItalic.ttf') format('truetype');
+  font-display: swap;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'ttc';
+  font-weight: 700;
+  src: local('ttc'), url('../fonts/ttc-Bold.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ttc';
+  font-weight: 700;
+  src: local('ttc'), url('../fonts/ttc-BoldItalic.ttf') format('truetype');
+  font-display: swap;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'ttc';
+  font-weight: 800;
+  src: local('ttc'), url('/fonts/ttc-ExtraBold.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ttc';
+  font-weight: 800;
+  src: local('ttc'), url('../fonts/ttc-ExtraBoldItalic.ttf') format('truetype');
+  font-display: swap;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'ttc';
+  font-weight: 900;
+  src: local('ttc'), url('../fonts/ttc-Black.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ttc';
+  font-weight: 900;
+  src: local('ttc'), url('../fonts/ttc-BlackItalic.ttf') format('truetype');
+  font-display: swap;
+  font-style: italic;
 }
 
 code {

@@ -19,6 +19,11 @@
   width: 32px;
 }
 
+.navigation .ant-menu {
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.65);
+}
+
 .navigation .ant-menu-horizontal {
   border-bottom: none;
   float: right;
@@ -27,5 +32,10 @@
 .navigation .ant-menu-horizontal > .ant-menu-item,
 .ant-menu-horizontal > .ant-menu-item:hover {
   border-bottom: none;
-  font-weight: normal;
+  font-weight: 400;
+}
+
+.ant-menu-horizontal > .ant-menu-item > a:hover,
+.ant-menu-horizontal > .ant-menu-item-selected > a {
+  color: rgba(0, 0, 0, 0.65);
 }

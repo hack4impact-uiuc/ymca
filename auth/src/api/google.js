@@ -31,9 +31,7 @@ router.post(
 
     // Sends the tokenId to the Google API to get  the payload, which conatins the user's email
     const tokenInfoRes = await fetch(
-      `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${
-        req.body.tokenId
-      }`
+      `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${req.body.tokenId}`
     );
     const payload = await tokenInfoRes.json();
 
