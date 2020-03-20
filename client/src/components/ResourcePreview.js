@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Card, Col, Row } from 'antd';
+import { Card } from 'antd';
 import { Link } from 'react-router-dom';
 
 import '../css/ResourcePreview.css';
@@ -63,23 +63,21 @@ function ResourcePreview(props) {
   if (languages !== '') {
     languages = languages.slice(0, languages.length - 2);
   }
-  let columns = 0;
-  if (cost !== '') {
-    columns += 1;
+  let costText = '';
+  if (cost && cost !== '') {
+    costText += `• ${cost}`;
   }
-  if (city !== '') {
-    columns += 1;
+  let cityText = '';
+  if (city && city !== '') {
+    cityText += `• ${city}`;
   }
-  if (languages !== '') {
-    columns += 1;
+  let languageText = '';
+  if (languages && languages !== '') {
+    languageText += `• ${languages}`;
   }
   description.push(
-    <div key="cost" style={{ color: 'black' }}>
-      <Row>
-        <Col span={24 / columns}>{cost}</Col>
-        <Col span={24 / columns}>{city}</Col>
-        <Col span={24 / columns}>{languages}</Col>
-      </Row>
+    <div key="description" style={{ color: 'black' }}>
+      {costText}&nbsp;&nbsp;&nbsp;{cityText}&nbsp;&nbsp;&nbsp;{languageText}
     </div>,
   );
 
