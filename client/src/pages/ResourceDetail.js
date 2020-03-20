@@ -164,7 +164,7 @@ export default class ResourceDetail extends Component {
               </span>
             )}
           </Col>
-          <Col span={9}>
+          <Col span={4}>
             {website.length > 0 ? (
               <a
                 href={website}
