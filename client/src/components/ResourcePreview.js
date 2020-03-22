@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 import '../css/ResourcePreview.css';
 import useWindowDimensions from '../utils/mobile';
-// import { saveResource } from '../utils/api';
+import { saveResource } from '../utils/auth';
 
 const { Meta } = Card;
 
@@ -36,10 +36,11 @@ function ResourcePreview(props) {
     city,
     name,
     subcategory,
+    saved,
   } = props;
   const [src, setSrc] = useState('');
 
-  const saveResource = async (_e, _id) => {
+  const saveResourceHandler = async (_e, _id) => {
     console.log('Jackie');
     _e.stopPropagation();
     await saveResource();
@@ -88,7 +89,12 @@ function ResourcePreview(props) {
   );
 
   return (
-    <Link to={`resources/${id}`}>
+    <Link
+      to={{
+        pathname: `resources/${id}`,
+        state: { isSaved: saved },
+      }}
+    >
       <Card
         className="resource-preview-card"
         cover={
@@ -104,7 +110,7 @@ function ResourcePreview(props) {
         <a onClick={e => e.preventDefault()}>
           <Button
             onClick={async e => {
-              await saveResource(e, id);
+              await saveResourceHandler(e, id);
             }}
           >
             <Icon type="star" style={{ fontSize: '16px' }} />
@@ -124,6 +130,7 @@ ResourcePreview.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   subcategory: PropTypes.arrayOf(PropTypes.string).isRequired,
+  saved: PropTypes.bool.isRequired,
 };
 
 export default ResourcePreview;

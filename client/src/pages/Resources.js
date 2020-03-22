@@ -40,6 +40,8 @@ function Resources(props) {
 
   const isMobile = useWindowDimensions()[1];
 
+  let savedSet;
+
   const fetchCategories = async () => {
     const res = await getCategories();
     const newCategories = {};
@@ -92,15 +94,12 @@ function Resources(props) {
         : await getResourcesByCategory(categorySelected);
 
     if (props.saved) {
-      console.log('SAVED');
       const json = await getSavedResources();
-      const savedSet = new Set(json.result);
+      savedSet = new Set(json.result);
 
       newResources.result = newResources.result.filter(newResource =>
         savedSet.has(newResource._id),
       );
-
-      console.log(newResources);
     }
 
     setLoading(false);
@@ -115,11 +114,11 @@ function Resources(props) {
     setLanguage('All');
     setLocation('All');
     setSubcategory(subcategorySelected);
-  }, [getCategorySelectedFromSearch]);
+  }, [getCategorySelectedFromSearch, props.saved]);
 
   useEffect(() => {
     updateResources();
-  }, [props.location.search, updateResources]);
+  }, [props.location.search, updateResources, props.saved]);
 
   useEffect(() => {
     const costMap = {
@@ -275,7 +274,10 @@ function Resources(props) {
             width={100}
           />
         ) : (
-          <ResourcesGrid filteredResources={filteredResources} />
+          <ResourcesGrid
+            filteredResources={filteredResources}
+            savedResources={props.saved ? savedSet : null}
+          />
         )}
       </Layout>
     </Layout>

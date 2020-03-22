@@ -6,7 +6,7 @@ import '../css/ResourceDetail.css';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 
 import { deleteResource, getResourceByID } from '../utils/api';
-import { saveResource } from '../utils/auth';
+import { saveResource, deleteSavedResource } from '../utils/auth';
 import ResourcesBreadcrumb from '../components/ResourcesBreadcrumb';
 
 export default class ResourceDetail extends Component {
@@ -31,6 +31,9 @@ export default class ResourceDetail extends Component {
       modalVisible: false,
       internalNotes: [],
       hours: [],
+      isSaved: true,
+      // isSaved: this.props.location.state,
+      // was giving a "location is missing in props validation" error
     };
   }
 
@@ -87,7 +90,12 @@ export default class ResourceDetail extends Component {
 
   saveResourceHandler = async () => {
     const res = await saveResource(this.props.match.params.id);
-    console.log(res);
+    this.setState({ isSaved: true });
+  };
+
+  deleteResourceHandler = async () => {
+    const res = await deleteSavedResource(this.props.match.params.id);
+    this.setState({ isSaved: false });
   };
 
   async deleteResource(id) {
@@ -134,6 +142,9 @@ export default class ResourceDetail extends Component {
       return <Redirect to="/resources/unknown" />;
     }
 
+    // console.log(this.state.isSaved);
+    // console.log(this.props);
+    // console.log(this.props.location.state.isSaved);
     return (
       <div className="resource-detail">
         <Modal
@@ -162,9 +173,17 @@ export default class ResourceDetail extends Component {
         <Row>
           <Col span={15}>
             <span className="resource-name">{name}</span>
-            <Button onClick={this.saveResourceHandler}>
-              <Icon type="star" style={{ fontSize: '16px' }} />
-            </Button>
+
+            {this.state.isSaved ? (
+              <Button onClick={this.deleteResourceHandler}>
+                <Icon type="star" theme="filled" style={{ fontSize: '16px' }} />
+              </Button>
+            ) : (
+              <Button onClick={this.saveResourceHandler}>
+                <Icon type="star" style={{ fontSize: '16px' }} />
+              </Button>
+            )}
+
             {authed && authRoleIsEquivalentTo('admin') && (
               <span className="resource-edit-delete">
                 <Button href={`/admin/${match.params.id}`}>Edit</Button>
