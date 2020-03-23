@@ -26,11 +26,7 @@ router.post(
     // Find a user with the associated email and check that he/she isn't a google user
     var user = await User.findOne({ email: req.body.email, googleAuth: null });
     if (!user) {
-      return sendResponse(
-        res,
-        400,
-        "The information you provided does not match our database. Please check your inputs again."
-      );
+      return sendResponse(res, 400, "Invalid Credentials. Please try again!");
     }
 
     // Compares the encrypted passwords and either returns the appropriate error message or a a success status along with the user's token, id, and permission level

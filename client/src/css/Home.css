@@ -15,23 +15,25 @@
 
 .welcome-text {
   color: #fff;
-  font-weight: bold;
-  font-size: 60px !important;
-  line-height: 1.5;
+  font-weight: 600;
+  font-size: 65px !important;
+  line-height: 1.25;
 }
 
 .home-block-1 .ant-btn-primary {
   background-color: rgb(136, 216, 208);
   border-color: rgb(136, 216, 208);
   font-size: 18px;
-  width: 100%;
+  width: 80%;
+  height: 40px;
+  font-weight: 600;
 }
 
 .home-block-2 {
   overflow: auto;
   padding-top: 5vh;
   padding-bottom: 5vh;
-  min-height: 60vh;
+  min-height: 50vh;
 }
 
 .home-block-2-divider {
@@ -40,13 +42,14 @@
 }
 
 .home-block-2-left {
-  font-size: 30px;
+  font-size: 34px;
   text-align: center;
-  font-weight: bold;
+  font-weight: 600;
 }
 
 .home-block-2-right {
   margin-left: 5%;
+  font-size: 18px;
 }
 
 .home-block-3 {
@@ -64,19 +67,20 @@
 }
 
 .testimonial-text h2,
-.testimonial-text h5 {
+.testimonial-text h4 {
   color: #fff;
 }
 
 .testimonial-text p {
   color: #fff;
-  font-size: 16px;
+  font-size: 20px;
 }
 
 .home-block-4 {
   padding-top: 5vh;
   padding-bottom: 5vh;
   text-align: center;
+  font-weight: 500;
 }
 
 .home-block-4__partner img {

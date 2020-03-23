@@ -3,7 +3,7 @@
 }
 
 .resource-name {
-  font-weight: 700;
+  font-weight: 600;
   font-size: 175%;
 }
 
@@ -16,10 +16,7 @@
 }
 
 .resource-detail .ant-row {
-  padding-top: 20px;
-  padding-bottom: 20px;
-  padding-left: 15%;
-  padding-right: 15%;
+  padding: 2% 15%;
 }
 
 .resource-detail .section {
@@ -75,4 +72,5 @@
   background-image: url('/asset/images/background.png');
   background-size: cover;
   color: #fff;
+  font-size: 18px;
 }

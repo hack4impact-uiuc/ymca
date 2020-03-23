@@ -42,9 +42,7 @@ const Home = () => {
           <Row type="flex" justify={isMobile ? 'center' : 'left'} align="left">
             <Col span={18}>
               <Link to="/resources">
-                <Button type="primary">
-                  <strong>Find Resources</strong>
-                </Button>
+                <Button type="primary">Find Resources</Button>
               </Link>
             </Col>
           </Row>
