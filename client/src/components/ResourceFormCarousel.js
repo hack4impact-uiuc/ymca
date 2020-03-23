@@ -348,6 +348,15 @@ const FormCarousel = React.forwardRef((props: CarouselProps, ref) => {
                 <Select
                   mode="multiple"
                   placeholder="Select available language(s)"
+                  onSelect={(val, opt) => {
+                    if (val === 'All') {
+                      setFieldsValue({
+                        availableLanguages: languages.filter(
+                          str => str !== 'All',
+                        ),
+                      });
+                    }
+                  }}
                 >
                   {languages.map(lang => (
                     <Option key={lang} value={lang}>
