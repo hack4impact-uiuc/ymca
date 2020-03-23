@@ -145,6 +145,8 @@ const ResourceForm = (props: FormProps) => {
         CAROUSEL_CATEGORIES[to] ===
           CAROUSEL_CATEGORIES[CAROUSEL_CATEGORIES.length - 1],
       );
+
+      setTotalSubmitEnabled(showSubmitButton);
     },
     [
       formLabelRef,
@@ -181,12 +183,14 @@ const ResourceForm = (props: FormProps) => {
               contacts,
               address: getFieldValue('address') || '',
               city: getFieldValue('city') || '',
-              hoursOfOperation: hoursOfOperation || [],
+              hoursOfOperation: { hoursOfOperation } || {
+                hoursOfOperation: {},
+              },
               eligibilityRequirements:
                 getFieldValue('eligibilityRequirements') || '',
               financialAidDetails,
               cost: getFieldValue('cost') || '',
-              availableLanguages: availableLanguages || [],
+              availableLanguages: getFieldValue('availableLanguages') || [],
               lastedUpdated: new Date(Date.now()),
               recommendation: getFieldValue('recommendation'),
               comments: comments || [],
