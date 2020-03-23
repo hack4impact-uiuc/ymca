@@ -47,12 +47,12 @@
 }
 
 .resources .ant-menu-submenu-open .ant-menu-item {
-  color: #d3d3d3;
+  color: #4d4d4d;
   font-weight: normal;
 }
 
 .resources .ant-menu-sub .ant-menu-item-selected {
-  color: #d3d3d3;
+  color: #4d4d4d;
   font-weight: bold;
 }
 
@@ -75,13 +75,13 @@
 .resources .filter-bar {
   position: sticky;
   z-index: 10;
-  transition: top .25s;
+  transition: top 0.25s;
 }
 
 .resources .filter-search {
   position: sticky;
   z-index: 10;
-  transition: top .25s;
+  transition: top 0.25s;
 }
 
 .resources .loader {

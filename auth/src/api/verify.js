@@ -19,9 +19,7 @@ router.post(
     //  If the user is google authenticated, make a request the google API to get the users email.
     if (useGoogle && req.headers.google && JSON.parse(req.headers.google)) {
       const tokenInfoRes = await fetch(
-        `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${
-          req.headers.token
-        }`
+        `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${req.headers.token}`
       );
       const payload = await tokenInfoRes.json();
 

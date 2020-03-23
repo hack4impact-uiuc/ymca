@@ -4,7 +4,7 @@
   background: white;
   width: 100%;
   height: 2em;
-  transition: top .25s;
+  transition: top 0.25s;
 }
 
 .nav-mobile-option {

@@ -63,19 +63,25 @@ function ResourcePreview(props) {
   if (languages !== '') {
     languages = languages.slice(0, languages.length - 2);
   }
+  let descriptionText = '';
+  if (cost && cost !== '') {
+    descriptionText += `${cost} `;
+  }
+  if (city && city !== '') {
+    if (descriptionText !== '') {
+      descriptionText += '• ';
+    }
+    descriptionText += `${city} `;
+  }
+  if (languages && languages !== '') {
+    if (descriptionText !== '') {
+      descriptionText += '• ';
+    }
+    descriptionText += `${languages} `;
+  }
   description.push(
-    <div key="cost" style={{ color: '#431C72' }}>
-      {cost}
-    </div>,
-  );
-  description.push(
-    <div key="city" style={{ color: 'black' }}>
-      {city}
-    </div>,
-  );
-  description.push(
-    <div key="languages" style={{ color: 'black' }}>
-      {languages}
+    <div key="description" style={{ color: 'black' }}>
+      {descriptionText}
     </div>,
   );
 

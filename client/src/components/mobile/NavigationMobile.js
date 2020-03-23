@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import '../../css_mobile/Navigation.css';
 import { NavLink } from 'react-router-dom';
-import { Drawer, Menu, Button, Icon } from 'antd';
+import { Drawer, Button, Icon } from 'antd';
 
 type Props = {
   authed: Boolean,
