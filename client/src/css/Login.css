@@ -1,14 +1,13 @@
+.ant-form-item {
+  margin-bottom: 8px;
+}
+
 .login-block-1 {
   background: url('/asset/images/login-background.png');
   background-size: cover;
   height: 100%;
-  font-family: 'Avenir Next', 'Avenir', sans-serif;
   width: 100%;
   position: fixed;
-}
-
-.login-block-1 .ant-input {
-  font-family: 'Avenir Next', 'Avenir', sans-serif;
 }
 
 .first-row-margin {
@@ -16,14 +15,11 @@
   width: 12em;
 }
 
-.container img {
-  width: 100%;
-}
-
 .login-text {
-  color: white;
+  text-align: center;
+  color: #fff;
   font-weight: bold;
-  font-size: 40px;
+  font-size: 36px;
   margin-top: 20px;
   margin-bottom: 20px;
 }
@@ -41,7 +37,7 @@ p {
 }
 
 .white-text {
-  color: white;
+  color: #fff;
   display: inline-block;
 }
 

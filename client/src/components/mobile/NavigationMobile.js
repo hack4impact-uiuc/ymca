@@ -1,8 +1,9 @@
 // @flow
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import '../../css_mobile/Navigation.css';
 import { NavLink } from 'react-router-dom';
+import { Drawer, Button, Icon } from 'antd';
 
 type Props = {
   authed: Boolean,
@@ -10,43 +11,79 @@ type Props = {
 
 const NavMobile = (props: Props) => {
   const { authed } = props;
+  const [drawerVisible, setDrawerVisible] = useState(false);
+  const [menuVisible, setMenuVisible] = useState(true);
+  const [prevScroll, setPrevScroll] = useState(0);
+  const handleScroll = () => {
+    const lastScroll = prevScroll;
+    const currentScroll = window.pageYOffset;
+    setMenuVisible(lastScroll > currentScroll);
+    setPrevScroll(currentScroll);
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+  });
 
   return (
-    <nav id="nav-mobile" role="navigation">
-      <div id="menuToggle">
-        <input type="checkbox" />
-
-        <span />
-        <span />
-        <span />
-
-        <ul id="menu">
-          <NavLink exact to="/">
-            <li>Home</li>
-          </NavLink>
-          <NavLink to="/resources">
-            <li>Resources</li>
-          </NavLink>
-          {authed && (
-            <NavLink to="/admin">
-              <li>Admin</li>
+    <nav>
+      <div className="nav-mobile" style={{ top: menuVisible ? '0em' : '-2em' }}>
+        <Button
+          onClick={() => setDrawerVisible(true)}
+          block
+          type="link"
+          id="navbar"
+        >
+          <div align="left">
+            <Icon type="menu" style={{ fontSize: '2em', color: 'gray' }} />
+          </div>
+        </Button>
+        <Drawer
+          align="center"
+          placement="top"
+          closable={false}
+          onClose={() => setDrawerVisible(false)}
+          onClick={() => setDrawerVisible(false)}
+          visible={drawerVisible}
+        >
+          <p>
+            <NavLink className="nav-mobile-option" exact to="/">
+              Home
             </NavLink>
+          </p>
+          <p>
+            <NavLink className="nav-mobile-option" to="/resources">
+              Resources
+            </NavLink>
+          </p>
+          {authed && (
+            <p>
+              <NavLink className="nav-mobile-option" to="/admin">
+                Admin
+              </NavLink>
+            </p>
           )}
           {authed && (
-            <NavLink to="/role-approval">
-              <li>Users</li>
-            </NavLink>
+            <p>
+              <NavLink className="nav-mobile-option" to="/role-approval">
+                Users
+              </NavLink>
+            </p>
           )}
           {!authed ? (
-            <NavLink to="/login">
-              <li>Login</li>
-            </NavLink>
+            <p>
+              <NavLink className="nav-mobile-option" to="/login">
+                Login
+              </NavLink>
+            </p>
           ) : (
-            <NavLink to="/logout">
-              <li>Logout</li>
-            </NavLink>
+            <p>
+              <NavLink className="nav-mobile-option" to="/logout">
+                Logout
+              </NavLink>
+            </p>
           )}
-        </ul>
+        </Drawer>
       </div>
     </nav>
   );

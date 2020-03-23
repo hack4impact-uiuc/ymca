@@ -1,20 +1,26 @@
 .resources-filter-mobile {
-  background: white;
+  background: #fff;
   border-bottom: 1px solid rgba(235, 235, 235, 1);
   border-top: 1px solid rgba(235, 235, 235, 1);
   padding-top: 1em;
   padding-bottom: 1em;
   padding-left: 1em;
-  position: sticky;
-  top: 0em;
   width: 100%;
   align-self: flex-start;
-  z-index: 10;
 }
 
 .filter-search-mobile {
   width: 100%;
   padding-bottom: 1em;
+}
+
+.ant-dropdown-trigger {
+  margin-left: 0.3em;
+  margin-right: 0.3em;
+}
+
+.dropdown-filter {
+  margin-left: 4%;
 }
 
 .button-mobile {
@@ -27,8 +33,8 @@
 .button-mobile:hover,
 .button-mobile:focus {
   background-color: #431c72;
-  border-color: white;
-  color: white;
+  border-color: #fff;
+  color: #fff;
 }
 
 .radio {
@@ -38,7 +44,7 @@
 }
 
 .radio-container {
-  background: white;
+  background: #fff;
   box-shadow: 1px 1px 3px grey;
   padding-bottom: 1em;
   padding-left: 3em;

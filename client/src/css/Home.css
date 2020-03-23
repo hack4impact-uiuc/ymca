@@ -1,79 +1,90 @@
 .home-block-1 {
   background-image: radial-gradient(
-      50% 141%,
+      70% 141% at 0 0,
       rgba(25, 132, 202, 0.6) 1%,
       rgba(105, 62, 158, 0.6) 100%
     ),
     url('/asset/images/splash.jpg');
   background-size: cover;
-  background-position: center;
-  height: 70vh;
+  background-position: top;
+  height: 92vh;
   opacity: 1;
+  padding-left: 8%;
+  padding-bottom: 6%;
 }
 
 .welcome-text {
-  color: white;
-  font-weight: bold;
+  color: #fff;
+  font-weight: 600;
+  font-size: 65px !important;
+  line-height: 1.25;
 }
 
 .home-block-1 .ant-btn-primary {
   background-color: rgb(136, 216, 208);
   border-color: rgb(136, 216, 208);
-  margin-top: 10px;
-  width: 100%;
+  font-size: 18px;
+  width: 80%;
+  height: 40px;
+  font-weight: 600;
 }
 
 .home-block-2 {
   overflow: auto;
   padding-top: 5vh;
   padding-bottom: 5vh;
-  min-height: 60vh;
+  min-height: 50vh;
 }
 
-.home-block-2__left {
+.home-block-2-divider {
   border-right: 2px solid rgb(136, 216, 208);
   line-height: 600%;
 }
 
-.home-block-2__left .home-block-2__left__text {
-  height: 100%;
+.home-block-2-left {
+  font-size: 34px;
+  text-align: center;
+  font-weight: 600;
 }
 
-.home-block-2__right {
+.home-block-2-right {
   margin-left: 5%;
+  font-size: 18px;
 }
 
 .home-block-3 {
-  height: 70vh;
+  height: 60vh;
   background-image: url('/asset/images/background.png');
   background-size: cover;
   background-position: center;
   overflow: auto;
 }
 
-.testimonial-block__left__img {
-  width: 100%;
-  height: 100%;
+.testimonial-img {
+  width: 250px;
+  height: 250px;
   border-radius: 50%;
 }
 
-.testimonial-block__right h2,
-.testimonial-block__right h5 {
-  color: white;
+.testimonial-text h2,
+.testimonial-text h4 {
+  color: #fff;
 }
 
-.testimonial-block__right p {
-  color: white;
-  font-size: 2.5vh;
+.testimonial-text p {
+  color: #fff;
+  font-size: 20px;
 }
 
 .home-block-4 {
   padding-top: 5vh;
   padding-bottom: 5vh;
+  text-align: center;
+  font-weight: 500;
 }
 
 .home-block-4__partner img {
   padding-top: 2vh;
-  width: 80%;
-  height: 80%;
+  width: 60%;
+  height: 60%;
 }

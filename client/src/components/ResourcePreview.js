@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 import '../css/ResourcePreview.css';
 import useWindowDimensions from '../utils/mobile';
-import { saveResource } from '../utils/auth';
+import { saveResource, deleteSavedResource } from '../utils/auth';
 
 const { Meta } = Card;
 
@@ -36,14 +36,21 @@ function ResourcePreview(props) {
     city,
     name,
     subcategory,
-    saved,
+    isSaved,
+    authed,
   } = props;
   const [src, setSrc] = useState('');
 
   const saveResourceHandler = async (_e, _id) => {
-    console.log('Jackie');
     _e.stopPropagation();
     await saveResource();
+    isSaved = true;
+  };
+
+  const deleteResourceHandler = async (_e, _id) => {
+    _e.stopPropagation();
+    await deleteSavedResource();
+    isSaved = false;
   };
 
   useEffect(() => {
@@ -72,19 +79,25 @@ function ResourcePreview(props) {
   if (languages !== '') {
     languages = languages.slice(0, languages.length - 2);
   }
+  let descriptionText = '';
+  if (cost && cost !== '') {
+    descriptionText += `${cost} `;
+  }
+  if (city && city !== '') {
+    if (descriptionText !== '') {
+      descriptionText += '• ';
+    }
+    descriptionText += `${city} `;
+  }
+  if (languages && languages !== '') {
+    if (descriptionText !== '') {
+      descriptionText += '• ';
+    }
+    descriptionText += `${languages} `;
+  }
   description.push(
-    <div key="cost" style={{ color: '#431C72' }}>
-      {cost}
-    </div>,
-  );
-  description.push(
-    <div key="city" style={{ color: 'black' }}>
-      {city}
-    </div>,
-  );
-  description.push(
-    <div key="languages" style={{ color: 'black' }}>
-      {languages}
+    <div key="description" style={{ color: 'black' }}>
+      {descriptionText}
     </div>,
   );
 
@@ -92,7 +105,10 @@ function ResourcePreview(props) {
     <Link
       to={{
         pathname: `resources/${id}`,
-        state: { isSaved: saved },
+        state: {
+          isSaved,
+          authed,
+        },
       }}
     >
       <Card
@@ -107,15 +123,29 @@ function ResourcePreview(props) {
           </div>
         }
       >
-        <a onClick={e => e.preventDefault()}>
-          <Button
-            onClick={async e => {
-              await saveResourceHandler(e, id);
-            }}
-          >
-            <Icon type="star" style={{ fontSize: '16px' }} />
-          </Button>
-        </a>
+        {authed ? (
+          <a onClick={e => e.preventDefault()}>
+            {isSaved ? (
+              <Button
+                onClick={async e => {
+                  await deleteResourceHandler(e, id);
+                }}
+              >
+                <Icon type="star" theme="filled" style={{ fontSize: '16px' }} />
+              </Button>
+            ) : (
+              <Button
+                onClick={async e => {
+                  await saveResourceHandler(e, id);
+                }}
+              >
+                <Icon type="star" style={{ fontSize: '16px' }} />
+              </Button>
+            )}
+          </a>
+        ) : (
+          <a />
+        )}
         <Meta title={name} description={description} />
       </Card>
     </Link>
@@ -130,7 +160,8 @@ ResourcePreview.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   subcategory: PropTypes.arrayOf(PropTypes.string).isRequired,
-  saved: PropTypes.bool.isRequired,
+  isSaved: PropTypes.bool.isRequired,
+  authed: PropTypes.bool.isRequired,
 };
 
 export default ResourcePreview;

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Button, Card, Col, Icon, message, Modal, Row } from 'antd';
+import { Button, Card, Col, Icon, message, Modal, Row, Layout } from 'antd';
 import PropTypes from 'prop-types';
 import '../css/ResourceDetail.css';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
@@ -8,6 +8,8 @@ import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 import { deleteResource, getResourceByID } from '../utils/api';
 import { saveResource, deleteSavedResource } from '../utils/auth';
 import ResourcesBreadcrumb from '../components/ResourcesBreadcrumb';
+
+const { Header } = Layout;
 
 export default class ResourceDetail extends Component {
   constructor(props) {
@@ -31,9 +33,7 @@ export default class ResourceDetail extends Component {
       modalVisible: false,
       internalNotes: [],
       hours: [],
-      isSaved: true,
-      // isSaved: this.props.location.state,
-      // was giving a "location is missing in props validation" error
+      isSaved: this.props.location.state.isSaved,
     };
   }
 
@@ -127,6 +127,7 @@ export default class ResourceDetail extends Component {
       eligibility,
       internalNotes,
       hours,
+      isSaved,
     } = this.state;
 
     const Map = ReactMapboxGl({
@@ -142,9 +143,6 @@ export default class ResourceDetail extends Component {
       return <Redirect to="/resources/unknown" />;
     }
 
-    // console.log(this.state.isSaved);
-    // console.log(this.props);
-    // console.log(this.props.location.state.isSaved);
     return (
       <div className="resource-detail">
         <Modal
@@ -156,32 +154,38 @@ export default class ResourceDetail extends Component {
           Are you sure you want to delete this resource? Warning: this cannot be
           undone.
         </Modal>
-        <Row
-          className="banner"
-          type="flex"
-          justify="center"
-          align="middle"
-          gutter={[16, 16]}
-        />
-        <Row>
-          <ResourcesBreadcrumb
-            categorySelected={category}
-            subcategorySelected={subcategory}
-            resourceSelected={name}
-          />
-        </Row>
+        <Header className="banner" type="flex" justify="center">
+          <Row style={{ paddingTop: '2%' }}>
+            <ResourcesBreadcrumb
+              categorySelected={category}
+              subcategorySelected={subcategory}
+              resourceSelected={name}
+            />
+          </Row>
+        </Header>
         <Row>
           <Col span={15}>
             <span className="resource-name">{name}</span>
 
-            {this.state.isSaved ? (
-              <Button onClick={this.deleteResourceHandler}>
-                <Icon type="star" theme="filled" style={{ fontSize: '16px' }} />
-              </Button>
+            {authed ? (
+              <a>
+                {' '}
+                {isSaved ? (
+                  <Button onClick={this.deleteResourceHandler}>
+                    <Icon
+                      type="star"
+                      theme="filled"
+                      style={{ fontSize: '16px' }}
+                    />
+                  </Button>
+                ) : (
+                  <Button onClick={this.saveResourceHandler}>
+                    <Icon type="star" style={{ fontSize: '16px' }} />
+                  </Button>
+                )}{' '}
+              </a>
             ) : (
-              <Button onClick={this.saveResourceHandler}>
-                <Icon type="star" style={{ fontSize: '16px' }} />
-              </Button>
+              <a />
             )}
 
             {authed && authRoleIsEquivalentTo('admin') && (
@@ -195,7 +199,7 @@ export default class ResourceDetail extends Component {
               </span>
             )}
           </Col>
-          <Col span={9}>
+          <Col span={4}>
             {website.length > 0 ? (
               <a
                 href={website}
@@ -327,18 +331,20 @@ export default class ResourceDetail extends Component {
             </Row>
           </Col>
         </Row>
-        <Row>
-          <Col span={4} className="section-label">
-            Internal Notes
-          </Col>
-          <Col span={20}>
-            <Row className="cardRow">
-              {internalNotes.length > 0
-                ? internalNotes.map(note => this.displayNote(note))
-                : 'No internal notes provided'}
-            </Row>
-          </Col>
-        </Row>
+        {authRoleIsEquivalentTo('admin') && (
+          <Row>
+            <Col span={4} className="section-label">
+              Internal Notes
+            </Col>
+            <Col span={20}>
+              <Row className="cardRow">
+                {internalNotes.length > 0
+                  ? internalNotes.map(note => this.displayNote(note))
+                  : 'No internal notes provided'}
+              </Row>
+            </Col>
+          </Row>
+        )}
       </div>
     );
   }

@@ -30,6 +30,8 @@ function Resources(props) {
   const [category, setCategory] = useState('');
   const [subcategory, setSubcategory] = useState('');
   const [loading, setLoading] = useState(false);
+  const [prevScroll, setPrevScroll] = useState(0);
+  const [offsetFilters, setOffsetFilters] = useState(true);
 
   const [openKeys, setOpenKeys] = useState([]);
   const [categories, setCategories] = useState({});
@@ -40,6 +42,17 @@ function Resources(props) {
   const costs = ['Free', 'Free - $', 'Free - $$', 'Free - $$$'];
 
   const isMobile = useWindowDimensions()[1];
+
+  const handleScroll = () => {
+    const lastScroll = prevScroll;
+    const currentScroll = window.pageYOffset;
+    setOffsetFilters(lastScroll > currentScroll);
+    setPrevScroll(currentScroll);
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+  });
 
   const fetchCategories = async () => {
     const res = await getCategories();
@@ -95,7 +108,7 @@ function Resources(props) {
     let localSavedSet = new Set();
     if (props.authed) {
       const json = await getSavedResources();
-      localSavedSet = new Set(json.result)
+      localSavedSet = new Set(json.result);
       setSavedSet(localSavedSet);
     }
 
@@ -193,24 +206,22 @@ function Resources(props) {
   return (
     <Layout className="resources">
       {isMobile && (
-        // This is a band-aid to fix hamburger overlapping
-        <h>
-          <br />
-          <br />
-        </h>
-      )}
-      {isMobile && (
-        <ResourcesFilterMobile
-          costs={costs}
-          costSelected={cost}
-          languages={languages}
-          languageSelected={language}
-          locations={locations}
-          locationSelected={location}
-          setCost={setCost}
-          setLanguage={setLanguage}
-          setLocation={setLocation}
-        />
+        <div
+          className="filter-search"
+          style={{ top: offsetFilters ? '2em' : '0em' }}
+        >
+          <ResourcesFilterMobile
+            costs={costs}
+            costSelected={cost}
+            languages={languages}
+            languageSelected={language}
+            locations={locations}
+            locationSelected={location}
+            setCost={setCost}
+            setLanguage={setLanguage}
+            setLocation={setLocation}
+          />
+        </div>
       )}
       {!isMobile && (
         <ResourcesBanner
@@ -238,7 +249,10 @@ function Resources(props) {
         />
       )}
       {isMobile && (
-        <div className="filter-bar">
+        <div
+          className="filter-bar"
+          style={{ top: offsetFilters ? '8.8em' : '6.8em' }}
+        >
           <hr className="line" />
           <ResourcesCatMobile
             category={category}
@@ -277,11 +291,12 @@ function Resources(props) {
             width={100}
           />
         ) : (
-            <ResourcesGrid
-              filteredResources={filteredResources}
-              savedResources={savedSet}
-            />
-          )}
+          <ResourcesGrid
+            filteredResources={filteredResources}
+            savedResources={savedSet}
+            authed={props.authed}
+          />
+        )}
       </Layout>
     </Layout>
   );
@@ -291,6 +306,7 @@ Resources.defaultProps = {
   location: { search: '' },
   history: { pathname: '', search: '' },
   saved: false,
+  authed: false,
 };
 
 Resources.propTypes = {
@@ -301,6 +317,7 @@ Resources.propTypes = {
     search: PropTypes.string,
   }),
   saved: PropTypes.bool,
+  authed: PropTypes.bool,
 };
 
 export default Resources;
