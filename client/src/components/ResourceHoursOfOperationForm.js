@@ -28,11 +28,6 @@ const HoursOfOperationInput = (props: InputProps) => {
             clearIcon
             format="h:mm a"
             placeholder="    :"
-            onChange={time => {
-              setFieldsValue({
-                [`${dayLowerCase}Start`]: time,
-              });
-            }}
           />,
         )}
       </Col>
@@ -49,11 +44,6 @@ const HoursOfOperationInput = (props: InputProps) => {
             format="h:mm a"
             placeholder="    :"
             suffixIcon={null}
-            onChange={time => {
-              setFieldsValue({
-                [`${dayLowerCase}End`]: time,
-              });
-            }}
           />,
         )}
       </Col>
@@ -62,53 +52,22 @@ const HoursOfOperationInput = (props: InputProps) => {
 };
 
 const updateHoursOfOperation = args => {
-  const { setHoursOfOperation, getFieldValue } = args;
+  const { setHoursOfOperation, getFieldValue, days } = args;
 
-  const mondayStart = getFieldValue('mondayStart') || '';
-  const mondayEnd = getFieldValue('mondayEnd') || '';
-  const tuesdayStart = getFieldValue('tuesdayStart') || '';
-  const tuesdayEnd = getFieldValue('tuesdayEnd') || '';
-  const wednesdayStart = getFieldValue('wednesdayStart') || '';
-  const wednesdayEnd = getFieldValue('wednesdayEnd') || '';
-  const thursdayStart = getFieldValue('thursdayStart') || '';
-  const thursdayEnd = getFieldValue('thursdayEnd') || '';
-  const fridayStart = getFieldValue('fridayStart') || '';
-  const fridayEnd = getFieldValue('fridayEnd') || '';
-  const saturdayStart = getFieldValue('saturdayStart') || '';
-  const saturdayEnd = getFieldValue('saturdayEnd') || '';
-  const sundayStart = getFieldValue('sundayStart') || '';
-  const sundayEnd = getFieldValue('sundayEnd') || '';
+  setHoursOfOperation(
+    days.map(day => {
+      const start = getFieldValue(`${day.toLowerCase()}Start`);
+      const end = getFieldValue(`${day.toLowerCase()}End`);
 
-  setHoursOfOperation([
-    {
-      day: 'Monday',
-      period: `${mondayStart}!${mondayEnd}`,
-    },
-    {
-      day: 'Tuesday',
-      period: `${tuesdayStart}!${tuesdayEnd}`,
-    },
-    {
-      day: 'Wednesday',
-      period: `${wednesdayStart}!${wednesdayEnd}`,
-    },
-    {
-      day: 'Thursday',
-      period: `${thursdayStart}!${thursdayEnd}`,
-    },
-    {
-      day: 'Friday',
-      period: `${fridayStart}!${fridayEnd}`,
-    },
-    {
-      day: 'Saturday',
-      period: `${saturdayStart}!${saturdayEnd}`,
-    },
-    {
-      day: 'Sunday',
-      period: `${sundayStart}!${sundayEnd}`,
-    },
-  ]);
+      return {
+        day,
+        period: [
+          start ? start.format('h:mm a') : '',
+          end ? end.format('h:mm a') : '',
+        ],
+      };
+    }),
+  );
 };
 
 type FormProps = {
@@ -130,17 +89,17 @@ const HoursOfOperationsForm = Form.create({ name: 'hoursOfOperation' })(
     } = props;
     const { setFieldsValue, getFieldValue, getFieldDecorator } = props.form;
 
-    const generateInputs = useCallback(() => {
-      const days = [
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday',
-        'Sunday',
-      ];
+    const days = [
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+      'Sunday',
+    ];
 
+    const generateInputs = useCallback(() => {
       return days.map(day => {
         return (
           <HoursOfOperationInput
@@ -153,6 +112,7 @@ const HoursOfOperationsForm = Form.create({ name: 'hoursOfOperation' })(
         );
       });
     }, [
+      days,
       setTotalSubmitEnabled,
       setFieldsValue,
       getFieldValue,
@@ -179,6 +139,7 @@ const HoursOfOperationsForm = Form.create({ name: 'hoursOfOperation' })(
               hoursOfOperation,
               setHoursOfOperation,
               getFieldValue,
+              days,
             });
           }}
         >
