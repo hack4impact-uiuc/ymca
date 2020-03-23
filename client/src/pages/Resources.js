@@ -35,12 +35,11 @@ function Resources(props) {
   const [categories, setCategories] = useState({});
   const [resources, setResources] = useState([]);
   const [filteredResources, setFilteredResources] = useState([]);
+  const [savedSet, setSavedSet] = useState(new Set());
 
   const costs = ['Free', 'Free - $', 'Free - $$', 'Free - $$$'];
 
   const isMobile = useWindowDimensions()[1];
-
-  let savedSet;
 
   const fetchCategories = async () => {
     const res = await getCategories();
@@ -93,12 +92,16 @@ function Resources(props) {
         ? await getResources()
         : await getResourcesByCategory(categorySelected);
 
-    if (props.saved) {
+    let localSavedSet = new Set();
+    if (props.authed) {
       const json = await getSavedResources();
-      savedSet = new Set(json.result);
+      localSavedSet = new Set(json.result)
+      setSavedSet(localSavedSet);
+    }
 
+    if (props.saved) {
       newResources.result = newResources.result.filter(newResource =>
-        savedSet.has(newResource._id),
+        localSavedSet.has(newResource._id),
       );
     }
 
@@ -114,11 +117,11 @@ function Resources(props) {
     setLanguage('All');
     setLocation('All');
     setSubcategory(subcategorySelected);
-  }, [getCategorySelectedFromSearch, props.saved]);
+  }, [getCategorySelectedFromSearch, props.saved, props.authed]);
 
   useEffect(() => {
     updateResources();
-  }, [props.location.search, updateResources, props.saved]);
+  }, [props.location.search, props.saved, props.authed, updateResources]);
 
   useEffect(() => {
     const costMap = {
@@ -274,11 +277,11 @@ function Resources(props) {
             width={100}
           />
         ) : (
-          <ResourcesGrid
-            filteredResources={filteredResources}
-            savedResources={props.saved ? savedSet : null}
-          />
-        )}
+            <ResourcesGrid
+              filteredResources={filteredResources}
+              savedResources={savedSet}
+            />
+          )}
       </Layout>
     </Layout>
   );

@@ -50,7 +50,7 @@ const App = () => {
       return authRole === null || authRoles === null
         ? null
         : authRoles.indexOf(authRole.toLowerCase()) <=
-            authRoles.indexOf(role.toLowerCase());
+        authRoles.indexOf(role.toLowerCase());
     },
     [authRole, authRoles],
   );
@@ -100,7 +100,7 @@ const App = () => {
             minRole="admin"
           />
 
-          <Route path="/saved" render={() => <Resources saved />} />
+          <Route path="/saved" render={() => <Resources authed={authed} saved />} />
 
           <Route
             path="/login"
@@ -137,7 +137,7 @@ const App = () => {
           <Route
             path="/resources"
             exact
-            render={() => <Resources saved={false} />}
+            render={() => <Resources authed={authed} saved={false} />}
           />
           <Route path="/resources/unknown" component={ResourceUnknown} />
           <PrivateRoute
