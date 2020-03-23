@@ -1,29 +1,14 @@
 // @flow
 
-import React, { useState } from 'react';
-import {
-  Form,
-  Input,
-  Button,
-  Select,
-  Affix,
-  message,
-  Radio,
-  Rate,
-  Row,
-  Col,
-  Layout,
-  Carousel,
-} from 'antd';
-import { Textfit } from 'react-textfit';
+import React from 'react';
+import { Form, Input, Select, Radio, Rate, Row, Col, Carousel } from 'antd';
 
 import languages from '../data/languages';
-import { addResource, editResource, getResourceByID } from '../utils/api';
 
 import PhoneNumberFormItem from './ResourcePhoneNumberForm';
 import ContactFormItem from './ResourceContactForm';
 import FinancialAidFormItem from './ResourceFinancialAidForm';
-import CategorySelector, { CAT_SUB_SPLITTER } from './ResourceCategorySelector';
+import CategorySelector from './ResourceCategorySelector';
 import StrListFormItem from './ResourceStrListForm';
 import InternalNotesFormItem from './ResourceInternalNotesForm';
 import LabelWrapper from './LabelWrapper';
@@ -33,14 +18,11 @@ import '../css/ResourceForm.css';
 
 const { TextArea } = Input;
 const { Option } = Select;
-const { Header, Content } = Layout;
 
 type CarouselProps = {
   beforeChange: any => any,
 
-  categories: any,
   setCategories: any => any,
-  subcategories: any,
   setSubcategories: any => any,
   phoneNumbers: any,
   setPhoneNumbers: any => any,
@@ -48,8 +30,6 @@ type CarouselProps = {
   setContacts: any => any,
   financialAidDetails: any,
   setFinancialAidDetails: any => any,
-  availableLanguages: any,
-  setAvailableLanguages: any => any,
   comments: any,
   setComments: any => any,
   internalNotes: any,
@@ -57,7 +37,6 @@ type CarouselProps = {
   hoursOfOperation: any,
   setHoursOfOperation: any => any,
 
-  totalSubmitEnabled: Boolean,
   setTotalSubmitEnabled: Boolean => any,
 
   setFieldsValue: any => any,
@@ -69,9 +48,7 @@ const FormCarousel = React.forwardRef((props: CarouselProps, ref) => {
   const {
     beforeChange,
 
-    categories,
     setCategories,
-    subcategories,
     setSubcategories,
     phoneNumbers,
     setPhoneNumbers,
@@ -79,8 +56,6 @@ const FormCarousel = React.forwardRef((props: CarouselProps, ref) => {
     setContacts,
     financialAidDetails,
     setFinancialAidDetails,
-    availableLanguages,
-    setAvailableLanguages,
     comments,
     setComments,
     internalNotes,
@@ -88,7 +63,6 @@ const FormCarousel = React.forwardRef((props: CarouselProps, ref) => {
     hoursOfOperation,
     setHoursOfOperation,
 
-    totalSubmitEnabled,
     setTotalSubmitEnabled,
 
     setFieldsValue,

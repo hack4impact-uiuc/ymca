@@ -1,69 +1,43 @@
 // @flow
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import {
-  Form,
-  Input,
-  Button,
-  Select,
-  Affix,
-  message,
-  Radio,
-  Rate,
-  Row,
-  Col,
-  Layout,
-  Carousel,
-} from 'antd';
-import { Textfit } from 'react-textfit';
+import { Form, Button, message, Row, Layout, Carousel } from 'antd';
 
-import languages from '../data/languages';
 import { addResource, editResource, getResourceByID } from '../utils/api';
 
-import PhoneNumberFormItem from './ResourcePhoneNumberForm';
-import ContactFormItem from './ResourceContactForm';
-import FinancialAidFormItem from './ResourceFinancialAidForm';
-import CategorySelector, { CAT_SUB_SPLITTER } from './ResourceCategorySelector';
-import StrListFormItem from './ResourceStrListForm';
-import InternalNotesFormItem from './ResourceInternalNotesForm';
-import LabelWrapper from './LabelWrapper';
-import HoursOfOperationFormItem from './ResourceHoursOfOperationForm';
+import { CAT_SUB_SPLITTER } from './ResourceCategorySelector';
 import FormCarousel from './ResourceFormCarousel';
 
 import '../css/ResourceForm.css';
 
-const { TextArea } = Input;
-const { Option } = Select;
 const { Header, Content } = Layout;
 
 const onSubmitNewResourceForm = async (e, enabled, id, resource) => {
   e.preventDefault();
   if (enabled) {
-    console.log(resource);
-
-    // if (id) {
-    //   const editedResource = await editResource(id, resource);
-    //   if (editedResource) {
-    //     message.success('Resource successfully edited!');
-    //   } else {
-    //     message.error(
-    //       `Resource could not be edited.
-    //       ${' '}Please check that all of the required fields
-    // are filled out!`,
-    //     );
-    //   }
-    // } else {
-    //   const createdResource = await addResource(resource);
-    //   if (createdResource) {
-    //     message.success('Resource successfully created!');
-    //   } else {
-    //     message.error(
-    //       `Resource could not be created.
-    //       ${' '}Please check that all of the required fields
-    // are filled out!`,
-    //     );
-    //   }
-    // }
+    if (id) {
+      const editedResource = await editResource(id, resource);
+      if (editedResource) {
+        message.success('Resource successfully edited!');
+      } else {
+        message.error(
+          `Resource could not be edited.
+          ${' '}Please check that all of the required fields
+    are filled out!`,
+        );
+      }
+    } else {
+      const createdResource = await addResource(resource);
+      if (createdResource) {
+        message.success('Resource successfully created!');
+      } else {
+        message.error(
+          `Resource could not be created.
+          ${' '}Please check that all of the required fields
+    are filled out!`,
+        );
+      }
+    }
   }
 };
 
@@ -97,7 +71,7 @@ const ResourceForm = (props: FormProps) => {
         <p>{category}</p>
       </div>
     ));
-  }, []);
+  }, [CAROUSEL_CATEGORIES]);
 
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
@@ -154,11 +128,11 @@ const ResourceForm = (props: FormProps) => {
 
   const onBackButtonClick = useCallback(() => {
     formCarouselRef.current.prev();
-  }, [formCarouselRef, carouselIndex, setShowBackButton]);
+  }, [formCarouselRef]);
 
   const onNextButtonClick = useCallback(() => {
     formCarouselRef.current.next();
-  }, [formCarouselRef, carouselIndex, setShowBackButton]);
+  }, [formCarouselRef]);
 
   const onFormCarouselChange = useCallback(
     (current, to) => {
@@ -178,6 +152,7 @@ const ResourceForm = (props: FormProps) => {
       setShowBackButton,
       setCarouselCategory,
       setShowSubmitButton,
+      CAROUSEL_CATEGORIES,
     ],
   );
 

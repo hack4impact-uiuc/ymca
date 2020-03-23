@@ -1,5 +1,5 @@
 // @flow
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 type LabelWrapperProps = {
   label: String,
@@ -11,7 +11,7 @@ const LabelWrapper = (props: LabelWrapperProps) => {
   const { label, required, component } = props;
 
   return (
-    <div>
+    <>
       <span style={{ color: '#6bdbd0' }}>
         <label htmlFor="input" style={{ color: '#492179' }}>
           {label}
@@ -20,7 +20,7 @@ const LabelWrapper = (props: LabelWrapperProps) => {
       </span>
 
       {component}
-    </div>
+    </>
   );
 };
 
