@@ -9,7 +9,7 @@ import PhoneNumberFormItem from './ResourcePhoneNumberForm';
 import ContactFormItem from './ResourceContactForm';
 import FinancialAidFormItem from './ResourceFinancialAidForm';
 import CategorySelector from './ResourceCategorySelector';
-import StrListFormItem from './ResourceStrListForm';
+import CommentsFormItem from './ResourceCommentsForm';
 import InternalNotesFormItem from './ResourceInternalNotesForm';
 import LabelWrapper from './LabelWrapper';
 import HoursOfOperationFormItem from './ResourceHoursOfOperationForm';
@@ -405,7 +405,7 @@ const FormCarousel = React.forwardRef((props: CarouselProps, ref) => {
         <LabelWrapper
           label="Comments"
           component={
-            <StrListFormItem
+            <CommentsFormItem
               className="input"
               formName="commentForm"
               placeholder="Enter a comment"

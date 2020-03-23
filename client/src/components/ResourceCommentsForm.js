@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { Form, Input, Button, List } from 'antd';
 
 type FormProps = {
@@ -25,20 +25,26 @@ const StrForm = (props: FormProps) => {
 
   const { getFieldDecorator, getFieldValue, setFieldsValue } = props.form;
 
+  const [comment, setComment] = useState(null);
+
+  const onSubmit = useCallback(() => {
+    const val = getFieldValue('comment');
+
+    if (val !== undefined && val.trim() !== '') {
+      setListOfStrings([...listOfStrings, val]);
+
+      setFieldsValue({ comment: '' });
+    }
+  }, [getFieldValue, setListOfStrings, setFieldsValue, listOfStrings]);
+
+  const onInputBlur = useCallback(() => {
+    setTotalSubmitEnabled(true);
+  }, [setTotalSubmitEnabled, setFieldsValue, comment]);
+
   return (
-    <Form
-      onSubmit={() => {
-        const val = getFieldValue('val');
-
-        if (val !== undefined && val.trim() !== '') {
-          setListOfStrings([...listOfStrings, val]);
-
-          setFieldsValue({ val: '' });
-        }
-      }}
-    >
+    <Form onSubmit={onSubmit}>
       <Form.Item>
-        {getFieldDecorator('val', {
+        {getFieldDecorator('comment', {
           rules: [
             {
               required: true,
@@ -46,14 +52,16 @@ const StrForm = (props: FormProps) => {
               whitespace: true,
             },
           ],
-        })(
-          <Input
-            placeholder={placeholder}
-            onFocus={() => setTotalSubmitEnabled(false)}
-            onBlur={() => setTotalSubmitEnabled(true)}
-          />,
-        )}
+        })(<Input placeholder="Enter a comment" />)}
       </Form.Item>
+      <Button
+        type="primary"
+        className="form-btn"
+        htmlType="submit"
+        onClick={() => setTotalSubmitEnabled(false)}
+      >
+        Add comment
+      </Button>
     </Form>
   );
 };
@@ -67,7 +75,7 @@ type FormItemProps = {
   setTotalSubmitEnabled: () => void,
 };
 
-const StrListFormItem = (props: FormItemProps) => {
+const CommentsFormItem = (props: FormItemProps) => {
   const {
     formName,
     label,
@@ -77,7 +85,7 @@ const StrListFormItem = (props: FormItemProps) => {
     placeholder,
   } = props;
 
-  const NewFrom = Form.create({ name: formName })(StrForm);
+  const NewForm = Form.create({ name: formName })(StrForm);
 
   return (
     <Form.Item label={label}>
@@ -100,7 +108,7 @@ const StrListFormItem = (props: FormItemProps) => {
           </List.Item>
         )}
       />
-      <NewFrom
+      <NewForm
         listOfStrings={listOfStrings}
         setListOfStrings={setListOfStrings}
         setTotalSubmitEnabled={setTotalSubmitEnabled}
@@ -110,4 +118,4 @@ const StrListFormItem = (props: FormItemProps) => {
   );
 };
 
-export default StrListFormItem;
+export default CommentsFormItem;
