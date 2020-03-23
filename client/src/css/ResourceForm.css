@@ -72,6 +72,7 @@
 
 .carousel-move-btn {
   margin: auto;
+  margin-bottom: 2em;
   background: #6bdbd0 !important;
   color: white !important;
   border-radius: 0px !important;
