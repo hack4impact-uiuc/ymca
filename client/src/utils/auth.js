@@ -87,3 +87,39 @@ export const getAllRoles = () => {
     method: 'GET',
   }).then(res => res.json());
 };
+
+export const getSavedResources = () => {
+  return fetch(`${AUTH_SERVER_URI}/resources`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      token: localStorage.getItem('token'),
+    },
+  }).then(res => res.json());
+};
+
+export const saveResource = resID => {
+  return fetch(`${AUTH_SERVER_URI}/resource`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      token: localStorage.getItem('token'),
+    },
+    body: JSON.stringify({
+      resourceId: resID,
+    }),
+  }).then(res => res.json());
+};
+
+export const deleteSavedResource = resID => {
+  return fetch(`${AUTH_SERVER_URI}/resource`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      token: localStorage.getItem('token'),
+    },
+    body: JSON.stringify({
+      resourceId: resID,
+    }),
+  }).then(res => res.json());
+};
