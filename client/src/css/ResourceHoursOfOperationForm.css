@@ -1,5 +1,12 @@
 .hours-of-operation-input {
   padding-bottom: 1em;
+  width: 45em;
+}
+
+@media screen (max-width: 500px) {
+  .hours-of-operation-input {
+    width: 100%;
+  }
 }
 
 .hours-of-operation-input p {

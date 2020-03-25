@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import '../css/ResourcePhoneNumberForm.css';
 import { Form, Button, Row, Col, TimePicker } from 'antd';
 
@@ -16,10 +16,10 @@ const HoursOfOperationInput = (props: InputProps) => {
   const { day, getFieldDecorator } = props;
   return (
     <Row className="hours-of-operation-input" gutter={16}>
-      <Col span={2}>
+      <Col span={3}>
         <p>{day} </p>
       </Col>
-      <Col span={3}>
+      <Col span={6}>
         {getFieldDecorator(`${day}Start`, {
           rules: [],
         })(
@@ -32,10 +32,10 @@ const HoursOfOperationInput = (props: InputProps) => {
           />,
         )}
       </Col>
-      <Col span={2}>
+      <Col span={1}>
         <p style={{ textAlign: 'center' }}>to</p>
       </Col>
-      <Col span={3}>
+      <Col span={6}>
         {getFieldDecorator(`${day}End`, {
           rules: [],
         })(
