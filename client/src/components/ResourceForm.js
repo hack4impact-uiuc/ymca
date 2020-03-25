@@ -81,7 +81,7 @@ const ResourceForm = (props: FormProps) => {
   const [availableLanguages, setAvailableLanguages] = useState([]);
   const [comments, setComments] = useState([]);
   const [internalNotes, setInternalNotes] = useState([]);
-  const [hoursOfOperation, setHoursOfOperation] = useState({});
+  const [hoursOfOperation, setHoursOfOperation] = useState([]);
 
   const { id } = props;
   const { getFieldDecorator, getFieldValue, setFieldsValue } = props.form;
@@ -117,6 +117,11 @@ const ResourceForm = (props: FormProps) => {
           setAvailableLanguages(result.availableLanguages);
           setComments(result.comments);
           setInternalNotes(result.internalNotes);
+          setHoursOfOperation(
+            result.hoursOfOperation !== undefined
+              ? result.hoursOfOperation.hoursOfOperation
+              : [],
+          );
         }
       }
     }

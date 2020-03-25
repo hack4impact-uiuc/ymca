@@ -1,25 +1,26 @@
 // @flow
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import '../css/ResourcePhoneNumberForm.css';
 import { Form, Button, Row, Col, TimePicker } from 'antd';
 
 import '../css/ResourceHoursOfOperationForm.css';
 
+const moment = require('moment');
+
 type InputProps = {
   day: String,
   getFieldDecorator: any => any,
-  setFieldsValue: any => any,
 };
+
 const HoursOfOperationInput = (props: InputProps) => {
-  const { day, setFieldsValue, getFieldDecorator } = props;
-  const dayLowerCase = day.toLowerCase();
+  const { day, getFieldDecorator } = props;
   return (
     <Row className="hours-of-operation-input" gutter={16}>
       <Col span={2}>
         <p>{day} </p>
       </Col>
       <Col span={3}>
-        {getFieldDecorator(`${dayLowerCase}Start`, {
+        {getFieldDecorator(`${day}Start`, {
           rules: [],
         })(
           <TimePicker
@@ -35,7 +36,7 @@ const HoursOfOperationInput = (props: InputProps) => {
         <p style={{ textAlign: 'center' }}>to</p>
       </Col>
       <Col span={3}>
-        {getFieldDecorator(`${dayLowerCase}End`, {
+        {getFieldDecorator(`${day}End`, {
           rules: [],
         })(
           <TimePicker
@@ -43,7 +44,7 @@ const HoursOfOperationInput = (props: InputProps) => {
             use12Hours
             format="h:mm a"
             placeholder="    :"
-            suffixIcon={null}
+            clearIcon
           />,
         )}
       </Col>
@@ -56,8 +57,8 @@ const updateHoursOfOperation = args => {
 
   setHoursOfOperation(
     days.map(day => {
-      const start = getFieldValue(`${day.toLowerCase()}Start`);
-      const end = getFieldValue(`${day.toLowerCase()}End`);
+      const start = getFieldValue(`${day}Start`);
+      const end = getFieldValue(`${day}End`);
 
       return {
         day,
@@ -113,22 +114,26 @@ const HoursOfOperationsForm = Form.create({ name: 'hoursOfOperation' })(
       });
     }, [
       days,
-      setTotalSubmitEnabled,
       setFieldsValue,
       getFieldValue,
       getFieldDecorator,
+      setTotalSubmitEnabled,
     ]);
+
+    useEffect(() => {
+      hoursOfOperation.forEach(entry => {
+        setFieldsValue({
+          [`${entry.day}Start`]:
+            entry.period[0] !== '' ? moment(entry.period[0], 'h:mm a') : null,
+          [`${entry.day}End`]:
+            entry.period[1] !== '' ? moment(entry.period[1], 'h:mm a') : null,
+        });
+      });
+    }, [hoursOfOperation, setFieldsValue]);
 
     return (
       <Form className="hours-of-operation-form" onSubmit={() => {}}>
-        {generateInputs({
-          setHoursOfOperation,
-          hoursOfOperation,
-          setTotalSubmitEnabled,
-          setFieldsValue,
-          getFieldValue,
-          getFieldDecorator,
-        })}
+        {generateInputs()}
         <Button
           type="primary"
           className="form-btn"
