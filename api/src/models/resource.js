@@ -52,6 +52,7 @@ const Resource = new mongoose.Schema({
   },
   comments: { type: [String], required: false },
   internalNotes: { type: [InternalNote], required: false },
+  image: { type: String, required: false }
 });
 
 module.exports = mongoose.model('Resource', Resource);
