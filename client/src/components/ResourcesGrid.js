@@ -6,7 +6,7 @@ import ResourcePreview from './ResourcePreview';
 import '../css/ResourcesGrid.css';
 
 function ResourcesGrid(props) {
-  const { filteredResources, savedResources, authed } = props;
+  const { filteredResources, savedResources, authed, updateSaved } = props;
 
   const cards = Array(Math.ceil(filteredResources.length / 3))
     .fill()
@@ -20,6 +20,7 @@ function ResourcesGrid(props) {
         index * 3 + 2 < filteredResources.length
           ? filteredResources[index * 3 + 2]
           : null;
+
       return (
         <Row key={first.name} gutter={[32, 32]} type="flex">
           <Col xs={24} md={8}>
@@ -34,6 +35,7 @@ function ResourcesGrid(props) {
               subcategory={first.subcategory}
               isSaved={savedResources.has(first._id)}
               authed={authed}
+              updateSaved={updateSaved}
             />
           </Col>
           {second && (
@@ -49,6 +51,7 @@ function ResourcesGrid(props) {
                 subcategory={second.subcategory}
                 isSaved={savedResources.has(second._id)}
                 authed={authed}
+                updateSaved={updateSaved}
               />
             </Col>
           )}
@@ -65,6 +68,7 @@ function ResourcesGrid(props) {
                 subcategory={third.subcategory}
                 isSaved={savedResources.has(third._id)}
                 authed={authed}
+                updateSaved={updateSaved}
               />
             </Col>
           )}
@@ -89,6 +93,7 @@ ResourcesGrid.propTypes = {
   ).isRequired,
   savedResources: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   authed: PropTypes.bool.isRequired,
+  updateSaved: PropTypes.func.isRequired,
 };
 
 export default ResourcesGrid;

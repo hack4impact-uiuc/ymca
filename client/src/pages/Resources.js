@@ -132,6 +132,10 @@ function Resources(props) {
     setSubcategory(subcategorySelected);
   }, [getCategorySelectedFromSearch, props.saved, props.authed]);
 
+  const updateSaved = async () => {
+    updateResources();
+  };
+
   useEffect(() => {
     updateResources();
   }, [props.location.search, props.saved, props.authed, updateResources]);
@@ -295,6 +299,7 @@ function Resources(props) {
             filteredResources={filteredResources}
             savedResources={savedSet}
             authed={props.authed}
+            updateSaved={updateSaved}
           />
         )}
       </Layout>

@@ -99,7 +99,6 @@ export const getSavedResources = () => {
 };
 
 export const saveResource = resID => {
-  console.log(resID);
   return fetch(`${AUTH_SERVER_URI}/resource`, {
     method: 'PUT',
     headers: {
@@ -113,7 +112,6 @@ export const saveResource = resID => {
 };
 
 export const deleteSavedResource = resID => {
-  console.log(resID);
   return fetch(`${AUTH_SERVER_URI}/resource`, {
     method: 'DELETE',
     headers: {

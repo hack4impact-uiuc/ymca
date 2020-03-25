@@ -36,21 +36,23 @@ function ResourcePreview(props) {
     city,
     name,
     subcategory,
-    isSaved,
     authed,
+    updateSaved,
   } = props;
   const [src, setSrc] = useState('');
 
+  let { isSaved } = props;
+
   const saveResourceHandler = async (_e, _id) => {
-    _e.stopPropagation();
-    await saveResource();
+    await saveResource(_id);
     isSaved = true;
+    updateSaved();
   };
 
   const deleteResourceHandler = async (_e, _id) => {
-    _e.stopPropagation();
-    await deleteSavedResource();
+    await deleteSavedResource(_id);
     isSaved = false;
+    updateSaved();
   };
 
   useEffect(() => {
@@ -105,10 +107,6 @@ function ResourcePreview(props) {
     <Link
       to={{
         pathname: `resources/${id}`,
-        state: {
-          isSaved,
-          authed,
-        },
       }}
     >
       <Card
@@ -144,7 +142,7 @@ function ResourcePreview(props) {
             )}
           </a>
         ) : (
-          <a />
+          <div />
         )}
         <Meta title={name} description={description} />
       </Card>
@@ -162,6 +160,7 @@ ResourcePreview.propTypes = {
   subcategory: PropTypes.arrayOf(PropTypes.string).isRequired,
   isSaved: PropTypes.bool.isRequired,
   authed: PropTypes.bool.isRequired,
+  updateSaved: PropTypes.func.isRequired,
 };
 
 export default ResourcePreview;

@@ -6,7 +6,11 @@ import '../css/ResourceDetail.css';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 
 import { deleteResource, getResourceByID } from '../utils/api';
-import { saveResource, deleteSavedResource } from '../utils/auth';
+import {
+  saveResource,
+  deleteSavedResource,
+  getSavedResources,
+} from '../utils/auth';
 import ResourcesBreadcrumb from '../components/ResourcesBreadcrumb';
 
 const { Header } = Layout;
@@ -33,7 +37,7 @@ export default class ResourceDetail extends Component {
       modalVisible: false,
       internalNotes: [],
       hours: [],
-      isSaved: this.props.location.state.isSaved,
+      isSaved: false,
     };
   }
 
@@ -67,6 +71,15 @@ export default class ResourceDetail extends Component {
     }
   }
 
+  async componentDidUpdate() {
+    let savedSet = new Set();
+    if (this.props.authed) {
+      const json = await getSavedResources();
+      savedSet = new Set(json.result);
+      this.updateIsSaved(savedSet);
+    }
+  }
+
   showModal = () => {
     this.setState({
       modalVisible: true,
@@ -89,14 +102,20 @@ export default class ResourceDetail extends Component {
   };
 
   saveResourceHandler = async () => {
-    const res = await saveResource(this.props.match.params.id);
+    await saveResource(this.props.match.params.id);
     this.setState({ isSaved: true });
   };
 
   deleteResourceHandler = async () => {
-    const res = await deleteSavedResource(this.props.match.params.id);
+    await deleteSavedResource(this.props.match.params.id);
     this.setState({ isSaved: false });
   };
+
+  updateIsSaved(savedSet) {
+    this.setState({
+      isSaved: !!savedSet.has(this.props.match.params.id),
+    });
+  }
 
   async deleteResource(id) {
     const deletedResource = await deleteResource(id);
@@ -185,7 +204,7 @@ export default class ResourceDetail extends Component {
                 )}{' '}
               </a>
             ) : (
-              <a />
+              <div />
             )}
 
             {authed && authRoleIsEquivalentTo('admin') && (
