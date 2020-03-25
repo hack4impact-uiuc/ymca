@@ -102,7 +102,7 @@ const App = () => {
 
           <Route
             path="/saved"
-            render={() => <Resources authed={authed} saved />}
+            render={props => <Resources {...props} authed={authed} saved />}
           />
 
           <Route
@@ -140,7 +140,9 @@ const App = () => {
           <Route
             path="/resources"
             exact
-            render={() => <Resources authed={authed} saved={false} />}
+            render={props => (
+              <Resources {...props} authed={authed} saved={false} />
+            )}
           />
           <Route path="/resources/unknown" component={ResourceUnknown} />
           <PrivateRoute

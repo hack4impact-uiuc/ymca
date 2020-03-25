@@ -36,22 +36,19 @@ function ResourcePreview(props) {
     city,
     name,
     subcategory,
+    isSaved,
     authed,
     updateSaved,
   } = props;
   const [src, setSrc] = useState('');
 
-  let { isSaved } = props;
-
   const saveResourceHandler = async (_e, _id) => {
     await saveResource(_id);
-    isSaved = true;
     updateSaved();
   };
 
   const deleteResourceHandler = async (_e, _id) => {
     await deleteSavedResource(_id);
-    isSaved = false;
     updateSaved();
   };
 
