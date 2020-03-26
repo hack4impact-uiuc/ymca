@@ -24,7 +24,6 @@
 .resource-form .form-label p {
   color: white;
   text-align: center;
-  /* padding-right: 1em; */
   padding-top: 0.5em;
   padding-bottom: 0.5em;
 }
@@ -79,8 +78,6 @@
   box-shadow: none !important;
   border: 0px !important;
   border-radius: 4px !important;
-  /* margin-bottom: 3em; */
-  /* margin-left: 44vw; */
 }
 
 .form-btn {
