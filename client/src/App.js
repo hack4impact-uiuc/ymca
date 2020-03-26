@@ -101,6 +101,11 @@ const App = () => {
           />
 
           <Route
+            path="/saved"
+            render={props => <Resources {...props} authed={authed} saved />}
+          />
+
+          <Route
             path="/login"
             render={() =>
               showIfUnauthed(
@@ -132,7 +137,13 @@ const App = () => {
               <Logout setAuthed={setAuthed} setAuthRole={setAuthRole} />
             )}
           />
-          <Route path="/resources" exact component={Resources} />
+          <Route
+            path="/resources"
+            exact
+            render={props => (
+              <Resources {...props} authed={authed} saved={false} />
+            )}
+          />
           <Route path="/resources/unknown" component={ResourceUnknown} />
           <PrivateRoute
             path="/role-approval"

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Card } from 'antd';
+import { Button, Card, Icon } from 'antd';
 import { Link } from 'react-router-dom';
 
 import '../css/ResourcePreview.css';
+import useWindowDimensions from '../utils/mobile';
+import { saveResource, deleteSavedResource } from '../utils/auth';
 
 const { Meta } = Card;
 
@@ -34,8 +36,21 @@ function ResourcePreview(props) {
     city,
     name,
     subcategory,
+    isSaved,
+    authed,
+    updateSaved,
   } = props;
   const [src, setSrc] = useState('');
+
+  const saveResourceHandler = async (_e, _id) => {
+    await saveResource(_id);
+    updateSaved();
+  };
+
+  const deleteResourceHandler = async (_e, _id) => {
+    await deleteSavedResource(_id);
+    updateSaved();
+  };
 
   useEffect(() => {
     let found = false;
@@ -50,7 +65,7 @@ function ResourcePreview(props) {
       setSrc(
         category.includes('Citizenship')
           ? '/asset/subcategories/citizenship.jpg'
-          : 'https://uiuc.hack4impact.org/static/images/team-cheer.jpg',
+          : '/asset/subcategories/default.jpg',
       );
     }
   }, [category, setSrc, subcategory]);
@@ -86,7 +101,11 @@ function ResourcePreview(props) {
   );
 
   return (
-    <Link to={`resources/${id}`}>
+    <Link
+      to={{
+        pathname: `resources/${id}`,
+      }}
+    >
       <Card
         className="resource-preview-card"
         cover={
@@ -99,6 +118,29 @@ function ResourcePreview(props) {
           </div>
         }
       >
+        {authed ? (
+          <a onClick={e => e.preventDefault()}>
+            {isSaved ? (
+              <Button
+                onClick={async e => {
+                  await deleteResourceHandler(e, id);
+                }}
+              >
+                <Icon type="star" theme="filled" style={{ fontSize: '16px' }} />
+              </Button>
+            ) : (
+              <Button
+                onClick={async e => {
+                  await saveResourceHandler(e, id);
+                }}
+              >
+                <Icon type="star" style={{ fontSize: '16px' }} />
+              </Button>
+            )}
+          </a>
+        ) : (
+          <div />
+        )}
         <Meta title={name} description={description} />
       </Card>
     </Link>
@@ -113,6 +155,9 @@ ResourcePreview.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   subcategory: PropTypes.arrayOf(PropTypes.string).isRequired,
+  isSaved: PropTypes.bool.isRequired,
+  authed: PropTypes.bool.isRequired,
+  updateSaved: PropTypes.func.isRequired,
 };
 
 export default ResourcePreview;
