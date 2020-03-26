@@ -9,6 +9,7 @@ import {
   getResources,
   getResourcesByCategory,
 } from '../utils/api';
+import { getSavedResources } from '../utils/auth';
 import languages from '../data/languages';
 import locations from '../data/locations';
 import useWindowDimensions from '../utils/mobile';
@@ -36,6 +37,7 @@ function Resources(props) {
   const [categories, setCategories] = useState({});
   const [resources, setResources] = useState([]);
   const [filteredResources, setFilteredResources] = useState([]);
+  const [savedSet, setSavedSet] = useState(new Set());
 
   const costs = ['Free', 'Free - $', 'Free - $$', 'Free - $$$'];
 
@@ -103,6 +105,19 @@ function Resources(props) {
         ? await getResources()
         : await getResourcesByCategory(categorySelected);
 
+    let localSavedSet = new Set();
+    if (props.authed) {
+      const json = await getSavedResources();
+      localSavedSet = new Set(json.result);
+      setSavedSet(localSavedSet);
+    }
+
+    if (props.saved) {
+      newResources.result = newResources.result.filter(newResource =>
+        localSavedSet.has(newResource._id),
+      );
+    }
+
     setLoading(false);
 
     setCategory(categorySelected);
@@ -115,11 +130,15 @@ function Resources(props) {
     setLanguage('All');
     setLocation('All');
     setSubcategory(subcategorySelected);
-  }, [getCategorySelectedFromSearch]);
+  }, [getCategorySelectedFromSearch, props.saved, props.authed]);
+
+  const updateSaved = async () => {
+    updateResources();
+  };
 
   useEffect(() => {
     updateResources();
-  }, [props.location.search, updateResources]);
+  }, [props.location.search, props.saved, props.authed, updateResources]);
 
   useEffect(() => {
     const costMap = {
@@ -276,7 +295,12 @@ function Resources(props) {
             width={100}
           />
         ) : (
-          <ResourcesGrid filteredResources={filteredResources} />
+          <ResourcesGrid
+            filteredResources={filteredResources}
+            savedResources={savedSet}
+            authed={props.authed}
+            updateSaved={updateSaved}
+          />
         )}
       </Layout>
     </Layout>
@@ -286,6 +310,8 @@ function Resources(props) {
 Resources.defaultProps = {
   location: { search: '' },
   history: { pathname: '', search: '' },
+  saved: false,
+  authed: false,
 };
 
 Resources.propTypes = {
@@ -295,6 +321,8 @@ Resources.propTypes = {
     push: PropTypes.func,
     search: PropTypes.string,
   }),
+  saved: PropTypes.bool,
+  authed: PropTypes.bool,
 };
 
 export default Resources;

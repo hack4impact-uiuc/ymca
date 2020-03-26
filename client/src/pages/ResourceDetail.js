@@ -6,6 +6,11 @@ import '../css/ResourceDetail.css';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 
 import { deleteResource, getResourceByID } from '../utils/api';
+import {
+  saveResource,
+  deleteSavedResource,
+  getSavedResources,
+} from '../utils/auth';
 import ResourcesBreadcrumb from '../components/ResourcesBreadcrumb';
 
 const { Header } = Layout;
@@ -32,6 +37,7 @@ export default class ResourceDetail extends Component {
       modalVisible: false,
       internalNotes: [],
       hours: [],
+      isSaved: false,
     };
   }
 
@@ -65,6 +71,15 @@ export default class ResourceDetail extends Component {
     }
   }
 
+  async componentDidUpdate() {
+    let savedSet = new Set();
+    if (this.props.authed) {
+      const json = await getSavedResources();
+      savedSet = new Set(json.result);
+      this.updateIsSaved(savedSet);
+    }
+  }
+
   showModal = () => {
     this.setState({
       modalVisible: true,
@@ -85,6 +100,22 @@ export default class ResourceDetail extends Component {
     }
     return null;
   };
+
+  saveResourceHandler = async () => {
+    await saveResource(this.props.match.params.id);
+    this.setState({ isSaved: true });
+  };
+
+  deleteResourceHandler = async () => {
+    await deleteSavedResource(this.props.match.params.id);
+    this.setState({ isSaved: false });
+  };
+
+  updateIsSaved(savedSet) {
+    this.setState({
+      isSaved: !!savedSet.has(this.props.match.params.id),
+    });
+  }
 
   async deleteResource(id) {
     const deletedResource = await deleteResource(id);
@@ -115,6 +146,7 @@ export default class ResourceDetail extends Component {
       eligibility,
       internalNotes,
       hours,
+      isSaved,
     } = this.state;
 
     const Map = ReactMapboxGl({
@@ -153,6 +185,28 @@ export default class ResourceDetail extends Component {
         <Row>
           <Col span={15}>
             <span className="resource-name">{name}</span>
+
+            {authed ? (
+              <a>
+                {' '}
+                {isSaved ? (
+                  <Button onClick={this.deleteResourceHandler}>
+                    <Icon
+                      type="star"
+                      theme="filled"
+                      style={{ fontSize: '16px' }}
+                    />
+                  </Button>
+                ) : (
+                  <Button onClick={this.saveResourceHandler}>
+                    <Icon type="star" style={{ fontSize: '16px' }} />
+                  </Button>
+                )}{' '}
+              </a>
+            ) : (
+              <div />
+            )}
+
             {authed && authRoleIsEquivalentTo('admin') && (
               <span className="resource-edit-delete">
                 <Button href={`/admin/${match.params.id}`}>Edit</Button>

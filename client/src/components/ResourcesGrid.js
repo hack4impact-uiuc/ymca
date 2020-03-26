@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Col, Row } from 'antd';
+import { Button, Col, Row } from 'antd';
 
 import ResourcePreview from './ResourcePreview';
 import '../css/ResourcesGrid.css';
 
 function ResourcesGrid(props) {
-  const { filteredResources } = props;
+  const { filteredResources, savedResources, authed, updateSaved } = props;
 
   const cards = Array(Math.ceil(filteredResources.length / 3))
     .fill()
@@ -20,6 +20,7 @@ function ResourcesGrid(props) {
         index * 3 + 2 < filteredResources.length
           ? filteredResources[index * 3 + 2]
           : null;
+
       return (
         <Row key={first.name} gutter={[32, 32]} type="flex">
           <Col xs={24} md={8}>
@@ -32,6 +33,9 @@ function ResourcesGrid(props) {
               key={first._id}
               name={first.name}
               subcategory={first.subcategory}
+              isSaved={savedResources.has(first._id)}
+              authed={authed}
+              updateSaved={updateSaved}
             />
           </Col>
           {second && (
@@ -45,6 +49,9 @@ function ResourcesGrid(props) {
                 key={second._id}
                 name={second.name}
                 subcategory={second.subcategory}
+                isSaved={savedResources.has(second._id)}
+                authed={authed}
+                updateSaved={updateSaved}
               />
             </Col>
           )}
@@ -59,6 +66,9 @@ function ResourcesGrid(props) {
                 key={third._id}
                 name={third.name}
                 subcategory={third.subcategory}
+                isSaved={savedResources.has(third._id)}
+                authed={authed}
+                updateSaved={updateSaved}
               />
             </Col>
           )}
@@ -81,6 +91,9 @@ ResourcesGrid.propTypes = {
       subcategory: PropTypes.arrayOf(PropTypes.string),
     }),
   ).isRequired,
+  savedResources: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+  authed: PropTypes.bool.isRequired,
+  updateSaved: PropTypes.func.isRequired,
 };
 
 export default ResourcesGrid;

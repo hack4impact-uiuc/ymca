@@ -38,7 +38,7 @@ function ResourcesBannerMobile(props) {
       setSrc(
         categorySelected.includes('Citizenship')
           ? '/asset/subcategories/citizenship.jpg'
-          : 'https://uiuc.hack4impact.org/static/images/team-cheer.jpg',
+          : '/asset/subcategories/default.jpg',
       );
     }
   }, [categorySelected, setSrc, subcategorySelected]);
