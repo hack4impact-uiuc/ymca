@@ -123,9 +123,7 @@ const ResourceForm = (props: FormProps) => {
               ? result.hoursOfOperation.hoursOfOperation
               : [],
           );
-          setImage(
-            result.image ? result.image : ''
-          )
+          setImage(result.image ? result.image : '');
         }
       }
     }
@@ -204,7 +202,7 @@ const ResourceForm = (props: FormProps) => {
               recommendation: getFieldValue('recommendation'),
               comments: comments || [],
               internalNotes: internalNotes || [],
-              image: image || ''
+              image: image || '',
             });
           }}
         >

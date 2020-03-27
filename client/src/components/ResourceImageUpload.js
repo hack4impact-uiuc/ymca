@@ -1,7 +1,8 @@
 // @flow
 
-import React, { useState } from 'react';
-import { Upload, Icon, message } from 'antd';
+import React from 'react';
+import { Upload, Icon, message, Button } from 'antd';
+import '../css/ResourcePhoneNumberForm.css';
 
 type ImageUploadProps = {
   image: String,
@@ -9,46 +10,50 @@ type ImageUploadProps = {
 };
 
 const ImageUpload = (props: ImageUploadProps) => {
-  const {
-    image,
-    setImage
-  } = props;
+  const { image, setImage } = props;
 
   const getBase64 = (img, callback) => {
     const reader = new FileReader();
     reader.addEventListener('load', () => callback(reader.result));
     reader.readAsDataURL(img);
-  }
+  };
 
-  const beforeUpload = file =>
-  {
-    const isValidImage = file.type === 'image/jpeg' || file.type === 'image/png';
+  const beforeUpload = file => {
+    const isValidImage =
+      file.type === 'image/jpeg' || file.type === 'image/png';
     if (!isValidImage) {
       message.error('You can only upload JPG/PNG file!');
     }
     return isValidImage;
-  }
+  };
 
-  const handleUpload = info =>
-  {
-      getBase64(info.file.originFileObj, imageUrl =>
-        {
-          setImage(imageUrl);
-        }
-      );
-  }
+  const handleUpload = info => {
+    const reader = new FileReader();
+    // setImage to B64 string upon successful read
+    reader.addEventListener('load', () => setImage(reader.result));
+    // send image to reader
+    reader.readAsDataURL(info.file.originFileObj);
+  };
 
   return (
-    <Upload
-      name="image"
-      listType="picture-card"
-      showUploadList={false}
-      beforeUpload={beforeUpload}
-      onChange={handleUpload}
-    >
-      {image != '' && image != null ? <img src={image} alt="avatar" style={{ width: '100%' }} /> : 
-        <Icon type="plus" style={{ fontSize: '3em' }} />}
-    </Upload>
+    <div>
+      <Upload
+        name="image"
+        listType="picture-card"
+        showUploadList={false}
+        beforeUpload={beforeUpload}
+        onChange={handleUpload}
+      >
+        {image !== null && image.length > 0 ? (
+          <img src={image} alt="" style={{ width: '100%' }} />
+        ) : (
+          <Icon type="plus" style={{ fontSize: '3em' }} />
+        )}
+      </Upload>
+      <Button onClick={() => setImage('')} className="contact-submit form-btn">
+        Remove Image
+      </Button>
+    </div>
   );
 };
 
