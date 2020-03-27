@@ -2,9 +2,9 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { PropTypes } from 'prop-types';
 import { Button, Form, Input, Icon, Select, Row, Col, message } from 'antd';
 import 'antd/dist/antd.css';
-import '../css/Register.css';
+import '../css/PasswordReset.css';
 
-import { getSecurityQuestions, register } from '../utils/auth';
+import { getSecurityQuestions, resetPassword } from '../utils/auth';
 
 const { Option } = Select;
 
@@ -26,13 +26,13 @@ const tailFormItemLayout = {
       offset: 0,
     },
     sm: {
-      span: 16,
+      span: 24,
       offset: 8,
     },
   },
 };
 
-const Register = ({ form, setAuthed, setAuthRole }) => {
+const PasswordReset = ({ form, setAuthed, setAuthRole }) => {
   const [confirmDirty, setConfirmDirty] = useState(true);
   const [securityQuestions, setSecurityQuestions] = useState([]);
 
@@ -67,14 +67,14 @@ const Register = ({ form, setAuthed, setAuthRole }) => {
     [form],
   );
 
-  const onRegisterSubmit = useCallback(
+  const onSubmit = useCallback(
     e => {
       e.preventDefault();
 
       form.validateFields((err, values) => {
         if (!err) {
-          const { email, password, questionIdx, answer } = values;
-          register({ email, password, questionIdx, answer }).then(res => {
+          const { email, password, answer } = values;
+          resetPassword({ email, password, answer }).then(res => {
             if (res.status === 200) {
               localStorage.setItem('token', res.token);
               setAuthed(true);
@@ -93,7 +93,7 @@ const Register = ({ form, setAuthed, setAuthRole }) => {
   const { getFieldDecorator } = form;
 
   return (
-    <div className="register-block-1">
+    <div className="password-reset-block-1">
       <Row type="flex" justify="center">
         <Col span={4} className="first-row-margin">
           <img
@@ -101,13 +101,13 @@ const Register = ({ form, setAuthed, setAuthRole }) => {
             alt=""
             className="container"
           />
-          <div className="register-text">Registration</div>
+          <div className="password-reset-text">Reset Password</div>
         </Col>
       </Row>
       <Form
         {...formItemLayout}
-        onSubmit={e => onRegisterSubmit(e)}
-        className="register-form"
+        onSubmit={e => onSubmit(e)}
+        className="password-reset-form"
       >
         <Form.Item label="*" className="form-text">
           {getFieldDecorator('email', {
@@ -170,11 +170,11 @@ const Register = ({ form, setAuthed, setAuthRole }) => {
             rules: [
               {
                 required: true,
-                message: 'Please select a security question!',
+                message: 'Please select your security question!',
               },
             ],
           })(
-            <Select placeholder="Please select a security question!">
+            <Select placeholder="Please select your security question!">
               {securityQuestions.map((question, idx) => {
                 return <Option value={idx}>{question}</Option>;
               })}
@@ -193,7 +193,7 @@ const Register = ({ form, setAuthed, setAuthRole }) => {
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
           <Button className="reg-button" type="primary" htmlType="submit">
-            Register
+            Reset
           </Button>
         </Form.Item>
       </Form>
@@ -201,11 +201,11 @@ const Register = ({ form, setAuthed, setAuthRole }) => {
   );
 };
 
-Register.propTypes = {
+PasswordReset.propTypes = {
   form: Form.isRequired,
   authed: PropTypes.string.isRequired,
   setAuthed: PropTypes.func.isRequired,
   setAuthRole: PropTypes.func.isRequired,
 };
 
-export default Form.create()(Register);
+export default Form.create()(PasswordReset);
