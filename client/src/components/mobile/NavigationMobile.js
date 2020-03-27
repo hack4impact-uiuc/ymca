@@ -52,10 +52,17 @@ const NavMobile = (props: Props) => {
             </NavLink>
           </p>
           <p>
-            <NavLink className="nav-mobile-option" to="/resources">
+            <NavLink className="nav-mobile-option" exact to="/resources">
               Resources
             </NavLink>
           </p>
+          {authed && (
+            <p>
+              <NavLink className="nav-mobile-option" exact to="/saved">
+                Saved Resources
+              </NavLink>
+            </p>
+          )}
           {authed && (
             <p>
               <NavLink className="nav-mobile-option" to="/admin">
