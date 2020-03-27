@@ -39,6 +39,7 @@ function ResourcePreview(props) {
     isSaved,
     authed,
     updateSaved,
+    image,
   } = props;
   const [src, setSrc] = useState('');
 
@@ -113,7 +114,7 @@ function ResourcePreview(props) {
             <img
               className="resource-preview-cover-img"
               alt={subcategory}
-              src={src}
+              src={image ? image : src}
             />
           </div>
         }

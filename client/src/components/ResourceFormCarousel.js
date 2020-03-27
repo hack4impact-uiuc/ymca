@@ -37,7 +37,7 @@ type CarouselProps = {
   setInternalNotes: any => any,
   hoursOfOperation: any,
   setHoursOfOperation: any => any,
-  image: String,
+  image: any,
   setImage: any => any,
 
   setTotalSubmitEnabled: Boolean => any,
@@ -86,7 +86,7 @@ const FormCarousel = React.forwardRef((props: CarouselProps, ref) => {
       <div htmlFor="basicInformation">
         <LabelWrapper
           label="Upload Image"
-          component={<ImageUpload image={image} setImage={setImage} />}
+          component={<ImageUpload image={image} setImage={setImage} setTotalSubmitEnabled={setTotalSubmitEnabled}/>}
         />
 
         <LabelWrapper

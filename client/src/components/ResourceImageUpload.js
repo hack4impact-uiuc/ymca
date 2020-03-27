@@ -7,10 +7,11 @@ import '../css/ResourcePhoneNumberForm.css';
 type ImageUploadProps = {
   image: String,
   setImage: () => void,
+  setTotalSubmitEnabled: () => void,
 };
 
 const ImageUpload = (props: ImageUploadProps) => {
-  const { image, setImage } = props;
+  const { image, setImage, setTotalSubmitEnabled } = props;
 
   const getBase64 = (img, callback) => {
     const reader = new FileReader();
@@ -44,7 +45,7 @@ const ImageUpload = (props: ImageUploadProps) => {
         beforeUpload={beforeUpload}
         onChange={handleUpload}
       >
-        {image !== null && image.length > 0 ? (
+        {image !== null && image !== '' ? (
           <img src={image} alt="" style={{ width: '100%' }} />
         ) : (
           <Icon type="plus" style={{ fontSize: '3em' }} />
@@ -52,6 +53,9 @@ const ImageUpload = (props: ImageUploadProps) => {
       </Upload>
       <Button onClick={() => setImage('')} className="contact-submit form-btn">
         Remove Image
+      </Button>
+      <Button onClick={() => setTotalSubmitEnabled(false)} className="contact-submit form-btn">
+        Update Image
       </Button>
     </div>
   );

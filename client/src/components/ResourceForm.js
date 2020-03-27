@@ -82,7 +82,7 @@ const ResourceForm = (props: FormProps) => {
   const [comments, setComments] = useState([]);
   const [internalNotes, setInternalNotes] = useState([]);
   const [hoursOfOperation, setHoursOfOperation] = useState([]);
-  const [image, setImage] = useState([]);
+  const [image, setImage] = useState('');
 
   const { id } = props;
   const { getFieldDecorator, getFieldValue, setFieldsValue } = props.form;
@@ -123,7 +123,7 @@ const ResourceForm = (props: FormProps) => {
               ? result.hoursOfOperation.hoursOfOperation
               : [],
           );
-          setImage(result.image ? result.image : '');
+          setImage(result.image);
         }
       }
     }
