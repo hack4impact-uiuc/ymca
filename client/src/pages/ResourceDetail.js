@@ -12,6 +12,7 @@ import {
   getSavedResources,
 } from '../utils/auth';
 import ResourcesBreadcrumb from '../components/ResourcesBreadcrumb';
+import SaveButton from '../components/SaveButton';
 
 const { Header } = Layout;
 
@@ -103,12 +104,10 @@ export default class ResourceDetail extends Component {
 
   saveResourceHandler = async () => {
     await saveResource(this.props.match.params.id);
-    this.setState({ isSaved: true });
   };
 
   deleteResourceHandler = async () => {
     await deleteSavedResource(this.props.match.params.id);
-    this.setState({ isSaved: false });
   };
 
   updateIsSaved(savedSet) {
@@ -185,27 +184,12 @@ export default class ResourceDetail extends Component {
         <Row>
           <Col span={15}>
             <span className="resource-name">{name}</span>
-
-            {authed ? (
-              <a>
-                {' '}
-                {isSaved ? (
-                  <Button onClick={this.deleteResourceHandler}>
-                    <Icon
-                      type="star"
-                      theme="filled"
-                      style={{ fontSize: '16px' }}
-                    />
-                  </Button>
-                ) : (
-                  <Button onClick={this.saveResourceHandler}>
-                    <Icon type="star" style={{ fontSize: '16px' }} />
-                  </Button>
-                )}{' '}
-              </a>
-            ) : (
-              <div />
-            )}
+            <SaveButton
+              authed={authed}
+              isSaved={isSaved}
+              deleteResourceHandler={this.deleteResourceHandler}
+              saveResourceHandler={this.saveResourceHandler}
+            />
 
             {authed && authRoleIsEquivalentTo('admin') && (
               <span className="resource-edit-delete">
