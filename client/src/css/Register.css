@@ -49,5 +49,6 @@
 }
 
 .form-text .ant-form-item-label > label {
-  color: #f5222d;
+  color: #b7161f;
+  font-weight: 400;
 }

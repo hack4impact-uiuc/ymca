@@ -65,17 +65,11 @@ function Login(props: Props) {
             rules: [
               {
                 type: 'email',
-                message: (
-                  <div className="less-red-text">
-                    Please input a valid E-mail!
-                  </div>
-                ),
+                message: 'Please input a valid E-mail!',
               },
               {
                 required: true,
-                message: (
-                  <div className="less-red-text">Please input your E-mail!</div>
-                ),
+                message: 'Please input your E-mail!',
               },
             ],
           })(
@@ -90,11 +84,7 @@ function Login(props: Props) {
             rules: [
               {
                 required: true,
-                message: (
-                  <div className="less-red-text">
-                    Please input your password!
-                  </div>
-                ),
+                message: 'Please input your password!',
               },
             ],
           })(
@@ -105,7 +95,7 @@ function Login(props: Props) {
             />,
           )}
         </Form.Item>
-        <div className="less-red-text">{error}</div>
+        <div className="red-text">{error}</div>
         <Form.Item>
           {getFieldDecorator('remember', {
             valuePropName: 'checked',
