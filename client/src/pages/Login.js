@@ -114,7 +114,7 @@ function Login(props: Props) {
               <div className="white-text">Remember me</div>
             </Checkbox>,
           )}
-          <a className="login-form-forgot" href="home">
+          <a className="login-form-forgot" href="password-reset">
             Forgot password
           </a>
           <Button

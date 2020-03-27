@@ -73,11 +73,10 @@ const Register = ({ form, setAuthed, setAuthRole }) => {
 
       form.validateFields((err, values) => {
         if (!err) {
-          const { email, password } = values;
-          register({ email, password }).then(res => {
+          const { email, password, questionIdx, answer } = values;
+          register({ email, password, questionIdx, answer }).then(res => {
             if (res.status === 200) {
               localStorage.setItem('token', res.token);
-
               setAuthed(true);
               setAuthRole(res.permission);
             } else {
@@ -166,20 +165,21 @@ const Register = ({ form, setAuthed, setAuthRole }) => {
             />,
           )}
         </Form.Item>
-        <Form.Item
-          name="select"
-          label="*"
-          hasFeedback
-          className="form-text"
-          rules={[
-            { required: true, message: 'Please select a security question!' },
-          ]}
-        >
-          <Select placeholder="Please select a security question!">
-            {securityQuestions.map((question, idx) => {
-              return <Option value={idx}>{question}</Option>;
-            })}
-          </Select>
+        <Form.Item name="select" label="*" hasFeedback className="form-text">
+          {getFieldDecorator('questionIdx', {
+            rules: [
+              {
+                required: true,
+                message: 'Please select a security question!',
+              },
+            ],
+          })(
+            <Select placeholder="Please select a security question!">
+              {securityQuestions.map((question, idx) => {
+                return <Option value={idx}>{question}</Option>;
+              })}
+            </Select>,
+          )}
         </Form.Item>
         <Form.Item label="*" hasFeedback className="form-text">
           {getFieldDecorator('answer', {

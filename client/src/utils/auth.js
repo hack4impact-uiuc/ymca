@@ -14,7 +14,7 @@ export const login = body => {
 };
 
 export const register = body => {
-  const { email, password } = body;
+  const { email, password, questionIdx, answer } = body;
 
   return fetch(`${AUTH_SERVER_URI}/register`, {
     method: 'POST',
@@ -25,8 +25,8 @@ export const register = body => {
       email,
       password,
       role: 'public',
-      questionIdx: 0,
-      answer: '_',
+      questionIdx,
+      answer,
     }),
   }).then(res => res.json());
 };
@@ -45,6 +45,21 @@ export const getUsersForRolesPage = () => {
 export const getSecurityQuestions = () => {
   return fetch(`${AUTH_SERVER_URI}/getSecurityQuestions`, {
     method: 'GET',
+  }).then(res => res.json());
+};
+
+export const resetPassword = body => {
+  const { email, password, answer } = body;
+  return fetch(`${AUTH_SERVER_URI}/passwordReset`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      email,
+      password,
+      answer,
+    }),
   }).then(res => res.json());
 };
 
