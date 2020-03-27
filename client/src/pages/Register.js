@@ -1,10 +1,12 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { PropTypes } from 'prop-types';
-import { Button, Form, Input, Icon, Row, Col, message } from 'antd';
+import { Button, Form, Input, Icon, Select, Row, Col, message } from 'antd';
 import 'antd/dist/antd.css';
 import '../css/Register.css';
 
-import { register } from '../utils/auth';
+import { getSecurityQuestions, register } from '../utils/auth';
+
+const { Option } = Select;
 
 const formItemLayout = {
   labelCol: {
@@ -32,6 +34,15 @@ const tailFormItemLayout = {
 
 const Register = ({ form, setAuthed, setAuthRole }) => {
   const [confirmDirty, setConfirmDirty] = useState(true);
+  const [securityQuestions, setSecurityQuestions] = useState([]);
+
+  useEffect(() => {
+    async function fetchSecurityQuestions() {
+      const securityQuestionsData = await getSecurityQuestions();
+      setSecurityQuestions(securityQuestionsData.questions);
+    }
+    fetchSecurityQuestions();
+  }, [setSecurityQuestions]);
 
   const handleConfirmBlur = useCallback(
     e => {
@@ -154,6 +165,31 @@ const Register = ({ form, setAuthed, setAuthRole }) => {
               placeholder="Confirm Password"
             />,
           )}
+        </Form.Item>
+        <Form.Item
+          name="select"
+          label="*"
+          hasFeedback
+          className="form-text"
+          rules={[
+            { required: true, message: 'Please select a security question!' },
+          ]}
+        >
+          <Select placeholder="Please select a security question!">
+            {securityQuestions.map((question, idx) => {
+              return <Option value={idx}>{question}</Option>;
+            })}
+          </Select>
+        </Form.Item>
+        <Form.Item label="*" hasFeedback className="form-text">
+          {getFieldDecorator('answer', {
+            rules: [
+              {
+                required: true,
+                message: 'Please type in an answer!',
+              },
+            ],
+          })(<Input placeholder="Answer" />)}
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
           <Button className="reg-button" type="primary" htmlType="submit">

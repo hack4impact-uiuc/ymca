@@ -42,6 +42,12 @@ export const getUsersForRolesPage = () => {
   });
 };
 
+export const getSecurityQuestions = () => {
+  return fetch(`${AUTH_SERVER_URI}/getSecurityQuestions`, {
+    method: 'GET',
+  }).then(res => res.json());
+};
+
 export const changeRole = (userEmail, newRole, password) => {
   return fetch(`${AUTH_SERVER_URI}/roleschange`, {
     method: 'POST',
