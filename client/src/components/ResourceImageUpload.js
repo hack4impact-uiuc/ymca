@@ -54,7 +54,10 @@ const ImageUpload = (props: ImageUploadProps) => {
       <Button onClick={() => setImage('')} className="contact-submit form-btn">
         Remove Image
       </Button>
-      <Button onClick={() => setTotalSubmitEnabled(false)} className="contact-submit form-btn">
+      <Button
+        onClick={() => setTotalSubmitEnabled(false)}
+        className="contact-submit form-btn"
+      >
         Update Image
       </Button>
     </div>

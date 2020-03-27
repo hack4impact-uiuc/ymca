@@ -86,7 +86,13 @@ const FormCarousel = React.forwardRef((props: CarouselProps, ref) => {
       <div htmlFor="basicInformation">
         <LabelWrapper
           label="Upload Image"
-          component={<ImageUpload image={image} setImage={setImage} setTotalSubmitEnabled={setTotalSubmitEnabled}/>}
+          component={
+            <ImageUpload
+              image={image}
+              setImage={setImage}
+              setTotalSubmitEnabled={setTotalSubmitEnabled}
+            />
+          }
         />
 
         <LabelWrapper

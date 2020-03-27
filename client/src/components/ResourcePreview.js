@@ -114,7 +114,7 @@ function ResourcePreview(props) {
             <img
               className="resource-preview-cover-img"
               alt={subcategory}
-              src={image ? image : src}
+              src={image !== '' ? image : src}
             />
           </div>
         }
@@ -159,6 +159,7 @@ ResourcePreview.propTypes = {
   isSaved: PropTypes.bool.isRequired,
   authed: PropTypes.bool.isRequired,
   updateSaved: PropTypes.func.isRequired,
+  image: PropTypes.string.isRequired,
 };
 
 export default ResourcePreview;
