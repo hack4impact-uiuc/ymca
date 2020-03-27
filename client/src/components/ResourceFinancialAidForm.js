@@ -15,7 +15,7 @@ const FinancialAidForm = Form.create({ name: 'financialAid' })(props => {
 
   return (
     <Form
-      className="financialAidForm"
+      className="financial-aid-form"
       onSubmit={() => {
         setFinancialAidDetails({
           education: getFieldValue('education'),
@@ -80,7 +80,7 @@ const FinancialAidForm = Form.create({ name: 'financialAid' })(props => {
       <Button
         type="primary"
         htmlType="submit"
-        className="financialAidForm"
+        className="financial-aid-form form-btn"
         onClick={() => setTotalSubmitEnabled(false)}
       >
         Add Financial Aid Details
@@ -98,7 +98,7 @@ const FinancialAidFormItem = (props: FormProps) => {
 
   return (
     <Form.Item>
-      <Descriptions title="Financial Aid Details">
+      <Descriptions>
         <Descriptions.Item label="Education">
           {financialAidDetails.education}
         </Descriptions.Item>

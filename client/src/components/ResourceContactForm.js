@@ -29,7 +29,7 @@ const ContactForm = Form.create({ name: 'contactForm' })(props => {
 
   return (
     <Form
-      className="contactForm"
+      className="contact-form"
       onSubmit={() => {
         const contactName = getFieldValue('contactName');
         const contactRole = getFieldValue('contactRole');
@@ -143,7 +143,7 @@ const ContactForm = Form.create({ name: 'contactForm' })(props => {
       <Button
         type="primary"
         htmlType="submit"
-        className="contactSubmit"
+        className="contact-submit form-btn"
         onClick={() => setTotalSubmitEnabled(false)}
       >
         Add Contact
@@ -156,7 +156,7 @@ const ContactFormItem = (props: FormItemProps) => {
   const { contacts, setContacts, setTotalSubmitEnabled } = props;
 
   return (
-    <Form.Item label="Recommended Contacts">
+    <Form.Item>
       <List
         dataSource={contacts}
         renderItem={contact => (

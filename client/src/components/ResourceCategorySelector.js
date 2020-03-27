@@ -65,7 +65,7 @@ const CategorySelector = (props: Props) => {
 
   return (
     <>
-      <Form.Item label="Category">
+      <Form.Item>
         {getFieldDecorator('categorySelect', {
           rules: [
             {
