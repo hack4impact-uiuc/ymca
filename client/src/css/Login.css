@@ -41,7 +41,7 @@ p {
   display: inline-block;
 }
 
-.less-red-text {
+.red-text {
   color: #b7161f;
 }
 
@@ -84,4 +84,10 @@ p {
 
 .login-form-button:hover {
   background-color: #74cec8;
+}
+
+.has-error .ant-form-explain,
+.has-error .ant-form-split {
+  color: #b7161f;
+  font-weight: 400;
 }
