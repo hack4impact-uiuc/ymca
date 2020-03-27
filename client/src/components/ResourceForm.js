@@ -1,20 +1,16 @@
 // @flow
 
-import React, { useState, useEffect } from 'react';
-import { Form, Input, Button, Select, Affix, message, Radio, Rate } from 'antd';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { Form, Button, message, Row, Layout, Carousel } from 'antd';
 
-import languages from '../data/languages';
 import { addResource, editResource, getResourceByID } from '../utils/api';
 
-import PhoneNumberFormItem from './ResourcePhoneNumberForm';
-import ContactFormItem from './ResourceContactForm';
-import FinancialAidFormItem from './ResourceFinancialAidForm';
-import CategorySelector, { CAT_SUB_SPLITTER } from './ResourceCategorySelector';
-import StrListFormItem from './ResourceStrListForm';
-import InternalNotesFormItem from './ResourceInternalNotesForm';
+import { CAT_SUB_SPLITTER } from './ResourceCategorySelector';
+import FormCarousel from './ResourceFormCarousel';
 
-const { TextArea } = Input;
-const { Option } = Select;
+import '../css/ResourceForm.css';
+
+const { Header, Content } = Layout;
 
 const onSubmitNewResourceForm = async (e, enabled, id, resource) => {
   e.preventDefault();
@@ -26,7 +22,8 @@ const onSubmitNewResourceForm = async (e, enabled, id, resource) => {
       } else {
         message.error(
           `Resource could not be edited.
-          ${' '}Please check that all of the required fields are filled out!`,
+          ${' '}Please check that all of the required fields
+    are filled out!`,
         );
       }
     } else {
@@ -36,7 +33,8 @@ const onSubmitNewResourceForm = async (e, enabled, id, resource) => {
       } else {
         message.error(
           `Resource could not be created.
-          ${' '}Please check that all of the required fields are filled out!`,
+          ${' '}Please check that all of the required fields
+    are filled out!`,
         );
       }
     }
@@ -54,6 +52,26 @@ type FormProps = {
 
 const ResourceForm = (props: FormProps) => {
   const [totalSubmitEnabled, setTotalSubmitEnabled] = useState(true);
+  const [carouselIndex, setCarouselIndex] = useState(0);
+  const [carouselCategory, setCarouselCategory] = useState('');
+  const [showBackButton, setShowBackButton] = useState(false);
+  const [showSubmitButton, setShowSubmitButton] = useState(false);
+
+  const CAROUSEL_CATEGORIES = [
+    'Basic Information',
+    'Contact Information',
+    'Recommended Contacts',
+    'Financial Aid',
+    'Other',
+  ];
+
+  const createCarouselCategories = useCallback(() => {
+    return CAROUSEL_CATEGORIES.map(category => (
+      <div>
+        <p>{category}</p>
+      </div>
+    ));
+  }, [CAROUSEL_CATEGORIES]);
 
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
@@ -63,6 +81,7 @@ const ResourceForm = (props: FormProps) => {
   const [availableLanguages, setAvailableLanguages] = useState([]);
   const [comments, setComments] = useState([]);
   const [internalNotes, setInternalNotes] = useState([]);
+  const [hoursOfOperation, setHoursOfOperation] = useState([]);
 
   const { id } = props;
   const { getFieldDecorator, getFieldValue, setFieldsValue } = props.form;
@@ -98,212 +117,155 @@ const ResourceForm = (props: FormProps) => {
           setAvailableLanguages(result.availableLanguages);
           setComments(result.comments);
           setInternalNotes(result.internalNotes);
+          setHoursOfOperation(
+            result.hoursOfOperation !== undefined
+              ? result.hoursOfOperation.hoursOfOperation
+              : [],
+          );
         }
       }
     }
     fetchFields();
   }, [id, setFieldsValue]);
 
+  const formCarouselRef = useRef();
+  const formLabelRef = useRef();
+
+  const onBackButtonClick = useCallback(() => {
+    formCarouselRef.current.prev();
+  }, [formCarouselRef]);
+
+  const onNextButtonClick = useCallback(() => {
+    formCarouselRef.current.next();
+  }, [formCarouselRef]);
+
+  const onFormCarouselChange = useCallback(
+    (current, to) => {
+      formLabelRef.current.goTo(to);
+      setCarouselIndex(to);
+      setCarouselCategory(CAROUSEL_CATEGORIES[to]);
+
+      setShowBackButton(to > 0);
+      setShowSubmitButton(
+        CAROUSEL_CATEGORIES[to] ===
+          CAROUSEL_CATEGORIES[CAROUSEL_CATEGORIES.length - 1],
+      );
+
+      setTotalSubmitEnabled(showSubmitButton);
+    },
+    [
+      formLabelRef,
+      setCarouselIndex,
+      setShowBackButton,
+      setCarouselCategory,
+      setShowSubmitButton,
+      CAROUSEL_CATEGORIES,
+    ],
+  );
+
   return (
-    <Form
-      onSubmit={e => {
-        onSubmitNewResourceForm(e, totalSubmitEnabled, id, {
-          category: categories,
-          subcategory: subcategories,
-          name: getFieldValue('resourceName') || '',
-          description: getFieldValue('description') || '',
-          website: getFieldValue('website') || '',
-          email: getFieldValue('email') || '',
-          phoneNumbers,
-          contacts,
-          address: getFieldValue('address') || '',
-          city: getFieldValue('city') || '',
-          hoursOfOperation: getFieldValue('hoursOfOperation') || '',
-          eligibilityRequirements:
-            getFieldValue('eligibilityRequirements') || '',
-          financialAidDetails,
-          cost: getFieldValue('cost') || '',
-          availableLanguages: availableLanguages || [],
-          lastedUpdated: new Date(Date.now()),
-          recommendation: getFieldValue('recommendation'),
-          comments: comments || [],
-          internalNotes: internalNotes || [],
-        });
-      }}
-    >
-      <CategorySelector
-        setCategories={setCategories}
-        setSubcategories={setSubcategories}
-        getFieldDecorator={getFieldDecorator}
-        setFieldsValue={setFieldsValue}
-        getFieldValue={getFieldValue}
-      />
-      <Form.Item label="Resource Name">
-        {getFieldDecorator('resourceName', {
-          rules: [
-            {
-              required: true,
-              message: 'Please input a resource name!',
-            },
-          ],
-        })(
-          <Input
-            placeholder="Resource Name"
-            onFocus={() => setTotalSubmitEnabled(true)}
-          />,
-        )}
-      </Form.Item>
-      <Form.Item label="Description">
-        {getFieldDecorator('description', {
-          rules: [
-            {
-              required: true,
-              message: 'Please input a description!',
-            },
-          ],
-        })(
-          <TextArea
-            rows={4}
-            placeholder="Description"
-            onFocus={() => setTotalSubmitEnabled(true)}
-          />,
-        )}
-      </Form.Item>
-      <Form.Item label="Website">
-        {getFieldDecorator(
-          'website',
-          {},
-        )(
-          <Input
-            placeholder="Website"
-            onFocus={() => setTotalSubmitEnabled(true)}
-          />,
-        )}
-      </Form.Item>
-      <Form.Item label="Email">
-        {getFieldDecorator(
-          'email',
-          {},
-        )(
-          <Input
-            placeholder="Email"
-            onFocus={() => setTotalSubmitEnabled(true)}
-          />,
-        )}
-      </Form.Item>
-      {PhoneNumberFormItem({
-        phoneNumbers,
-        setPhoneNumbers,
-        setTotalSubmitEnabled,
-      })}
-      {InternalNotesFormItem({
-        internalNotes,
-        setInternalNotes,
-        setTotalSubmitEnabled,
-      })}
-      {ContactFormItem({
-        contacts,
-        setContacts,
-        setTotalSubmitEnabled,
-      })}
-      <Form.Item label="Address">
-        {getFieldDecorator(
-          'address',
-          {},
-        )(
-          <Input
-            placeholder="Address"
-            onFocus={() => setTotalSubmitEnabled(true)}
-          />,
-        )}
-      </Form.Item>
-      <Form.Item label="City">
-        {getFieldDecorator(
-          'city',
-          {},
-        )(
-          <Input
-            placeholder="City"
-            onFocus={() => setTotalSubmitEnabled(true)}
-          />,
-        )}
-      </Form.Item>
-      <Form.Item label="Hours of Operation">
-        {getFieldDecorator(
-          'hoursOfOperation',
-          {},
-        )(
-          <Input
-            placeholder="Monday-Friday 9:00am-5:00pm, 
-            Saturday and Sunday 12:00-2:00pm"
-            onFocus={() => setTotalSubmitEnabled(true)}
-          />,
-        )}
-      </Form.Item>
-      <Form.Item label="Eligibility Requirements">
-        {getFieldDecorator(
-          'eligibilityRequirements',
-          {},
-        )(
-          <Input
-            placeholder="Visa or receipt letter"
-            onFocus={() => setTotalSubmitEnabled(true)}
-          />,
-        )}
-      </Form.Item>
-      {FinancialAidFormItem({
-        financialAidDetails,
-        setFinancialAidDetails,
-        setTotalSubmitEnabled,
-      })}
-      <Form.Item label="Cost">
-        {getFieldDecorator('cost', {
-          rules: [{}],
-        })(
-          <Radio.Group onFocus={() => setTotalSubmitEnabled(true)}>
-            <Radio value="Free">Free</Radio>
-            <Radio value="$">$</Radio>
-            <Radio value="$$">$$</Radio>
-            <Radio value="$$$">$$$</Radio>
-          </Radio.Group>,
-        )}
-      </Form.Item>
-      <Form.Item label="Available Languages">
-        {getFieldDecorator(
-          'availableLanguages',
-          {},
-        )(
-          <Select mode="multiple" placeholder="Select available language(s)">
-            {languages.map(lang => (
-              <Option key={lang} value={lang}>
-                {lang}
-              </Option>
-            ))}
-          </Select>,
-        )}
-      </Form.Item>
-      <Form.Item label="Recommendation">
-        {getFieldDecorator('recommendation', {})(<Rate />)}
-      </Form.Item>
-      <StrListFormItem
-        formName="commentForm"
-        label="Comments"
-        placeholder="Enter a comment"
-        listOfStrings={comments}
-        setListOfStrings={setComments}
-        setTotalSubmitEnabled={setTotalSubmitEnabled}
-      />
-      <Affix offsetBottom={20}>
-        <Button
-          type="primary"
-          htmlType="submit"
-          className="newResourceSubmit"
-          onClick={() => setTotalSubmitEnabled(true)}
+    <Layout className="resource-form">
+      <Header className="header">
+        <Row justify="center" type="flex">
+          <h2>Add a Resource</h2>
+        </Row>
+      </Header>
+      <Content className="content">
+        <Carousel ref={formLabelRef} className="form-label" dots={false}>
+          {createCarouselCategories()}
+        </Carousel>
+        <Form
+          className="form"
+          onSubmit={e => {
+            onSubmitNewResourceForm(e, totalSubmitEnabled, id, {
+              category: categories,
+              subcategory: subcategories,
+              name: getFieldValue('resourceName') || '',
+              description: getFieldValue('description') || '',
+              website: getFieldValue('website') || '',
+              email: getFieldValue('email') || '',
+              phoneNumbers,
+              contacts,
+              address: getFieldValue('address') || '',
+              city: getFieldValue('city') || '',
+              hoursOfOperation: { hoursOfOperation } || {
+                hoursOfOperation: {},
+              },
+              eligibilityRequirements:
+                getFieldValue('eligibilityRequirements') || '',
+              financialAidDetails,
+              cost: getFieldValue('cost') || '',
+              availableLanguages: getFieldValue('availableLanguages') || [],
+              lastedUpdated: new Date(Date.now()),
+              recommendation: getFieldValue('recommendation'),
+              comments: comments || [],
+              internalNotes: internalNotes || [],
+            });
+          }}
         >
-          {id ? 'Submit Edit' : 'Add Resource'}
-        </Button>
-      </Affix>
-    </Form>
+          <FormCarousel
+            ref={formCarouselRef}
+            beforeChange={onFormCarouselChange}
+            categories={categories}
+            setCategories={setCategories}
+            subcategories={subcategories}
+            setSubcategories={setSubcategories}
+            phoneNumbers={phoneNumbers}
+            setPhoneNumbers={setPhoneNumbers}
+            contacts={contacts}
+            setContacts={setContacts}
+            financialAidDetails={financialAidDetails}
+            setFinancialAidDetails={setFinancialAidDetails}
+            availableLanguages={availableLanguages}
+            setAvailableLanguages={setAvailableLanguages}
+            comments={comments}
+            setComments={setComments}
+            internalNotes={internalNotes}
+            setInternalNotes={setInternalNotes}
+            hoursOfOperation={hoursOfOperation}
+            setHoursOfOperation={setHoursOfOperation}
+            totalSubmitEnabled={totalSubmitEnabled}
+            setTotalSubmitEnabled={setTotalSubmitEnabled}
+            setFieldsValue={setFieldsValue}
+            getFieldValue={getFieldValue}
+            getFieldDecorator={getFieldDecorator}
+          />
+          <div className="carousel-move-btn-container">
+            {!showSubmitButton ? (
+              <>
+                {showBackButton && (
+                  <Button
+                    type="default"
+                    className="carousel-move-btn"
+                    onClick={onBackButtonClick}
+                  >
+                    Back
+                  </Button>
+                )}
+                <Button
+                  type="default"
+                  className="carousel-move-btn"
+                  onClick={onNextButtonClick}
+                >
+                  Next
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button
+                  type="default"
+                  htmlType="submit"
+                  className="carousel-move-btn new-resource-submit"
+                  onClick={() => setTotalSubmitEnabled(true)}
+                >
+                  {id ? 'Submit Edit' : 'Add Resource'}
+                </Button>
+              </>
+            )}
+          </div>
+        </Form>
+      </Content>
+    </Layout>
   );
 };
 

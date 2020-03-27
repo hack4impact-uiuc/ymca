@@ -1,0 +1,91 @@
+.resource-form .header {
+  display: block;
+  background-image: linear-gradient(70deg, #431c72 0%, #6a3e9e 97%);
+  padding-top: 3em;
+  padding-bottom: 3em;
+  height: auto;
+}
+
+.resource-form .header h2 {
+  color: white;
+}
+
+.resource-form .content {
+  background-color: white;
+}
+
+.resource-form .form-label {
+  background-color: #6bdbd0;
+  width: 10em;
+  margin-top: 1em;
+  height: 2em;
+}
+
+.resource-form .form-label p {
+  color: white;
+  text-align: center;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+}
+
+.resource-form label[htmlFor='input'] span {
+  color: #6bdbd0;
+}
+
+.resource-form label[htmlFor='input'] {
+  color: #492179;
+}
+
+.resourceFrom form.Item {
+  padding-left: 2em;
+}
+
+.resource-form .form {
+  padding-left: 4em;
+  padding-right: 4em;
+}
+
+.form-carousel {
+  margin-left: 10vw;
+  margin-right: 10vw;
+}
+
+.form-carousel .slick-slide {
+  overflow: hidden;
+}
+
+.form-carousel .slick-dots-bottom li {
+  background: #ccc;
+}
+
+.form-carousel .slick-dots li.slick-active button {
+  background: #492179 !important;
+}
+
+.carousel-move-btn-container {
+  width: 12em;
+  margin: auto;
+  margin-bottom: 2em;
+  display: flex;
+  flex-direction: row;
+}
+
+.carousel-move-btn {
+  margin: auto;
+  background: #6bdbd0 !important;
+  color: white !important;
+  border-radius: 0px !important;
+  box-shadow: none !important;
+  border: 0px !important;
+  border-radius: 4px !important;
+}
+
+.form-btn {
+  background: #6bdbd0 !important;
+  color: white !important;
+  margin: auto;
+  border-radius: 0px !important;
+  box-shadow: none !important;
+  border: 0px !important;
+  border-radius: 4px !important;
+}
