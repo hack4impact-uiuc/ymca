@@ -7,17 +7,17 @@
     url('/asset/images/splash.jpg');
   background-size: cover;
   background-position: top;
-  height: 92vh;
+  height: 96vh;
   opacity: 1;
-  padding-left: 8%;
-  padding-bottom: 6%;
 }
 
 .welcome-text {
   color: #fff;
   font-weight: 600;
-  font-size: 65px !important;
+  font-size: 65px;
   line-height: 1.25;
+  padding-left: 8%;
+  padding-bottom: 6%;
 }
 
 .home-block-1 .ant-btn-primary {

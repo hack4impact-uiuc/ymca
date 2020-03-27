@@ -1,8 +1,12 @@
 /* Mobile CSS Definitions */
 @media (max-width: 700px) {
-  div.welcome-text {
-    width: 60vw;
+  .welcome-text-mobile {
+    color: #fff;
+    font-weight: 600;
+    line-height: 1.25;
+    width: 80vw;
     text-align: center;
+    font-size: 48px;
   }
 
   .ant-btn-primary {
