@@ -1,7 +1,7 @@
 // @flow
 
 import React, { useCallback, useState } from 'react';
-import { Link } from 'react-router-dom/';
+import { Link } from 'react-router-dom';
 import { Button, Checkbox, Form, Icon, Input, Row, Col } from 'antd';
 import 'antd/dist/antd.css';
 import '../css/LoginRegister.css';
@@ -104,7 +104,7 @@ function Login(props: Props) {
             Log In
           </Button>
           <div className="white-text">Don&#39;t have an account?</div>{' '}
-          <Link className="register-now" to="/register">
+          <Link className="link-now" to="/register">
             Register Now!
           </Link>
         </Form.Item>

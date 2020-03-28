@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
 import { Button, Form, Input, Icon, Select, Row, Col, message } from 'antd';
 import 'antd/dist/antd.css';
@@ -159,9 +160,15 @@ const Register = ({ form, setAuthed, setAuthRole }) => {
             ],
           })(<Input placeholder="Answer" />)}
         </Form.Item>
-        <Button className="form-button" type="primary" htmlType="submit">
-          Register
-        </Button>
+        <Form.Item>
+          <Button className="form-button" type="primary" htmlType="submit">
+            Register
+          </Button>
+          <div className="white-text">Have an account?</div>{' '}
+          <Link className="link-now" to="/login">
+            Login now!
+          </Link>
+        </Form.Item>
       </Form>
     </div>
   );

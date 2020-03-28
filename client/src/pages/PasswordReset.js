@@ -1,36 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
 import { Button, Form, Input, Icon, Select, Row, Col, message } from 'antd';
 import 'antd/dist/antd.css';
-import '../css/PasswordReset.css';
+import '../css/LoginRegister.css';
 
 import { getSecurityQuestions, resetPassword } from '../utils/auth';
 
 const { Option } = Select;
-
-const formItemLayout = {
-  labelCol: {
-    xs: { span: 24 },
-    sm: { span: 8 },
-  },
-  wrapperCol: {
-    xs: { span: 24 },
-    sm: { span: 8 },
-  },
-};
-
-const tailFormItemLayout = {
-  wrapperCol: {
-    xs: {
-      span: 24,
-      offset: 0,
-    },
-    sm: {
-      span: 24,
-      offset: 8,
-    },
-  },
-};
 
 const PasswordReset = ({ form, setAuthed, setAuthRole }) => {
   const [confirmDirty, setConfirmDirty] = useState(true);
@@ -93,19 +70,15 @@ const PasswordReset = ({ form, setAuthed, setAuthRole }) => {
   const { getFieldDecorator } = form;
 
   return (
-    <div className="password-reset-block-1">
+    <div className="background-container">
       <Row type="flex" justify="center">
-        <Col span={4} className="first-row-margin">
+        <Col className="icon">
           <img src="/asset/icon/icon-with-words.png" alt="" />
-          <div className="password-reset-text">Reset Password</div>
+          <div className="header-text">Reset Password</div>
         </Col>
       </Row>
-      <Form
-        {...formItemLayout}
-        onSubmit={e => onSubmit(e)}
-        className="password-reset-form"
-      >
-        <Form.Item label="*" className="form-text">
+      <Form onSubmit={e => onSubmit(e)} className="form">
+        <Form.Item className="form-text">
           {getFieldDecorator('email', {
             rules: [
               {
@@ -124,7 +97,7 @@ const PasswordReset = ({ form, setAuthed, setAuthRole }) => {
             />,
           )}
         </Form.Item>
-        <Form.Item label="*" hasFeedback className="form-text">
+        <Form.Item hasFeedback className="form-text">
           {getFieldDecorator('password', {
             rules: [
               {
@@ -140,7 +113,7 @@ const PasswordReset = ({ form, setAuthed, setAuthRole }) => {
             />,
           )}
         </Form.Item>
-        <Form.Item label="*" hasFeedback className="form-text">
+        <Form.Item hasFeedback className="form-text">
           {getFieldDecorator('confirm', {
             rules: [
               {
@@ -161,7 +134,7 @@ const PasswordReset = ({ form, setAuthed, setAuthRole }) => {
             />,
           )}
         </Form.Item>
-        <Form.Item name="select" label="*" hasFeedback className="form-text">
+        <Form.Item name="select" hasFeedback className="form-text">
           {getFieldDecorator('questionIdx', {
             rules: [
               {
@@ -177,7 +150,7 @@ const PasswordReset = ({ form, setAuthed, setAuthRole }) => {
             </Select>,
           )}
         </Form.Item>
-        <Form.Item label="*" hasFeedback className="form-text">
+        <Form.Item hasFeedback className="form-text">
           {getFieldDecorator('answer', {
             rules: [
               {
@@ -187,10 +160,14 @@ const PasswordReset = ({ form, setAuthed, setAuthRole }) => {
             ],
           })(<Input placeholder="Answer" />)}
         </Form.Item>
-        <Form.Item {...tailFormItemLayout}>
-          <Button className="reg-button" type="primary" htmlType="submit">
+        <Form.Item>
+          <Button className="form-button" type="primary" htmlType="submit">
             Reset
           </Button>
+          <div className="white-text">Remember your login?</div>{' '}
+          <Link className="link-now" to="/login">
+            Login now!
+          </Link>
         </Form.Item>
       </Form>
     </div>
@@ -199,7 +176,6 @@ const PasswordReset = ({ form, setAuthed, setAuthRole }) => {
 
 PasswordReset.propTypes = {
   form: Form.isRequired,
-  authed: PropTypes.string.isRequired,
   setAuthed: PropTypes.func.isRequired,
   setAuthRole: PropTypes.func.isRequired,
 };
