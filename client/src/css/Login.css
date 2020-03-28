@@ -1,5 +1,5 @@
 .ant-form-item {
-  margin-bottom: 8px;
+  margin-bottom: 1em;
 }
 
 .login-block-1 {
@@ -13,10 +13,10 @@
 .login-text {
   text-align: center;
   color: #fff;
-  font-weight: bold;
+  font-weight: 700;
   font-size: 36px;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
 }
 
 .form-text {
@@ -41,10 +41,8 @@ p {
 }
 
 .login-form {
-  max-width: 350px;
-  max-height: 200px;
-  margin-left: auto;
-  margin-right: auto;
+  max-width: 25%;
+  margin: 0 auto;
 }
 
 .login-form-forgot {
