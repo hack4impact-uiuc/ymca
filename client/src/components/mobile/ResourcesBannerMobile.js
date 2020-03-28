@@ -25,34 +25,18 @@ const stockPhotos = {
 };
 
 function ResourcesBannerMobile(props) {
-  const [src, setSrc] = useState('');
   const { categorySelected, subcategorySelected } = props;
-
-  useEffect(() => {
-    let found = false;
-    if (stockPhotos[subcategorySelected]) {
-      setSrc(stockPhotos[subcategorySelected]);
-      found = true;
-    }
-    if (!found) {
-      setSrc(
-        categorySelected.includes('Citizenship')
-          ? '/asset/subcategories/citizenship.jpg'
-          : '/asset/subcategories/default.jpg',
-      );
-    }
-  }, [categorySelected, setSrc, subcategorySelected]);
 
   return (
     <Header
       style={{
-        backgroundImage: `url(${src})`,
+        backgroundImage: `linear-gradient(70deg, #431C72 0%, #8450c4 99%)`,
         backgroundSize: 'cover',
         width: '100%',
         color: 'white',
-        height: '20em',
+        height: '10em',
         paddingLeft: '10%',
-        paddingTop: '12em',
+        paddingTop: '2.5em',
       }}
     >
       <Row>
@@ -62,7 +46,7 @@ function ResourcesBannerMobile(props) {
         />
       </Row>
       <Row>
-        <h1 style={{ color: 'white' }}>{categorySelected}</h1>
+        <h1 style={{ color: 'white', fontSize: '36px' }}>{categorySelected}</h1>
       </Row>
     </Header>
   );
