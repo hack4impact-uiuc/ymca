@@ -56,3 +56,7 @@
 .title {
   text-align: center;
 }
+
+.ant-drawer-body {
+  padding: 0;
+}
