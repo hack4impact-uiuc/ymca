@@ -11,7 +11,6 @@ export const HomeBlock2Mobile = () => {
       type="flex"
       justify="center"
       align="middle"
-      gutter={[16, 16]}
     >
       <Col className="home-block-2" span={24}>
         <Row type="flex" justify="center" align="middle">
