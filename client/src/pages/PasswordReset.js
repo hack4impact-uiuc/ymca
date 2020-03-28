@@ -96,11 +96,7 @@ const PasswordReset = ({ form, setAuthed, setAuthRole }) => {
     <div className="password-reset-block-1">
       <Row type="flex" justify="center">
         <Col span={4} className="first-row-margin">
-          <img
-            src="/asset/icon/icon-with-words.png"
-            alt=""
-            className="container"
-          />
+          <img src="/asset/icon/icon-with-words.png" alt="" />
           <div className="password-reset-text">Reset Password</div>
         </Col>
       </Row>

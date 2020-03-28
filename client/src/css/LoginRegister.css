@@ -2,7 +2,23 @@
   margin-bottom: 1em;
 }
 
-.login-block-1 {
+.ant-select {
+  font-weight: normal;
+}
+
+.has-error .ant-form-explain,
+.has-error .ant-form-split {
+  color: #b7161f;
+  font-weight: 400;
+}
+
+.icon img {
+  display: block;
+  margin: 5em auto 2em auto;
+  max-width: 15%;
+}
+
+.background-container {
   background: url('/asset/images/login-background.png');
   background-size: cover;
   height: 100%;
@@ -10,7 +26,7 @@
   position: fixed;
 }
 
-.login-text {
+.header-text {
   text-align: center;
   color: #fff;
   font-weight: 700;
@@ -20,8 +36,8 @@
 }
 
 .form-text {
-  font-weight: lighter;
-  font-size: 16px;
+  font-weight: 600;
+  font-size: 15px;
 }
 
 p {
@@ -40,34 +56,34 @@ p {
   color: #b7161f;
 }
 
-.login-form {
+.form {
   max-width: 25%;
   margin: 0 auto;
 }
 
-.login-form-forgot {
+.form-forgot {
   color: #8bd8d0;
   float: right;
 }
 
-.login-form-forgot:hover {
+.form-forgot:hover {
   color: #74cec8;
 }
 
-.login-form-register-now {
+.register-now {
   color: #8bd8d0;
 }
 
-.login-form-register-now:hover {
+.register-now:hover {
   color: #74cec8;
 }
 
-.login-form-checkbox .ant-checkbox-inner {
+.form-checkbox .ant-checkbox-inner {
   background-color: #8bd8d0;
   border-color: #8bd8d0;
 }
 
-.login-form-button {
+.form-button {
   width: 100%;
   background-color: #8bd8d0;
   border: 2px solid #8bd8d0;
@@ -76,13 +92,7 @@ p {
   padding-top: 0.3em;
 }
 
-.login-form-button:hover {
+.form-button:hover {
   background-color: #74cec8;
   border: 2px solid #74cec8;
-}
-
-.has-error .ant-form-explain,
-.has-error .ant-form-split {
-  color: #b7161f;
-  font-weight: 400;
 }
