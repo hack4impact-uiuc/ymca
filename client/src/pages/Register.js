@@ -95,7 +95,7 @@ const Register = ({ form, setAuthed, setAuthRole }) => {
   return (
     <div className="register-block-1">
       <Row type="flex" justify="center">
-        <Col span={4} className="first-row-margin">
+        <Col className="icon">
           <img
             src="/asset/icon/icon-with-words.png"
             alt=""

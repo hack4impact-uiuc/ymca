@@ -1,3 +1,8 @@
+.icon {
+  margin-top: 15vh;
+  width: 12em;
+}
+
 .register-block-1 {
   background-image: url('/asset/images/login-background.png');
   background-size: cover;
