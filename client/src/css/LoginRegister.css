@@ -97,7 +97,7 @@ p {
   border: 2px solid #74cec8;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 1024px) {
   .icon img {
     display: block;
     margin: 5em auto 2em auto;
