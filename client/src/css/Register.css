@@ -19,6 +19,7 @@
 
 .reg-button:hover {
   background-color: #74cec8;
+  border: 2px solid #74cec8;
 }
 
 .register-text {
