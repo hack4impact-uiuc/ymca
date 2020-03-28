@@ -19,19 +19,6 @@ const formItemLayout = {
   },
 };
 
-const tailFormItemLayout = {
-  wrapperCol: {
-    xs: {
-      span: 24,
-      offset: 0,
-    },
-    sm: {
-      span: 16,
-      offset: 8,
-    },
-  },
-};
-
 const Register = ({ form, setAuthed, setAuthRole }) => {
   const [confirmDirty, setConfirmDirty] = useState(true);
   const [securityQuestions, setSecurityQuestions] = useState([]);
@@ -191,11 +178,11 @@ const Register = ({ form, setAuthed, setAuthRole }) => {
             ],
           })(<Input placeholder="Answer" />)}
         </Form.Item>
-        <Form.Item {...tailFormItemLayout}>
+        <Row type="flex" justify="center">
           <Button className="reg-button" type="primary" htmlType="submit">
             Register
           </Button>
-        </Form.Item>
+        </Row>
       </Form>
     </div>
   );

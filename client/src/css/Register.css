@@ -14,7 +14,8 @@
 .reg-button {
   background-color: #8bd8d0;
   border: 2px solid #8bd8d0;
-  margin-left: 128px;
+  margin: 0 auto;
+  width: 33%;
 }
 
 .reg-button:hover {
