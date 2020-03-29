@@ -55,8 +55,7 @@
 }
 
 .resource-detail .anticon {
-  margin-bottom: 12px;
-  font-size: 150%;
+  height: 20px;
 }
 
 .resource-detail .ant-card-body {

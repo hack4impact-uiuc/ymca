@@ -182,7 +182,7 @@ export default class ResourceDetail extends Component {
             />
           </Row>
         </Header>
-        <Row>
+        <Row className="section">
           <Col span={15}>
             <span className="resource-name">{name}</span>
 
@@ -218,88 +218,84 @@ export default class ResourceDetail extends Component {
               </span>
             )}
           </Col>
-          <Col span={4}>
+          <Col span={9}>
+          <Icon type="global" theme="outlined" />
             {website.length > 0 ? (
               <a
                 href={website}
                 target="_blank"
                 rel="noopener noreferrer"
-              >{`${website}`}</a>
+            >{`${website}`}{"\n"}</a>
             ) : (
-              'No website provided.'
+              'No website provided.\n'
             )}
+            <Icon type="phone" theme="filled" />
+            {phone.length > 0 ?
+                    phone.map(p => {
+                      return `${p.phoneType}: ${p.phoneNumber}\n`;
+                    })
+                    : "No phone number provided.\n"}
+            <Icon type="environment" theme="outlined" />
           </Col>
         </Row>
-        <Row>
+        <Row className="section">
           <Col span={24}>
             {description.length > 0 ? description : 'No description provided.'}
             {eligibility && `\n\nEligibility Requirements: ${eligibility}`}
           </Col>
         </Row>
-        <Row className="section">
-          <Col span={4} className="section-label">
+        <Row>
+          <Col span={24} className="section-label">
             Basic Information
           </Col>
-          <Col span={20}>
-            <Row className="card-row">
-              <Col span={12}>
-                <Card>
-                  <Icon type="phone" theme="filled" />
-                  <div className="card-label">Contact Information{'\n'}</div>
-                  {phone.length > 0 &&
-                    phone.map(p => {
-                      return `${p.phoneType}: ${p.phoneNumber}\n`;
-                    })}
-                  {email && email.length > 0 && `${email}\n`}
-                  {website && website.length > 0 && website.length > 0 && (
-                    <a
-                      href={website}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >{`${website}\n`}</a>
-                  )}
-                  {website == null ||
-                    website.length === 0 ||
-                    email == null ||
-                    email.length === 0 ||
-                    (phone.length === 0 && 'None provided')}
-                </Card>
+          <Row>
+          <Col span={12}>
+            <Row>
+              <Col span={4}>
+                <Icon type="folder-open" theme="filled" />
               </Col>
-              <Col span={12}>
-                <Card>
-                  <Icon type="wechat" theme="filled" />
-                  <div className="card-label">Languages Spoken{'\n'}</div>
-                  {languages.length > 0
-                    ? languages.map(language => {
-                        return language;
-                      })
-                    : 'None provided.'}
-                </Card>
-              </Col>
-            </Row>
-            <Row className="card-row">
-              <Col span={12}>
-                <Card>
-                  <Icon type="folder-open" theme="filled" />
-                  <div className="card-label">Required Documents {'\n'}</div>
-                  {requiredDocuments.length > 0
+              <Col span={20}>
+                <div className="card-label">Required Documents {'\n'}</div>
+                {requiredDocuments.length > 0
                     ? requiredDocuments.map(doc => {
                         return doc;
                       })
                     : 'None provided.'}
-                </Card>
-              </Col>
-              <Col span={12}>
-                <Card>
-                  <Icon type="dollar-circle" theme="filled" />
-                  <div className="card-label">Cost{'\n'}</div>
-                  {cost != null ? cost : 'None provided.'}
-                </Card>
               </Col>
             </Row>
           </Col>
+          <Col span={12}>
+            <Row>
+              <Col span={4}>
+                <Icon type="dollar-circle" theme="filled" />
+              </Col>
+              <Col span={20}>
+                <div className="card-label">Cost{'\n'}</div>
+                {cost != null ? cost : 'None provided.'}
+              </Col>
+            </Row>
+          </Col>
+          </Row>
+          <Row>
+          <Col span={12}>
+            <Row>
+              <Col span={4}>
+                <Icon type="wechat" theme="filled" />
+              </Col>
+              <Col span={20}>
+                <div className="card-label">Languages Spoken{'\n'}</div>
+                {languages.length > 0
+                    ? languages.map(language => {
+                        return language;
+                      })
+                    : 'None provided.'}
+              </Col>
+            </Row>
+          </Col>
+          </Row>
+          
         </Row>
-        <Row>
+        {/* <Row>
           <Col span={4} className="section-label">
             Schedule
           </Col>
@@ -323,10 +319,10 @@ export default class ResourceDetail extends Component {
                 : 'No schedule provided'}
             </Row>
           </Col>
-        </Row>
+        </Row> */}
         <Row className="section">
           <Col span={4} className="section-label">
-            Location
+            Location and Hours
           </Col>
           <Col span={20}>
             <Row className="cardRow">
