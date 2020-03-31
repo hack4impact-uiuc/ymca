@@ -5,11 +5,11 @@ import { Button, Form, Input, Icon, Select, Row, Col, message } from 'antd';
 import 'antd/dist/antd.css';
 import '../css/LoginRegister.css';
 
-import { getSecurityQuestions, register } from '../utils/auth';
+import { getSecurityQuestions, resetPassword } from '../utils/auth';
 
 const { Option } = Select;
 
-const Register = ({ form, setAuthed, setAuthRole }) => {
+const PasswordReset = ({ form, setAuthed, setAuthRole }) => {
   const [confirmDirty, setConfirmDirty] = useState(true);
   const [securityQuestions, setSecurityQuestions] = useState([]);
 
@@ -44,14 +44,14 @@ const Register = ({ form, setAuthed, setAuthRole }) => {
     [form],
   );
 
-  const onRegisterSubmit = useCallback(
+  const onSubmit = useCallback(
     e => {
       e.preventDefault();
 
       form.validateFields((err, values) => {
         if (!err) {
-          const { email, password, questionIdx, answer } = values;
-          register({ email, password, questionIdx, answer }).then(res => {
+          const { email, password, answer } = values;
+          resetPassword({ email, password, answer }).then(res => {
             if (res.status === 200) {
               localStorage.setItem('token', res.token);
               setAuthed(true);
@@ -74,10 +74,10 @@ const Register = ({ form, setAuthed, setAuthRole }) => {
       <Row type="flex" justify="center">
         <Col className="icon">
           <img src="/asset/icon/icon-with-words.png" alt="" />
-          <div className="header-text">Registration</div>
+          <div className="header-text">Reset Password</div>
         </Col>
       </Row>
-      <Form onSubmit={e => onRegisterSubmit(e)} className="form">
+      <Form onSubmit={e => onSubmit(e)} className="form">
         <Form.Item className="form-text">
           {getFieldDecorator('email', {
             rules: [
@@ -139,11 +139,11 @@ const Register = ({ form, setAuthed, setAuthRole }) => {
             rules: [
               {
                 required: true,
-                message: 'Please select a security question!',
+                message: 'Please select your security question!',
               },
             ],
           })(
-            <Select placeholder="Please select a security question!">
+            <Select placeholder="Please select your security question!">
               {securityQuestions.map((question, idx) => {
                 return <Option value={idx}>{question}</Option>;
               })}
@@ -162,9 +162,9 @@ const Register = ({ form, setAuthed, setAuthRole }) => {
         </Form.Item>
         <Form.Item>
           <Button className="form-button" type="primary" htmlType="submit">
-            Register
+            Reset
           </Button>
-          <div className="white-text">Have an account?</div>{' '}
+          <div className="white-text">Remember your login?</div>{' '}
           <Link className="link-now" to="/login">
             Login now!
           </Link>
@@ -174,10 +174,10 @@ const Register = ({ form, setAuthed, setAuthRole }) => {
   );
 };
 
-Register.propTypes = {
+PasswordReset.propTypes = {
   form: Form.isRequired,
   setAuthed: PropTypes.func.isRequired,
   setAuthRole: PropTypes.func.isRequired,
 };
 
-export default Form.create()(Register);
+export default Form.create()(PasswordReset);
