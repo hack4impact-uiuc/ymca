@@ -1,10 +1,10 @@
 // @flow
 
 import React, { useCallback, useState } from 'react';
-import { Link } from 'react-router-dom/';
+import { Link } from 'react-router-dom';
 import { Button, Checkbox, Form, Icon, Input, Row, Col } from 'antd';
 import 'antd/dist/antd.css';
-import '../css/Login.css';
+import '../css/LoginRegister.css';
 
 import { login } from '../utils/auth';
 
@@ -44,38 +44,24 @@ function Login(props: Props) {
   );
 
   return (
-    <div className="login-block-1">
+    <div className="background-container">
       <Row type="flex" justify="center">
-        <Col span={4} className="first-row-margin">
-          <img
-            src="/asset/icon/icon-with-words.png"
-            alt=""
-            className="container"
-          />
-          <div className="login-text">Login</div>
+        <Col className="icon">
+          <img src="/asset/icon/icon-with-words.png" alt="" />
+          <div className="header-text">Login</div>
         </Col>
       </Row>
-      <Form
-        justify="center"
-        onSubmit={e => onLoginSubmit(e)}
-        className="login-form"
-      >
+      <Form justify="center" onSubmit={e => onLoginSubmit(e)} className="form">
         <Form.Item className="form-text">
           {getFieldDecorator('email', {
             rules: [
               {
                 type: 'email',
-                message: (
-                  <div className="less-red-text">
-                    Please input a valid E-mail!
-                  </div>
-                ),
+                message: 'Please input a valid E-mail!',
               },
               {
                 required: true,
-                message: (
-                  <div className="less-red-text">Please input your E-mail!</div>
-                ),
+                message: 'Please input your E-mail!',
               },
             ],
           })(
@@ -90,11 +76,7 @@ function Login(props: Props) {
             rules: [
               {
                 required: true,
-                message: (
-                  <div className="less-red-text">
-                    Please input your password!
-                  </div>
-                ),
+                message: 'Please input your password!',
               },
             ],
           })(
@@ -105,28 +87,24 @@ function Login(props: Props) {
             />,
           )}
         </Form.Item>
-        <div className="less-red-text">{error}</div>
+        <div className="red-text">{error}</div>
         <Form.Item>
           {getFieldDecorator('remember', {
             valuePropName: 'checked',
             initialValue: true,
           })(
-            <Checkbox className="login-form-checkbox">
+            <Checkbox className="form-checkbox">
               <div className="white-text">Remember me</div>
             </Checkbox>,
           )}
-          <Link className="login-form-forgot" to="/password-reset">
+          <Link className="form-forgot" to="/password-reset">
             Forgot password
           </Link>
-          <Button
-            type="primary"
-            htmlType="submit"
-            className="login-form-button"
-          >
+          <Button type="primary" htmlType="submit" className="form-button">
             Log In
           </Button>
           <div className="white-text">Don&#39;t have an account?</div>{' '}
-          <Link className="login-form-register-now" to="/register">
+          <Link className="link-now" to="/register">
             Register Now!
           </Link>
         </Form.Item>

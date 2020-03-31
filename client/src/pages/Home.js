@@ -28,19 +28,10 @@ const Home = () => {
         justify={isMobile ? 'center' : 'left'}
         align="middle"
       >
-        <Col className="welcome-text" span={6}>
-          <Textfit className="welcome-text" mode="single">
-            Welcome to
-          </Textfit>
-          <Textfit className="welcome-text" mode="single">
-            {isMobile ? (
-              <div style={{ 'white-space': 'normal' }}>Urbana-Champaign</div>
-            ) : (
-              'Urbana-Champaign'
-            )}
-          </Textfit>
+        <Col className={isMobile ? 'welcome-text-mobile' : 'welcome-text'}>
+          Welcome to <br /> Urbana-Champaign
           <Row type="flex" justify={isMobile ? 'center' : 'left'} align="left">
-            <Col span={18}>
+            <Col span={14}>
               <Link to="/resources">
                 <Button type="primary">Find Resources</Button>
               </Link>
