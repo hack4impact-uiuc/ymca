@@ -43,7 +43,7 @@ router.get(
     if (requireLatLong) {
       const apiLatLong =
         `https://www.mapquestapi.com/geocoding/v1/address?key=` +
-        `${process.env.MAPBOX_KEY}&maxResults=5&location=${resource.address}`;
+        `${process.env.MAPBOX_KEY}&maxResults=5&location=${resource.address},${resource.city},${resource.state},${resource.zip}`;
       const response = await fetch(apiLatLong, {});
       const responseJson = await response.json();
 
