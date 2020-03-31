@@ -164,7 +164,7 @@ const ResourceForm = (props: FormProps) => {
   );
 
   return (
-    <Layout className="resource-form">
+    <Layout className="resource-form-layout">
       <Header className="header">
         <Row justify="center" type="flex">
           <h2>Add a Resource</h2>
@@ -175,7 +175,7 @@ const ResourceForm = (props: FormProps) => {
           {createCarouselCategories()}
         </Carousel>
         <Form
-          className="form"
+          className="resource-form"
           onSubmit={e => {
             onSubmitNewResourceForm(e, totalSubmitEnabled, id, {
               category: categories,
