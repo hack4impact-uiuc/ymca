@@ -1,0 +1,110 @@
+.ant-form-item {
+  margin-bottom: 1em;
+}
+
+.ant-select {
+  font-weight: normal;
+}
+
+.has-error .ant-form-explain,
+.has-error .ant-form-split {
+  color: #b7161f;
+  font-weight: 400;
+}
+
+.icon img {
+  display: block;
+  margin: 5em auto 2em auto;
+  max-width: 15%;
+}
+
+.background-container {
+  background: url('/asset/images/login-background.jpg');
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+}
+
+.header-text {
+  text-align: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 36px;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.form-text {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+p {
+  margin: 0;
+  padding: 10;
+  font-size: 12px;
+  color: #8bd8d0;
+}
+
+.white-text {
+  color: #fff;
+  display: inline-block;
+}
+
+.red-text {
+  color: #b7161f;
+}
+
+.form {
+  max-width: 25%;
+  margin: 0 auto;
+}
+
+.form-forgot {
+  color: #8bd8d0;
+  float: right;
+}
+
+.form-forgot:hover {
+  color: #74cec8;
+}
+
+.link-now {
+  color: #8bd8d0;
+}
+
+.link-now:hover {
+  color: #74cec8;
+}
+
+.form-checkbox .ant-checkbox-inner {
+  background-color: #8bd8d0;
+  border-color: #8bd8d0;
+}
+
+.form-button {
+  width: 100%;
+  background-color: #8bd8d0;
+  border: 2px solid #8bd8d0;
+  font-weight: bolder;
+  font-size: 15px;
+  padding-top: 0.3em;
+}
+
+.form-button:hover {
+  background-color: #74cec8;
+  border: 2px solid #74cec8;
+}
+
+@media (max-width: 1024px) {
+  .icon img {
+    display: block;
+    margin: 5em auto 2em auto;
+    max-width: 25%;
+  }
+
+  .form {
+    max-width: 85%;
+  }
+}

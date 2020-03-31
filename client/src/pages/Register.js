@@ -1,36 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
 import { Button, Form, Input, Icon, Select, Row, Col, message } from 'antd';
 import 'antd/dist/antd.css';
-import '../css/Register.css';
+import '../css/LoginRegister.css';
 
 import { getSecurityQuestions, register } from '../utils/auth';
 
 const { Option } = Select;
-
-const formItemLayout = {
-  labelCol: {
-    xs: { span: 24 },
-    sm: { span: 8 },
-  },
-  wrapperCol: {
-    xs: { span: 24 },
-    sm: { span: 8 },
-  },
-};
-
-const tailFormItemLayout = {
-  wrapperCol: {
-    xs: {
-      span: 24,
-      offset: 0,
-    },
-    sm: {
-      span: 16,
-      offset: 8,
-    },
-  },
-};
 
 const Register = ({ form, setAuthed, setAuthRole }) => {
   const [confirmDirty, setConfirmDirty] = useState(true);
@@ -93,23 +70,15 @@ const Register = ({ form, setAuthed, setAuthRole }) => {
   const { getFieldDecorator } = form;
 
   return (
-    <div className="register-block-1">
+    <div className="background-container">
       <Row type="flex" justify="center">
-        <Col span={4} className="first-row-margin">
-          <img
-            src="/asset/icon/icon-with-words.png"
-            alt=""
-            className="container"
-          />
-          <div className="register-text">Registration</div>
+        <Col className="icon">
+          <img src="/asset/icon/icon-with-words.png" alt="" />
+          <div className="header-text">Registration</div>
         </Col>
       </Row>
-      <Form
-        {...formItemLayout}
-        onSubmit={e => onRegisterSubmit(e)}
-        className="register-form"
-      >
-        <Form.Item label="*" className="form-text">
+      <Form onSubmit={e => onRegisterSubmit(e)} className="form">
+        <Form.Item className="form-text">
           {getFieldDecorator('email', {
             rules: [
               {
@@ -128,7 +97,7 @@ const Register = ({ form, setAuthed, setAuthRole }) => {
             />,
           )}
         </Form.Item>
-        <Form.Item label="*" hasFeedback className="form-text">
+        <Form.Item hasFeedback className="form-text">
           {getFieldDecorator('password', {
             rules: [
               {
@@ -144,7 +113,7 @@ const Register = ({ form, setAuthed, setAuthRole }) => {
             />,
           )}
         </Form.Item>
-        <Form.Item label="*" hasFeedback className="form-text">
+        <Form.Item hasFeedback className="form-text">
           {getFieldDecorator('confirm', {
             rules: [
               {
@@ -165,7 +134,7 @@ const Register = ({ form, setAuthed, setAuthRole }) => {
             />,
           )}
         </Form.Item>
-        <Form.Item name="select" label="*" hasFeedback className="form-text">
+        <Form.Item name="select" hasFeedback className="form-text">
           {getFieldDecorator('questionIdx', {
             rules: [
               {
@@ -181,7 +150,7 @@ const Register = ({ form, setAuthed, setAuthRole }) => {
             </Select>,
           )}
         </Form.Item>
-        <Form.Item label="*" hasFeedback className="form-text">
+        <Form.Item hasFeedback className="form-text">
           {getFieldDecorator('answer', {
             rules: [
               {
@@ -191,10 +160,14 @@ const Register = ({ form, setAuthed, setAuthRole }) => {
             ],
           })(<Input placeholder="Answer" />)}
         </Form.Item>
-        <Form.Item {...tailFormItemLayout}>
-          <Button className="reg-button" type="primary" htmlType="submit">
+        <Form.Item>
+          <Button className="form-button" type="primary" htmlType="submit">
             Register
           </Button>
+          <div className="white-text">Have an account?</div>{' '}
+          <Link className="link-now" to="/login">
+            Login now!
+          </Link>
         </Form.Item>
       </Form>
     </div>
@@ -203,7 +176,6 @@ const Register = ({ form, setAuthed, setAuthRole }) => {
 
 Register.propTypes = {
   form: Form.isRequired,
-  authed: PropTypes.string.isRequired,
   setAuthed: PropTypes.func.isRequired,
   setAuthRole: PropTypes.func.isRequired,
 };
