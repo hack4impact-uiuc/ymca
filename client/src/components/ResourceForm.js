@@ -187,7 +187,11 @@ const ResourceForm = (props: FormProps) => {
               phoneNumbers,
               contacts,
               address: getFieldValue('address') || '',
+              addressLine2: getFieldValue('addressLine2') || '',
+              aptUnitSuite: getFieldValue('aptUnitSuite') || '',
               city: getFieldValue('city') || '',
+              state: getFieldValue('state') || '',
+              zip: getFieldValue('zip') || '',
               hoursOfOperation: { hoursOfOperation } || {
                 hoursOfOperation: {},
               },
