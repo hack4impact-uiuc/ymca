@@ -86,7 +86,7 @@ const ImageUpload = (props: ImageUploadProps) => {
   };
 
   return (
-    <div>
+    <>
       <Upload
         name="image"
         listType="picture-card"
@@ -134,7 +134,7 @@ const ImageUpload = (props: ImageUploadProps) => {
         </div>
         <Slider min={1} max={3} value={zoom} step={0.1} onChange={changeZoom} />
       </Modal>
-    </div>
+    </>
   );
 };
 
