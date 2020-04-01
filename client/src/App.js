@@ -13,6 +13,7 @@ import Login from './pages/Login';
 import Logout from './pages/Logout';
 import Navigation from './components/Navigation';
 import NotFound from './pages/NotFound';
+import PasswordReset from './pages/PasswordReset';
 import Register from './pages/Register';
 import ResourceDetail from './pages/ResourceDetail';
 import Resources from './pages/Resources';
@@ -124,6 +125,19 @@ const App = () => {
             render={() =>
               showIfUnauthed(
                 <Register
+                  authed={authed}
+                  setAuthed={setAuthed}
+                  setAuthRole={setAuthRole}
+                />,
+              )
+            }
+          />
+
+          <Route
+            path="/password-reset"
+            render={() =>
+              showIfUnauthed(
+                <PasswordReset
                   authed={authed}
                   setAuthed={setAuthed}
                   setAuthRole={setAuthRole}

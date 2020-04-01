@@ -18,14 +18,12 @@ function ResourcesBanner(props) {
         paddingLeft: '10%',
         paddingBottom: '0.5em',
       }}
-    >{categorySelected != null && <Row>
-      <ResourceBreadcrumb
-        categorySelected={categorySelected}
-        subcategorySelected={subcategorySelected}
-      />
-    </Row>
-      }
-
+    ><Row>
+        <ResourceBreadcrumb
+          categorySelected={categorySelected}
+          subcategorySelected={subcategorySelected}
+        />
+      </Row>
       <Row>
         <h1 style={{ color: 'white' }}>{categorySelected}</h1>
       </Row>

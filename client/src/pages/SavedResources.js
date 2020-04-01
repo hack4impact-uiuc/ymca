@@ -59,14 +59,14 @@ function SavedResources(props) {
         <Layout className="resources">
             {!isMobile && (
                 <ResourcesBanner
-                    categorySelected={null}
-                    subcategorySelected={null}
+                    categorySelected={'Saved Resources'}
+                    subcategorySelected={''}
                 />
             )}
             {isMobile && (
                 <ResourcesBannerMobile
-                    categorySelected={null}
-                    subcategorySelected={null}
+                    categorySelected={'Saved Resources'}
+                    subcategorySelected={''}
                 />
             )}
             <Layout style={{ background: 'white' }}>

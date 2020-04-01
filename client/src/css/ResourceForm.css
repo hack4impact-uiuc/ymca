@@ -1,4 +1,4 @@
-.resource-form .header {
+.resource-form-layout .header {
   display: block;
   background-image: linear-gradient(70deg, #431c72 0%, #6a3e9e 97%);
   padding-top: 3em;
@@ -6,41 +6,37 @@
   height: auto;
 }
 
-.resource-form .header h2 {
+.resource-form-layout .header h2 {
   color: white;
 }
 
-.resource-form .content {
+.resource-form-layout .content {
   background-color: white;
 }
 
-.resource-form .form-label {
+.resource-form-layout .form-label {
   background-color: #6bdbd0;
   width: 10em;
   margin-top: 1em;
   height: 2em;
 }
 
-.resource-form .form-label p {
+.resource-form-layout .form-label p {
   color: white;
   text-align: center;
   padding-top: 0.5em;
   padding-bottom: 0.5em;
 }
 
-.resource-form label[htmlFor='input'] span {
+.resource-form-layout label[htmlFor='input'] span {
   color: #6bdbd0;
 }
 
-.resource-form label[htmlFor='input'] {
+.resource-form-layout label[htmlFor='input'] {
   color: #492179;
 }
 
-.resourceFrom form.Item {
-  padding-left: 2em;
-}
-
-.resource-form .form {
+.resource-form-layout .resource-form {
   padding-left: 4em;
   padding-right: 4em;
 }
