@@ -41,11 +41,25 @@ router.get(
     }
 
     if (requireLatLong) {
+      console.log(
+        resource.address,
+        resource.city,
+        resource.state,
+        resource.zip,
+      );
       const apiLatLong =
-        `https://www.mapquestapi.com/geocoding/v1/address?key=` +
-        `${process.env.MAPBOX_KEY}&maxResults=5&location=${resource.address},${resource.city},${resource.state},${resource.zip}`;
+        resource.address.length > 0 ||
+        resource.city.length > 0 ||
+        resource.state.length > 0 ||
+        resource.zip.length > 0
+          ? `https://www.mapquestapi.com/geocoding/v1/address?key=` +
+            `${process.env.MAPBOX_KEY}&maxResults=5&location=${resource.address},${resource.city},${resource.state},${resource.zip}`
+          : `https://www.mapquestapi.com/geocoding/v1/address?key=` +
+            `${process.env.MAPBOX_KEY}&maxResults=5&location=`;
       const response = await fetch(apiLatLong, {});
+
       const responseJson = await response.json();
+      console.log(responseJson);
 
       if (responseJson.info.statuscode === 0) {
         resource = {
