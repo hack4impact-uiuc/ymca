@@ -52,7 +52,7 @@ const App = () => {
       return authRole === null || authRoles === null
         ? null
         : authRoles.indexOf(authRole.toLowerCase()) <=
-        authRoles.indexOf(role.toLowerCase());
+            authRoles.indexOf(role.toLowerCase());
     },
     [authRole, authRoles],
   );
@@ -155,9 +155,7 @@ const App = () => {
           <Route
             path="/resources"
             exact
-            render={props => (
-              <Resources {...props} authed={authed} />
-            )}
+            render={props => <Resources {...props} authed={authed} />}
           />
           <Route path="/resources/unknown" component={ResourceUnknown} />
           <PrivateRoute
