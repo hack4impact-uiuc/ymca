@@ -73,3 +73,7 @@
   color: #fff;
   font-size: 18px;
 }
+
+.resource-detail .day-of-week {
+  font-weight: 600;
+}

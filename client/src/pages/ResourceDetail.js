@@ -22,6 +22,7 @@ export default class ResourceDetail extends Component {
     this.state = {
       name: 'Resource Name',
       phone: [],
+      address: '',
       email: '',
       website: '',
       description: '',
@@ -50,6 +51,7 @@ export default class ResourceDetail extends Component {
       this.setState({
         name: result.name,
         phone: result.phoneNumbers,
+        address: result.address || '',
         description: result.description,
         languages: result.availableLanguages,
         category: result.category[0],
@@ -132,6 +134,7 @@ export default class ResourceDetail extends Component {
     const {
       name,
       phone,
+      address,
       email,
       website,
       description,
@@ -235,6 +238,7 @@ export default class ResourceDetail extends Component {
                 })
               : 'No phone number provided.\n'}
             <Icon type="environment" theme="outlined" />
+            {address.length > 0 ? `${address}\n` : 'No address provided.\n'}
           </Col>
         </Row>
         <Row className="section card-row">
@@ -244,7 +248,7 @@ export default class ResourceDetail extends Component {
           </Col>
         </Row>
         <Row>
-          <Col span={24} className="section-label">
+          <Col span={24} className="section-label card-row">
             Basic Information
           </Col>
         </Row>
@@ -307,32 +311,62 @@ export default class ResourceDetail extends Component {
           </Col>
         </Row> */}
         <Row className="section">
-          <Col span={24} className="section-label">
+          <Col span={24} className="section-label card-row">
             Location and Hours
           </Col>
         </Row>
         <Row className="section card-row">
           <Col span={12}>
-              <Map
-                style="mapbox://styles/mapbox/light-v9"
-                center={[lng, lat]}
-                containerStyle={{
-                  height: '400px',
-                  width: '450px',
-                }}
-                zoom={[15]}
+            {address.length > 0 ? `${address}\n` : 'No address provided.\n'}
+          </Col>
+          <Col span={12}>{/* Open now! */}</Col>
+        </Row>
+        <Row className="section card-row">
+          <Col span={12}>
+            <Map
+              style="mapbox://styles/mapbox/light-v9"
+              center={[lng, lat]}
+              containerStyle={{
+                height: '350px',
+                width: '400px',
+              }}
+              zoom={[15]}
+            >
+              <Layer
+                type="symbol"
+                id="marker"
+                layout={{ 'icon-image': 'marker-15' }}
               >
-                <Layer
-                  type="symbol"
-                  id="marker"
-                  layout={{ 'icon-image': 'marker-15' }}
-                >
-                  <Feature coordinates={[lng, lat]} />
-                </Layer>
-              </Map>
+                <Feature coordinates={[lng, lat]} />
+              </Layer>
+            </Map>
           </Col>
           <Col span={12}>
-
+            {/* {hours.length > 0
+              ? hours.map(day => {
+                  return (
+                    <Col key={day.day} span={8}>
+                      <Card></Card>
+                        <div className="card-label day-label"></div>
+                          {`${day.day}\n`}]
+                        {day.period.length > 0
+                          ? `${day.period[0]} - ${day.period[1]}`
+                          : 'None'}
+                  );
+                })
+              : 'No schedule provided'} */}
+            {hours.length > 0
+              ? hours.map(day => {
+                  return (
+                    <div>
+                      <span className="day-of-week">{`${day.day}: `}</span>
+                      {day.period.length > 0
+                        ? `${day.period[0]} - ${day.period[1]}`
+                        : 'None'}
+                    </div>
+                  );
+                })
+              : 'No schedule provided'}
           </Col>
         </Row>
         {authRoleIsEquivalentTo('admin') && (
