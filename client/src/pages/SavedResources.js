@@ -60,13 +60,11 @@ function SavedResources(props) {
             {!isMobile && (
                 <ResourcesBanner
                     categorySelected={'Saved Resources'}
-                    subcategorySelected={''}
                 />
             )}
             {isMobile && (
                 <ResourcesBannerMobile
                     categorySelected={'Saved Resources'}
-                    subcategorySelected={''}
                 />
             )}
             <Layout style={{ background: 'white' }}>
