@@ -15,6 +15,19 @@ function ResourceCategoryFilter(props) {
     subcategorySelect,
   } = props;
 
+  const orderedCategories = {};
+  Object.keys(categories)
+    .sort()
+    .forEach(function(key) {
+      orderedCategories[key] = categories[key];
+      orderedCategories[key].sort(function(a, b) {
+        const textA = a.toUpperCase();
+        const textB = b.toUpperCase();
+        const bool = textA > textB ? 1 : 0;
+        return textA < textB ? -1 : bool;
+      });
+    });
+
   return (
     <Menu
       mode="inline"
@@ -25,10 +38,10 @@ function ResourceCategoryFilter(props) {
       <Menu.Item key="All Resources" onClick={() => categorySelectAll()}>
         All Resources
       </Menu.Item>
-      {Object.keys(categories).map(categoryName => {
+      {Object.keys(orderedCategories).map(categoryName => {
         return (
           <SubMenu key={categoryName} title={categoryName}>
-            {categories[categoryName].map(subCategory => {
+            {orderedCategories[categoryName].map(subCategory => {
               return (
                 <Menu.Item
                   key={subCategory}

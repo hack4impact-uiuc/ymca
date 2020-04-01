@@ -118,6 +118,13 @@ function Resources(props) {
       );
     }
 
+    newResources.result.sort(function(a, b) {
+      const textA = a.name.toUpperCase();
+      const textB = b.name.toUpperCase();
+      const bool = textA > textB ? 1 : 0;
+      return textA < textB ? -1 : bool;
+    });
+
     setLoading(false);
 
     setCategory(categorySelected);

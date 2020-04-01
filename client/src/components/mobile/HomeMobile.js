@@ -6,12 +6,7 @@ import testimonials from '../../data/testimonials';
 
 export const HomeBlock2Mobile = () => {
   return (
-    <Row
-      className="home-block-2"
-      type="flex"
-      justify="center"
-      align="middle"
-    >
+    <Row className="home-block-2" type="flex" justify="center" align="middle">
       <Col className="home-block-2" span={24}>
         <Row type="flex" justify="center" align="middle">
           <Col span={20} className="home-block-2__top__text">
