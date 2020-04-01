@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Menu } from 'antd';
 
@@ -15,18 +15,16 @@ function ResourceCategoryFilter(props) {
     subcategorySelect,
   } = props;
 
-  const orderedCategories = {};
-  Object.keys(categories)
-    .sort()
-    .forEach(function(key) {
-      orderedCategories[key] = categories[key];
-      orderedCategories[key].sort(function(a, b) {
-        const textA = a.toUpperCase();
-        const textB = b.toUpperCase();
-        const bool = textA > textB ? 1 : 0;
-        return textA < textB ? -1 : bool;
+  const [orderedCategories] = useState({});
+
+  useEffect(() => {
+    Object.keys(categories)
+      .sort()
+      .forEach(function(key) {
+        orderedCategories[key] = categories[key];
+        orderedCategories[key].sort();
       });
-    });
+  }, [orderedCategories]);
 
   return (
     <Menu

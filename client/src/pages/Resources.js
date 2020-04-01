@@ -117,12 +117,12 @@ function Resources(props) {
         localSavedSet.has(newResource._id),
       );
     }
-
-    newResources.result.sort(function(a, b) {
-      const textA = a.name.toUpperCase();
-      const textB = b.name.toUpperCase();
-      const bool = textA > textB ? 1 : 0;
-      return textA < textB ? -1 : bool;
+    
+    newResources.result.sort(function(current,  next) {
+      const textCurrent = current.name.toUpperCase();
+      const textNext = next.name.toUpperCase();
+      const bool = textCurrent > textNext ? 1 : 0;
+      return textCurrent < textNext ? -1 : bool;
     });
 
     setLoading(false);
