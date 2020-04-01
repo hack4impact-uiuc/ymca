@@ -20,6 +20,7 @@ import ResourceUnknown from './pages/ResourceUnknown';
 import RoleApproval from './pages/RoleApproval';
 import ScrollToTop from './components/ScrollToTop';
 import { verify, getAllRoles } from './utils/auth';
+import SavedResources from './pages/SavedResources';
 
 const App = () => {
   const [authed, setAuthed] = useState(null);
@@ -50,7 +51,7 @@ const App = () => {
       return authRole === null || authRoles === null
         ? null
         : authRoles.indexOf(authRole.toLowerCase()) <=
-            authRoles.indexOf(role.toLowerCase());
+        authRoles.indexOf(role.toLowerCase());
     },
     [authRole, authRoles],
   );
@@ -102,7 +103,7 @@ const App = () => {
 
           <Route
             path="/saved"
-            render={props => <Resources {...props} authed={authed} saved />}
+            render={props => <SavedResources {...props} authed={authed} />}
           />
 
           <Route
@@ -141,7 +142,7 @@ const App = () => {
             path="/resources"
             exact
             render={props => (
-              <Resources {...props} authed={authed} saved={false} />
+              <Resources {...props} authed={authed} />
             )}
           />
           <Route path="/resources/unknown" component={ResourceUnknown} />

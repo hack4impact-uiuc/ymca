@@ -58,6 +58,13 @@ const NavMobile = (props: Props) => {
           </p>
           {authed && (
             <p>
+              <NavLink className="nav-mobile-option" to="/saved">
+                Saved Resources
+              </NavLink>
+            </p>
+          )}
+          {authed && (
+            <p>
               <NavLink className="nav-mobile-option" to="/admin">
                 Admin
               </NavLink>
@@ -77,12 +84,12 @@ const NavMobile = (props: Props) => {
               </NavLink>
             </p>
           ) : (
-            <p>
-              <NavLink className="nav-mobile-option" to="/logout">
-                Logout
+              <p>
+                <NavLink className="nav-mobile-option" to="/logout">
+                  Logout
               </NavLink>
-            </p>
-          )}
+              </p>
+            )}
         </Drawer>
       </div>
     </nav>
