@@ -23,6 +23,7 @@ export default class ResourceDetail extends Component {
     this.state = {
       name: 'Resource Name',
       phone: [],
+      address: '',
       email: '',
       website: '',
       description: '',
@@ -51,6 +52,7 @@ export default class ResourceDetail extends Component {
       this.setState({
         name: result.name,
         phone: result.phoneNumbers,
+        address: result.address || '',
         description: result.description,
         languages: result.availableLanguages,
         category: result.category[0],
@@ -131,6 +133,7 @@ export default class ResourceDetail extends Component {
     const {
       name,
       phone,
+      address,
       email,
       website,
       description,
@@ -181,7 +184,7 @@ export default class ResourceDetail extends Component {
             />
           </Row>
         </Header>
-        <Row>
+        <Row className="section">
           <Col span={15}>
             <span className="resource-name">{name}</span>
             <SaveButton
@@ -202,88 +205,71 @@ export default class ResourceDetail extends Component {
               </span>
             )}
           </Col>
-          <Col span={4}>
+          <Col span={9} className="header-info">
+            <Icon type="global" theme="outlined" />
             {website.length > 0 ? (
-              <a
-                href={website}
-                target="_blank"
-                rel="noopener noreferrer"
-              >{`${website}`}</a>
+              <a href={website} target="_blank" rel="noopener noreferrer">
+                {`${website}`}
+                {'\n'}
+              </a>
             ) : (
-              'No website provided.'
+              'No website provided.\n'
             )}
+            <Icon type="phone" theme="filled" />
+            {phone.length > 0
+              ? phone.map(p => {
+                  return `${p.phoneType}: ${p.phoneNumber}\n`;
+                })
+              : 'No phone number provided.\n'}
+            <Icon type="environment" theme="outlined" />
+            {address.length > 0 ? `${address}\n` : 'No address provided.\n'}
           </Col>
         </Row>
-        <Row>
+        <Row className="section card-row">
           <Col span={24}>
             {description.length > 0 ? description : 'No description provided.'}
             {eligibility && `\n\nEligibility Requirements: ${eligibility}`}
           </Col>
         </Row>
-        <Row className="section">
-          <Col span={4} className="section-label">
+        <Row>
+          <Col span={24} className="section-label card-row">
             Basic Information
           </Col>
-          <Col span={20}>
-            <Row className="card-row">
-              <Col span={12}>
-                <Card>
-                  <Icon type="phone" theme="filled" />
-                  <div className="card-label">Contact Information{'\n'}</div>
-                  {phone.length > 0 &&
-                    phone.map(p => {
-                      return `${p.phoneType}: ${p.phoneNumber}\n`;
-                    })}
-                  {email && email.length > 0 && `${email}\n`}
-                  {website && website.length > 0 && website.length > 0 && (
-                    <a
-                      href={website}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >{`${website}\n`}</a>
-                  )}
-                  {website == null ||
-                    website.length === 0 ||
-                    email == null ||
-                    email.length === 0 ||
-                    (phone.length === 0 && 'None provided')}
-                </Card>
-              </Col>
-              <Col span={12}>
-                <Card>
-                  <Icon type="wechat" theme="filled" />
-                  <div className="card-label">Languages Spoken{'\n'}</div>
-                  {languages.length > 0
-                    ? languages.map(language => {
-                        return language;
-                      })
-                    : 'None provided.'}
-                </Card>
-              </Col>
-            </Row>
-            <Row className="card-row">
-              <Col span={12}>
-                <Card>
-                  <Icon type="folder-open" theme="filled" />
-                  <div className="card-label">Required Documents {'\n'}</div>
-                  {requiredDocuments.length > 0
-                    ? requiredDocuments.map(doc => {
-                        return doc;
-                      })
-                    : 'None provided.'}
-                </Card>
-              </Col>
-              <Col span={12}>
-                <Card>
-                  <Icon type="dollar-circle" theme="filled" />
-                  <div className="card-label">Cost{'\n'}</div>
-                  {cost != null ? cost : 'None provided.'}
-                </Card>
-              </Col>
-            </Row>
+        </Row>
+        <Row className="card-row">
+          <Col span={1}>
+            <Icon type="folder-open" theme="filled" />
+          </Col>
+          <Col span={11}>
+            <div className="card-label">Required Documents {'\n'}</div>
+            {requiredDocuments.length > 0
+              ? requiredDocuments.map(doc => {
+                  return doc;
+                })
+              : 'None provided.'}
+          </Col>
+          <Col span={1}>
+            <Icon type="dollar-circle" theme="filled" />
+          </Col>
+          <Col span={11}>
+            <div className="card-label">Cost{'\n'}</div>
+            {cost != null ? cost : 'None provided.'}
           </Col>
         </Row>
-        <Row>
+        <Row className="card-row">
+          <Col span={1}>
+            <Icon type="wechat" theme="filled" />
+          </Col>
+          <Col span={11}>
+            <div className="card-label">Languages Spoken{'\n'}</div>
+            {languages.length > 0
+              ? languages.map(language => {
+                  return language;
+                })
+              : 'None provided.'}
+          </Col>
+        </Row>
+        {/* <Row>
           <Col span={4} className="section-label">
             Schedule
           </Col>
@@ -307,31 +293,64 @@ export default class ResourceDetail extends Component {
                 : 'No schedule provided'}
             </Row>
           </Col>
-        </Row>
+        </Row> */}
         <Row className="section">
-          <Col span={4} className="section-label">
-            Location
+          <Col span={24} className="section-label card-row">
+            Location and Hours
           </Col>
-          <Col span={20}>
-            <Row className="cardRow">
-              <Map
-                style="mapbox://styles/mapbox/light-v9"
-                center={[lng, lat]}
-                containerStyle={{
-                  height: '450px',
-                  width: '675px',
-                }}
-                zoom={[15]}
+        </Row>
+        <Row className="section card-row">
+          <Col span={12}>
+            {address.length > 0 ? `${address}\n` : 'No address provided.\n'}
+          </Col>
+          <Col span={12}>{/* Open now! */}</Col>
+        </Row>
+        <Row className="section card-row">
+          <Col span={12}>
+            <Map
+              style="mapbox://styles/mapbox/light-v9"
+              center={[lng, lat]}
+              containerStyle={{
+                height: '350px',
+                width: '400px',
+              }}
+              zoom={[15]}
+            >
+              <Layer
+                type="symbol"
+                id="marker"
+                layout={{ 'icon-image': 'marker-15' }}
               >
-                <Layer
-                  type="symbol"
-                  id="marker"
-                  layout={{ 'icon-image': 'marker-15' }}
-                >
-                  <Feature coordinates={[lng, lat]} />
-                </Layer>
-              </Map>
-            </Row>
+                <Feature coordinates={[lng, lat]} />
+              </Layer>
+            </Map>
+          </Col>
+          <Col span={12}>
+            {/* {hours.length > 0
+              ? hours.map(day => {
+                  return (
+                    <Col key={day.day} span={8}>
+                      <Card></Card>
+                        <div className="card-label day-label"></div>
+                          {`${day.day}\n`}]
+                        {day.period.length > 0
+                          ? `${day.period[0]} - ${day.period[1]}`
+                          : 'None'}
+                  );
+                })
+              : 'No schedule provided'} */}
+            {hours.length > 0
+              ? hours.map(day => {
+                  return (
+                    <div>
+                      <span className="day-of-week">{`${day.day}: `}</span>
+                      {day.period.length > 0
+                        ? `${day.period[0]} - ${day.period[1]}`
+                        : 'None'}
+                    </div>
+                  );
+                })
+              : 'No schedule provided'}
           </Col>
         </Row>
         {authRoleIsEquivalentTo('admin') && (
