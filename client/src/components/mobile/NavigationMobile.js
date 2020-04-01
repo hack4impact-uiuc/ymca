@@ -28,19 +28,24 @@ const NavMobile = (props: Props) => {
   return (
     <nav>
       <div className="nav-mobile" style={{ top: menuVisible ? '0em' : '-2em' }}>
-        <Button
-          onClick={() => setDrawerVisible(true)}
-          block
-          type="link"
-          id="navbar"
-        >
-          <div align="left">
-            <Icon type="menu" style={{ fontSize: '2em', color: 'gray' }} />
+        <div className="nav-topbar-container">
+          <div className="nav-mobile-logo" />
+          <div className="nav-menu-button-container">
+            <Button
+              onClick={() => setDrawerVisible(true)}
+              block
+              type="link"
+              id="navbar"
+            >
+              <div align="right">
+                <Icon type="menu" style={{ fontSize: '2em', color: 'gray' }} />
+              </div>
+            </Button>
           </div>
-        </Button>
+        </div>
         <Drawer
           align="center"
-          placement="top"
+          placement="right"
           closable={false}
           onClose={() => setDrawerVisible(false)}
           onClick={() => setDrawerVisible(false)}

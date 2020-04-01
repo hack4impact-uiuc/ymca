@@ -7,9 +7,25 @@
   transition: top 0.25s;
 }
 
+.nav-topbar-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.nav-mobile-logo {
+  margin: none;
+  padding: none;
+  background-image: url('/asset/icon/logo192.png');
+  background-position: center;
+  background-size: cover;
+  height: 2em;
+  width: 2em;
+  margin-left: 4px;
+}
+
 .nav-mobile-option {
   font-size: 2em;
-  font-family: sans-serif;
   color: #232323;
   transition: color 0.3s ease;
   list-style-type: none;
