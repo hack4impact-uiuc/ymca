@@ -159,7 +159,7 @@ const FormCarousel = React.forwardRef((props: CarouselProps, ref) => {
               component={
                 <Form.Item>
                   {getFieldDecorator(
-                    'address2',
+                    'addressLine2',
                     {},
                   )(
                     <Input

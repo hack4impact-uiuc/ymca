@@ -1,10 +1,17 @@
+.ant-btn {
+    line-height: 2.1;
+}
+
+.ant-select-selection__placeholder {
+    line-height: 23.75px;
+}
+
 .resources-filter-mobile {
   background: #fff;
   border-bottom: 1px solid rgba(235, 235, 235, 1);
   border-top: 1px solid rgba(235, 235, 235, 1);
   padding-top: 1em;
   padding-bottom: 1em;
-  padding-left: 1em;
   width: 100%;
   align-self: flex-start;
 }
@@ -12,6 +19,8 @@
 .filter-search-mobile {
   width: 100%;
   padding-bottom: 1em;
+  padding-left: 1em;
+  padding-right: 1em;
 }
 
 .ant-dropdown-trigger {
@@ -55,4 +64,8 @@
 
 .title {
   text-align: center;
+}
+
+.ant-drawer-body {
+  padding: 0;
 }
