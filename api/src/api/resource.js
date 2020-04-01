@@ -41,17 +41,21 @@ router.get(
     }
 
     if (requireLatLong) {
-      const apiLatLong =
-        `https://www.mapquestapi.com/geocoding/v1/address?key=` +
-        `${process.env.MAPBOX_KEY}&maxResults=5&location=${resource.address},${resource.city},${resource.state},${resource.zip}`;
-      const response = await fetch(apiLatLong, {});
-      const responseJson = await response.json();
+      try {
+        const apiLatLong =
+          `https://www.mapquestapi.com/geocoding/v1/address?key=` +
+          `${process.env.MAPBOX_KEY}&maxResults=5&location=${resource.address},${resource.city},${resource.state},${resource.zip}`;
+        const response = await fetch(apiLatLong, {});
+        const responseJson = await response.json();
 
-      if (responseJson.info.statuscode === 0) {
-        resource = {
-          ...resource._doc,
-          ...responseJson.results[0].locations[0].latLng,
-        };
+        if (responseJson.info.statuscode === 0) {
+          resource = {
+            ...resource._doc,
+            ...responseJson.results[0].locations[0].latLng,
+          };
+        }
+      } catch (err) {
+        // in case there is no loction params filled from the form.
       }
     }
 
