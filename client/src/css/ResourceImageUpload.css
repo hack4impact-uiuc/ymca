@@ -13,3 +13,7 @@
   height: 200px;
   position: relative;
 }
+
+.upload-container {
+  padding-bottom: 1em;
+}
