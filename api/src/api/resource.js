@@ -41,12 +41,6 @@ router.get(
     }
 
     if (requireLatLong) {
-      console.log(
-        resource.address,
-        resource.city,
-        resource.state,
-        resource.zip,
-      );
       const apiLatLong =
         resource.address.length > 0 ||
         resource.city.length > 0 ||
@@ -59,7 +53,6 @@ router.get(
       const response = await fetch(apiLatLong, {});
 
       const responseJson = await response.json();
-      console.log(responseJson);
 
       if (responseJson.info.statuscode === 0) {
         resource = {

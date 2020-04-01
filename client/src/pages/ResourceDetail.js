@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Button, Card, Col, Icon, message, Modal, Row, Layout } from 'antd';
+import { Button, Col, Icon, message, Modal, Row, Layout } from 'antd';
 import PropTypes from 'prop-types';
 import '../css/ResourceDetail.css';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
@@ -140,6 +140,7 @@ export default class ResourceDetail extends Component {
       phone,
       address,
       addressLine2,
+      aptUnitSuite,
       city,
       state,
       zip,
@@ -173,20 +174,23 @@ export default class ResourceDetail extends Component {
       return <Redirect to="/resources/unknown" />;
     }
 
-    let addressString = 'No address provided.'
+    let addressString = 'No address provided.';
     if (address.length > 0) {
       addressString = address;
       if (addressLine2.length > 0) {
-        addressString += `, ${addressLine2}`
+        addressString += `, ${addressLine2}`;
+      }
+      if (aptUnitSuite.length > 0) {
+        addressString += ` ${aptUnitSuite}`;
       }
       if (city.length > 0) {
-        addressString += `, ${city}`
+        addressString += `, ${city}`;
       }
       if (state.length > 0) {
-        addressString += `, ${state}`
+        addressString += `, ${state}`;
       }
       if (zip.length > 0) {
-        addressString += ` ${zip}`
+        addressString += ` ${zip}`;
       }
     }
 
@@ -239,13 +243,13 @@ export default class ResourceDetail extends Component {
                 {'\n'}
               </a>
             ) : (
-                'No website provided.\n'
-              )}
+              'No website provided.\n'
+            )}
             <Icon type="phone" theme="filled" />
             {phone.length > 0
               ? phone.map(p => {
-                return `${p.phoneType}: ${p.phoneNumber}\n`;
-              })
+                  return `${p.phoneType}: ${p.phoneNumber}\n`;
+                })
               : 'No phone number provided.\n'}
             <Icon type="environment" theme="outlined" />
             {addressString}
@@ -270,8 +274,8 @@ export default class ResourceDetail extends Component {
             <div className="card-label">Required Documents {'\n'}</div>
             {requiredDocuments.length > 0
               ? requiredDocuments.map(doc => {
-                return doc;
-              })
+                  return doc;
+                })
               : 'None provided.'}
           </Col>
           <Col span={1}>
@@ -290,8 +294,8 @@ export default class ResourceDetail extends Component {
             <div className="card-label">Languages Spoken{'\n'}</div>
             {languages.length > 0
               ? languages.map(language => {
-                return language;
-              })
+                  return language;
+                })
               : 'None provided.'}
           </Col>
         </Row>
@@ -301,9 +305,7 @@ export default class ResourceDetail extends Component {
           </Col>
         </Row>
         <Row className="section card-row">
-          <Col span={12}>
-            {addressString}
-          </Col>
+          <Col span={12}>{addressString}</Col>
           <Col span={12}>{/* Open now! */}</Col>
         </Row>
         <Row className="section card-row">
@@ -329,15 +331,15 @@ export default class ResourceDetail extends Component {
           <Col span={12}>
             {hours.length > 0
               ? hours.map(day => {
-                return (
-                  <div>
-                    <span className="day-of-week">{`${day.day}: `}</span>
-                    {day.period.length > 0
-                      ? `${day.period[0]} - ${day.period[1]}`
-                      : 'None'}
-                  </div>
-                );
-              })
+                  return (
+                    <div>
+                      <span className="day-of-week">{`${day.day}: `}</span>
+                      {day.period.length > 0
+                        ? `${day.period[0]} - ${day.period[1]}`
+                        : 'None'}
+                    </div>
+                  );
+                })
               : 'No schedule provided'}
           </Col>
         </Row>
