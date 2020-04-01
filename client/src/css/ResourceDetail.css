@@ -38,7 +38,6 @@
 
 .resource-detail .card-row {
   padding-top: 0px;
-  padding-bottom: 0px;
 }
 
 .resource-detail .ant-card-bordered {
@@ -55,8 +54,8 @@
 }
 
 .resource-detail .anticon {
-  margin-bottom: 12px;
-  font-size: 150%;
+  height: 20px;
+  padding-right: 15px;
 }
 
 .resource-detail .ant-card-body {
@@ -73,4 +72,8 @@
   background-size: cover;
   color: #fff;
   font-size: 18px;
+}
+
+.resource-detail .day-of-week {
+  font-weight: 600;
 }
