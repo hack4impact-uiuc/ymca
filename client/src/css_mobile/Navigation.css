@@ -24,14 +24,32 @@
   margin-left: 4px;
 }
 
+.nav-mobile-menu {
+  padding-top: 1em;
+}
+
+.nav-mobile-menu-item {
+  background-color: white !important;
+}
+
+.nav-mobile-menu-item.ant-menu-item-selected {
+  font-weight: bold;
+}
+
+.ant-menu-inline .ant-menu-item::after {
+  border-right: 0px none white !important;
+}
+
 .nav-mobile-option {
-  font-size: 2em;
-  color: #232323;
+  margin-left: 2em;
+
+  color: #232323 !important;
   transition: color 0.3s ease;
-  list-style-type: none;
+  font-size: 1.2em !important;
+  text-align: left !important;
 }
 
 .nav-mobile-option:hover {
-  color: tomato;
-  text-decoration: none;
+  color: tomato !important;
+  text-decoration: none !important;
 }
