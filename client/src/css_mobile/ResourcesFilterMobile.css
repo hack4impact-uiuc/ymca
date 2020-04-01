@@ -1,3 +1,11 @@
+.ant-btn {
+    line-height: 2.1;
+}
+
+.ant-select-selection__placeholder {
+    line-height: 23.75px;
+}
+
 .resources-filter-mobile {
   background: #fff;
   border-bottom: 1px solid rgba(235, 235, 235, 1);
