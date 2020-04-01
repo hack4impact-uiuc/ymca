@@ -13,6 +13,7 @@ import CommentsFormItem from './ResourceCommentsForm';
 import InternalNotesFormItem from './ResourceInternalNotesForm';
 import LabelWrapper from './LabelWrapper';
 import HoursOfOperationFormItem from './ResourceHoursOfOperationForm';
+import ImageUpload from './ResourceImageUpload';
 
 import '../css/ResourceForm.css';
 
@@ -36,6 +37,8 @@ type CarouselProps = {
   setInternalNotes: any => any,
   hoursOfOperation: any,
   setHoursOfOperation: any => any,
+  image: any,
+  setImage: any => any,
 
   setTotalSubmitEnabled: Boolean => any,
 
@@ -62,6 +65,8 @@ const FormCarousel = React.forwardRef((props: CarouselProps, ref) => {
     setInternalNotes,
     hoursOfOperation,
     setHoursOfOperation,
+    image,
+    setImage,
 
     setTotalSubmitEnabled,
 
@@ -79,6 +84,17 @@ const FormCarousel = React.forwardRef((props: CarouselProps, ref) => {
       beforeChange={beforeChange}
     >
       <div htmlFor="basicInformation">
+        <LabelWrapper
+          label="Upload Image"
+          component={
+            <ImageUpload
+              image={image}
+              setImage={setImage}
+              setTotalSubmitEnabled={setTotalSubmitEnabled}
+            />
+          }
+        />
+
         <LabelWrapper
           label="Categories"
           required
