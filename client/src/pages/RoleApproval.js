@@ -25,8 +25,8 @@ const RoleApproval = () => {
   const [userWithNewRole, setUserWithNewRole] = useState(-1);
 
   useEffect(() => {
-    setLoading(true);
     async function fetchData() {
+      setLoading(true);
       const userData = await getUsersForRolesPage();
       const userDataParsed = await userData.json();
 
