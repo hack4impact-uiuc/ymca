@@ -82,6 +82,7 @@ const ResourceForm = (props: FormProps) => {
   const [comments, setComments] = useState([]);
   const [internalNotes, setInternalNotes] = useState([]);
   const [hoursOfOperation, setHoursOfOperation] = useState([]);
+  const [image, setImage] = useState('');
 
   const { id } = props;
   const { getFieldDecorator, getFieldValue, setFieldsValue } = props.form;
@@ -122,6 +123,7 @@ const ResourceForm = (props: FormProps) => {
               ? result.hoursOfOperation.hoursOfOperation
               : [],
           );
+          setImage(result.image);
         }
       }
     }
@@ -204,6 +206,7 @@ const ResourceForm = (props: FormProps) => {
               recommendation: getFieldValue('recommendation'),
               comments: comments || [],
               internalNotes: internalNotes || [],
+              image: image || '',
             });
           }}
         >
@@ -228,6 +231,8 @@ const ResourceForm = (props: FormProps) => {
             setInternalNotes={setInternalNotes}
             hoursOfOperation={hoursOfOperation}
             setHoursOfOperation={setHoursOfOperation}
+            image={image}
+            setImage={setImage}
             totalSubmitEnabled={totalSubmitEnabled}
             setTotalSubmitEnabled={setTotalSubmitEnabled}
             setFieldsValue={setFieldsValue}
