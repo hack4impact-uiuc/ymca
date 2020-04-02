@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Button, Card, Col, Icon, message, Modal, Row, Layout } from 'antd';
+import { Button, Col, Icon, message, Modal, Row, Layout } from 'antd';
 import PropTypes from 'prop-types';
 import '../css/ResourceDetail.css';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
@@ -12,6 +12,7 @@ import {
   getSavedResources,
 } from '../utils/auth';
 import ResourcesBreadcrumb from '../components/ResourcesBreadcrumb';
+import SaveButton from '../components/SaveButton';
 
 const { Header } = Layout;
 
@@ -52,6 +53,11 @@ export default class ResourceDetail extends Component {
         name: result.name,
         phone: result.phoneNumbers,
         address: result.address || '',
+        addressLine2: result.addressLine2 || '',
+        aptUnitSuite: result.aptUnitSuite || '',
+        city: result.city || '',
+        state: result.state || '',
+        zip: result.zip || '',
         description: result.description,
         languages: result.availableLanguages,
         category: result.category[0],
@@ -73,9 +79,9 @@ export default class ResourceDetail extends Component {
     }
   }
 
-  async componentDidUpdate() {
-    let savedSet = new Set();
-    if (this.props.authed) {
+  async componentDidUpdate(prevProps) {
+    if (this.props.authed && prevProps.authed === null) {
+      let savedSet = new Set();
       const json = await getSavedResources();
       savedSet = new Set(json.result);
       this.updateIsSaved(savedSet);
@@ -105,12 +111,10 @@ export default class ResourceDetail extends Component {
 
   saveResourceHandler = async () => {
     await saveResource(this.props.match.params.id);
-    this.setState({ isSaved: true });
   };
 
   deleteResourceHandler = async () => {
     await deleteSavedResource(this.props.match.params.id);
-    this.setState({ isSaved: false });
   };
 
   updateIsSaved(savedSet) {
@@ -135,6 +139,11 @@ export default class ResourceDetail extends Component {
       name,
       phone,
       address,
+      addressLine2,
+      aptUnitSuite,
+      city,
+      state,
+      zip,
       email,
       website,
       description,
@@ -165,6 +174,26 @@ export default class ResourceDetail extends Component {
       return <Redirect to="/resources/unknown" />;
     }
 
+    let addressString = 'No address provided.';
+    if (address.length > 0) {
+      addressString = address;
+      if (addressLine2.length > 0) {
+        addressString += `, ${addressLine2}`;
+      }
+      if (aptUnitSuite.length > 0) {
+        addressString += ` ${aptUnitSuite}`;
+      }
+      if (city.length > 0) {
+        addressString += `, ${city}`;
+      }
+      if (state.length > 0) {
+        addressString += `, ${state}`;
+      }
+      if (zip.length > 0) {
+        addressString += ` ${zip}`;
+      }
+    }
+
     return (
       <div className="resource-detail">
         <Modal
@@ -188,27 +217,12 @@ export default class ResourceDetail extends Component {
         <Row className="section">
           <Col span={15}>
             <span className="resource-name">{name}</span>
-
-            {authed ? (
-              <a>
-                {' '}
-                {isSaved ? (
-                  <Button onClick={this.deleteResourceHandler}>
-                    <Icon
-                      type="star"
-                      theme="filled"
-                      style={{ fontSize: '16px' }}
-                    />
-                  </Button>
-                ) : (
-                  <Button onClick={this.saveResourceHandler}>
-                    <Icon type="star" style={{ fontSize: '16px' }} />
-                  </Button>
-                )}{' '}
-              </a>
-            ) : (
-              <div />
-            )}
+            <SaveButton
+              authed={authed}
+              isSaved={isSaved}
+              deleteResourceHandler={this.deleteResourceHandler}
+              saveResourceHandler={this.saveResourceHandler}
+            />
 
             {authed && authRoleIsEquivalentTo('admin') && (
               <span className="resource-edit-delete">
@@ -238,7 +252,7 @@ export default class ResourceDetail extends Component {
                 })
               : 'No phone number provided.\n'}
             <Icon type="environment" theme="outlined" />
-            {address.length > 0 ? `${address}\n` : 'No address provided.\n'}
+            {addressString}
           </Col>
         </Row>
         <Row className="section card-row">
@@ -285,40 +299,13 @@ export default class ResourceDetail extends Component {
               : 'None provided.'}
           </Col>
         </Row>
-        {/* <Row>
-          <Col span={4} className="section-label">
-            Schedule
-          </Col>
-          <Col span={20}>
-            <Row className="cardRow">
-              {hours.length > 0
-                ? hours.map(day => {
-                    return (
-                      <Col key={day.day} span={8}>
-                        <Card>
-                          <div className="card-label day-label">
-                            {`${day.day}\n`}
-                          </div>
-                          {day.period.length > 0
-                            ? `${day.period[0]} - ${day.period[1]}`
-                            : 'None'}
-                        </Card>
-                      </Col>
-                    );
-                  })
-                : 'No schedule provided'}
-            </Row>
-          </Col>
-        </Row> */}
         <Row className="section">
           <Col span={24} className="section-label card-row">
             Location and Hours
           </Col>
         </Row>
         <Row className="section card-row">
-          <Col span={12}>
-            {address.length > 0 ? `${address}\n` : 'No address provided.\n'}
-          </Col>
+          <Col span={12}>{addressString}</Col>
           <Col span={12}>{/* Open now! */}</Col>
         </Row>
         <Row className="section card-row">
@@ -342,19 +329,6 @@ export default class ResourceDetail extends Component {
             </Map>
           </Col>
           <Col span={12}>
-            {/* {hours.length > 0
-              ? hours.map(day => {
-                  return (
-                    <Col key={day.day} span={8}>
-                      <Card></Card>
-                        <div className="card-label day-label"></div>
-                          {`${day.day}\n`}]
-                        {day.period.length > 0
-                          ? `${day.period[0]} - ${day.period[1]}`
-                          : 'None'}
-                  );
-                })
-              : 'No schedule provided'} */}
             {hours.length > 0
               ? hours.map(day => {
                   return (
