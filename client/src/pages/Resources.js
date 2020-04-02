@@ -30,8 +30,6 @@ function Resources(props) {
   const [category, setCategory] = useState('');
   const [subcategory, setSubcategory] = useState('');
   const [loading, setLoading] = useState(false);
-  const [prevScroll, setPrevScroll] = useState(0);
-  const [offsetFilters, setOffsetFilters] = useState(true);
 
   const [openKeys, setOpenKeys] = useState([]);
   const [categories, setCategories] = useState({});
@@ -42,17 +40,6 @@ function Resources(props) {
   const costs = ['Free', 'Free - $', 'Free - $$', 'Free - $$$'];
 
   const isMobile = useWindowDimensions()[1];
-
-  const handleScroll = () => {
-    const lastScroll = prevScroll;
-    const currentScroll = window.pageYOffset;
-    setOffsetFilters(lastScroll > currentScroll);
-    setPrevScroll(currentScroll);
-  };
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-  });
 
   const fetchCategories = async () => {
     const res = await getCategories();
@@ -210,10 +197,7 @@ function Resources(props) {
   return (
     <Layout className="resources">
       {isMobile && (
-        <div
-          className="filter-search"
-          style={{ top: offsetFilters ? '2em' : '0em' }}
-        >
+        <div className="filter-search" style={{ top: '2em' }}>
           <ResourcesFilterMobile
             costs={costs}
             costSelected={cost}
@@ -253,10 +237,7 @@ function Resources(props) {
         />
       )}
       {isMobile && (
-        <div
-          className="filter-bar"
-          style={{ top: offsetFilters ? '8.8em' : '6.8em' }}
-        >
+        <div className="filter-bar" style={{ top: '8.8em' }}>
           <hr className="line" />
           <ResourcesCatMobile
             category={category}
