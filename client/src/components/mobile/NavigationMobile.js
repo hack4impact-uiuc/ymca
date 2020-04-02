@@ -13,22 +13,10 @@ type Props = {
 const NavMobile = (props: Props) => {
   const { authed, authRoleIsEquivalentTo } = props;
   const [drawerVisible, setDrawerVisible] = useState(false);
-  const [menuVisible, setMenuVisible] = useState(true);
-  const [prevScroll, setPrevScroll] = useState(0);
-  const handleScroll = () => {
-    const lastScroll = prevScroll;
-    const currentScroll = window.pageYOffset;
-    setMenuVisible(lastScroll > currentScroll);
-    setPrevScroll(currentScroll);
-  };
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-  });
 
   return (
     <nav>
-      <div className="nav-mobile" style={{ top: menuVisible ? '0em' : '-2em' }}>
+      <div className="nav-mobile">
         <div className="nav-topbar-container">
           <NavLink exact to="/">
             <div className="nav-mobile-logo" />
