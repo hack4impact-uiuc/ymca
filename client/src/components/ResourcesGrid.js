@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Col, Row } from 'antd';
+import { Col, Row } from 'antd';
 
 import ResourcePreview from './ResourcePreview';
 import '../css/ResourcesGrid.css';
@@ -36,6 +36,7 @@ function ResourcesGrid(props) {
               isSaved={savedResources.has(first._id)}
               authed={authed}
               updateSaved={updateSaved}
+              image={first.image || ''}
             />
           </Col>
           {second && (
@@ -52,6 +53,7 @@ function ResourcesGrid(props) {
                 isSaved={savedResources.has(second._id)}
                 authed={authed}
                 updateSaved={updateSaved}
+                image={second.image || ''}
               />
             </Col>
           )}
@@ -69,6 +71,7 @@ function ResourcesGrid(props) {
                 isSaved={savedResources.has(third._id)}
                 authed={authed}
                 updateSaved={updateSaved}
+                image={third.image || ''}
               />
             </Col>
           )}
@@ -89,6 +92,7 @@ ResourcesGrid.propTypes = {
       cost: PropTypes.string,
       name: PropTypes.string.isRequired,
       subcategory: PropTypes.arrayOf(PropTypes.string),
+      image: PropTypes.string,
     }),
   ).isRequired,
   savedResources: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,

@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Card, Icon } from 'antd';
+import { Card } from 'antd';
 import { Link } from 'react-router-dom';
 
 import '../css/ResourcePreview.css';
-import useWindowDimensions from '../utils/mobile';
 import { saveResource, deleteSavedResource } from '../utils/auth';
+
+import SaveButton from './SaveButton';
 
 const { Meta } = Card;
 
@@ -39,16 +40,17 @@ function ResourcePreview(props) {
     isSaved,
     authed,
     updateSaved,
+    image,
   } = props;
   const [src, setSrc] = useState('');
 
-  const saveResourceHandler = async (_e, _id) => {
-    await saveResource(_id);
+  const saveResourceHandler = async () => {
+    await saveResource(id);
     updateSaved();
   };
 
-  const deleteResourceHandler = async (_e, _id) => {
-    await deleteSavedResource(_id);
+  const deleteResourceHandler = async () => {
+    await deleteSavedResource(id);
     updateSaved();
   };
 
@@ -113,35 +115,25 @@ function ResourcePreview(props) {
             <img
               className="resource-preview-cover-img"
               alt={subcategory}
-              src={src}
+              src={image !== '' ? image : src}
             />
           </div>
         }
       >
-        {authed ? (
-          <a onClick={e => e.preventDefault()}>
-            {isSaved ? (
-              <Button
-                onClick={async e => {
-                  await deleteResourceHandler(e, id);
-                }}
-              >
-                <Icon type="star" theme="filled" style={{ fontSize: '16px' }} />
-              </Button>
-            ) : (
-              <Button
-                onClick={async e => {
-                  await saveResourceHandler(e, id);
-                }}
-              >
-                <Icon type="star" style={{ fontSize: '16px' }} />
-              </Button>
-            )}
-          </a>
-        ) : (
-          <div />
-        )}
-        <Meta title={name} description={description} />
+        <Meta
+          title={
+            <>
+              {name}
+              <SaveButton
+                authed={authed}
+                isSaved={isSaved}
+                deleteResourceHandler={deleteResourceHandler}
+                saveResourceHandler={saveResourceHandler}
+              />
+            </>
+          }
+          description={description}
+        />
       </Card>
     </Link>
   );
@@ -158,6 +150,7 @@ ResourcePreview.propTypes = {
   isSaved: PropTypes.bool.isRequired,
   authed: PropTypes.bool.isRequired,
   updateSaved: PropTypes.func.isRequired,
+  image: PropTypes.string.isRequired,
 };
 
 export default ResourcePreview;

@@ -40,10 +40,14 @@ function ResourcesBannerMobile(props) {
       }}
     >
       <Row>
-        <ResourceBreadcrumb
-          categorySelected={categorySelected}
-          subcategorySelected={subcategorySelected}
-        />
+        {subcategorySelected != null ? (
+          <ResourceBreadcrumb
+            categorySelected={categorySelected}
+            subcategorySelected={subcategorySelected}
+          />
+        ) : (
+          <span>Saved Resources</span>
+        )}
       </Row>
       <Row>
         <h1 style={{ color: 'white', fontSize: '36px' }}>{categorySelected}</h1>
