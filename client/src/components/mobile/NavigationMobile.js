@@ -81,27 +81,19 @@ const NavMobile = (props: Props) => {
                 </NavLink>
               </Menu.Item>
             )}
-            {/* <Menu.SubMenu
-              title="Resources"
-              key="resources"
-            >
-              <NavLink className="nav-mobile-option" exact to="/resources">
-                Resources
-              </NavLink>
-            </Menu.SubMenu> */}
             <Menu.Item className="nav-mobile-menu-item">
               <NavLink className="nav-mobile-option" exact to="/resources">
                 Resources
               </NavLink>
             </Menu.Item>
-            {authed && (
+            {authRoleIsEquivalentTo('admin') && (
               <Menu.Item className="nav-mobile-menu-item">
                 <NavLink className="nav-mobile-option" to="/admin">
                   Admin
                 </NavLink>
               </Menu.Item>
             )}
-            {authed && (
+            {authRoleIsEquivalentTo('admin') && (
               <Menu.Item className="nav-mobile-menu-item">
                 <NavLink className="nav-mobile-option" to="/role-approval">
                   Users
