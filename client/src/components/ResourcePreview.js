@@ -43,7 +43,6 @@ function ResourcePreview(props) {
     image,
   } = props;
   const [src, setSrc] = useState('');
-  const [hover, setHover] = useState(false);
 
   const saveResourceHandler = async () => {
     await saveResource(id);

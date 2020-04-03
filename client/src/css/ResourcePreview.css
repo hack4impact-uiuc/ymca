@@ -1,7 +1,5 @@
 .resource-preview-border:hover {
-  border-bottom: 5px solid	#efefef;
-  border-right: 5px solid	#efefef;
-  margin: -3px;
+  box-shadow: 3px 3px 5px gray;
 }
 
 .resource-preview-cover-img {
