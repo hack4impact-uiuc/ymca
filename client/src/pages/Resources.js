@@ -104,6 +104,13 @@ function Resources(props) {
       );
     }
 
+    newResources.result.sort(function(current, next) {
+      const textCurrent = current.name.toUpperCase();
+      const textNext = next.name.toUpperCase();
+      const bool = textCurrent > textNext ? 1 : 0;
+      return textCurrent < textNext ? -1 : bool;
+    });
+
     setLoading(false);
 
     setCategory(categorySelected);
