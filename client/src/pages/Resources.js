@@ -38,7 +38,6 @@ function Resources(props) {
   const [savedSet, setSavedSet] = useState(new Set());
 
   const costs = ['Free', 'Free - $', 'Free - $$', 'Free - $$$'];
-
   const isMobile = useWindowDimensions()[1];
 
   const fetchCategories = async () => {
