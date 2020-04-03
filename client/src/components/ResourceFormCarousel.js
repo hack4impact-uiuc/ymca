@@ -146,7 +146,6 @@ const FormCarousel = React.forwardRef((props: CarouselProps, ref) => {
         />
         <LabelWrapper
           label="Address"
-          required
           component={
             <Form.Item>
               {getFieldDecorator(
