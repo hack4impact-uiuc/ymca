@@ -8,6 +8,7 @@ const logger = require('morgan');
 const mongoose = require('mongoose');
 const path = require('path');
 const routes = require('./routes');
+const bodyParser = require('body-parser');
 
 const app = express();
 const { errorHandler } = require('./middleware');
@@ -34,8 +35,8 @@ app.use(cors());
 
 app.use(logger('dev'));
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.json({ limit: '2.1mb' }));
+app.use(bodyParser.urlencoded({ limit: '2.1mb', extended: false }));
 
 app.use('/', routes);
 

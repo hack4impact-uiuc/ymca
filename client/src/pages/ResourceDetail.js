@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Button, Card, Col, Icon, message, Modal, Row, Layout } from 'antd';
+import { Button, Col, Icon, message, Modal, Row, Layout } from 'antd';
 import PropTypes from 'prop-types';
 import '../css/ResourceDetail.css';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
@@ -12,6 +12,7 @@ import {
   getSavedResources,
 } from '../utils/auth';
 import ResourcesBreadcrumb from '../components/ResourcesBreadcrumb';
+import SaveButton from '../components/SaveButton';
 
 const { Header } = Layout;
 
@@ -22,6 +23,7 @@ export default class ResourceDetail extends Component {
     this.state = {
       name: 'Resource Name',
       phone: [],
+      address: '',
       email: '',
       website: '',
       description: '',
@@ -50,6 +52,12 @@ export default class ResourceDetail extends Component {
       this.setState({
         name: result.name,
         phone: result.phoneNumbers,
+        address: result.address || '',
+        addressLine2: result.addressLine2 || '',
+        aptUnitSuite: result.aptUnitSuite || '',
+        city: result.city || '',
+        state: result.state || '',
+        zip: result.zip || '',
         description: result.description,
         languages: result.availableLanguages,
         category: result.category[0],
@@ -71,9 +79,9 @@ export default class ResourceDetail extends Component {
     }
   }
 
-  async componentDidUpdate() {
-    let savedSet = new Set();
-    if (this.props.authed) {
+  async componentDidUpdate(prevProps) {
+    if (this.props.authed && prevProps.authed === null) {
+      let savedSet = new Set();
       const json = await getSavedResources();
       savedSet = new Set(json.result);
       this.updateIsSaved(savedSet);
@@ -103,12 +111,10 @@ export default class ResourceDetail extends Component {
 
   saveResourceHandler = async () => {
     await saveResource(this.props.match.params.id);
-    this.setState({ isSaved: true });
   };
 
   deleteResourceHandler = async () => {
     await deleteSavedResource(this.props.match.params.id);
-    this.setState({ isSaved: false });
   };
 
   updateIsSaved(savedSet) {
@@ -132,6 +138,12 @@ export default class ResourceDetail extends Component {
     const {
       name,
       phone,
+      address,
+      addressLine2,
+      aptUnitSuite,
+      city,
+      state,
+      zip,
       email,
       website,
       description,
@@ -162,6 +174,26 @@ export default class ResourceDetail extends Component {
       return <Redirect to="/resources/unknown" />;
     }
 
+    let addressString = 'No address provided.';
+    if (address.length > 0) {
+      addressString = address;
+      if (addressLine2.length > 0) {
+        addressString += `, ${addressLine2}`;
+      }
+      if (aptUnitSuite.length > 0) {
+        addressString += ` ${aptUnitSuite}`;
+      }
+      if (city.length > 0) {
+        addressString += `, ${city}`;
+      }
+      if (state.length > 0) {
+        addressString += `, ${state}`;
+      }
+      if (zip.length > 0) {
+        addressString += ` ${zip}`;
+      }
+    }
+
     return (
       <div className="resource-detail">
         <Modal
@@ -182,30 +214,15 @@ export default class ResourceDetail extends Component {
             />
           </Row>
         </Header>
-        <Row>
+        <Row className="section">
           <Col span={15}>
             <span className="resource-name">{name}</span>
-
-            {authed ? (
-              <a>
-                {' '}
-                {isSaved ? (
-                  <Button onClick={this.deleteResourceHandler}>
-                    <Icon
-                      type="star"
-                      theme="filled"
-                      style={{ fontSize: '16px' }}
-                    />
-                  </Button>
-                ) : (
-                  <Button onClick={this.saveResourceHandler}>
-                    <Icon type="star" style={{ fontSize: '16px' }} />
-                  </Button>
-                )}{' '}
-              </a>
-            ) : (
-              <div />
-            )}
+            <SaveButton
+              authed={authed}
+              isSaved={isSaved}
+              deleteResourceHandler={this.deleteResourceHandler}
+              saveResourceHandler={this.saveResourceHandler}
+            />
 
             {authed && authRoleIsEquivalentTo('admin') && (
               <span className="resource-edit-delete">
@@ -218,136 +235,112 @@ export default class ResourceDetail extends Component {
               </span>
             )}
           </Col>
-          <Col span={4}>
+          <Col span={9} className="header-info">
+            <Icon type="global" theme="outlined" />
             {website.length > 0 ? (
-              <a
-                href={website}
-                target="_blank"
-                rel="noopener noreferrer"
-              >{`${website}`}</a>
+              <a href={website} target="_blank" rel="noopener noreferrer">
+                {`${website}`}
+                {'\n'}
+              </a>
             ) : (
-              'No website provided.'
+              'No website provided.\n'
             )}
+            <Icon type="phone" theme="filled" />
+            {phone.length > 0
+              ? phone.map(p => {
+                  return `${p.phoneType}: ${p.phoneNumber}\n`;
+                })
+              : 'No phone number provided.\n'}
+            <Icon type="environment" theme="outlined" />
+            {addressString}
           </Col>
         </Row>
-        <Row>
+        <Row className="section card-row">
           <Col span={24}>
             {description.length > 0 ? description : 'No description provided.'}
             {eligibility && `\n\nEligibility Requirements: ${eligibility}`}
           </Col>
         </Row>
-        <Row className="section">
-          <Col span={4} className="section-label">
+        <Row>
+          <Col span={24} className="section-label card-row">
             Basic Information
           </Col>
-          <Col span={20}>
-            <Row className="card-row">
-              <Col span={12}>
-                <Card>
-                  <Icon type="phone" theme="filled" />
-                  <div className="card-label">Contact Information{'\n'}</div>
-                  {phone.length > 0 &&
-                    phone.map(p => {
-                      return `${p.phoneType}: ${p.phoneNumber}\n`;
-                    })}
-                  {email && email.length > 0 && `${email}\n`}
-                  {website && website.length > 0 && website.length > 0 && (
-                    <a
-                      href={website}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >{`${website}\n`}</a>
-                  )}
-                  {website == null ||
-                    website.length === 0 ||
-                    email == null ||
-                    email.length === 0 ||
-                    (phone.length === 0 && 'None provided')}
-                </Card>
-              </Col>
-              <Col span={12}>
-                <Card>
-                  <Icon type="wechat" theme="filled" />
-                  <div className="card-label">Languages Spoken{'\n'}</div>
-                  {languages.length > 0
-                    ? languages.map(language => {
-                        return language;
-                      })
-                    : 'None provided.'}
-                </Card>
-              </Col>
-            </Row>
-            <Row className="card-row">
-              <Col span={12}>
-                <Card>
-                  <Icon type="folder-open" theme="filled" />
-                  <div className="card-label">Required Documents {'\n'}</div>
-                  {requiredDocuments.length > 0
-                    ? requiredDocuments.map(doc => {
-                        return doc;
-                      })
-                    : 'None provided.'}
-                </Card>
-              </Col>
-              <Col span={12}>
-                <Card>
-                  <Icon type="dollar-circle" theme="filled" />
-                  <div className="card-label">Cost{'\n'}</div>
-                  {cost != null ? cost : 'None provided.'}
-                </Card>
-              </Col>
-            </Row>
+        </Row>
+        <Row className="card-row">
+          <Col span={1}>
+            <Icon type="folder-open" theme="filled" />
+          </Col>
+          <Col span={11}>
+            <div className="card-label">Required Documents {'\n'}</div>
+            {requiredDocuments.length > 0
+              ? requiredDocuments.map(doc => {
+                  return doc;
+                })
+              : 'None provided.'}
+          </Col>
+          <Col span={1}>
+            <Icon type="dollar-circle" theme="filled" />
+          </Col>
+          <Col span={11}>
+            <div className="card-label">Cost{'\n'}</div>
+            {cost != null ? cost : 'None provided.'}
           </Col>
         </Row>
-        <Row>
-          <Col span={4} className="section-label">
-            Schedule
+        <Row className="card-row">
+          <Col span={1}>
+            <Icon type="wechat" theme="filled" />
           </Col>
-          <Col span={20}>
-            <Row className="cardRow">
-              {hours.length > 0
-                ? hours.map(day => {
-                    return (
-                      <Col key={day.day} span={8}>
-                        <Card>
-                          <div className="card-label day-label">
-                            {`${day.day}\n`}
-                          </div>
-                          {day.period.length > 0
-                            ? `${day.period[0]} - ${day.period[1]}`
-                            : 'None'}
-                        </Card>
-                      </Col>
-                    );
-                  })
-                : 'No schedule provided'}
-            </Row>
+          <Col span={11}>
+            <div className="card-label">Languages Spoken{'\n'}</div>
+            {languages.length > 0
+              ? languages.map(language => {
+                  return language;
+                })
+              : 'None provided.'}
           </Col>
         </Row>
         <Row className="section">
-          <Col span={4} className="section-label">
-            Location
+          <Col span={24} className="section-label card-row">
+            Location and Hours
           </Col>
-          <Col span={20}>
-            <Row className="cardRow">
-              <Map
-                style="mapbox://styles/mapbox/light-v9"
-                center={[lng, lat]}
-                containerStyle={{
-                  height: '450px',
-                  width: '675px',
-                }}
-                zoom={[15]}
+        </Row>
+        <Row className="section card-row">
+          <Col span={12}>{addressString}</Col>
+          <Col span={12}>{/* Open now! */}</Col>
+        </Row>
+        <Row className="section card-row">
+          <Col span={12}>
+            <Map
+              style="mapbox://styles/mapbox/light-v9"
+              center={[lng, lat]}
+              containerStyle={{
+                height: '350px',
+                width: '400px',
+              }}
+              zoom={[15]}
+            >
+              <Layer
+                type="symbol"
+                id="marker"
+                layout={{ 'icon-image': 'marker-15' }}
               >
-                <Layer
-                  type="symbol"
-                  id="marker"
-                  layout={{ 'icon-image': 'marker-15' }}
-                >
-                  <Feature coordinates={[lng, lat]} />
-                </Layer>
-              </Map>
-            </Row>
+                <Feature coordinates={[lng, lat]} />
+              </Layer>
+            </Map>
+          </Col>
+          <Col span={12}>
+            {hours.length > 0
+              ? hours.map(day => {
+                  return (
+                    <div>
+                      <span className="day-of-week">{`${day.day}: `}</span>
+                      {day.period.length > 0
+                        ? `${day.period[0]} - ${day.period[1]}`
+                        : 'None'}
+                    </div>
+                  );
+                })
+              : 'No schedule provided'}
           </Col>
         </Row>
         {authRoleIsEquivalentTo('admin') && (
