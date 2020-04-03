@@ -35,7 +35,7 @@ app.use(cors());
 
 app.use(logger('dev'));
 
-app.use(bodyParser.json({ limit:'2.1mb' }));
+app.use(bodyParser.json({ limit: '2.1mb' }));
 app.use(bodyParser.urlencoded({ limit: '2.1mb', extended: false }));
 
 app.use('/', routes);
