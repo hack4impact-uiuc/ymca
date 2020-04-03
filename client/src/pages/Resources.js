@@ -114,7 +114,7 @@ function Resources(props) {
 
     setCost('Free - $$$');
     setLanguage('All');
-    setLocation('All');
+    setLocation('All / Champaign County');
     setSubcategory(subcategorySelected);
   }, [getCategorySelectedFromSearch, props.saved, props.authed]);
 
@@ -140,7 +140,7 @@ function Resources(props) {
         (costMap[cost].includes(resource.cost) || cost === 'Free - $$$') &&
         (resource.availableLanguages.includes(language) ||
           language === 'All') &&
-        (resource.city === location || location === 'All'),
+        (resource.city === location || location === 'All / Champaign County'),
     );
 
     setFilteredResources(newFilteredResources);

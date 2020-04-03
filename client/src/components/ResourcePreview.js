@@ -43,6 +43,7 @@ function ResourcePreview(props) {
     image,
   } = props;
   const [src, setSrc] = useState('');
+  const [hover, setHover] = useState(false);
 
   const saveResourceHandler = async () => {
     await saveResource(id);
@@ -107,17 +108,16 @@ function ResourcePreview(props) {
       to={{
         pathname: `resources/${id}`,
       }}
+      className="resource-preview-text"
     >
       <Card
-        className="resource-preview-card"
+        className="resource-preview-border"
         cover={
-          <div className="resource-preview-cover">
-            <img
-              className="resource-preview-cover-img"
-              alt={subcategory}
-              src={image !== '' ? image : src}
-            />
-          </div>
+          <img
+            className="resource-preview-cover-img"
+            alt={subcategory}
+            src={image !== '' ? image : src}
+          />
         }
       >
         <Meta

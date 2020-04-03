@@ -1,9 +1,16 @@
-.resource-preview-cover {
-  display: flex;
-  justify-content: center;
+.resource-preview-border:hover {
+  border-bottom: 5px solid	#efefef;
+  border-right: 5px solid	#efefef;
+  margin: -3px;
 }
 
 .resource-preview-cover-img {
   width: 100%;
-  height: 100%;
+  height: 100%;  
+  display: flex;
+  justify-content: center;
+}
+
+.resource-preview-text:hover {
+  text-decoration: none;
 }
