@@ -13,6 +13,7 @@
     "prop-types": "^15.7.2",
     "react": "^16.10.1",
     "react-dom": "^16.10.1",
+    "react-easy-crop": "^2.1.0",
     "react-loader-spinner": "^3.1.5",
     "react-mapbox-gl": "^4.7.3",
     "react-router-dom": "^5.1.2",
@@ -24,7 +25,7 @@
   "scripts": {
     "start": "react-scripts start",
     "lint": "eslint --fix src -c .eslintrc.json --ext js,jsx",
-    "build": "react-scripts build",
+    "build": "CI=false react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "flow": "flow"

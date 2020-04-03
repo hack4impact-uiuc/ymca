@@ -1,3 +1,11 @@
+.ant-btn {
+  line-height: 2.1;
+}
+
+.ant-select-selection__placeholder {
+  line-height: 23.75px;
+}
+
 .resources-filter {
   background: #fff;
   border-bottom: 1px solid rgba(235, 235, 235, 1);
@@ -48,7 +56,7 @@
 }
 
 .searchbar-filter {
-  width: 90%;
+  width: 100%;
 }
 
 .title {
