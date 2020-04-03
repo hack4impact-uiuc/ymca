@@ -15,16 +15,16 @@ function ResourceCategoryFilter(props) {
     subcategorySelect,
   } = props;
 
-  const [orderedCategories] = useState({});
-
+  const [orderedCategories, setOrderedCategories] = useState({});
   useEffect(() => {
+    const newCategories = {};
     Object.keys(categories)
       .sort()
       .forEach(function(key) {
-        orderedCategories[key] = categories[key];
-        orderedCategories[key].sort();
+        newCategories[key] = categories[key].sort();
       });
-  }, [orderedCategories]);
+    setOrderedCategories(newCategories);
+  }, [categories]);
 
   return (
     <Menu
