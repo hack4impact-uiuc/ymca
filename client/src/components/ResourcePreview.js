@@ -43,6 +43,7 @@ function ResourcePreview(props) {
     image,
   } = props;
   const [src, setSrc] = useState('');
+  const [hover, setHover] = useState(false);
 
   const saveResourceHandler = async () => {
     await saveResource(id);
@@ -118,6 +119,9 @@ function ResourcePreview(props) {
             src={image !== '' ? image : src}
           />
         }
+        bordered={hover}
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
       >
         <Meta
           title={
