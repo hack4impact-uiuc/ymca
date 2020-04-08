@@ -21,7 +21,7 @@ const NavMobile = (props: Props) => {
           <NavLink exact to="/">
             <div className="nav-mobile-logo" />
           </NavLink>
-          <div className="nav-menu-button-container">
+          <div className="nav-menu-btn-container">
             <Button
               onClick={() => setDrawerVisible(true)}
               block
@@ -29,7 +29,7 @@ const NavMobile = (props: Props) => {
               id="navbar"
             >
               <div align="right">
-                <Icon type="menu" style={{ fontSize: '2em', color: 'gray' }} />
+                <Icon className="nav-menu-btn-icon" type="menu" />
               </div>
             </Button>
           </div>
