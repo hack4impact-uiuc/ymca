@@ -196,21 +196,24 @@ function Resources(props) {
     [categories, category, openKeys, subcategory, props.history],
   );
 
-  const sortUpdate = useCallback(() => {
-    resources.sort(function(current, next) {
+  useEffect(() => {
+    const newResources = resources.sort(function(current, next) {
       const textCurrent = current.name.toUpperCase();
       const textNext = next.name.toUpperCase();
       const bool = textCurrent > textNext ? 1 : 0;
       return textCurrent < textNext ? -1 : bool;
     });
-    filteredResources.sort(function(current, next) {
+    const newFilteredResources = filteredResources.sort(function(
+      current,
+      next,
+    ) {
       const textCurrent = current.name.toUpperCase();
       const textNext = next.name.toUpperCase();
       const bool = textCurrent > textNext ? 1 : 0;
       return textCurrent < textNext ? -1 : bool;
     });
-    // setFilteredResources(resources == null ? [] : resources);
-    // setResources(newResources == null ? [] : newResources.result);
+    setResources(newResources);
+    setFilteredResources(newFilteredResources);
   }, [sort]);
 
   return (
