@@ -1,9 +1,14 @@
-.resource-preview-cover {
-  display: flex;
-  justify-content: center;
+.resource-preview-border:hover {
+  box-shadow: 3px 3px 5px #b6b6b6;
 }
 
 .resource-preview-cover-img {
   width: 100%;
   height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.resource-preview-text:hover {
+  text-decoration: none;
 }

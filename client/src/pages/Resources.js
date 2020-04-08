@@ -106,6 +106,13 @@ function Resources(props) {
       );
     }
 
+    newResources.result.sort(function(current, next) {
+      const textCurrent = current.name.toUpperCase();
+      const textNext = next.name.toUpperCase();
+      const bool = textCurrent > textNext ? 1 : 0;
+      return textCurrent < textNext ? -1 : bool;
+    });
+
     setLoading(false);
 
     setCategory(categorySelected);
@@ -117,7 +124,7 @@ function Resources(props) {
 
     setCost('Free - $$$');
     setLanguage('All');
-    setLocation('All');
+    setLocation('All / Champaign County');
     setSubcategory(subcategorySelected);
   }, [getCategorySelectedFromSearch, props.saved, props.authed]);
 
@@ -143,7 +150,7 @@ function Resources(props) {
         (costMap[cost].includes(resource.cost) || cost === 'Free - $$$') &&
         (resource.availableLanguages.includes(language) ||
           language === 'All') &&
-        (resource.city === location || location === 'All'),
+        (resource.city === location || location === 'All / Champaign County'),
     );
 
     setFilteredResources(newFilteredResources);

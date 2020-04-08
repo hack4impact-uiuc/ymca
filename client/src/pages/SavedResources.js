@@ -37,6 +37,13 @@ function SavedResources(props) {
       localSavedSet.has(newResource._id),
     );
 
+    newResources.result.sort(function(current, next) {
+      const textCurrent = current.name.toUpperCase();
+      const textNext = next.name.toUpperCase();
+      const bool = textCurrent > textNext ? 1 : 0;
+      return textCurrent < textNext ? -1 : bool;
+    });
+
     setResources(newResources == null ? [] : newResources.result);
     setLoading(false);
   }, [authed]);
@@ -51,8 +58,11 @@ function SavedResources(props) {
 
   return (
     <Layout className="resources">
-      {!isMobile && <ResourcesBanner categorySelected="Saved Resources" />}
-      {isMobile && <ResourcesBannerMobile categorySelected="Saved Resources" />}
+      {isMobile ? (
+        <ResourcesBannerMobile categorySelected="Saved Resources" />
+      ) : (
+        <ResourcesBanner categorySelected="Saved Resources" />
+      )}
       <Layout style={{ background: 'white' }}>
         {loading ? (
           <Loader
