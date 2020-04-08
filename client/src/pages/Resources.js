@@ -29,6 +29,7 @@ function Resources(props) {
   const [location, setLocation] = useState('All');
   const [category, setCategory] = useState('');
   const [subcategory, setSubcategory] = useState('');
+  const [sort, setSort] = useState('name');
   const [loading, setLoading] = useState(false);
 
   const [openKeys, setOpenKeys] = useState([]);
@@ -38,6 +39,7 @@ function Resources(props) {
   const [savedSet, setSavedSet] = useState(new Set());
 
   const costs = ['Free', 'Free - $', 'Free - $$', 'Free - $$$'];
+  const sorts = ['Name', 'Cost'];
   const isMobile = useWindowDimensions()[1];
 
   const fetchCategories = async () => {
@@ -111,6 +113,7 @@ function Resources(props) {
     setOpenKeys([categorySelected]);
     setResources(newResources == null ? [] : newResources.result);
     setSubcategory(subcategorySelected);
+    setSort('name');
 
     setCost('Free - $$$');
     setLanguage('All');
@@ -193,6 +196,23 @@ function Resources(props) {
     [categories, category, openKeys, subcategory, props.history],
   );
 
+  const sortUpdate = useCallback(() => {
+    resources.sort(function(current, next) {
+      const textCurrent = current.name.toUpperCase();
+      const textNext = next.name.toUpperCase();
+      const bool = textCurrent > textNext ? 1 : 0;
+      return textCurrent < textNext ? -1 : bool;
+    });
+    filteredResources.sort(function(current, next) {
+      const textCurrent = current.name.toUpperCase();
+      const textNext = next.name.toUpperCase();
+      const bool = textCurrent > textNext ? 1 : 0;
+      return textCurrent < textNext ? -1 : bool;
+    });
+    // setFilteredResources(resources == null ? [] : resources);
+    // setResources(newResources == null ? [] : newResources.result);
+  }, [sort]);
+
   return (
     <Layout className="resources">
       {isMobile && (
@@ -230,9 +250,12 @@ function Resources(props) {
           languageSelected={language}
           locations={locations}
           locationSelected={location}
+          sorts={sorts}
+          sortSelected={sort}
           setCost={setCost}
           setLanguage={setLanguage}
           setLocation={setLocation}
+          setSort={setSort}
         />
       )}
       {isMobile && (

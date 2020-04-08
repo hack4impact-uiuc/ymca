@@ -14,9 +14,12 @@ function ResourcesFilter(props) {
     languageSelected,
     locations,
     locationSelected,
+    sorts,
+    sortSelected,
     setCost,
     setLanguage,
     setLocation,
+    setSort,
   } = props;
 
   const onChange = useCallback(
@@ -31,10 +34,13 @@ function ResourcesFilter(props) {
         case 'Location':
           setLocation(value);
           break;
+        case 'SortBy':
+          setSort(value);
+          break;
         default:
       }
     },
-    [setCost, setLanguage, setLocation],
+    [setCost, setLanguage, setLocation, setSort],
   );
 
   const radio = useCallback(
@@ -84,6 +90,14 @@ function ResourcesFilter(props) {
       >
         <Button className="button">Location</Button>
       </Dropdown>
+      <Dropdown
+        className="dropdown"
+        overlay={radio('SortBy', sorts, sortSelected)}
+        placement="bottomRight"
+        trigger={['click']}
+      >
+        <Button className="button">Sort By</Button>
+      </Dropdown>
       <div className="searchbar-align-right">
         <ResourceFilterSearch />
       </div>
@@ -98,9 +112,12 @@ ResourcesFilter.propTypes = {
   languageSelected: PropTypes.string.isRequired,
   locations: PropTypes.arrayOf(PropTypes.string).isRequired,
   locationSelected: PropTypes.string.isRequired,
+  sorts: PropTypes.arrayOf(PropTypes.string).isRequired,
+  sortSelected: PropTypes.string.isRequired,
   setCost: PropTypes.func.isRequired,
   setLanguage: PropTypes.func.isRequired,
   setLocation: PropTypes.func.isRequired,
+  setSort: PropTypes.func.isRequired,
 };
 
 export default ResourcesFilter;
