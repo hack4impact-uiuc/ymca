@@ -12,7 +12,6 @@
   flex-direction: row;
   justify-content: space-between;
   border-bottom: 1px solid rgba(235, 235, 235, 1);
-  padding-left: 1em;
 }
 
 .nav-mobile-logo {
@@ -23,6 +22,7 @@
   background-size: cover;
   height: 1.5em;
   width: 1.5em;
+  margin-left: 1em;
   margin-top: 0.25em;
 }
 
