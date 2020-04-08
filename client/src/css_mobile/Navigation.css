@@ -22,8 +22,8 @@
   background-size: cover;
   height: 1.5em;
   width: 1.5em;
-  margin-left: 1em;
-  margin-top: 0.25em;
+  margin-left: 1em !important;
+  margin-top: 0.25em !important;
 }
 
 .nav-menu-btn-icon {
