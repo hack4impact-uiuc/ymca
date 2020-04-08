@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 import fetch from 'isomorphic-fetch';
 
 const AUTH_SERVER_URI = 'https://ymca-auth.now.sh';
@@ -129,7 +131,12 @@ export const saveResource = resID => {
     body: JSON.stringify({
       resourceId: resID,
     }),
-  }).then(res => res.json());
+  })
+    .then(res => res.json())
+    .catch(err => {
+      console.err(err);
+      return null;
+    });
 };
 
 export const deleteSavedResource = resID => {
@@ -142,5 +149,10 @@ export const deleteSavedResource = resID => {
     body: JSON.stringify({
       resourceId: resID,
     }),
-  }).then(res => res.json());
+  })
+    .then(res => res.json())
+    .catch(err => {
+      console.err(err);
+      return null;
+    });
 };

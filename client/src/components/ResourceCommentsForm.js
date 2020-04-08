@@ -1,13 +1,12 @@
 // @flow
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { Form, Input, Button, List } from 'antd';
 
 type FormProps = {
   listOfStrings: Array<String>,
   setListOfStrings: () => void,
   setTotalSubmitEnabled: () => void,
-  placeholder: String,
   form: {
     getFieldDecorator: () => any,
     getFieldValue: () => any,
@@ -16,16 +15,9 @@ type FormProps = {
 };
 
 const StrForm = (props: FormProps) => {
-  const {
-    listOfStrings,
-    setListOfStrings,
-    setTotalSubmitEnabled,
-    placeholder,
-  } = props;
+  const { listOfStrings, setListOfStrings, setTotalSubmitEnabled } = props;
 
   const { getFieldDecorator, getFieldValue, setFieldsValue } = props.form;
-
-  const [comment, setComment] = useState(null);
 
   const onSubmit = useCallback(() => {
     const val = getFieldValue('comment');
@@ -36,10 +28,6 @@ const StrForm = (props: FormProps) => {
       setFieldsValue({ comment: '' });
     }
   }, [getFieldValue, setListOfStrings, setFieldsValue, listOfStrings]);
-
-  const onInputBlur = useCallback(() => {
-    setTotalSubmitEnabled(true);
-  }, [setTotalSubmitEnabled, setFieldsValue, comment]);
 
   return (
     <Form onSubmit={onSubmit}>
