@@ -56,7 +56,6 @@ const Home = () => {
             <Col span={spanNum} className="home-block-4__title">
               <Textfit mode="single">
                 <p className="home-block-4-title">Partners in the Community</p>
-                {/* <strong>Partners in the Community</strong> */}
               </Textfit>
             </Col>
           </Row>
