@@ -59,6 +59,7 @@ const Home = () => {
                   className="home-block-4-title"
                   style={{
                     paddingTop: `${isMobile ? '2em' : '0em'}`,
+                    fontSize: `${isMobile ? '0.32em' : '0.45em'}`,
                   }}
                 >
                   Partners in the Community
