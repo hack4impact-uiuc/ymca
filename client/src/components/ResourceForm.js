@@ -162,6 +162,7 @@ const ResourceForm = (props: FormProps) => {
       setCarouselCategory,
       setShowSubmitButton,
       CAROUSEL_CATEGORIES,
+      showSubmitButton,
     ],
   );
 

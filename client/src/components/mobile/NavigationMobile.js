@@ -1,6 +1,6 @@
 // @flow
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import '../../css_mobile/Navigation.css';
 import { NavLink } from 'react-router-dom';
 import { Drawer, Button, Icon, Menu } from 'antd';
