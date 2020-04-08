@@ -34,7 +34,7 @@ export const HomeBlock3Desktop = () => {
   return (
     <Row className="home-block-3" type="flex" justify="center" align="middle">
       <Col span={23}>
-        <Carousel autoplay dotPosition="right">
+        <Carousel autoplay dotPosition="right" autoplaySpeed={5000}>
           {testimonials.map(element => {
             return (
               <div key={element}>
