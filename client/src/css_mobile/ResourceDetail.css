@@ -1,0 +1,44 @@
+.mb-rd-container {
+  padding-top: 2em;
+}
+
+.mb-rd-carousel {
+  width: 100%;
+  height: 256px;
+  background: #6a3e9e;
+}
+
+.mb-rd-block-1 {
+  padding-top: 1em;
+  padding-bottom: 1em;
+  margin-left: 1em;
+  margin-right: 1em;
+  border-bottom: 2px solid rgba(235, 235, 235, 1);
+}
+
+.mb-rd-block-1 a[class='link'],
+.mb-rd-block-1 span strong {
+  color: black;
+  font-size: 0.8em;
+}
+
+.mb-rd-header-bar {
+  margin-top: 0.8em;
+}
+
+.mb-rd-header-text {
+  font-weight: 700;
+  font-size: 1.7em;
+}
+
+.mb-rd-rate {
+  color: #6a3e9e;
+}
+
+.mb-rd-description-container {
+  padding-top: 0.8em;
+}
+
+.mb-rd-description {
+  color: black;
+}
