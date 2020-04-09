@@ -22,6 +22,7 @@ import RoleApproval from './pages/RoleApproval';
 import ScrollToTop from './components/ScrollToTop';
 import { verify, getAllRoles } from './utils/auth';
 import SavedResources from './pages/SavedResources';
+import ResourceDetailMobile from './components/mobile/ResourceDetailMobile';
 
 const App = () => {
   const [authed, setAuthed] = useState(null);
@@ -168,7 +169,12 @@ const App = () => {
           <Route
             path="/resources/:id"
             render={props => (
-              <ResourceDetail
+              // <ResourceDetail
+              //   {...props}
+              //   authed={authed}
+              //   authRoleIsEquivalentTo={authRoleIsEquivalentTo}
+              // />
+              <ResourceDetailMobile
                 {...props}
                 authed={authed}
                 authRoleIsEquivalentTo={authRoleIsEquivalentTo}
