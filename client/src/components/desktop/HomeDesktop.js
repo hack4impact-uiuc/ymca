@@ -1,7 +1,70 @@
-import React from 'react';
-import { Col, Row, Carousel } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Button, Col, Row, Carousel } from 'antd';
+import { Link } from 'react-router-dom';
 
+import '../../css/Home.css';
 import testimonials from '../../data/testimonials';
+import { getCategories } from '../../utils/api';
+
+export const HomeBlock1Desktop = () => {
+  const [categories, setCategories] = useState([]);
+
+  const fetchCategories = async () => {
+    const res = await getCategories();
+    const newCategories = [];
+    if (res != null) {
+      res.result.forEach(c => {
+        newCategories.push(c.name);
+      });
+    }
+    setCategories(newCategories);
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  return (
+    <Row className="home-block-1" type="flex" justify="left" align="middle">
+      <Col className="welcome-text">
+        Welcome to Urbana-Champaign
+        {categories !== null && categories.length > 0 ? (
+          <Row type="flex">
+            <h1 className="welcome-text-bold">Find Resources for</h1>
+            <div style={{ width: '400px' }}>
+              <Carousel
+                effect="fade"
+                autoplay
+                dotPosition="left"
+                dots={false}
+                autoplaySpeed={2000}
+              >
+                {categories.map(category => {
+                  if (category === 'Other') return null;
+                  return (
+                    <Link
+                      to={`/resources?category=${category}`}
+                      className="welcome-text-link"
+                    >
+                      {category}.
+                    </Link>
+                  );
+                })}
+              </Carousel>
+            </div>
+          </Row>
+        ) : null}
+        <Row type="flex" justify="left" align="left">
+          <Col span={14}>
+            <Link to="/resources">
+              <Button type="primary">Find Resources</Button>
+            </Link>
+          </Col>
+        </Row>
+      </Col>
+    </Row>
+  );
+};
 
 export const HomeBlock2Desktop = () => {
   return (

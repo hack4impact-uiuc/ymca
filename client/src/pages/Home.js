@@ -1,90 +1,37 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
 import { Textfit } from 'react-textfit';
-import { Button, Col, Row, Carousel } from 'antd';
+import { Col, Row } from 'antd';
 
 import '../css/Home.css';
 import '../css_mobile/Home.css';
 
 import useWindowDimensions from '../utils/mobile';
 import {
+  HomeBlock1Desktop,
   HomeBlock2Desktop,
   HomeBlock3Desktop,
 } from '../components/desktop/HomeDesktop';
 import {
+  HomeBlock1Mobile,
   HomeBlock2Mobile,
   HomeBlock3Mobile,
 } from '../components/mobile/HomeMobile';
-
-import { getCategories } from '../utils/api'
 
 const Home = () => {
   const isMobile = useWindowDimensions()[1];
   const spanNum = isMobile ? 20 : 6;
 
-  const [categories, setCategories] = useState([]);
-
-  const fetchCategories = async () => {
-    const res = await getCategories();
-    const newCategories = [];
-    if (res != null) {
-      res.result.forEach(c => {
-        newCategories.push(c.name);
-      });
-    }
-    setCategories(newCategories);
-  };
-
-  useEffect(() => {
-    fetchCategories();
-  }, []);
-
   return (
     <>
-      <Row
-        className="home-block-1"
-        type="flex"
-        justify={isMobile ? 'center' : 'left'}
-        align="middle"
-      >
-        <Col className={isMobile ? 'welcome-text-mobile' : 'welcome-text'}>
-          Welcome to Urbana-Champaign
-          {categories != null && categories.length > 0 ?
-            <Row type="flex">
-              <h1 className={isMobile ? "welcome-text-mobile-bold" : "welcome-text-bold"}>Find Resources for</h1>
-              <div style={{width: isMobile ? "160px" : "400px"}}>
-              <Carousel effect="fade" autoplay dotPosition="left" dots={false} autoplaySpeed={2000}>
-                {categories.map(category => {
-                  if(category == "Other")
-                    return null;
-                  let link = "/resources?category="
-                  link += category;
-                  return (
-                    <Link to={"/resources?category=" + category} className={isMobile ? "welcome-text-mobile-link" : "welcome-text-link"}>
-                      {category}.
-                    </Link>
-                  );
-                })}
-              </Carousel>
-              </div>
-            </Row>
-          : null}
-          <Row type="flex" justify={isMobile ? 'center' : 'left'} align="left">
-            <Col span={14}>
-              <Link to="/resources">
-                <Button type="primary">Find Resources</Button>
-              </Link>
-            </Col>
-          </Row>
-        </Col>
-      </Row>
       {isMobile ? (
         <>
+          <HomeBlock1Mobile />
           <HomeBlock2Mobile />
           <HomeBlock3Mobile />
         </>
       ) : (
         <>
+          <HomeBlock1Desktop />
           <HomeBlock2Desktop />
           <HomeBlock3Desktop />
         </>
