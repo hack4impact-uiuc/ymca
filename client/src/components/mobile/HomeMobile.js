@@ -55,12 +55,10 @@ export const HomeBlock1Mobile = () => {
             </Carousel>
           </Row>
         ) : null}
-        <Row type="flex" justify="center" align="left">
-          <Col span={14}>
-            <Link to="/resources">
-              <Button type="primary">Find Resources</Button>
-            </Link>
-          </Col>
+        <Row type="flex" justify="center" align="center">
+          <Link to="/resources">
+            <Button type="primary">Find Resources</Button>
+          </Link>
         </Row>
       </Col>
     </Row>
