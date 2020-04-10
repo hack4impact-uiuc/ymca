@@ -1,7 +1,7 @@
 // @flow
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { Carousel, Row, Col, Rate } from 'antd';
+import { Carousel, Row, Col, Rate, Icon } from 'antd';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 
 import ResourceDetail from '../../pages/ResourceDetail';
@@ -38,12 +38,12 @@ const ResourceDetailMobile = (props: Props) => {
   // ResourceDetail page will get all this stuff prior to this
   // being loaded but for right now everything will be fetched.
   // by this component.
-  const [name, setName] = useState('Resource Name');
-  const [category, setCategory] = useState('');
-  const [subcategory, setSubcategory] = useState('');
-  const [description, setDescription] = useState('');
-  const [website, setWebsite] = useState('');
-  const [email, setEmail] = useState('');
+  const [name, setName] = useState(null);
+  const [category, setCategory] = useState(null);
+  const [subcategory, setSubcategory] = useState(null);
+  const [description, setDescription] = useState(null);
+  const [website, setWebsite] = useState(null);
+  const [email, setEmail] = useState(null);
   const [phone, setPhone] = useState([]);
   const [address, setAddress] = useState('');
   const [addressLine2, setAddressLine2] = useState('');
@@ -53,10 +53,11 @@ const ResourceDetailMobile = (props: Props) => {
   const [zip, setZip] = useState('');
   const [languages, setLanguages] = useState([]);
   const [requiredDocuments, setRequiredDocuments] = useState([]);
-  const [cost, setCost] = useState('');
+  const [cost, setCost] = useState(null);
   const [internalNotes, setInternalNotes] = useState([]);
   const [hours, setHours] = useState([]);
   const [recommendation, setRecommendation] = useState(0);
+  const [image, setImage] = useState(null);
 
   const [resourceExists, setResourceExists] = useState(true);
 
@@ -75,12 +76,21 @@ const ResourceDetailMobile = (props: Props) => {
       if (response) {
         const { result } = response;
 
-        setName(result.name);
+        setImage(result.image);
+
         setCategory(result.category);
         setSubcategory(result.subcategory);
+
+        setName(result.name);
         setDescription(result.description);
 
         setPhone(result.phoneNumbers);
+        setEmail(result.email);
+        setWebsite(result.website);
+
+        setLanguages(result.availableLanguages);
+        setCost(result.cost);
+
         setAddress(result.address);
         setAddressLine2(result.addressLine2);
         setCity(result.city);
@@ -112,10 +122,16 @@ const ResourceDetailMobile = (props: Props) => {
 
   /* SETUP END */
 
+  console.log(image);
+
   return (
     <div className="mb-rd-container">
       <Carousel className="mb-rd-carousel">
-        <div />
+        {image ? (
+          <img className="mb-rd-carousel-img" src={image} alt="" />
+        ) : (
+          <div />
+        )}
         <div />
       </Carousel>
       <div className="mb-rd-block-1">
@@ -144,9 +160,104 @@ const ResourceDetailMobile = (props: Props) => {
           <Col className="mb-rd-description">{description}</Col>
         </Row>
       </div>
+      <div className="mb-rd-block-2">
+        <Row className="mb-rd-block-title">Basic Information</Row>
+        <InfoBlock
+          title="Contact Information"
+          icon={
+            <Icon
+              className="mb-rd-phone-icon mb-rd-icon"
+              type="phone"
+              theme="filled"
+            />
+          }
+          content={[
+            phone && phone[0]
+              ? phone[0].phoneNumber
+              : 'No phone number provided.',
+            email || 'No email provided.',
+            website || 'No website provided.',
+          ]}
+        />
+        <InfoBlock
+          title="Languages Spoken"
+          icon={<Icon className="mb-rd-icon" type="wechat" theme="filled" />}
+          content={[languages.join(', ')]}
+        />
+        <InfoBlock
+          title="Cost"
+          icon={
+            <Icon className="mb-rd-icon" type="dollar-circle" theme="filled" />
+          }
+          content={[cost || 'None provided.']}
+        />
+        <InfoBlock
+          title="Required Documents"
+          icon={
+            <Icon className="mb-rd-icon" type="folder-open" theme="filled" />
+          }
+          content={[]}
+        />
+      </div>
+      <div className="mb-rd-block-2">
+        <Row className="mb-rd-block-title">Location</Row>
+        <Row>
+          <Col span={20}>
+            {address}
+            {addressLine2}
+            {`${city}, ${state}`}
+          </Col>
+          <Col span={4} />
+        </Row>
+      </div>
     </div>
   );
 };
+
+type InfoBlockProps = {
+  className: String,
+  title: String,
+  icon: any,
+  content: any,
+};
+const InfoBlock = (props: InfoBlockProps) => {
+  const { icon, title, content, className } = props;
+
+  return (
+    <Row className={`mb-rd-info-block ${className}`} gutter={[16, 16]}>
+      <Col span={4}>
+        <Row className="mb-rd-icon-container" type="flex" justify="center">
+          {icon}
+        </Row>
+      </Col>
+      <Col span={20}>
+        <Row className="mb-rd-info-title">{title}</Row>
+        {content.map(entry => (
+          <Row className="mb-rd-info-text">{entry}</Row>
+        ))}
+      </Col>
+    </Row>
+  );
+};
+
+// type HeaderBlockProps = {};
+// const HeaderBlock = (props: HeaderBlockProps) => {
+//   const {
+//     category,
+//     subcategory,
+//     name,
+//     authed,
+//     isSaved,
+//     deleteResourceHandler,
+//     saveResourceHandler,
+//     recommendation,
+//     description
+//   } = props;
+
+//   return (
+
+//   )
+// }
 
 type ImageCarouselProps = {
   images: Array<String>,
