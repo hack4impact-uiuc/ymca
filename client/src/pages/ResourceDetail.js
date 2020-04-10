@@ -75,6 +75,13 @@ export default class ResourceDetail extends Component {
           : [],
         recommendation: result.recommendation,
       });
+
+      if (this.props.authed) {
+        let savedSet = new Set();
+        const json = await getSavedResources();
+        savedSet = new Set(json.result);
+        this.updateIsSaved(savedSet);
+      }
     } else {
       // redirect to resource unknown page
       this.setState({ resourceExists: false });
@@ -112,11 +119,17 @@ export default class ResourceDetail extends Component {
   };
 
   saveResourceHandler = async () => {
-    await saveResource(this.props.match.params.id);
+    const result = await saveResource(this.props.match.params.id);
+    if (result != null && result.code === 200) {
+      this.setState({ isSaved: true });
+    }
   };
 
   deleteResourceHandler = async () => {
-    await deleteSavedResource(this.props.match.params.id);
+    const result = await deleteSavedResource(this.props.match.params.id);
+    if (result != null && result.code === 200) {
+      this.setState({ isSaved: false });
+    }
   };
 
   updateIsSaved(savedSet) {

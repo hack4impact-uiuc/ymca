@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Menu } from 'antd';
 
@@ -15,6 +15,17 @@ function ResourceCategoryFilter(props) {
     subcategorySelect,
   } = props;
 
+  const [orderedCategories, setOrderedCategories] = useState({});
+  useEffect(() => {
+    const newCategories = {};
+    Object.keys(categories)
+      .sort()
+      .forEach(function(key) {
+        newCategories[key] = categories[key].sort();
+      });
+    setOrderedCategories(newCategories);
+  }, [categories]);
+
   return (
     <Menu
       mode="inline"
@@ -25,10 +36,10 @@ function ResourceCategoryFilter(props) {
       <Menu.Item key="All Resources" onClick={() => categorySelectAll()}>
         All Resources
       </Menu.Item>
-      {Object.keys(categories).map(categoryName => {
+      {Object.keys(orderedCategories).map(categoryName => {
         return (
           <SubMenu key={categoryName} title={categoryName}>
-            {categories[categoryName].map(subCategory => {
+            {orderedCategories[categoryName].map(subCategory => {
               return (
                 <Menu.Item
                   key={subCategory}

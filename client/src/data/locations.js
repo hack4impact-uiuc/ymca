@@ -1,1 +1,1 @@
-export default ['All', 'Champaign', 'Urbana', 'Savoy'];
+export default ['All / Champaign County', 'Champaign', 'Urbana', 'Savoy'];
