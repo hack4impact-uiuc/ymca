@@ -44,10 +44,10 @@ function ResourcesFilter(props) {
   );
 
   const radio = useCallback(
-    (filterName, filterOptions, value, header) => {
+    (filterName, filterOptions, value, isSort) => {
       return (
-        <div className="radio-container">
-          {header ? <h4 className="title">{filterName}</h4> : null}
+        <div className={isSort ? 'radio-container-sort' : 'radio-container'}>
+          {isSort ? null : <h4 className="title">{filterName}</h4>}
           <Radio.Group
             onChange={target => onChange(filterName, target.target.value)}
             value={value}
@@ -68,7 +68,7 @@ function ResourcesFilter(props) {
     <div className="resources-filter">
       <Dropdown
         className="dropdown"
-        overlay={radio('Cost', costs, costSelected, true)}
+        overlay={radio('Cost', costs, costSelected, false)}
         placement="bottomLeft"
         trigger={['click']}
       >
@@ -76,7 +76,7 @@ function ResourcesFilter(props) {
       </Dropdown>
       <Dropdown
         className="dropdown"
-        overlay={radio('Languages Offered', languages, languageSelected, true)}
+        overlay={radio('Languages Offered', languages, languageSelected, false)}
         placement="bottomCenter"
         trigger={['click']}
       >
@@ -84,7 +84,7 @@ function ResourcesFilter(props) {
       </Dropdown>
       <Dropdown
         className="dropdown"
-        overlay={radio('Location', locations, locationSelected, true)}
+        overlay={radio('Location', locations, locationSelected, false)}
         placement="bottomRight"
         trigger={['click']}
       >
@@ -96,8 +96,8 @@ function ResourcesFilter(props) {
       <div className="sort-dropdown">
         <Dropdown
           className="dropdown"
-          overlay={radio('Sort By', sorts, sortSelected, false)}
-          placement="bottomCenter"
+          overlay={radio('Sort By', sorts, sortSelected, true)}
+          placement="bottomRight"
           trigger={['click']}
         >
           <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
