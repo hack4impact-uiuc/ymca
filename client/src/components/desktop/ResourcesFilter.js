@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { Button, Dropdown, Radio } from 'antd';
+import { Button, Dropdown, Icon, Radio } from 'antd';
 import PropTypes from 'prop-types';
 
 import ResourceFilterSearch from '../ResourceFilterSearch';
@@ -34,7 +34,7 @@ function ResourcesFilter(props) {
         case 'Location':
           setLocation(value);
           break;
-        case 'SortBy':
+        case 'Sort By':
           setSort(value);
           break;
         default:
@@ -90,14 +90,18 @@ function ResourcesFilter(props) {
       >
         <Button className="button">Location</Button>
       </Dropdown>
-      <Dropdown
-        className="dropdown"
-        overlay={radio('SortBy', sorts, sortSelected)}
-        placement="bottomRight"
-        trigger={['click']}
-      >
-        <Button className="button">Sort By</Button>
-      </Dropdown>
+      <div className="sort-dropdown">
+        <Dropdown
+          className="dropdown"
+          overlay={radio('Sort By', sorts, sortSelected)}
+          placement="bottomCenter"
+          trigger={['click']}
+        >
+          <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+            Sort By <Icon type="down" />
+          </a>
+        </Dropdown>
+      </div>
       <div className="searchbar-align-right">
         <ResourceFilterSearch />
       </div>
