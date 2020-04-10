@@ -28,7 +28,7 @@
   
   .welcome-text-mobile-link:hover {
     text-decoration: none;
-    color: rgb(64, 169, 255);
+    color: rgb(140, 200, 255);
   }
 
   .home-block-1 {
@@ -45,6 +45,10 @@
     font-weight: 600;
   }
   
+  .home-block-1 .ant-btn-primary:hover {
+    background-color: rgb(136, 216, 208);
+    border-color: rgb(136, 216, 208);
+  }
 
   .home-block-2 {
     padding-top: 0;
