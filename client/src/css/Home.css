@@ -13,20 +13,45 @@
 
 .welcome-text {
   color: #fff;
+  font-weight: 400;
+  font-size: 48px;
+  line-height: 1.75;
+  padding-left: 8%;
+  padding-bottom: 6%;
+}
+
+.welcome-text-bold {
+  color: #fff;
   font-weight: 600;
   font-size: 65px;
   line-height: 1.25;
-  padding-left: 8%;
-  padding-bottom: 6%;
+}
+
+.welcome-text-link {
+  color: rgb(136, 216, 208);
+  font-weight: 600;
+  font-size: 65px;
+  line-height: 1.25;
+  padding-left: 12px;
+}
+
+.welcome-text-link:hover {
+  text-decoration: none;
+  color: rgb(140, 200, 255);
 }
 
 .home-block-1 .ant-btn-primary {
   background-color: rgb(136, 216, 208);
   border-color: rgb(136, 216, 208);
   font-size: 18px;
-  width: 80%;
+  width: 250px;
   height: 40px;
   font-weight: 600;
+}
+
+.home-block-1 .ant-btn-primary:hover {
+  background-color: rgb(136, 216, 208);
+  border-color: rgb(136, 216, 208);
 }
 
 .home-block-2 {
