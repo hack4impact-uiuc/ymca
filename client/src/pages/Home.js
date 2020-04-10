@@ -41,7 +41,15 @@ const Home = () => {
           <Row type="flex" justify="center" align="middle">
             <Col span={spanNum} className="home-block-4__title">
               <Textfit mode="single">
-                <strong>Partners in the Community</strong>
+                <p
+                  className="home-block-4-title"
+                  style={{
+                    paddingTop: `${isMobile ? '2em' : '0em'}`,
+                    fontSize: `${isMobile ? '0.32em' : '0.45em'}`,
+                  }}
+                >
+                  Partners in the Community
+                </p>
               </Textfit>
             </Col>
           </Row>
