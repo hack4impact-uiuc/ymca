@@ -39,7 +39,7 @@ export const HomeBlock1Mobile = () => {
               autoplay
               dotPosition="left"
               dots={false}
-              autoplaySpeed={2000}
+              autoplaySpeed={3000}
             >
               {categories.map(category => {
                 if (category === 'Other') return null;
