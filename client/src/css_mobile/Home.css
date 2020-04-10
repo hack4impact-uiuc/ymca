@@ -1,20 +1,53 @@
 @media (max-width: 700px) {
   .welcome-text-mobile {
     color: #fff;
-    font-weight: 600;
+    font-weight: 400;
     line-height: 1.25;
     width: 80vw;
     text-align: center;
-    font-size: 48px;
+    font-size: 25px;
+  }
+  
+  .welcome-text-mobile-bold {
+    color: #fff;
+    font-weight: 600;
+    line-height: 1.25;
+    width: 60vw;
+    text-align: center;
+    font-size: 35px;
   }
 
-  .ant-btn-primary {
-    width: 40vw;
-    font-size: 12px;
+  .welcome-text-mobile-link {
+    color: rgb(136, 216, 208);
+    font-weight: 600;
+    line-height: 1.25;
+    width: 60vw;
+    text-align: center;
+    font-size: 50px;
+  }
+  
+  .welcome-text-mobile-link:hover {
+    text-decoration: none;
+    color: rgb(140, 200, 255);
   }
 
   .home-block-1 {
     height: 100vh;
+  }
+
+  .home-block-1 .ant-btn-primary {
+    background-color: rgb(136, 216, 208);
+    border-color: rgb(136, 216, 208);
+    border-radius: 15px;
+    font-size: 18px;
+    width: 200px;
+    height: 40px;
+    font-weight: 600;
+  }
+  
+  .home-block-1 .ant-btn-primary:hover {
+    background-color: rgb(136, 216, 208);
+    border-color: rgb(136, 216, 208);
   }
 
   .home-block-2 {
