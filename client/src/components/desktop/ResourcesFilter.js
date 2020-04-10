@@ -44,10 +44,10 @@ function ResourcesFilter(props) {
   );
 
   const radio = useCallback(
-    (filterName, filterOptions, value) => {
+    (filterName, filterOptions, value, header) => {
       return (
         <div className="radio-container">
-          <h4 className="title">{filterName}</h4>
+          {header ? <h4 className="title">{filterName}</h4> : null}
           <Radio.Group
             onChange={target => onChange(filterName, target.target.value)}
             value={value}
@@ -68,7 +68,7 @@ function ResourcesFilter(props) {
     <div className="resources-filter">
       <Dropdown
         className="dropdown"
-        overlay={radio('Cost', costs, costSelected)}
+        overlay={radio('Cost', costs, costSelected, true)}
         placement="bottomLeft"
         trigger={['click']}
       >
@@ -76,7 +76,7 @@ function ResourcesFilter(props) {
       </Dropdown>
       <Dropdown
         className="dropdown"
-        overlay={radio('Languages Offered', languages, languageSelected)}
+        overlay={radio('Languages Offered', languages, languageSelected, true)}
         placement="bottomCenter"
         trigger={['click']}
       >
@@ -84,16 +84,19 @@ function ResourcesFilter(props) {
       </Dropdown>
       <Dropdown
         className="dropdown"
-        overlay={radio('Location', locations, locationSelected)}
+        overlay={radio('Location', locations, locationSelected, true)}
         placement="bottomRight"
         trigger={['click']}
       >
         <Button className="button">Location</Button>
       </Dropdown>
+      <div className="searchbar-align-right">
+        <ResourceFilterSearch />
+      </div>
       <div className="sort-dropdown">
         <Dropdown
           className="dropdown"
-          overlay={radio('Sort By', sorts, sortSelected)}
+          overlay={radio('Sort By', sorts, sortSelected, false)}
           placement="bottomCenter"
           trigger={['click']}
         >
@@ -101,9 +104,6 @@ function ResourcesFilter(props) {
             Sort By <Icon type="down" />
           </a>
         </Dropdown>
-      </div>
-      <div className="searchbar-align-right">
-        <ResourceFilterSearch />
       </div>
     </div>
   );
