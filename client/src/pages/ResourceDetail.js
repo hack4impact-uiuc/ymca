@@ -40,6 +40,7 @@ export default class ResourceDetail extends Component {
       internalNotes: [],
       hours: [],
       isSaved: false,
+      recommendation: 0,
     };
   }
 
@@ -72,6 +73,7 @@ export default class ResourceDetail extends Component {
         hours: result.hoursOfOperation
           ? result.hoursOfOperation.hoursOfOperation
           : [],
+        recommendation: result.recommendation,
       });
     } else {
       // redirect to resource unknown page
@@ -144,7 +146,6 @@ export default class ResourceDetail extends Component {
       city,
       state,
       zip,
-      email,
       website,
       description,
       languages,
@@ -159,6 +160,7 @@ export default class ResourceDetail extends Component {
       internalNotes,
       hours,
       isSaved,
+      recommendation,
     } = this.state;
 
     const Map = ReactMapboxGl({
@@ -194,6 +196,20 @@ export default class ResourceDetail extends Component {
       }
     }
 
+    const stars = [];
+
+    if (recommendation != null) {
+      for (let i = 0; i < recommendation; i += 1) {
+        stars.push(<Icon type="star" theme="filled" className="filled-star" />);
+      }
+
+      for (let i = 0; i < 5 - recommendation; i += 1) {
+        stars.push(
+          <Icon type="star" theme="filled" className="unfilled-star" />,
+        );
+      }
+    }
+
     return (
       <div className="resource-detail">
         <Modal
@@ -216,7 +232,8 @@ export default class ResourceDetail extends Component {
         </Header>
         <Row className="section">
           <Col span={15}>
-            <span className="resource-name">{name}</span>
+            <span className="resource-name">{`${name}\n`}</span>
+            {recommendation != null && stars}
             <SaveButton
               authed={authed}
               isSaved={isSaved}
