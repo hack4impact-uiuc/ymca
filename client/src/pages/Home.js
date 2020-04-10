@@ -44,8 +44,9 @@ const Home = () => {
                 <p
                   className="home-block-4-title"
                   style={{
-                    paddingTop: `${isMobile ? '2em' : '0em'}`,
+                    paddingTop: `${isMobile ? '2em' : '.5em'}`,
                     fontSize: `${isMobile ? '0.32em' : '0.45em'}`,
+                    paddingBottom: '.5em',
                   }}
                 >
                   Partners in the Community
