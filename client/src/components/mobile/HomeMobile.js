@@ -1,9 +1,69 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Textfit } from 'react-textfit';
-import { Col, Row, Carousel } from 'antd';
+import { Button, Col, Row, Carousel } from 'antd';
+import { Link } from 'react-router-dom';
 
+import '../../css_mobile/Home.css';
 import testimonials from '../../data/testimonials';
+import { getCategories } from '../../utils/api';
 
+export const HomeBlock1Mobile = () => {
+  const [categories, setCategories] = useState([]);
+
+  const fetchCategories = async () => {
+    const res = await getCategories();
+    const newCategories = [];
+    if (res != null) {
+      res.result.forEach(c => {
+        newCategories.push(c.name);
+      });
+    }
+    setCategories(newCategories);
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  return (
+    <Row className="home-block-1" type="flex" justify="center" align="middle">
+      <Col className="welcome-text-mobile">
+        <Textfit mode="single">Welcome to Urbana-Champaign</Textfit>
+        {categories !== null && categories.length > 0 ? (
+          <Row type="flex" align="middle" justify="center">
+            <Textfit mode="single" className="welcome-text-mobile-bold">
+              Find Resources for
+            </Textfit>
+            <Carousel
+              effect="fade"
+              autoplay
+              dotPosition="left"
+              dots={false}
+              autoplaySpeed={3000}
+            >
+              {categories.map(category => {
+                if (category === 'Other') return null;
+                return (
+                  <Link
+                    to={`/resources?category=${category}`}
+                    className="welcome-text-mobile-link"
+                  >
+                    {category}.
+                  </Link>
+                );
+              })}
+            </Carousel>
+          </Row>
+        ) : null}
+        <Row type="flex" justify="center" align="center">
+          <Link to="/resources">
+            <Button type="primary">Find Resources</Button>
+          </Link>
+        </Row>
+      </Col>
+    </Row>
+  );
+};
 export const HomeBlock2Mobile = () => {
   return (
     <Row className="home-block-2" type="flex" justify="center" align="middle">
@@ -47,7 +107,7 @@ export const HomeBlock3Mobile = () => {
   return (
     <Row className="home-block-3" type="flex" justify="center" align="middle">
       <Col span={23}>
-        <Carousel autoplay dotPosition="right">
+        <Carousel autoplay dotPosition="right" autoplaySpeed={5000}>
           {testimonials.map(element => {
             return (
               <div className="testimonial-block">
