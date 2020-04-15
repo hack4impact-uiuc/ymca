@@ -54,7 +54,13 @@ export const HomeBlock1Mobile = () => {
               })}
             </Carousel>
           </Row>
-        ) : null}
+        ) : (
+          <Row type="flex" align="middle" justify="center">
+            <Textfit mode="single" className="welcome-text-mobile-bold">
+              Find Resources
+            </Textfit>
+          </Row>
+        )}
         <Row type="flex" justify="center" align="center">
           <Link to="/resources">
             <Button type="primary">Find Resources</Button>
