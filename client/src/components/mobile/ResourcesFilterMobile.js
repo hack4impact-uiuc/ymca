@@ -41,13 +41,13 @@ function ResourcesFilterMobile(props) {
     (filterName, filterOptions, value) => {
       return (
         <div className="radio-container-mobile">
-          <h4 className="title">{filterName}</h4>
+          <h5 className="title-filter-mobile">{filterName}</h5>
           <Radio.Group
             onChange={target => onChange(filterName, target.target.value)}
             value={value}
           >
             {filterOptions.map(option => (
-              <Radio className="radio-mobile" key={option} value={option}>
+              <Radio className="radio-filter-mobile" key={option} value={option}>
                 {option}
               </Radio>
             ))}
@@ -73,14 +73,14 @@ function ResourcesFilterMobile(props) {
         </Dropdown>{' '}
         <Dropdown
           overlay={radio('Languages Offered', languages, languageSelected)}
-          placement="bottomCenter"
+          placement="bottomLeft"
           trigger={['click']}
         >
           <Button className="button-mobile">Language</Button>
         </Dropdown>{' '}
         <Dropdown
           overlay={radio('Location', locations, locationSelected)}
-          placement="bottomRight"
+          placement="bottomLeft"
           trigger={['click']}
         >
           <Button className="button-mobile">Location</Button>

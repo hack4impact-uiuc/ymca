@@ -43,9 +43,9 @@
   line-height: 2;
 }
 
-.radio {
+.radio-filter {
   display: block;
-  /* height: 3em; */
+  height: 3em;
   line-height: 3em;
 }
 
@@ -54,7 +54,7 @@
   text-align: center;
   width: max-content;
   background: #fff;
-  padding: 1em 1em 1em 1em;
+  padding: 1em 2em 1em 2em;
   text-align: left;
 }
 

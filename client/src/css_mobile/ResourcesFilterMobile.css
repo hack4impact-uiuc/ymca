@@ -46,24 +46,23 @@
   color: #fff;
 }
 
-.radio-mobile {
+.radio-filter-mobile {
   display: block;
   height: 3em;
   line-height: 3em;
 }
 
 .radio-container-mobile {
-  background: #fff;
   box-shadow: 1px 1px 3px grey;
-  padding-bottom: 1em;
-  padding-left: 3em;
-  padding-right: 3em;
-  padding-top: 1em;
+  text-align: center;
+  width: max-content;
+  background: #fff;
+  padding: 1em 2em 1em 2em;
   text-align: left;
 }
 
-.title {
-  text-align: center;
+.title-filter-mobile {
+  text-align: left;
 }
 
 .ant-drawer-body {
