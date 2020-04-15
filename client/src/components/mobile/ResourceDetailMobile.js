@@ -120,6 +120,13 @@ const ResourceDetailMobile = (props: Props) => {
     return <ResourceDetail {...props} />;
   }
 
+  const Map = ReactMapboxGl({
+    accessToken:
+      'pk.eyJ1IjoiYW5vb2psYWwiLCJhIjoiY2syemtiYjZoMGp1' +
+      'eDNscXQ3azJzajl0bCJ9.FDSFjP1IfSisbm4uvd70vg',
+    interactive: true,
+  });
+
   /* SETUP END */
 
   console.log(image);
@@ -201,13 +208,32 @@ const ResourceDetailMobile = (props: Props) => {
       </div>
       <div className="mb-rd-block-2">
         <Row className="mb-rd-block-title">Location</Row>
-        <Row>
-          <Col span={20}>
+        <Row type="flex" justify="space-between">
+          <Col>
             {address}
             {addressLine2}
             {`${city}, ${state}`}
           </Col>
-          <Col span={4} />
+          <Col>Far Aways</Col>
+        </Row>
+        <Row>
+          <Map
+            style="mapbox://styles/mapbox/light-v9"
+            center={[lng, lat]}
+            containerStyle={{
+              height: '350px',
+              width: '100%',
+            }}
+            zoom={[15]}
+          >
+            <Layer
+              type="symbol"
+              id="marker"
+              layout={{ 'icon-image': 'marker-15' }}
+            >
+              <Feature coordinates={[lng, lat]} />
+            </Layer>
+          </Map>
         </Row>
       </div>
     </div>
