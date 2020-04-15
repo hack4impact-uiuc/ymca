@@ -47,7 +47,11 @@ function ResourcesFilterMobile(props) {
             value={value}
           >
             {filterOptions.map(option => (
-              <Radio className="radio-filter-mobile" key={option} value={option}>
+              <Radio
+                className="radio-filter-mobile"
+                key={option}
+                value={option}
+              >
                 {option}
               </Radio>
             ))}

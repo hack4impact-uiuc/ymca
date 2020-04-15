@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Row, Carousel, Menu } from 'antd';
+import { Button, Col, Row, Carousel } from 'antd';
 import { Link } from 'react-router-dom';
 
 import '../../css/Home.css';
