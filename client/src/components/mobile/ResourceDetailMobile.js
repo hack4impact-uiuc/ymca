@@ -1,8 +1,9 @@
 // @flow
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { Carousel, Row, Col, Rate, Icon } from 'antd';
+import { Carousel, Row, Col, Rate, Icon, Timeline } from 'antd';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
+import TimelineItem from 'antd/lib/timeline/TimelineItem';
 
 import ResourceDetail from '../../pages/ResourceDetail';
 import useWindowDimensions from '../../utils/mobile';
@@ -55,7 +56,7 @@ const ResourceDetailMobile = (props: Props) => {
   const [requiredDocuments, setRequiredDocuments] = useState([]);
   const [cost, setCost] = useState(null);
   const [internalNotes, setInternalNotes] = useState([]);
-  const [hours, setHours] = useState([]);
+  const [hours, setHours] = useState(null);
   const [recommendation, setRecommendation] = useState(0);
   const [image, setImage] = useState(null);
 
@@ -95,6 +96,10 @@ const ResourceDetailMobile = (props: Props) => {
         setAddressLine2(result.addressLine2);
         setCity(result.city);
         setRecommendation(result.recommendation);
+
+        setHours(
+          result.hoursOfOperation !== [] ? result.hoursOfOperation : null,
+        );
       }
     }
 
@@ -236,7 +241,66 @@ const ResourceDetailMobile = (props: Props) => {
           </Map>
         </Row>
       </div>
+      <div className="mb-rd-block-2">
+        <Row className="mb-rd-block-title">Schedule</Row>
+        <Row>
+          <Timeline>
+            {[
+              'Sunday',
+              'Monday',
+              'Tuesday',
+              'Wednesday',
+              'Thursday',
+              'Friday',
+              'Saturday',
+            ].map(day => (
+              <ScheduleEntry
+                day={day}
+                period={
+                  hours &&
+                  hours.hoursOfOperation.filter(entry => entry.day === day)
+                    .period
+                }
+              />
+            ))}
+          </Timeline>
+        </Row>
+      </div>
     </div>
+  );
+};
+
+type ScheduleEntryProps = {
+  className: String,
+  day: String,
+  period: [String],
+};
+const ScheduleEntry = (props: ScheduleEntryProps) => {
+  const { className, day, period } = props;
+
+  const startTime = period && period[0];
+  const endTime = period && period[1];
+
+  return (
+    <Timeline.Item color="rgb(136, 216, 208)" dot={<SolidDot />}>
+      <Row className="mb-rd-schedule-entry-title">{day}</Row>
+      <Row>{startTime && endTime ? `${startTime} - ${endTime}` : ''}</Row>
+    </Timeline.Item>
+  );
+};
+
+const SolidDot = () => {
+  return (
+    <img
+      style={{
+        margin: 'none',
+        padding: 'none',
+        backgroundImage: "url('asset/icon/schedule-dot.svg')",
+        width: '20 px',
+        height: '20 px',
+      }}
+      alt=""
+    />
   );
 };
 
