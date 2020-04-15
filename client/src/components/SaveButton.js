@@ -6,8 +6,6 @@ import { Button, Icon, Popover } from 'antd';
 function SaveButton(props) {
   const { authed, isSaved, deleteResourceHandler, saveResourceHandler } = props;
 
-  const [saveError, setSaveError] = useState(false);
-
   const errorContent = (
     <div>
       You must be logged in to use this feature! Login{' '}
