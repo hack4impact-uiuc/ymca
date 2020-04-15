@@ -47,7 +47,7 @@ function ResourcesFilter(props) {
     (filterName, filterOptions, value, isSort) => {
       return (
         <div className={isSort ? 'radio-container-sort' : 'radio-container'}>
-          {isSort ? null : <h4 className="title">{filterName}</h4>}
+          {!isSort && <h4 className="title">{filterName}</h4>}
           <Radio.Group
             onChange={target => onChange(filterName, target.target.value)}
             value={value}

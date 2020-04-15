@@ -66,24 +66,15 @@ function Resources(props) {
   }
 
   function compareCosts(current, next) {
+    const costOrder = ['$$$', '$$', '$', 'Free'];
     const costCurrent = current.cost;
     const costNext = next.cost;
     if (costCurrent === costNext) {
       return 0;
     }
-    if (!costCurrent || costCurrent.length === 0) {
-      return 1;
-    }
-    if (!costNext || costNext.length === 0) {
-      return -1;
-    }
-    if (costCurrent === 'Free') {
-      return -1;
-    }
-    if (costNext === 'Free') {
-      return 1;
-    }
-    return costCurrent < costNext ? -1 : 1;
+    return costOrder.indexOf(costNext) < costOrder.indexOf(costCurrent)
+      ? -1
+      : 1;
   }
 
   const getCategorySelectedFromSearch = useCallback(() => {
