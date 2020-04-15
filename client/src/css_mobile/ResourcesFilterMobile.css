@@ -46,13 +46,13 @@
   color: #fff;
 }
 
-.radio {
+.radio-mobile {
   display: block;
   height: 3em;
   line-height: 3em;
 }
 
-.radio-container {
+.radio-container-mobile {
   background: #fff;
   box-shadow: 1px 1px 3px grey;
   padding-bottom: 1em;

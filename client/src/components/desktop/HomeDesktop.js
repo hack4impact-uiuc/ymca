@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Row, Carousel } from 'antd';
+import { Button, Col, Row, Carousel, Menu } from 'antd';
 import { Link } from 'react-router-dom';
 
 import '../../css/Home.css';
@@ -31,7 +31,7 @@ export const HomeBlock1Desktop = () => {
         {categories !== null && categories.length > 0 ? (
           <Row type="flex">
             <h1 className="welcome-text-bold">Find Resources for</h1>
-            <div style={{ width: '400px' }}>
+            <div style={{ width: 'min-content' }}>
               <Carousel
                 effect="fade"
                 autoplay

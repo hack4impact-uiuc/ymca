@@ -41,7 +41,7 @@ function ResourcesFilter(props) {
     (filterName, filterOptions, value) => {
       return (
         <div className="radio-container">
-          <h4 className="title">{filterName}</h4>
+          <h4 className="title-filter">{filterName}</h4>
           <Radio.Group
             onChange={target => onChange(filterName, target.target.value)}
             value={value}
@@ -61,7 +61,6 @@ function ResourcesFilter(props) {
   return (
     <div className="resources-filter">
       <Dropdown
-        className="dropdown"
         overlay={radio('Cost', costs, costSelected)}
         placement="bottomLeft"
         trigger={['click']}
@@ -69,17 +68,15 @@ function ResourcesFilter(props) {
         <Button className="button">Cost</Button>
       </Dropdown>
       <Dropdown
-        className="dropdown"
         overlay={radio('Languages Offered', languages, languageSelected)}
-        placement="bottomCenter"
+        placement="bottomLeft"
         trigger={['click']}
       >
         <Button className="button">Language</Button>
       </Dropdown>
       <Dropdown
-        className="dropdown"
         overlay={radio('Location', locations, locationSelected)}
-        placement="bottomRight"
+        placement="bottomLeft"
         trigger={['click']}
       >
         <Button className="button">Location</Button>

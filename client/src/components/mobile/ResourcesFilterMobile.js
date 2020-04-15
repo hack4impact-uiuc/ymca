@@ -40,14 +40,14 @@ function ResourcesFilterMobile(props) {
   const radio = useCallback(
     (filterName, filterOptions, value) => {
       return (
-        <div className="radio-container">
+        <div className="radio-container-mobile">
           <h4 className="title">{filterName}</h4>
           <Radio.Group
             onChange={target => onChange(filterName, target.target.value)}
             value={value}
           >
             {filterOptions.map(option => (
-              <Radio className="radio" key={option} value={option}>
+              <Radio className="radio-mobile" key={option} value={option}>
                 {option}
               </Radio>
             ))}
