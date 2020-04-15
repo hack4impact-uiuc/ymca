@@ -67,21 +67,21 @@ function ResourcesFilter(props) {
   return (
     <div className="resources-filter">
       <Dropdown
-        overlay={radio('Cost', costs, costSelected)}
+        overlay={radio('Cost', costs, costSelected, false)}
         placement="bottomLeft"
         trigger={['click']}
       >
         <Button className="button">Cost</Button>
       </Dropdown>
       <Dropdown
-        overlay={radio('Languages Offered', languages, languageSelected)}
+        overlay={radio('Languages Offered', languages, languageSelected, false)}
         placement="bottomLeft"
         trigger={['click']}
       >
         <Button className="button">Language</Button>
       </Dropdown>
       <Dropdown
-        overlay={radio('Location', locations, locationSelected)}
+        overlay={radio('Location', locations, locationSelected, false)}
         placement="bottomLeft"
         trigger={['click']}
       >
