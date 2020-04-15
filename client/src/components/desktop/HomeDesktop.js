@@ -53,7 +53,11 @@ export const HomeBlock1Desktop = () => {
               </Carousel>
             </div>
           </Row>
-        ) : null}
+        ) : (
+          <Row type="flex">
+            <h1 className="welcome-text-bold">Find Resources</h1>
+          </Row>
+        )}
         <Row type="flex" justify="left" align="left">
           <Col span={14}>
             <Link to="/resources">
