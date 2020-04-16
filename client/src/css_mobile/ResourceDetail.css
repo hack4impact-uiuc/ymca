@@ -38,11 +38,37 @@
 
 .mb-rd-header-bar {
   margin-top: 0.8em;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .mb-rd-header-text {
   font-weight: 700;
-  font-size: 1.7em;
+  font-size: 1.8em;
+}
+
+.mb-rd-save-btn {
+  margin: none;
+  padding: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  color: #e0e0e0;
+  height: 38px;
+  width: 38px;
+  position: relative;
+  top: -9px;
+  text-align: center;
+  border: 1px solid #e0e0e0;
+  border-radius: 50%;
+  box-shadow: 0px 3px 3px 1px;
+}
+
+.mb-rd-save-btn:hover {
+  height: 42px;
+  width: 42px;
+  transition: all 0.2s;
 }
 
 .mb-rd-rate {

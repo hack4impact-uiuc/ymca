@@ -1,7 +1,7 @@
 // @flow
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { Carousel, Row, Col, Rate, Icon, Timeline } from 'antd';
+import { Carousel, Row, Col, Rate, Icon, Timeline, Button } from 'antd';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 import TimelineItem from 'antd/lib/timeline/TimelineItem';
 
@@ -14,7 +14,6 @@ import {
   getSavedResources,
 } from '../../utils/auth';
 import ResourcesBreadcrumb from '../ResourcesBreadcrumb';
-import SaveButton from '../SaveButton';
 
 import '../../css_mobile/ResourceDetail.css';
 
@@ -120,6 +119,19 @@ const ResourceDetailMobile = (props: Props) => {
     }
   }, []);
 
+  useEffect(() => {
+    async function updateIsSaved() {
+      if (authed) {
+        let savedSet = new Set();
+        const json = await getSavedResources();
+        savedSet = new Set(json.result);
+
+        setIsSaved(!!savedSet.has(resourceId));
+      }
+    }
+    updateIsSaved();
+  }, [authed]);
+
   // just to keep something on the screen when not on mobile
   if (!isMobile) {
     return <ResourceDetail {...props} />;
@@ -133,8 +145,6 @@ const ResourceDetailMobile = (props: Props) => {
   });
 
   /* SETUP END */
-
-  console.log(image);
 
   return (
     <div className="mb-rd-container">
@@ -153,11 +163,11 @@ const ResourceDetailMobile = (props: Props) => {
           resourceSelected={name}
         />
         <Row className="mb-rd-header-bar" type="flex">
-          <Col span={18}>
+          <Col span={21}>
             <h2 className="mb-rd-header-text">{name}</h2>
           </Col>
-          <Col span={6}>
-            <SaveButton
+          <Col span={3}>
+            <ResourceDetailSaveButton
               authed={authed}
               isSaved={isSaved}
               deleteResourceHandler={deleteResourceHandler}
@@ -169,7 +179,9 @@ const ResourceDetailMobile = (props: Props) => {
           <Rate className="mb-rd-rate" disabled defaultValue={recommendation} />
         </Row>
         <Row className="mb-rd-description-container">
-          <Col className="mb-rd-description">{description}</Col>
+          <Col className="mb-rd-description" span={20}>
+            {description}
+          </Col>
         </Row>
       </div>
       <div className="mb-rd-block-2">
@@ -188,7 +200,7 @@ const ResourceDetailMobile = (props: Props) => {
               ? phone[0].phoneNumber
               : 'No phone number provided.',
             email || 'No email provided.',
-            website || 'No website provided.',
+            <a href={website}>{website || 'No website provided.'}</a>,
           ]}
         />
         <InfoBlock
@@ -320,24 +332,43 @@ const InfoBlock = (props: InfoBlockProps) => {
   );
 };
 
-// type HeaderBlockProps = {};
-// const HeaderBlock = (props: HeaderBlockProps) => {
-//   const {
-//     category,
-//     subcategory,
-//     name,
-//     authed,
-//     isSaved,
-//     deleteResourceHandler,
-//     saveResourceHandler,
-//     recommendation,
-//     description
-//   } = props;
+type ResourceDetailSaveButtonProps = {
+  authed: Boolean,
+  isSaved: Boolean,
+  deleteResourceHandler: () => any,
+  saveResourceHandler: () => any,
+};
+const ResourceDetailSaveButton = (props: ResourceDetailSaveButtonProps) => {
+  const { authed, isSaved, deleteResourceHandler, saveResourceHandler } = props;
 
-//   return (
-
-//   )
-// }
+  return (
+    authed && (
+      <a onClick={e => e.preventDefault()}>
+        <div className="mb-rd-save-btn">
+          {isSaved ? (
+            <Button
+              onClick={async () => {
+                await deleteResourceHandler();
+              }}
+              type="link"
+            >
+              <Icon type="heart" theme="filled" style={{ color: '#562996' }} />
+            </Button>
+          ) : (
+            <Button
+              onClick={async () => {
+                await saveResourceHandler();
+              }}
+              type="link"
+            >
+              <Icon type="heart" theme="filled" style={{ color: 'black' }} />
+            </Button>
+          )}
+        </div>
+      </a>
+    )
+  );
+};
 
 type ImageCarouselProps = {
   images: Array<String>,
