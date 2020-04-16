@@ -244,7 +244,7 @@ const ResourceDetailMobile = (props: Props) => {
       <div className="mb-rd-block-2">
         <Row className="mb-rd-block-title">Schedule</Row>
         <Row>
-          <Timeline>
+          <Timeline className="mb-rd-schedule">
             {[
               'Sunday',
               'Monday',
@@ -282,25 +282,15 @@ const ScheduleEntry = (props: ScheduleEntryProps) => {
   const endTime = period && period[1];
 
   return (
-    <Timeline.Item color="rgb(136, 216, 208)" dot={<SolidDot />}>
-      <Row className="mb-rd-schedule-entry-title">{day}</Row>
-      <Row>{startTime && endTime ? `${startTime} - ${endTime}` : ''}</Row>
+    <Timeline.Item
+      color="rgb(136, 216, 208)"
+      dot={<div className="mb-rd-schedule-dot" />}
+    >
+      <Row className="md-rd-schedule-entry">
+        <Row className="mb-rd-schedule-entry-title">{day}</Row>
+        <Row>{startTime && endTime ? `${startTime} - ${endTime}` : 'None'}</Row>
+      </Row>
     </Timeline.Item>
-  );
-};
-
-const SolidDot = () => {
-  return (
-    <img
-      style={{
-        margin: 'none',
-        padding: 'none',
-        backgroundImage: "url('asset/icon/schedule-dot.svg')",
-        width: '20 px',
-        height: '20 px',
-      }}
-      alt=""
-    />
   );
 };
 

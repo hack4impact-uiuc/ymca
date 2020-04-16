@@ -92,7 +92,39 @@
   font-weight: 350;
 }
 
+.mb-rd-schedule {
+  padding-left: 1.5em;
+}
+
+.mb-rd-container .ant-timeline-item-head {
+  padding-top: 0.5em;
+  padding-bottom: 0em;
+  background-color: none;
+}
+
+.mb-rd-schedule .ant-timeline-item-tail {
+  border-left: 2px dashed #6bdbd0;
+  height: calc(100%);
+}
+
+.mb-rd-schedule .ant-timeline-item:last-child .ant-timeline-item-tail {
+  display: none;
+}
+
+.md-rd-schedule-entry {
+  padding-left: 2.5em;
+}
+
 .mb-rd-schedule-entry-title {
-  font-weight: 450;
-  font-size: 1.2em;
+  font-weight: 550;
+  font-size: 1.3em;
+  color: black;
+}
+
+.mb-rd-schedule-dot {
+  display: inline-block;
+  background-color: #6bdbd0;
+  border-radius: 50%;
+  height: 23px;
+  width: 23px;
 }
