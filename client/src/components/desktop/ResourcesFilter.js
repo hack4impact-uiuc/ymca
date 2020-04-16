@@ -47,13 +47,13 @@ function ResourcesFilter(props) {
     (filterName, filterOptions, value, isSort) => {
       return (
         <div className={isSort ? 'radio-container-sort' : 'radio-container'}>
-          {!isSort && <h4 className="title">{filterName}</h4>}
+          {!isSort && <h5 className="title-filter">{filterName}</h5>}
           <Radio.Group
             onChange={target => onChange(filterName, target.target.value)}
             value={value}
           >
             {filterOptions.map(option => (
-              <Radio className="radio" key={option} value={option}>
+              <Radio className="radio-filter" key={option} value={option}>
                 {option}
               </Radio>
             ))}
@@ -67,7 +67,6 @@ function ResourcesFilter(props) {
   return (
     <div className="resources-filter">
       <Dropdown
-        className="dropdown"
         overlay={radio('Cost', costs, costSelected, false)}
         placement="bottomLeft"
         trigger={['click']}
@@ -75,17 +74,15 @@ function ResourcesFilter(props) {
         <Button className="button">Cost</Button>
       </Dropdown>
       <Dropdown
-        className="dropdown"
         overlay={radio('Languages Offered', languages, languageSelected, false)}
-        placement="bottomCenter"
+        placement="bottomLeft"
         trigger={['click']}
       >
         <Button className="button">Language</Button>
       </Dropdown>
       <Dropdown
-        className="dropdown"
         overlay={radio('Location', locations, locationSelected, false)}
-        placement="bottomRight"
+        placement="bottomLeft"
         trigger={['click']}
       >
         <Button className="button">Location</Button>

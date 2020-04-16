@@ -43,7 +43,7 @@
   line-height: 2;
 }
 
-.radio {
+.radio-filter {
   display: block;
   height: 3em;
   line-height: 3em;
@@ -51,7 +51,10 @@
 
 .radio-container {
   box-shadow: 1px 1px 3px grey;
-  padding: 1em 3em;
+  text-align: center;
+  width: max-content;
+  background: #fff;
+  padding: 1em 2em 1em 2em;
   text-align: left;
 }
 
@@ -72,6 +75,6 @@
   width: 100%;
 }
 
-.title {
-  text-align: center;
+.title-filter {
+  text-align: left;
 }
