@@ -29,6 +29,7 @@ function Resources(props) {
   const [location, setLocation] = useState('All');
   const [category, setCategory] = useState('');
   const [subcategory, setSubcategory] = useState('');
+  const [sort, setSort] = useState('Name');
   const [loading, setLoading] = useState(false);
 
   const [openKeys, setOpenKeys] = useState([]);
@@ -38,6 +39,7 @@ function Resources(props) {
   const [savedSet, setSavedSet] = useState(new Set());
 
   const costs = ['Free', 'Free - $', 'Free - $$', 'Free - $$$'];
+  const sorts = ['Name', 'Cost'];
   const isMobile = useWindowDimensions()[1];
 
   const fetchCategories = async () => {
@@ -55,6 +57,25 @@ function Resources(props) {
   useEffect(() => {
     fetchCategories();
   }, []);
+
+  function compareNames(current, next) {
+    const textCurrent = current.name.toUpperCase();
+    const textNext = next.name.toUpperCase();
+    const bool = textCurrent > textNext ? 1 : 0;
+    return textCurrent < textNext ? -1 : bool;
+  }
+
+  function compareCosts(current, next) {
+    const costOrder = ['$$$', '$$', '$', 'Free'];
+    const costCurrent = current.cost;
+    const costNext = next.cost;
+    if (costCurrent === costNext) {
+      return 0;
+    }
+    return costOrder.indexOf(costNext) < costOrder.indexOf(costCurrent)
+      ? -1
+      : 1;
+  }
 
   const getCategorySelectedFromSearch = useCallback(() => {
     const { search } = props.location;
@@ -104,30 +125,44 @@ function Resources(props) {
       );
     }
 
-    newResources.result.sort(function(current, next) {
-      const textCurrent = current.name.toUpperCase();
-      const textNext = next.name.toUpperCase();
-      const bool = textCurrent > textNext ? 1 : 0;
-      return textCurrent < textNext ? -1 : bool;
-    });
-
-    setLoading(false);
+    newResources.result.sort(compareNames);
 
     setCategory(categorySelected);
     setFilteredResources(newResources == null ? [] : newResources.result);
     setOpenKeys([categorySelected]);
     setResources(newResources == null ? [] : newResources.result);
     setSubcategory(subcategorySelected);
-
     setCost('Free - $$$');
     setLanguage('All');
     setLocation('All / Champaign County');
     setSubcategory(subcategorySelected);
+
+    setLoading(false);
   }, [getCategorySelectedFromSearch, props.saved, props.authed]);
 
   const updateSaved = async () => {
     updateResources();
   };
+
+  const updateSort = useCallback(() => {
+    switch (sort) {
+      case 'Name': {
+        const newResources = resources.sort(compareNames);
+        const newFilteredResources = filteredResources.sort(compareNames);
+        setFilteredResources(newFilteredResources);
+        setResources(newResources);
+        break;
+      }
+      case 'Cost': {
+        const newResources = resources.sort(compareCosts);
+        const newFilteredResources = filteredResources.sort(compareCosts);
+        setFilteredResources(newFilteredResources);
+        setResources(newResources);
+        break;
+      }
+      default:
+    }
+  });
 
   useEffect(() => {
     updateResources();
@@ -140,7 +175,7 @@ function Resources(props) {
       'Free - $$': ['Free', '$', '$$'],
       'Free - $$$': ['Free', '$', '$$', '$$$'],
     };
-
+    updateSort();
     const newFilteredResources = resources.filter(
       resource =>
         (resource.subcategory.includes(subcategory) || subcategory === '') &&
@@ -151,7 +186,7 @@ function Resources(props) {
     );
 
     setFilteredResources(newFilteredResources);
-  }, [cost, language, location, subcategory, resources]);
+  }, [cost, language, location, subcategory, resources, sort]);
 
   const categorySelectAll = useCallback(() => {
     props.history.push({
@@ -237,9 +272,12 @@ function Resources(props) {
           languageSelected={language}
           locations={locations}
           locationSelected={location}
+          sorts={sorts}
+          sortSelected={sort}
           setCost={setCost}
           setLanguage={setLanguage}
           setLocation={setLocation}
+          setSort={setSort}
         />
       )}
       {isMobile && (

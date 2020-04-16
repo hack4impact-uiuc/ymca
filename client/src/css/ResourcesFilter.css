@@ -2,6 +2,10 @@
   line-height: 2.1;
 }
 
+.anticon {
+  vertical-align: 0.1em;
+}
+
 .ant-select-selection__placeholder {
   line-height: 23.75px;
 }
@@ -33,11 +37,13 @@
   color: #fff;
 }
 
-.dropdown {
-  margin-left: 2em;
+.sort-dropdown {
+  float: right;
+  margin-right: 0.3em;
+  line-height: 2;
 }
 
-.radio {
+.radio-filter {
   display: block;
   height: 3em;
   line-height: 3em;
@@ -45,7 +51,17 @@
 
 .radio-container {
   box-shadow: 1px 1px 3px grey;
-  padding: 1em 3em;
+  text-align: center;
+  width: max-content;
+  background: #fff;
+  padding: 1em 2em 1em 2em;
+  text-align: left;
+}
+
+.radio-container-sort {
+  background: #fff;
+  box-shadow: 1px 1px 3px grey;
+  padding: 1em 0.5em 1em 1em;
   text-align: left;
 }
 
@@ -59,6 +75,6 @@
   width: 100%;
 }
 
-.title {
-  text-align: center;
+.title-filter {
+  text-align: left;
 }
