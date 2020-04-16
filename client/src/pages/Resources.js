@@ -162,7 +162,7 @@ function Resources(props) {
       }
       default:
     }
-  });
+  }, [filteredResources, resources, sort]);
 
   useEffect(() => {
     updateResources();
@@ -186,7 +186,7 @@ function Resources(props) {
     );
 
     setFilteredResources(newFilteredResources);
-  }, [cost, language, location, subcategory, resources, sort]);
+  }, [cost, language, location, subcategory, resources, sort, updateSort]);
 
   const categorySelectAll = useCallback(() => {
     props.history.push({
