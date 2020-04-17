@@ -42,13 +42,12 @@ export const HomeBlock1Mobile = () => {
               autoplaySpeed={3000}
             >
               {categories.map(category => {
-                if (category === 'Other') return null;
-                return (
+                return category === 'Other' ? null : (
                   <Link
                     to={`/resources?category=${category}`}
                     className="welcome-text-mobile-link"
                   >
-                    {category}.
+                    {category}
                   </Link>
                 );
               })}

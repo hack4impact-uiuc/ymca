@@ -341,6 +341,7 @@ export default class ResourceDetail extends Component {
         <Row className="section card-row">
           <Col span={12}>
             <Map
+              // eslint-disable-next-line
               style="mapbox://styles/mapbox/light-v9"
               center={[lng, lat]}
               containerStyle={{
