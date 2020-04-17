@@ -40,13 +40,12 @@ export const HomeBlock1Desktop = () => {
                 autoplaySpeed={3000}
               >
                 {categories.map(category => {
-                  if (category === 'Other') return null;
-                  return (
+                  return category === 'Other' ? null : (
                     <Link
                       to={`/resources?category=${category}`}
                       className="welcome-text-link"
                     >
-                      {category}.
+                      {category}
                     </Link>
                   );
                 })}
