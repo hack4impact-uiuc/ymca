@@ -1,6 +1,7 @@
 // @flow
 
 import React, { useState, useEffect, useCallback } from 'react';
+import { Redirect } from 'react-router-dom';
 import { Carousel, Row, Col, Rate, Icon, Timeline, Button } from 'antd';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 import TimelineItem from 'antd/lib/timeline/TimelineItem';
@@ -103,6 +104,8 @@ const ResourceDetailMobile = (props: Props) => {
         setHours(
           result.hoursOfOperation !== [] ? result.hoursOfOperation : null,
         );
+      } else {
+        setResourceExists(false);
       }
     }
 
@@ -228,8 +231,8 @@ const ResourceDetailMobile = (props: Props) => {
   }, [hours]);
 
   // just to keep something on the screen when not on mobile
-  if (!isMobile) {
-    return <ResourceDetail {...props} />;
+  if (!resourceExists) {
+    return <Redirect to="/resources/unknown" />;
   }
 
   const Map = ReactMapboxGl({
