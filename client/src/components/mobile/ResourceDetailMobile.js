@@ -45,8 +45,8 @@ const ResourceDetailMobile = (props: Props) => {
   const [website, setWebsite] = useState(null);
   const [email, setEmail] = useState(null);
   const [phone, setPhone] = useState([]);
-  const [address, setAddress] = useState('');
-  const [addressLine2, setAddressLine2] = useState('');
+  const [address, setAddress] = useState(null);
+  const [addressLine2, setAddressLine2] = useState(null);
   const [aptUnitSuite, setAptUnitSuite] = useState('');
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
@@ -61,8 +61,10 @@ const ResourceDetailMobile = (props: Props) => {
 
   const [resourceExists, setResourceExists] = useState(true);
 
-  const [lat, setLat] = useState(0);
-  const [lng, setLng] = useState(0);
+  const [lat, setLat] = useState(null);
+  const [lng, setLng] = useState(null);
+  const [distFromResource, setDistFromResource] = useState(null);
+
   const [eligibility, setEligibility] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -131,6 +133,56 @@ const ResourceDetailMobile = (props: Props) => {
     }
     updateIsSaved();
   }, [authed]);
+
+  useEffect(() => {
+    async function updateDistFromResource() {
+      // inspired by haversine formula from stack overflow:
+      // https://stackoverflow.com/questions/27928
+      // /calculate-distance-between-two-latitude-
+      // longitude-points-haversine-formula
+      function deg2rad(deg) {
+        return deg * (Math.PI / 180);
+      }
+
+      function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+        const R = 6371; // Radius of the earth in km
+        const dLat = deg2rad(lat2 - lat1); // deg2rad below
+        const dLon = deg2rad(lon2 - lon1);
+        const a =
+          Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+          Math.cos(deg2rad(lat1)) *
+            Math.cos(deg2rad(lat2)) *
+            Math.sin(dLon / 2) *
+            Math.sin(dLon / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        const d = R * c; // Distance in km
+        return d;
+      }
+
+      window.navigator.geolocation.getCurrentPosition(pos => {
+        setDistFromResource(
+          (
+            getDistanceFromLatLonInKm(
+              lat,
+              lng,
+              pos.coords.latitude,
+              pos.coords.longitude,
+            ) / 1.60924
+          ).toFixed(1),
+        );
+      });
+    }
+
+    if (
+      window.navigator.geolocation &&
+      lat !== null &&
+      lat !== 0 &&
+      lng !== null &&
+      lng !== 0
+    ) {
+      updateDistFromResource();
+    }
+  }, [lat, lng]);
 
   // just to keep something on the screen when not on mobile
   if (!isMobile) {
@@ -227,10 +279,10 @@ const ResourceDetailMobile = (props: Props) => {
         <Row className="mb-rd-block-title">Location</Row>
         <Row className="mb-rd-thin-text">
           <Row>{address}</Row>
-          <Row>{addressLine2}</Row>
+          {addressLine2 && <Row>{addressLine2}</Row>}
           <Row type="flex" justify="space-between">
             <Col>{`${city}${state && `, ${state}`}`}</Col>
-            <Col>Far Aways</Col>
+            <Col>{distFromResource && `${distFromResource} mi`}</Col>
           </Row>
         </Row>
         <Row>
