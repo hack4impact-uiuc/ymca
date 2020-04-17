@@ -8,6 +8,8 @@ import TimelineItem from 'antd/lib/timeline/TimelineItem';
 import moment from 'moment';
 
 import ResourceDetail from '../../pages/ResourceDetail';
+import ResourcesBreadcrumb from '../ResourcesBreadcrumb';
+import SaveButton from '../SaveButton';
 import useWindowDimensions from '../../utils/mobile';
 import { deleteResource, getResourceByID } from '../../utils/api';
 import {
@@ -16,7 +18,6 @@ import {
   getSavedResources,
 } from '../../utils/auth';
 import determineStockPhoto from '../../utils/determineStockPhoto';
-import ResourcesBreadcrumb from '../ResourcesBreadcrumb';
 
 import '../../css_mobile/ResourceDetail.css';
 
@@ -273,130 +274,143 @@ const ResourceDetailMobile = (props: Props) => {
           <div />
         )}
       </Carousel>
-      <div className="mb-rd-block-1">
-        <ResourcesBreadcrumb
-          categorySelected={category}
-          subcategorySelected={subcategory}
-          resourceSelected={name}
-        />
-        <Row className="mb-rd-header-bar" type="flex">
-          <Col span={21}>
-            <h2 className="mb-rd-header-text">{name}</h2>
-          </Col>
-          <Col span={3}>
-            <ResourceDetailSaveButton
-              authed={authed}
-              isSaved={isSaved}
-              deleteResourceHandler={deleteResourceHandler}
-              saveResourceHandler={saveResourceHandler}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Rate className="mb-rd-rate" disabled defaultValue={recommendation} />
-        </Row>
-        <Row className="mb-rd-description-container">
-          <Col className="mb-rd-description" span={20}>
-            {description}
-          </Col>
-        </Row>
-      </div>
-      <div className="mb-rd-block-2">
-        <Row className="mb-rd-block-title">Basic Information</Row>
-        <InfoBlock
-          title="Contact Information"
-          icon={
-            <Icon
-              className="mb-rd-phone-icon mb-rd-icon"
-              type="phone"
-              theme="filled"
-            />
-          }
-          content={[
-            phone && phone[0]
-              ? phone[0].phoneNumber
-              : 'No phone number provided.',
-            email || 'No email provided.',
-            <a href={website}>{website || 'No website provided.'}</a>,
-          ]}
-        />
-        <InfoBlock
-          title="Languages Spoken"
-          icon={<Icon className="mb-rd-icon" type="wechat" theme="filled" />}
-          content={[languages.join(', ')]}
-        />
-        <InfoBlock
-          title="Cost"
-          icon={
-            <Icon className="mb-rd-icon" type="dollar-circle" theme="filled" />
-          }
-          content={[cost || 'None provided.']}
-        />
-        <InfoBlock
-          title="Required Documents"
-          icon={
-            <Icon className="mb-rd-icon" type="folder-open" theme="filled" />
-          }
-          content={[requiredDocuments || 'None.']}
-        />
-      </div>
-      <div className="mb-rd-block-2">
-        <Row className="mb-rd-block-title">Location</Row>
-        <Row className="mb-rd-location-info mb-rd-thin-text">
-          <Row>{address}</Row>
-          {addressLine2 && <Row>{addressLine2}</Row>}
-          <Row type="flex" justify="space-between">
-            <Col>{`${city}${state && `, ${state}`}`}</Col>
-            <Col>{distFromResource && `${distFromResource} mi`}</Col>
-          </Row>
-        </Row>
-        <Row>
-          <Map
-            style="mapbox://styles/mapbox/light-v9"
-            center={[lng, lat]}
-            containerStyle={{
-              height: '350px',
-              width: '100%',
-            }}
-            zoom={[15]}
-          >
-            <Layer
-              type="symbol"
-              id="marker"
-              layout={{ 'icon-image': 'marker-15' }}
-            >
-              <Feature coordinates={[lng, lat]} />
-            </Layer>
-          </Map>
-        </Row>
-      </div>
-      <div className="mb-rd-block-2">
-        <Row className="mb-rd-block-title">Schedule</Row>
-        <Row>
-          <Timeline className="mb-rd-schedule">
-            {[
-              'Sunday',
-              'Monday',
-              'Tuesday',
-              'Wednesday',
-              'Thursday',
-              'Friday',
-              'Saturday',
-            ].map(day => (
-              <ScheduleEntry
-                day={day}
-                period={
-                  hours && hours.filter(entry => entry.day === day)[0].period
-                }
-                isWithinOperationHours={
-                  isWithinOperationHours &&
-                  isWithinOperationHours.filter(entry => entry.day === day)[0]
-                    .withinHours
-                }
+      <div className="mb-rd-block-container">
+        <div className="mb-rd-block-1">
+          <ResourcesBreadcrumb
+            categorySelected={category}
+            subcategorySelected={subcategory}
+            resourceSelected={name}
+          />
+          <Row className="mb-rd-header-bar" type="flex">
+            <Col>
+              <h2 className="mb-rd-header-text">{name}</h2>
+            </Col>
+            <Col>
+              <SaveButton
+                className="mb-rd-save-btn"
+                type="heart"
+                fontSize="2em"
+                authed={authed}
+                isSaved={isSaved}
+                deleteResourceHandler={deleteResourceHandler}
+                saveResourceHandler={saveResourceHandler}
               />
-            ))}
-          </Timeline>
-        </Row>
+            </Col>
+          </Row>
+          <Row>
+            <Rate
+              className="mb-rd-rate"
+              disabled
+              defaultValue={recommendation}
+            />
+          </Row>
+          <Row className="mb-rd-description-container">
+            <Col className="mb-rd-description" span={20}>
+              {description}
+            </Col>
+          </Row>
+        </div>
+        <div className="mb-rd-block-2">
+          <Row className="mb-rd-block-title">Basic Information</Row>
+          <InfoBlock
+            title="Contact Information"
+            icon={
+              <Icon
+                className="mb-rd-phone-icon mb-rd-icon"
+                type="phone"
+                theme="filled"
+              />
+            }
+            content={[
+              phone && phone[0]
+                ? phone[0].phoneNumber
+                : 'No phone number provided.',
+              email || 'No email provided.',
+              <a href={website}>{website || 'No website provided.'}</a>,
+            ]}
+          />
+          <InfoBlock
+            title="Languages Spoken"
+            icon={<Icon className="mb-rd-icon" type="wechat" theme="filled" />}
+            content={[languages.join(', ')]}
+          />
+          <InfoBlock
+            title="Cost"
+            icon={
+              <Icon
+                className="mb-rd-icon"
+                type="dollar-circle"
+                theme="filled"
+              />
+            }
+            content={[cost || 'None provided.']}
+          />
+          <InfoBlock
+            title="Required Documents"
+            icon={
+              <Icon className="mb-rd-icon" type="folder-open" theme="filled" />
+            }
+            content={[requiredDocuments || 'None.']}
+          />
+        </div>
+        <div className="mb-rd-block-2">
+          <Row className="mb-rd-block-title">Location</Row>
+          <Row className="mb-rd-location-info mb-rd-thin-text">
+            <Row>{address}</Row>
+            {addressLine2 && <Row>{addressLine2}</Row>}
+            <Row type="flex" justify="space-between">
+              <Col>{`${city}${state && `, ${state}`}`}</Col>
+              <Col>{distFromResource && `${distFromResource} mi`}</Col>
+            </Row>
+          </Row>
+          <Row>
+            <Map
+              style="mapbox://styles/mapbox/light-v9"
+              center={[lng, lat]}
+              containerStyle={{
+                height: '350px',
+                width: '100%',
+              }}
+              zoom={[15]}
+            >
+              <Layer
+                type="symbol"
+                id="marker"
+                layout={{ 'icon-image': 'marker-15' }}
+              >
+                <Feature coordinates={[lng, lat]} />
+              </Layer>
+            </Map>
+          </Row>
+        </div>
+        <div className="mb-rd-block-2">
+          <Row className="mb-rd-block-title">Schedule</Row>
+          <Row>
+            <Timeline className="mb-rd-schedule">
+              {[
+                'Sunday',
+                'Monday',
+                'Tuesday',
+                'Wednesday',
+                'Thursday',
+                'Friday',
+                'Saturday',
+              ].map(day => (
+                <ScheduleEntry
+                  day={day}
+                  period={
+                    hours && hours.filter(entry => entry.day === day)[0].period
+                  }
+                  isWithinOperationHours={
+                    isWithinOperationHours &&
+                    isWithinOperationHours.filter(entry => entry.day === day)[0]
+                      .withinHours
+                  }
+                />
+              ))}
+            </Timeline>
+          </Row>
+        </div>
       </div>
     </div>
   );
@@ -457,48 +471,5 @@ const InfoBlock = (props: InfoBlockProps) => {
     </Row>
   );
 };
-
-type ResourceDetailSaveButtonProps = {
-  authed: Boolean,
-  isSaved: Boolean,
-  deleteResourceHandler: () => any,
-  saveResourceHandler: () => any,
-};
-const ResourceDetailSaveButton = (props: ResourceDetailSaveButtonProps) => {
-  const { authed, isSaved, deleteResourceHandler, saveResourceHandler } = props;
-
-  return (
-    authed && (
-      <a onClick={e => e.preventDefault()}>
-        <div className="mb-rd-save-btn">
-          {isSaved ? (
-            <Button
-              onClick={async () => {
-                await deleteResourceHandler();
-              }}
-              type="link"
-            >
-              <Icon type="heart" theme="filled" style={{ color: '#562996' }} />
-            </Button>
-          ) : (
-            <Button
-              onClick={async () => {
-                await saveResourceHandler();
-              }}
-              type="link"
-            >
-              <Icon type="heart" theme="filled" style={{ color: 'black' }} />
-            </Button>
-          )}
-        </div>
-      </a>
-    )
-  );
-};
-
-type ImageCarouselProps = {
-  images: Array<String>,
-};
-const ImageCarousel = (props: ImageCarouselProps) => {};
 
 export default ResourceDetailMobile;
