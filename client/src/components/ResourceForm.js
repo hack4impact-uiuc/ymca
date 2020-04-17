@@ -52,8 +52,8 @@ type FormProps = {
 
 const ResourceForm = (props: FormProps) => {
   const [totalSubmitEnabled, setTotalSubmitEnabled] = useState(true);
-  const [carouselIndex, setCarouselIndex] = useState(0);
-  const [carouselCategory, setCarouselCategory] = useState('');
+  const [setCarouselIndex] = useState(0);
+  const [setCarouselCategory] = useState('');
   const [showBackButton, setShowBackButton] = useState(false);
   const [showSubmitButton, setShowSubmitButton] = useState(false);
 
