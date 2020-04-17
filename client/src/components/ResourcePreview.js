@@ -138,6 +138,7 @@ function ResourcePreview(props) {
             </>
           }
           description={description}
+          style={{marginLeft: "-1em"}}
         />
       </Card>
     </Link>
