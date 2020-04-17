@@ -31,7 +31,7 @@ export const HomeBlock1Desktop = () => {
         {categories !== null && categories.length > 0 ? (
           <Row type="flex">
             <h1 className="welcome-text-bold">Find Resources for</h1>
-            <div style={{ width: '400px' }}>
+            <div style={{ width: 'min-content' }}>
               <Carousel
                 effect="fade"
                 autoplay
@@ -53,7 +53,11 @@ export const HomeBlock1Desktop = () => {
               </Carousel>
             </div>
           </Row>
-        ) : null}
+        ) : (
+          <Row type="flex">
+            <h1 className="welcome-text-bold">Find Resources</h1>
+          </Row>
+        )}
         <Row type="flex" justify="left" align="left">
           <Col span={14}>
             <Link to="/resources">
