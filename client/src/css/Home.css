@@ -122,3 +122,7 @@
 .ant-btn > span {
   margin-top: 0.15em;
 }
+
+.ant-col-14 {
+  margin-top: -0.3em;
+}
