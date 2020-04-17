@@ -148,6 +148,17 @@
   color: black;
 }
 
+.mb-rd-schedule-text {
+  font-weight: 350;
+  font-size: 1.1em;
+}
+
+.mb-rd-schedule-open-now {
+  font-weight: 450;
+  font-size: 1.1em;
+  color: rgb(47, 209, 47);
+}
+
 .mb-rd-schedule-dot {
   display: inline-block;
   background-color: #6bdbd0;

@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Carousel, Row, Col, Rate, Icon, Timeline, Button } from 'antd';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 import TimelineItem from 'antd/lib/timeline/TimelineItem';
+import moment from 'moment';
 
 import ResourceDetail from '../../pages/ResourceDetail';
 import useWindowDimensions from '../../utils/mobile';
@@ -52,7 +53,7 @@ const ResourceDetailMobile = (props: Props) => {
   const [state, setState] = useState('');
   const [zip, setZip] = useState('');
   const [languages, setLanguages] = useState([]);
-  const [requiredDocuments, setRequiredDocuments] = useState([]);
+  const [requiredDocuments, setRequiredDocuments] = useState(null);
   const [cost, setCost] = useState(null);
   const [internalNotes, setInternalNotes] = useState([]);
   const [hours, setHours] = useState(null);
@@ -69,6 +70,7 @@ const ResourceDetailMobile = (props: Props) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const [isSaved, setIsSaved] = useState(false);
+  const [isWithinOperationHours, setIsWithinOperationHours] = useState(null);
 
   // componentDidMount
   useEffect(() => {
@@ -184,6 +186,47 @@ const ResourceDetailMobile = (props: Props) => {
     }
   }, [lat, lng]);
 
+  useEffect(() => {
+    setIsWithinOperationHours(
+      hours &&
+        hours.hoursOfOperation.map(entry => {
+          const { day } = entry;
+          const { period } = entry;
+          let withinHours = false;
+
+          if (period) {
+            const start = moment(period[0], 'h:mm a');
+            const startHour = start.hour();
+            const startMin = start.minute();
+            const end = moment(period[1], 'h:mm a');
+            const endHour = end.hour();
+            const endMin = end.minute();
+            const now = moment();
+            const nowHour = now.hour();
+            const nowMin = now.minute();
+
+            const inHour =
+              Math.min(nowHour, startHour) === startHour &&
+              Math.max(nowHour, endHour) === endHour;
+
+            const inMin =
+              Math.min(nowMin, startMin) === startMin &&
+              Math.max(nowMin, endMin) === endMin;
+
+            if (inHour) {
+              if ((nowHour === startHour || nowHour === endHour) && inMin) {
+                withinHours = inMin;
+              } else {
+                withinHours = true;
+              }
+            }
+          }
+
+          return { day, withinHours };
+        }),
+    );
+  }, [hours]);
+
   // just to keep something on the screen when not on mobile
   if (!isMobile) {
     return <ResourceDetail {...props} />;
@@ -272,7 +315,7 @@ const ResourceDetailMobile = (props: Props) => {
           icon={
             <Icon className="mb-rd-icon" type="folder-open" theme="filled" />
           }
-          content={[]}
+          content={[requiredDocuments || 'None.']}
         />
       </div>
       <div className="mb-rd-block-2">
@@ -325,6 +368,11 @@ const ResourceDetailMobile = (props: Props) => {
                   hours.hoursOfOperation.filter(entry => entry.day === day)
                     .period
                 }
+                isWithinOperationHours={
+                  isWithinOperationHours &&
+                  isWithinOperationHours.filter(entry => entry.day === day)
+                    .withinHours
+                }
               />
             ))}
           </Timeline>
@@ -338,9 +386,10 @@ type ScheduleEntryProps = {
   className: String,
   day: String,
   period: [String],
+  isWithinOperationHours: Boolean,
 };
 const ScheduleEntry = (props: ScheduleEntryProps) => {
-  const { className, day, period } = props;
+  const { className, day, period, isWithinOperationHours } = props;
 
   const startTime = period && period[0];
   const endTime = period && period[1];
@@ -352,7 +401,12 @@ const ScheduleEntry = (props: ScheduleEntryProps) => {
     >
       <Row className="md-rd-schedule-entry">
         <Row className="mb-rd-schedule-entry-title">{day}</Row>
-        <Row>{startTime && endTime ? `${startTime} - ${endTime}` : 'None'}</Row>
+        <Row className="mb-rd-schedule-text">
+          {startTime && endTime ? `${startTime} - ${endTime}` : 'None'}
+        </Row>
+        {isWithinOperationHours && (
+          <Row className="mb-rd-schedule-open-now">Open now!</Row>
+        )}
       </Row>
     </Timeline.Item>
   );
