@@ -104,6 +104,9 @@ const ResourceDetailMobile = (props: Props) => {
         setHours(
           result.hoursOfOperation !== [] ? result.hoursOfOperation : null,
         );
+
+        setLat(result.lat);
+        setLng(result.lng);
       } else {
         setResourceExists(false);
       }
@@ -230,7 +233,6 @@ const ResourceDetailMobile = (props: Props) => {
     );
   }, [hours]);
 
-  // just to keep something on the screen when not on mobile
   if (!resourceExists) {
     return <Redirect to="/resources/unknown" />;
   }
