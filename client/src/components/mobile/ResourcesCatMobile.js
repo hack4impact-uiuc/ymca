@@ -25,7 +25,7 @@ function ResourcesCatMobile(props) {
           <SubMenu
             key="categories"
             onTitleClick={() => setVisible(true)}
-            title="Resource Categories"
+            title={props.subcategory ? props.subcategory : props.category}
           />
         </Menu>
         <Drawer
@@ -44,6 +44,7 @@ function ResourcesCatMobile(props) {
 }
 
 ResourcesCatMobile.propTypes = {
+  category: PropTypes.string.isRequired,
   subcategory: PropTypes.string.isRequired,
 };
 

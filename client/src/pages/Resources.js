@@ -19,7 +19,6 @@ import ResourcesFilterMobile from '../components/mobile/ResourcesFilterMobile';
 import ResourcesGrid from '../components/ResourcesGrid';
 import ResourceCategoryFilter from '../components/ResourceCategoryFilter';
 import ResourcesCatMobile from '../components/mobile/ResourcesCatMobile';
-import ResourcesBannerMobile from '../components/mobile/ResourcesBannerMobile';
 
 const { Sider } = Layout;
 
@@ -237,29 +236,8 @@ function Resources(props) {
 
   return (
     <Layout className="resources">
-      {isMobile && (
-        <div className="filter-search" style={{ top: '2em' }}>
-          <ResourcesFilterMobile
-            costs={costs}
-            costSelected={cost}
-            languages={languages}
-            languageSelected={language}
-            locations={locations}
-            locationSelected={location}
-            setCost={setCost}
-            setLanguage={setLanguage}
-            setLocation={setLocation}
-          />
-        </div>
-      )}
       {!isMobile && (
         <ResourcesBanner
-          categorySelected={category}
-          subcategorySelected={subcategory}
-        />
-      )}
-      {isMobile && (
-        <ResourcesBannerMobile
           categorySelected={category}
           subcategorySelected={subcategory}
         />
@@ -281,8 +259,7 @@ function Resources(props) {
         />
       )}
       {isMobile && (
-        <div className="filter-bar" style={{ top: '8.8em' }}>
-          <hr className="line" />
+        <div className="filter-bar">
           <ResourcesCatMobile
             category={category}
             categories={categories}
@@ -292,7 +269,6 @@ function Resources(props) {
             subcategory={subcategory}
             subcategorySelect={subcategorySelect}
           />
-          <hr className="line" />
         </div>
       )}
       <Layout style={{ background: 'white' }}>
