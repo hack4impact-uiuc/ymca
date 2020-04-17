@@ -15,6 +15,7 @@ import {
   deleteSavedResource,
   getSavedResources,
 } from '../../utils/auth';
+import determineStockPhoto from '../../utils/determineStockPhoto';
 import ResourcesBreadcrumb from '../ResourcesBreadcrumb';
 
 import '../../css_mobile/ResourceDetail.css';
@@ -81,7 +82,11 @@ const ResourceDetailMobile = (props: Props) => {
       if (response) {
         const { result } = response;
 
-        setImage(result.image);
+        setImage(
+          result.image && result.image !== ''
+            ? result.image
+            : determineStockPhoto(result.category, result.subcategory),
+        );
 
         setCategory(result.category);
         setSubcategory(result.subcategory);
@@ -266,7 +271,6 @@ const ResourceDetailMobile = (props: Props) => {
         ) : (
           <div />
         )}
-        <div />
       </Carousel>
       <div className="mb-rd-block-1">
         <ResourcesBreadcrumb
