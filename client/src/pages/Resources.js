@@ -148,21 +148,17 @@ function Resources(props) {
     switch (sort) {
       case 'Name': {
         const newResources = resources.sort(compareNames);
-        const newFilteredResources = filteredResources.sort(compareNames);
-        setFilteredResources(newFilteredResources);
         setResources(newResources);
         break;
       }
       case 'Cost': {
         const newResources = resources.sort(compareCosts);
-        const newFilteredResources = filteredResources.sort(compareCosts);
-        setFilteredResources(newFilteredResources);
         setResources(newResources);
         break;
       }
       default:
     }
-  }, [filteredResources, resources, sort]);
+  }, [resources, sort]);
 
   useEffect(() => {
     updateResources();
