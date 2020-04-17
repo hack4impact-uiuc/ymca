@@ -298,11 +298,7 @@ const ResourceDetailMobile = (props: Props) => {
             </Col>
           </Row>
           <Row>
-            <Rate
-              className="mb-rd-rate"
-              disabled
-              defaultValue={recommendation}
-            />
+            <Rate className="mb-rd-rate" disabled value={recommendation} />
           </Row>
           <Row className="mb-rd-description-container">
             <Col className="mb-rd-description" span={20}>

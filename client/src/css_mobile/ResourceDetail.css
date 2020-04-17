@@ -65,6 +65,11 @@
   color: #6a3e9e;
 }
 
+.mb-rd-rate .ant-rate-star > div:hover,
+.ant-rate-star > div:focus {
+  transform: scale(1);
+}
+
 .mb-rd-description-container {
   padding-top: 0.8em;
 }
