@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Textfit } from 'react-textfit';
 import PropTypes from 'prop-types';
 import { Card } from 'antd';
 import { Link } from 'react-router-dom';
@@ -133,12 +132,12 @@ function ResourcePreview(props) {
                 isSaved={isSaved}
                 deleteResourceHandler={deleteResourceHandler}
                 saveResourceHandler={saveResourceHandler}
-                style={{display: "inline-block"}}
+                style={{ display: 'inline-block' }}
               />
             </>
           }
           description={description}
-          style={{marginLeft: "-1em"}}
+          style={{ marginLeft: '-1em' }}
         />
       </Card>
     </Link>
