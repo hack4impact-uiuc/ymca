@@ -107,7 +107,8 @@ const ResourceDetailMobile = (props: Props) => {
         setRecommendation(result.recommendation);
 
         setHours(
-          result.hoursOfOperation && result.hoursOfOperation.hoursOfOperation
+          result.hoursOfOperation &&
+            result.hoursOfOperation.hoursOfOperation.length > 0
             ? result.hoursOfOperation.hoursOfOperation
             : null,
         );

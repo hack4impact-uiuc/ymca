@@ -5,28 +5,11 @@ import { Link } from 'react-router-dom';
 
 import '../css/ResourcePreview.css';
 import { saveResource, deleteSavedResource } from '../utils/auth';
+import determineStockPhoto from '../utils/determineStockPhoto';
 
 import SaveButton from './SaveButton';
 
 const { Meta } = Card;
-
-const stockPhotos = {
-  'Abuse/Neglect': '/asset/subcategories/abuse.jpg',
-  'Adult Education': '/asset/subcategories/adultEd.jpg',
-  'Animal Care': '/asset/subcategories/animalhealth.jpg',
-  Children: '/asset/subcategories/childhealth.jpg',
-  'Children Education': '/asset/subcategories/childEd.jpg',
-  'Clothing Assistance': '/asset/subcategories/clothing.jpg',
-  'Community Information': '/asset/subcategories/community.jpg',
-  Dental: '/asset/subcategories/dentalhealth.jpg',
-  'Drugs/Alcohol': '/asset/subcategories/alcohol.jpg',
-  Employment: '/asset/subcategories/employment.jpg',
-  'Finance/Tax Assistance': '/asset/subcategories/financialtax.jpg',
-  Medical: '/asset/subcategories/medical.jpg',
-  'Mental Health & Counseling': '/asset/subcategories/mentalhealth.jpg',
-  Students: '/asset/subcategories/studentfinance.jpg',
-  Vision: '/asset/subcategories/eyehealth.jpg',
-};
 
 function ResourcePreview(props) {
   const {
@@ -56,21 +39,7 @@ function ResourcePreview(props) {
   };
 
   useEffect(() => {
-    let found = false;
-    subcategory.forEach(sub => {
-      if (stockPhotos[sub]) {
-        setSrc(stockPhotos[sub]);
-        found = true;
-      }
-    });
-
-    if (!found) {
-      setSrc(
-        category.includes('Citizenship')
-          ? '/asset/subcategories/citizenship.jpg'
-          : '/asset/subcategories/default.jpg',
-      );
-    }
+    setSrc(determineStockPhoto(category, subcategory));
   }, [category, setSrc, subcategory]);
 
   const description = [];
