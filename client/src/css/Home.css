@@ -118,3 +118,7 @@
   font-weight: 600;
   color: #212529;
 }
+
+.ant-btn > span {
+  margin-top: 0.15em;
+}
