@@ -102,7 +102,9 @@ const ResourceDetailMobile = (props: Props) => {
         setRecommendation(result.recommendation);
 
         setHours(
-          result.hoursOfOperation !== [] ? result.hoursOfOperation : null,
+          result.hoursOfOperation && result.hoursOfOperation.hoursOfOperation
+            ? result.hoursOfOperation.hoursOfOperation
+            : null,
         );
 
         setLat(result.lat);
@@ -195,12 +197,15 @@ const ResourceDetailMobile = (props: Props) => {
   useEffect(() => {
     setIsWithinOperationHours(
       hours &&
-        hours.hoursOfOperation.map(entry => {
+        hours.map(entry => {
           const { day } = entry;
           const { period } = entry;
           let withinHours = false;
 
           if (period) {
+            const givenDay = moment()
+              .day(day)
+              .day();
             const start = moment(period[0], 'h:mm a');
             const startHour = start.hour();
             const startMin = start.minute();
@@ -210,20 +215,27 @@ const ResourceDetailMobile = (props: Props) => {
             const now = moment();
             const nowHour = now.hour();
             const nowMin = now.minute();
+            const nowDay = now.day();
 
-            const inHour =
-              Math.min(nowHour, startHour) === startHour &&
-              Math.max(nowHour, endHour) === endHour;
+            if (nowDay === givenDay) {
+              const inHour =
+                Math.min(nowHour, startHour) === startHour &&
+                Math.max(nowHour, endHour) === endHour;
 
-            const inMin =
-              Math.min(nowMin, startMin) === startMin &&
-              Math.max(nowMin, endMin) === endMin;
+              const inMin =
+                Math.min(nowMin, startMin) === startMin &&
+                Math.max(nowMin, endMin) === endMin;
 
-            if (inHour) {
-              if ((nowHour === startHour || nowHour === endHour) && inMin) {
-                withinHours = inMin;
-              } else {
-                withinHours = true;
+              if (inHour) {
+                if (nowHour === startHour || nowHour === endHour) {
+                  withinHours =
+                    (nowHour === startHour &&
+                      Math.min(nowMin, startMin) === startMin) ||
+                    (nowHour === endHour &&
+                      Math.max(nowMin, endMin) === endMin);
+                } else {
+                  withinHours = true;
+                }
               }
             }
           }
@@ -325,7 +337,7 @@ const ResourceDetailMobile = (props: Props) => {
       </div>
       <div className="mb-rd-block-2">
         <Row className="mb-rd-block-title">Location</Row>
-        <Row className="mb-rd-thin-text">
+        <Row className="mb-rd-location-info mb-rd-thin-text">
           <Row>{address}</Row>
           {addressLine2 && <Row>{addressLine2}</Row>}
           <Row type="flex" justify="space-between">
@@ -369,13 +381,11 @@ const ResourceDetailMobile = (props: Props) => {
               <ScheduleEntry
                 day={day}
                 period={
-                  hours &&
-                  hours.hoursOfOperation.filter(entry => entry.day === day)
-                    .period
+                  hours && hours.filter(entry => entry.day === day)[0].period
                 }
                 isWithinOperationHours={
                   isWithinOperationHours &&
-                  isWithinOperationHours.filter(entry => entry.day === day)
+                  isWithinOperationHours.filter(entry => entry.day === day)[0]
                     .withinHours
                 }
               />
