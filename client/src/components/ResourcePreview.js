@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Textfit } from 'react-textfit';
 import PropTypes from 'prop-types';
 import { Card } from 'antd';
 import { Link } from 'react-router-dom';
@@ -126,12 +127,13 @@ function ResourcePreview(props) {
         <Meta
           title={
             <>
-              {name}
+              <div className="resource-preview-name">{name}</div>
               <SaveButton
                 authed={authed}
                 isSaved={isSaved}
                 deleteResourceHandler={deleteResourceHandler}
                 saveResourceHandler={saveResourceHandler}
+                style={{display: "inline-block"}}
               />
             </>
           }
