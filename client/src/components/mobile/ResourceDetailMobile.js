@@ -225,13 +225,13 @@ const ResourceDetailMobile = (props: Props) => {
       </div>
       <div className="mb-rd-block-2">
         <Row className="mb-rd-block-title">Location</Row>
-        <Row type="flex" justify="space-between">
-          <Col>
-            {address}
-            {addressLine2}
-            {`${city}, ${state}`}
-          </Col>
-          <Col>Far Aways</Col>
+        <Row className="mb-rd-thin-text">
+          <Row>{address}</Row>
+          <Row>{addressLine2}</Row>
+          <Row type="flex" justify="space-between">
+            <Col>{`${city}${state && `, ${state}`}`}</Col>
+            <Col>Far Aways</Col>
+          </Row>
         </Row>
         <Row>
           <Map
@@ -325,7 +325,7 @@ const InfoBlock = (props: InfoBlockProps) => {
       <Col span={20}>
         <Row className="mb-rd-info-title">{title}</Row>
         {content.map(entry => (
-          <Row className="mb-rd-info-text">{entry}</Row>
+          <Row className="mb-rd-thin-text">{entry}</Row>
         ))}
       </Col>
     </Row>
