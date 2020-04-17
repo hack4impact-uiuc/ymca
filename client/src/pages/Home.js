@@ -1,17 +1,18 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { Textfit } from 'react-textfit';
-import { Button, Col, Row } from 'antd';
+import { Col, Row } from 'antd';
 
 import '../css/Home.css';
 import '../css_mobile/Home.css';
 
 import useWindowDimensions from '../utils/mobile';
 import {
+  HomeBlock1Desktop,
   HomeBlock2Desktop,
   HomeBlock3Desktop,
 } from '../components/desktop/HomeDesktop';
 import {
+  HomeBlock1Mobile,
   HomeBlock2Mobile,
   HomeBlock3Mobile,
 } from '../components/mobile/HomeMobile';
@@ -22,30 +23,15 @@ const Home = () => {
 
   return (
     <>
-      <Row
-        className="home-block-1"
-        type="flex"
-        justify={isMobile ? 'center' : 'left'}
-        align="middle"
-      >
-        <Col className={isMobile ? 'welcome-text-mobile' : 'welcome-text'}>
-          Welcome to <br /> Urbana-Champaign
-          <Row type="flex" justify={isMobile ? 'center' : 'left'} align="left">
-            <Col span={14}>
-              <Link to="/resources">
-                <Button type="primary">Find Resources</Button>
-              </Link>
-            </Col>
-          </Row>
-        </Col>
-      </Row>
       {isMobile ? (
         <>
+          <HomeBlock1Mobile />
           <HomeBlock2Mobile />
           <HomeBlock3Mobile />
         </>
       ) : (
         <>
+          <HomeBlock1Desktop />
           <HomeBlock2Desktop />
           <HomeBlock3Desktop />
         </>
@@ -58,7 +44,8 @@ const Home = () => {
                 <p
                   className="home-block-4-title"
                   style={{
-                    paddingTop: `${isMobile ? '2em' : '0em'}`,
+                    paddingTop: `${isMobile ? '2em' : '.5em'}`,
+                    paddingBottom: '.5em',
                     fontSize: `${isMobile ? '0.32em' : '0.45em'}`,
                   }}
                 >
