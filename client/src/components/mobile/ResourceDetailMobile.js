@@ -65,8 +65,8 @@ const ResourceDetailMobile = (props: Props) => {
 
   const [resourceExists, setResourceExists] = useState(true);
 
-  const [lat, setLat] = useState(null);
-  const [lng, setLng] = useState(null);
+  const [lat, setLat] = useState(0);
+  const [lng, setLng] = useState(0);
   const [distFromResource, setDistFromResource] = useState(null);
 
   const [eligibility, setEligibility] = useState('');
@@ -114,8 +114,8 @@ const ResourceDetailMobile = (props: Props) => {
             : null,
         );
 
-        setLat(result.lat);
-        setLng(result.lng);
+        setLat(result.lat || 0);
+        setLng(result.lng || 0);
       } else {
         setResourceExists(false);
       }
