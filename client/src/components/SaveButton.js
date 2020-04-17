@@ -7,10 +7,10 @@ function SaveButton(props) {
   const { authed, isSaved, deleteResourceHandler, saveResourceHandler } = props;
 
   const errorContent = (
-    <div>
+    <>
       You must be logged in to use this feature! Login{' '}
       <Link to="/login">here</Link>.
-    </div>
+    </>
   );
 
   return (
