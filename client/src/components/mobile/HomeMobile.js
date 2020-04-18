@@ -115,7 +115,7 @@ export const HomeBlock3Mobile = () => {
       <Col span={23}>
         <Carousel
           autoplay
-          dotPosition="right"
+          dotPosition="bottom"
           autoplaySpeed={5000}
           effect="fade"
         >
