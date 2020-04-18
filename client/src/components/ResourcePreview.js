@@ -126,16 +126,18 @@ function ResourcePreview(props) {
         <Meta
           title={
             <>
-              {name}
+              <div className="resource-preview-name">{name}</div>
               <SaveButton
                 authed={authed}
                 isSaved={isSaved}
                 deleteResourceHandler={deleteResourceHandler}
                 saveResourceHandler={saveResourceHandler}
+                style={{ display: 'inline-block' }}
               />
             </>
           }
           description={description}
+          style={{ marginLeft: '-1em' }}
         />
       </Card>
     </Link>
