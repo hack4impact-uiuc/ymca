@@ -89,8 +89,8 @@ const ResourceDetailMobile = (props: Props) => {
             : determineStockPhoto(result.category, result.subcategory),
         );
 
-        setCategory(result.category);
-        setSubcategory(result.subcategory);
+        setCategory(result.category.length > 0 && result.category[0]);
+        setSubcategory(result.subcategory.length > 0 && result.subcategory[0]);
 
         setName(result.name);
         setDescription(result.description);
