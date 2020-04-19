@@ -4,6 +4,7 @@ import { Button, Col, Icon, message, Modal, Row, Layout } from 'antd';
 import PropTypes from 'prop-types';
 import '../css/ResourceDetail.css';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
+import * as moment from 'moment';
 
 import { deleteResource, getResourceByID } from '../utils/api';
 import {
@@ -97,6 +98,26 @@ export default class ResourceDetail extends Component {
     }
   }
 
+  isOpen = hours => {
+    if (hours === null || hours.length === 0) {
+      return false;
+    }
+
+    const format = 'hh:mm a';
+    const currentTime = moment();
+    let dayIndex = new Date().getDay() - 1;
+
+    if (dayIndex < 0) {
+      dayIndex += 7;
+    }
+
+    const currentDay = hours[dayIndex];
+    const open = moment(currentDay.period[0], format);
+    const close = moment(currentDay.period[1], format);
+
+    return currentTime.isBetween(open, close);
+  };
+
   showModal = () => {
     this.setState({
       modalVisible: true,
@@ -132,12 +153,6 @@ export default class ResourceDetail extends Component {
     }
   };
 
-  updateIsSaved(savedSet) {
-    this.setState({
-      isSaved: !!savedSet.has(this.props.match.params.id),
-    });
-  }
-
   async deleteResource(id) {
     const deletedResource = await deleteResource(id);
     if (deletedResource) {
@@ -147,6 +162,12 @@ export default class ResourceDetail extends Component {
       return;
     }
     this.props.history.push('/resources');
+  }
+
+  updateIsSaved(savedSet) {
+    this.setState({
+      isSaved: !!savedSet.has(this.props.match.params.id),
+    });
   }
 
   render() {
@@ -336,7 +357,9 @@ export default class ResourceDetail extends Component {
         </Row>
         <Row className="section card-row">
           <Col span={12}>{addressString}</Col>
-          <Col span={12}>{/* Open now! */}</Col>
+          <Col span={12} className="open-now">
+            {this.isOpen(hours) && 'Open now!'}
+          </Col>
         </Row>
         <Row className="section card-row">
           <Col span={12}>
