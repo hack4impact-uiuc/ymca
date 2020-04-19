@@ -148,21 +148,17 @@ function Resources(props) {
     switch (sort) {
       case 'Name': {
         const newResources = resources.sort(compareNames);
-        const newFilteredResources = filteredResources.sort(compareNames);
-        setFilteredResources(newFilteredResources);
         setResources(newResources);
         break;
       }
       case 'Cost': {
         const newResources = resources.sort(compareCosts);
-        const newFilteredResources = filteredResources.sort(compareCosts);
-        setFilteredResources(newFilteredResources);
         setResources(newResources);
         break;
       }
       default:
     }
-  });
+  }, [resources, sort]);
 
   useEffect(() => {
     updateResources();
@@ -186,7 +182,7 @@ function Resources(props) {
     );
 
     setFilteredResources(newFilteredResources);
-  }, [cost, language, location, subcategory, resources, sort]);
+  }, [cost, language, location, subcategory, resources, sort, updateSort]);
 
   const categorySelectAll = useCallback(() => {
     props.history.push({

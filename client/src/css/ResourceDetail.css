@@ -91,3 +91,8 @@
 .resource-detail .day-of-week {
   font-weight: 600;
 }
+
+.resource-detail .open-now {
+  font-weight: 600;
+  color: rgb(1, 186, 23);
+}
