@@ -317,18 +317,28 @@ const ResourceDetailMobile = (props: Props) => {
                 theme="filled"
               />
             }
-            content={[
-              phone && phone[0]
-                ? phone[0].phoneNumber
-                : 'No phone number provided.',
-              email || 'No email provided.',
-              <a href={website}>{website || 'No website provided.'}</a>,
-            ]}
+            content={[].concat(
+              phone && phone.length > 0
+                ? phone.map(
+                    entry =>
+                      `${entry.phoneType.charAt(0).toUpperCase() +
+                        entry.phoneType.slice(1)}: ${entry.phoneNumber}`,
+                  )
+                : ['No phone number provided.'],
+              [
+                email || 'No email provided.',
+                <a href={website}>{website || 'No website provided.'}</a>,
+              ],
+            )}
           />
           <InfoBlock
             title="Languages Spoken"
             icon={<Icon className="mb-rd-icon" type="wechat" theme="filled" />}
-            content={[languages.join(', ')]}
+            content={[
+              languages && languages.length > 0
+                ? languages.join(', ')
+                : 'None.',
+            ]}
           />
           <InfoBlock
             title="Cost"
@@ -451,6 +461,7 @@ type InfoBlockProps = {
 const InfoBlock = (props: InfoBlockProps) => {
   const { icon, title, content, className } = props;
 
+  console.log(content);
   return (
     <Row className={`mb-rd-info-block ${className}`} gutter={[16, 16]}>
       <Col span={4}>
