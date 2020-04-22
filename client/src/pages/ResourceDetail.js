@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Button, Col, Icon, message, Modal, Row, Layout } from 'antd';
 import PropTypes from 'prop-types';
@@ -16,100 +16,107 @@ import SaveButton from '../components/SaveButton';
 
 const { Header } = Layout;
 
-export default class ResourceDetail extends Component {
-  constructor(props) {
-    super(props);
+function ResourceDetail(props) {
+  const [name, setName] = useState('Resource Name');
+  const [phone, setPhone] = useState([]);
+  const [address, setAddress] = useState('');
+  const [addressLine2, setAddressLine2] = useState('');
+  const [aptUnitSuite, setAptUnitSuite] = useState('');
+  const [city, setCity] = useState('');
+  const [state, setState] = useState('');
+  const [zip, setZip] = useState('');
+  const [email, setEmail] = useState('');
+  const [website, setWebsite] = useState('');
+  const [description, setDescription] = useState('');
+  const [languages, setLanguages] = useState([]);
+  const [requiredDocuments, setRequiredDocuments] = useState([]);
+  const [cost, setCost] = useState('');
+  const [category, setCategory] = useState('');
+  const [subcategory, setSubcategory] = useState('');
+  const [resourceExists, setResourceExists] = useState(true);
+  const [lat, setLat] = useState(0.0);
+  const [lng, setLng] = useState(0.0);
+  const [eligibility, setEligibility] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
+  const [internalNotes, setInternalNotes] = useState([]);
+  const [hours, setHours] = useState([]);
+  const [isSaved, setIsSaved] = useState(false);
+  const [recommendation, setRecommendation] = useState(0);
 
-    this.state = {
-      name: 'Resource Name',
-      phone: [],
-      address: '',
-      email: '',
-      website: '',
-      description: '',
-      languages: [],
-      requiredDocuments: [],
-      cost: '',
-      category: '',
-      subcategory: '',
-      resourceExists: true,
-      lat: 0.0,
-      lng: 0.0,
-      eligibility: '',
-      modalVisible: false,
-      internalNotes: [],
-      hours: [],
-      isSaved: false,
-      recommendation: 0,
-    };
-  }
+  const updateIsSaved = savedSet => {
+    setIsSaved(!!savedSet.has(props.match.params.id));
+  };
 
-  async componentDidMount() {
-    const response = await getResourceByID(this.props.match.params.id, true);
+  useEffect(() => {
+    async function didMount() {
+      const response = await getResourceByID(props.match.params.id, true);
+      if (response !== null) {
+        const { result } = response;
+        setName(result.name);
+        setPhone(result.phoneNumbers);
+        setAddress(result.address || '');
+        setAddressLine2(result.addressLine2 || '');
+        setAptUnitSuite(result.aptUnitSuite || '');
+        setCity(result.city || '');
+        setState(result.state || '');
+        setZip(result.zip || '');
+        setDescription(result.description);
+        setLanguages(result.availableLanguages);
+        setCategory(result.category[0]);
+        setSubcategory(result.subcategory[0]);
+        setCost(result.cost);
+        setLat(
+          Number.isNaN(result.lat) || result.lat == null ? 0.0 : result.lat,
+        );
+        setLng(
+          Number.isNaN(result.lng) || result.lng == null ? 0.0 : result.lng,
+        );
+        setEmail(result.email);
+        setWebsite(result.website || '');
+        setEligibility(result.eligibilityRequirements);
+        setInternalNotes(result.internalNotes);
+        setHours(
+          result.hoursOfOperation
+            ? result.hoursOfOperation.hoursOfOperation
+            : [],
+        );
+        setRecommendation(result.recommendation);
 
-    if (response !== null) {
-      const { result } = response;
+        if (props.authed) {
+          let savedSet = new Set();
+          const json = await getSavedResources();
+          savedSet = new Set(json.result);
+          updateIsSaved(savedSet);
+        }
+      } else {
+        // redirect to resource unknown page
+        setResourceExists(false);
+      }
+    }
+    didMount();
+  }, []);
 
-      this.setState({
-        name: result.name,
-        phone: result.phoneNumbers,
-        address: result.address || '',
-        addressLine2: result.addressLine2 || '',
-        aptUnitSuite: result.aptUnitSuite || '',
-        city: result.city || '',
-        state: result.state || '',
-        zip: result.zip || '',
-        description: result.description,
-        languages: result.availableLanguages,
-        category: result.category[0],
-        subcategory: result.subcategory[0],
-        cost: result.cost,
-        lat: Number.isNaN(result.lat) || result.lat == null ? 0.0 : result.lat,
-        lng: Number.isNaN(result.lng) || result.lng == null ? 0.0 : result.lng,
-        email: result.email,
-        website: result.website || '',
-        eligibility: result.eligibilityRequirements,
-        internalNotes: result.internalNotes,
-        hours: result.hoursOfOperation
-          ? result.hoursOfOperation.hoursOfOperation
-          : [],
-        recommendation: result.recommendation,
-      });
-
-      if (this.props.authed) {
+  useEffect(() => {
+    async function didUpdate() {
+      if (props.authed) {
         let savedSet = new Set();
         const json = await getSavedResources();
         savedSet = new Set(json.result);
-        this.updateIsSaved(savedSet);
+        updateIsSaved(savedSet);
       }
-    } else {
-      // redirect to resource unknown page
-      this.setState({ resourceExists: false });
     }
-  }
+    didUpdate();
+  }, [props.authed]);
 
-  async componentDidUpdate(prevProps) {
-    if (this.props.authed && prevProps.authed === null) {
-      let savedSet = new Set();
-      const json = await getSavedResources();
-      savedSet = new Set(json.result);
-      this.updateIsSaved(savedSet);
-    }
-  }
-
-  showModal = () => {
-    this.setState({
-      modalVisible: true,
-    });
+  const showModal = () => {
+    setModalVisible(true);
   };
 
-  handleCancel = () => {
-    this.setState({
-      modalVisible: false,
-    });
+  const handleCancel = () => {
+    setModalVisible(false);
   };
 
-  displayNote = note => {
+  const displayNote = note => {
     if (note.body.length > 0) {
       if (note.subject.length > 0)
         return <li>{`${note.subject}: ${note.body}`}</li>;
@@ -118,27 +125,21 @@ export default class ResourceDetail extends Component {
     return null;
   };
 
-  saveResourceHandler = async () => {
-    const result = await saveResource(this.props.match.params.id);
+  const saveResourceHandler = async () => {
+    const result = await saveResource(props.match.params.id);
     if (result != null && result.code === 200) {
-      this.setState({ isSaved: true });
+      setIsSaved(true);
     }
   };
 
-  deleteResourceHandler = async () => {
-    const result = await deleteSavedResource(this.props.match.params.id);
+  const deleteSavedResourceHandler = async () => {
+    const result = await deleteSavedResource(props.match.params.id);
     if (result != null && result.code === 200) {
-      this.setState({ isSaved: false });
+      setIsSaved(false);
     }
   };
 
-  updateIsSaved(savedSet) {
-    this.setState({
-      isSaved: !!savedSet.has(this.props.match.params.id),
-    });
-  }
-
-  async deleteResource(id) {
+  const deleteResourceHandler = async id => {
     const deletedResource = await deleteResource(id);
     if (deletedResource) {
       message.success('Resource successfully deleted!');
@@ -146,250 +147,219 @@ export default class ResourceDetail extends Component {
       message.error(`Resource failed to be deleted.`);
       return;
     }
-    this.props.history.push('/resources');
+    props.history.push('/resources');
+  };
+
+  const Map = ReactMapboxGl({
+    accessToken:
+      'pk.eyJ1IjoiYW5vb2psYWwiLCJhIjoiY2syemtiYjZoMGp1' +
+      'eDNscXQ3azJzajl0bCJ9.FDSFjP1IfSisbm4uvd70vg',
+    interactive: true,
+  });
+
+  const { authed, match, authRoleIsEquivalentTo } = props;
+
+  if (!resourceExists) {
+    return <Redirect to="/resources/unknown" />;
   }
 
-  render() {
-    const {
-      name,
-      phone,
-      address,
-      addressLine2,
-      aptUnitSuite,
-      city,
-      state,
-      zip,
-      website,
-      description,
-      languages,
-      requiredDocuments,
-      cost,
-      category,
-      subcategory,
-      resourceExists,
-      lat,
-      lng,
-      eligibility,
-      internalNotes,
-      hours,
-      isSaved,
-      recommendation,
-    } = this.state;
+  let addressString = 'No address provided.';
+  if (address.length > 0) {
+    addressString = address;
+    if (addressLine2.length > 0) {
+      addressString += `, ${addressLine2}`;
+    }
+    if (aptUnitSuite.length > 0) {
+      addressString += ` ${aptUnitSuite}`;
+    }
+    if (city.length > 0) {
+      addressString += `, ${city}`;
+    }
+    if (state.length > 0) {
+      addressString += `, ${state}`;
+    }
+    if (zip.length > 0) {
+      addressString += ` ${zip}`;
+    }
+  }
 
-    const Map = ReactMapboxGl({
-      accessToken:
-        'pk.eyJ1IjoiYW5vb2psYWwiLCJhIjoiY2syemtiYjZoMGp1' +
-        'eDNscXQ3azJzajl0bCJ9.FDSFjP1IfSisbm4uvd70vg',
-      interactive: true,
-    });
-
-    const { authed, match, authRoleIsEquivalentTo } = this.props;
-
-    if (!resourceExists) {
-      return <Redirect to="/resources/unknown" />;
+  const stars = [];
+  if (recommendation != null) {
+    for (let i = 0; i < recommendation; i += 1) {
+      stars.push(<Icon type="star" theme="filled" className="filled-star" />);
     }
 
-    let addressString = 'No address provided.';
-    if (address.length > 0) {
-      addressString = address;
-      if (addressLine2.length > 0) {
-        addressString += `, ${addressLine2}`;
-      }
-      if (aptUnitSuite.length > 0) {
-        addressString += ` ${aptUnitSuite}`;
-      }
-      if (city.length > 0) {
-        addressString += `, ${city}`;
-      }
-      if (state.length > 0) {
-        addressString += `, ${state}`;
-      }
-      if (zip.length > 0) {
-        addressString += ` ${zip}`;
-      }
+    for (let i = 0; i < 5 - recommendation; i += 1) {
+      stars.push(<Icon type="star" theme="filled" className="unfilled-star" />);
     }
+  }
 
-    const stars = [];
+  return (
+    <div className="resource-detail">
+      <Modal
+        title="Confirm Delete"
+        visible={modalVisible}
+        onOk={() => deleteResourceHandler(match.params.id)}
+        onCancel={handleCancel}
+      >
+        Are you sure you want to delete this resource? Warning: this cannot be
+        undone.
+      </Modal>
+      <Header className="banner" type="flex" justify="center">
+        <Row style={{ paddingTop: '2%' }}>
+          <ResourcesBreadcrumb
+            categorySelected={category}
+            subcategorySelected={subcategory}
+            resourceSelected={name}
+          />
+        </Row>
+      </Header>
+      <Row className="section">
+        <Col span={15}>
+          <span className="resource-name">{`${name}\n`}</span>
+          {recommendation != null && stars}
+          <SaveButton
+            authed={authed}
+            isSaved={isSaved}
+            deleteResourceHandler={deleteSavedResourceHandler}
+            saveResourceHandler={saveResourceHandler}
+          />
 
-    if (recommendation != null) {
-      for (let i = 0; i < recommendation; i += 1) {
-        stars.push(<Icon type="star" theme="filled" className="filled-star" />);
-      }
-
-      for (let i = 0; i < 5 - recommendation; i += 1) {
-        stars.push(
-          <Icon type="star" theme="filled" className="unfilled-star" />,
-        );
-      }
-    }
-
-    return (
-      <div className="resource-detail">
-        <Modal
-          title="Confirm Delete"
-          visible={this.state.modalVisible}
-          onOk={() => this.deleteResource(match.params.id)}
-          onCancel={this.handleCancel}
-        >
-          Are you sure you want to delete this resource? Warning: this cannot be
-          undone.
-        </Modal>
-        <Header className="banner" type="flex" justify="center">
-          <Row style={{ paddingTop: '2%' }}>
-            <ResourcesBreadcrumb
-              categorySelected={category}
-              subcategorySelected={subcategory}
-              resourceSelected={name}
-            />
-          </Row>
-        </Header>
-        <Row className="section">
-          <Col span={15}>
-            <span className="resource-name">{`${name}\n`}</span>
-            {recommendation != null && stars}
-            <SaveButton
-              authed={authed}
-              isSaved={isSaved}
-              deleteResourceHandler={this.deleteResourceHandler}
-              saveResourceHandler={this.saveResourceHandler}
-            />
-
-            {authed && authRoleIsEquivalentTo('admin') && (
-              <span className="resource-edit-delete">
-                <Button href={`/admin/${match.params.id}`}>Edit</Button>
-                <span className="resource-delete">
-                  <Button type="danger" ghost="true" onClick={this.showModal}>
-                    Delete
-                  </Button>
-                </span>
+          {authed && authRoleIsEquivalentTo('admin') && (
+            <span className="resource-edit-delete">
+              <Button href={`/admin/${match.params.id}`}>Edit</Button>
+              <span className="resource-delete">
+                <Button type="danger" ghost="true" onClick={showModal}>
+                  Delete
+                </Button>
               </span>
-            )}
-          </Col>
-          <Col span={9} className="header-info">
-            <Icon type="global" theme="outlined" />
-            {website.length > 0 ? (
-              <a href={website} target="_blank" rel="noopener noreferrer">
-                {`${website}`}
-                {'\n'}
-              </a>
-            ) : (
-              'No website provided.\n'
-            )}
-            <Icon type="phone" theme="filled" />
-            {phone.length > 0
-              ? phone.map(p => {
-                  return `${p.phoneType}: ${p.phoneNumber}\n`;
-                })
-              : 'No phone number provided.\n'}
-            <Icon type="environment" theme="outlined" />
-            {addressString}
-          </Col>
-        </Row>
-        <Row className="section card-row">
-          <Col span={24}>
-            {description.length > 0 ? description : 'No description provided.'}
-            {eligibility && `\n\nEligibility Requirements: ${eligibility}`}
-          </Col>
-        </Row>
-        <Row>
-          <Col span={24} className="section-label card-row">
-            Basic Information
-          </Col>
-        </Row>
-        <Row className="card-row">
-          <Col span={1}>
-            <Icon type="folder-open" theme="filled" />
-          </Col>
-          <Col span={11}>
-            <div className="card-label">Required Documents {'\n'}</div>
-            {requiredDocuments.length > 0
-              ? requiredDocuments.map(doc => {
-                  return doc;
-                })
-              : 'None provided.'}
-          </Col>
-          <Col span={1}>
-            <Icon type="dollar-circle" theme="filled" />
-          </Col>
-          <Col span={11}>
-            <div className="card-label">Cost{'\n'}</div>
-            {cost != null ? cost : 'None provided.'}
-          </Col>
-        </Row>
-        <Row className="card-row">
-          <Col span={1}>
-            <Icon type="wechat" theme="filled" />
-          </Col>
-          <Col span={11}>
-            <div className="card-label">Languages Spoken{'\n'}</div>
-            {languages.length > 0
-              ? languages.map(language => {
-                  return language;
-                })
-              : 'None provided.'}
-          </Col>
-        </Row>
-        <Row className="section">
-          <Col span={24} className="section-label card-row">
-            Location and Hours
-          </Col>
-        </Row>
-        <Row className="section card-row">
-          <Col span={12}>{addressString}</Col>
-          <Col span={12}>{/* Open now! */}</Col>
-        </Row>
-        <Row className="section card-row">
-          <Col span={12}>
-            <Map
-              style="mapbox://styles/mapbox/light-v9"
-              center={[lng, lat]}
-              containerStyle={{
-                height: '350px',
-                width: '400px',
-              }}
-              zoom={[15]}
+            </span>
+          )}
+        </Col>
+        <Col span={9} className="header-info">
+          <Icon type="global" theme="outlined" />
+          {website.length > 0 ? (
+            <a href={website} target="_blank" rel="noopener noreferrer">
+              {`${website}`}
+              {'\n'}
+            </a>
+          ) : (
+            'No website provided.\n'
+          )}
+          <Icon type="phone" theme="filled" />
+          {phone.length > 0
+            ? phone.map(p => {
+                return `${p.phoneType}: ${p.phoneNumber}\n`;
+              })
+            : 'No phone number provided.\n'}
+          <Icon type="environment" theme="outlined" />
+          {addressString}
+        </Col>
+      </Row>
+      <Row className="section card-row">
+        <Col span={24}>
+          {description.length > 0 ? description : 'No description provided.'}
+          {eligibility && `\n\nEligibility Requirements: ${eligibility}`}
+        </Col>
+      </Row>
+      <Row>
+        <Col span={24} className="section-label card-row">
+          Basic Information
+        </Col>
+      </Row>
+      <Row className="card-row">
+        <Col span={1}>
+          <Icon type="folder-open" theme="filled" />
+        </Col>
+        <Col span={11}>
+          <div className="card-label">Required Documents {'\n'}</div>
+          {requiredDocuments.length > 0
+            ? requiredDocuments.map(doc => {
+                return doc;
+              })
+            : 'None provided.'}
+        </Col>
+        <Col span={1}>
+          <Icon type="dollar-circle" theme="filled" />
+        </Col>
+        <Col span={11}>
+          <div className="card-label">Cost{'\n'}</div>
+          {cost != null ? cost : 'None provided.'}
+        </Col>
+      </Row>
+      <Row className="card-row">
+        <Col span={1}>
+          <Icon type="wechat" theme="filled" />
+        </Col>
+        <Col span={11}>
+          <div className="card-label">Languages Spoken{'\n'}</div>
+          {languages.length > 0
+            ? languages.map(language => {
+                return language;
+              })
+            : 'None provided.'}
+        </Col>
+      </Row>
+      <Row className="section">
+        <Col span={24} className="section-label card-row">
+          Location and Hours
+        </Col>
+      </Row>
+      <Row className="section card-row">
+        <Col span={12}>{addressString}</Col>
+        <Col span={12}>{/* Open now! */}</Col>
+      </Row>
+      <Row className="section card-row">
+        <Col span={12}>
+          <Map
+            style="mapbox://styles/mapbox/light-v9"
+            center={[lng, lat]}
+            containerStyle={{
+              height: '350px',
+              width: '400px',
+            }}
+            zoom={[15]}
+          >
+            <Layer
+              type="symbol"
+              id="marker"
+              layout={{ 'icon-image': 'marker-15' }}
             >
-              <Layer
-                type="symbol"
-                id="marker"
-                layout={{ 'icon-image': 'marker-15' }}
-              >
-                <Feature coordinates={[lng, lat]} />
-              </Layer>
-            </Map>
+              <Feature coordinates={[lng, lat]} />
+            </Layer>
+          </Map>
+        </Col>
+        <Col span={12}>
+          {hours.length > 0
+            ? hours.map(day => {
+                return (
+                  <div>
+                    <span className="day-of-week">{`${day.day}: `}</span>
+                    {day.period.length > 0
+                      ? `${day.period[0]} - ${day.period[1]}`
+                      : 'None'}
+                  </div>
+                );
+              })
+            : 'No schedule provided'}
+        </Col>
+      </Row>
+      {authRoleIsEquivalentTo('admin') && (
+        <Row>
+          <Col span={4} className="section-label">
+            Internal Notes
           </Col>
-          <Col span={12}>
-            {hours.length > 0
-              ? hours.map(day => {
-                  return (
-                    <div>
-                      <span className="day-of-week">{`${day.day}: `}</span>
-                      {day.period.length > 0
-                        ? `${day.period[0]} - ${day.period[1]}`
-                        : 'None'}
-                    </div>
-                  );
-                })
-              : 'No schedule provided'}
+          <Col span={20}>
+            <Row className="cardRow">
+              {internalNotes.length > 0
+                ? internalNotes.map(note => displayNote(note))
+                : 'No internal notes provided'}
+            </Row>
           </Col>
         </Row>
-        {authRoleIsEquivalentTo('admin') && (
-          <Row>
-            <Col span={4} className="section-label">
-              Internal Notes
-            </Col>
-            <Col span={20}>
-              <Row className="cardRow">
-                {internalNotes.length > 0
-                  ? internalNotes.map(note => this.displayNote(note))
-                  : 'No internal notes provided'}
-              </Row>
-            </Col>
-          </Row>
-        )}
-      </div>
-    );
-  }
+      )}
+    </div>
+  );
 }
 
 ResourceDetail.defaultProps = {
@@ -405,3 +375,5 @@ ResourceDetail.propTypes = {
     params: PropTypes.shape({ id: PropTypes.string }),
   }),
 };
+
+export default ResourceDetail;
