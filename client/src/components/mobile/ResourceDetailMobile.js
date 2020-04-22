@@ -7,7 +7,7 @@ import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 import TimelineItem from 'antd/lib/timeline/TimelineItem';
 import moment from 'moment';
 
-import ResourceDetail from '../../pages/ResourceDetail';
+import ResourceDetail from '../desktop/ResourceDetail';
 import ResourcesBreadcrumb from '../ResourcesBreadcrumb';
 import SaveButton from '../SaveButton';
 import useWindowDimensions from '../../utils/mobile';

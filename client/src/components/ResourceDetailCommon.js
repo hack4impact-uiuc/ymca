@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import ResourceDetail from '../pages/ResourceDetail';
+import ResourceDetail from './desktop/ResourceDetail';
 import useWindowDimensions from '../utils/mobile';
 
 import ResourceDetailMobile from './mobile/ResourceDetailMobile';
