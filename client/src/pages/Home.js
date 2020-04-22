@@ -20,7 +20,7 @@ import {
 const Home = () => {
   const [cuFair, setCUFairHover] = useState(false);
   const [cuphd, setCUPHDHover] = useState(false);
-  const [dhairtree, setDhairtreeHover] = useState(false);
+  const [dharitree, setDharitreeHover] = useState(false);
   const [threeSpinnersHover, setThreeSpinnersHover] = useState(false);
   const [refugeeCenterHover, setRefugeeCenterHover] = useState(false);
 
@@ -62,44 +62,54 @@ const Home = () => {
           </Row>
           <Row type="flex" justify="center" align="middle">
             <Col className="home-block-4__partner" span={isMobile ? 10 : 4}>
-              <img
-                onMouseEnter={() => setCUFairHover(true)}
-                onMouseLeave={() => setCUFairHover(false)}
-                src="/asset/partners/cu_fair.jpg"
-                alt="Champaign-Urbana Fair"
-              />
+              <a href="https://www.cu-fair.org/" target="_blank">
+                <img
+                  onMouseEnter={() => setCUFairHover(true)}
+                  onMouseLeave={() => setCUFairHover(false)}
+                  src="/asset/partners/cu_fair.jpg"
+                  alt="Champaign-Urbana Fair"
+                />
+              </a>
             </Col>
             <Col className="home-block-4__partner" span={isMobile ? 10 : 4}>
-              <img
-                onMouseEnter={() => setCUPHDHover(true)}
-                onMouseLeave={() => setCUPHDHover(false)}
-                src="/asset/partners/cuphd.png"
-                alt="Champaign-Urbana Public Health District"
-              />
+              <a href="https://www.c-uphd.org/" target="_blank">
+                <img
+                  onMouseEnter={() => setCUPHDHover(true)}
+                  onMouseLeave={() => setCUPHDHover(false)}
+                  src="/asset/partners/cuphd.png"
+                  alt="Champaign-Urbana Public Health District"
+                />
+              </a>
             </Col>
             <Col className="home-block-4__partner" span={isMobile ? 10 : 4}>
-              <img
-                onMouseEnter={() => setDhairtreeHover(true)}
-                onMouseLeave={() => setDhairtreeHover(false)}
-                src="/asset/partners/dhai_tree.jpg"
-                alt="Dhairtree"
-              />
+              <a href="https://twitter.com/dharitreee/" target="_blank">
+                <img
+                  onMouseEnter={() => setDharitreeHover(true)}
+                  onMouseLeave={() => setDharitreeHover(false)}
+                  src="/asset/partners/dhai_tree.jpg"
+                  alt="Dharitree"
+                />
+              </a>
             </Col>
             <Col className="home-block-4__partner" span={isMobile ? 10 : 4}>
-              <img
-                onMouseEnter={() => setThreeSpinnersHover(true)}
-                onMouseLeave={() => setThreeSpinnersHover(false)}
-                src="/asset/partners/three_spinners.jpg"
-                alt="Three Spinners"
-              />
+              <a href="https://www.threespinners.org/" target="_blank">
+                <img
+                  onMouseEnter={() => setThreeSpinnersHover(true)}
+                  onMouseLeave={() => setThreeSpinnersHover(false)}
+                  src="/asset/partners/three_spinners.jpg"
+                  alt="Three Spinners"
+                />
+              </a>
             </Col>
             <Col className="home-block-4__partner" span={isMobile ? 10 : 4}>
-              <img
-                onMouseEnter={() => setRefugeeCenterHover(true)}
-                onMouseLeave={() => setRefugeeCenterHover(false)}
-                src="/asset/partners/trc.jpg"
-                alt="The Refugee Center"
-              />
+              <a href="https://www.therefugeecenter-cu.org/" target="_blank">
+                <img
+                  onMouseEnter={() => setRefugeeCenterHover(true)}
+                  onMouseLeave={() => setRefugeeCenterHover(false)}
+                  src="/asset/partners/trc.jpg"
+                  alt="The Refugee Center"
+                />
+              </a>
             </Col>
           </Row>
           {dimensions.width > 976 && (
@@ -127,10 +137,10 @@ const Home = () => {
               <Col className="home-block-4__partner" span={4}>
                 <h5
                   style={{
-                    opacity: dhairtree ? 1 : 0,
+                    opacity: dharitree ? 1 : 0,
                   }}
                 >
-                  Dhairtree
+                  Dharitree
                 </h5>
               </Col>
               <Col className="home-block-4__partner" span={4}>
