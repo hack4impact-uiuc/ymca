@@ -79,7 +79,7 @@
 
 .home-block-3 {
   height: 60vh;
-  background-image: url('/asset/images/background.png');
+  background-image: linear-gradient(70deg, #4f2c93 0%, #7848b1 97%);
   background-size: cover;
   background-position: center;
   overflow: auto;
@@ -108,13 +108,36 @@
   font-weight: 500;
 }
 
+.home-block-4__partner {
+  margin-right: 1em;
+  margin-left: 1em;
+}
+
 .home-block-4__partner img {
   padding-top: 2vh;
   width: 60%;
   height: 60%;
 }
 
+.home-block-4__partner h5 {
+  transition: opacity 1s;
+}
+
 .home-block-4-title {
   font-weight: 600;
   color: #212529;
+}
+
+.home-block-3 .ant-carousel .slick-dots li button {
+  background-color: white;
+  border-radius: 50%;
+  height: 10px;
+  width: 10px;
+}
+
+.home-block-3 .ant-carousel .slick-dots li.slick-active button {
+  background-color: white;
+  border-radius: 50%;
+  height: 10px;
+  width: 10px;
 }
