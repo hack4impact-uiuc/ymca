@@ -24,7 +24,7 @@ const Home = () => {
   const [threeSpinnersHover, setThreeSpinnersHover] = useState(false);
   const [refugeeCenterHover, setRefugeeCenterHover] = useState(false);
 
-  const isMobile = useWindowDimensions()[1];
+  const [dimensions, isMobile] = useWindowDimensions();
   const spanNum = isMobile ? 20 : 6;
 
   return (
@@ -68,34 +68,14 @@ const Home = () => {
                 src="/asset/partners/cu_fair.jpg"
                 alt="Champaign-Urbana Fair"
               />
-              <h5
-                style={{
-                  opacity: cuFair ? 1 : 0,
-                  marginTop: '15px',
-                }}
-              >
-                Champaign-Urbana Fair
-              </h5>
             </Col>
             <Col className="home-block-4__partner" span={isMobile ? 10 : 4}>
-              <Row>
-                <img
-                  onMouseEnter={() => setCUPHDHover(true)}
-                  onMouseLeave={() => setCUPHDHover(false)}
-                  src="/asset/partners/cuphd.png"
-                  alt="Champaign-Urbana Public Health District"
-                />
-              </Row>
-              <Row>
-                <h5
-                  style={{
-                    opacity: cuphd ? 1 : 0,
-                    marginTop: '20px',
-                  }}
-                >
-                  Champaign-Urbana Public Health District
-                </h5>
-              </Row>
+              <img
+                onMouseEnter={() => setCUPHDHover(true)}
+                onMouseLeave={() => setCUPHDHover(false)}
+                src="/asset/partners/cuphd.png"
+                alt="Champaign-Urbana Public Health District"
+              />
             </Col>
             <Col className="home-block-4__partner" span={isMobile ? 10 : 4}>
               <img
@@ -104,13 +84,6 @@ const Home = () => {
                 src="/asset/partners/dhai_tree.jpg"
                 alt="Dhairtree"
               />
-              <h5
-                style={{
-                  opacity: dhairtree ? 1 : 0,
-                }}
-              >
-                Dhairtree
-              </h5>
             </Col>
             <Col className="home-block-4__partner" span={isMobile ? 10 : 4}>
               <img
@@ -119,24 +92,57 @@ const Home = () => {
                 src="/asset/partners/three_spinners.jpg"
                 alt="Three Spinners"
               />
-              <h5
-                style={{
-                  opacity: threeSpinnersHover ? 1 : 0,
-                }}
-              >
-                Three Spinners
-              </h5>
             </Col>
             <Col className="home-block-4__partner" span={isMobile ? 10 : 4}>
-              <Row>
-                <img
-                  onMouseEnter={() => setRefugeeCenterHover(true)}
-                  onMouseLeave={() => setRefugeeCenterHover(false)}
-                  src="/asset/partners/trc.jpg"
-                  alt="The Refugee Center"
-                />
-              </Row>
-              <Row>
+              <img
+                onMouseEnter={() => setRefugeeCenterHover(true)}
+                onMouseLeave={() => setRefugeeCenterHover(false)}
+                src="/asset/partners/trc.jpg"
+                alt="The Refugee Center"
+              />
+            </Col>
+          </Row>
+          {dimensions.width > 976 && (
+            <Row type="flex" justify="center" align="middle">
+              <Col className="home-block-4__partner" span={4}>
+                <h5
+                  style={{
+                    opacity: cuFair ? 1 : 0,
+                    marginTop: '15px',
+                  }}
+                >
+                  Champaign-Urbana Fair
+                </h5>
+              </Col>
+              <Col className="home-block-4__partner" span={4}>
+                <h5
+                  style={{
+                    opacity: cuphd ? 1 : 0,
+                    marginTop: '20px',
+                  }}
+                >
+                  Champaign-Urbana Public Health District
+                </h5>
+              </Col>
+              <Col className="home-block-4__partner" span={4}>
+                <h5
+                  style={{
+                    opacity: dhairtree ? 1 : 0,
+                  }}
+                >
+                  Dhairtree
+                </h5>
+              </Col>
+              <Col className="home-block-4__partner" span={4}>
+                <h5
+                  style={{
+                    opacity: threeSpinnersHover ? 1 : 0,
+                  }}
+                >
+                  Three Spinners
+                </h5>
+              </Col>
+              <Col className="home-block-4__partner" span={4}>
                 <h5
                   style={{
                     opacity: refugeeCenterHover ? 1 : 0,
@@ -144,9 +150,9 @@ const Home = () => {
                 >
                   The Refugee Center
                 </h5>
-              </Row>
-            </Col>
-          </Row>
+              </Col>
+            </Row>
+          )}
         </Col>
       </Row>
     </>
