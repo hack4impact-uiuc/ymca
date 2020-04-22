@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Button, Col, Icon, message, Modal, Row, Layout } from 'antd';
 import PropTypes from 'prop-types';
@@ -43,10 +43,14 @@ function ResourceDetail(props) {
   const [hours, setHours] = useState([]);
   const [isSaved, setIsSaved] = useState(false);
   const [recommendation, setRecommendation] = useState(0);
+  const [addressString, setAddresString] = useState('');
 
-  const updateIsSaved = savedSet => {
-    setIsSaved(!!savedSet.has(props.match.params.id));
-  };
+  const updateIsSaved = useCallback(
+    savedSet => {
+      setIsSaved(!!savedSet.has(props.match.params.id));
+    },
+    [props.match.params.id],
+  );
 
   useEffect(() => {
     async function didMount() {
@@ -81,7 +85,7 @@ function ResourceDetail(props) {
             ? result.hoursOfOperation.hoursOfOperation
             : [],
         );
-        setRecommendation(result.recommendation);
+        setRecommendation(result.recommendation ? result.recommendation : 0);
 
         if (props.authed) {
           let savedSet = new Set();
@@ -95,7 +99,7 @@ function ResourceDetail(props) {
       }
     }
     didMount();
-  }, []);
+  }, [props.authed, props.match.params.id, updateIsSaved]);
 
   useEffect(() => {
     async function didUpdate() {
@@ -107,14 +111,37 @@ function ResourceDetail(props) {
       }
     }
     didUpdate();
-  }, [props.authed]);
+  }, [props.authed, updateIsSaved]);
+
+  useEffect(() => {
+    let adr = 'No address provided.';
+    if (address.length > 0) {
+      adr = address;
+      if (addressLine2.length > 0) {
+        adr += `, ${addressLine2}`;
+      }
+      if (aptUnitSuite.length > 0) {
+        adr += ` ${aptUnitSuite}`;
+      }
+      if (city.length > 0) {
+        adr += `, ${city}`;
+      }
+      if (state.length > 0) {
+        adr += `, ${state}`;
+      }
+      if (zip.length > 0) {
+        adr += ` ${zip}`;
+      }
+    }
+    setAddresString(adr);
+  }, [address, addressLine2, aptUnitSuite, city, state, zip]);
 
   const showModal = () => {
     setModalVisible(true);
-  }
+  };
 
- const isOpen = hours => {
-    if (hours === null || hours.length === 0) {
+  const isOpen = hrs => {
+    if (hrs === null || hrs.length === 0) {
       return false;
     }
 
@@ -126,7 +153,7 @@ function ResourceDetail(props) {
       dayIndex += 7;
     }
 
-    const currentDay = hours[dayIndex];
+    const currentDay = hrs[dayIndex];
     const open = moment(currentDay.period[0], format);
     const close = moment(currentDay.period[1], format);
 
@@ -184,28 +211,8 @@ function ResourceDetail(props) {
     return <Redirect to="/resources/unknown" />;
   }
 
-  let addressString = 'No address provided.';
-  if (address.length > 0) {
-    addressString = address;
-    if (addressLine2.length > 0) {
-      addressString += `, ${addressLine2}`;
-    }
-    if (aptUnitSuite.length > 0) {
-      addressString += ` ${aptUnitSuite}`;
-    }
-    if (city.length > 0) {
-      addressString += `, ${city}`;
-    }
-    if (state.length > 0) {
-      addressString += `, ${state}`;
-    }
-    if (zip.length > 0) {
-      addressString += ` ${zip}`;
-    }
-  }
-
   const stars = [];
-  if (recommendation != null) {
+  if (recommendation !== null) {
     for (let i = 0; i < recommendation; i += 1) {
       stars.push(<Icon type="star" theme="filled" className="filled-star" />);
     }
@@ -238,7 +245,7 @@ function ResourceDetail(props) {
       <Row className="section">
         <Col span={15}>
           <span className="resource-name">{`${name}\n`}</span>
-          {recommendation != null && stars}
+          {recommendation !== null && stars}
           <SaveButton
             authed={authed}
             isSaved={isSaved}
