@@ -62,7 +62,11 @@ const Home = () => {
           </Row>
           <Row type="flex" justify="center" align="middle">
             <Col className="home-block-4__partner" span={isMobile ? 10 : 4}>
-              <a href="https://www.cu-fair.org/" target="_blank">
+              <a
+                href="https://www.cu-fair.org/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <img
                   onMouseEnter={() => setCUFairHover(true)}
                   onMouseLeave={() => setCUFairHover(false)}
@@ -72,7 +76,11 @@ const Home = () => {
               </a>
             </Col>
             <Col className="home-block-4__partner" span={isMobile ? 10 : 4}>
-              <a href="https://www.c-uphd.org/" target="_blank">
+              <a
+                href="https://www.c-uphd.org/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <img
                   onMouseEnter={() => setCUPHDHover(true)}
                   onMouseLeave={() => setCUPHDHover(false)}
@@ -82,7 +90,11 @@ const Home = () => {
               </a>
             </Col>
             <Col className="home-block-4__partner" span={isMobile ? 10 : 4}>
-              <a href="https://twitter.com/dharitreee/" target="_blank">
+              <a
+                href="https://twitter.com/dharitreee/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <img
                   onMouseEnter={() => setDharitreeHover(true)}
                   onMouseLeave={() => setDharitreeHover(false)}
@@ -92,7 +104,11 @@ const Home = () => {
               </a>
             </Col>
             <Col className="home-block-4__partner" span={isMobile ? 10 : 4}>
-              <a href="https://www.threespinners.org/" target="_blank">
+              <a
+                href="https://www.threespinners.org/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <img
                   onMouseEnter={() => setThreeSpinnersHover(true)}
                   onMouseLeave={() => setThreeSpinnersHover(false)}
@@ -102,7 +118,11 @@ const Home = () => {
               </a>
             </Col>
             <Col className="home-block-4__partner" span={isMobile ? 10 : 4}>
-              <a href="https://www.therefugeecenter-cu.org/" target="_blank">
+              <a
+                href="https://www.therefugeecenter-cu.org/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <img
                   onMouseEnter={() => setRefugeeCenterHover(true)}
                   onMouseLeave={() => setRefugeeCenterHover(false)}
