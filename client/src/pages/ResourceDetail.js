@@ -4,6 +4,7 @@ import { Button, Col, Icon, message, Modal, Row, Layout } from 'antd';
 import PropTypes from 'prop-types';
 import '../css/ResourceDetail.css';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
+import * as moment from 'moment';
 
 import { deleteResource, getResourceByID } from '../utils/api';
 import {
@@ -110,6 +111,26 @@ function ResourceDetail(props) {
 
   const showModal = () => {
     setModalVisible(true);
+  }
+
+ const isOpen = hours => {
+    if (hours === null || hours.length === 0) {
+      return false;
+    }
+
+    const format = 'hh:mm a';
+    const currentTime = moment();
+    let dayIndex = new Date().getDay() - 1;
+
+    if (dayIndex < 0) {
+      dayIndex += 7;
+    }
+
+    const currentDay = hours[dayIndex];
+    const open = moment(currentDay.period[0], format);
+    const close = moment(currentDay.period[1], format);
+
+    return currentTime.isBetween(open, close);
   };
 
   const handleCancel = () => {
@@ -307,11 +328,14 @@ function ResourceDetail(props) {
       </Row>
       <Row className="section card-row">
         <Col span={12}>{addressString}</Col>
-        <Col span={12}>{/* Open now! */}</Col>
+        <Col span={12} className="open-now">
+          {isOpen(hours) && 'Open now!'}
+        </Col>
       </Row>
       <Row className="section card-row">
         <Col span={12}>
           <Map
+            // eslint-disable-next-line
             style="mapbox://styles/mapbox/light-v9"
             center={[lng, lat]}
             containerStyle={{

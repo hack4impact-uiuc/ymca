@@ -20,7 +20,7 @@ function ResourceCategoryFilter(props) {
     const newCategories = {};
     Object.keys(categories)
       .sort()
-      .forEach(function(key) {
+      .forEach(key => {
         newCategories[key] = categories[key].sort();
       });
     setOrderedCategories(newCategories);
