@@ -365,9 +365,9 @@ const ResourceDetailMobile = (props: Props) => {
             <Row>{address}</Row>
             {addressLine2 && <Row>{addressLine2}</Row>}
             <Row type="flex" justify="space-between">
-              <Col>{`${city}${
-                state != null && state.length > 0 ? `, ${state}` : ''
-              }${zip != null && zip.length > 0 ? ` ${zip}` : ''}`}</Col>
+              <Col>{`${city}${state && state.length > 0 && `, ${state}`}${zip &&
+                zip.length > 0 &&
+                ` ${zip}`}`}</Col>
               <Col>{distFromResource && `${distFromResource} mi`}</Col>
             </Row>
           </Row>
