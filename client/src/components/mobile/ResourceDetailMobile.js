@@ -230,10 +230,6 @@ const ResourceDetailMobile = (props: Props) => {
                 Math.min(nowHour, startHour) === startHour &&
                 Math.max(nowHour, endHour) === endHour;
 
-              const inMin =
-                Math.min(nowMin, startMin) === startMin &&
-                Math.max(nowMin, endMin) === endMin;
-
               if (inHour) {
                 if (nowHour === startHour || nowHour === endHour) {
                   withinHours =

@@ -51,7 +51,7 @@ function SaveButton(props: SaveButtonProps) {
               theme={type === 'heart' && 'filled'}
               style={{
                 fontSize: { fontSize },
-                color: (type === 'heart' && 'black': '#562996 !important'),
+                color: type === 'heart' ? 'black' : '#562996 !important',
               }}
             />
           </Button>
@@ -90,7 +90,7 @@ function SaveButton(props: SaveButtonProps) {
                 theme={type === 'heart' && 'filled'}
                 style={{
                   fontSize: { fontSize },
-                  color: (type === 'heart' && 'black': '#562996 !important'),
+                  color: type === 'heart' ? 'black' : '#562996 !important',
                 }}
               />
             </Button>
