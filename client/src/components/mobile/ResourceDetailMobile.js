@@ -2,16 +2,14 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Carousel, Row, Col, Rate, Icon, Timeline, Button } from 'antd';
+import { Carousel, Row, Col, Rate, Icon, Timeline } from 'antd';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
-import TimelineItem from 'antd/lib/timeline/TimelineItem';
 import moment from 'moment';
 
 import ResourceDetail from '../../pages/ResourceDetail';
 import ResourcesBreadcrumb from '../ResourcesBreadcrumb';
 import SaveButton from '../SaveButton';
-import useWindowDimensions from '../../utils/mobile';
-import { deleteResource, getResourceByID } from '../../utils/api';
+import { getResourceByID } from '../../utils/api';
 import {
   saveResource,
   deleteSavedResource,
@@ -35,7 +33,6 @@ const ResourceDetailMobile = (props: Props) => {
   const { authed, authRoleIsEquivalentTo } = props;
 
   const resourceId = props.match.params.id;
-  const isMobile = useWindowDimensions()[1];
 
   /* SETUP START */
 
@@ -105,7 +102,11 @@ const ResourceDetailMobile = (props: Props) => {
         setAddress(result.address);
         setAddressLine2(result.addressLine2);
         setCity(result.city);
+        setState(result.state);
+        setZip(result.zip);
         setRecommendation(result.recommendation);
+        setRequiredDocuments(result.requiredDocuments);
+        setEligibility(result.eligibilityRequirements);
 
         setHours(
           result.hoursOfOperation &&
@@ -229,10 +230,6 @@ const ResourceDetailMobile = (props: Props) => {
                 Math.min(nowHour, startHour) === startHour &&
                 Math.max(nowHour, endHour) === endHour;
 
-              const inMin =
-                Math.min(nowMin, startMin) === startMin &&
-                Math.max(nowMin, endMin) === endMin;
-
               if (inHour) {
                 if (nowHour === startHour || nowHour === endHour) {
                   withinHours =
@@ -303,6 +300,9 @@ const ResourceDetailMobile = (props: Props) => {
           <Row className="mb-rd-description-container">
             <Col className="mb-rd-description" span={20}>
               {description}
+              <Row>
+                {eligibility && `Eligibility Requirements: ${eligibility}`}
+              </Row>
             </Col>
           </Row>
         </div>
@@ -365,7 +365,9 @@ const ResourceDetailMobile = (props: Props) => {
             <Row>{address}</Row>
             {addressLine2 && <Row>{addressLine2}</Row>}
             <Row type="flex" justify="space-between">
-              <Col>{`${city}${state && `, ${state}`}`}</Col>
+              <Col>{`${city}${state && state.length > 0 && `, ${state}`}${zip &&
+                zip.length > 0 &&
+                ` ${zip}`}`}</Col>
               <Col>{distFromResource && `${distFromResource} mi`}</Col>
             </Row>
           </Row>
@@ -461,7 +463,6 @@ type InfoBlockProps = {
 const InfoBlock = (props: InfoBlockProps) => {
   const { icon, title, content, className } = props;
 
-  console.log(content);
   return (
     <Row className={`mb-rd-info-block ${className}`} gutter={[16, 16]}>
       <Col span={4}>

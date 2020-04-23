@@ -1,8 +1,7 @@
 // @flow
 
-import React, { useCallback } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom/';
-import PropTypes from 'prop-types';
 import { Button, Icon, Popover } from 'antd';
 
 import '../css/SaveButton.css';
@@ -52,7 +51,7 @@ function SaveButton(props: SaveButtonProps) {
               theme={type === 'heart' && 'filled'}
               style={{
                 fontSize: { fontSize },
-                color: (type === 'heart' && 'black': '#562996 !important'),
+                color: type === 'heart' ? 'black' : '#562996 !important',
               }}
             />
           </Button>
@@ -91,7 +90,7 @@ function SaveButton(props: SaveButtonProps) {
                 theme={type === 'heart' && 'filled'}
                 style={{
                   fontSize: { fontSize },
-                  color: (type === 'heart' && 'black': '#562996 !important'),
+                  color: type === 'heart' ? 'black' : '#562996 !important',
                 }}
               />
             </Button>
