@@ -128,6 +128,14 @@
   color: #212529;
 }
 
+.home-block-1 .ant-btn > span {
+  margin-top: 0.15em;
+}
+
+.home-block-1 .ant-col-14 {
+  margin-top: -0.3em;
+}
+
 .home-block-3 .ant-carousel .slick-dots li button {
   background-color: white;
   border-radius: 50%;

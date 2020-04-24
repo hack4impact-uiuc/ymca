@@ -130,14 +130,14 @@ const ResourceDetailMobile = (props: Props) => {
     if (result != null && result.code === 200) {
       setIsSaved(true);
     }
-  }, []);
+  }, [resourceId]);
 
   const deleteResourceHandler = useCallback(async () => {
     const result = await deleteSavedResource(resourceId);
     if (result != null && result.code === 200) {
       setIsSaved(false);
     }
-  }, []);
+  }, [resourceId]);
 
   useEffect(() => {
     async function updateIsSaved() {
@@ -150,7 +150,7 @@ const ResourceDetailMobile = (props: Props) => {
       }
     }
     updateIsSaved();
-  }, [authed]);
+  }, [authed, resourceId]);
 
   useEffect(() => {
     async function updateDistFromResource() {

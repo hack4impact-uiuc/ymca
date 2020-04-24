@@ -150,7 +150,7 @@ const ResourceFilterSearch = () => {
         history.push(`/resources/${value}`);
       }
     },
-    [history, allCategories, allSubcategories],
+    [history, allCategories, allSubcategories, allOptionsRep],
   );
 
   useEffect(populateOptions, []);
