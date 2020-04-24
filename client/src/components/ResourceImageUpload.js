@@ -31,6 +31,7 @@ const ImageUpload = (props: ImageUploadProps) => {
       img.addEventListener('error', error => reject(error));
       img.src = url;
     });
+
   const getCroppedImg = async (imageSrc, pixelCrop) => {
     const img = await createImage(imageSrc);
     const canvas = document.createElement('canvas');
@@ -84,16 +85,9 @@ const ImageUpload = (props: ImageUploadProps) => {
         },
       )
       .then(data => {
-        if (data.status === 200) {
-          console.log('success');
-          setImage(data.data.link);
-        } else {
-          console.log(data.data.error);
-          console.log(croppedImg);
-        }
+        if (data.status === 200) setImage(data.data.link);
       });
 
-    // setImage(croppedImg);
     setShowCropper(false);
   };
 
@@ -113,9 +107,7 @@ const ImageUpload = (props: ImageUploadProps) => {
   const handleUpload = event => {
     if (event.file.status !== 'uploading') return;
     const reader = new FileReader();
-    // setImage to B64 string upon successful image read
     reader.addEventListener('load', () => setCroppingImg(reader.result));
-    // send image to reader
     reader.readAsDataURL(event.file.originFileObj);
     setShowCropper(true);
   };
@@ -129,6 +121,7 @@ const ImageUpload = (props: ImageUploadProps) => {
         beforeUpload={beforeUpload}
         onChange={handleUpload}
       >
+        {/* TODO: CHANGE to support imgur link */}
         {image !== null && image !== '' && image !== undefined ? (
           <img src={image} alt="" style={{ width: '100%' }} />
         ) : (
