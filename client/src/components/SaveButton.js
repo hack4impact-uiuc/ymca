@@ -1,46 +1,104 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Button, Icon } from 'antd';
+// @flow
 
-function SaveButton(props) {
-  const { authed, isSaved, deleteResourceHandler, saveResourceHandler } = props;
+import React from 'react';
+import { Link } from 'react-router-dom/';
+import { Button, Icon, Popover } from 'antd';
+
+import '../css/SaveButton.css';
+
+type SaveButtonProps = {
+  className: String,
+  type: String,
+  fontSize: String,
+  authed: Boolean,
+  isSaved: Boolean,
+  deleteResourceHandler: () => void,
+  saveResourceHandler: () => void,
+};
+function SaveButton(props: SaveButtonProps) {
+  const {
+    authed,
+    className,
+    isSaved,
+    deleteResourceHandler,
+    saveResourceHandler,
+  } = props;
+
+  const type = props.type || 'star';
+  const fontSize = props.fontSize || '2em';
+
+  const btnClassName = ''.concat(
+    `${type === 'heart' && 'heart-save-btn'}`,
+    `${(type === 'star' && 'star-save-btn') || ''}`,
+    `${(className && ` ${className}`) || ''}`,
+  );
+
+  const errorContent = (
+    <>
+      You must be logged in to use this feature! Login{' '}
+      <Link to="/login">here</Link>.
+    </>
+  );
 
   return (
-    authed && (
-      <a onClick={e => e.preventDefault()}>
-        {isSaved ? (
-          <Button
-            onClick={async () => {
-              await deleteResourceHandler();
-            }}
-            type="link"
-          >
+    <>
+      {!authed ? (
+        <Popover content={errorContent} Title="Error" trigger="click">
+          <Button className={btnClassName} type="link">
             <Icon
-              type="star"
-              theme="filled"
-              style={{ fontSize: '16px', color: '#562996' }}
+              className={type === 'star' && 'star-save-icon'}
+              type={type}
+              theme={type === 'heart' && 'filled'}
+              style={{
+                fontSize: { fontSize },
+                color: type === 'heart' ? 'black' : '#562996 !important',
+              }}
             />
           </Button>
-        ) : (
-          <Button
-            onClick={async () => {
-              await saveResourceHandler();
-            }}
-            type="link"
-          >
-            <Icon type="star" style={{ fontSize: '16px', color: '#562996' }} />
-          </Button>
-        )}
-      </a>
-    )
+        </Popover>
+      ) : (
+        <a onClick={e => e.preventDefault()}>
+          {isSaved ? (
+            <Button
+              className={btnClassName}
+              onClick={async () => {
+                await deleteResourceHandler();
+              }}
+              type="link"
+            >
+              <Icon
+                className={type === 'star' && 'star-save-icon'}
+                type={type}
+                theme="filled"
+                style={{
+                  fontSize: { fontSize },
+                  color: `#562996${(type === 'star' && ' !imporant') || ''}`,
+                }}
+              />
+            </Button>
+          ) : (
+            <Button
+              className={type === 'heart' && 'heart-save-btn'}
+              onClick={async () => {
+                await saveResourceHandler();
+              }}
+              type="link"
+            >
+              <Icon
+                className={type === 'star' && 'star-save-icon'}
+                type={type}
+                theme={type === 'heart' && 'filled'}
+                style={{
+                  fontSize: { fontSize },
+                  color: type === 'heart' ? 'black' : '#562996 !important',
+                }}
+              />
+            </Button>
+          )}
+        </a>
+      )}
+    </>
   );
 }
-
-SaveButton.propTypes = {
-  authed: PropTypes.bool.isRequired,
-  isSaved: PropTypes.bool.isRequired,
-  deleteResourceHandler: PropTypes.func.isRequired,
-  saveResourceHandler: PropTypes.func.isRequired,
-};
 
 export default SaveButton;
