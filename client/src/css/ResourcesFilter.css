@@ -78,3 +78,18 @@
 .title-filter {
   text-align: left;
 }
+
+.rfs-category-option {
+  text-align: left;
+  font-weight: 550;
+}
+
+.rfs-subcategory-option {
+  text-align: left;
+  font-weight: 450;
+  padding-left: 1.2em;
+}
+
+.rfs-res-name-option {
+  padding-left: 1.5em;
+}

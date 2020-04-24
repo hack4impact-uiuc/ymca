@@ -15,111 +15,107 @@ on search have the resource grid be populated with the filtered results here
 const ResourceFilterSearch = () => {
   const history = useHistory();
 
-  const [options, setOptions] = useState([]);
-  const [resourceToCategories, setResourceToCategories] = useState({});
-  const [keysToShow, setKeysToShow] = useState([]);
+  const [allOptions, setAllOptions] = useState([]);
+  const [filteredOptions, setFilteredOptions] = useState([]);
+  const [allOptionsRep, setAllOptionsRep] = useState({});
+  const [filteredOptionsRep, setFilteredOptionsRep] = useState({});
 
   const populateOptions = useCallback(() => {
     getResources().then(res => {
       if (res !== null) {
         if (res.code === 200) {
-          const optionsBlueprint = [];
+          const newOptions = [];
+          const categories = {};
 
           Object.values(res.result).forEach(resource => {
-            resourceToCategories[resource.name] = {
-              category: resource.category,
-              subcategory: resource.subcategory,
-            };
-
             resource.category.forEach((category, index) => {
+              if (!categories[category]) {
+                categories[category] = {};
+              }
+
               const subcategory = resource.subcategory[index];
 
-              const filteredCategories = optionsBlueprint.filter(
-                group => group.title === category,
-              );
-              const categoryGroupExists = filteredCategories.length > 0;
-              const categoryGroup = categoryGroupExists
-                ? filteredCategories[0]
-                : { title: category, children: [] };
-
-              const filteredSubcategories = categoryGroup.children.filter(
-                group => group.title === subcategory,
-              );
-              const subcategoryGroupExists = filteredSubcategories.length > 0;
-              const subcategoryGroup = subcategoryGroupExists
-                ? filteredSubcategories[0]
-                : { title: subcategory, children: [] };
-
-              subcategoryGroup.children.push(resource.name);
-
-              if (!subcategoryGroupExists) {
-                categoryGroup.children.push(subcategoryGroup);
+              if (!categories[category][subcategory]) {
+                categories[category][subcategory] = [];
               }
 
-              if (!categoryGroupExists) {
-                optionsBlueprint.push(categoryGroup);
-              }
+              categories[category][subcategory].push(resource.name);
             });
           });
 
-          setOptions(
-            optionsBlueprint.map(categoryGroup => (
-              <OptGroup
-                key={categoryGroup.title}
-                label={<a>{categoryGroup.title}</a>}
+          setAllOptionsRep(categories);
+          setFilteredOptionsRep(categories);
+
+          Object.entries(categories).forEach(([category, subcategories]) => {
+            newOptions.push(
+              <Option
+                className="rfs-category-option"
+                key={category}
+                label={category}
               >
-                {categoryGroup.children.map(subcategoryGroup => (
-                  <OptGroup
-                    key={subcategoryGroup.title}
-                    label={<a>{subcategoryGroup.title}</a>}
+                {category}
+              </Option>,
+            );
+
+            Object.entries(subcategories).forEach(
+              ([subcategory, resourceNames]) => {
+                newOptions.push(
+                  <Option
+                    className="rfs-subcategory-option"
+                    key={subcategory}
+                    label={subcategory}
                   >
-                    {subcategoryGroup.children.map(resourceName => (
-                      <Option key={resourceName} label={resourceName}>
-                        {resourceName}
-                      </Option>
-                    ))}
-                  </OptGroup>
-                ))}
-              </OptGroup>
-            )),
-          );
+                    {subcategory}
+                  </Option>,
+                );
+
+                resourceNames.forEach(name => {
+                  newOptions.push(
+                    <Option
+                      className="rfs-res-name-option"
+                      key={name}
+                      label={name}
+                    >
+                      {name}
+                    </Option>,
+                  );
+                });
+              },
+            );
+          });
+
+          setAllOptions(newOptions);
+          setFilteredOptions(newOptions);
         } else {
           // show some error
         }
       }
       // also show error
     });
-  }, [setOptions]);
+  }, [setAllOptions]);
 
-  const existsInString = useCallback(
-    (source, target) =>
-      source
-        .toUpperCase()
-        .substring(0, target.length)
-        .indexOf(target.toUpperCase) !== -1 ||
-      source.toUpperCase().indexOf(target.toUpperCase()) !== -1,
-    [],
-  );
+  // const filterSearchResults = useCallback(
+  //   (input, option) =>
+  //     option.key
+  //       .toUpperCase()
+  //       .substring(0, input.length)
+  //       .indexOf(input.toUpperCase()) !== -1 ||
+  //     option.key.toUpperCase().indexOf(input.toUpperCase()) !== -1,
+  //   [],
+  // );
 
   const filterSearchResults = useCallback((input, option) => {
-    if (option.type === Option && existsInString(option.key, input)) {
-      setKeysToShow([
-        ...keysToShow,
-        option.key,
-        ...resourceToCategories[option.key].category,
-        ...resourceToCategories[option.key].subcategory,
-      ]);
-      return true;
-    }
+    const keyUpper = option.key.toUpperCase();
+
     if (
-      option.type === OptGroup &&
-      (existsInString(option.key, input) || keysToShow.includes(option.key))
+      keyUpper.substring(0, input.length).indexOf(input.toUpperCase()) !== -1 ||
+      keyUpper.indexOf(input.toUpperCase()) !== -1
     ) {
       return true;
     }
-    console.log(keysToShow);
+
     return false;
-  }, []);
+  });
 
   const onSearchSelect = useCallback(
     value => {
@@ -134,7 +130,7 @@ const ResourceFilterSearch = () => {
     <AutoComplete
       className="searchbar-filter"
       placeholder="Search for a Resource"
-      dataSource={options}
+      dataSource={filteredOptions}
       filterOption={filterSearchResults}
       onSelect={onSearchSelect}
     >
