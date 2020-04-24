@@ -1,13 +1,13 @@
 // @flow
 
-import React, { useState, useCallback, useEffect, useReducer } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { AutoComplete, Icon, Input } from 'antd';
 
 import { getResources } from '../utils/api';
 import '../css/ResourcesFilter.css';
 
-const { Option, OptGroup } = AutoComplete;
+const { Option } = AutoComplete;
 
 /*
 on search have the resource grid be populated with the filtered results here
