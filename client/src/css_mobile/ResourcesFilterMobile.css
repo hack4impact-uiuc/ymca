@@ -1,8 +1,12 @@
+.filter-top {
+  margin-top: 1em !important;
+}
+
 .filter-category {
   font-size: 20px;
   padding-top: 0.4em;
   margin-top: 0.4em;
-  margin-left: 1em;
+  margin-left: 2em;
   margin-right: 1em;
 }
 
@@ -15,4 +19,15 @@
 .apply-button {
   text-align: center;
   margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.apply-button .ant-btn-primary {
+  background-color: rgb(136, 216, 208);
+  border-color: rgb(136, 216, 208);
+  text-shadow: none;
+}
+
+.down-icon {
+  margin-left: 0.5em;
 }

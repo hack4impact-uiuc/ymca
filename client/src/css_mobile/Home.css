@@ -31,6 +31,14 @@
     color: rgb(140, 200, 255);
   }
 
+  .welcome-to {
+    margin-bottom: 0.3em;
+  }
+
+  .welcome-carousel {
+    margin-bottom: 0.9em;
+  }
+
   .home-block-1 {
     height: 100vh;
   }

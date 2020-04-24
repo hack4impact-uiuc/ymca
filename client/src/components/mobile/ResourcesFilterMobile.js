@@ -31,7 +31,7 @@ function ResourcesFilterMobile(props) {
 
   return (
     <>
-      <div className="filter-category">
+      <div className="filter-category filter-top">
         <b>Cost</b>
         {costs.map(cost => (
           <div className="filter-type" onClick={() => setTempCost(cost)}>

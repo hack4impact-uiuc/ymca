@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Drawer, Menu } from 'antd';
+import { Button, Drawer, Menu, Icon } from 'antd';
 
 import ResourceCategoryFilter from '../ResourceCategoryFilter';
 import useWindowDimensions from '../../utils/mobile';
@@ -29,6 +29,7 @@ function ResourcesCatMobile(props) {
         >
           <Menu.Item key="categories">
             {props.subcategory ? props.subcategory : props.category}
+            <Icon type="down" className="down-icon" />
             <a className="filter">
               <Button
                 onClick={e => {
