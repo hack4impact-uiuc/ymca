@@ -76,7 +76,7 @@ function ResourceDetail(props) {
         setLng(
           Number.isNaN(result.lng) || result.lng == null ? 0.0 : result.lng,
         );
-        setEmail(result.email  || '');
+        setEmail(result.email || '');
         setWebsite(result.website || '');
         setEligibility(result.eligibilityRequirements);
         setInternalNotes(result.internalNotes);
