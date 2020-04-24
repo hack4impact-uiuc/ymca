@@ -6,7 +6,7 @@ import { Carousel, Row, Col, Rate, Icon, Timeline } from 'antd';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 import moment from 'moment';
 
-import ResourceDetail from '../../pages/ResourceDetail';
+import ResourceDetail from '../desktop/ResourceDetail';
 import ResourcesBreadcrumb from '../ResourcesBreadcrumb';
 import SaveButton from '../SaveButton';
 import { getResourceByID } from '../../utils/api';
