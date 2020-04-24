@@ -42,13 +42,12 @@ export const HomeBlock1Mobile = () => {
               autoplaySpeed={3000}
             >
               {categories.map(category => {
-                if (category === 'Other') return null;
-                return (
+                return category === 'Other' ? null : (
                   <Link
                     to={`/resources?category=${category}`}
                     className="welcome-text-mobile-link"
                   >
-                    {category}.
+                    {category}
                   </Link>
                 );
               })}
@@ -113,7 +112,12 @@ export const HomeBlock3Mobile = () => {
   return (
     <Row className="home-block-3" type="flex" justify="center" align="middle">
       <Col span={23}>
-        <Carousel autoplay dotPosition="right" autoplaySpeed={5000}>
+        <Carousel
+          autoplay
+          dotPosition="bottom"
+          autoplaySpeed={5000}
+          effect="fade"
+        >
           {testimonials.map(element => {
             return (
               <div className="testimonial-block">

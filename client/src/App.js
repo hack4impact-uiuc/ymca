@@ -15,13 +15,13 @@ import Navigation from './components/Navigation';
 import NotFound from './pages/NotFound';
 import PasswordReset from './pages/PasswordReset';
 import Register from './pages/Register';
-import ResourceDetail from './pages/ResourceDetail';
 import Resources from './pages/Resources';
 import ResourceUnknown from './pages/ResourceUnknown';
 import RoleApproval from './pages/RoleApproval';
 import ScrollToTop from './components/ScrollToTop';
 import { verify, getAllRoles } from './utils/auth';
 import SavedResources from './pages/SavedResources';
+import ResourceDetailCommon from './components/ResourceDetailCommon';
 
 const App = () => {
   const [authed, setAuthed] = useState(null);
@@ -168,7 +168,7 @@ const App = () => {
           <Route
             path="/resources/:id"
             render={props => (
-              <ResourceDetail
+              <ResourceDetailCommon
                 {...props}
                 authed={authed}
                 authRoleIsEquivalentTo={authRoleIsEquivalentTo}
