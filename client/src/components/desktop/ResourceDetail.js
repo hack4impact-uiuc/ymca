@@ -264,8 +264,19 @@ function ResourceDetail(props) {
             </span>
           )}
         </Col>
-        <Col span={9} className="header-info">
+        <Col span={1} className="header-info">
           <Icon type="global" theme="outlined" />
+
+          <Icon type="mail" theme="outlined" />
+
+          <Icon type="phone" theme="filled" />
+          {phone.length > 0 &&
+            phone.map(() => {
+              return `\n`;
+            })}
+          <Icon type="environment" theme="outlined" />
+        </Col>
+        <Col span={8} className="header-info">
           {website.length > 0 ? (
             <a href={website} target="_blank" rel="noopener noreferrer">
               {`${website}`}
@@ -274,15 +285,12 @@ function ResourceDetail(props) {
           ) : (
             'No website provided.\n'
           )}
-          <Icon type="mail" theme="outlined" />
           {email.length > 0 ? `${email}\n` : 'No email provided.\n'}
-          <Icon type="phone" theme="filled" />
           {phone.length > 0
             ? phone.map(p => {
                 return `${p.phoneType}: ${p.phoneNumber}\n`;
               })
             : 'No phone number provided.\n'}
-          <Icon type="environment" theme="outlined" />
           {addressString}
         </Col>
       </Row>
