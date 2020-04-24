@@ -6,8 +6,17 @@
   vertical-align: 0.1em;
 }
 
+.ant-drawer-body {
+  padding: 0;
+}
+
 .ant-select-selection__placeholder {
   line-height: 23.75px;
+}
+
+.ant-dropdown-trigger {
+  margin-left: 0.3em;
+  margin-right: 0.3em;
 }
 
 .resources-filter {
