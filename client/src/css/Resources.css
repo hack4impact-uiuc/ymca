@@ -74,13 +74,9 @@
 
 .resources .filter-bar {
   position: sticky;
+  top: -0.1em;
   z-index: 10;
   transition: top 0.25s;
-  padding-top: 0.2em;
-  border-style: solid;
-  border-width: 15px;
-  border-top-width: 0px;
-  border-color: #f9f9f9;
 }
 
 .resources .filter-search {

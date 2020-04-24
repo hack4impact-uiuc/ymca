@@ -10,6 +10,7 @@ import { getSavedResources } from '../utils/auth';
 import useWindowDimensions from '../utils/mobile';
 import ResourcesBanner from '../components/desktop/ResourcesBanner';
 import ResourcesGrid from '../components/ResourcesGrid';
+import ResourcesBannerMobile from '../components/mobile/ResourcesBannerMobile';
 
 function SavedResources(props) {
   const [loading, setLoading] = useState(false);
@@ -57,7 +58,11 @@ function SavedResources(props) {
 
   return (
     <Layout className="resources">
-      {!isMobile && <ResourcesBanner categorySelected="Saved Resources" />}
+      {isMobile ? (
+        <ResourcesBannerMobile categorySelected="Saved Resources" />
+      ) : (
+        <ResourcesBanner categorySelected="Saved Resources" />
+      )}
       <Layout style={{ background: 'white' }}>
         {loading ? (
           <Loader

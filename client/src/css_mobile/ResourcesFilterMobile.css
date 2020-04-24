@@ -1,70 +1,18 @@
-.ant-btn {
-  line-height: 2.1;
+.filter-category {
+  font-size: 20px;
+  padding-top: 0.4em;
+  margin-top: 0.4em;
+  margin-left: 1em;
+  margin-right: 1em;
 }
 
-.ant-select-selection__placeholder {
-  line-height: 23.75px;
+.filter-type {
+  text-indent: 1em;
+  margin-bottom: 0.4em;
+  border-width: 0.1em;
 }
 
-.resources-filter-mobile {
-  background: #fff;
-  border-bottom: 1px solid rgba(235, 235, 235, 1);
-  border-top: 1px solid rgba(235, 235, 235, 1);
-  padding-top: 1em;
-  padding-bottom: 1em;
-  width: 100%;
-  align-self: flex-start;
-}
-
-.filter-search-mobile {
-  width: 100%;
-  padding-bottom: 1em;
-  padding-left: 1em;
-  padding-right: 1em;
-}
-
-.ant-dropdown-trigger {
-  margin-left: 0.3em;
-  margin-right: 0.3em;
-}
-
-.dropdown-filter {
-  margin-left: 4%;
-}
-
-.button-mobile {
-  border-radius: 20em;
-  width: 7em;
-  font-size: 0.9em;
-  height: 2em;
-}
-
-.button-mobile:hover,
-.button-mobile:focus {
-  background-color: #431c72;
-  border-color: #fff;
-  color: #fff;
-}
-
-.radio-filter-mobile {
-  display: block;
-  height: 3em;
-  line-height: 3em;
-}
-
-.radio-container-mobile {
-  box-shadow: 1px 1px 3px grey;
+.apply-button {
   text-align: center;
-  width: max-content;
-  background: #fff;
-  padding: 1em 2em 1em 2em;
-  text-align: left;
-}
-
-.title-filter-mobile {
-  text-align: left;
-}
-
-.ant-drawer-body {
-  padding: 0;
+  margin-top: 1em;
 }

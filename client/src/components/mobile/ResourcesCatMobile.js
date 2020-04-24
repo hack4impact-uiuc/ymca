@@ -6,6 +6,7 @@ import ResourceCategoryFilter from '../ResourceCategoryFilter';
 import useWindowDimensions from '../../utils/mobile';
 
 import '../../css_mobile/ResourcesCatMobile.css';
+import ResourcesFilterMobile from './ResourcesFilterMobile';
 
 function ResourcesCatMobile(props) {
   const [categoriesVisible, setCategoriesVisible] = useState(false);
@@ -49,12 +50,15 @@ function ResourcesCatMobile(props) {
         <Drawer
           title="Filter Categories"
           placement="left"
-          width={(width * 2) / 5}
-          closable
+          width={(width * 4) / 5}
           onClose={() => setFilterVisible(false)}
           visible={filterVisible}
+          headerStyle={{ display: 'none' }}
         >
-          hello
+          <ResourcesFilterMobile
+            setFilterVisible={setFilterVisible}
+            {...props}
+          />
         </Drawer>
         <Drawer
           title="Resource Categories"

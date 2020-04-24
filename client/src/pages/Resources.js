@@ -15,10 +15,10 @@ import locations from '../data/locations';
 import useWindowDimensions from '../utils/mobile';
 import ResourcesBanner from '../components/desktop/ResourcesBanner';
 import ResourcesFilter from '../components/desktop/ResourcesFilter';
-import ResourcesFilterMobile from '../components/mobile/ResourcesFilterMobile';
 import ResourcesGrid from '../components/ResourcesGrid';
 import ResourceCategoryFilter from '../components/ResourceCategoryFilter';
 import ResourcesCatMobile from '../components/mobile/ResourcesCatMobile';
+import ResourcesBannerMobile from '../components/mobile/ResourcesBannerMobile';
 
 const { Sider } = Layout;
 
@@ -242,6 +242,12 @@ function Resources(props) {
           subcategorySelected={subcategory}
         />
       )}
+      {isMobile && (
+        <ResourcesBannerMobile
+          categorySelected={category}
+          subcategorySelected={subcategory}
+        />
+      )}
       {!isMobile && (
         <ResourcesFilter
           costs={costs}
@@ -260,6 +266,7 @@ function Resources(props) {
       )}
       {isMobile && (
         <div className="filter-bar">
+          <hr className="line" />
           <ResourcesCatMobile
             category={category}
             categories={categories}
@@ -268,7 +275,20 @@ function Resources(props) {
             openKeys={openKeys}
             subcategory={subcategory}
             subcategorySelect={subcategorySelect}
+            costs={costs}
+            costSelected={cost}
+            languages={languages}
+            languageSelected={language}
+            locations={locations}
+            locationSelected={location}
+            sorts={sorts}
+            sortSelected={sort}
+            setCost={setCost}
+            setLanguage={setLanguage}
+            setLocation={setLocation}
+            setSort={setSort}
           />
+          <hr className="line" />
         </div>
       )}
       <Layout style={{ background: 'white' }}>
