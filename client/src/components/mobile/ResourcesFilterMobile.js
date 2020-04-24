@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Icon } from 'antd';
 
@@ -15,6 +15,7 @@ function ResourcesFilterMobile(props) {
     setCost,
     setLanguage,
     setLocation,
+    filterVisible,
     setFilterVisible,
   } = props;
 
@@ -22,12 +23,26 @@ function ResourcesFilterMobile(props) {
   const [tempLanguage, setTempLanguage] = useState(languageSelected);
   const [tempLocation, setTempLocation] = useState(locationSelected);
 
-  const applyFilters = () => {
+  useEffect(() => {
+    setTempCost(costSelected);
+    setTempLanguage(languageSelected);
+    setTempLocation(locationSelected);
+  }, [costSelected, languageSelected, locationSelected, filterVisible]);
+
+  const applyFilters = useCallback(() => {
     setCost(tempCost);
     setLanguage(tempLanguage);
     setLocation(tempLocation);
     setFilterVisible(false);
-  };
+  }, [
+    setCost,
+    setFilterVisible,
+    setLanguage,
+    setLocation,
+    tempCost,
+    tempLanguage,
+    tempLocation,
+  ]);
 
   return (
     <>

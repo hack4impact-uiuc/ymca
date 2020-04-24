@@ -57,6 +57,7 @@ function ResourcesCatMobile(props) {
           headerStyle={{ display: 'none' }}
         >
           <ResourcesFilterMobile
+            filterVisible={filterVisible}
             setFilterVisible={setFilterVisible}
             {...props}
           />
