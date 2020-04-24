@@ -76,7 +76,7 @@ function ResourceDetail(props) {
         setLng(
           Number.isNaN(result.lng) || result.lng == null ? 0.0 : result.lng,
         );
-        setEmail(result.email);
+        setEmail(result.email  || '');
         setWebsite(result.website || '');
         setEligibility(result.eligibilityRequirements);
         setInternalNotes(result.internalNotes);
@@ -266,9 +266,7 @@ function ResourceDetail(props) {
         </Col>
         <Col span={1} className="header-info">
           <Icon type="global" theme="outlined" />
-
           <Icon type="mail" theme="outlined" />
-
           <Icon type="phone" theme="filled" />
           {phone.length > 0 &&
             phone.map(() => {
