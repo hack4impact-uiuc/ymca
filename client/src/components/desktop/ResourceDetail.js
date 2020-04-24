@@ -274,6 +274,8 @@ function ResourceDetail(props) {
           ) : (
             'No website provided.\n'
           )}
+          <Icon type="mail" theme="outlined" />
+          {email.length > 0 ? `${email}\n` : 'No email provided.\n'}
           <Icon type="phone" theme="filled" />
           {phone.length > 0
             ? phone.map(p => {
