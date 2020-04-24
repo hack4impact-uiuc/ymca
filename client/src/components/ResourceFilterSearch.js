@@ -16,37 +16,69 @@ const ResourceFilterSearch = () => {
   const history = useHistory();
 
   const [allOptions, setAllOptions] = useState([]);
-  const [filteredOptions, setFilteredOptions] = useState([]);
   const [allOptionsRep, setAllOptionsRep] = useState({});
-  const [filteredOptionsRep, setFilteredOptionsRep] = useState({});
+  const [allCategories, setAllCategories] = useState(new Set());
+  const [allSubcategories, setAllSubcategories] = useState(new Set());
+  const [ascendantRelationMap, setAscendantRelationMap] = useState({});
+  const [filterWhitelist, setFilterWhitelist] = useState([]);
 
   const populateOptions = useCallback(() => {
     getResources().then(res => {
       if (res !== null) {
         if (res.code === 200) {
           const newOptions = [];
-          const categories = {};
+          const newAscendantRelationMap = {};
+
+          const categoriesSet = new Set();
+          const subcategoriesSet = new Set();
+          const categoriesObj = {};
 
           Object.values(res.result).forEach(resource => {
+            newOptions.push(
+              <Option key={resource._id} label={resource.name}>
+                {resource.name}
+              </Option>,
+            );
+
             resource.category.forEach((category, index) => {
-              if (!categories[category]) {
-                categories[category] = {};
+              if (!categoriesObj[category]) {
+                categoriesObj[category] = {};
               }
 
               const subcategory = resource.subcategory[index];
+              newAscendantRelationMap[subcategory] = [category];
 
-              if (!categories[category][subcategory]) {
-                categories[category][subcategory] = [];
+              if (!newAscendantRelationMap[category]) {
+                newAscendantRelationMap[category] = [];
               }
 
-              categories[category][subcategory].push(resource.name);
+              newAscendantRelationMap[category].push(subcategory);
+
+              categoriesSet.add(category);
+              subcategoriesSet.add(subcategory);
+
+              if (!categoriesObj[category][subcategory]) {
+                categoriesObj[category][subcategory] = [];
+              }
+
+              if (!newAscendantRelationMap[resource.name]) {
+                newAscendantRelationMap[resource.name] = new Set();
+              }
+
+              newAscendantRelationMap[resource.name].add(category);
+              newAscendantRelationMap[resource.name].add(subcategory);
+
+              categoriesObj[category][subcategory].push(resource.name);
             });
+
+            newAscendantRelationMap[resource.name] = Array.from(
+              newAscendantRelationMap[resource.name],
+            );
           });
 
-          setAllOptionsRep(categories);
-          setFilteredOptionsRep(categories);
+          setAllOptionsRep(categoriesObj);
 
-          Object.entries(categories).forEach(([category, subcategories]) => {
+          Object.entries(categoriesObj).forEach(([category, subcategories]) => {
             newOptions.push(
               <Option
                 className="rfs-category-option"
@@ -68,24 +100,14 @@ const ResourceFilterSearch = () => {
                     {subcategory}
                   </Option>,
                 );
-
-                resourceNames.forEach(name => {
-                  newOptions.push(
-                    <Option
-                      className="rfs-res-name-option"
-                      key={name}
-                      label={name}
-                    >
-                      {name}
-                    </Option>,
-                  );
-                });
               },
             );
           });
 
           setAllOptions(newOptions);
-          setFilteredOptions(newOptions);
+          setAllCategories(categoriesSet);
+          setAllSubcategories(subcategoriesSet);
+          setAscendantRelationMap(newAscendantRelationMap);
         } else {
           // show some error
         }
@@ -94,34 +116,41 @@ const ResourceFilterSearch = () => {
     });
   }, [setAllOptions]);
 
-  // const filterSearchResults = useCallback(
-  //   (input, option) =>
-  //     option.key
-  //       .toUpperCase()
-  //       .substring(0, input.length)
-  //       .indexOf(input.toUpperCase()) !== -1 ||
-  //     option.key.toUpperCase().indexOf(input.toUpperCase()) !== -1,
-  //   [],
-  // );
+  const filterSearchResults = useCallback(
+    (input, option) => {
+      if (filterWhitelist.includes(option.props.children)) {
+        return true;
+      }
 
-  const filterSearchResults = useCallback((input, option) => {
-    const keyUpper = option.key.toUpperCase();
-
-    if (
-      keyUpper.substring(0, input.length).indexOf(input.toUpperCase()) !== -1 ||
-      keyUpper.indexOf(input.toUpperCase()) !== -1
-    ) {
-      return true;
-    }
-
-    return false;
-  });
+      if (
+        option.props.children
+          .toUpperCase()
+          .substring(0, input.length)
+          .indexOf(input.toUpperCase()) !== -1 ||
+        option.props.children.toUpperCase().indexOf(input.toUpperCase()) !== -1
+      ) {
+        setFilterWhitelist(ascendantRelationMap[option.props.children]);
+        return true;
+      }
+      return false;
+    },
+    [ascendantRelationMap, filterWhitelist],
+  );
 
   const onSearchSelect = useCallback(
     value => {
-      history.push(`/resources/${value}`);
+      if (allCategories.has(value)) {
+        history.push(`/resources?category=${value}`);
+      } else if (allSubcategories.has(value)) {
+        const category = Object.entries(allOptionsRep).filter(
+          ([_, subcategories]) => subcategories[value],
+        )[0][0];
+        history.push(`/resources?category=${category}&subcategory=${value}`);
+      } else {
+        history.push(`/resources/${value}`);
+      }
     },
-    [history],
+    [history, allCategories, allSubcategories],
   );
 
   useEffect(populateOptions, []);
@@ -130,7 +159,7 @@ const ResourceFilterSearch = () => {
     <AutoComplete
       className="searchbar-filter"
       placeholder="Search for a Resource"
-      dataSource={filteredOptions}
+      dataSource={allOptions}
       filterOption={filterSearchResults}
       onSelect={onSearchSelect}
     >
