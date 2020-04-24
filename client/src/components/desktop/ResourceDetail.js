@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Button, Col, Icon, message, Modal, Row, Layout } from 'antd';
 import PropTypes from 'prop-types';
-import '../../css/ResourceDetail.css';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 import * as moment from 'moment';
 
@@ -14,6 +13,8 @@ import {
 } from '../../utils/auth';
 import ResourcesBreadcrumb from '../ResourcesBreadcrumb';
 import SaveButton from '../SaveButton';
+
+import '../../css/ResourceDetail.css';
 
 const { Header } = Layout;
 
