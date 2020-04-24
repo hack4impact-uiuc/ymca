@@ -322,8 +322,10 @@ function ResourceDetail(props) {
         <Col span={11}>
           <div className="card-label">Languages Spoken{'\n'}</div>
           {languages.length > 0
-            ? languages.map(language => {
-                return language;
+            ? languages.map((language, index) => {
+                return index < languages.length - 1
+                  ? `${language}, `
+                  : language;
               })
             : 'None provided.'}
         </Col>

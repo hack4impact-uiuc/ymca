@@ -2,9 +2,9 @@
 
 import React from 'react';
 
-import ResourceDetail from './desktop/ResourceDetail';
 import useWindowDimensions from '../utils/mobile';
 
+import ResourceDetail from './desktop/ResourceDetail';
 import ResourceDetailMobile from './mobile/ResourceDetailMobile';
 
 type Props = {
