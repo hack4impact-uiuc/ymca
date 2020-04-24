@@ -52,8 +52,6 @@ type FormProps = {
 
 const ResourceForm = (props: FormProps) => {
   const [totalSubmitEnabled, setTotalSubmitEnabled] = useState(true);
-  const [carouselIndex, setCarouselIndex] = useState(0);
-  const [carouselCategory, setCarouselCategory] = useState('');
   const [showBackButton, setShowBackButton] = useState(false);
   const [showSubmitButton, setShowSubmitButton] = useState(false);
 
@@ -144,8 +142,6 @@ const ResourceForm = (props: FormProps) => {
   const onFormCarouselChange = useCallback(
     (current, to) => {
       formLabelRef.current.goTo(to);
-      setCarouselIndex(to);
-      setCarouselCategory(CAROUSEL_CATEGORIES[to]);
 
       setShowBackButton(to > 0);
       setShowSubmitButton(
@@ -157,9 +153,7 @@ const ResourceForm = (props: FormProps) => {
     },
     [
       formLabelRef,
-      setCarouselIndex,
       setShowBackButton,
-      setCarouselCategory,
       setShowSubmitButton,
       CAROUSEL_CATEGORIES,
       showSubmitButton,
@@ -170,7 +164,7 @@ const ResourceForm = (props: FormProps) => {
     <Layout className="resource-form-layout">
       <Header className="header">
         <Row justify="center" type="flex">
-          <h2>Add a Resource</h2>
+          <h2>{id ? 'Edit a Resource' : 'Add a Resource'}</h2>
         </Row>
       </Header>
       <Content className="content">
