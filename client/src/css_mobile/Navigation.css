@@ -14,9 +14,7 @@
   padding: 0.4em;
 }
 
-.nav-mobile-logo {
-  margin: none;
-  padding: none;
+.nav-topbar-container .nav-mobile-logo {
   background-image: url('/asset/icon/logo192.png');
   background-position: center;
   background-size: cover;
