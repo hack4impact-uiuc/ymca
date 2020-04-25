@@ -47,7 +47,9 @@ function ResourcesFilterMobile(props) {
   return (
     <>
       <div className="filter-category filter-top">
-        <b>Cost</b>
+        <div className="filter-title">
+          <b>Cost</b>
+        </div>
         {costs.map(cost => (
           <div className="filter-type" onClick={() => setTempCost(cost)}>
             {cost}
@@ -58,7 +60,9 @@ function ResourcesFilterMobile(props) {
         ))}
       </div>
       <div className="filter-category">
-        <b>Language</b>
+        <div className="filter-title">
+          <b>Language</b>
+        </div>
         {languages.map(language => (
           <div
             className="filter-type"
@@ -72,7 +76,9 @@ function ResourcesFilterMobile(props) {
         ))}
       </div>
       <div className="filter-category">
-        <b>Location</b>
+        <div className="filter-title">
+          <b>Location</b>
+        </div>
         {locations.map(location => (
           <div
             className="filter-type"

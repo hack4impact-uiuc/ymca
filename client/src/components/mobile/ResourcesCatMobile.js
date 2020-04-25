@@ -28,8 +28,10 @@ function ResourcesCatMobile(props) {
           onClick={() => setCategoriesVisible(true)}
         >
           <Menu.Item key="categories">
-            {props.subcategory ? props.subcategory : props.category}
-            <Icon type="down" className="down-icon" />
+            <span className="category-dropdown">
+              {props.subcategory ? props.subcategory : props.category}
+              <Icon type="down" className="down-icon" />
+            </span>
             <a className="filter">
               <Button
                 onClick={e => {

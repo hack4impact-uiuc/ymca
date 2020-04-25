@@ -1,13 +1,13 @@
-.filter-top {
-  margin-top: 1em !important;
-}
-
 .filter-category {
   font-size: 20px;
   padding-top: 0.4em;
   margin-top: 0.4em;
   margin-left: 2em;
   margin-right: 1em;
+}
+
+.filter-top {
+  margin-top: 1em;
 }
 
 .filter-type {
@@ -28,6 +28,16 @@
   text-shadow: none;
 }
 
-.down-icon {
+.ant-menu .down-icon {
   margin-left: 0.5em;
+  font-size: 12px;
+}
+
+.category-dropdown {
+  font-size: 16px;
+  margin-left: 25.094px;
+}
+
+.filter-title {
+  margin-bottom: 0.6em;
 }
