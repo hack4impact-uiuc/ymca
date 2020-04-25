@@ -115,6 +115,7 @@ ResourcesFilterMobile.propTypes = {
   setCost: PropTypes.func.isRequired,
   setLanguage: PropTypes.func.isRequired,
   setLocation: PropTypes.func.isRequired,
+  filterVisible: PropTypes.bool.isRequired,
   setFilterVisible: PropTypes.func.isRequired,
 };
 
