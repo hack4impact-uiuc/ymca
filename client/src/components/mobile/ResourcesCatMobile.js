@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Drawer, Menu } from 'antd';
+import { Button, Drawer, Menu, Icon } from 'antd';
 
 import ResourceCategoryFilter from '../ResourceCategoryFilter';
 import useWindowDimensions from '../../utils/mobile';
@@ -28,7 +28,10 @@ function ResourcesCatMobile(props) {
           onClick={() => setCategoriesVisible(true)}
         >
           <Menu.Item key="categories">
-            {props.subcategory ? props.subcategory : props.category}
+            <span className="category-dropdown">
+              {props.subcategory ? props.subcategory : props.category}
+              <Icon type="down" className="down-icon" />
+            </span>
             <a className="filter">
               <Button
                 onClick={e => {
@@ -56,6 +59,7 @@ function ResourcesCatMobile(props) {
           headerStyle={{ display: 'none' }}
         >
           <ResourcesFilterMobile
+            filterVisible={filterVisible}
             setFilterVisible={setFilterVisible}
             {...props}
           />

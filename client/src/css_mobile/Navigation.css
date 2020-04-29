@@ -2,9 +2,7 @@
   z-index: 30;
   background: white;
   width: 100%;
-  height: 2.3em;
   transition: top 0.25s;
-  padding: 0.4em;
 }
 
 .nav-topbar-container {
@@ -12,23 +10,24 @@
   flex-direction: row;
   justify-content: space-between;
   border-bottom: 1px solid rgba(235, 235, 235, 1);
+  height: 3.5em;
+  padding: 0.4em;
 }
 
-.nav-mobile-logo {
-  margin: none;
-  padding: none;
+.nav-topbar-container .nav-mobile-logo {
   background-image: url('/asset/icon/logo192.png');
   background-position: center;
   background-size: cover;
-  height: 1.5em;
-  width: 1.5em;
-  margin-left: 1em !important;
-  margin-top: 0.25em !important;
+  height: 1.7em;
+  width: 1.7em;
+  margin-left: 1em;
+  margin-top: 0.5em;
 }
 
 .nav-menu-btn-icon {
-  font-size: 1.7em;
+  font-size: 1.9em;
   color: gray;
+  margin-top: 0.25em;
 }
 
 .nav-mobile-menu {

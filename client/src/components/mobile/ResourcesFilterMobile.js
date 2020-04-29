@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Icon } from 'antd';
 
@@ -15,6 +15,7 @@ function ResourcesFilterMobile(props) {
     setCost,
     setLanguage,
     setLocation,
+    filterVisible,
     setFilterVisible,
   } = props;
 
@@ -22,17 +23,33 @@ function ResourcesFilterMobile(props) {
   const [tempLanguage, setTempLanguage] = useState(languageSelected);
   const [tempLocation, setTempLocation] = useState(locationSelected);
 
-  const applyFilters = () => {
+  useEffect(() => {
+    setTempCost(costSelected);
+    setTempLanguage(languageSelected);
+    setTempLocation(locationSelected);
+  }, [costSelected, languageSelected, locationSelected, filterVisible]);
+
+  const applyFilters = useCallback(() => {
     setCost(tempCost);
     setLanguage(tempLanguage);
     setLocation(tempLocation);
     setFilterVisible(false);
-  };
+  }, [
+    setCost,
+    setFilterVisible,
+    setLanguage,
+    setLocation,
+    tempCost,
+    tempLanguage,
+    tempLocation,
+  ]);
 
   return (
     <>
-      <div className="filter-category">
-        <b>Cost</b>
+      <div className="filter-category filter-top">
+        <div className="filter-title">
+          <b>Cost</b>
+        </div>
         {costs.map(cost => (
           <div className="filter-type" onClick={() => setTempCost(cost)}>
             {cost}
@@ -43,7 +60,9 @@ function ResourcesFilterMobile(props) {
         ))}
       </div>
       <div className="filter-category">
-        <b>Language</b>
+        <div className="filter-title">
+          <b>Language</b>
+        </div>
         {languages.map(language => (
           <div
             className="filter-type"
@@ -57,7 +76,9 @@ function ResourcesFilterMobile(props) {
         ))}
       </div>
       <div className="filter-category">
-        <b>Location</b>
+        <div className="filter-title">
+          <b>Location</b>
+        </div>
         {locations.map(location => (
           <div
             className="filter-type"
@@ -94,6 +115,7 @@ ResourcesFilterMobile.propTypes = {
   setCost: PropTypes.func.isRequired,
   setLanguage: PropTypes.func.isRequired,
   setLocation: PropTypes.func.isRequired,
+  filterVisible: PropTypes.bool.isRequired,
   setFilterVisible: PropTypes.func.isRequired,
 };
 
