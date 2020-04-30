@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "name": "ymca",
-  "alias": "ymca.now.sh",
+  "name": "nawc",
+  "alias": "nawc.now.sh",
   "env": {
     "MONGO_URL": "@ymca_db_uri",
     "MAPBOX_KEY": "@ymca_mapbox_key"
