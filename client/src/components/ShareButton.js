@@ -3,22 +3,25 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Button, Tooltip } from 'antd';
+import { ShareAltOutlined } from '@ant-design/icons';
 
 function ShareButton(props) {
   const location = useLocation();
 
-  const [tipText, setTipText] = useState('Copy resource link!');
+  const [info, setInfo] = useState('Copy resource link!');
 
   const copyLink = () => {
     const link = `https://nawc.now.sh${location.pathname}`;
     navigator.clipboard.writeText(link);
-    setTipText('Resource link copied!');
+    setInfo('Resource link copied!');
   };
 
   return (
     <>
-      <Tooltip title={tipText}>
-        <Button onClick={() => copyLink()}>Share</Button>
+      <Tooltip title={info}>
+        <Button icon={<ShareAltOutlined />} onClick={() => copyLink()}>
+          Share
+        </Button>
       </Tooltip>
     </>
   );
