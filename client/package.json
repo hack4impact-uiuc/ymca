@@ -2,7 +2,7 @@
   "name": "ymca-client",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://ymca.now.sh/",
+  "homepage": "https://nawc.now.sh/",
   "dependencies": {
     "@babel/helper-call-delegate": "^7.8.7",
     "antd": "^3.24.2",
