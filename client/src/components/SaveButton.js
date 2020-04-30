@@ -37,8 +37,7 @@ function SaveButton(props: SaveButtonProps) {
 
   const errorContent = (
     <>
-      You must be logged in to use this feature! Login{' '}
-      <Link to="/login">here</Link>.
+      <Link to="/login">Log in</Link> to save resources!
     </>
   );
 
