@@ -13,6 +13,7 @@ import {
 } from '../../utils/auth';
 import ResourcesBreadcrumb from '../ResourcesBreadcrumb';
 import SaveButton from '../SaveButton';
+import ShareButton from '../ShareButton';
 
 import '../../css/ResourceDetail.css';
 
@@ -241,7 +242,7 @@ function ResourceDetail(props) {
             deleteResourceHandler={deleteSavedResourceHandler}
             saveResourceHandler={saveResourceHandler}
           />
-          <Button>Share</Button>
+          <ShareButton />
 
           {authed && authRoleIsEquivalentTo('admin') && (
             <span className="resource-edit-delete">

@@ -66,7 +66,6 @@ function SaveButton(props: SaveButtonProps) {
         <>
           <HeartOutlined />
           <Button icon={<HeartOutlined />}>Save</Button>
-          <Button icon={<ShareAltOutlined />}>Share</Button>
         </>
       ) : (
         <a onClick={e => e.preventDefault()}>
