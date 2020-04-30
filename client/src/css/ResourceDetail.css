@@ -58,16 +58,20 @@
   padding-top: 20px;
 }
 
-/* .resource-detail .anticon {
+.resource-detail .anticon {
+  vertical-align: 0.1em;
+}
+
+.resource-detail .header-info .anticon {
   height: 20px;
   padding-right: 15px;
   color: rgb(100, 100, 100);
 }
 
-.resource-detail .anticon-star {
+.resource-detail .header-info .anticon-star {
   font-size: 150%;
   padding-right: 8px;
-} */
+}
 
 .resource-detail .filled-star {
   color: rgb(255, 191, 67);

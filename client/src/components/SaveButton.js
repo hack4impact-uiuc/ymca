@@ -3,11 +3,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom/';
 import { Button, Icon, Popover } from 'antd';
-import { SearchOutlined } from '@ant-design/icons';
+import { HeartOutlined, ShareAltOutlined } from '@ant-design/icons';
+import Search from 'antd/lib/input/Search';
 
-// import 'antd/dist/antd.css';
 // import '../css/SaveButton.css';
 
+// TODO: Add an additional prop that is 'mode'. If prop.mode === 'icon' then
+// return just the star icon like it is right now. Otherwise return full button
+// that appears underneath the title
 type SaveButtonProps = {
   className: String,
   type: String,
@@ -17,6 +20,7 @@ type SaveButtonProps = {
   deleteResourceHandler: () => void,
   saveResourceHandler: () => void,
 };
+
 function SaveButton(props: SaveButtonProps) {
   const {
     authed,
@@ -59,7 +63,11 @@ function SaveButton(props: SaveButtonProps) {
         //   {/* <HeartOutlined /> */}
         //   <Button icon={<SearchOutlined />}>Search</Button>
         // </Popover>
-        <Button icon={<SearchOutlined />}>Search</Button>
+        <>
+          <HeartOutlined />
+          <Button icon={<HeartOutlined />}>Save</Button>
+          <Button icon={<ShareAltOutlined />}>Share</Button>
+        </>
       ) : (
         <a onClick={e => e.preventDefault()}>
           {isSaved ? (
@@ -81,24 +89,23 @@ function SaveButton(props: SaveButtonProps) {
               />
             </Button>
           ) : (
-            // <Button
-            //   className={type === 'heart' && 'heart-save-btn'}
-            //   onClick={async () => {
-            //     await saveResourceHandler();
-            //   }}
-            //   type="link"
-            // >
-            //   <Icon
-            //     className={type === 'star' && 'star-save-icon'}
-            //     type={type}
-            //     theme={type === 'heart' && 'filled'}
-            //     style={{
-            //       fontSize: { fontSize },
-            //       color: type === 'heart' ? 'black' : '#562996 !important',
-            //     }}
-            //   />
-            // </Button>
-            <Button type="primary">Download</Button>
+            <Button
+              className={type === 'heart' && 'heart-save-btn'}
+              onClick={async () => {
+                await saveResourceHandler();
+              }}
+              type="link"
+            >
+              <Icon
+                className={type === 'star' && 'star-save-icon'}
+                type={type}
+                theme={type === 'heart' && 'filled'}
+                style={{
+                  fontSize: { fontSize },
+                  color: type === 'heart' ? 'black' : '#562996 !important',
+                }}
+              />
+            </Button>
           )}
         </a>
       )}

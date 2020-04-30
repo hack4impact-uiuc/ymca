@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Button, Col, Icon, message, Modal, Row, Layout } from 'antd';
-import { SearchOutlined } from '@ant-design/icons';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 import * as moment from 'moment';
 
@@ -236,13 +235,13 @@ function ResourceDetail(props) {
       <Row className="section">
         <Col span={15}>
           <span className="resource-name">{`${name}\n`}</span>
-          {/* <SaveButton
+          <SaveButton
             authed={authed}
             isSaved={isSaved}
             deleteResourceHandler={deleteSavedResourceHandler}
             saveResourceHandler={saveResourceHandler}
-          /> */}
-          <Button icon={<SearchOutlined />}>Search</Button>
+          />
+          <Button>Share</Button>
 
           {authed && authRoleIsEquivalentTo('admin') && (
             <span className="resource-edit-delete">
@@ -266,7 +265,7 @@ function ResourceDetail(props) {
               })}
             <Icon type="environment" theme="outlined" />
           </Col>
-          <Col span={16}>
+          <Col span={20}>
             {website.length > 0 ? (
               <a href={website} target="_blank" rel="noopener noreferrer">
                 {`${website}`}
