@@ -63,7 +63,7 @@ const ImageUpload = (props: ImageUploadProps) => {
       headers: {
         Accept: 'application/json',
         'Content-type': 'application/json',
-        Authorization: 'Client-ID [insert id here]',
+        Authorization: `Client-ID ${process.env.IMGUR_KEY}`,
       },
       body: JSON.stringify({
         image: img.replace('data:image/jpeg;base64,', ''),
@@ -86,6 +86,7 @@ const ImageUpload = (props: ImageUploadProps) => {
       )
       .then(data => {
         if (data.status === 200) setImage(data.data.link);
+        console.log(data.data.link);
       });
 
     setShowCropper(false);
