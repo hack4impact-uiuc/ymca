@@ -212,17 +212,6 @@ function ResourceDetail(props) {
     return <Redirect to="/resources/unknown" />;
   }
 
-  const stars = [];
-  if (recommendation !== null) {
-    for (let i = 0; i < recommendation; i += 1) {
-      stars.push(<Icon type="star" theme="filled" className="filled-star" />);
-    }
-
-    for (let i = 0; i < 5 - recommendation; i += 1) {
-      stars.push(<Icon type="star" theme="filled" className="unfilled-star" />);
-    }
-  }
-
   return (
     <div className="resource-detail">
       <Modal
@@ -246,7 +235,6 @@ function ResourceDetail(props) {
       <Row className="section">
         <Col span={15}>
           <span className="resource-name">{`${name}\n`}</span>
-          {recommendation !== null && stars}
           <SaveButton
             authed={authed}
             isSaved={isSaved}
@@ -265,33 +253,35 @@ function ResourceDetail(props) {
             </span>
           )}
         </Col>
-        <Col span={1} className="header-info">
-          <Icon type="global" theme="outlined" />
-          <Icon type="mail" theme="outlined" />
-          <Icon type="phone" theme="filled" />
-          {phone.length > 0 &&
-            phone.map(() => {
-              return `\n`;
-            })}
-          <Icon type="environment" theme="outlined" />
-        </Col>
-        <Col span={8} className="header-info">
-          {website.length > 0 ? (
-            <a href={website} target="_blank" rel="noopener noreferrer">
-              {`${website}`}
-              {'\n'}
-            </a>
-          ) : (
-            'No website provided.\n'
-          )}
-          {email.length > 0 ? `${email}\n` : 'No email provided.\n'}
-          {phone.length > 0
-            ? phone.map(p => {
-                return `${p.phoneType}: ${p.phoneNumber}\n`;
-              })
-            : 'No phone number provided.\n'}
-          {addressString}
-        </Col>
+        <div className="header-info">
+          <Col span={4}>
+            <Icon type="global" theme="outlined" />
+            <Icon type="mail" theme="outlined" />
+            <Icon type="phone" theme="filled" />
+            {phone.length > 0 &&
+              phone.map(() => {
+                return `\n`;
+              })}
+            <Icon type="environment" theme="outlined" />
+          </Col>
+          <Col span={16}>
+            {website.length > 0 ? (
+              <a href={website} target="_blank" rel="noopener noreferrer">
+                {`${website}`}
+                {'\n'}
+              </a>
+            ) : (
+              'No website provided.\n'
+            )}
+            {email.length > 0 ? `${email}\n` : 'No email provided.\n'}
+            {phone.length > 0
+              ? phone.map(p => {
+                  return `${p.phoneType}: ${p.phoneNumber}\n`;
+                })
+              : 'No phone number provided.\n'}
+            {addressString}
+          </Col>
+        </div>
       </Row>
       <Row className="section card-row">
         <Col span={24}>
@@ -346,45 +336,50 @@ function ResourceDetail(props) {
       </Row>
       <Row className="section card-row">
         <Col span={12}>{addressString}</Col>
-        <Col span={12} className="open-now">
-          {isOpen(hours) && 'Open now!'}
-        </Col>
+        {isOpen(hours) && (
+          <Col span={12} className="open-now">
+            Open now!
+          </Col>
+        )}
+        {hours.length === 0 && <Col span={12}>No schedule provided.</Col>}
       </Row>
       <Row className="section card-row">
-        <Col span={12}>
-          <Map
-            // eslint-disable-next-line
-            style="mapbox://styles/mapbox/light-v9"
-            center={[lng, lat]}
-            containerStyle={{
-              height: '350px',
-              width: '400px',
-            }}
-            zoom={[15]}
-          >
-            <Layer
-              type="symbol"
-              id="marker"
-              layout={{ 'icon-image': 'marker-15' }}
+        {address && (
+          <Col span={12}>
+            <Map
+              // eslint-disable-next-line
+              style="mapbox://styles/mapbox/light-v9"
+              center={[lng, lat]}
+              containerStyle={{
+                height: '350px',
+                width: '400px',
+              }}
+              zoom={[15]}
             >
-              <Feature coordinates={[lng, lat]} />
-            </Layer>
-          </Map>
-        </Col>
-        <Col span={12}>
-          {hours.length > 0
-            ? hours.map(day => {
-                return (
-                  <div>
-                    <span className="day-of-week">{`${day.day}: `}</span>
-                    {day.period.length > 0
-                      ? `${day.period[0]} - ${day.period[1]}`
-                      : 'None'}
-                  </div>
-                );
-              })
-            : 'No schedule provided'}
-        </Col>
+              <Layer
+                type="symbol"
+                id="marker"
+                layout={{ 'icon-image': 'marker-15' }}
+              >
+                <Feature coordinates={[lng, lat]} />
+              </Layer>
+            </Map>
+          </Col>
+        )}
+        {hours.length > 0 && (
+          <Col span={12}>
+            {hours.map(day => {
+              return (
+                <div>
+                  <span className="day-of-week">{`${day.day}: `}</span>
+                  {day.period.length > 0
+                    ? `${day.period[0]} - ${day.period[1]}`
+                    : 'None'}
+                </div>
+              );
+            })}
+          </Col>
+        )}
       </Row>
       {authRoleIsEquivalentTo('admin') && (
         <Row>
