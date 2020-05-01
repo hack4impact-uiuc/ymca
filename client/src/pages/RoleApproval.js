@@ -16,6 +16,51 @@ import Loader from 'react-loader-spinner';
 
 import { getUsersForRolesPage, changeRole } from '../utils/auth';
 
+const UsersGrid = ({
+  sortedUsers,
+  setNewRoleAndUser,
+  userWithNewRole,
+  submitNewRole,
+  newRole,
+}) => {
+  return sortedUsers.map((user, idx) => {
+    console.log(user.email, user.role);
+    return (
+      <tr key={user.email}>
+        <th scope="row">{idx + 1}</th>
+        <td>{user.email}</td>
+        <td>{user.role}</td>
+        <td>
+          <UncontrolledDropdown style={{ marginLeft: '0px' }}>
+            <DropdownToggle className="carousel-move-btn" caret>
+              {idx === userWithNewRole ? newRole : 'New Role'}
+            </DropdownToggle>
+            <DropdownMenu color="info">
+              <DropdownItem onClick={() => setNewRoleAndUser('public', idx)}>
+                Public
+              </DropdownItem>
+              <DropdownItem onClick={() => setNewRoleAndUser('intern', idx)}>
+                Intern
+              </DropdownItem>
+              <DropdownItem onClick={() => setNewRoleAndUser('admin', idx)}>
+                Admin
+              </DropdownItem>
+            </DropdownMenu>
+          </UncontrolledDropdown>
+        </td>
+        <td>
+          <Button
+            className="carousel-move-btn"
+            onClick={event => submitNewRole(event)}
+          >
+            Submit
+          </Button>
+        </td>
+      </tr>
+    );
+  });
+};
+
 const RoleApproval = () => {
   const [loading, setLoading] = useState(false);
   const [newRole, setNewRole] = useState('');
@@ -24,7 +69,7 @@ const RoleApproval = () => {
   const [users, setUsers] = useState([]);
   const [sortedUsers, setSortedUsers] = useState([]);
   const [userWithNewRole, setUserWithNewRole] = useState(-1);
-  const [sort, setSort] = useState('');
+  const [sort, setSort] = useState('Email');
 
   function compareEmails(current, next) {
     const textCurrent = current.email.toUpperCase();
@@ -40,21 +85,26 @@ const RoleApproval = () => {
     return textCurrent < textNext ? -1 : bool;
   }
 
-  useEffect(() => {
-    switch (sort) {
-      case 'Email': {
-        const newUsers = users.sort(compareEmails);
-        setSortedUsers(newUsers);
-        break;
+  const updateSort = useCallback(
+    sortParam => {
+      switch (sortParam) {
+        case 'Email': {
+          const newUsers = users.sort(compareEmails);
+          setSort('Email');
+          setSortedUsers(newUsers);
+          break;
+        }
+        case 'Role': {
+          const newUsers = users.sort(compareRoles);
+          setSort('Role');
+          setSortedUsers(newUsers);
+          break;
+        }
+        default:
       }
-      case 'Role': {
-        const newUsers = users.sort(compareRoles);
-        setSortedUsers(newUsers);
-        break;
-      }
-      default:
-    }
-  }, [sort, users, setSortedUsers]);
+    },
+    [users],
+  );
 
   useEffect(() => {
     async function fetchData() {
@@ -64,12 +114,15 @@ const RoleApproval = () => {
 
       if (userDataParsed.user_emails) {
         setUsers(userDataParsed.user_emails);
-        setSort('Email');
       }
       setLoading(false);
     }
     fetchData();
   }, [setUsers]);
+
+  useEffect(() => {
+    updateSort('Email');
+  }, [updateSort]);
 
   const setNewRoleAndUser = useCallback(
     (newRoleToSet, userWithNewRoleToSet) => {
@@ -127,23 +180,13 @@ const RoleApproval = () => {
                   <th>#</th>
                   <th>
                     Email{' '}
-                    <Button
-                      type="link"
-                      onClick={() => {
-                        setSort('Email');
-                      }}
-                    >
+                    <Button type="link" onClick={() => updateSort('Email')}>
                       <Icon type="down" />
                     </Button>
                   </th>
                   <th>
                     Role{' '}
-                    <Button
-                      type="link"
-                      onClick={() => {
-                        setSort('Role');
-                      }}
-                    >
+                    <Button type="link" onClick={() => updateSort('Role')}>
                       <Icon type="down" />
                     </Button>
                   </th>
@@ -152,45 +195,13 @@ const RoleApproval = () => {
                 </tr>
               </thead>
               <tbody>
-                {sortedUsers.map((user, idx) => (
-                  <tr key={user.email}>
-                    <th scope="row">{idx + 1}</th>
-                    <td>{user.email}</td>
-                    <td>{user.role}</td>
-                    <td>
-                      <UncontrolledDropdown style={{ marginLeft: '0px' }}>
-                        <DropdownToggle className="carousel-move-btn" caret>
-                          {idx === userWithNewRole ? newRole : 'New Role'}
-                        </DropdownToggle>
-                        <DropdownMenu color="info">
-                          <DropdownItem
-                            onClick={() => setNewRoleAndUser('public', idx)}
-                          >
-                            Public
-                          </DropdownItem>
-                          <DropdownItem
-                            onClick={() => setNewRoleAndUser('intern', idx)}
-                          >
-                            Intern
-                          </DropdownItem>
-                          <DropdownItem
-                            onClick={() => setNewRoleAndUser('admin', idx)}
-                          >
-                            Admin
-                          </DropdownItem>
-                        </DropdownMenu>
-                      </UncontrolledDropdown>
-                    </td>
-                    <td>
-                      <Button
-                        className="carousel-move-btn"
-                        onClick={event => submitNewRole(event)}
-                      >
-                        Submit
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
+                <UsersGrid
+                  sortedUsers={sortedUsers}
+                  setNewRoleAndUser={setNewRoleAndUser}
+                  userWithNewRole={userWithNewRole}
+                  submitNewRole={submitNewRole}
+                  newRole={newRole}
+                />
               </tbody>
             </Table>
             {!localStorage.getItem('google') ? (
