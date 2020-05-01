@@ -24,6 +24,7 @@ const RoleApproval = () => {
   const [users, setUsers] = useState([]);
   const [sortedUsers, setSortedUsers] = useState([]);
   const [userWithNewRole, setUserWithNewRole] = useState(-1);
+  const [sort, setSort] = useState('');
 
   function compareEmails(current, next) {
     const textCurrent = current.email.toUpperCase();
@@ -39,24 +40,21 @@ const RoleApproval = () => {
     return textCurrent < textNext ? -1 : bool;
   }
 
-  const updateSort = useCallback(
-    sort => {
-      switch (sort) {
-        case 'Email': {
-          const newUsers = users.sort(compareEmails);
-          setSortedUsers(newUsers);
-          break;
-        }
-        case 'Role': {
-          const newUsers = users.sort(compareRoles);
-          setSortedUsers(newUsers);
-          break;
-        }
-        default:
+  useEffect(() => {
+    switch (sort) {
+      case 'Email': {
+        const newUsers = users.sort(compareEmails);
+        setSortedUsers(newUsers);
+        break;
       }
-    },
-    [setSortedUsers, users],
-  );
+      case 'Role': {
+        const newUsers = users.sort(compareRoles);
+        setSortedUsers(newUsers);
+        break;
+      }
+      default:
+    }
+  }, [sort, users, setSortedUsers]);
 
   useEffect(() => {
     async function fetchData() {
@@ -66,12 +64,12 @@ const RoleApproval = () => {
 
       if (userDataParsed.user_emails) {
         setUsers(userDataParsed.user_emails);
-        updateSort('Email');
+        setSort('Email');
       }
       setLoading(false);
     }
     fetchData();
-  }, [setUsers, updateSort]);
+  }, [setUsers]);
 
   const setNewRoleAndUser = useCallback(
     (newRoleToSet, userWithNewRoleToSet) => {
@@ -132,7 +130,7 @@ const RoleApproval = () => {
                     <Button
                       type="link"
                       onClick={() => {
-                        updateSort('Email');
+                        setSort('Email');
                       }}
                     >
                       <Icon type="down" />
@@ -143,7 +141,7 @@ const RoleApproval = () => {
                     <Button
                       type="link"
                       onClick={() => {
-                        updateSort('Role');
+                        setSort('Role');
                       }}
                     >
                       <Icon type="down" />
