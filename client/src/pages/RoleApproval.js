@@ -22,21 +22,8 @@ const RoleApproval = () => {
   const [response, setResponse] = useState('');
   const [password, setPassword] = useState('');
   const [users, setUsers] = useState([]);
+  const [sortedUsers, setSortedUsers] = useState([]);
   const [userWithNewRole, setUserWithNewRole] = useState(-1);
-
-  useEffect(() => {
-    async function fetchData() {
-      setLoading(true);
-      const userData = await getUsersForRolesPage();
-      const userDataParsed = await userData.json();
-
-      if (userDataParsed.user_emails) {
-        setUsers(userDataParsed.user_emails);
-      }
-      setLoading(false);
-    }
-    fetchData();
-  }, [setUsers]);
 
   function compareEmails(current, next) {
     const textCurrent = current.email.toUpperCase();
@@ -52,21 +39,39 @@ const RoleApproval = () => {
     return textCurrent < textNext ? -1 : bool;
   }
 
-  const updateSort = sort => {
-    switch (sort) {
-      case 'Email': {
-        const newUsers = users.sort(compareEmails);
-        setUsers(newUsers);
-        break;
+  const updateSort = useCallback(
+    sort => {
+      switch (sort) {
+        case 'Email': {
+          const newUsers = users.sort(compareEmails);
+          setSortedUsers(newUsers);
+          break;
+        }
+        case 'Role': {
+          const newUsers = users.sort(compareRoles);
+          setSortedUsers(newUsers);
+          break;
+        }
+        default:
       }
-      case 'Role': {
-        const newUsers = users.sort(compareRoles);
-        setUsers(newUsers);
-        break;
+    },
+    [setSortedUsers, users],
+  );
+
+  useEffect(() => {
+    async function fetchData() {
+      setLoading(true);
+      const userData = await getUsersForRolesPage();
+      const userDataParsed = await userData.json();
+
+      if (userDataParsed.user_emails) {
+        setUsers(userDataParsed.user_emails);
+        updateSort('Email');
       }
-      default:
+      setLoading(false);
     }
-  };
+    fetchData();
+  }, [setUsers, updateSort]);
 
   const setNewRoleAndUser = useCallback(
     (newRoleToSet, userWithNewRoleToSet) => {
@@ -149,7 +154,7 @@ const RoleApproval = () => {
                 </tr>
               </thead>
               <tbody>
-                {users.map((user, idx) => (
+                {sortedUsers.map((user, idx) => (
                   <tr key={user.email}>
                     <th scope="row">{idx + 1}</th>
                     <td>{user.email}</td>
