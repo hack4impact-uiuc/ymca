@@ -1,9 +1,9 @@
 import React, { useState, useCallback, useEffect } from 'react';
+import { Button, Icon } from 'antd';
 import {
   Table,
   Card,
   CardBody,
-  Button,
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
@@ -23,6 +23,7 @@ const RoleApproval = () => {
   const [password, setPassword] = useState('');
   const [users, setUsers] = useState([]);
   const [userWithNewRole, setUserWithNewRole] = useState(-1);
+  const [sort, setSort] = useState('Email');
 
   useEffect(() => {
     async function fetchData() {
@@ -37,6 +38,40 @@ const RoleApproval = () => {
     }
     fetchData();
   }, [setUsers]);
+
+  function compareEmails(current, next) {
+    const textCurrent = current.email.toUpperCase();
+    const textNext = next.email.toUpperCase();
+    const bool = textCurrent > textNext ? 1 : 0;
+    return textCurrent < textNext ? -1 : bool;
+  }
+
+  function compareRoles(current, next) {
+    const textCurrent = current.role.toUpperCase();
+    const textNext = next.role.toUpperCase();
+    const bool = textCurrent > textNext ? 1 : 0;
+    return textCurrent < textNext ? -1 : bool;
+  }
+
+  const updateSort = useCallback(() => {
+    switch (sort) {
+      case 'Email': {
+        const newUsers = users.sort(compareEmails);
+        setUsers(newUsers);
+        break;
+      }
+      case 'Role': {
+        const newUsers = users.sort(compareRoles);
+        setUsers(newUsers);
+        break;
+      }
+      default:
+    }
+  }, [users, setUsers, sort]);
+
+  useEffect(() => {
+    updateSort();
+  }, [users, sort, updateSort]);
 
   const setNewRoleAndUser = useCallback(
     (newRoleToSet, userWithNewRoleToSet) => {
@@ -92,8 +127,28 @@ const RoleApproval = () => {
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Email</th>
-                  <th>Role</th>
+                  <th>
+                    Email{' '}
+                    <Button
+                    type="link"
+                      onClick={() => {
+                        setSort('Email');
+                      }}
+                    >
+                      <Icon type="down" />
+                    </Button>
+                  </th>
+                  <th>
+                    Role{' '}
+                    <Button
+                      type="link"
+                      onClick={() => {
+                        setSort('Role');
+                      }}
+                    >
+                      <Icon type="down" />
+                    </Button>
+                  </th>
                   <th>Change Role</th>
                   <th> </th>
                 </tr>
@@ -130,8 +185,7 @@ const RoleApproval = () => {
                     </td>
                     <td>
                       <Button
-                        color="info"
-                        size="sm"
+                        className="carousel-move-btn"
                         onClick={event => submitNewRole(event)}
                       >
                         Submit
