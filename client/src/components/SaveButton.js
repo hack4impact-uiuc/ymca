@@ -64,7 +64,7 @@ function SaveButton(props: SaveButtonProps) {
         //   <Button icon={<SearchOutlined />}>Search</Button>
         // </Popover>
         <>
-          <Button type="primary">
+          <Button>
             <HeartOutlined />
             Save
           </Button>
