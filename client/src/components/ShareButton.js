@@ -19,7 +19,8 @@ function ShareButton(props) {
   return (
     <>
       <Tooltip title={info}>
-        <Button icon={<ShareAltOutlined />} onClick={() => copyLink()}>
+        <Button onClick={() => copyLink()}>
+          <ShareAltOutlined />
           Share
         </Button>
       </Tooltip>

@@ -64,8 +64,10 @@ function SaveButton(props: SaveButtonProps) {
         //   <Button icon={<SearchOutlined />}>Search</Button>
         // </Popover>
         <>
-          <HeartOutlined />
-          <Button icon={<HeartOutlined />}>Save</Button>
+          <Button type="primary">
+            <HeartOutlined />
+            Save
+          </Button>
         </>
       ) : (
         <a onClick={e => e.preventDefault()}>
