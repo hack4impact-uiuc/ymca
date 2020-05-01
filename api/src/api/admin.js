@@ -3,6 +3,68 @@ const router = express.Router();
 const { errorWrap } = require('../middleware');
 const Category = require('../models/category');
 const Resource = require('../models/resource');
+const HomePage = require('../models/homepage');
+
+router.post(
+  '/homepage',
+  errorWrap(async (req, res) => {
+    const newHomePage = new HomePage(req.body);
+    await newHomePage.save();
+    res.json({
+      code: 200,
+      message: `Succesfully created new HomePage object`,
+      success: true,
+      result: newHomePage,
+    });
+  }),
+);
+
+router.get(
+  '/homepage',
+  errorWrap(async (req,  res) => {
+    const homePageObject = await HomePage.find();
+    res.json({
+      code: 200,
+      message: `Successfully returned HomePage object`,
+      success: true,
+      result: homePageObject,
+    });
+  }),
+);
+
+router.put(
+  '/homepage/background',
+  errorWrap(async (req,  res) => {
+    res.json({
+      code: 200,
+      message: `Successfully updated resource ${id}`,
+      success: true,
+    });
+  }),
+);
+
+router.post(
+  '/homepage/partners',
+  errorWrap(async (req, res) => {
+    res.json({
+      code: 200,
+      message: `Successfully updated resource ${id}`,
+      success: true,
+    });
+  }),
+);
+
+router.put(
+  '/homepage/partners/:idx',
+  errorWrap(async (req, res) => {
+    res.json({
+      code: 200,
+      message: `Successfully updated resource ${id}`,
+      success: true,
+    });
+  }),
+);
+
 
 // Create a new resource
 router.post(
