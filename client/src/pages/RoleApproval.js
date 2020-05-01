@@ -23,7 +23,6 @@ const RoleApproval = () => {
   const [password, setPassword] = useState('');
   const [users, setUsers] = useState([]);
   const [userWithNewRole, setUserWithNewRole] = useState(-1);
-  const [sort, setSort] = useState('Email');
 
   useEffect(() => {
     async function fetchData() {
@@ -53,7 +52,7 @@ const RoleApproval = () => {
     return textCurrent < textNext ? -1 : bool;
   }
 
-  const updateSort = useCallback(() => {
+  const updateSort = sort => {
     switch (sort) {
       case 'Email': {
         const newUsers = users.sort(compareEmails);
@@ -67,11 +66,7 @@ const RoleApproval = () => {
       }
       default:
     }
-  }, [users, setUsers, sort]);
-
-  useEffect(() => {
-    updateSort();
-  }, [users, sort, updateSort]);
+  };
 
   const setNewRoleAndUser = useCallback(
     (newRoleToSet, userWithNewRoleToSet) => {
@@ -130,9 +125,9 @@ const RoleApproval = () => {
                   <th>
                     Email{' '}
                     <Button
-                    type="link"
+                      type="link"
                       onClick={() => {
-                        setSort('Email');
+                        updateSort('Email');
                       }}
                     >
                       <Icon type="down" />
@@ -143,7 +138,7 @@ const RoleApproval = () => {
                     <Button
                       type="link"
                       onClick={() => {
-                        setSort('Role');
+                        updateSort('Role');
                       }}
                     >
                       <Icon type="down" />
@@ -161,7 +156,7 @@ const RoleApproval = () => {
                     <td>{user.role}</td>
                     <td>
                       <UncontrolledDropdown style={{ marginLeft: '0px' }}>
-                        <DropdownToggle caret>
+                        <DropdownToggle className="carousel-move-btn" caret>
                           {idx === userWithNewRole ? newRole : 'New Role'}
                         </DropdownToggle>
                         <DropdownMenu color="info">
