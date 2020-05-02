@@ -77,7 +77,7 @@ const ResourceForm = (props: FormProps) => {
   const [contacts, setContacts] = useState([]);
   const [financialAidDetails, setFinancialAidDetails] = useState({});
   const [availableLanguages, setAvailableLanguages] = useState([]);
-  const [comments, setComments] = useState([]);
+  const [requiredDocuments, setRequiredDocuments] = useState([]);
   const [internalNotes, setInternalNotes] = useState([]);
   const [hoursOfOperation, setHoursOfOperation] = useState([]);
   const [image, setImage] = useState('');
@@ -114,7 +114,7 @@ const ResourceForm = (props: FormProps) => {
             result.financialAidDetails ? result.financialAidDetails : {},
           );
           setAvailableLanguages(result.availableLanguages);
-          setComments(result.comments);
+          setRequiredDocuments(result.requiredDocuments);
           setInternalNotes(result.internalNotes);
           setHoursOfOperation(
             result.hoursOfOperation !== undefined
@@ -199,7 +199,7 @@ const ResourceForm = (props: FormProps) => {
               availableLanguages: getFieldValue('availableLanguages') || [],
               lastedUpdated: new Date(Date.now()),
               recommendation: getFieldValue('recommendation'),
-              comments: comments || [],
+              requiredDocuments: requiredDocuments || [],
               internalNotes: internalNotes || [],
               image: image || '',
             });
@@ -220,8 +220,8 @@ const ResourceForm = (props: FormProps) => {
             setFinancialAidDetails={setFinancialAidDetails}
             availableLanguages={availableLanguages}
             setAvailableLanguages={setAvailableLanguages}
-            comments={comments}
-            setComments={setComments}
+            requiredDocuments={requiredDocuments}
+            setRequiredDocuments={setRequiredDocuments}
             internalNotes={internalNotes}
             setInternalNotes={setInternalNotes}
             hoursOfOperation={hoursOfOperation}

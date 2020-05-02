@@ -20,19 +20,19 @@ const StrForm = (props: FormProps) => {
   const { getFieldDecorator, getFieldValue, setFieldsValue } = props.form;
 
   const onSubmit = useCallback(() => {
-    const val = getFieldValue('comment');
+    const val = getFieldValue('requiredDocuments');
 
     if (val !== undefined && val.trim() !== '') {
       setListOfStrings([...listOfStrings, val]);
 
-      setFieldsValue({ comment: '' });
+      setFieldsValue({ requiredDocuments: '' });
     }
   }, [getFieldValue, setListOfStrings, setFieldsValue, listOfStrings]);
 
   return (
     <Form onSubmit={onSubmit}>
       <Form.Item>
-        {getFieldDecorator('comment', {
+        {getFieldDecorator('requiredDocuments', {
           rules: [
             {
               required: true,
@@ -40,7 +40,7 @@ const StrForm = (props: FormProps) => {
               whitespace: true,
             },
           ],
-        })(<Input placeholder="Enter a comment" />)}
+        })(<Input placeholder="Enter required documents" />)}
       </Form.Item>
       <Button
         type="primary"
@@ -48,7 +48,7 @@ const StrForm = (props: FormProps) => {
         htmlType="submit"
         onClick={() => setTotalSubmitEnabled(false)}
       >
-        Add comment
+        Add
       </Button>
     </Form>
   );
@@ -63,7 +63,7 @@ type FormItemProps = {
   setTotalSubmitEnabled: () => void,
 };
 
-const CommentsFormItem = (props: FormItemProps) => {
+const RequiredDocumentsFormItem = (props: FormItemProps) => {
   const {
     formName,
     label,
@@ -106,4 +106,4 @@ const CommentsFormItem = (props: FormItemProps) => {
   );
 };
 
-export default CommentsFormItem;
+export default RequiredDocumentsFormItem;
