@@ -45,6 +45,7 @@ function ResourceDetail(props) {
   const [isSaved, setIsSaved] = useState(false);
   const [recommendation, setRecommendation] = useState(0);
   const [addressString, setAddresString] = useState('');
+  const [financialAidDetails, setFinancialAidDetails] = useState(null);
 
   const updateIsSaved = useCallback(
     savedSet => {
@@ -88,6 +89,7 @@ function ResourceDetail(props) {
         );
         setRecommendation(result.recommendation ? result.recommendation : 0);
         setRequiredDocuments(result.requiredDocuments);
+        setFinancialAidDetails(result.financialAidDetails);
 
         if (props.authed) {
           let savedSet = new Set();
@@ -336,6 +338,52 @@ function ResourceDetail(props) {
                   : language;
               })
             : 'None provided.'}
+        </Col>
+        <Col span={1}>
+          <img
+            className="financial-aid-icon"
+            src="/asset/icon/give-money.svg"
+            alt="give-money.svg"
+            height="20"
+            width="20"
+          />
+        </Col>
+        <Col span={11}>
+          <div className="card-label">Financial Aid{'\n'}</div>
+          {financialAidDetails ? (
+            <div>
+              <Row
+                justify="space-between"
+                style={{ paddingLeft: 0, paddingBottom: 0 }}
+              >
+                <Col span={12}>
+                  <div className="financial-aid-subtitle">Education:</div>
+                  {financialAidDetails.education || 'None provided.'}
+                </Col>
+                <Col span={12}>
+                  <div className="financial-aid-subtitle">
+                    Immigration Status:
+                  </div>
+                  {financialAidDetails.immigrationStatus || 'None provided.'}
+                </Col>
+              </Row>
+              <Row
+                justify="space-between"
+                style={{ paddingLeft: 0, paddingBottom: 0 }}
+              >
+                <Col span={12}>
+                  <div className="financial-aid-subtitle">Deadline:</div>
+                  {financialAidDetails.deadline || 'None provided.'}
+                </Col>
+                <Col span={12}>
+                  <div className="financial-aid-subtitle">Amount:</div>
+                  {financialAidDetails.amount || 'None provided.'}
+                </Col>
+              </Row>
+            </div>
+          ) : (
+            'None provided.'
+          )}
         </Col>
       </Row>
       <Row className="section">

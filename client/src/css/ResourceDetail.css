@@ -96,3 +96,7 @@
   font-weight: 600;
   color: rgb(1, 186, 23);
 }
+
+.resource-detail .financial-aid-subtitle {
+  font-weight: 450;
+}
