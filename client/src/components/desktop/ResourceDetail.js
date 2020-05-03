@@ -342,15 +342,19 @@ function ResourceDetail(props) {
         <Col span={1}>
           <img
             className="financial-aid-icon"
-            src="/asset/icon/give-money.svg"
-            alt="give-money.svg"
+            src="/asset/icon/give-money-gray.svg"
+            alt="give-money-gray.svg"
             height="20"
             width="20"
           />
         </Col>
         <Col span={11}>
           <div className="card-label">Financial Aid{'\n'}</div>
-          {financialAidDetails ? (
+          {financialAidDetails &&
+          (financialAidDetails.education ||
+            financialAidDetails.immigrationStatus ||
+            financialAidDetails.deadline ||
+            financialAidDetails.amount) ? (
             <div>
               <Row
                 justify="space-between"

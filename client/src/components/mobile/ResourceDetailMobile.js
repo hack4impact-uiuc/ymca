@@ -59,6 +59,7 @@ const ResourceDetailMobile = (props: Props) => {
   const [hours, setHours] = useState(null);
   const [recommendation, setRecommendation] = useState(0);
   const [image, setImage] = useState(null);
+  const [financialAidDetails, setFinancialAidDetails] = useState(null);
 
   const [resourceExists, setResourceExists] = useState(true);
 
@@ -107,6 +108,7 @@ const ResourceDetailMobile = (props: Props) => {
         setRecommendation(result.recommendation);
         setRequiredDocuments(result.requiredDocuments);
         setEligibility(result.eligibilityRequirements);
+        setFinancialAidDetails(result.financialAidDetails);
 
         setHours(
           result.hoursOfOperation &&
@@ -337,7 +339,7 @@ const ResourceDetailMobile = (props: Props) => {
             content={[
               languages && languages.length > 0
                 ? languages.join(', ')
-                : 'None.',
+                : 'None provided.',
             ]}
           />
           <InfoBlock
@@ -357,7 +359,67 @@ const ResourceDetailMobile = (props: Props) => {
               <Icon className="mb-rd-icon" type="folder-open" theme="filled" />
             }
             content={[
-              (requiredDocuments && requiredDocuments.join(', ')) || 'None.',
+              (requiredDocuments && requiredDocuments.join(', ')) ||
+                'None provided.',
+            ]}
+          />
+          <InfoBlock
+            title="Financial Aid"
+            icon={
+              <img
+                className="rd-mb-financial-aid-icon"
+                src="/asset/icon/give-money-black.svg"
+                alt="give-money-black.svg"
+                height="22"
+                width="22"
+              />
+            }
+            content={[
+              financialAidDetails &&
+              (financialAidDetails.education ||
+                financialAidDetails.immigrationStatus ||
+                financialAidDetails.deadline ||
+                financialAidDetails.amount) ? (
+                <div>
+                  <Row
+                    justify="space-between"
+                    style={{ paddingLeft: 0, paddingBottom: 0 }}
+                  >
+                    <Col span={12}>
+                      <div className="rd-mb-financial-aid-subtitle">
+                        Education:
+                      </div>
+                      {financialAidDetails.education || 'None provided.'}
+                    </Col>
+                    <Col span={12}>
+                      <div className="rd-mb-financial-aid-subtitle">
+                        Immigration Status:
+                      </div>
+                      {financialAidDetails.immigrationStatus ||
+                        'None provided.'}
+                    </Col>
+                  </Row>
+                  <Row
+                    justify="space-between"
+                    style={{ paddingLeft: 0, paddingBottom: 0 }}
+                  >
+                    <Col span={12}>
+                      <div className="rd-mb-financial-aid-subtitle">
+                        Deadline:
+                      </div>
+                      {financialAidDetails.deadline || 'None provided.'}
+                    </Col>
+                    <Col span={12}>
+                      <div className="rd-mb-financial-aid-subtitle">
+                        Amount:
+                      </div>
+                      {financialAidDetails.amount || 'None provided.'}
+                    </Col>
+                  </Row>
+                </div>
+              ) : (
+                'None provided.'
+              ),
             ]}
           />
         </div>
