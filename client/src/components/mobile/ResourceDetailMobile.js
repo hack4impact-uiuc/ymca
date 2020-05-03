@@ -356,7 +356,9 @@ const ResourceDetailMobile = (props: Props) => {
             icon={
               <Icon className="mb-rd-icon" type="folder-open" theme="filled" />
             }
-            content={[requiredDocuments || 'None.']}
+            content={[
+              (requiredDocuments && requiredDocuments.join(', ')) || 'None.',
+            ]}
           />
         </div>
         <div className="mb-rd-block-2">

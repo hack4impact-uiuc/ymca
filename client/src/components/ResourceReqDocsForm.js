@@ -97,7 +97,7 @@ const RequiredDocumentsFormItem = (props: FormItemProps) => {
         )}
       />
       <NewForm
-        listOfStrings={listOfStrings}
+        listOfStrings={listOfStrings || []}
         setListOfStrings={setListOfStrings}
         setTotalSubmitEnabled={setTotalSubmitEnabled}
         placeholder={placeholder}

@@ -87,6 +87,7 @@ function ResourceDetail(props) {
             : [],
         );
         setRecommendation(result.recommendation ? result.recommendation : 0);
+        setRequiredDocuments(result.requiredDocuments);
 
         if (props.authed) {
           let savedSet = new Set();
@@ -311,9 +312,7 @@ function ResourceDetail(props) {
         <Col span={11}>
           <div className="card-label">Required Documents {'\n'}</div>
           {requiredDocuments.length > 0
-            ? requiredDocuments.map(doc => {
-                return doc;
-              })
+            ? requiredDocuments.join(', ')
             : 'None provided.'}
         </Col>
         <Col span={1}>
