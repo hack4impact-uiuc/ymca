@@ -1,70 +1,13 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { Button, Icon } from 'antd';
-import {
-  Table,
-  Card,
-  CardBody,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  FormGroup,
-  Label,
-  Input,
-} from 'reactstrap';
+import { Button, Icon, Menu, Dropdown, message } from 'antd';
+import { Table, Card, CardBody, FormGroup, Label, Input } from 'reactstrap';
 import Loader from 'react-loader-spinner';
 
 import { getUsersForRolesPage, changeRole } from '../utils/auth';
 
-const UsersGrid = ({
-  sortedUsers,
-  setNewRoleAndUser,
-  userWithNewRole,
-  submitNewRole,
-  newRole,
-}) => {
-  return sortedUsers.map((user, idx) => {
-    console.log(user.email, user.role);
-    return (
-      <tr key={user.email}>
-        <th scope="row">{idx + 1}</th>
-        <td>{user.email}</td>
-        <td>{user.role}</td>
-        <td>
-          <UncontrolledDropdown style={{ marginLeft: '0px' }}>
-            <DropdownToggle className="carousel-move-btn" caret>
-              {idx === userWithNewRole ? newRole : 'New Role'}
-            </DropdownToggle>
-            <DropdownMenu color="info">
-              <DropdownItem onClick={() => setNewRoleAndUser('public', idx)}>
-                Public
-              </DropdownItem>
-              <DropdownItem onClick={() => setNewRoleAndUser('intern', idx)}>
-                Intern
-              </DropdownItem>
-              <DropdownItem onClick={() => setNewRoleAndUser('admin', idx)}>
-                Admin
-              </DropdownItem>
-            </DropdownMenu>
-          </UncontrolledDropdown>
-        </td>
-        <td>
-          <Button
-            className="carousel-move-btn"
-            onClick={event => submitNewRole(event)}
-          >
-            Submit
-          </Button>
-        </td>
-      </tr>
-    );
-  });
-};
-
 const RoleApproval = () => {
   const [loading, setLoading] = useState(false);
   const [newRole, setNewRole] = useState('');
-  const [response, setResponse] = useState('');
   const [password, setPassword] = useState('');
   const [users, setUsers] = useState([]);
   const [sortedUsers, setSortedUsers] = useState([]);
@@ -134,6 +77,7 @@ const RoleApproval = () => {
 
   const submitNewRole = async event => {
     event.preventDefault();
+    if (userWithNewRole < 0) return;
     const changeRoleData = await changeRole(
       users[userWithNewRole].email,
       newRole,
@@ -146,10 +90,61 @@ const RoleApproval = () => {
     ]);
     const userDataParsed = await userData.json();
 
+    if (changeRoleDataParsed.status === 400)
+      message.error(changeRoleDataParsed.message);
+    else message.success(changeRoleDataParsed.message);
+
     setNewRole('');
-    setResponse(changeRoleDataParsed.message);
     setUsers(userDataParsed.user_emails);
     setUserWithNewRole(-1);
+  };
+
+  const RoleMenu = idx => {
+    return (
+      <Menu onClick={e => setNewRoleAndUser(e.key, idx)}>
+        <Menu.Item key="public">public</Menu.Item>
+        <Menu.Item key="intern">intern</Menu.Item>
+        <Menu.Item key="admin">admin</Menu.Item>
+      </Menu>
+    );
+  };
+
+  const UsersGrid = () => {
+    return sortedUsers.map((user, idx) => {
+      return (
+        <tr key={user.email}>
+          <th scope="row">{idx + 1}</th>
+          <td>{user.email}</td>
+          <td>{user.role}</td>
+          <td>
+            <Dropdown
+              overlay={RoleMenu(idx)}
+              placement="bottomLeft"
+              trigger={['click']}
+            >
+              <Button className="carousel-move-btn">
+                {idx === userWithNewRole ? (
+                  newRole
+                ) : (
+                  <span>
+                    {'New Role '}
+                    <Icon type="caret-down" />
+                  </span>
+                )}
+              </Button>
+            </Dropdown>
+          </td>
+          <td>
+            <Button
+              className="carousel-move-btn"
+              onClick={event => submitNewRole(event)}
+            >
+              Submit
+            </Button>
+          </td>
+        </tr>
+      );
+    });
   };
 
   return (
@@ -195,19 +190,15 @@ const RoleApproval = () => {
                 </tr>
               </thead>
               <tbody>
-                <UsersGrid
-                  sortedUsers={sortedUsers}
-                  setNewRoleAndUser={setNewRoleAndUser}
-                  userWithNewRole={userWithNewRole}
-                  submitNewRole={submitNewRole}
-                  newRole={newRole}
-                />
+                <UsersGrid />
               </tbody>
             </Table>
             {!localStorage.getItem('google') ? (
               <div align="left" style={{ display: 'inline', width: '300px' }}>
                 <FormGroup size="sm">
-                  <Label for="examplePassword">Confirm Password</Label>
+                  <Label for="examplePassword">
+                    <b>Confirm Password</b>
+                  </Label>
                   <Input
                     type="password"
                     name="password"
@@ -221,7 +212,6 @@ const RoleApproval = () => {
           </CardBody>
         </Card>
       )}
-      {response}
     </div>
   );
 };
