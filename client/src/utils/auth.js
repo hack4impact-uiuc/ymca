@@ -2,7 +2,7 @@
 
 import fetch from 'isomorphic-fetch';
 
-const AUTH_SERVER_URI = 'https://ymca-auth.now.sh';
+const AUTH_SERVER_URI = 'https://nawc.now.sh/auth';
 
 export const login = body => {
   // auth
