@@ -1,6 +1,6 @@
 const fetch = require('isomorphic-unfetch');
 
-const AUTH_SERVER_URI = 'https://ymca-auth.now.sh';
+const AUTH_SERVER_URI = 'https://nawc.now.sh/auth';
 
 const authAdmin = async (req, res, next) => {
   auth(req, res, next, ['admin']);
