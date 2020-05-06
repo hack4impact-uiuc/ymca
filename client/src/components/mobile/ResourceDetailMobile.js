@@ -60,6 +60,7 @@ const ResourceDetailMobile = (props: Props) => {
   const [recommendation, setRecommendation] = useState(0);
   const [image, setImage] = useState(null);
   const [financialAidDetails, setFinancialAidDetails] = useState(null);
+  const [contacts, setContacts] = useState(null);
 
   const [resourceExists, setResourceExists] = useState(true);
 

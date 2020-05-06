@@ -1,7 +1,16 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Button, Col, Icon, message, Modal, Row, Layout } from 'antd';
+import {
+  Button,
+  Col,
+  Icon,
+  message,
+  Modal,
+  Row,
+  Layout,
+  Descriptions,
+} from 'antd';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 import * as moment from 'moment';
 
@@ -46,6 +55,7 @@ function ResourceDetail(props) {
   const [recommendation, setRecommendation] = useState(0);
   const [addressString, setAddresString] = useState('');
   const [financialAidDetails, setFinancialAidDetails] = useState(null);
+  const [contacts, setContacts] = useState(null);
 
   const updateIsSaved = useCallback(
     savedSet => {
@@ -90,6 +100,7 @@ function ResourceDetail(props) {
         setRecommendation(result.recommendation ? result.recommendation : 0);
         setRequiredDocuments(result.requiredDocuments);
         setFinancialAidDetails(result.financialAidDetails);
+        setContacts(result.contacts);
 
         if (props.authed) {
           let savedSet = new Set();
@@ -438,7 +449,49 @@ function ResourceDetail(props) {
         </Col>
       </Row>
       {authRoleIsEquivalentTo('admin') && (
-        <Row>
+        <div>
+          <Row>
+            <Col span={24} className="recommended-contacts-label">
+              Recommended Contacts
+            </Col>
+          </Row>
+          <Row className="recommended-contacts-row">
+            {contacts &&
+              contacts.map(contact => (
+                <Col span={8} className="contact">
+                  <div className="financial-aid-subtitle">{contact.name}</div>
+                  <div>
+                    Role:{' '}
+                    <span className="recommended-contacts-info">
+                      {contact.role || 'None provided.'}
+                    </span>
+                  </div>
+                  <div>
+                    Email:{' '}
+                    <span className="recommended-contacts-info">
+                      {contact.email || 'None provided.'}
+                    </span>
+                  </div>
+                  <div>
+                    Phone Number:{' '}
+                    <span className="recommended-contacts-info">
+                      {contact.phoneNumber || 'None provided.'}
+                    </span>
+                  </div>
+                  <div>
+                    Note:{' '}
+                    <span className="recommended-contacts-info">
+                      {contact.note || 'None provided.'}
+                    </span>
+                  </div>
+                </Col>
+              ))}
+          </Row>
+          <Row />
+        </div>
+      )}
+      {authRoleIsEquivalentTo('admin') && (
+        <Row className="section">
           <Col span={4} className="section-label">
             Internal Notes
           </Col>
