@@ -4,7 +4,12 @@
   "alias": "nawc.now.sh",
   "env": {
     "MONGO_URL": "@ymca_db_uri",
-    "MAPBOX_KEY": "@ymca_mapbox_key"
+    "MAPBOX_KEY": "@ymca_mapbox_key",
+    "INFRA_MONGO_URI": "@ymca_auth_mongo_uri",
+    "INFRA_EMAIL": "@ymca_auth_email",
+    "INFRA_CLIENT_ID": "@ymca_auth_client_id",
+    "INFRA_CLIENT_SECRET": "@ymca_client_secret",
+    "INFRA_REFRESH_TOKEN": "@ymca_refresh"
   },
   "builds": [
     {
@@ -17,9 +22,11 @@
       "config": {
         "distDir": "build"
       }
-    }
+    },
+    { "src": "auth/src/nowServer.js", "use": "@now/node" }
   ],
   "routes": [
+    { "src": "/auth/(.*)", "dest": "auth/src/nowServer.js" },
     {
       "src": "/api/(.*)",
       "headers": {
