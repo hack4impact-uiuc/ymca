@@ -3,8 +3,7 @@ import { Button, Col, Row, Carousel } from 'antd';
 import { Link } from 'react-router-dom';
 
 import '../../css/Home.css';
-import testimonials from '../../data/testimonials';
-import { getCategories } from '../../utils/api';
+import { getCategories, getHomePage } from '../../utils/api';
 
 export const HomeBlock1Desktop = () => {
   const [categories, setCategories] = useState([]);
@@ -97,6 +96,30 @@ export const HomeBlock2Desktop = () => {
 };
 
 export const HomeBlock3Desktop = () => {
+  const [testimonials, setTestimonials] = useState([]);
+
+  const fetchTestimonials = async () => {
+    const res = await getHomePage();
+    console.log(res);
+    const newTestimonials = [];
+    if (res != null) {
+      res.result.testimonials.forEach(t => {
+        newTestimonials.push({
+          person: t[0],
+          picture: t[1],
+          title: t[2],
+          testimonial: t[3],
+        });
+      });
+    }
+    setTestimonials(newTestimonials);
+    console.log(testimonials);
+  };
+
+  useEffect(() => {
+    fetchTestimonials();
+  }, []);
+
   return (
     <Row className="home-block-3" type="flex" justify="center" align="middle">
       <Col span={23}>

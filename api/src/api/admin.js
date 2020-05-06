@@ -5,6 +5,7 @@ const Category = require('../models/category');
 const Resource = require('../models/resource');
 const HomePage = require('../models/homepage');
 
+// Create a homepage object
 router.post(
   '/homepage',
   errorWrap(async (req, res) => {
@@ -19,10 +20,11 @@ router.post(
   }),
 );
 
+// Get one hompage object
 router.get(
   '/homepage',
-  errorWrap(async (req,  res) => {
-    const homePageObject = await HomePage.find();
+  errorWrap(async (req, res) => {
+    const homePageObject = await HomePage.findOne();
     res.json({
       code: 200,
       message: `Successfully returned HomePage object`,
@@ -32,39 +34,37 @@ router.get(
   }),
 );
 
+// Edit homepage object
 router.put(
-  '/homepage/background',
-  errorWrap(async (req,  res) => {
-    res.json({
-      code: 200,
-      message: `Successfully updated resource ${id}`,
-      success: true,
-    });
-  }),
-);
-
-router.post(
-  '/homepage/partners',
+  '/homepage',
   errorWrap(async (req, res) => {
+    const homePageObject = await HomePage.findOne();
+    homePageObject.backgroundPicture = req.body.backgroundPicture;
+    homePageObject.testimonials = req.body.testimonials;
+    homePageObject.partners = req.body.partners;
+    homePageObject.save();
     res.json({
       code: 200,
-      message: `Successfully updated resource ${id}`,
+      message: `Successfully updated homepage`,
       success: true,
     });
   }),
 );
 
-router.put(
-  '/homepage/partners/:idx',
+// Delete all homepage objects
+router.delete(
+  '/homepage',
   errorWrap(async (req, res) => {
+    await HomePage.deleteMany({}, function(err) {
+      console.log(err);
+    });
     res.json({
       code: 200,
-      message: `Successfully updated resource ${id}`,
+      message: `Successfully deleted all homepage objects`,
       success: true,
     });
   }),
 );
-
 
 // Create a new resource
 router.post(

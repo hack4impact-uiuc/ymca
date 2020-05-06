@@ -6,6 +6,22 @@ const instance = axios.create({
   baseURL: 'https://nawc.now.sh',
 });
 
+export const getHomePage = () => {
+  return instance
+    .get('/api/admin/homePage', {
+      headers: {
+        token: localStorage.getItem('token'),
+      },
+    })
+    .then(
+      res => res.data,
+      err => {
+        console.error(err);
+        return null;
+      },
+    );
+};
+
 export const getCategories = () => {
   return instance.get('/api/categories').then(
     res => res.data,
