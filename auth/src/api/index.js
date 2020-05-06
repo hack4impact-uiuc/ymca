@@ -1,20 +1,20 @@
 var router = require("express").Router();
 
-router.use("/", require("./login"));
-router.use("/", require("./register"));
-router.use("/", require("./getSecurityQuestions"));
-router.use("/", require("./passwordReset"));
-router.use("/", require("./forgotPassword"));
-router.use("/", require("./changePassword"));
-router.use("/", require("./google"));
-router.use("/", require("./updateSecurityQuestion"));
-router.use("/", require("./verifyEmail"));
-router.use("/", require("./roles"));
-router.use("/", require("./rolesChange"));
-router.use("/", require("./verify"));
-router.use("/", require("./resendVerificationEmail"));
-router.use("/", require("./securityQuestionForUser"));
-router.use("/", require("./getUser"));
-router.use("/", require("./userResources"));
+router.use("/auth/", require("./login"));
+router.use("/auth/", require("./register"));
+router.use("/auth/", require("./getSecurityQuestions"));
+router.use("/auth/", require("./passwordReset"));
+router.use("/auth/", require("./forgotPassword"));
+router.use("/auth/", require("./changePassword"));
+router.use("/auth/", require("./google"));
+router.use("/auth/", require("./updateSecurityQuestion"));
+router.use("/auth/", require("./verifyEmail"));
+router.use("/auth/", require("./roles"));
+router.use("/auth/", require("./rolesChange"));
+router.use("/auth/", require("./verify"));
+router.use("/auth/", require("./resendVerificationEmail"));
+router.use("/auth/", require("./securityQuestionForUser"));
+router.use("/auth/", require("./getUser"));
+router.use("/auth/", require("./userResources"));
 
 module.exports = router;
