@@ -7,6 +7,7 @@ import { getCategories, getHomePage } from '../../utils/api';
 
 export const HomeBlock1Desktop = () => {
   const [categories, setCategories] = useState([]);
+  const [backgroundImage, setBackgroundImage] = useState('');
 
   const fetchCategories = async () => {
     const res = await getCategories();
@@ -19,12 +20,30 @@ export const HomeBlock1Desktop = () => {
     setCategories(newCategories);
   };
 
+  const fetchBackgroundImage = async () => {
+    const res = await getHomePage();
+    if (res != null) {
+      setBackgroundImage(
+        `radial-gradient(70% 141% at 0 0, rgba(25, 132, 202, 0.6) 1%,` +
+          ` rgba(105, 62, 158, 0.6) 100%),` +
+          ` url('${res.result.backgroundPicture}')`,
+      );
+    }
+  };
+
   useEffect(() => {
     fetchCategories();
+    fetchBackgroundImage();
   }, []);
 
   return (
-    <Row className="home-block-1" type="flex" justify="left" align="middle">
+    <Row
+      className="home-block-1"
+      style={{ backgroundImage }}
+      type="flex"
+      justify="left"
+      align="middle"
+    >
       <Col className="welcome-text">
         Welcome to Urbana-Champaign
         {categories !== null && categories.length > 0 ? (
@@ -100,7 +119,6 @@ export const HomeBlock3Desktop = () => {
 
   const fetchTestimonials = async () => {
     const res = await getHomePage();
-    console.log(res);
     const newTestimonials = [];
     if (res != null) {
       res.result.testimonials.forEach(t => {
@@ -113,7 +131,6 @@ export const HomeBlock3Desktop = () => {
       });
     }
     setTestimonials(newTestimonials);
-    console.log(testimonials);
   };
 
   useEffect(() => {

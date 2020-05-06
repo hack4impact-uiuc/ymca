@@ -3,7 +3,7 @@
 const axios = require('axios');
 
 const instance = axios.create({
-  baseURL: 'https://nawc.now.sh',
+  baseURL: 'http://localhost:9000',
 });
 
 export const getHomePage = () => {

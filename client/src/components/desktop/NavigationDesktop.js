@@ -51,6 +51,14 @@ const NavDesktop = (props: Props) => {
         )}
 
         {authRoleIsEquivalentTo('admin') && (
+          <Menu.Item key="edit-home">
+            <NavLink to="/edit-home" activeStyle={activeStyle}>
+              Edit Home
+            </NavLink>
+          </Menu.Item>
+        )}
+
+        {authRoleIsEquivalentTo('admin') && (
           <Menu.Item key="approval">
             <NavLink to="/role-approval" activeStyle={activeStyle}>
               Users

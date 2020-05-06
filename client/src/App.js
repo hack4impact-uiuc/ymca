@@ -8,6 +8,7 @@ import {
 
 import PrivateRoute from './components/PrivateRoute';
 import AdminResourceManager from './pages/AdminResourceManager';
+import EditHome from './pages/EditHome';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Logout from './pages/Logout';
@@ -97,6 +98,15 @@ const App = () => {
           <PrivateRoute
             path="/admin/:id"
             component={AdminResourceManager}
+            authed={authed}
+            authRoleIsEquivalentTo={authRoleIsEquivalentTo}
+            minRole="admin"
+          />
+          <Route path="/" exact component={Home} />
+          <PrivateRoute
+            path="/edit-home"
+            component={EditHome}
+            exact
             authed={authed}
             authRoleIsEquivalentTo={authRoleIsEquivalentTo}
             minRole="admin"
