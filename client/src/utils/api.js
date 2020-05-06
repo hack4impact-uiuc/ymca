@@ -3,8 +3,7 @@
 const axios = require('axios');
 
 const instance = axios.create({
-  // baseURL: 'https://nawc.now.sh',
-  baseURL: 'http://localhost:9000',
+  baseURL: 'https://nawc.now.sh',
 });
 
 export const getCategories = () => {
