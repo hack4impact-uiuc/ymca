@@ -121,7 +121,7 @@ const RoleApproval = () => {
     {
       title: (
         <span>
-          Email{' '}
+          Email
           <Button
             type="link"
             onClick={() => {
