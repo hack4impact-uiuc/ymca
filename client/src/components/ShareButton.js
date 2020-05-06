@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Button, Tooltip } from 'antd';
+import { Button, Popover } from 'antd';
 import { ShareAltOutlined } from '@ant-design/icons';
 
 function ShareButton(props) {
@@ -18,12 +18,12 @@ function ShareButton(props) {
 
   return (
     <>
-      <Tooltip title={info}>
+      <Popover content={info} Title="Error" trigger="click">
         <Button onClick={() => copyLink()}>
           <ShareAltOutlined />
           Share
         </Button>
-      </Tooltip>
+      </Popover>
     </>
   );
 }

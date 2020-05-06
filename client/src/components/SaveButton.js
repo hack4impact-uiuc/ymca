@@ -44,11 +44,13 @@ function SaveButton(props: SaveButtonProps) {
       <Link to="/login">Log in</Link> to save resources!
     </>
   );
+  const savedMessage = <>Save resource</>;
+  const unsavedMessage = <>Unsave resource</>;
 
   return (
     <>
       {!authed ? (
-        <Popover content={loginMessage} Title="Error" trigger="click">
+        <Popover content={loginMessage}>
           <Button>
             <HeartOutlined />
             Save
@@ -57,23 +59,27 @@ function SaveButton(props: SaveButtonProps) {
       ) : (
         <>
           {isSaved ? (
-            <Button
-              onClick={async () => {
-                await deleteResourceHandler();
-              }}
-            >
-              <HeartFilled />
-              Save
-            </Button>
+            <Popover content={unsavedMessage}>
+              <Button
+                onClick={async () => {
+                  await deleteResourceHandler();
+                }}
+              >
+                <HeartFilled />
+                Save
+              </Button>
+            </Popover>
           ) : (
-            <Button
-              onClick={async () => {
-                await saveResourceHandler();
-              }}
-            >
-              <HeartOutlined />
-              Save
-            </Button>
+            <Popover content={savedMessage}>
+              <Button
+                onClick={async () => {
+                  await saveResourceHandler();
+                }}
+              >
+                <HeartOutlined />
+                Save
+              </Button>
+            </Popover>
           )}
         </>
       )}
