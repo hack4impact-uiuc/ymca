@@ -2,9 +2,8 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom/';
-import { Button, Icon, Popover } from 'antd';
+import { Button, Popover } from 'antd';
 import { HeartOutlined, HeartFilled } from '@ant-design/icons';
-import Search from 'antd/lib/input/Search';
 
 // import '../css/SaveButton.css';
 
