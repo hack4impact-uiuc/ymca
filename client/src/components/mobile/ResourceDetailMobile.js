@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Carousel, Row, Col, Rate, Icon, Timeline } from 'antd';
+import { Carousel, Row, Col, Rate, Icon, Timeline, Card } from 'antd';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 import moment from 'moment';
 
@@ -110,6 +110,7 @@ const ResourceDetailMobile = (props: Props) => {
         setRequiredDocuments(result.requiredDocuments);
         setEligibility(result.eligibilityRequirements);
         setFinancialAidDetails(result.financialAidDetails);
+        setContacts(result.contacts);
 
         setHours(
           result.hoursOfOperation &&
@@ -424,6 +425,61 @@ const ResourceDetailMobile = (props: Props) => {
             ]}
           />
         </div>
+        {authRoleIsEquivalentTo('admin') && (
+          <div className="mb-rd-block-2">
+            <Row className="mb-rd-block-title">Recommended Contacts</Row>
+            {contacts && contacts.length > 0
+              ? contacts.map(contact => (
+                  <InfoBlock
+                    title={contact.name}
+                    icon={
+                      <img
+                        src="/asset/icon/user.svg"
+                        alt="give-money-black.svg"
+                        height="22"
+                        width="22"
+                      />
+                    }
+                    content={[
+                      <Row
+                        justify="space-between"
+                        style={{ paddingLeft: 0, paddingBottom: 0 }}
+                      >
+                        {Object.entries(contact).map(([key, value]) => {
+                          if (key !== '_id' && key !== 'name') {
+                            const firstLetterUpper = key
+                              .substring(0, 1)
+                              .toUpperCase();
+                            const restOfLabel = key
+                              .substring(1)
+                              .match(/[A-Z][a-z]+/g);
+                            const restOfFirstWord = restOfLabel
+                              ? key.substring(1, key.indexOf(restOfLabel[0]))
+                              : key.substring(1);
+
+                            return (
+                              <Col span={12}>
+                                <div className="rd-mb-financial-aid-subtitle">
+                                  {`${firstLetterUpper}${restOfFirstWord}${
+                                    restOfLabel
+                                      ? ` ${restOfLabel.join(' ')}`
+                                      : ''
+                                  }:`}
+                                </div>
+                                {value || 'None provided.'}
+                              </Col>
+                            );
+                          }
+
+                          return null;
+                        })}
+                      </Row>,
+                    ]}
+                  />
+                ))
+              : 'None provided.'}
+          </div>
+        )}
         <div className="mb-rd-block-2">
           <Row className="mb-rd-block-title">Location</Row>
           <Row className="mb-rd-location-info mb-rd-thin-text">
@@ -537,9 +593,8 @@ const InfoBlock = (props: InfoBlockProps) => {
       </Col>
       <Col span={20}>
         <Row className="mb-rd-info-title">{title}</Row>
-        {content.map(entry => (
-          <Row className="mb-rd-thin-text">{entry}</Row>
-        ))}
+        {content &&
+          content.map(entry => <Row className="mb-rd-thin-text">{entry}</Row>)}
       </Col>
     </Row>
   );
