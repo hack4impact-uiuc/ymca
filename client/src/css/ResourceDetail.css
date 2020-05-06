@@ -96,3 +96,19 @@
   font-weight: 600;
   color: rgb(1, 186, 23);
 }
+
+.resource-detail .financial-aid-subtitle {
+  font-weight: 450;
+}
+
+.resource-detail .recommended-contacts-label {
+  font-weight: 600;
+}
+
+.resource-detail .recommended-contacts-row {
+  padding-top: 0px;
+}
+
+.resource-detail .recommended-contacts-info {
+  color: #707070;
+}
