@@ -182,13 +182,13 @@ const RoleApproval = () => {
                     <Button
                       type="link"
                       onClick={() => {
-                        setGrayEmail('');
                         updateSort('Email');
                         if (!ascendingEmail)
                           setSortedUsers(sortedUsers.reverse());
                         setAscendingEmail(!ascendingEmail);
-                        setGrayRole('gray');
+                        setGrayEmail('');
                         setAscendingRole(true);
+                        setGrayRole('gray');
                       }}
                     >
                       {ascendingEmail ? (
@@ -203,13 +203,13 @@ const RoleApproval = () => {
                     <Button
                       type="link"
                       onClick={() => {
-                        setGrayRole('');
                         updateSort('Role');
                         if (!ascendingRole)
                           setSortedUsers(sortedUsers.reverse());
                         setAscendingRole(!ascendingRole);
-                        setGrayEmail('gray');
+                        setGrayRole('');
                         setAscendingEmail(true);
+                        setGrayEmail('gray');
                       }}
                     >
                       {ascendingRole ? (
