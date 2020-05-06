@@ -54,7 +54,7 @@ const Resource = new mongoose.Schema({
     type: Number,
     required: false,
   },
-  comments: { type: [String], required: false },
+  requiredDocuments: { type: [String], required: false },
   internalNotes: { type: [InternalNote], required: false },
   image: { type: String, required: false },
 });
