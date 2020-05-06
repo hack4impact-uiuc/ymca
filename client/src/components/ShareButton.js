@@ -5,7 +5,12 @@ import { useLocation } from 'react-router-dom';
 import { Button, Popover } from 'antd';
 import { ShareAltOutlined } from '@ant-design/icons';
 
-function ShareButton(props) {
+type ShareButtonProps = {
+  fullButton: Boolean,
+};
+
+function ShareButton(props: ShareButtonProps) {
+  const { fullButton } = props;
   const location = useLocation();
 
   const [info, setInfo] = useState('Copy resource link!');
@@ -18,12 +23,20 @@ function ShareButton(props) {
 
   return (
     <>
-      <Popover content={info} Title="Error" trigger="click">
-        <Button onClick={() => copyLink()}>
-          <ShareAltOutlined />
-          Share
-        </Button>
-      </Popover>
+      {fullButton ? (
+        <Popover content={info} Title="Error" trigger="click">
+          <Button onClick={() => copyLink()}>
+            <ShareAltOutlined />
+            Share
+          </Button>
+        </Popover>
+      ) : (
+        <Popover content={info} Title="Error" trigger="click">
+          <Button shape="circle" onClick={() => copyLink()}>
+            <ShareAltOutlined />
+          </Button>
+        </Popover>
+      )}
     </>
   );
 }

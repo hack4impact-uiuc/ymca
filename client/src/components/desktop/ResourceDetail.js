@@ -255,8 +255,9 @@ function ResourceDetail(props) {
             isSaved={isSaved}
             deleteResourceHandler={deleteSavedResourceHandler}
             saveResourceHandler={saveResourceHandler}
+            fullButton
           />
-          <ShareButton />
+          <ShareButton fullButton />
 
           {authed && authRoleIsEquivalentTo('admin') && (
             <span className="resource-edit-delete">
