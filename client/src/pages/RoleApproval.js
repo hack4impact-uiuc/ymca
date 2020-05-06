@@ -16,7 +16,7 @@ const RoleApproval = () => {
   const [ascendingEmail, setAscendingEmail] = useState(true);
   const [ascendingRole, setAscendingRole] = useState(true);
   const [grayEmail, setGrayEmail] = useState('');
-  const [grayRole, setGrayRole] = useState('');
+  const [grayRole, setGrayRole] = useState('gray');
 
   function compareEmails(current, next) {
     const textCurrent = current.email.toUpperCase();
