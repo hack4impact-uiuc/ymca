@@ -1,6 +1,14 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { Button, Icon, Menu, Dropdown, message } from 'antd';
-import { Table, Card, CardBody, FormGroup, Label, Input } from 'reactstrap';
+import {
+  Button,
+  Icon,
+  Menu,
+  Dropdown,
+  message,
+  Input,
+  Card,
+  Table,
+} from 'antd';
 import Loader from 'react-loader-spinner';
 
 import { getUsersForRolesPage, changeRole } from '../utils/auth';
@@ -11,9 +19,9 @@ const RoleApproval = () => {
   const [password, setPassword] = useState('');
   const [users, setUsers] = useState([]);
   const [sortedUsers, setSortedUsers] = useState([]);
-  const [userWithNewRole, setUserWithNewRole] = useState(-1);
+  const [userWithNewRole, setUserWithNewRole] = useState('');
   const [sort, setSort] = useState('Email');
-  const [ascendingEmail, setAscendingEmail] = useState(true);
+  const [ascendingEmail, setAscendingEmail] = useState(false);
   const [ascendingRole, setAscendingRole] = useState(true);
   const [grayEmail, setGrayEmail] = useState('');
   const [grayRole, setGrayRole] = useState('gray');
@@ -81,12 +89,8 @@ const RoleApproval = () => {
 
   const submitNewRole = async event => {
     event.preventDefault();
-    if (userWithNewRole < 0) return;
-    const changeRoleData = await changeRole(
-      users[userWithNewRole].email,
-      newRole,
-      password,
-    );
+    if (userWithNewRole.length === 0) return;
+    const changeRoleData = await changeRole(userWithNewRole, newRole, password);
 
     const [changeRoleDataParsed, userData] = await Promise.all([
       changeRoleData.json(),
@@ -100,12 +104,12 @@ const RoleApproval = () => {
 
     setNewRole('');
     setUsers(userDataParsed.user_emails);
-    setUserWithNewRole(-1);
+    setUserWithNewRole('');
   };
 
-  const RoleMenu = idx => {
+  const RoleMenu = email => {
     return (
-      <Menu onClick={e => setNewRoleAndUser(e.key, idx)}>
+      <Menu onClick={e => setNewRoleAndUser(e.key, email)}>
         <Menu.Item key="public">public</Menu.Item>
         <Menu.Item key="intern">intern</Menu.Item>
         <Menu.Item key="admin">admin</Menu.Item>
@@ -113,43 +117,90 @@ const RoleApproval = () => {
     );
   };
 
-  const UsersGrid = () => {
-    return sortedUsers.map((user, idx) => {
-      return (
-        <tr key={user.email}>
-          <th scope="row">{idx + 1}</th>
-          <td>{user.email}</td>
-          <td>{user.role}</td>
-          <td>
-            <Dropdown
-              overlay={RoleMenu(idx)}
-              placement="bottomLeft"
-              trigger={['click']}
-            >
-              <Button className="carousel-move-btn">
-                {idx === userWithNewRole ? (
-                  newRole
-                ) : (
-                  <span>
-                    {'New Role '}
-                    <Icon type="caret-down" />
-                  </span>
-                )}
-              </Button>
-            </Dropdown>
-          </td>
-          <td>
-            <Button
-              className="carousel-move-btn"
-              onClick={event => submitNewRole(event)}
-            >
-              Submit
-            </Button>
-          </td>
-        </tr>
-      );
-    });
-  };
+  const columns = [
+    {
+      title: (
+        <span>
+          Email{' '}
+          <Button
+            type="link"
+            onClick={() => {
+              updateSort('Email');
+              if (!ascendingEmail) setSortedUsers(sortedUsers.reverse());
+              setAscendingEmail(!ascendingEmail);
+              setGrayEmail('');
+              setAscendingRole(true);
+              setGrayRole('gray');
+            }}
+          >
+            {ascendingEmail ? (
+              <Icon type="down" style={{ color: grayEmail }} />
+            ) : (
+              <Icon type="up" />
+            )}
+          </Button>
+        </span>
+      ),
+      dataIndex: 'email',
+    },
+    {
+      title: (
+        <span>
+          Role
+          <Button
+            type="link"
+            onClick={() => {
+              updateSort('Role');
+              if (!ascendingRole) setSortedUsers(sortedUsers.reverse());
+              setAscendingRole(!ascendingRole);
+              setGrayRole('');
+              setAscendingEmail(true);
+              setGrayEmail('gray');
+            }}
+          >
+            {ascendingRole ? (
+              <Icon type="down" style={{ color: grayRole }} />
+            ) : (
+              <Icon type="up" />
+            )}
+          </Button>
+        </span>
+      ),
+      dataIndex: 'role',
+    },
+    {
+      title: 'Change Role',
+      render: (text, user) => (
+        <Dropdown
+          overlay={RoleMenu(user.email)}
+          placement="bottomLeft"
+          trigger={['click']}
+        >
+          <Button className="carousel-move-btn">
+            {user.email === userWithNewRole ? (
+              newRole
+            ) : (
+              <span>
+                {'New Role '}
+                <Icon type="caret-down" />
+              </span>
+            )}
+          </Button>
+        </Dropdown>
+      ),
+    },
+    {
+      title: ' ',
+      render: () => (
+        <Button
+          className="carousel-move-btn"
+          onClick={event => submitNewRole(event)}
+        >
+          Submit
+        </Button>
+      ),
+    },
+  ];
 
   return (
     <div align="center">
@@ -172,78 +223,22 @@ const RoleApproval = () => {
           className="interview-card"
           style={{ height: '60%', margin: '2%' }}
         >
-          <CardBody>
-            <Table hover>
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>
-                    Email{' '}
-                    <Button
-                      type="link"
-                      onClick={() => {
-                        updateSort('Email');
-                        if (!ascendingEmail)
-                          setSortedUsers(sortedUsers.reverse());
-                        setAscendingEmail(!ascendingEmail);
-                        setGrayEmail('');
-                        setAscendingRole(true);
-                        setGrayRole('gray');
-                      }}
-                    >
-                      {ascendingEmail ? (
-                        <Icon type="down" style={{ color: grayEmail }} />
-                      ) : (
-                        <Icon type="up" />
-                      )}
-                    </Button>
-                  </th>
-                  <th>
-                    Role{' '}
-                    <Button
-                      type="link"
-                      onClick={() => {
-                        updateSort('Role');
-                        if (!ascendingRole)
-                          setSortedUsers(sortedUsers.reverse());
-                        setAscendingRole(!ascendingRole);
-                        setGrayRole('');
-                        setAscendingEmail(true);
-                        setGrayEmail('gray');
-                      }}
-                    >
-                      {ascendingRole ? (
-                        <Icon type="down" style={{ color: grayRole }} />
-                      ) : (
-                        <Icon type="up" />
-                      )}
-                    </Button>
-                  </th>
-                  <th>Change Role</th>
-                  <th> </th>
-                </tr>
-              </thead>
-              <tbody>
-                <UsersGrid />
-              </tbody>
-            </Table>
-            {!localStorage.getItem('google') ? (
-              <div align="left" style={{ display: 'inline', width: '300px' }}>
-                <FormGroup size="sm">
-                  <Label for="examplePassword">
-                    <b>Confirm Password</b>
-                  </Label>
-                  <Input
-                    type="password"
-                    name="password"
-                    maxLength="128"
-                    value={password}
-                    onChange={event => setPassword(event.target.value)}
-                  />
-                </FormGroup>
-              </div>
-            ) : null}
-          </CardBody>
+          <Table
+            columns={columns}
+            dataSource={sortedUsers}
+            pagination={{ hideOnSinglePage: true }}
+          />
+          <br />
+          {!localStorage.getItem('google') && (
+            <div align="left" style={{ align: 'left' }}>
+              <b>Confirm Password</b>
+              <br />
+              <Input.Password
+                style={{ width: '25%' }}
+                onChange={event => setPassword(event.target.value)}
+              />
+            </div>
+          )}
         </Card>
       )}
     </div>
