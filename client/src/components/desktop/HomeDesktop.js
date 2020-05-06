@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Row, Carousel } from 'antd';
+import { Button, Col, Row, Carousel, notification } from 'antd';
+import { HeartTwoTone } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 
 import '../../css/Home.css';
@@ -20,8 +21,24 @@ export const HomeBlock1Desktop = () => {
     setCategories(newCategories);
   };
 
+  const openNotification = () => {
+    notification.open({
+      message: 'COVID-19 Information & Resources',
+      description: (
+        <div>
+          Find COVID-19 information & resources for immigrants in C-U in{' '}
+          <a href="https://tinyurl.com/cuimmigrantcovid">this guide</a> updated
+          daily.
+        </div>
+      ),
+      icon: <HeartTwoTone twoToneColor="#eb2f96" />,
+      top: 80,
+    });
+  };
+
   useEffect(() => {
     fetchCategories();
+    openNotification();
   }, []);
 
   return (
