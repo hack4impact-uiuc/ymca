@@ -1,0 +1,19 @@
+.ant-layout-footer {
+  background: #fff !important;
+}
+
+.footer-list {
+  float: right;
+}
+
+.footer-left {
+  display: inline-block;
+}
+
+.footer-mobile {
+  text-align: center;
+}
+
+.footer-mobile-item {
+  margin-bottom: 1rem;
+}

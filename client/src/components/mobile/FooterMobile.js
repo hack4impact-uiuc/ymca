@@ -2,13 +2,14 @@
 
 import React from 'react';
 import { Layout, Tooltip } from 'antd';
+import '../../css/Footer.css';
 
 const { Footer } = Layout;
 
 const FooterMobile = () => {
   return (
-    <Footer style={{ textAlign: 'center' }}>
-      <div style={{ marginBottom: '1rem' }}>
+    <Footer className="footer-mobile">
+      <div className="footer-mobile-item">
         <Tooltip title="Coming soon!">
           <span>Usage Guide</span>
         </Tooltip>{' '}
