@@ -401,18 +401,59 @@ function ResourceDetail(props) {
           )}
         </Col>
       </Row>
-      <Row className="section">
+      {authRoleIsEquivalentTo('admin') && (
+        <div>
+          <Row className="section">
+            <Col span={24} className="recommended-contacts-label">
+              Recommended Contacts
+            </Col>
+          </Row>
+          <Row className="section recommended-contacts-row">
+            {contacts &&
+              contacts.map(contact => (
+                <Col span={8} className="contact">
+                  <div className="financial-aid-subtitle">{contact.name}</div>
+                  <div>
+                    Role:{' '}
+                    <span className="recommended-contacts-info">
+                      {contact.role || 'None provided.'}
+                    </span>
+                  </div>
+                  <div>
+                    Email:{' '}
+                    <span className="recommended-contacts-info">
+                      {contact.email || 'None provided.'}
+                    </span>
+                  </div>
+                  <div>
+                    Phone Number:{' '}
+                    <span className="recommended-contacts-info">
+                      {contact.phoneNumber || 'None provided.'}
+                    </span>
+                  </div>
+                  <div>
+                    Note:{' '}
+                    <span className="recommended-contacts-info">
+                      {contact.note || 'None provided.'}
+                    </span>
+                  </div>
+                </Col>
+              ))}
+          </Row>
+        </div>
+      )}
+      <Row>
         <Col span={24} className="section-label card-row">
           Location and Hours
         </Col>
       </Row>
-      <Row className="section card-row">
+      <Row className="card-row">
         <Col span={12}>{addressString}</Col>
         <Col span={12} className="open-now">
           {isOpen(hours) && 'Open now!'}
         </Col>
       </Row>
-      <Row className="section card-row">
+      <Row className="card-row">
         <Col span={12}>
           <Map
             // eslint-disable-next-line
@@ -448,48 +489,6 @@ function ResourceDetail(props) {
             : 'No schedule provided'}
         </Col>
       </Row>
-      {authRoleIsEquivalentTo('admin') && (
-        <div>
-          <Row>
-            <Col span={24} className="recommended-contacts-label">
-              Recommended Contacts
-            </Col>
-          </Row>
-          <Row className="recommended-contacts-row">
-            {contacts &&
-              contacts.map(contact => (
-                <Col span={8} className="contact">
-                  <div className="financial-aid-subtitle">{contact.name}</div>
-                  <div>
-                    Role:{' '}
-                    <span className="recommended-contacts-info">
-                      {contact.role || 'None provided.'}
-                    </span>
-                  </div>
-                  <div>
-                    Email:{' '}
-                    <span className="recommended-contacts-info">
-                      {contact.email || 'None provided.'}
-                    </span>
-                  </div>
-                  <div>
-                    Phone Number:{' '}
-                    <span className="recommended-contacts-info">
-                      {contact.phoneNumber || 'None provided.'}
-                    </span>
-                  </div>
-                  <div>
-                    Note:{' '}
-                    <span className="recommended-contacts-info">
-                      {contact.note || 'None provided.'}
-                    </span>
-                  </div>
-                </Col>
-              ))}
-          </Row>
-          <Row />
-        </div>
-      )}
       {authRoleIsEquivalentTo('admin') && (
         <Row className="section">
           <Col span={4} className="section-label">
