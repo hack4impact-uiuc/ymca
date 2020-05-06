@@ -13,6 +13,10 @@ const RoleApproval = () => {
   const [sortedUsers, setSortedUsers] = useState([]);
   const [userWithNewRole, setUserWithNewRole] = useState(-1);
   const [sort, setSort] = useState('Email');
+  const [ascendingEmail, setAscendingEmail] = useState(true);
+  const [ascendingRole, setAscendingRole] = useState(true);
+  const [grayEmail, setGrayEmail] = useState('');
+  const [grayRole, setGrayRole] = useState('');
 
   function compareEmails(current, next) {
     const textCurrent = current.email.toUpperCase();
@@ -175,14 +179,44 @@ const RoleApproval = () => {
                   <th>#</th>
                   <th>
                     Email{' '}
-                    <Button type="link" onClick={() => updateSort('Email')}>
-                      <Icon type="down" />
+                    <Button
+                      type="link"
+                      onClick={() => {
+                        setGrayEmail('');
+                        updateSort('Email');
+                        if (!ascendingEmail)
+                          setSortedUsers(sortedUsers.reverse());
+                        setAscendingEmail(!ascendingEmail);
+                        setGrayRole('gray');
+                        setAscendingRole(true);
+                      }}
+                    >
+                      {ascendingEmail ? (
+                        <Icon type="down" style={{ color: grayEmail }} />
+                      ) : (
+                        <Icon type="up" />
+                      )}
                     </Button>
                   </th>
                   <th>
                     Role{' '}
-                    <Button type="link" onClick={() => updateSort('Role')}>
-                      <Icon type="down" />
+                    <Button
+                      type="link"
+                      onClick={() => {
+                        setGrayRole('');
+                        updateSort('Role');
+                        if (!ascendingRole)
+                          setSortedUsers(sortedUsers.reverse());
+                        setAscendingRole(!ascendingRole);
+                        setGrayEmail('gray');
+                        setAscendingEmail(true);
+                      }}
+                    >
+                      {ascendingRole ? (
+                        <Icon type="down" style={{ color: grayRole }} />
+                      ) : (
+                        <Icon type="up" />
+                      )}
                     </Button>
                   </th>
                   <th>Change Role</th>
