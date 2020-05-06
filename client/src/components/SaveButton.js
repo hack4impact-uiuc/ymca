@@ -3,7 +3,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom/';
 import { Button, Icon, Popover } from 'antd';
-import { HeartOutlined } from '@ant-design/icons';
+import { HeartOutlined, HeartFilled } from '@ant-design/icons';
 import Search from 'antd/lib/input/Search';
 
 // import '../css/SaveButton.css';
@@ -39,7 +39,7 @@ function SaveButton(props: SaveButtonProps) {
     `${(className && ` ${className}`) || ''}`,
   );
 
-  const errorContent = (
+  const loginMessage = (
     <>
       <Link to="/login">Log in</Link> to save resources!
     </>
@@ -48,67 +48,34 @@ function SaveButton(props: SaveButtonProps) {
   return (
     <>
       {!authed ? (
-        // <Popover content={errorContent} Title="Error" trigger="click">
-        //   {/* <Button className={btnClassName} type="link">
-        //     <Icon
-        //       className={type === 'star' && 'star-save-icon'}
-        //       type={type}
-        //       theme={type === 'heart' && 'filled'}
-        //       style={{
-        //         fontSize: { fontSize },
-        //         color: type === 'heart' ? 'black' : '#562996 !important',
-        //       }}
-        //     />
-        //   </Button> */}
-        //   {/* <HeartOutlined /> */}
-        //   <Button icon={<SearchOutlined />}>Search</Button>
-        // </Popover>
-        <>
+        <Popover content={loginMessage} Title="Error" trigger="click">
           <Button>
             <HeartOutlined />
             Save
           </Button>
-        </>
+        </Popover>
       ) : (
-        <a onClick={e => e.preventDefault()}>
+        <>
           {isSaved ? (
             <Button
-              className={btnClassName}
               onClick={async () => {
                 await deleteResourceHandler();
               }}
-              type="link"
             >
-              <Icon
-                className={type === 'star' && 'star-save-icon'}
-                type={type}
-                theme="filled"
-                style={{
-                  fontSize: { fontSize },
-                  color: `#562996${(type === 'star' && ' !imporant') || ''}`,
-                }}
-              />
+              <HeartFilled />
+              Save
             </Button>
           ) : (
             <Button
-              className={type === 'heart' && 'heart-save-btn'}
               onClick={async () => {
                 await saveResourceHandler();
               }}
-              type="link"
             >
-              <Icon
-                className={type === 'star' && 'star-save-icon'}
-                type={type}
-                theme={type === 'heart' && 'filled'}
-                style={{
-                  fontSize: { fontSize },
-                  color: type === 'heart' ? 'black' : '#562996 !important',
-                }}
-              />
+              <HeartOutlined />
+              Save
             </Button>
           )}
-        </a>
+        </>
       )}
     </>
   );
