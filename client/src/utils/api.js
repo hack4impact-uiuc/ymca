@@ -3,7 +3,7 @@
 const axios = require('axios');
 
 const instance = axios.create({
-  baseURL: 'https://ymca.now.sh',
+  baseURL: 'https://nawc.now.sh',
 });
 
 export const getCategories = () => {

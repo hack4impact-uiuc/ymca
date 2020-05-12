@@ -28,7 +28,9 @@ export const HomeBlock1Mobile = () => {
   return (
     <Row className="home-block-1" type="flex" justify="center" align="middle">
       <Col className="welcome-text-mobile">
-        <Textfit mode="single">Welcome to Urbana-Champaign</Textfit>
+        <Textfit className="welcome-to" mode="single">
+          Welcome to Urbana-Champaign
+        </Textfit>
         {categories !== null && categories.length > 0 ? (
           <Row type="flex" align="middle" justify="center">
             <Textfit mode="single" className="welcome-text-mobile-bold">
@@ -40,6 +42,7 @@ export const HomeBlock1Mobile = () => {
               dotPosition="left"
               dots={false}
               autoplaySpeed={3000}
+              className="welcome-carousel"
             >
               {categories.map(category => {
                 return category === 'Other' ? null : (

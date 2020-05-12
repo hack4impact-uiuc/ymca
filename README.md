@@ -28,7 +28,7 @@ Our team has partnered with the YMCA New American Welcome Center (NAWC) to build
 
 ## Usage
 
-The latest version of this application can be found at [ymca.now.sh](https://ymca.now.sh/).
+The latest version of this application can be found at [nawc.now.sh](https://nawc.now.sh/).
 
 To install and set up locally, follow the instructions in the [`/client`](https://github.com/hack4impact-uiuc/ymca/tree/master/client) and [`/api`](https://github.com/hack4impact-uiuc/ymca/tree/master/api) directories.
 

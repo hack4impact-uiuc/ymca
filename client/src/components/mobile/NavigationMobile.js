@@ -1,9 +1,9 @@
 // @flow
 
 import React, { useState } from 'react';
-import '../../css_mobile/Navigation.css';
 import { NavLink } from 'react-router-dom';
 import { Drawer, Button, Icon, Menu } from 'antd';
+import '../../css_mobile/Navigation.css';
 
 type Props = {
   authed: Boolean,

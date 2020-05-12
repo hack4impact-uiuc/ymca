@@ -1,6 +1,6 @@
 # YMCA Authentication Server
 
-    ymca-auth.now.sh
+    nawc.now.sh/auth
 
 Made from [H4i Infrastructure Authentication Server](https://github.com/hack4impact-uiuc/infra-authentication-server).
 

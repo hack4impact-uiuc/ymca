@@ -15,6 +15,7 @@
     width: 60vw;
     text-align: center;
     font-size: 35px;
+    margin-bottom: 0.1em;
   }
 
   .welcome-text-mobile-link {
@@ -29,6 +30,14 @@
   .welcome-text-mobile-link:hover {
     text-decoration: none;
     color: rgb(140, 200, 255);
+  }
+
+  .welcome-to {
+    margin-bottom: 0.5em;
+  }
+
+  .welcome-carousel {
+    margin-bottom: 0.9em;
   }
 
   .home-block-1 {

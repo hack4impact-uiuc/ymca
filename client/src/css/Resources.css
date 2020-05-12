@@ -74,6 +74,7 @@
 
 .resources .filter-bar {
   position: sticky;
+  top: -0.1em;
   z-index: 10;
   transition: top 0.25s;
 }
