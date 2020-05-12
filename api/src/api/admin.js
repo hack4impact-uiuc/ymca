@@ -4,10 +4,37 @@ const { errorWrap } = require('../middleware');
 const Category = require('../models/category');
 const Resource = require('../models/resource');
 
+const imageHelper = async image => {
+  const imageResponse = await fetch('https://api.imgur.com/3/image', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-type': 'application/json',
+      Authorization: `Client-ID ${process.env.IMGUR_KEY}`,
+    },
+    body: JSON.stringify({
+      image: image.replace('data:image/jpeg;base64,', ''),
+      type: 'image/base64',
+    }),
+  });
+  const imageResponseJSON = await imageResponse.json();
+  if (imageResponseJSON.status === 200) {
+    return imageResponseJSON.data.link;
+  }
+  return null;
+};
+
 // Create a new resource
 router.post(
   '/resources',
   errorWrap(async (req, res) => {
+    if (req.body.image && req.body.image.length > 0) {
+      const link = await imageHelper(req.body.image);
+      if (link) {
+        req.body.image = link;
+      }
+    }
+
     const newResource = new Resource(req.body);
     await newResource.save();
     res.status(201).json({
@@ -23,6 +50,14 @@ router.post(
 router.put(
   '/resources/:id',
   errorWrap(async (req, res) => {
+    if (req.body.image && req.body.image.length > 0) {
+      const link = await imageHelper(req.body.image);
+      if (link) {
+        req.body.image = link;
+        console.log(req.body);
+      }
+    }
+
     const { id } = req.params;
     const updatedResource = await Resource.findByIdAndUpdate(id, req.body, {
       new: true,

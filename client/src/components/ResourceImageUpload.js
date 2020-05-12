@@ -57,38 +57,9 @@ const ImageUpload = (props: ImageUploadProps) => {
     return canvas.toDataURL('image/jpeg');
   };
 
-  const getImgurImg = img => {
-    return fetch('https://api.imgur.com/3/image', {
-      method: 'post',
-      headers: {
-        Accept: 'application/json',
-        'Content-type': 'application/json',
-        Authorization: `Client-ID ${process.env.IMGUR_KEY}`,
-      },
-      body: JSON.stringify({
-        image: img.replace('data:image/jpeg;base64,', ''),
-        type: 'image/base64',
-      }),
-    });
-  };
-
   const saveCrop = async () => {
     const croppedImg = await getCroppedImg(croppingImg, croppedPixels);
-
-    getImgurImg(croppedImg)
-      .then(
-        response => {
-          return response.json();
-        },
-        error => {
-          console.log(JSON.stringify(error));
-        },
-      )
-      .then(data => {
-        if (data.status === 200) setImage(data.data.link);
-        console.log(data.data.link);
-      });
-
+    setImage(croppedImg);
     setShowCropper(false);
   };
 
@@ -122,7 +93,6 @@ const ImageUpload = (props: ImageUploadProps) => {
         beforeUpload={beforeUpload}
         onChange={handleUpload}
       >
-        {/* TODO: CHANGE to support imgur link */}
         {image !== null && image !== '' && image !== undefined ? (
           <img src={image} alt="" style={{ width: '100%' }} />
         ) : (
