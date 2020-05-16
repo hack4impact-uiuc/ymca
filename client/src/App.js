@@ -102,7 +102,6 @@ const App = () => {
             authRoleIsEquivalentTo={authRoleIsEquivalentTo}
             minRole="admin"
           />
-          <Route path="/" exact component={Home} />
           <PrivateRoute
             path="/edit-home"
             component={EditHome}
