@@ -1,7 +1,16 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Button, Col, Icon, message, Modal, Row, Layout } from 'antd';
+import {
+  Button,
+  Col,
+  Icon,
+  message,
+  Modal,
+  Row,
+  Layout,
+  Descriptions,
+} from 'antd';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 import * as moment from 'moment';
 
@@ -45,6 +54,8 @@ function ResourceDetail(props) {
   const [isSaved, setIsSaved] = useState(false);
   const [recommendation, setRecommendation] = useState(0);
   const [addressString, setAddresString] = useState('');
+  const [financialAidDetails, setFinancialAidDetails] = useState(null);
+  const [contacts, setContacts] = useState(null);
 
   const updateIsSaved = useCallback(
     savedSet => {
@@ -87,6 +98,9 @@ function ResourceDetail(props) {
             : [],
         );
         setRecommendation(result.recommendation ? result.recommendation : 0);
+        setRequiredDocuments(result.requiredDocuments);
+        setFinancialAidDetails(result.financialAidDetails);
+        setContacts(result.contacts);
 
         if (props.authed) {
           let savedSet = new Set();
@@ -311,9 +325,7 @@ function ResourceDetail(props) {
         <Col span={11}>
           <div className="card-label">Required Documents {'\n'}</div>
           {requiredDocuments.length > 0
-            ? requiredDocuments.map(doc => {
-                return doc;
-              })
+            ? requiredDocuments.join(', ')
             : 'None provided.'}
         </Col>
         <Col span={1}>
@@ -338,19 +350,110 @@ function ResourceDetail(props) {
               })
             : 'None provided.'}
         </Col>
+        <Col span={1}>
+          <img
+            className="financial-aid-icon"
+            src="/asset/icon/give-money-gray.svg"
+            alt="give-money-gray.svg"
+            height="20"
+            width="20"
+          />
+        </Col>
+        <Col span={11}>
+          <div className="card-label">Financial Aid{'\n'}</div>
+          {financialAidDetails &&
+          (financialAidDetails.education ||
+            financialAidDetails.immigrationStatus ||
+            financialAidDetails.deadline ||
+            financialAidDetails.amount) ? (
+            <div>
+              <Row
+                justify="space-between"
+                style={{ paddingLeft: 0, paddingBottom: 0 }}
+              >
+                <Col span={12}>
+                  <div className="financial-aid-subtitle">Education:</div>
+                  {financialAidDetails.education || 'None provided.'}
+                </Col>
+                <Col span={12}>
+                  <div className="financial-aid-subtitle">
+                    Immigration Status:
+                  </div>
+                  {financialAidDetails.immigrationStatus || 'None provided.'}
+                </Col>
+              </Row>
+              <Row
+                justify="space-between"
+                style={{ paddingLeft: 0, paddingBottom: 0 }}
+              >
+                <Col span={12}>
+                  <div className="financial-aid-subtitle">Deadline:</div>
+                  {financialAidDetails.deadline || 'None provided.'}
+                </Col>
+                <Col span={12}>
+                  <div className="financial-aid-subtitle">Amount:</div>
+                  {financialAidDetails.amount || 'None provided.'}
+                </Col>
+              </Row>
+            </div>
+          ) : (
+            'None provided.'
+          )}
+        </Col>
       </Row>
-      <Row className="section">
+      {authRoleIsEquivalentTo('admin') && (
+        <div>
+          <Row className="section">
+            <Col span={24} className="recommended-contacts-label">
+              Recommended Contacts
+            </Col>
+          </Row>
+          <Row className="section recommended-contacts-row">
+            {contacts &&
+              contacts.map(contact => (
+                <Col span={8} className="contact">
+                  <div className="financial-aid-subtitle">{contact.name}</div>
+                  <div>
+                    Role:{' '}
+                    <span className="recommended-contacts-info">
+                      {contact.role || 'None provided.'}
+                    </span>
+                  </div>
+                  <div>
+                    Email:{' '}
+                    <span className="recommended-contacts-info">
+                      {contact.email || 'None provided.'}
+                    </span>
+                  </div>
+                  <div>
+                    Phone Number:{' '}
+                    <span className="recommended-contacts-info">
+                      {contact.phoneNumber || 'None provided.'}
+                    </span>
+                  </div>
+                  <div>
+                    Note:{' '}
+                    <span className="recommended-contacts-info">
+                      {contact.note || 'None provided.'}
+                    </span>
+                  </div>
+                </Col>
+              ))}
+          </Row>
+        </div>
+      )}
+      <Row>
         <Col span={24} className="section-label card-row">
           Location and Hours
         </Col>
       </Row>
-      <Row className="section card-row">
+      <Row className="card-row">
         <Col span={12}>{addressString}</Col>
         <Col span={12} className="open-now">
           {isOpen(hours) && 'Open now!'}
         </Col>
       </Row>
-      <Row className="section card-row">
+      <Row className="card-row">
         <Col span={12}>
           <Map
             // eslint-disable-next-line
@@ -387,7 +490,7 @@ function ResourceDetail(props) {
         </Col>
       </Row>
       {authRoleIsEquivalentTo('admin') && (
-        <Row>
+        <Row className="section">
           <Col span={4} className="section-label">
             Internal Notes
           </Col>

@@ -10,6 +10,7 @@ import PrivateRoute from './components/PrivateRoute';
 import AdminResourceManager from './pages/AdminResourceManager';
 import EditHome from './pages/EditHome';
 import Home from './pages/Home';
+import Footer from './components/Footer';
 import Login from './pages/Login';
 import Logout from './pages/Logout';
 import Navigation from './components/Navigation';
@@ -186,6 +187,7 @@ const App = () => {
           />
           <Route component={NotFound} />
         </Switch>
+        <Footer />
       </Router>
     </>
   );

@@ -9,7 +9,7 @@ import PhoneNumberFormItem from './ResourcePhoneNumberForm';
 import ContactFormItem from './ResourceContactForm';
 import FinancialAidFormItem from './ResourceFinancialAidForm';
 import CategorySelector from './ResourceCategorySelector';
-import CommentsFormItem from './ResourceCommentsForm';
+import RequiredDocumentsFormItem from './ResourceReqDocsForm';
 import InternalNotesFormItem from './ResourceInternalNotesForm';
 import LabelWrapper from './LabelWrapper';
 import HoursOfOperationFormItem from './ResourceHoursOfOperationForm';
@@ -31,8 +31,8 @@ type CarouselProps = {
   setContacts: any => any,
   financialAidDetails: any,
   setFinancialAidDetails: any => any,
-  comments: any,
-  setComments: any => any,
+  requiredDocuments: any,
+  setRequiredDocuments: any => any,
   internalNotes: any,
   setInternalNotes: any => any,
   hoursOfOperation: any,
@@ -59,8 +59,8 @@ const FormCarousel = React.forwardRef((props: CarouselProps, ref) => {
     setContacts,
     financialAidDetails,
     setFinancialAidDetails,
-    comments,
-    setComments,
+    requiredDocuments,
+    setRequiredDocuments,
     internalNotes,
     setInternalNotes,
     hoursOfOperation,
@@ -411,14 +411,14 @@ const FormCarousel = React.forwardRef((props: CarouselProps, ref) => {
           }
         />
         <LabelWrapper
-          label="Comments"
+          label="Required Documents"
           component={
-            <CommentsFormItem
+            <RequiredDocumentsFormItem
               className="input"
-              formName="commentForm"
-              placeholder="Enter a comment"
-              listOfStrings={comments}
-              setListOfStrings={setComments}
+              formName="reqDocForm"
+              placeholder="List required documents"
+              listOfStrings={requiredDocuments}
+              setListOfStrings={setRequiredDocuments}
               setTotalSubmitEnabled={setTotalSubmitEnabled}
             />
           }

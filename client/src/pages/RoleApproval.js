@@ -1,17 +1,14 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import {
-  Table,
-  Card,
-  CardBody,
   Button,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  FormGroup,
-  Label,
+  Icon,
+  Menu,
+  Dropdown,
+  message,
   Input,
-} from 'reactstrap';
+  Card,
+  Table,
+} from 'antd';
 import Loader from 'react-loader-spinner';
 
 import { getUsersForRolesPage, changeRole } from '../utils/auth';
@@ -19,10 +16,50 @@ import { getUsersForRolesPage, changeRole } from '../utils/auth';
 const RoleApproval = () => {
   const [loading, setLoading] = useState(false);
   const [newRole, setNewRole] = useState('');
-  const [response, setResponse] = useState('');
   const [password, setPassword] = useState('');
   const [users, setUsers] = useState([]);
-  const [userWithNewRole, setUserWithNewRole] = useState(-1);
+  const [sortedUsers, setSortedUsers] = useState([]);
+  const [userWithNewRole, setUserWithNewRole] = useState('');
+  const [sort, setSort] = useState('Email');
+  const [ascendingEmail, setAscendingEmail] = useState(false);
+  const [ascendingRole, setAscendingRole] = useState(true);
+  const [grayEmail, setGrayEmail] = useState('');
+  const [grayRole, setGrayRole] = useState('gray');
+
+  function compareEmails(current, next) {
+    const textCurrent = current.email.toUpperCase();
+    const textNext = next.email.toUpperCase();
+    const bool = textCurrent > textNext ? 1 : 0;
+    return textCurrent < textNext ? -1 : bool;
+  }
+
+  function compareRoles(current, next) {
+    const textCurrent = current.role.toUpperCase();
+    const textNext = next.role.toUpperCase();
+    const bool = textCurrent > textNext ? 1 : 0;
+    return textCurrent < textNext ? -1 : bool;
+  }
+
+  const updateSort = useCallback(
+    sortParam => {
+      switch (sortParam) {
+        case 'Email': {
+          const newUsers = users.sort(compareEmails);
+          setSort('Email');
+          setSortedUsers(newUsers);
+          break;
+        }
+        case 'Role': {
+          const newUsers = users.sort(compareRoles);
+          setSort('Role');
+          setSortedUsers(newUsers);
+          break;
+        }
+        default:
+      }
+    },
+    [users],
+  );
 
   useEffect(() => {
     async function fetchData() {
@@ -38,6 +75,10 @@ const RoleApproval = () => {
     fetchData();
   }, [setUsers]);
 
+  useEffect(() => {
+    updateSort('Email');
+  }, [updateSort]);
+
   const setNewRoleAndUser = useCallback(
     (newRoleToSet, userWithNewRoleToSet) => {
       setNewRole(newRoleToSet);
@@ -48,11 +89,8 @@ const RoleApproval = () => {
 
   const submitNewRole = async event => {
     event.preventDefault();
-    const changeRoleData = await changeRole(
-      users[userWithNewRole].email,
-      newRole,
-      password,
-    );
+    if (userWithNewRole.length === 0) return;
+    const changeRoleData = await changeRole(userWithNewRole, newRole, password);
 
     const [changeRoleDataParsed, userData] = await Promise.all([
       changeRoleData.json(),
@@ -60,11 +98,109 @@ const RoleApproval = () => {
     ]);
     const userDataParsed = await userData.json();
 
+    if (changeRoleDataParsed.status === 400)
+      message.error(changeRoleDataParsed.message);
+    else message.success(changeRoleDataParsed.message);
+
     setNewRole('');
-    setResponse(changeRoleDataParsed.message);
     setUsers(userDataParsed.user_emails);
-    setUserWithNewRole(-1);
+    setUserWithNewRole('');
   };
+
+  const RoleMenu = email => {
+    return (
+      <Menu onClick={e => setNewRoleAndUser(e.key, email)}>
+        <Menu.Item key="public">public</Menu.Item>
+        <Menu.Item key="intern">intern</Menu.Item>
+        <Menu.Item key="admin">admin</Menu.Item>
+      </Menu>
+    );
+  };
+
+  const columns = [
+    {
+      title: (
+        <span>
+          Email
+          <Button
+            type="link"
+            onClick={() => {
+              updateSort('Email');
+              if (!ascendingEmail) setSortedUsers(sortedUsers.reverse());
+              setAscendingEmail(!ascendingEmail);
+              setGrayEmail('');
+              setAscendingRole(true);
+              setGrayRole('gray');
+            }}
+          >
+            {ascendingEmail ? (
+              <Icon type="down" style={{ color: grayEmail }} />
+            ) : (
+              <Icon type="up" />
+            )}
+          </Button>
+        </span>
+      ),
+      dataIndex: 'email',
+    },
+    {
+      title: (
+        <span>
+          Role
+          <Button
+            type="link"
+            onClick={() => {
+              updateSort('Role');
+              if (!ascendingRole) setSortedUsers(sortedUsers.reverse());
+              setAscendingRole(!ascendingRole);
+              setGrayRole('');
+              setAscendingEmail(true);
+              setGrayEmail('gray');
+            }}
+          >
+            {ascendingRole ? (
+              <Icon type="down" style={{ color: grayRole }} />
+            ) : (
+              <Icon type="up" />
+            )}
+          </Button>
+        </span>
+      ),
+      dataIndex: 'role',
+    },
+    {
+      title: 'Change Role',
+      render: (text, user) => (
+        <Dropdown
+          overlay={RoleMenu(user.email)}
+          placement="bottomLeft"
+          trigger={['click']}
+        >
+          <Button className="carousel-move-btn">
+            {user.email === userWithNewRole ? (
+              newRole
+            ) : (
+              <span>
+                {'New Role '}
+                <Icon type="caret-down" />
+              </span>
+            )}
+          </Button>
+        </Dropdown>
+      ),
+    },
+    {
+      title: ' ',
+      render: () => (
+        <Button
+          className="carousel-move-btn"
+          onClick={event => submitNewRole(event)}
+        >
+          Submit
+        </Button>
+      ),
+    },
+  ];
 
   return (
     <div align="center">
@@ -87,78 +223,24 @@ const RoleApproval = () => {
           className="interview-card"
           style={{ height: '60%', margin: '2%' }}
         >
-          <CardBody>
-            <Table hover>
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Email</th>
-                  <th>Role</th>
-                  <th>Change Role</th>
-                  <th> </th>
-                </tr>
-              </thead>
-              <tbody>
-                {users.map((user, idx) => (
-                  <tr key={user.email}>
-                    <th scope="row">{idx + 1}</th>
-                    <td>{user.email}</td>
-                    <td>{user.role}</td>
-                    <td>
-                      <UncontrolledDropdown style={{ marginLeft: '0px' }}>
-                        <DropdownToggle caret>
-                          {idx === userWithNewRole ? newRole : 'New Role'}
-                        </DropdownToggle>
-                        <DropdownMenu color="info">
-                          <DropdownItem
-                            onClick={() => setNewRoleAndUser('public', idx)}
-                          >
-                            Public
-                          </DropdownItem>
-                          <DropdownItem
-                            onClick={() => setNewRoleAndUser('intern', idx)}
-                          >
-                            Intern
-                          </DropdownItem>
-                          <DropdownItem
-                            onClick={() => setNewRoleAndUser('admin', idx)}
-                          >
-                            Admin
-                          </DropdownItem>
-                        </DropdownMenu>
-                      </UncontrolledDropdown>
-                    </td>
-                    <td>
-                      <Button
-                        color="info"
-                        size="sm"
-                        onClick={event => submitNewRole(event)}
-                      >
-                        Submit
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-            {!localStorage.getItem('google') ? (
-              <div align="left" style={{ display: 'inline', width: '300px' }}>
-                <FormGroup size="sm">
-                  <Label for="examplePassword">Confirm Password</Label>
-                  <Input
-                    type="password"
-                    name="password"
-                    maxLength="128"
-                    value={password}
-                    onChange={event => setPassword(event.target.value)}
-                  />
-                </FormGroup>
-              </div>
-            ) : null}
-          </CardBody>
+          <Table
+            columns={columns}
+            dataSource={sortedUsers}
+            pagination={{ hideOnSinglePage: true }}
+          />
+          <br />
+          {!localStorage.getItem('google') && (
+            <div align="left" style={{ align: 'left' }}>
+              <b>Confirm Password</b>
+              <br />
+              <Input.Password
+                style={{ width: '25%' }}
+                onChange={event => setPassword(event.target.value)}
+              />
+            </div>
+          )}
         </Card>
       )}
-      {response}
     </div>
   );
 };
