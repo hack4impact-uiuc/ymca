@@ -1,7 +1,9 @@
 // @flow
 
 import React from 'react';
-import { Form, Input, Select, Radio, Rate, Row, Col, Carousel } from 'antd';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Input, Select, Radio, Rate, Row, Col, Carousel } from 'antd';
 
 import languages from '../data/languages';
 

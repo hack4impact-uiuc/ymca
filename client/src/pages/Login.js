@@ -2,7 +2,10 @@
 
 import React, { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Checkbox, Form, Icon, Input, Row, Col } from 'antd';
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Button, Checkbox, Input, Row, Col } from 'antd';
 import 'antd/dist/antd.css';
 import '../css/LoginRegister.css';
 
@@ -66,7 +69,7 @@ function Login(props: Props) {
             ],
           })(
             <Input
-              prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+              prefix={<UserOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
               placeholder="E-mail"
             />,
           )}
@@ -81,7 +84,7 @@ function Login(props: Props) {
             ],
           })(
             <Input
-              prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+              prefix={<LockOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
               type="password"
               placeholder="Password"
             />,

@@ -123,11 +123,11 @@ const InternalNotesForm = Form.create({ name: 'internalNotes' })(
   },
 );
 
-type FormItemProps = {
-  internalNotes: Array<InternalNote>,
-  setInternalNotes: (Array<InternalNote>) => void,
-  setTotalSubmitEnabled: () => void,
-};
+// type FormItemProps = {
+//   internalNotes: Array<InternalNote>,
+//   setInternalNotes: (Array<InternalNote>) => void,
+//   setTotalSubmitEnabled: () => void,
+// };
 const InternalNotesFormItem = (props: FormItemProps) => {
   const { internalNotes, setInternalNotes, setTotalSubmitEnabled } = props;
 

@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Carousel, Row, Col, Rate, Icon, Timeline, Card } from 'antd';
+import { DollarCircleFilled, FolderOpenFilled, PhoneFilled, WechatFilled } from '@ant-design/icons';
+import { Carousel, Row, Col, Rate, Timeline, Card } from 'antd';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 import moment from 'moment';
 
@@ -315,11 +316,7 @@ const ResourceDetailMobile = (props: Props) => {
           <InfoBlock
             title="Contact Information"
             icon={
-              <Icon
-                className="mb-rd-phone-icon mb-rd-icon"
-                type="phone"
-                theme="filled"
-              />
+              <PhoneFilled className="mb-rd-phone-icon mb-rd-icon" />
             }
             content={[].concat(
               phone && phone.length > 0
@@ -337,7 +334,7 @@ const ResourceDetailMobile = (props: Props) => {
           />
           <InfoBlock
             title="Languages Spoken"
-            icon={<Icon className="mb-rd-icon" type="wechat" theme="filled" />}
+            icon={<WechatFilled className="mb-rd-icon" />}
             content={[
               languages && languages.length > 0
                 ? languages.join(', ')
@@ -347,18 +344,14 @@ const ResourceDetailMobile = (props: Props) => {
           <InfoBlock
             title="Cost"
             icon={
-              <Icon
-                className="mb-rd-icon"
-                type="dollar-circle"
-                theme="filled"
-              />
+              <DollarCircleFilled className="mb-rd-icon" />
             }
             content={[cost || 'None provided.']}
           />
           <InfoBlock
             title="Required Documents"
             icon={
-              <Icon className="mb-rd-icon" type="folder-open" theme="filled" />
+              <FolderOpenFilled className="mb-rd-icon" />
             }
             content={[
               (requiredDocuments && requiredDocuments.join(', ')) ||
