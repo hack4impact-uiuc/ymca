@@ -7,10 +7,10 @@ import { NavLink } from 'react-router-dom';
 
 const { Header } = Layout;
 
-type Props = {
-  authed: Boolean,
-  authRoleIsEquivalentTo: String => void,
-};
+// type Props = {
+//   authed: Boolean,
+//   authRoleIsEquivalentTo: String => void,
+// };
 
 const NavDesktop = (props: Props) => {
   const { authed, authRoleIsEquivalentTo } = props;

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Icon } from 'antd';
+import { CheckOutlined } from '@ant-design/icons';
+import { Button } from 'antd';
 
 import '../../css_mobile/ResourcesFilterMobile.css';
 
@@ -44,65 +45,63 @@ function ResourcesFilterMobile(props) {
     tempLocation,
   ]);
 
-  return (
-    <>
-      <div className="filter-category filter-top">
-        <div className="filter-title">
-          <b>Cost</b>
-        </div>
-        {costs.map(cost => (
-          <div className="filter-type" onClick={() => setTempCost(cost)}>
-            {cost}
-            {cost === tempCost && (
-              <Icon type="check" style={{ float: 'right' }} />
-            )}
-          </div>
-        ))}
+  return <>
+    <div className="filter-category filter-top">
+      <div className="filter-title">
+        <b>Cost</b>
       </div>
-      <div className="filter-category">
-        <div className="filter-title">
-          <b>Language</b>
+      {costs.map(cost => (
+        <div className="filter-type" onClick={() => setTempCost(cost)}>
+          {cost}
+          {cost === tempCost && (
+            <CheckOutlined style={{ float: 'right' }} />
+          )}
         </div>
-        {languages.map(language => (
-          <div
-            className="filter-type"
-            onClick={() => setTempLanguage(language)}
-          >
-            {language}
-            {language === tempLanguage && (
-              <Icon type="check" style={{ float: 'right' }} />
-            )}
-          </div>
-        ))}
+      ))}
+    </div>
+    <div className="filter-category">
+      <div className="filter-title">
+        <b>Language</b>
       </div>
-      <div className="filter-category">
-        <div className="filter-title">
-          <b>Location</b>
-        </div>
-        {locations.map(location => (
-          <div
-            className="filter-type"
-            onClick={() => setTempLocation(location)}
-          >
-            {location}
-            {location === tempLocation && (
-              <Icon type="check" style={{ float: 'right' }} />
-            )}
-          </div>
-        ))}
-      </div>
-      <div className="apply-button">
-        <Button
-          type="primary"
-          shape="round"
-          size="large"
-          onClick={applyFilters}
+      {languages.map(language => (
+        <div
+          className="filter-type"
+          onClick={() => setTempLanguage(language)}
         >
-          Apply Filters
-        </Button>
+          {language}
+          {language === tempLanguage && (
+            <CheckOutlined style={{ float: 'right' }} />
+          )}
+        </div>
+      ))}
+    </div>
+    <div className="filter-category">
+      <div className="filter-title">
+        <b>Location</b>
       </div>
-    </>
-  );
+      {locations.map(location => (
+        <div
+          className="filter-type"
+          onClick={() => setTempLocation(location)}
+        >
+          {location}
+          {location === tempLocation && (
+            <CheckOutlined style={{ float: 'right' }} />
+          )}
+        </div>
+      ))}
+    </div>
+    <div className="apply-button">
+      <Button
+        type="primary"
+        shape="round"
+        size="large"
+        onClick={applyFilters}
+      >
+        Apply Filters
+      </Button>
+    </div>
+  </>;
 }
 
 ResourcesFilterMobile.propTypes = {

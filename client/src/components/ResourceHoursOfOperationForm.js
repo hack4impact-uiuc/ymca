@@ -7,10 +7,10 @@ import '../css/ResourceHoursOfOperationForm.css';
 
 const moment = require('moment');
 
-type InputProps = {
-  day: String,
-  getFieldDecorator: any => any,
-};
+// type InputProps = {
+//   day: String,
+//   getFieldDecorator: any => any,
+// };
 
 const HoursOfOperationInput = (props: InputProps) => {
   const { day, getFieldDecorator } = props;

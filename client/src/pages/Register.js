@@ -1,7 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
-import { Button, Form, Input, Icon, Select, Row, Col, message } from 'antd';
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Button, Input, Select, Row, Col, message } from 'antd';
 import 'antd/dist/antd.css';
 import '../css/LoginRegister.css';
 
@@ -92,7 +95,7 @@ const Register = ({ form, setAuthed, setAuthRole }) => {
             ],
           })(
             <Input
-              prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+              prefix={<UserOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
               placeholder="E-mail"
             />,
           )}
@@ -107,7 +110,7 @@ const Register = ({ form, setAuthed, setAuthRole }) => {
             ],
           })(
             <Input.Password
-              prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+              prefix={<LockOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
               type="password"
               placeholder="Create Password"
             />,
@@ -128,7 +131,7 @@ const Register = ({ form, setAuthed, setAuthRole }) => {
           })(
             <Input.Password
               onBlur={e => handleConfirmBlur(e)}
-              prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+              prefix={<LockOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
               type="password"
               placeholder="Confirm Password"
             />,

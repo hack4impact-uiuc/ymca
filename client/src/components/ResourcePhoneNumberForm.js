@@ -6,7 +6,9 @@ TODO: Implement phoneType into form.
 
 import React from 'react';
 import '../css/ResourcePhoneNumberForm.css';
-import { Input, Form, Button, List } from 'antd';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Input, Button, List } from 'antd';
 
 const PhoneNumberForm = Form.create({ name: 'phoneNumber' })(props => {
   const { setPhoneNumbers, phoneNumbers, setTotalSubmitEnabled } = props;

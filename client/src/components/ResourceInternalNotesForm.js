@@ -5,23 +5,23 @@ import { Form, Button, Input, List } from 'antd';
 
 const { TextArea } = Input;
 
-type InternalNote = {
-  subject: String,
-  body: String,
-};
+// type InternalNote = {
+//   subject: String,
+//   body: String,
+// };
 
-type FormProps = {
-  internalNotes: Array<InternalNote>,
-  setInternalNotes: (Array<InternalNote>) => void,
-  setTotalSubmitEnabled: () => void,
-  editNote: InternalNote,
-  setEditNote: InternalNote => void,
-  form: {
-    getFieldDecorator: () => any,
-    getFieldValue: () => any,
-    setFieldsValue: () => any,
-  },
-};
+// type FormProps = {
+//   internalNotes: Array<InternalNote>,
+//   setInternalNotes: (Array<InternalNote>) => void,
+//   setTotalSubmitEnabled: () => void,
+//   editNote: InternalNote,
+//   setEditNote: InternalNote => void,
+//   form: {
+//     getFieldDecorator: () => any,
+//     getFieldValue: () => any,
+//     setFieldsValue: () => any,
+//   },
+// };
 const InternalNotesForm = Form.create({ name: 'internalNotes' })(
   (props: FormProps) => {
     const {

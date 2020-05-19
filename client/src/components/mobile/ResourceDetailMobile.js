@@ -19,15 +19,15 @@ import determineStockPhoto from '../../utils/determineStockPhoto';
 
 import '../../css_mobile/ResourceDetail.css';
 
-type Props = {
-  authed: Boolean,
-  authRoleIsEquivalentTo: String => Boolean,
-  match: {
-    params: {
-      id: any,
-    },
-  },
-};
+// type Props = {
+//   authed: Boolean,
+//   authRoleIsEquivalentTo: String => Boolean,
+//   match: {
+//     params: {
+//       id: any,
+//     },
+//   },
+// };
 
 const ResourceDetailMobile = (props: Props) => {
   const { authed, authRoleIsEquivalentTo } = props;
@@ -545,12 +545,12 @@ const ResourceDetailMobile = (props: Props) => {
   );
 };
 
-type ScheduleEntryProps = {
-  className: String,
-  day: String,
-  period: [String],
-  isWithinOperationHours: Boolean,
-};
+// type ScheduleEntryProps = {
+//   className: String,
+//   day: String,
+//   period: [String],
+//   isWithinOperationHours: Boolean,
+// };
 const ScheduleEntry = (props: ScheduleEntryProps) => {
   const { className, day, period, isWithinOperationHours } = props;
 
@@ -575,12 +575,12 @@ const ScheduleEntry = (props: ScheduleEntryProps) => {
   );
 };
 
-type InfoBlockProps = {
-  className: String,
-  title: String,
-  icon: any,
-  content: any,
-};
+// type InfoBlockProps = {
+//   className: String,
+//   title: String,
+//   icon: any,
+//   content: any,
+// };
 const InfoBlock = (props: InfoBlockProps) => {
   const { icon, title, content, className } = props;
 

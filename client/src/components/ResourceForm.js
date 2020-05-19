@@ -1,7 +1,9 @@
 // @flow
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Form, Button, message, Row, Layout, Carousel } from 'antd';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Button, message, Row, Layout, Carousel } from 'antd';
 
 import { addResource, editResource, getResourceByID } from '../utils/api';
 
