@@ -26,7 +26,7 @@ function ResourcesBreadcrumb(props) {
     if (subcategorySelected !== '') {
       breadcrumbs.push(
         <span key="cat">
-          {` > `}
+          &nbsp;>&nbsp;
           <Link
             className="link"
             to={{
@@ -42,7 +42,7 @@ function ResourcesBreadcrumb(props) {
       if (resourceSelected) {
         breadcrumbs.push(
           <span key="sub">
-            {` > `}
+          &nbsp;>&nbsp;
             <Link
               className="link"
               to={{
@@ -58,14 +58,14 @@ function ResourcesBreadcrumb(props) {
         );
         breadcrumbs.push(
           <span key="resource">
-            {` > `}
+          &nbsp;>&nbsp;
             <strong>{resourceSelected}</strong>
           </span>,
         );
       } else {
         breadcrumbs.push(
           <span key="sub">
-            {` > `}
+          &nbsp;>&nbsp;
             <strong>{subcategorySelected}</strong>
           </span>,
         );
@@ -73,7 +73,7 @@ function ResourcesBreadcrumb(props) {
     } else {
       breadcrumbs.push(
         <span key="cat">
-          {` > `}
+        &nbsp;>&nbsp;
           <strong>{categorySelected}</strong>
         </span>,
       );
