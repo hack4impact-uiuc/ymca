@@ -11,11 +11,11 @@ import '../css/LoginRegister.css';
 
 import { login } from '../utils/auth';
 
-// type Props = {
-//   form: Form,
-//   setAuthed: boolean => void,
-//   setAuthRole: Boolean => void,
-// };
+type Props = {
+  form: Form,
+  setAuthed: boolean => void,
+  setAuthRole: Boolean => void,
+};
 
 function Login(props: Props) {
   const { form, setAuthed, setAuthRole } = props;
