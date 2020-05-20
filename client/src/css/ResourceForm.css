@@ -1,3 +1,7 @@
+.resource-form-layout .ant-legacy-form-item {
+  margin: 0 0 1em;
+}
+
 .resource-form-layout .header {
   display: block;
   background-image: linear-gradient(70deg, #431c72 0%, #6a3e9e 97%);

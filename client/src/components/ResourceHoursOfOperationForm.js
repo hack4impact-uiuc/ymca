@@ -9,10 +9,10 @@ import '../css/ResourceHoursOfOperationForm.css';
 
 const moment = require('moment');
 
-// type InputProps = {
-//   day: String,
-//   getFieldDecorator: any => any,
-// };
+type InputProps = {
+  day: String,
+  getFieldDecorator: any => any,
+};
 
 const HoursOfOperationInput = (props: InputProps) => {
   const { day, getFieldDecorator } = props;
@@ -73,16 +73,16 @@ const updateHoursOfOperation = args => {
   );
 };
 
-// type FormProps = {
-//   setHoursOfOperation: any => any,
-//   hoursOfOperation: any,
-//   setTotalSubmitEnabled: Boolean => any,
-//   form: {
-//     setFieldsValue: any => any,
-//     getFieldValue: any => any,
-//     getFieldDecorator: any => any,
-//   },
-// };
+type FormProps = {
+  setHoursOfOperation: any => any,
+  hoursOfOperation: any,
+  setTotalSubmitEnabled: Boolean => any,
+  form: {
+    setFieldsValue: any => any,
+    getFieldValue: any => any,
+    getFieldDecorator: any => any,
+  },
+};
 const HoursOfOperationsForm = Form.create({ name: 'hoursOfOperation' })(
   (props: FormProps) => {
     const {
@@ -157,11 +157,11 @@ const HoursOfOperationsForm = Form.create({ name: 'hoursOfOperation' })(
   },
 );
 
-// type FormItemProps = {
-//   setHoursOfOperation: any => any,
-//   hoursOfOperation: any,
-//   setTotalSubmitEnabled: Boolean => any,
-// };
+type FormItemProps = {
+  setHoursOfOperation: any => any,
+  hoursOfOperation: any,
+  setTotalSubmitEnabled: Boolean => any,
+};
 
 const HoursOfOperationsItemForm = (props: FormItemProps) => {
   const {

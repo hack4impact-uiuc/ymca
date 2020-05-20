@@ -22,32 +22,32 @@ import '../css/ResourceForm.css';
 const { TextArea } = Input;
 const { Option } = Select;
 
-// type CarouselProps = {
-//   beforeChange: any => any,
+type CarouselProps = {
+  beforeChange: any => any,
 
-//   setCategories: any => any,
-//   setSubcategories: any => any,
-//   phoneNumbers: any,
-//   setPhoneNumbers: any => any,
-//   contacts: any,
-//   setContacts: any => any,
-//   financialAidDetails: any,
-//   setFinancialAidDetails: any => any,
-//   requiredDocuments: any,
-//   setRequiredDocuments: any => any,
-//   internalNotes: any,
-//   setInternalNotes: any => any,
-//   hoursOfOperation: any,
-//   setHoursOfOperation: any => any,
-//   image: any,
-//   setImage: any => any,
+  setCategories: any => any,
+  setSubcategories: any => any,
+  phoneNumbers: any,
+  setPhoneNumbers: any => any,
+  contacts: any,
+  setContacts: any => any,
+  financialAidDetails: any,
+  setFinancialAidDetails: any => any,
+  requiredDocuments: any,
+  setRequiredDocuments: any => any,
+  internalNotes: any,
+  setInternalNotes: any => any,
+  hoursOfOperation: any,
+  setHoursOfOperation: any => any,
+  image: any,
+  setImage: any => any,
 
-//   setTotalSubmitEnabled: Boolean => any,
+  setTotalSubmitEnabled: Boolean => any,
 
-//   setFieldsValue: any => any,
-//   getFieldValue: any => any,
-//   getFieldDecorator: any => any,
-// };
+  setFieldsValue: any => any,
+  getFieldValue: any => any,
+  getFieldDecorator: any => any,
+};
 
 const FormCarousel = React.forwardRef((props: CarouselProps, ref) => {
   const {
@@ -256,18 +256,16 @@ const FormCarousel = React.forwardRef((props: CarouselProps, ref) => {
             />
           </Col>
         </Row>
-        <Row>
-          <LabelWrapper
-            label="Hours of Operation"
-            component={
-              <HoursOfOperationFormItem
-                setHoursOfOperation={setHoursOfOperation}
-                hoursOfOperation={hoursOfOperation}
-                setTotalSubmitEnabled={setTotalSubmitEnabled}
-              />
-            }
-          />
-        </Row>
+        <LabelWrapper
+          label="Hours of Operation"
+          component={
+            <HoursOfOperationFormItem
+              setHoursOfOperation={setHoursOfOperation}
+              hoursOfOperation={hoursOfOperation}
+              setTotalSubmitEnabled={setTotalSubmitEnabled}
+            />
+          }
+        />
       </div>
       <div htmlFor="contactInformation">
         <LabelWrapper
