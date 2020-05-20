@@ -99,7 +99,7 @@ function ResourcesFilter(props) {
           trigger={['click']}
         >
           <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-            Sort By <DownOutlined />
+            Sort By <DownOutlined style={{ verticalAlign: '.2em'}}/>
           </a>
         </Dropdown>
       </div>
