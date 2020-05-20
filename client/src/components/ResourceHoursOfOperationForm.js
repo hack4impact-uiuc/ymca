@@ -1,7 +1,9 @@
 // @flow
 import React, { useCallback, useEffect } from 'react';
 import '../css/ResourcePhoneNumberForm.css';
-import { Form, Button, Row, Col, TimePicker } from 'antd';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Button, Row, Col, TimePicker } from 'antd';
 
 import '../css/ResourceHoursOfOperationForm.css';
 
