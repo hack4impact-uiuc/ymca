@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { CaretDownOutlined, DownOutlined, UpOutlined } from '@ant-design/icons';
+import { CaretDownOutlined } from '@ant-design/icons';
 import { Button, Menu, Dropdown, message, Input, Card, Table } from 'antd';
 import Loader from 'react-loader-spinner';
 
@@ -10,13 +10,7 @@ const RoleApproval = () => {
   const [newRole, setNewRole] = useState('');
   const [password, setPassword] = useState('');
   const [users, setUsers] = useState([]);
-  const [sortedUsers, setSortedUsers] = useState([]);
   const [userWithNewRole, setUserWithNewRole] = useState('');
-  const [sort, setSort] = useState('Email');
-  const [ascendingEmail, setAscendingEmail] = useState(false);
-  const [ascendingRole, setAscendingRole] = useState(true);
-  const [grayEmail, setGrayEmail] = useState('');
-  const [grayRole, setGrayRole] = useState('gray');
 
   function compareEmails(current, next) {
     const textCurrent = current.email.toUpperCase();
@@ -32,27 +26,6 @@ const RoleApproval = () => {
     return textCurrent < textNext ? -1 : bool;
   }
 
-  const updateSort = useCallback(
-    sortParam => {
-      switch (sortParam) {
-        case 'Email': {
-          const newUsers = users.sort(compareEmails);
-          setSort('Email');
-          setSortedUsers(newUsers);
-          break;
-        }
-        case 'Role': {
-          const newUsers = users.sort(compareRoles);
-          setSort('Role');
-          setSortedUsers(newUsers);
-          break;
-        }
-        default:
-      }
-    },
-    [users],
-  );
-
   useEffect(() => {
     async function fetchData() {
       setLoading(true);
@@ -66,10 +39,6 @@ const RoleApproval = () => {
     }
     fetchData();
   }, [setUsers]);
-
-  useEffect(() => {
-    updateSort('Email');
-  }, [updateSort]);
 
   const setNewRoleAndUser = useCallback(
     (newRoleToSet, userWithNewRoleToSet) => {
@@ -111,54 +80,15 @@ const RoleApproval = () => {
 
   const columns = [
     {
-      title: (
-        <span>
-          Email
-          <Button
-            type="link"
-            onClick={() => {
-              updateSort('Email');
-              if (!ascendingEmail) setSortedUsers(sortedUsers.reverse());
-              setAscendingEmail(!ascendingEmail);
-              setGrayEmail('');
-              setAscendingRole(true);
-              setGrayRole('gray');
-            }}
-          >
-            {ascendingEmail ? (
-              <DownOutlined style={{ color: grayEmail }} />
-            ) : (
-              <UpOutlined />
-            )}
-          </Button>
-        </span>
-      ),
+      title: 'Email',
       dataIndex: 'email',
+      defaultSortOrder: 'ascend',
+      sorter: (a, b) => compareEmails(a, b),
     },
     {
-      title: (
-        <span>
-          Role
-          <Button
-            type="link"
-            onClick={() => {
-              updateSort('Role');
-              if (!ascendingRole) setSortedUsers(sortedUsers.reverse());
-              setAscendingRole(!ascendingRole);
-              setGrayRole('');
-              setAscendingEmail(true);
-              setGrayEmail('gray');
-            }}
-          >
-            {ascendingRole ? (
-              <DownOutlined style={{ color: grayRole }} />
-            ) : (
-              <UpOutlined />
-            )}
-          </Button>
-        </span>
-      ),
+      title: 'Role',
       dataIndex: 'role',
+      sorter: (a, b) => compareRoles(a, b),
     },
     {
       title: 'Change Role',
@@ -217,7 +147,7 @@ const RoleApproval = () => {
         >
           <Table
             columns={columns}
-            dataSource={sortedUsers}
+            dataSource={users}
             pagination={{ hideOnSinglePage: true }}
           />
           <br />
