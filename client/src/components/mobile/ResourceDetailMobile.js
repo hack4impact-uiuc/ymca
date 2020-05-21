@@ -2,7 +2,12 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { Redirect } from 'react-router-dom';
-import { DollarCircleFilled, FolderOpenFilled, PhoneFilled, WechatFilled } from '@ant-design/icons';
+import {
+  DollarCircleFilled,
+  FolderOpenFilled,
+  PhoneFilled,
+  WechatFilled,
+} from '@ant-design/icons';
 import { Carousel, Row, Col, Rate, Timeline, Card } from 'antd';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 import moment from 'moment';
@@ -20,15 +25,15 @@ import determineStockPhoto from '../../utils/determineStockPhoto';
 
 import '../../css_mobile/ResourceDetail.css';
 
-// type Props = {
-//   authed: Boolean,
-//   authRoleIsEquivalentTo: String => Boolean,
-//   match: {
-//     params: {
-//       id: any,
-//     },
-//   },
-// };
+type Props = {
+  authed: Boolean,
+  authRoleIsEquivalentTo: String => Boolean,
+  match: {
+    params: {
+      id: any,
+    },
+  },
+};
 
 const ResourceDetailMobile = (props: Props) => {
   const { authed, authRoleIsEquivalentTo } = props;
@@ -315,9 +320,7 @@ const ResourceDetailMobile = (props: Props) => {
           <Row className="mb-rd-block-title">Basic Information</Row>
           <InfoBlock
             title="Contact Information"
-            icon={
-              <PhoneFilled className="mb-rd-phone-icon mb-rd-icon" />
-            }
+            icon={<PhoneFilled className="mb-rd-phone-icon mb-rd-icon" />}
             content={[].concat(
               phone && phone.length > 0
                 ? phone.map(
@@ -343,16 +346,12 @@ const ResourceDetailMobile = (props: Props) => {
           />
           <InfoBlock
             title="Cost"
-            icon={
-              <DollarCircleFilled className="mb-rd-icon" />
-            }
+            icon={<DollarCircleFilled className="mb-rd-icon" />}
             content={[cost || 'None provided.']}
           />
           <InfoBlock
             title="Required Documents"
-            icon={
-              <FolderOpenFilled className="mb-rd-icon" />
-            }
+            icon={<FolderOpenFilled className="mb-rd-icon" />}
             content={[
               (requiredDocuments && requiredDocuments.join(', ')) ||
                 'None provided.',
@@ -475,16 +474,16 @@ const ResourceDetailMobile = (props: Props) => {
         )}
         <div className="mb-rd-block-2">
           <Row className="mb-rd-block-title">Location</Row>
-          <Row className="mb-rd-location-info mb-rd-thin-text">
+          <div className="mb-rd-location-info mb-rd-thin-text">
             <Row>{address}</Row>
             {addressLine2 && <Row>{addressLine2}</Row>}
-            <Row type="flex" justify="space-between">
+            <Row justify="space-between">
               <Col>{`${city}${state && state.length > 0 && `, ${state}`}${zip &&
                 zip.length > 0 &&
                 ` ${zip}`}`}</Col>
               <Col>{distFromResource && `${distFromResource} mi`}</Col>
             </Row>
-          </Row>
+          </div>
           <Row>
             <Map
               style="mapbox://styles/mapbox/light-v9"
@@ -538,14 +537,14 @@ const ResourceDetailMobile = (props: Props) => {
   );
 };
 
-// type ScheduleEntryProps = {
-//   className: String,
-//   day: String,
-//   period: [String],
-//   isWithinOperationHours: Boolean,
-// };
+type ScheduleEntryProps = {
+  className: String,
+  day: String,
+  period: [String],
+  isWithinOperationHours: Boolean,
+};
 const ScheduleEntry = (props: ScheduleEntryProps) => {
-  const { className, day, period, isWithinOperationHours } = props;
+  const { day, period, isWithinOperationHours } = props;
 
   const startTime = period && period[0];
   const endTime = period && period[1];
@@ -555,7 +554,7 @@ const ScheduleEntry = (props: ScheduleEntryProps) => {
       color="rgb(136, 216, 208)"
       dot={<div className="mb-rd-schedule-dot" />}
     >
-      <Row className="md-rd-schedule-entry">
+      <div className="md-rd-schedule-entry">
         <Row className="mb-rd-schedule-entry-title">{day}</Row>
         <Row className="mb-rd-schedule-text">
           {startTime && endTime ? `${startTime} - ${endTime}` : 'None'}
@@ -563,17 +562,17 @@ const ScheduleEntry = (props: ScheduleEntryProps) => {
         {isWithinOperationHours && (
           <Row className="mb-rd-schedule-open-now">Open now!</Row>
         )}
-      </Row>
+      </div>
     </Timeline.Item>
   );
 };
 
-// type InfoBlockProps = {
-//   className: String,
-//   title: String,
-//   icon: any,
-//   content: any,
-// };
+type InfoBlockProps = {
+  className: String,
+  title: String,
+  icon: any,
+  content: any,
+};
 const InfoBlock = (props: InfoBlockProps) => {
   const { icon, title, content, className } = props;
 
