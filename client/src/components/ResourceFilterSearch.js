@@ -2,7 +2,8 @@
 
 import React, { useState, useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { AutoComplete, Icon, Input } from 'antd';
+import { SearchOutlined } from '@ant-design/icons';
+import { AutoComplete, Input } from 'antd';
 
 import { getResources } from '../utils/api';
 import '../css/ResourcesFilter.css';
@@ -163,7 +164,7 @@ const ResourceFilterSearch = () => {
       filterOption={filterSearchResults}
       onSelect={onSearchSelect}
     >
-      <Input suffix={<Icon type="search" />} />
+      <Input suffix={<SearchOutlined />} />
     </AutoComplete>
   );
 };

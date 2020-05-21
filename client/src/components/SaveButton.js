@@ -2,7 +2,8 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom/';
-import { Button, Icon, Popover } from 'antd';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { Button, Popover } from 'antd';
 
 import '../css/SaveButton.css';
 
@@ -45,7 +46,7 @@ function SaveButton(props: SaveButtonProps) {
       {!authed ? (
         <Popover content={errorContent} Title="Error" trigger="click">
           <Button className={btnClassName} type="link">
-            <Icon
+            <LegacyIcon
               className={type === 'star' && 'star-save-icon'}
               type={type}
               theme={type === 'heart' && 'filled'}
@@ -66,7 +67,7 @@ function SaveButton(props: SaveButtonProps) {
               }}
               type="link"
             >
-              <Icon
+              <LegacyIcon
                 className={type === 'star' && 'star-save-icon'}
                 type={type}
                 theme="filled"
@@ -84,7 +85,7 @@ function SaveButton(props: SaveButtonProps) {
               }}
               type="link"
             >
-              <Icon
+              <LegacyIcon
                 className={type === 'star' && 'star-save-icon'}
                 type={type}
                 theme={type === 'heart' && 'filled'}
