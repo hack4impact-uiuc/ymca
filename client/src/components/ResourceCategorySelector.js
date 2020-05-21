@@ -28,12 +28,12 @@ const wrappedSetCategory = args => {
   setFieldsValue({});
 };
 
-// type Props = {
-//   setCategories: (Array<String>) => void,
-//   setSubcategories: (Array<String>) => void,
-//   getFieldDecorator: () => any,
-//   setFieldsValue: () => any,
-// };
+type Props = {
+  setCategories: (Array<String>) => void,
+  setSubcategories: (Array<String>) => void,
+  getFieldDecorator: () => any,
+  setFieldsValue: () => any,
+};
 
 const CategorySelector = (props: Props) => {
   const {

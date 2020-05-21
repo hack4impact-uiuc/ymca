@@ -6,10 +6,10 @@ import { MenuOutlined } from '@ant-design/icons';
 import { Drawer, Button, Menu } from 'antd';
 import '../../css_mobile/Navigation.css';
 
-// type Props = {
-//   authed: Boolean,
-//   authRoleIsEquivalentTo: String => Boolean,
-// };
+type Props = {
+  authed: Boolean,
+  authRoleIsEquivalentTo: String => Boolean,
+};
 
 const NavMobile = (props: Props) => {
   const { authed, authRoleIsEquivalentTo } = props;

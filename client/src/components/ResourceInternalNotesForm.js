@@ -7,23 +7,23 @@ import { Button, Input, List } from 'antd';
 
 const { TextArea } = Input;
 
-// type InternalNote = {
-//   subject: String,
-//   body: String,
-// };
+type InternalNote = {
+  subject: String,
+  body: String,
+};
 
-// type FormProps = {
-//   internalNotes: Array<InternalNote>,
-//   setInternalNotes: (Array<InternalNote>) => void,
-//   setTotalSubmitEnabled: () => void,
-//   editNote: InternalNote,
-//   setEditNote: InternalNote => void,
-//   form: {
-//     getFieldDecorator: () => any,
-//     getFieldValue: () => any,
-//     setFieldsValue: () => any,
-//   },
-// };
+type FormProps = {
+  internalNotes: Array<InternalNote>,
+  setInternalNotes: (Array<InternalNote>) => void,
+  setTotalSubmitEnabled: () => void,
+  editNote: InternalNote,
+  setEditNote: InternalNote => void,
+  form: {
+    getFieldDecorator: () => any,
+    getFieldValue: () => any,
+    setFieldsValue: () => any,
+  },
+};
 const InternalNotesForm = Form.create({ name: 'internalNotes' })(
   (props: FormProps) => {
     const {
@@ -125,11 +125,11 @@ const InternalNotesForm = Form.create({ name: 'internalNotes' })(
   },
 );
 
-// type FormItemProps = {
-//   internalNotes: Array<InternalNote>,
-//   setInternalNotes: (Array<InternalNote>) => void,
-//   setTotalSubmitEnabled: () => void,
-// };
+type FormItemProps = {
+  internalNotes: Array<InternalNote>,
+  setInternalNotes: (Array<InternalNote>) => void,
+  setTotalSubmitEnabled: () => void,
+};
 const InternalNotesFormItem = (props: FormItemProps) => {
   const { internalNotes, setInternalNotes, setTotalSubmitEnabled } = props;
 

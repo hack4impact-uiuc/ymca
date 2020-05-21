@@ -10,19 +10,19 @@ import { Form } from '@ant-design/compatible';
 import '@ant-design/compatible/assets/index.css';
 import { Input, Button, List } from 'antd';
 
-// type Contact = {|
-//   role: String,
-//   name: String,
-//   email: String,
-//   phoneNumber: String,
-//   note: String,
-// |};
+type Contact = {|
+  role: String,
+  name: String,
+  email: String,
+  phoneNumber: String,
+  note: String,
+|};
 
-// type FormItemProps = {
-//   contacts: Array<Contact>,
-//   setContacts: () => void,
-//   setTotalSubmitEnabled: () => void,
-// };
+type FormItemProps = {
+  contacts: Array<Contact>,
+  setContacts: () => void,
+  setTotalSubmitEnabled: () => void,
+};
 
 const ContactForm = Form.create({ name: 'contactForm' })(props => {
   const { contacts, setContacts, setTotalSubmitEnabled } = props;

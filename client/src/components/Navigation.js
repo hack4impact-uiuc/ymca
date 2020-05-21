@@ -7,10 +7,10 @@ import useWindowDimensions from '../utils/mobile';
 import NavMobile from './mobile/NavigationMobile';
 import NavDesktop from './desktop/NavigationDesktop';
 
-// type Props = {
-//   authed: Boolean,
-//   authRoleIsEquivalentTo: String => void,
-// };
+type Props = {
+  authed: Boolean,
+  authRoleIsEquivalentTo: String => void,
+};
 
 const Navigation = (props: Props) => {
   const { authed, authRoleIsEquivalentTo } = props;
