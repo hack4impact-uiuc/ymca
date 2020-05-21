@@ -2,15 +2,16 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
-  Button,
-  Col,
-  Icon,
-  message,
-  Modal,
-  Row,
-  Layout,
-  Descriptions,
-} from 'antd';
+  DollarCircleFilled,
+  EnvironmentOutlined,
+  FolderOpenFilled,
+  GlobalOutlined,
+  MailOutlined,
+  PhoneFilled,
+  StarFilled,
+  WechatFilled,
+} from '@ant-design/icons';
+import { Button, Col, message, Modal, Row, Layout, Descriptions } from 'antd';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 import * as moment from 'moment';
 
@@ -229,11 +230,11 @@ function ResourceDetail(props) {
   const stars = [];
   if (recommendation !== null) {
     for (let i = 0; i < recommendation; i += 1) {
-      stars.push(<Icon type="star" theme="filled" className="filled-star" />);
+      stars.push(<StarFilled className="filled-star" />);
     }
 
     for (let i = 0; i < 5 - recommendation; i += 1) {
-      stars.push(<Icon type="star" theme="filled" className="unfilled-star" />);
+      stars.push(<StarFilled className="unfilled-star" />);
     }
   }
 
@@ -280,14 +281,14 @@ function ResourceDetail(props) {
           )}
         </Col>
         <Col span={1} className="header-info">
-          <Icon type="global" theme="outlined" />
-          <Icon type="mail" theme="outlined" />
-          <Icon type="phone" theme="filled" />
+          <GlobalOutlined />
+          <MailOutlined />
+          <PhoneFilled />
           {phone.length > 0 &&
             phone.map(() => {
               return `\n`;
             })}
-          <Icon type="environment" theme="outlined" />
+          <EnvironmentOutlined />
         </Col>
         <Col span={8} className="header-info">
           {website.length > 0 ? (
@@ -320,7 +321,7 @@ function ResourceDetail(props) {
       </Row>
       <Row className="card-row">
         <Col span={1}>
-          <Icon type="folder-open" theme="filled" />
+          <FolderOpenFilled />
         </Col>
         <Col span={11}>
           <div className="card-label">Required Documents {'\n'}</div>
@@ -329,7 +330,7 @@ function ResourceDetail(props) {
             : 'None provided.'}
         </Col>
         <Col span={1}>
-          <Icon type="dollar-circle" theme="filled" />
+          <DollarCircleFilled />
         </Col>
         <Col span={11}>
           <div className="card-label">Cost{'\n'}</div>
@@ -338,7 +339,7 @@ function ResourceDetail(props) {
       </Row>
       <Row className="card-row">
         <Col span={1}>
-          <Icon type="wechat" theme="filled" />
+          <WechatFilled />
         </Col>
         <Col span={11}>
           <div className="card-label">Languages Spoken{'\n'}</div>

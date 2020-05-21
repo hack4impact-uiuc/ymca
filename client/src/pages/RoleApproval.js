@@ -1,14 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import {
-  Button,
-  Icon,
-  Menu,
-  Dropdown,
-  message,
-  Input,
-  Card,
-  Table,
-} from 'antd';
+import { CaretDownOutlined, DownOutlined, UpOutlined } from '@ant-design/icons';
+import { Button, Menu, Dropdown, message, Input, Card, Table } from 'antd';
 import Loader from 'react-loader-spinner';
 
 import { getUsersForRolesPage, changeRole } from '../utils/auth';
@@ -134,9 +126,9 @@ const RoleApproval = () => {
             }}
           >
             {ascendingEmail ? (
-              <Icon type="down" style={{ color: grayEmail }} />
+              <DownOutlined style={{ color: grayEmail }} />
             ) : (
-              <Icon type="up" />
+              <UpOutlined />
             )}
           </Button>
         </span>
@@ -159,9 +151,9 @@ const RoleApproval = () => {
             }}
           >
             {ascendingRole ? (
-              <Icon type="down" style={{ color: grayRole }} />
+              <DownOutlined style={{ color: grayRole }} />
             ) : (
-              <Icon type="up" />
+              <UpOutlined />
             )}
           </Button>
         </span>
@@ -182,7 +174,7 @@ const RoleApproval = () => {
             ) : (
               <span>
                 {'New Role '}
-                <Icon type="caret-down" />
+                <CaretDownOutlined />
               </span>
             )}
           </Button>

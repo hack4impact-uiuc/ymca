@@ -22,6 +22,7 @@
 .navigation .ant-menu {
   font-size: 16px;
   color: rgba(0, 0, 0, 0.65);
+  line-height: 50px;
 }
 
 .navigation .ant-menu-horizontal {

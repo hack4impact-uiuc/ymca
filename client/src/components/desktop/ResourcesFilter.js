@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
-import { Button, Dropdown, Icon, Radio } from 'antd';
+import { DownOutlined } from '@ant-design/icons';
+import { Button, Dropdown, Radio } from 'antd';
 import PropTypes from 'prop-types';
 
 import ResourceFilterSearch from '../ResourceFilterSearch';
@@ -98,7 +99,7 @@ function ResourcesFilter(props) {
           trigger={['click']}
         >
           <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-            Sort By <Icon type="down" />
+            Sort By <DownOutlined style={{ verticalAlign: '.2em' }} />
           </a>
         </Dropdown>
       </div>
