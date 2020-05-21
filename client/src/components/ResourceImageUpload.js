@@ -1,7 +1,8 @@
 // @flow
 
 import React, { useState } from 'react';
-import { Upload, Icon, message, Button, Modal, Slider } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import { Upload, message, Button, Modal, Slider } from 'antd';
 import Cropper from 'react-easy-crop';
 import '../css/ResourceImageUpload.css';
 
@@ -96,7 +97,7 @@ const ImageUpload = (props: ImageUploadProps) => {
         {image !== null && image !== '' && image !== undefined ? (
           <img src={image} alt="" style={{ width: '100%' }} />
         ) : (
-          <Icon type="plus" style={{ fontSize: '3em' }} />
+          <PlusOutlined style={{ fontSize: '3em' }} />
         )}
       </Upload>
       <Button

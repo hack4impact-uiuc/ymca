@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Drawer, Menu, Icon } from 'antd';
+import { DownOutlined } from '@ant-design/icons';
+import { Button, Drawer, Menu } from 'antd';
 
 import ResourceCategoryFilter from '../ResourceCategoryFilter';
 import useWindowDimensions from '../../utils/mobile';
@@ -30,7 +31,7 @@ function ResourcesCatMobile(props) {
           <Menu.Item key="categories">
             <span className="category-dropdown">
               {props.subcategory ? props.subcategory : props.category}
-              <Icon type="down" className="down-icon" />
+              <DownOutlined className="down-icon" />
             </span>
             <a className="filter">
               <Button
