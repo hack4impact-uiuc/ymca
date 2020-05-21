@@ -41,49 +41,11 @@ function SaveButton(props: SaveButtonProps) {
     </>
   );
 
-  return <>
-    {!authed ? (
-      <Popover content={errorContent} Title="Error" trigger="click">
-        <Button className={btnClassName} type="link">
-          <LegacyIcon
-            className={type === 'star' && 'star-save-icon'}
-            type={type}
-            theme={type === 'heart' && 'filled'}
-            style={{
-              fontSize: { fontSize },
-              color: type === 'heart' ? 'black' : '#562996 !important',
-            }}
-          />
-        </Button>
-      </Popover>
-    ) : (
-      <a onClick={e => e.preventDefault()}>
-        {isSaved ? (
-          <Button
-            className={btnClassName}
-            onClick={async () => {
-              await deleteResourceHandler();
-            }}
-            type="link"
-          >
-            <LegacyIcon
-              className={type === 'star' && 'star-save-icon'}
-              type={type}
-              theme="filled"
-              style={{
-                fontSize: { fontSize },
-                color: `#562996${(type === 'star' && ' !imporant') || ''}`,
-              }}
-            />
-          </Button>
-        ) : (
-          <Button
-            className={type === 'heart' && 'heart-save-btn'}
-            onClick={async () => {
-              await saveResourceHandler();
-            }}
-            type="link"
-          >
+  return (
+    <>
+      {!authed ? (
+        <Popover content={errorContent} Title="Error" trigger="click">
+          <Button className={btnClassName} type="link">
             <LegacyIcon
               className={type === 'star' && 'star-save-icon'}
               type={type}
@@ -94,10 +56,50 @@ function SaveButton(props: SaveButtonProps) {
               }}
             />
           </Button>
-        )}
-      </a>
-    )}
-  </>;
+        </Popover>
+      ) : (
+        <a onClick={e => e.preventDefault()}>
+          {isSaved ? (
+            <Button
+              className={btnClassName}
+              onClick={async () => {
+                await deleteResourceHandler();
+              }}
+              type="link"
+            >
+              <LegacyIcon
+                className={type === 'star' && 'star-save-icon'}
+                type={type}
+                theme="filled"
+                style={{
+                  fontSize: { fontSize },
+                  color: `#562996${(type === 'star' && ' !imporant') || ''}`,
+                }}
+              />
+            </Button>
+          ) : (
+            <Button
+              className={type === 'heart' && 'heart-save-btn'}
+              onClick={async () => {
+                await saveResourceHandler();
+              }}
+              type="link"
+            >
+              <LegacyIcon
+                className={type === 'star' && 'star-save-icon'}
+                type={type}
+                theme={type === 'heart' && 'filled'}
+                style={{
+                  fontSize: { fontSize },
+                  color: type === 'heart' ? 'black' : '#562996 !important',
+                }}
+              />
+            </Button>
+          )}
+        </a>
+      )}
+    </>
+  );
 }
 
 export default SaveButton;

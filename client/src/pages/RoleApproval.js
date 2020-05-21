@@ -34,11 +34,9 @@ const RoleApproval = () => {
 
   const updateSort = useCallback(
     sortParam => {
-      console.log(sortParam)
       switch (sortParam) {
         case 'Email': {
           const newUsers = users.sort(compareEmails);
-          console.log(newUsers)
           setSort('Email');
           setSortedUsers(newUsers);
           break;
@@ -195,8 +193,6 @@ const RoleApproval = () => {
       ),
     },
   ];
-
-  console.log(sortedUsers)
 
   return (
     <div align="center">

@@ -538,7 +538,6 @@ const ResourceDetailMobile = (props: Props) => {
 };
 
 type ScheduleEntryProps = {
-  className: String,
   day: String,
   period: [String],
   isWithinOperationHours: Boolean,

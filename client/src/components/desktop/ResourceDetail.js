@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
-
 import {
   DollarCircleFilled,
   EnvironmentOutlined,
@@ -12,7 +11,6 @@ import {
   StarFilled,
   WechatFilled,
 } from '@ant-design/icons';
-
 import { Button, Col, message, Modal, Row, Layout, Descriptions } from 'antd';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 import * as moment from 'moment';
