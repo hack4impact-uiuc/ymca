@@ -28,6 +28,7 @@
 .navigation .ant-menu-horizontal {
   border-bottom: none;
   float: right;
+  margin-top: 6px;
 }
 
 .navigation .ant-menu-horizontal > .ant-menu-item,
