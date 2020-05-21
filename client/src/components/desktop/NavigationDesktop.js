@@ -15,28 +15,26 @@ type Props = {
 const NavDesktop = (props: Props) => {
   const { authed, authRoleIsEquivalentTo } = props;
 
-  const activeStyle = { fontWeight: 'bold', color: 'black' };
-
   return (
     <Header className="navigation">
-      <NavLink exact to="/" activeStyle={activeStyle} aria-label="logo">
+      <NavLink exact to="/" aria-label="logo">
         <div className="logo" />
       </NavLink>
       <Menu mode="horizontal">
         <Menu.Item key="home">
-          <NavLink exact to="/" activeStyle={activeStyle}>
+          <NavLink exact to="/" activeClassName="navbar-active-style">
             Home
           </NavLink>
         </Menu.Item>
         <Menu.Item key="resources">
-          <NavLink exact to="/resources" activeStyle={activeStyle}>
+          <NavLink exact to="/resources" activeClassName="navbar-active-style">
             Resources
           </NavLink>
         </Menu.Item>
 
         {authed && (
           <Menu.Item key="saved">
-            <NavLink exact to="/saved" activeStyle={activeStyle}>
+            <NavLink exact to="/saved" activeClassName="navbar-active-style">
               Saved Resources
             </NavLink>
           </Menu.Item>
@@ -44,7 +42,7 @@ const NavDesktop = (props: Props) => {
 
         {authRoleIsEquivalentTo('admin') && (
           <Menu.Item key="admin">
-            <NavLink to="/admin" activeStyle={activeStyle}>
+            <NavLink to="/admin" activeClassName="navbar-active-style">
               Admin
             </NavLink>
           </Menu.Item>
@@ -52,7 +50,7 @@ const NavDesktop = (props: Props) => {
 
         {authRoleIsEquivalentTo('admin') && (
           <Menu.Item key="approval">
-            <NavLink to="/role-approval" activeStyle={activeStyle}>
+            <NavLink to="/role-approval" activeClassName="navbar-active-style">
               Users
             </NavLink>
           </Menu.Item>
@@ -60,13 +58,13 @@ const NavDesktop = (props: Props) => {
 
         {!authed ? (
           <Menu.Item key="login">
-            <NavLink to="/login" activeStyle={activeStyle}>
+            <NavLink to="/login" activeClassName="navbar-active-style">
               Login
             </NavLink>
           </Menu.Item>
         ) : (
           <Menu.Item key="logout">
-            <NavLink to="/logout" activeStyle={activeStyle}>
+            <NavLink to="/logout" activeClassName="navbar-active-style">
               Logout
             </NavLink>
           </Menu.Item>

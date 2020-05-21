@@ -28,6 +28,7 @@
 .navigation .ant-menu-horizontal {
   border-bottom: none;
   float: right;
+  margin-top: 6px;
 }
 
 .navigation .ant-menu-horizontal > .ant-menu-item,
@@ -36,7 +37,44 @@
   font-weight: 400;
 }
 
-.ant-menu-horizontal > .ant-menu-item > a:hover,
+.ant-menu-horizontal > .ant-menu-item > a {
+  position: relative;
+  line-height: 28px;
+  bottom: 8px;
+}
+
+.ant-menu-horizontal > .ant-menu-item > a:hover {
+  color: rgba(0, 0, 0, 0.65);
+  text-decoration: none;
+}
+
+/* transition inspired by: https://codepen.io/sreisner/pen/yOOOjx */
+.ant-menu-horizontal > .ant-menu-item > a::before {
+  transition: 300ms;
+  border-bottom: 3px solid #6BDBD0;
+  width: 0%;
+  margin-bottom: -1px;
+  left: 50%;
+}
+
+.ant-menu-horizontal > .ant-menu-item > a:hover::before, a::after {
+  width: 100%;
+  left: 0%;
+}
+
 .ant-menu-horizontal > .ant-menu-item-selected > a {
   color: rgba(0, 0, 0, 0.65);
+}
+
+.ant-menu-horizontal > .ant-menu-item > .navbar-active-style {
+  font-weight: bold;
+}
+
+.ant-menu-horizontal > .ant-menu-item > .navbar-active-style::after {
+  position: absolute;
+  border-bottom: 3px solid #6BDBD0;
+  width: 100%;
+  content: "";
+  bottom: -3px;
+  text-align: center;
 }
