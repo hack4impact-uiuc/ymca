@@ -84,6 +84,13 @@ const NavMobile = (props: Props) => {
             )}
             {authRoleIsEquivalentTo('admin') && (
               <Menu.Item className="nav-mobile-menu-item">
+                <NavLink className="nav-mobile-option" to="/edit-home">
+                  Edit Home
+                </NavLink>
+              </Menu.Item>
+            )}
+            {authRoleIsEquivalentTo('admin') && (
+              <Menu.Item className="nav-mobile-menu-item">
                 <NavLink className="nav-mobile-option" to="/role-approval">
                   Users
                 </NavLink>
