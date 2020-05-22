@@ -33,6 +33,23 @@ export const editHomePage = homepage => {
     );
 };
 
+export const createHomePage = homepage => {
+  const requestExtension = '/api/admin/homepage';
+  return instance
+    .post(requestExtension, homepage, {
+      headers: {
+        token: localStorage.getItem('token'),
+      },
+    })
+    .then(
+      res => res.data,
+      err => {
+        console.error(err);
+        return null;
+      },
+    );
+};
+
 export const getCategories = () => {
   return instance.get('/api/categories').then(
     res => res.data,

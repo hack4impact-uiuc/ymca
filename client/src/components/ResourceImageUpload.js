@@ -62,6 +62,7 @@ const ImageUpload = (props: ImageUploadProps) => {
     const croppedImg = await getCroppedImg(croppingImg, croppedPixels);
     setImage(croppedImg);
     setShowCropper(false);
+    console.log(image);
   };
 
   const beforeUpload = file => {
