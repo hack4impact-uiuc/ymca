@@ -51,7 +51,7 @@ const Home = () => {
 
   useEffect(() => {
     fetchPartners();
-  }, []);
+  }, [setPartners, setPartnerRows]);
 
   return (
     <>

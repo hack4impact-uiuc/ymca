@@ -47,8 +47,11 @@ export const HomeBlock1Desktop = () => {
   };
 
   useEffect(() => {
-    fetchCategories();
     fetchBackgroundImage();
+  }, [setBackgroundImage]);
+
+  useEffect(() => {
+    fetchCategories();
     openNotification();
   }, []);
 
@@ -151,7 +154,7 @@ export const HomeBlock3Desktop = () => {
 
   useEffect(() => {
     fetchTestimonials();
-  }, []);
+  }, [setTestimonials]);
 
   return (
     <Row className="home-block-3" type="flex" justify="center" align="middle">

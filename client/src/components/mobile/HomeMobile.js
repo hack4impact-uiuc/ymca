@@ -33,8 +33,11 @@ export const HomeBlock1Mobile = () => {
   };
 
   useEffect(() => {
-    fetchCategories();
     fetchBackgroundImage();
+  }, [setBackgroundImage]);
+
+  useEffect(() => {
+    fetchCategories();
   }, []);
 
   return (
@@ -150,7 +153,7 @@ export const HomeBlock3Mobile = () => {
 
   useEffect(() => {
     fetchTestimonials();
-  }, []);
+  }, [setTestimonials]);
 
   return (
     <Row className="home-block-3" type="flex" justify="center" align="middle">

@@ -19,3 +19,23 @@
 [data-theme='dark'] .dynamic-delete-button:hover {
   color: rgba(255, 255, 255, 0.65);
 }
+
+.edit-home-form-layout .ant-legacy-form-item {
+  margin: 0 0 1em;
+}
+
+.edit-home-form-layout .header {
+  display: block;
+  background-image: linear-gradient(70deg, #431c72 0%, #6a3e9e 97%);
+  padding-top: 3em;
+  padding-bottom: 3em;
+  height: auto;
+}
+
+.edit-home-form-layout .header h2 {
+  color: white;
+}
+
+.edit-home-form {
+  background-color: white;
+}
