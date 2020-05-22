@@ -36,7 +36,7 @@ const Home = () => {
       res.result.partners.forEach(t => {
         newPartners.push({
           name: t[0],
-          picture: t[1],
+          image: t[1],
           link: t[2],
         });
         if (i % 5 === 0) {
@@ -104,7 +104,7 @@ const Home = () => {
                           <img
                             onMouseEnter={() => setPartnerHover(element.name)}
                             onMouseLeave={() => setPartnerHover('')}
-                            src={element.picture}
+                            src={element.image}
                             alt={element.name}
                           />
                         </a>

@@ -27,7 +27,7 @@ export const HomeBlock1Mobile = () => {
       setBackgroundImage(
         `radial-gradient(70% 141% at 0 0, rgba(25, 132, 202, 0.6) 1%,` +
           ` rgba(105, 62, 158, 0.6) 100%),` +
-          ` url('${res.result.backgroundPicture}')`,
+          ` url('${res.result.backgroundImage}')`,
       );
     }
   };
@@ -142,7 +142,7 @@ export const HomeBlock3Mobile = () => {
       res.result.testimonials.forEach(t => {
         newTestimonials.push({
           person: t[0],
-          picture: t[1],
+          image: t[1],
           title: t[2],
           testimonial: t[3],
         });
@@ -171,7 +171,7 @@ export const HomeBlock3Mobile = () => {
                   <Col span={23} justify="center" align="middle">
                     <img
                       className="testimonial-block__top__img"
-                      src={element.picture}
+                      src={element.image}
                       alt=""
                     />
                   </Col>

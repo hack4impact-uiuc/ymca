@@ -2,10 +2,10 @@
 
 import React, { useState, useEffect } from 'react';
 import 'antd/dist/antd.css';
-import { Form, Input, Button, Col, Row, Layout } from 'antd';
+import { message, Form, Input, Button, Col, Row, Layout } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 
-import { getHomePage } from '../utils/api';
+import { getHomePage, editHomePage } from '../utils/api';
 
 import '../css/EditHome.css';
 
@@ -49,7 +49,7 @@ const EditHome = () => {
       }
       setTestimonials(newTestimonials);
       setPartners(newPartners);
-      form.setFieldsValue({ backgroundImage: res.result.backgroundPicture });
+      form.setFieldsValue({ backgroundImage: res.result.backgroundImage });
       form.setFieldsValue({ testimonials: testimonialFields });
       const testimonialValues = form.getFieldsValue().testimonials;
       newTestimonials.forEach((element, i) => {
@@ -73,6 +73,22 @@ const EditHome = () => {
 
   const onFinish = values => {
     console.log('Received values of form:', values);
+    const partnersCompressed = [];
+    values.partners.forEach(element => {
+      partnersCompressed.push(Object.values(element).slice(1));
+    });
+    const testimonialsCompressed = [];
+    values.testimonials.forEach(element => {
+      testimonialsCompressed.push(Object.values(element).slice(1));
+    });
+    const homepage = {
+      backgroundImage: values.backgroundImage,
+      partners: partnersCompressed,
+      testimonials: testimonialsCompressed,
+    };
+    console.log(homepage);
+    editHomePage(homepage);
+    message.success('Edited the Home Page');
   };
   return (
     <Layout className="edit-home-form-layout">
@@ -191,6 +207,7 @@ const EditHome = () => {
                         className="dynamic-delete-button"
                         onClick={() => {
                           remove(field.key);
+                          console.log(fields);
                         }}
                       />
                     </Col>
@@ -201,6 +218,7 @@ const EditHome = () => {
                     type="dashed"
                     onClick={() => {
                       add();
+                      console.log(fields);
                     }}
                   >
                     <PlusOutlined /> Add field

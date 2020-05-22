@@ -7,8 +7,19 @@ const instance = axios.create({
 });
 
 export const getHomePage = () => {
+  return instance.get('/api/homepage').then(
+    res => res.data,
+    err => {
+      console.error(err);
+      return null;
+    },
+  );
+};
+
+export const editHomePage = homepage => {
+  const requestExtension = '/api/admin/homepage';
   return instance
-    .get('/api/admin/homePage', {
+    .put(requestExtension, homepage, {
       headers: {
         token: localStorage.getItem('token'),
       },

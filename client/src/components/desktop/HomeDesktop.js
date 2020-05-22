@@ -27,7 +27,7 @@ export const HomeBlock1Desktop = () => {
       setBackgroundImage(
         `radial-gradient(70% 141% at 0 0, rgba(25, 132, 202, 0.6) 1%,` +
           ` rgba(105, 62, 158, 0.6) 100%),` +
-          ` url('${res.result.backgroundPicture}')`,
+          ` url('${res.result.backgroundImage}')`,
       );
     }
   };
@@ -143,7 +143,7 @@ export const HomeBlock3Desktop = () => {
       res.result.testimonials.forEach(t => {
         newTestimonials.push({
           person: t[0],
-          picture: t[1],
+          image: t[1],
           title: t[2],
           testimonial: t[3],
         });
@@ -172,7 +172,7 @@ export const HomeBlock3Desktop = () => {
                   <Col span={5} style={{ marginTop: '1em' }}>
                     <img
                       className="testimonial-img"
-                      src={element.picture}
+                      src={element.image}
                       alt="profile"
                     />
                   </Col>

@@ -20,26 +20,12 @@ router.post(
   }),
 );
 
-// Get one hompage object
-router.get(
-  '/homepage',
-  errorWrap(async (req, res) => {
-    const homePageObject = await HomePage.findOne();
-    res.json({
-      code: 200,
-      message: `Successfully returned HomePage object`,
-      success: true,
-      result: homePageObject,
-    });
-  }),
-);
-
 // Edit homepage object
 router.put(
   '/homepage',
   errorWrap(async (req, res) => {
     const homePageObject = await HomePage.findOne();
-    homePageObject.backgroundPicture = req.body.backgroundPicture;
+    homePageObject.backgroundImage = req.body.backgroundImage;
     homePageObject.testimonials = req.body.testimonials;
     homePageObject.partners = req.body.partners;
     homePageObject.save();

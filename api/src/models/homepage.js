@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const HomePage = new mongoose.Schema({
-  backgroundPicture: { type: String },
+  backgroundImage: { type: String },
   testimonials: { type: [[String]] },
   partners: { type: [[String]] },
 });
