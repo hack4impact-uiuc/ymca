@@ -5,10 +5,58 @@ const Category = require('../models/category');
 const Resource = require('../models/resource');
 const HomePage = require('../models/homepage');
 
+const imageHelper = async image => {
+  const imageResponse = await fetch('https://api.imgur.com/3/image', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-type': 'application/json',
+      Authorization: `Client-ID ${process.env.IMGUR_KEY}`,
+    },
+    body: JSON.stringify({
+      image: image.replace('data:image/jpeg;base64,', ''),
+      type: 'image/base64',
+    }),
+  });
+  const imageResponseJSON = await imageResponse.json();
+  if (imageResponseJSON.status === 200) {
+    return imageResponseJSON.data.link;
+  }
+  return null;
+};
+
+asyncForEach = async (array, callback) => {
+  for (let index = 0; index < array.length; index++) {
+    await callback(array[index], index, array);
+  }
+};
+
 // Create a homepage object
 router.post(
   '/homepage',
   errorWrap(async (req, res) => {
+    if (req.body.backgroundImageRaw && req.body.backgroundImageRaw.length > 0) {
+      const link = await imageHelper(req.body.backgroundImageRaw);
+      if (link) {
+        req.body.backgroundImage = link;
+      }
+    }
+    if (req.body.testimonialImages && req.body.testimonialImages.length > 0) {
+      await asyncForEach(Object.keys(req.body.testimonialImages), async key => {
+        const link = await imageHelper(req.body.testimonialImages[key]);
+        if (link) {
+          req.body.testimonials[key][1] = link;
+        }
+      });
+    }
+    if (req.body.partnerImages && req.body.partnerImages.length > 0) {
+      await asyncForEach(Object.keys(req.body.partnerImages), async key => {
+        const link = await imageHelper(req.body.partnerImages[key]);
+        if (link) {
+          req.body.partners[key][1] = link;
+        }
+      });
+    }
     const newHomePage = new HomePage(req.body);
     await newHomePage.save();
     res.json({
@@ -24,6 +72,29 @@ router.post(
 router.put(
   '/homepage',
   errorWrap(async (req, res) => {
+    if (req.body.backgroundImageRaw && req.body.backgroundImageRaw.length > 0) {
+      const link = await imageHelper(req.body.backgroundImageRaw);
+      if (link) {
+        req.body.backgroundImage = link;
+      }
+    }
+    if (req.body.testimonialImages) {
+      console.log('here');
+      await asyncForEach(Object.keys(req.body.testimonialImages), async key => {
+        const link = await imageHelper(req.body.testimonialImages[key]);
+        if (link) {
+          req.body.testimonials[key][1] = link;
+        }
+      });
+    }
+    if (req.body.partnerImages) {
+      await asyncForEach(Object.keys(req.body.partnerImages), async key => {
+        const link = await imageHelper(req.body.partnerImages[key]);
+        if (link) {
+          req.body.partners[key][1] = link;
+        }
+      });
+    }
     const homePageObject = await HomePage.findOne();
     homePageObject.backgroundImage = req.body.backgroundImage;
     homePageObject.testimonials = req.body.testimonials;
@@ -51,26 +122,6 @@ router.delete(
     });
   }),
 );
-
-const imageHelper = async image => {
-  const imageResponse = await fetch('https://api.imgur.com/3/image', {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-type': 'application/json',
-      Authorization: `Client-ID ${process.env.IMGUR_KEY}`,
-    },
-    body: JSON.stringify({
-      image: image.replace('data:image/jpeg;base64,', ''),
-      type: 'image/base64',
-    }),
-  });
-  const imageResponseJSON = await imageResponse.json();
-  if (imageResponseJSON.status === 200) {
-    return imageResponseJSON.data.link;
-  }
-  return null;
-};
 
 // Create a new resource
 router.post(

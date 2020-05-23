@@ -6,8 +6,7 @@ const { authAdmin, authGeneral } = require('../middleware/auth');
 
 router.use('/api/categories', category);
 router.use('/api/resources', resource);
-// Put auth back
-router.use('/api/admin', admin);
+router.use('/api/admin', authAdmin, admin);
 router.use('/api/homepage', homepage);
 
 module.exports = router;

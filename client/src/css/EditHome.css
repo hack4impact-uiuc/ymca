@@ -1,3 +1,7 @@
+textarea.ant-input {
+  min-height: 7em;
+}
+
 .dynamic-delete-button {
   cursor: pointer;
   position: relative;
@@ -38,4 +42,29 @@
 
 .edit-home-form {
   background-color: white;
+  padding-left: 2em;
+  padding-top: 2em;
+}
+
+.edit-home-textbox {
+  margin-top: 2.5em;
+}
+
+.edit-home-or {
+  margin-top: 2.7em;
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
+.edit-home-textbox-main {
+  margin-top: 2.5em;
+  margin-right: 1em;
+}
+
+.testimony-box {
+  margin-right: 1em;
+}
+
+.submit-button {
+  margin-left: 20em;
 }

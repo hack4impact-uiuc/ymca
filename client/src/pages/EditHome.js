@@ -3,11 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import 'antd/dist/antd.css';
 import { message, Form, Input, Button, Col, Row, Layout, Upload } from 'antd';
-import {
-  MinusCircleOutlined,
-  PlusOutlined,
-  LoadingOutlined,
-} from '@ant-design/icons';
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 
 import { getHomePage, editHomePage } from '../utils/api';
 
@@ -19,13 +15,16 @@ const { Header } = Layout;
 
 const EditHome = () => {
   const [backgroundImage, setBackgroundImage] = useState('');
-  const [testimonials, setTestimonials] = useState([]);
-  const [partners, setPartners] = useState([]);
+  const [testimonialImages, setTestimonialImages] = useState({});
+  const [partnerImages, setPartnerImages] = useState({});
   const [backgroundImageRaw, setBackgroundImageRaw] = useState();
 
   const [form] = Form.useForm();
 
   useEffect(() => {
+    message.warning(
+      'If you are uploading multiple images at once, the request may fail.',
+    );
     async function fetchFields() {
       const res = await getHomePage();
       const newTestimonials = [];
@@ -51,8 +50,6 @@ const EditHome = () => {
           });
           partnerFields.push({ key: i, fieldKey: i, name: i });
         });
-        setTestimonials(newTestimonials);
-        setPartners(newPartners);
         form.setFieldsValue({ backgroundImage: res.result.backgroundImage });
         form.setFieldsValue({ testimonials: testimonialFields });
         const testimonialValues = form.getFieldsValue().testimonials;
@@ -74,10 +71,24 @@ const EditHome = () => {
       }
     }
     fetchFields();
-  }, [setBackgroundImage, setTestimonials, setPartners]);
+  }, [setBackgroundImage]);
 
-  const onFinish = values => {
-    console.log(values);
+  const shiftIndices = (images, indexRemoved) => {
+    const newImages = JSON.parse(JSON.stringify(images));
+    Object.keys(images).forEach(function(key) {
+      if (key >= indexRemoved) {
+        delete newImages[key];
+      }
+    });
+    Object.keys(images).forEach(function(key) {
+      if (key > indexRemoved) {
+        newImages[key - 1] = images[key];
+      }
+    });
+    return newImages;
+  };
+
+  const onFinish = async values => {
     const partnersCompressed = [];
     values.partners.forEach(element => {
       const slicedPartner = Object.values(element).slice(2);
@@ -89,12 +100,20 @@ const EditHome = () => {
       testimonialsCompressed.push(slicedTestimonial);
     });
     const homepage = {
+      backgroundImageRaw,
+      partnerImages,
+      testimonialImages,
       backgroundImage: values.backgroundImage,
       partners: partnersCompressed,
       testimonials: testimonialsCompressed,
     };
-    editHomePage(homepage);
-    message.success('Edited the Home Page');
+    const editedHomepage = await editHomePage(homepage);
+    if (editedHomepage) {
+      message.success('Edited the Home Page');
+    } else {
+      message.error('Failed to edit the Home Page');
+    }
+    console.log(partnerImages);
   };
 
   const beforeUpload = file => {
@@ -103,30 +122,46 @@ const EditHome = () => {
     if (!isValidImage) {
       message.error('You can only upload JPG/PNG file!');
     }
-    const isSmall = file.size / 1024 / 1024 < 2;
+    const isSmall = file.size / 1024 / 1024 < 1;
     if (!isSmall) {
-      message.error('Image must be smaller than 2MB!');
+      message.error(
+        'Image must be smaller than 1MB!' +
+          'Use the URL option if your image is too big.',
+      );
     }
     return isValidImage && isSmall;
   };
 
-  // const createImage = url =>
-  //   new Promise((resolve, reject) => {
-  //     const img = new Image();
-  //     img.addEventListener('load', () => resolve(img));
-  //     img.addEventListener('error', error => reject(error));
-  //     img.src = url;
-  //   });
-
-  const handleUpload = event => {
+  const handleUploadBackground = event => {
     if (event.file.status !== 'uploading') return;
     const reader = new FileReader();
     reader.addEventListener('load', () => setBackgroundImageRaw(reader.result));
     reader.readAsDataURL(event.file.originFileObj);
-    // const img = await createImage(backgroundImageRaw);
   };
 
-  const finishUpload = async () => {};
+  const handleUploadTestimonial = (event, index) => {
+    if (event.file.status !== 'uploading') return;
+    const reader = new FileReader();
+    reader.addEventListener('load', () => {
+      const newTestimonialImages = JSON.parse(
+        JSON.stringify(testimonialImages),
+      );
+      newTestimonialImages[index] = reader.result;
+      setTestimonialImages(newTestimonialImages);
+    });
+    reader.readAsDataURL(event.file.originFileObj);
+  };
+
+  const handleUploadPartner = (event, index) => {
+    if (event.file.status !== 'uploading') return;
+    const reader = new FileReader();
+    reader.addEventListener('load', () => {
+      const newPartnerImages = JSON.parse(JSON.stringify(partnerImages));
+      newPartnerImages[index] = reader.result;
+      setPartnerImages(newPartnerImages);
+    });
+    reader.readAsDataURL(event.file.originFileObj);
+  };
 
   return (
     <Layout className="edit-home-form-layout">
@@ -136,47 +171,43 @@ const EditHome = () => {
         </Row>
       </Header>
       <Form form={form} onFinish={onFinish} className="edit-home-form">
-        <Row justify="center" type="flex">
-          <Col span={4}>
-            <Form.Item
-              label="Background Image Upload"
-              name="backgroundImageRaw"
+        <h3>Background Image</h3>
+        <Row type="flex">
+          <Col span={2}>
+            <Upload
+              listType="picture-card"
+              showUploadList={false}
+              beforeUpload={beforeUpload}
+              onChange={handleUploadBackground}
             >
-              <Upload
-                listType="picture-card"
-                showUploadList={false}
-                beforeUpload={beforeUpload}
-                onchange={handleUpload}
-              >
-                {backgroundImageRaw !== '' &&
-                backgroundImageRaw !== null &&
-                backgroundImageRaw !== undefined ? (
-                  <img
-                    src={backgroundImageRaw}
-                    alt=""
-                    style={{ width: '100%' }}
-                  />
-                ) : (
-                  <PlusOutlined style={{ fontSize: '3em' }} />
-                )}
-              </Upload>
-            </Form.Item>
+              {backgroundImageRaw !== undefined &&
+              backgroundImageRaw !== null &&
+              backgroundImageRaw !== '' ? (
+                <img
+                  src={backgroundImageRaw}
+                  alt=""
+                  style={{ width: '100%' }}
+                />
+              ) : (
+                <PlusOutlined style={{ fontSize: '3em' }} />
+              )}
+            </Upload>
           </Col>
-          or &nbsp; &nbsp;
-          <Col span={8}>
+          <div className="edit-home-or">or</div>
+          <Col span={8} className="edit-home-textbox">
             <Form.Item label="Background Image URL" name="backgroundImage">
               <Input placeholder="Background Image URL" />
             </Form.Item>
           </Col>
         </Row>
-        Testimonials
+        <h3>Testimonials</h3>
         <Form.List label="Testimonials" name="testimonials">
           {(fields, { add, remove }) => {
             return (
               <div>
                 {fields.map((field, index) => (
                   <Row key={field.key}>
-                    <Col>
+                    <Col className="edit-home-textbox-main">
                       <Form.Item
                         name={[field.name, 'name']}
                         fieldKey={[field.fieldKey, 'name']}
@@ -186,6 +217,28 @@ const EditHome = () => {
                       </Form.Item>
                     </Col>
                     <Col>
+                      <Upload
+                        listType="picture-card"
+                        showUploadList={false}
+                        beforeUpload={beforeUpload}
+                        onChange={e => handleUploadTestimonial(e, field.key)}
+                      >
+                        {field.key in testimonialImages &&
+                        testimonialImages[field.key] !== undefined &&
+                        testimonialImages[field.key] !== null &&
+                        testimonialImages[field.key] !== '' ? (
+                          <img
+                            src={testimonialImages[field.key]}
+                            alt=""
+                            style={{ width: '100%' }}
+                          />
+                        ) : (
+                          <PlusOutlined style={{ fontSize: '3em' }} />
+                        )}
+                      </Upload>
+                    </Col>
+                    <div className="edit-home-or">or</div>
+                    <Col className="edit-home-textbox-main">
                       <Form.Item
                         name={[field.name, 'image']}
                         fieldKey={[field.fieldKey, 'image']}
@@ -194,7 +247,7 @@ const EditHome = () => {
                         <Input placeholder="Image URL" />
                       </Form.Item>
                     </Col>
-                    <Col>
+                    <Col className="edit-home-textbox-main">
                       <Form.Item
                         name={[field.name, 'title']}
                         fieldKey={[field.fieldKey, 'title']}
@@ -203,7 +256,7 @@ const EditHome = () => {
                         <Input placeholder="Title" />
                       </Form.Item>
                     </Col>
-                    <Col>
+                    <Col className="testimony-box" span={8}>
                       <Form.Item
                         name={[field.name, 'testimony']}
                         fieldKey={[field.fieldKey, 'testimony']}
@@ -212,10 +265,15 @@ const EditHome = () => {
                         <Input.TextArea placeholder="Testimony" />
                       </Form.Item>
                     </Col>
-                    <Col flex="none">
+                    <Col flex="none" className="edit-home-textbox-main">
                       <MinusCircleOutlined
                         className="dynamic-delete-button"
                         onClick={() => {
+                          const newTestimonialImages = shiftIndices(
+                            testimonialImages,
+                            field.key,
+                          );
+                          setTestimonialImages(newTestimonialImages);
                           remove(field.name);
                         }}
                       />
@@ -229,21 +287,21 @@ const EditHome = () => {
                       add();
                     }}
                   >
-                    <PlusOutlined /> Add field
+                    <PlusOutlined /> Add Testimonial
                   </Button>
                 </Form.Item>
               </div>
             );
           }}
         </Form.List>
-        Partners
+        <h3>Partners</h3>
         <Form.List label="Partners" name="partners">
           {(fields, { add, remove }) => {
             return (
               <div>
                 {fields.map((field, index) => (
                   <Row key={field.key}>
-                    <Col>
+                    <Col className="edit-home-textbox-main">
                       <Form.Item
                         name={[field.name, 'name']}
                         fieldKey={[field.fieldKey, 'name']}
@@ -253,6 +311,28 @@ const EditHome = () => {
                       </Form.Item>
                     </Col>
                     <Col>
+                      <Upload
+                        listType="picture-card"
+                        showUploadList={false}
+                        beforeUpload={beforeUpload}
+                        onChange={e => handleUploadPartner(e, field.key)}
+                      >
+                        {field.key in partnerImages &&
+                        partnerImages[field.key] !== undefined &&
+                        partnerImages[field.key] !== null &&
+                        partnerImages[field.key] !== '' ? (
+                          <img
+                            src={partnerImages[field.key]}
+                            alt=""
+                            style={{ width: '100%' }}
+                          />
+                        ) : (
+                          <PlusOutlined style={{ fontSize: '3em' }} />
+                        )}
+                      </Upload>
+                    </Col>
+                    <div className="edit-home-or">or</div>
+                    <Col className="edit-home-textbox-main">
                       <Form.Item
                         name={[field.name, 'image']}
                         fieldKey={[field.fieldKey, 'image']}
@@ -261,7 +341,7 @@ const EditHome = () => {
                         <Input placeholder="Image URL" />
                       </Form.Item>
                     </Col>
-                    <Col>
+                    <Col className="edit-home-textbox-main">
                       <Form.Item
                         name={[field.name, 'link']}
                         fieldKey={[field.fieldKey, 'link']}
@@ -270,10 +350,15 @@ const EditHome = () => {
                         <Input placeholder="Link to Website" />
                       </Form.Item>
                     </Col>
-                    <Col flex="none">
+                    <Col flex="none" className="edit-home-textbox-main">
                       <MinusCircleOutlined
                         className="dynamic-delete-button"
                         onClick={() => {
+                          const newPartnerImages = shiftIndices(
+                            partnerImages,
+                            field.key,
+                          );
+                          setPartnerImages(newPartnerImages);
                           remove(field.name);
                         }}
                       />
@@ -287,7 +372,7 @@ const EditHome = () => {
                       add();
                     }}
                   >
-                    <PlusOutlined /> Add field
+                    <PlusOutlined /> Add Partner
                   </Button>
                 </Form.Item>
               </div>
@@ -295,7 +380,7 @@ const EditHome = () => {
           }}
         </Form.List>
         <Form.Item>
-          <Button type="primary" htmlType="submit">
+          <Button className="submit-button" type="primary" htmlType="submit">
             Submit
           </Button>
         </Form.Item>
