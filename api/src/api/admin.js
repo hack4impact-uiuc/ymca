@@ -41,7 +41,7 @@ router.post(
         req.body.backgroundImage = link;
       }
     }
-    if (req.body.testimonialImages && req.body.testimonialImages.length > 0) {
+    if (req.body.testimonialImages) {
       await asyncForEach(Object.keys(req.body.testimonialImages), async key => {
         const link = await imageHelper(req.body.testimonialImages[key]);
         if (link) {
@@ -49,7 +49,7 @@ router.post(
         }
       });
     }
-    if (req.body.partnerImages && req.body.partnerImages.length > 0) {
+    if (req.body.partnerImages) {
       await asyncForEach(Object.keys(req.body.partnerImages), async key => {
         const link = await imageHelper(req.body.partnerImages[key]);
         if (link) {
