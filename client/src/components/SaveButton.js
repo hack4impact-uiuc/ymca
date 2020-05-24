@@ -8,9 +8,6 @@ import { HeartOutlined, HeartFilled } from '@ant-design/icons';
 import '../css/SaveButton.css';
 
 type SaveButtonProps = {
-  className: String,
-  type: String,
-  fontSize: String,
   authed: Boolean,
   isSaved: Boolean,
   fullButton: Boolean,
@@ -21,11 +18,10 @@ type SaveButtonProps = {
 function SaveButton(props: SaveButtonProps) {
   const {
     authed,
-    className,
     isSaved,
+    fullButton,
     deleteResourceHandler,
     saveResourceHandler,
-    fullButton,
   } = props;
 
   const loginMessage = (

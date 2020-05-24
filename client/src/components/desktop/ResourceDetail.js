@@ -8,10 +8,9 @@ import {
   GlobalOutlined,
   MailOutlined,
   PhoneFilled,
-  StarFilled,
   WechatFilled,
 } from '@ant-design/icons';
-import { Button, Col, message, Modal, Row, Layout, Descriptions } from 'antd';
+import { Button, Col, message, Modal, Row, Layout } from 'antd';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 import * as moment from 'moment';
 
@@ -54,7 +53,6 @@ function ResourceDetail(props) {
   const [internalNotes, setInternalNotes] = useState([]);
   const [hours, setHours] = useState([]);
   const [isSaved, setIsSaved] = useState(false);
-  const [recommendation, setRecommendation] = useState(0);
   const [addressString, setAddresString] = useState('');
   const [financialAidDetails, setFinancialAidDetails] = useState(null);
   const [contacts, setContacts] = useState(null);
@@ -99,7 +97,6 @@ function ResourceDetail(props) {
             ? result.hoursOfOperation.hoursOfOperation
             : [],
         );
-        setRecommendation(result.recommendation ? result.recommendation : 0);
         setRequiredDocuments(result.requiredDocuments);
         setFinancialAidDetails(result.financialAidDetails);
         setContacts(result.contacts);

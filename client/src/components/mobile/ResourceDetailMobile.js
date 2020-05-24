@@ -8,11 +8,10 @@ import {
   PhoneFilled,
   WechatFilled,
 } from '@ant-design/icons';
-import { Carousel, Row, Col, Rate, Timeline, Card } from 'antd';
+import { Carousel, Row, Col, Timeline } from 'antd';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 import moment from 'moment';
 
-import ResourceDetail from '../desktop/ResourceDetail';
 import ResourcesBreadcrumb from '../ResourcesBreadcrumb';
 import SaveButton from '../SaveButton';
 import ShareButton from '../ShareButton';
@@ -288,7 +287,12 @@ const ResourceDetailMobile = (props: Props) => {
               <h2 className="mb-rd-header-text">{name}</h2>
             </Col>
             <Col>
-              <SaveButton />
+              <SaveButton
+                authed={authed}
+                isSaved={isSaved}
+                deleteResourceHandler={deleteResourceHandler}
+                saveResourceHandler={saveResourceHandler}
+              />
               <ShareButton />
             </Col>
           </Row>
