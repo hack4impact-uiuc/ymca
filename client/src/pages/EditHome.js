@@ -73,7 +73,6 @@ const EditHome = () => {
   }, [setBackgroundImage, setTestimonialValues, setPartnerValues]);
 
   const onFinish = async values => {
-    console.log(values);
     const partnersCompressed = [];
     values.partners.forEach(element => {
       const slicedPartner = Array(3);
