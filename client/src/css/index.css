@@ -148,6 +148,7 @@ code {
 .ant-btn {
   border-radius: 4px;
   padding: 0 15px;
+  line-height: 2;
 }
 
 .ant-input-affix-wrapper {
