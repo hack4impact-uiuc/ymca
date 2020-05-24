@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom/';
 import { Button, Popover } from 'antd';
 import { HeartOutlined, HeartFilled } from '@ant-design/icons';
 
-// import '../css/SaveButton.css';
+import '../css/SaveButton.css';
 
 type SaveButtonProps = {
   className: String,
@@ -51,14 +51,14 @@ function SaveButton(props: SaveButtonProps) {
         <>
           {fullButton ? (
             <Popover content={loginMessage}>
-              <Button>
+              <Button className="extended-save-button">
                 <HeartOutlined />
                 Save
               </Button>
             </Popover>
           ) : (
             <Popover content={loginMessage}>
-              <Button shape="circle">
+              <Button shape="circle" className="short-save-button">
                 <HeartOutlined />
               </Button>
             </Popover>
@@ -71,6 +71,7 @@ function SaveButton(props: SaveButtonProps) {
               {fullButton ? (
                 <Popover content={unsavedMessage}>
                   <Button
+                    className="extended-save-button"
                     onClick={async () => {
                       await deleteResourceHandler();
                     }}
@@ -82,6 +83,7 @@ function SaveButton(props: SaveButtonProps) {
               ) : (
                 <Popover content={unsavedMessage}>
                   <Button
+                    className="short-save-button"
                     shape="circle"
                     onClick={async () => {
                       await deleteResourceHandler();
@@ -97,6 +99,7 @@ function SaveButton(props: SaveButtonProps) {
               {fullButton ? (
                 <Popover content={savedMessage}>
                   <Button
+                    className="extended-save-button"
                     onClick={async () => {
                       await saveResourceHandler();
                     }}
@@ -108,6 +111,7 @@ function SaveButton(props: SaveButtonProps) {
               ) : (
                 <Popover content={savedMessage}>
                   <Button
+                    className="short-save-button"
                     shape="circle"
                     onClick={async () => {
                       await saveResourceHandler();

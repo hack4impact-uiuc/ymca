@@ -5,6 +5,8 @@ import { useLocation } from 'react-router-dom';
 import { Button, Popover } from 'antd';
 import { ShareAltOutlined } from '@ant-design/icons';
 
+import '../css/ShareButton.css';
+
 type ShareButtonProps = {
   fullButton: Boolean,
 };
@@ -25,14 +27,18 @@ function ShareButton(props: ShareButtonProps) {
     <>
       {fullButton ? (
         <Popover content={info} Title="Error" trigger="click">
-          <Button onClick={() => copyLink()}>
+          <Button className="share-button" onClick={() => copyLink()}>
             <ShareAltOutlined />
             Share
           </Button>
         </Popover>
       ) : (
         <Popover content={info} Title="Error" trigger="click">
-          <Button shape="circle" onClick={() => copyLink()}>
+          <Button
+            className="share-button"
+            shape="circle"
+            onClick={() => copyLink()}
+          >
             <ShareAltOutlined />
           </Button>
         </Popover>
