@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Drawer, Button, Icon, Menu } from 'antd';
+import { MenuOutlined } from '@ant-design/icons';
+import { Drawer, Button, Menu } from 'antd';
 import '../../css_mobile/Navigation.css';
 
 type Props = {
@@ -29,7 +30,7 @@ const NavMobile = (props: Props) => {
               id="navbar"
             >
               <div align="right">
-                <Icon className="nav-menu-btn-icon" type="menu" />
+                <MenuOutlined className="nav-menu-btn-icon" />
               </div>
             </Button>
           </div>

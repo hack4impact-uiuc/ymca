@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Icon } from 'antd';
+import { CheckOutlined } from '@ant-design/icons';
+import { Button } from 'antd';
 
 import '../../css_mobile/ResourcesFilterMobile.css';
 
@@ -53,9 +54,7 @@ function ResourcesFilterMobile(props) {
         {costs.map(cost => (
           <div className="filter-type" onClick={() => setTempCost(cost)}>
             {cost}
-            {cost === tempCost && (
-              <Icon type="check" style={{ float: 'right' }} />
-            )}
+            {cost === tempCost && <CheckOutlined style={{ float: 'right' }} />}
           </div>
         ))}
       </div>
@@ -70,7 +69,7 @@ function ResourcesFilterMobile(props) {
           >
             {language}
             {language === tempLanguage && (
-              <Icon type="check" style={{ float: 'right' }} />
+              <CheckOutlined style={{ float: 'right' }} />
             )}
           </div>
         ))}
@@ -86,7 +85,7 @@ function ResourcesFilterMobile(props) {
           >
             {location}
             {location === tempLocation && (
-              <Icon type="check" style={{ float: 'right' }} />
+              <CheckOutlined style={{ float: 'right' }} />
             )}
           </div>
         ))}

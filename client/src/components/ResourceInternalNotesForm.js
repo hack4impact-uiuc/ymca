@@ -1,7 +1,9 @@
 // @flow
 
 import React, { useState, useEffect } from 'react';
-import { Form, Button, Input, List } from 'antd';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Button, Input, List } from 'antd';
 
 const { TextArea } = Input;
 

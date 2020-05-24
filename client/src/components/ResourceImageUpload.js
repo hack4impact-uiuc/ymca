@@ -1,7 +1,8 @@
 // @flow
 
 import React, { useState } from 'react';
-import { Upload, Icon, message, Button, Modal, Slider } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import { Upload, message, Button, Modal, Slider } from 'antd';
 import Cropper from 'react-easy-crop';
 import '../css/ResourceImageUpload.css';
 
@@ -31,6 +32,7 @@ const ImageUpload = (props: ImageUploadProps) => {
       img.addEventListener('error', error => reject(error));
       img.src = url;
     });
+
   const getCroppedImg = async (imageSrc, pixelCrop) => {
     const img = await createImage(imageSrc);
     const canvas = document.createElement('canvas');
@@ -78,9 +80,7 @@ const ImageUpload = (props: ImageUploadProps) => {
   const handleUpload = event => {
     if (event.file.status !== 'uploading') return;
     const reader = new FileReader();
-    // setImage to B64 string upon successful image read
     reader.addEventListener('load', () => setCroppingImg(reader.result));
-    // send image to reader
     reader.readAsDataURL(event.file.originFileObj);
     setShowCropper(true);
   };
@@ -97,7 +97,7 @@ const ImageUpload = (props: ImageUploadProps) => {
         {image !== null && image !== '' && image !== undefined ? (
           <img src={image} alt="" style={{ width: '100%' }} />
         ) : (
-          <Icon type="plus" style={{ fontSize: '3em' }} />
+          <PlusOutlined style={{ fontSize: '3em' }} />
         )}
       </Upload>
       <Button

@@ -98,6 +98,10 @@
     overflow: auto;
   }
 
+  .home-block-3 .ant-carousel .slick-dots li.slick-active {
+    width: 16px;
+  }
+
   .testimonial-block {
     height: 75vh;
   }

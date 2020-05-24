@@ -2,15 +2,16 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
-  Button,
-  Col,
-  Icon,
-  message,
-  Modal,
-  Row,
-  Layout,
-  Descriptions,
-} from 'antd';
+  DollarCircleFilled,
+  EnvironmentOutlined,
+  FolderOpenFilled,
+  GlobalOutlined,
+  MailOutlined,
+  PhoneFilled,
+  StarFilled,
+  WechatFilled,
+} from '@ant-design/icons';
+import { Button, Col, message, Modal, Row, Layout, Descriptions } from 'antd';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 import * as moment from 'moment';
 
@@ -227,6 +228,17 @@ function ResourceDetail(props) {
     return <Redirect to="/resources/unknown" />;
   }
 
+  const stars = [];
+  if (recommendation !== null) {
+    for (let i = 0; i < recommendation; i += 1) {
+      stars.push(<StarFilled className="filled-star" />);
+    }
+
+    for (let i = 0; i < 5 - recommendation; i += 1) {
+      stars.push(<StarFilled className="unfilled-star" />);
+    }
+  }
+
   return (
     <div className="resource-detail">
       <Modal
@@ -270,35 +282,33 @@ function ResourceDetail(props) {
             </span>
           )}
         </Col>
-        <div className="header-info">
-          <Col span={4}>
-            <Icon type="global" theme="outlined" />
-            <Icon type="mail" theme="outlined" />
-            <Icon type="phone" theme="filled" />
-            {phone.length > 0 &&
-              phone.map(() => {
-                return `\n`;
-              })}
-            <Icon type="environment" theme="outlined" />
-          </Col>
-          <Col span={20}>
-            {website.length > 0 ? (
-              <a href={website} target="_blank" rel="noopener noreferrer">
-                {`${website}`}
-                {'\n'}
-              </a>
-            ) : (
-              'No website provided.\n'
-            )}
-            {email.length > 0 ? `${email}\n` : 'No email provided.\n'}
-            {phone.length > 0
-              ? phone.map(p => {
-                  return `${p.phoneType}: ${p.phoneNumber}\n`;
-                })
-              : 'No phone number provided.\n'}
-            {addressString}
-          </Col>
-        </div>
+        <Col span={1} className="header-info">
+          <GlobalOutlined />
+          <MailOutlined />
+          <PhoneFilled />
+          {phone.length > 0 &&
+            phone.map(() => {
+              return `\n`;
+            })}
+          <EnvironmentOutlined />
+        </Col>
+        <Col span={8} className="header-info">
+          {website.length > 0 ? (
+            <a href={website} target="_blank" rel="noopener noreferrer">
+              {`${website}`}
+              {'\n'}
+            </a>
+          ) : (
+            'No website provided.\n'
+          )}
+          {email.length > 0 ? `${email}\n` : 'No email provided.\n'}
+          {phone.length > 0
+            ? phone.map(p => {
+                return `${p.phoneType}: ${p.phoneNumber}\n`;
+              })
+            : 'No phone number provided.\n'}
+          {addressString}
+        </Col>
       </Row>
       <Row className="section card-row">
         <Col span={24}>
@@ -313,7 +323,7 @@ function ResourceDetail(props) {
       </Row>
       <Row className="card-row">
         <Col span={1}>
-          <Icon type="folder-open" theme="filled" />
+          <FolderOpenFilled />
         </Col>
         <Col span={11}>
           <div className="card-label">Required Documents {'\n'}</div>
@@ -322,7 +332,7 @@ function ResourceDetail(props) {
             : 'None provided.'}
         </Col>
         <Col span={1}>
-          <Icon type="dollar-circle" theme="filled" />
+          <DollarCircleFilled />
         </Col>
         <Col span={11}>
           <div className="card-label">Cost{'\n'}</div>
@@ -331,7 +341,7 @@ function ResourceDetail(props) {
       </Row>
       <Row className="card-row">
         <Col span={1}>
-          <Icon type="wechat" theme="filled" />
+          <WechatFilled />
         </Col>
         <Col span={11}>
           <div className="card-label">Languages Spoken{'\n'}</div>

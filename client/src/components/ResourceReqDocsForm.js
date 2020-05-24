@@ -1,7 +1,9 @@
 // @flow
 
 import React, { useCallback } from 'react';
-import { Form, Input, Button, List } from 'antd';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Input, Button, List } from 'antd';
 
 type FormProps = {
   listOfStrings: Array<String>,

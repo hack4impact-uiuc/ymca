@@ -129,11 +129,15 @@
 }
 
 .home-block-1 .ant-btn > span {
-  margin-top: 0.15em;
+  line-height: 2.4;
 }
 
 .home-block-1 .ant-col-14 {
   margin-top: -0.3em;
+}
+
+.home-block-3 .ant-carousel .slick-dots li.slick-active {
+  height: 16px;
 }
 
 .home-block-3 .ant-carousel .slick-dots li button {

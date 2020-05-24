@@ -1,7 +1,9 @@
 // @flow
 
 import React from 'react';
-import { Form, Input, Select, Radio, Rate, Row, Col, Carousel } from 'antd';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Input, Select, Radio, Rate, Row, Col, Carousel } from 'antd';
 
 import languages from '../data/languages';
 
@@ -254,18 +256,16 @@ const FormCarousel = React.forwardRef((props: CarouselProps, ref) => {
             />
           </Col>
         </Row>
-        <Row>
-          <LabelWrapper
-            label="Hours of Operation"
-            component={
-              <HoursOfOperationFormItem
-                setHoursOfOperation={setHoursOfOperation}
-                hoursOfOperation={hoursOfOperation}
-                setTotalSubmitEnabled={setTotalSubmitEnabled}
-              />
-            }
-          />
-        </Row>
+        <LabelWrapper
+          label="Hours of Operation"
+          component={
+            <HoursOfOperationFormItem
+              setHoursOfOperation={setHoursOfOperation}
+              hoursOfOperation={hoursOfOperation}
+              setTotalSubmitEnabled={setTotalSubmitEnabled}
+            />
+          }
+        />
       </div>
       <div htmlFor="contactInformation">
         <LabelWrapper

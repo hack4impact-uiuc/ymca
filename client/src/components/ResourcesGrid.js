@@ -22,7 +22,7 @@ function ResourcesGrid(props) {
           : null;
 
       return (
-        <Row key={first.name} gutter={[32, 64]} type="flex">
+        <Row key={first.name} gutter={[32, 32]} type="flex">
           <Col xs={24} md={8}>
             <ResourcePreview
               availableLanguages={first.availableLanguages}
