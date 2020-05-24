@@ -1,13 +1,8 @@
-.short-save-button {
-  float: right;
-}
-
-.extended-save-button {
+.save-button {
   margin-right: 1em;
 }
 
-.short-save-button:hover,
-.extended-save-button:hover {
+.save-button:hover {
   color: #562996 !important;
   border-color: #562996;
 }

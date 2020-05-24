@@ -15,6 +15,7 @@ import moment from 'moment';
 import ResourceDetail from '../desktop/ResourceDetail';
 import ResourcesBreadcrumb from '../ResourcesBreadcrumb';
 import SaveButton from '../SaveButton';
+import ShareButton from '../ShareButton';
 import { getResourceByID } from '../../utils/api';
 import {
   saveResource,
@@ -287,15 +288,8 @@ const ResourceDetailMobile = (props: Props) => {
               <h2 className="mb-rd-header-text">{name}</h2>
             </Col>
             <Col>
-              <SaveButton
-                className="mb-rd-save-btn"
-                type="heart"
-                fontSize="2em"
-                authed={authed}
-                isSaved={isSaved}
-                deleteResourceHandler={deleteResourceHandler}
-                saveResourceHandler={saveResourceHandler}
-              />
+              <SaveButton />
+              <ShareButton />
             </Col>
           </Row>
           <Row className="mb-rd-description-container">

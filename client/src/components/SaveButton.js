@@ -28,15 +28,6 @@ function SaveButton(props: SaveButtonProps) {
     fullButton,
   } = props;
 
-  const type = props.type || 'star';
-  const fontSize = props.fontSize || '2em';
-
-  const btnClassName = ''.concat(
-    `${type === 'heart' && 'heart-save-btn'}`,
-    `${(type === 'star' && 'star-save-btn') || ''}`,
-    `${(className && ` ${className}`) || ''}`,
-  );
-
   const loginMessage = (
     <>
       <Link to="/login">Log in</Link> to save resources!
@@ -51,14 +42,14 @@ function SaveButton(props: SaveButtonProps) {
         <>
           {fullButton ? (
             <Popover content={loginMessage}>
-              <Button className="extended-save-button">
+              <Button className="save-button">
                 <HeartOutlined />
                 Save
               </Button>
             </Popover>
           ) : (
             <Popover content={loginMessage}>
-              <Button shape="circle" className="short-save-button">
+              <Button shape="circle" className="save-button">
                 <HeartOutlined />
               </Button>
             </Popover>
@@ -71,7 +62,7 @@ function SaveButton(props: SaveButtonProps) {
               {fullButton ? (
                 <Popover content={unsavedMessage}>
                   <Button
-                    className="extended-save-button"
+                    className="save-button"
                     onClick={async () => {
                       await deleteResourceHandler();
                     }}
@@ -83,7 +74,7 @@ function SaveButton(props: SaveButtonProps) {
               ) : (
                 <Popover content={unsavedMessage}>
                   <Button
-                    className="short-save-button"
+                    className="save-button"
                     shape="circle"
                     onClick={async () => {
                       await deleteResourceHandler();
@@ -99,7 +90,7 @@ function SaveButton(props: SaveButtonProps) {
               {fullButton ? (
                 <Popover content={savedMessage}>
                   <Button
-                    className="extended-save-button"
+                    className="save-button"
                     onClick={async () => {
                       await saveResourceHandler();
                     }}
@@ -111,7 +102,7 @@ function SaveButton(props: SaveButtonProps) {
               ) : (
                 <Popover content={savedMessage}>
                   <Button
-                    className="short-save-button"
+                    className="save-button"
                     shape="circle"
                     onClick={async () => {
                       await saveResourceHandler();

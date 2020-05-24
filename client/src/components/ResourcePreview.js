@@ -96,13 +96,14 @@ function ResourcePreview(props) {
           title={
             <>
               <div className="resource-preview-name">{name}</div>
-              <SaveButton
-                authed={authed}
-                isSaved={isSaved}
-                deleteResourceHandler={deleteResourceHandler}
-                saveResourceHandler={saveResourceHandler}
-                style={{ display: 'inline-block' }}
-              />
+              <div style={{ float: 'right' }}>
+                <SaveButton
+                  authed={authed}
+                  isSaved={isSaved}
+                  deleteResourceHandler={deleteResourceHandler}
+                  saveResourceHandler={saveResourceHandler}
+                />
+              </div>
             </>
           }
           description={description}
