@@ -3,8 +3,29 @@
 const axios = require('axios');
 
 const instance = axios.create({
-  baseURL: 'https://nawc.now.sh',
+  baseURL: 'http://localhost:9000',
 });
+
+export const imageToLink = image => {
+  const requestExtension = 'api/admin/imageUpload';
+  return instance
+    .post(
+      requestExtension,
+      { image },
+      {
+        headers: {
+          token: localStorage.getItem('token'),
+        },
+      },
+    )
+    .then(
+      res => res.data,
+      err => {
+        console.error(err);
+        return null;
+      },
+    );
+};
 
 export const getHomePage = () => {
   return instance.get('/api/homepage').then(

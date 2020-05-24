@@ -25,38 +25,26 @@ const imageHelper = async image => {
   return null;
 };
 
-asyncForEach = async (array, callback) => {
-  for (let index = 0; index < array.length; index++) {
-    await callback(array[index], index, array);
-  }
-};
+// create image
+router.post(
+  '/imageUpload',
+  errorWrap(async (req, res) => {
+    const link = await imageHelper(req.body.image);
+    if (link) {
+      res.json({
+        code: 200,
+        message: 'Succesfully uploaded image to imgur',
+        success: true,
+        result: link,
+      });
+    }
+  }),
+);
 
 // Create a homepage object
 router.post(
   '/homepage',
   errorWrap(async (req, res) => {
-    if (req.body.backgroundImageRaw && req.body.backgroundImageRaw.length > 0) {
-      const link = await imageHelper(req.body.backgroundImageRaw);
-      if (link) {
-        req.body.backgroundImage = link;
-      }
-    }
-    if (req.body.testimonialImages) {
-      await asyncForEach(Object.keys(req.body.testimonialImages), async key => {
-        const link = await imageHelper(req.body.testimonialImages[key]);
-        if (link) {
-          req.body.testimonials[key][1] = link;
-        }
-      });
-    }
-    if (req.body.partnerImages) {
-      await asyncForEach(Object.keys(req.body.partnerImages), async key => {
-        const link = await imageHelper(req.body.partnerImages[key]);
-        if (link) {
-          req.body.partners[key][1] = link;
-        }
-      });
-    }
     const newHomePage = new HomePage(req.body);
     await newHomePage.save();
     res.json({
@@ -72,29 +60,6 @@ router.post(
 router.put(
   '/homepage',
   errorWrap(async (req, res) => {
-    if (req.body.backgroundImageRaw && req.body.backgroundImageRaw.length > 0) {
-      const link = await imageHelper(req.body.backgroundImageRaw);
-      if (link) {
-        req.body.backgroundImage = link;
-      }
-    }
-    if (req.body.testimonialImages) {
-      console.log('here');
-      await asyncForEach(Object.keys(req.body.testimonialImages), async key => {
-        const link = await imageHelper(req.body.testimonialImages[key]);
-        if (link) {
-          req.body.testimonials[key][1] = link;
-        }
-      });
-    }
-    if (req.body.partnerImages) {
-      await asyncForEach(Object.keys(req.body.partnerImages), async key => {
-        const link = await imageHelper(req.body.partnerImages[key]);
-        if (link) {
-          req.body.partners[key][1] = link;
-        }
-      });
-    }
     const homePageObject = await HomePage.findOne();
     homePageObject.backgroundImage = req.body.backgroundImage;
     homePageObject.testimonials = req.body.testimonials;
