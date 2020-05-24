@@ -63,7 +63,6 @@ const ResourceDetailMobile = (props: Props) => {
   const [cost, setCost] = useState(null);
   const [internalNotes, setInternalNotes] = useState([]);
   const [hours, setHours] = useState(null);
-  const [recommendation, setRecommendation] = useState(0);
   const [image, setImage] = useState(null);
   const [financialAidDetails, setFinancialAidDetails] = useState(null);
   const [contacts, setContacts] = useState(null);
@@ -112,7 +111,6 @@ const ResourceDetailMobile = (props: Props) => {
         setCity(result.city);
         setState(result.state);
         setZip(result.zip);
-        setRecommendation(result.recommendation);
         setRequiredDocuments(result.requiredDocuments);
         setEligibility(result.eligibilityRequirements);
         setFinancialAidDetails(result.financialAidDetails);
