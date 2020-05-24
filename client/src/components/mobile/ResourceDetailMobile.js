@@ -164,10 +164,6 @@ const ResourceDetailMobile = (props: Props) => {
 
   useEffect(() => {
     async function updateDistFromResource() {
-      // inspired by haversine formula from stack overflow:
-      // https://stackoverflow.com/questions/27928
-      // /calculate-distance-between-two-latitude-
-      // longitude-points-haversine-formula
       function deg2rad(deg) {
         return deg * (Math.PI / 180);
       }
@@ -303,9 +299,6 @@ const ResourceDetailMobile = (props: Props) => {
                 saveResourceHandler={saveResourceHandler}
               />
             </Col>
-          </Row>
-          <Row>
-            <Rate className="mb-rd-rate" disabled value={recommendation} />
           </Row>
           <Row className="mb-rd-description-container">
             <Col className="mb-rd-description" span={20}>

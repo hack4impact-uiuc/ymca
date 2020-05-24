@@ -228,17 +228,6 @@ function ResourceDetail(props) {
     return <Redirect to="/resources/unknown" />;
   }
 
-  const stars = [];
-  if (recommendation !== null) {
-    for (let i = 0; i < recommendation; i += 1) {
-      stars.push(<StarFilled className="filled-star" />);
-    }
-
-    for (let i = 0; i < 5 - recommendation; i += 1) {
-      stars.push(<StarFilled className="unfilled-star" />);
-    }
-  }
-
   return (
     <div className="resource-detail">
       <Modal
