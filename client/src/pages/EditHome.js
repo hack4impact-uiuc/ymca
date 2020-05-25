@@ -17,6 +17,8 @@ const EditHome = () => {
   const [backgroundImage, setBackgroundImage] = useState('');
   const [testimonialValues, setTestimonialValues] = useState([]);
   const [partnerValues, setPartnerValues] = useState([]);
+  const [testimonialFieldLength, setTestimonialFieldLength] = useState(0);
+  const [partnerFieldLength, setPartnerFieldLength] = useState(0);
 
   const [form] = Form.useForm();
 
@@ -67,6 +69,8 @@ const EditHome = () => {
         });
         form.setFieldsValue({ partners: newPartnerValues });
         setPartnerValues(newPartnerValues);
+        setTestimonialFieldLength(newTestimonialValues.length);
+        setPartnerFieldLength(newPartnerValues.length);
       }
     }
     fetchFields();
@@ -155,6 +159,26 @@ const EditHome = () => {
     reader.readAsDataURL(event.file.originFileObj);
   };
 
+  const extractTestimonialIndex = (oldIndex, newTestimonialValues) => {
+    let newIndex = -1;
+    for (let i = 0; i < newTestimonialValues.length; i += 1) {
+      if (newTestimonialValues[i].key === oldIndex) {
+        newIndex = i;
+      }
+    }
+    return newIndex;
+  };
+
+  const extractPartnerIndex = (oldIndex, newPartnerValues) => {
+    let newIndex = -1;
+    for (let i = 0; i < newPartnerValues.length; i += 1) {
+      if (newPartnerValues[i].key === oldIndex) {
+        newIndex = i;
+      }
+    }
+    return newIndex;
+  };
+
   const handleUploadTestimonial = (event, index) => {
     if (event.file.status !== 'uploading') return;
     const reader = new FileReader();
@@ -166,11 +190,12 @@ const EditHome = () => {
         return;
       }
       const imageLink = res.result;
-      const newTestimonialValues = form.getFieldsValue().testimonials;
-      if (newTestimonialValues[index] === undefined) {
-        newTestimonialValues[index] = {};
+      const newTestimonialValues = await form.getFieldsValue().testimonials;
+      const newIndex = extractTestimonialIndex(index, newTestimonialValues);
+      if (newTestimonialValues[newIndex] === undefined) {
+        newTestimonialValues[newIndex] = {};
       }
-      newTestimonialValues[index].image = imageLink;
+      newTestimonialValues[newIndex].image = imageLink;
       form.setFieldsValue({ testimonials: newTestimonialValues });
       setTestimonialValues(newTestimonialValues);
     });
@@ -188,11 +213,12 @@ const EditHome = () => {
         return;
       }
       const imageLink = res.result;
-      const newPartnerValues = form.getFieldsValue().partners;
-      if (newPartnerValues[index] === undefined) {
-        newPartnerValues[index] = {};
+      const newPartnerValues = await form.getFieldsValue().partners;
+      const newIndex = extractPartnerIndex(index, newPartnerValues);
+      if (newPartnerValues[newIndex] === undefined) {
+        newPartnerValues[newIndex] = {};
       }
-      newPartnerValues[index].image = imageLink;
+      newPartnerValues[newIndex].image = imageLink;
       form.setFieldsValue({ partners: newPartnerValues });
       setPartnerValues(newPartnerValues);
     });
@@ -259,9 +285,21 @@ const EditHome = () => {
                           beforeUpload={beforeUpload}
                           onChange={e => handleUploadTestimonial(e, field.key)}
                         >
-                          {testimonialValues[field.key] !== undefined ? (
+                          {testimonialValues[
+                            extractTestimonialIndex(
+                              field.key,
+                              testimonialValues,
+                            )
+                          ] !== undefined ? (
                             <img
-                              src={testimonialValues[field.key].image}
+                              src={
+                                testimonialValues[
+                                  extractTestimonialIndex(
+                                    field.key,
+                                    testimonialValues,
+                                  )
+                                ].image
+                              }
                               alt=""
                               style={{ width: '100%' }}
                             />
@@ -313,7 +351,11 @@ const EditHome = () => {
                   <Button
                     type="dashed"
                     onClick={() => {
-                      add();
+                      add({
+                        key: testimonialFieldLength,
+                        fieldKey: testimonialFieldLength,
+                      });
+                      setTestimonialFieldLength(testimonialFieldLength + 1);
                     }}
                   >
                     <PlusOutlined /> Add Testimonial
@@ -350,9 +392,15 @@ const EditHome = () => {
                           beforeUpload={beforeUpload}
                           onChange={e => handleUploadPartner(e, field.key)}
                         >
-                          {partnerValues[field.key] !== undefined ? (
+                          {partnerValues[
+                            extractPartnerIndex(field.key, partnerValues)
+                          ] !== undefined ? (
                             <img
-                              src={partnerValues[field.key].image}
+                              src={
+                                partnerValues[
+                                  extractPartnerIndex(field.key, partnerValues)
+                                ].image
+                              }
                               alt=""
                               style={{ width: '100%' }}
                             />
@@ -395,7 +443,11 @@ const EditHome = () => {
                   <Button
                     type="dashed"
                     onClick={() => {
-                      add();
+                      add({
+                        key: partnerFieldLength,
+                        fieldKey: partnerFieldLength,
+                      });
+                      setPartnerFieldLength(partnerFieldLength + 1);
                     }}
                   >
                     <PlusOutlined /> Add Partner
