@@ -120,7 +120,6 @@ const EditHome = () => {
     const editedHomepage = await editHomePage(homepage);
     if (editedHomepage) {
       message.success('Edited the Home Page');
-      window.location.reload(true);
     } else {
       message.error('Failed to edit the Home Page');
     }
