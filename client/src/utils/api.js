@@ -6,6 +6,71 @@ const instance = axios.create({
   baseURL: 'https://nawc.now.sh',
 });
 
+export const imageToLink = image => {
+  const requestExtension = 'api/admin/imageUpload';
+  return instance
+    .post(
+      requestExtension,
+      { image },
+      {
+        headers: {
+          token: localStorage.getItem('token'),
+        },
+      },
+    )
+    .then(
+      res => res.data,
+      err => {
+        console.error(err);
+        return null;
+      },
+    );
+};
+
+export const getHomePage = () => {
+  return instance.get('/api/homepage').then(
+    res => res.data,
+    err => {
+      console.error(err);
+      return null;
+    },
+  );
+};
+
+export const editHomePage = homepage => {
+  const requestExtension = '/api/admin/homepage';
+  return instance
+    .put(requestExtension, homepage, {
+      headers: {
+        token: localStorage.getItem('token'),
+      },
+    })
+    .then(
+      res => res.data,
+      err => {
+        console.error(err);
+        return null;
+      },
+    );
+};
+
+export const createHomePage = homepage => {
+  const requestExtension = '/api/admin/homepage';
+  return instance
+    .post(requestExtension, homepage, {
+      headers: {
+        token: localStorage.getItem('token'),
+      },
+    })
+    .then(
+      res => res.data,
+      err => {
+        console.error(err);
+        return null;
+      },
+    );
+};
+
 export const getCategories = () => {
   return instance.get('/api/categories').then(
     res => res.data,
