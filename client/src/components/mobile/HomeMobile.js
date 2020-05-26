@@ -4,11 +4,11 @@ import { Button, Col, Row, Carousel } from 'antd';
 import { Link } from 'react-router-dom';
 
 import '../../css_mobile/Home.css';
-import testimonials from '../../data/testimonials';
-import { getCategories } from '../../utils/api';
+import { getCategories, getHomePage } from '../../utils/api';
 
 export const HomeBlock1Mobile = () => {
   const [categories, setCategories] = useState([]);
+  const [backgroundImage, setBackgroundImage] = useState('');
 
   const fetchCategories = async () => {
     const res = await getCategories();
@@ -21,12 +21,33 @@ export const HomeBlock1Mobile = () => {
     setCategories(newCategories);
   };
 
+  const fetchBackgroundImage = async () => {
+    const res = await getHomePage();
+    if (res != null) {
+      setBackgroundImage(
+        `radial-gradient(70% 141% at 0 0, rgba(25, 132, 202, 0.6) 1%,` +
+          ` rgba(105, 62, 158, 0.6) 100%),` +
+          ` url('${res.result.backgroundImage}')`,
+      );
+    }
+  };
+
+  useEffect(() => {
+    fetchBackgroundImage();
+  }, [setBackgroundImage]);
+
   useEffect(() => {
     fetchCategories();
   }, []);
 
   return (
-    <Row className="home-block-1" type="flex" justify="center" align="middle">
+    <Row
+      className="home-block-1"
+      style={{ backgroundImage }}
+      type="flex"
+      justify="center"
+      align="middle"
+    >
       <Col className="welcome-text-mobile">
         <Textfit className="welcome-to" mode="single">
           Welcome to Urbana-Champaign
@@ -112,6 +133,28 @@ export const HomeBlock2Mobile = () => {
 };
 
 export const HomeBlock3Mobile = () => {
+  const [testimonials, setTestimonials] = useState([]);
+
+  const fetchTestimonials = async () => {
+    const res = await getHomePage();
+    const newTestimonials = [];
+    if (res != null) {
+      res.result.testimonials.forEach(t => {
+        newTestimonials.push({
+          person: t[0],
+          image: t[1],
+          title: t[2],
+          testimonial: t[3],
+        });
+      });
+    }
+    setTestimonials(newTestimonials);
+  };
+
+  useEffect(() => {
+    fetchTestimonials();
+  }, [setTestimonials]);
+
   return (
     <Row className="home-block-3" type="flex" justify="center" align="middle">
       <Col span={23}>
@@ -128,7 +171,7 @@ export const HomeBlock3Mobile = () => {
                   <Col span={23} justify="center" align="middle">
                     <img
                       className="testimonial-block__top__img"
-                      src={element.picture}
+                      src={element.image}
                       alt=""
                     />
                   </Col>

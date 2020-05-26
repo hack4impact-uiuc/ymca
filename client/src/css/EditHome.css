@@ -1,0 +1,70 @@
+textarea.ant-input {
+  min-height: 7em;
+}
+
+.dynamic-delete-button {
+  cursor: pointer;
+  position: relative;
+  top: 4px;
+  font-size: 24px;
+  color: #999;
+  transition: all 0.3s;
+}
+.dynamic-delete-button:hover {
+  color: #777;
+}
+.dynamic-delete-button[disabled] {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+[data-theme='dark'] .dynamic-delete-button {
+  color: rgba(255, 255, 255, 0.45);
+}
+[data-theme='dark'] .dynamic-delete-button:hover {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.edit-home-form-layout .ant-legacy-form-item {
+  margin: 0 0 1em;
+}
+
+.edit-home-form-layout .header {
+  display: block;
+  background-image: linear-gradient(70deg, #431c72 0%, #6a3e9e 97%);
+  padding-top: 3em;
+  padding-bottom: 3em;
+  height: auto;
+}
+
+.edit-home-form-layout .header h2 {
+  color: white;
+}
+
+.edit-home-form {
+  background-color: white;
+  padding-left: 2em;
+  padding-top: 2em;
+}
+
+.edit-home-textbox {
+  margin-top: 2.5em;
+}
+
+.edit-home-or {
+  margin-top: 2.7em;
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
+.edit-home-textbox-main {
+  margin-top: 2.5em;
+  margin-right: 1em;
+}
+
+.testimony-box {
+  margin-right: 1em;
+}
+
+.submit-button {
+  margin-left: 20em;
+}

@@ -3,6 +3,7 @@ const router = express.Router();
 const { errorWrap } = require('../middleware');
 const Category = require('../models/category');
 const Resource = require('../models/resource');
+const HomePage = require('../models/homepage');
 
 const imageHelper = async image => {
   const imageResponse = await fetch('https://api.imgur.com/3/image', {
@@ -23,6 +24,69 @@ const imageHelper = async image => {
   }
   return null;
 };
+
+// create image
+router.post(
+  '/imageUpload',
+  errorWrap(async (req, res) => {
+    const link = await imageHelper(req.body.image);
+    if (link) {
+      res.json({
+        code: 200,
+        message: 'Succesfully uploaded image to imgur',
+        success: true,
+        result: link,
+      });
+    }
+  }),
+);
+
+// Create a homepage object
+router.post(
+  '/homepage',
+  errorWrap(async (req, res) => {
+    const newHomePage = new HomePage(req.body);
+    await newHomePage.save();
+    res.json({
+      code: 200,
+      message: `Succesfully created new HomePage object`,
+      success: true,
+      result: newHomePage,
+    });
+  }),
+);
+
+// Edit homepage object
+router.put(
+  '/homepage',
+  errorWrap(async (req, res) => {
+    const homePageObject = await HomePage.findOne();
+    homePageObject.backgroundImage = req.body.backgroundImage;
+    homePageObject.testimonials = req.body.testimonials;
+    homePageObject.partners = req.body.partners;
+    homePageObject.save();
+    res.json({
+      code: 200,
+      message: `Successfully updated homepage`,
+      success: true,
+    });
+  }),
+);
+
+// Delete all homepage objects
+router.delete(
+  '/homepage',
+  errorWrap(async (req, res) => {
+    await HomePage.deleteMany({}, function(err) {
+      console.log(err);
+    });
+    res.json({
+      code: 200,
+      message: `Successfully deleted all homepage objects`,
+      success: true,
+    });
+  }),
+);
 
 // Create a new resource
 router.post(

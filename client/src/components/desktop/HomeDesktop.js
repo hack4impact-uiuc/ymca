@@ -4,11 +4,11 @@ import { HeartTwoTone } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 
 import '../../css/Home.css';
-import testimonials from '../../data/testimonials';
-import { getCategories } from '../../utils/api';
+import { getCategories, getHomePage } from '../../utils/api';
 
 export const HomeBlock1Desktop = () => {
   const [categories, setCategories] = useState([]);
+  const [backgroundImage, setBackgroundImage] = useState('');
 
   const fetchCategories = async () => {
     const res = await getCategories();
@@ -21,6 +21,16 @@ export const HomeBlock1Desktop = () => {
     setCategories(newCategories);
   };
 
+  const fetchBackgroundImage = async () => {
+    const res = await getHomePage();
+    if (res != null) {
+      setBackgroundImage(
+        `radial-gradient(70% 141% at 0 0, rgba(25, 132, 202, 0.6) 1%,` +
+          ` rgba(105, 62, 158, 0.6) 100%),` +
+          ` url('${res.result.backgroundImage}')`,
+      );
+    }
+  };
   const openNotification = () => {
     notification.open({
       message: 'COVID-19 Information & Resources',
@@ -37,12 +47,22 @@ export const HomeBlock1Desktop = () => {
   };
 
   useEffect(() => {
+    fetchBackgroundImage();
+  }, [setBackgroundImage]);
+
+  useEffect(() => {
     fetchCategories();
     openNotification();
   }, []);
 
   return (
-    <Row className="home-block-1" type="flex" justify="left" align="middle">
+    <Row
+      className="home-block-1"
+      style={{ backgroundImage }}
+      type="flex"
+      justify="left"
+      align="middle"
+    >
       <Col className="welcome-text">
         Welcome to Urbana-Champaign
         {categories !== null && categories.length > 0 ? (
@@ -114,6 +134,28 @@ export const HomeBlock2Desktop = () => {
 };
 
 export const HomeBlock3Desktop = () => {
+  const [testimonials, setTestimonials] = useState([]);
+
+  const fetchTestimonials = async () => {
+    const res = await getHomePage();
+    const newTestimonials = [];
+    if (res != null) {
+      res.result.testimonials.forEach(t => {
+        newTestimonials.push({
+          person: t[0],
+          image: t[1],
+          title: t[2],
+          testimonial: t[3],
+        });
+      });
+    }
+    setTestimonials(newTestimonials);
+  };
+
+  useEffect(() => {
+    fetchTestimonials();
+  }, [setTestimonials]);
+
   return (
     <Row className="home-block-3" type="flex" justify="center" align="middle">
       <Col span={23}>
@@ -130,7 +172,7 @@ export const HomeBlock3Desktop = () => {
                   <Col span={5} style={{ marginTop: '1em' }}>
                     <img
                       className="testimonial-img"
-                      src={element.picture}
+                      src={element.image}
                       alt="profile"
                     />
                   </Col>
