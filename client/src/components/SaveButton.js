@@ -109,7 +109,7 @@ function SaveButton(props: SaveButtonProps) {
                         await saveResourceHandler();
                       }}
                     >
-                      <HeartFilled />
+                      <HeartOutlined />
                     </Button>
                   </Popover>
                 </a>
