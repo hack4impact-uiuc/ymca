@@ -51,13 +51,14 @@
 /* transition inspired by: https://codepen.io/sreisner/pen/yOOOjx */
 .ant-menu-horizontal > .ant-menu-item > a::before {
   transition: 300ms;
-  border-bottom: 3px solid #6BDBD0;
+  border-bottom: 3px solid #6bdbd0;
   width: 0%;
   margin-bottom: -1px;
   left: 50%;
 }
 
-.ant-menu-horizontal > .ant-menu-item > a:hover::before, a::after {
+.ant-menu-horizontal > .ant-menu-item > a:hover::before,
+a::after {
   width: 100%;
   left: 0%;
 }
@@ -72,9 +73,9 @@
 
 .ant-menu-horizontal > .ant-menu-item > .navbar-active-style::after {
   position: absolute;
-  border-bottom: 3px solid #6BDBD0;
+  border-bottom: 3px solid #6bdbd0;
   width: 100%;
-  content: "";
+  content: '';
   bottom: -3px;
   text-align: center;
 }

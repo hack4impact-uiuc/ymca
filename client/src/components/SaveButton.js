@@ -2,101 +2,121 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom/';
-import { Icon as LegacyIcon } from '@ant-design/compatible';
 import { Button, Popover } from 'antd';
+import { HeartOutlined, HeartFilled } from '@ant-design/icons';
 
 import '../css/SaveButton.css';
 
 type SaveButtonProps = {
-  className: String,
-  type: String,
-  fontSize: String,
   authed: Boolean,
   isSaved: Boolean,
+  fullButton: Boolean,
   deleteResourceHandler: () => void,
   saveResourceHandler: () => void,
 };
+
 function SaveButton(props: SaveButtonProps) {
   const {
     authed,
-    className,
     isSaved,
+    fullButton,
     deleteResourceHandler,
     saveResourceHandler,
   } = props;
 
-  const type = props.type || 'star';
-  const fontSize = props.fontSize || '2em';
-
-  const btnClassName = ''.concat(
-    `${type === 'heart' && 'heart-save-btn'}`,
-    `${(type === 'star' && 'star-save-btn') || ''}`,
-    `${(className && ` ${className}`) || ''}`,
-  );
-
-  const errorContent = (
+  const loginMessage = (
     <>
-      You must be logged in to use this feature! Login{' '}
-      <Link to="/login">here</Link>.
+      <Link to="/login">Log in</Link> to save resources!
     </>
   );
+  const savedMessage = <>Save resource</>;
+  const unsavedMessage = <>Unsave resource</>;
 
   return (
     <>
       {!authed ? (
-        <Popover content={errorContent} Title="Error" trigger="click">
-          <Button className={btnClassName} type="link">
-            <LegacyIcon
-              className={type === 'star' && 'star-save-icon'}
-              type={type}
-              theme={type === 'heart' && 'filled'}
-              style={{
-                fontSize: { fontSize },
-                color: type === 'heart' ? 'black' : '#562996 !important',
-              }}
-            />
-          </Button>
-        </Popover>
-      ) : (
-        <a onClick={e => e.preventDefault()}>
-          {isSaved ? (
-            <Button
-              className={btnClassName}
-              onClick={async () => {
-                await deleteResourceHandler();
-              }}
-              type="link"
-            >
-              <LegacyIcon
-                className={type === 'star' && 'star-save-icon'}
-                type={type}
-                theme="filled"
-                style={{
-                  fontSize: { fontSize },
-                  color: `#562996${(type === 'star' && ' !imporant') || ''}`,
-                }}
-              />
-            </Button>
+        <>
+          {fullButton ? (
+            <Popover content={loginMessage}>
+              <Button className="save-button">
+                <HeartOutlined />
+                Save
+              </Button>
+            </Popover>
           ) : (
-            <Button
-              className={type === 'heart' && 'heart-save-btn'}
-              onClick={async () => {
-                await saveResourceHandler();
-              }}
-              type="link"
-            >
-              <LegacyIcon
-                className={type === 'star' && 'star-save-icon'}
-                type={type}
-                theme={type === 'heart' && 'filled'}
-                style={{
-                  fontSize: { fontSize },
-                  color: type === 'heart' ? 'black' : '#562996 !important',
-                }}
-              />
-            </Button>
+            <a onClick={e => e.preventDefault()}>
+              <Popover content={loginMessage}>
+                <Button shape="circle" className="save-button">
+                  <HeartOutlined />
+                </Button>
+              </Popover>
+            </a>
           )}
-        </a>
+        </>
+      ) : (
+        <>
+          {isSaved ? (
+            <>
+              {fullButton ? (
+                <Popover content={unsavedMessage}>
+                  <Button
+                    className="save-button"
+                    onClick={async () => {
+                      await deleteResourceHandler();
+                    }}
+                  >
+                    <HeartFilled />
+                    Save
+                  </Button>
+                </Popover>
+              ) : (
+                <a onClick={e => e.preventDefault()}>
+                  <Popover content={unsavedMessage}>
+                    <Button
+                      className="save-button"
+                      shape="circle"
+                      onClick={async () => {
+                        await deleteResourceHandler();
+                      }}
+                    >
+                      <HeartFilled />
+                    </Button>
+                  </Popover>
+                </a>
+              )}
+            </>
+          ) : (
+            <>
+              {fullButton ? (
+                <Popover content={savedMessage}>
+                  <Button
+                    className="save-button"
+                    onClick={async () => {
+                      await saveResourceHandler();
+                    }}
+                  >
+                    <HeartOutlined />
+                    Save
+                  </Button>
+                </Popover>
+              ) : (
+                <a onClick={e => e.preventDefault()}>
+                  <Popover content={savedMessage}>
+                    <Button
+                      className="save-button"
+                      shape="circle"
+                      onClick={async () => {
+                        await saveResourceHandler();
+                      }}
+                    >
+                      <HeartOutlined />
+                    </Button>
+                  </Popover>
+                </a>
+              )}
+            </>
+          )}
+        </>
       )}
     </>
   );

@@ -148,6 +148,7 @@ code {
 .ant-btn {
   border-radius: 4px;
   padding: 0 15px;
+  line-height: 2;
 }
 
 .ant-input-affix-wrapper {
@@ -155,7 +156,9 @@ code {
   margin-top: -3px;
 }
 
-.ant-input, .ant-select-multiple .ant-select-selector, .ant-picker {
+.ant-input,
+.ant-select-multiple .ant-select-selector,
+.ant-picker {
   border-radius: 4px;
 }
 

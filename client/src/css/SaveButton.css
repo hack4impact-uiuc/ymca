@@ -1,26 +1,8 @@
-.star-save-btn {
+.save-button {
+  margin-right: 1em;
+}
+
+.save-button:hover {
   color: #562996 !important;
-}
-
-.star-save-btn:hover {
-  color: #562996;
-}
-
-.star-save-icon {
-  color: #562996 !important;
-}
-
-.heart-save-btn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: white;
-  color: #e0e0e0;
-  height: 3em;
-  width: 3em;
-  position: relative;
-  text-align: center;
-  border: 1px solid #e0e0e0;
-  border-radius: 50% !important;
-  box-shadow: 0px 3px 3px 1px #e0e0e0 !important;
+  border-color: #562996;
 }

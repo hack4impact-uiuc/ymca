@@ -8,10 +8,9 @@ import {
   GlobalOutlined,
   MailOutlined,
   PhoneFilled,
-  StarFilled,
   WechatFilled,
 } from '@ant-design/icons';
-import { Button, Col, message, Modal, Row, Layout, Descriptions } from 'antd';
+import { Button, Col, message, Modal, Row, Layout } from 'antd';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 import * as moment from 'moment';
 
@@ -23,6 +22,7 @@ import {
 } from '../../utils/auth';
 import ResourcesBreadcrumb from '../ResourcesBreadcrumb';
 import SaveButton from '../SaveButton';
+import ShareButton from '../ShareButton';
 
 import '../../css/ResourceDetail.css';
 
@@ -53,7 +53,6 @@ function ResourceDetail(props) {
   const [internalNotes, setInternalNotes] = useState([]);
   const [hours, setHours] = useState([]);
   const [isSaved, setIsSaved] = useState(false);
-  const [recommendation, setRecommendation] = useState(0);
   const [addressString, setAddresString] = useState('');
   const [financialAidDetails, setFinancialAidDetails] = useState(null);
   const [contacts, setContacts] = useState(null);
@@ -98,7 +97,6 @@ function ResourceDetail(props) {
             ? result.hoursOfOperation.hoursOfOperation
             : [],
         );
-        setRecommendation(result.recommendation ? result.recommendation : 0);
         setRequiredDocuments(result.requiredDocuments);
         setFinancialAidDetails(result.financialAidDetails);
         setContacts(result.contacts);
@@ -227,17 +225,6 @@ function ResourceDetail(props) {
     return <Redirect to="/resources/unknown" />;
   }
 
-  const stars = [];
-  if (recommendation !== null) {
-    for (let i = 0; i < recommendation; i += 1) {
-      stars.push(<StarFilled className="filled-star" />);
-    }
-
-    for (let i = 0; i < 5 - recommendation; i += 1) {
-      stars.push(<StarFilled className="unfilled-star" />);
-    }
-  }
-
   return (
     <div className="resource-detail">
       <Modal
@@ -261,13 +248,14 @@ function ResourceDetail(props) {
       <Row className="section">
         <Col span={15}>
           <span className="resource-name">{`${name}\n`}</span>
-          {recommendation !== null && stars}
           <SaveButton
             authed={authed}
             isSaved={isSaved}
             deleteResourceHandler={deleteSavedResourceHandler}
             saveResourceHandler={saveResourceHandler}
+            fullButton
           />
+          <ShareButton fullButton />
 
           {authed && authRoleIsEquivalentTo('admin') && (
             <span className="resource-edit-delete">
@@ -450,45 +438,50 @@ function ResourceDetail(props) {
       </Row>
       <Row className="card-row">
         <Col span={12}>{addressString}</Col>
-        <Col span={12} className="open-now">
-          {isOpen(hours) && 'Open now!'}
-        </Col>
+        {isOpen(hours) && (
+          <Col span={12} className="open-now">
+            Open now!
+          </Col>
+        )}
+        {hours.length === 0 && <Col span={12}>No schedule provided.</Col>}
       </Row>
       <Row className="card-row">
-        <Col span={12}>
-          <Map
-            // eslint-disable-next-line
-            style="mapbox://styles/mapbox/light-v9"
-            center={[lng, lat]}
-            containerStyle={{
-              height: '350px',
-              width: '400px',
-            }}
-            zoom={[15]}
-          >
-            <Layer
-              type="symbol"
-              id="marker"
-              layout={{ 'icon-image': 'marker-15' }}
+        {address && (
+          <Col span={12}>
+            <Map
+              // eslint-disable-next-line
+              style="mapbox://styles/mapbox/light-v9"
+              center={[lng, lat]}
+              containerStyle={{
+                height: '350px',
+                width: '400px',
+              }}
+              zoom={[15]}
             >
-              <Feature coordinates={[lng, lat]} />
-            </Layer>
-          </Map>
-        </Col>
-        <Col span={12}>
-          {hours.length > 0
-            ? hours.map(day => {
-                return (
-                  <div>
-                    <span className="day-of-week">{`${day.day}: `}</span>
-                    {day.period.length > 0
-                      ? `${day.period[0]} - ${day.period[1]}`
-                      : 'None'}
-                  </div>
-                );
-              })
-            : 'No schedule provided'}
-        </Col>
+              <Layer
+                type="symbol"
+                id="marker"
+                layout={{ 'icon-image': 'marker-15' }}
+              >
+                <Feature coordinates={[lng, lat]} />
+              </Layer>
+            </Map>
+          </Col>
+        )}
+        {hours.length > 0 && (
+          <Col span={12}>
+            {hours.map(day => {
+              return (
+                <div>
+                  <span className="day-of-week">{`${day.day}: `}</span>
+                  {day.period.length > 0
+                    ? `${day.period[0]} - ${day.period[1]}`
+                    : 'None'}
+                </div>
+              );
+            })}
+          </Col>
+        )}
       </Row>
       {authRoleIsEquivalentTo('admin') && (
         <Row className="section">

@@ -8,13 +8,13 @@ import {
   PhoneFilled,
   WechatFilled,
 } from '@ant-design/icons';
-import { Carousel, Row, Col, Rate, Timeline, Card } from 'antd';
+import { Carousel, Row, Col, Timeline } from 'antd';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 import moment from 'moment';
 
-import ResourceDetail from '../desktop/ResourceDetail';
 import ResourcesBreadcrumb from '../ResourcesBreadcrumb';
 import SaveButton from '../SaveButton';
+import ShareButton from '../ShareButton';
 import { getResourceByID } from '../../utils/api';
 import {
   saveResource,
@@ -63,7 +63,6 @@ const ResourceDetailMobile = (props: Props) => {
   const [cost, setCost] = useState(null);
   const [internalNotes, setInternalNotes] = useState([]);
   const [hours, setHours] = useState(null);
-  const [recommendation, setRecommendation] = useState(0);
   const [image, setImage] = useState(null);
   const [financialAidDetails, setFinancialAidDetails] = useState(null);
   const [contacts, setContacts] = useState(null);
@@ -112,7 +111,6 @@ const ResourceDetailMobile = (props: Props) => {
         setCity(result.city);
         setState(result.state);
         setZip(result.zip);
-        setRecommendation(result.recommendation);
         setRequiredDocuments(result.requiredDocuments);
         setEligibility(result.eligibilityRequirements);
         setFinancialAidDetails(result.financialAidDetails);
@@ -164,10 +162,6 @@ const ResourceDetailMobile = (props: Props) => {
 
   useEffect(() => {
     async function updateDistFromResource() {
-      // inspired by haversine formula from stack overflow:
-      // https://stackoverflow.com/questions/27928
-      // /calculate-distance-between-two-latitude-
-      // longitude-points-haversine-formula
       function deg2rad(deg) {
         return deg * (Math.PI / 180);
       }
@@ -294,18 +288,13 @@ const ResourceDetailMobile = (props: Props) => {
             </Col>
             <Col>
               <SaveButton
-                className="mb-rd-save-btn"
-                type="heart"
-                fontSize="2em"
                 authed={authed}
                 isSaved={isSaved}
                 deleteResourceHandler={deleteResourceHandler}
                 saveResourceHandler={saveResourceHandler}
               />
+              <ShareButton />
             </Col>
-          </Row>
-          <Row>
-            <Rate className="mb-rd-rate" disabled value={recommendation} />
           </Row>
           <Row className="mb-rd-description-container">
             <Col className="mb-rd-description" span={20}>

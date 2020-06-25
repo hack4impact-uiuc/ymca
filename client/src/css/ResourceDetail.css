@@ -21,6 +21,11 @@
 
 .resource-detail .section {
   background-color: #fbfbfb;
+  margin: 0 auto;
+}
+
+.resource-detail .header-info {
+  float: right;
 }
 
 .resource-detail .section-label {
@@ -54,12 +59,16 @@
 }
 
 .resource-detail .anticon {
+  vertical-align: 0.1em;
+}
+
+.resource-detail .header-info .anticon {
   height: 20px;
   padding-right: 15px;
   color: rgb(100, 100, 100);
 }
 
-.resource-detail .anticon-star {
+.resource-detail .header-info .anticon-star {
   font-size: 150%;
   padding-right: 8px;
 }
