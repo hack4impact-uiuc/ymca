@@ -11,7 +11,7 @@
   "license": "MIT",
   "dependencies": {
     "@sendgrid/mail": "^6.3.1",
-    "bcrypt": "^3.0.8",
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.18.3",
     "chai": "^4.2.0",
     "cors": "^2.8.5",
