@@ -40,10 +40,10 @@ This application is built with React, Express, MongoDB, and tested with Jest. No
 
 <table align="center">
   <tr>
-    <td align="center"><a href="https://www.linkedin.com/in/anniewu701/"><img src="https://uiuc.hack4impact.org/static/images/people/annie_wu.jpg" width="75px;" alt="Annie Wu"/><br /><b>Annie Wu</b></a><br /><sub>Product Manager</sub></td>
+    <td align="center"><a href="https://www.linkedin.com/in/anniewu701/"><img src="https://user-images.githubusercontent.com/7104017/95050778-fcc16980-06a0-11eb-8f22-4de27638cb34.jpg" width="75px;" alt="Annie Wu"/><br /><b>Annie Wu</b></a><br /><sub>Product Manager</sub></td>
     <td align="center"><a href="https://jackieo5023.github.io/"><img src="https://jackieo5023.github.io/jacqueline.jpg" width="75px;" alt="Jacqueline Osborn"/><br /><b>Jacqueline Osborn</b></a><br /><sub>Technical Lead</sub></td>
     <td align="center"><a href="https://neerajaggarwal.com/"><img src="https://user-images.githubusercontent.com/7104017/77130449-430cef00-6a15-11ea-919a-3a3390cfc5c1.jpg" width="75px;" alt="Neeraj Aggarwal"/><br /><b>Neeraj Aggarwal</b></a><br /><sub>Tech Lead & Product Manager</sub></td>
-    <td align="center"><a href="https://www.linkedin.com/in/chloegchan/"><img src="https://uiuc.hack4impact.org/static/images/people/chloe_chan.jpg" width="75px;" alt="Chloe Chan"/><br /><b>Chloe Chan</b></a><br /><sub>Product Designer</sub></td>
+    <td align="center"><a href="https://www.linkedin.com/in/chloegchan/"><img src="https://user-images.githubusercontent.com/7104017/95050749-f16e3e00-06a0-11eb-8831-7c6b56525de2.jpg" width="75px;" alt="Chloe Chan"/><br /><b>Chloe Chan</b></a><br /><sub>Product Designer</sub></td>
     <td align="center"><a href="https://www.linkedin.com/in/tiffanytnduong"><img src="https://user-images.githubusercontent.com/7104017/65932642-1cf68280-e3d4-11e9-9e51-4fe92d7bcd9b.jpg" width="75px;" alt="Tiffany Duong"/><br /><b>Tiffany Duong</b></a><br /><sub>Product Researcher</sub></td>
     <td align="center"><a href="https://www.linkedin.com/in/albertcao00/"><img src="https://user-images.githubusercontent.com/7104017/74300959-1d564100-4d17-11ea-9f60-b5946f6d76de.jpeg" width="75px;" alt="Albert Cao"/><br /><b>Albert Cao</b></a><br /><sub>Software Developer</sub></td>
   </tr>
@@ -53,7 +53,7 @@ This application is built with React, Express, MongoDB, and tested with Jest. No
     <td align="center"><a href="https://www.linkedin.com/in/danielle-yang-254308154/"><img src="https://user-images.githubusercontent.com/7104017/74301078-7b832400-4d17-11ea-9ab0-5dc84388b4bb.jpeg" width="75px;" alt="Danielle Yang"/><br /><b>Danielle Yang</b></a><br /><sub>Software Developer</sub></td>
     <td align="center"><a href="https://www.linkedin.com/in/kendall-hester-429591168/"><img src="https://user-images.githubusercontent.com/7104017/74300667-15e26800-4d16-11ea-8efc-213a7be0c858.jpeg" width="75px;" alt="Kendall Hester"/><br /><b>Kendall Hester</b></a><br /><sub>Software Developer</sub></td>
     <td align="center"><a href="https://www.linkedin.com/in/mc578/"><img src="https://user-images.githubusercontent.com/7104017/74301178-d7e64380-4d17-11ea-9cdf-9f434001e6b8.jpeg" width="75px;" alt="Michael Chen"/><br /><b>Michael Chen</b></a><br /><sub>Software Developer</sub></td>
-    <td align="center"><a href="http://skylershi.com/"><img src="https://uiuc.hack4impact.org/static/images/people/skyler_shi.jpg" width="75px;" alt="Skyler Shi"/><br /><b>Skyler Shi</b></a><br /><sub>Software Developer</sub></td>
+    <td align="center"><a href="http://skylershi.com/"><img src="https://user-images.githubusercontent.com/7104017/95050655-cedc2500-06a0-11eb-966e-e92e10129fc6.jpg" width="75px;" alt="Skyler Shi"/><br /><b>Skyler Shi</b></a><br /><sub>Software Developer</sub></td>
   </tr>
 </table>
 
