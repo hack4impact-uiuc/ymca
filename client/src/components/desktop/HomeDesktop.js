@@ -5,15 +5,17 @@ import { Link } from 'react-router-dom';
 
 import '../../css/Home.css';
 import { getCategories, getHomePage } from '../../utils/api';
+import webpSupport from '../../utils/webp-detect';
 
 export const HomeBlock1Desktop = () => {
   const [categories, setCategories] = useState([]);
   const [backgroundImage, setBackgroundImage] = useState('');
+  const [webp] = useState(webpSupport());
 
   const fetchCategories = async () => {
     const res = await getCategories();
     const newCategories = [];
-    if (res != null) {
+    if (res) {
       res.result.forEach(c => {
         newCategories.push(c.name);
       });
@@ -23,11 +25,14 @@ export const HomeBlock1Desktop = () => {
 
   const fetchBackgroundImage = async () => {
     const res = await getHomePage();
-    if (res != null) {
+    if (res) {
+      const background = webp
+        ? res.result.backgroundImage.replace('jpg', 'webp')
+        : res.result.backgroundImage;
       setBackgroundImage(
         `radial-gradient(70% 141% at 0 0, rgba(25, 132, 202, 0.6) 1%,` +
           ` rgba(105, 62, 158, 0.6) 100%),` +
-          ` url('${res.result.backgroundImage}')`,
+          ` url('${background}')`,
       );
     }
   };
@@ -35,11 +40,11 @@ export const HomeBlock1Desktop = () => {
     notification.open({
       message: 'COVID-19 Information & Resources',
       description: (
-        <div>
+        <>
           Find COVID-19 information & resources for immigrants in C-U in{' '}
           <a href="https://tinyurl.com/cuimmigrantcovid">this guide</a> updated
           daily.
-        </div>
+        </>
       ),
       icon: <HeartTwoTone twoToneColor="#eb2f96" />,
       top: 80,
