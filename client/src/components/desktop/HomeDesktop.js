@@ -70,7 +70,7 @@ export const HomeBlock1Desktop = () => {
     >
       <Col className="welcome-text">
         Welcome to Urbana-Champaign
-        {categories !== null && categories.length > 0 ? (
+        {categories && categories.length > 0 ? (
           <Row type="flex">
             <h1 className="welcome-text-bold">Find Resources for</h1>
             <div style={{ width: 'min-content' }}>
@@ -140,15 +140,16 @@ export const HomeBlock2Desktop = () => {
 
 export const HomeBlock3Desktop = () => {
   const [testimonials, setTestimonials] = useState([]);
+  const [webp] = useState(webpSupport());
 
   const fetchTestimonials = async () => {
     const res = await getHomePage();
     const newTestimonials = [];
-    if (res != null) {
+    if (res) {
       res.result.testimonials.forEach(t => {
         newTestimonials.push({
           person: t[0],
-          image: t[1],
+          image: webp ? t[1].toLowerCase().replace('jpg', 'webp') : t[1],
           title: t[2],
           testimonial: t[3],
         });
