@@ -71,9 +71,11 @@ const ResourceFilterSearch = () => {
 
               categoriesObj[category][subcategory].push(resource.name);
             });
+          });
 
-            newAscendantRelationMap[resource.name] = Array.from(
-              newAscendantRelationMap[resource.name],
+          Object.keys(newAscendantRelationMap).forEach(resourceName => {
+            newAscendantRelationMap[resourceName] = Array.from(
+              newAscendantRelationMap[resourceName],
             );
           });
 
