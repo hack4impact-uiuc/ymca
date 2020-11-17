@@ -1,5 +1,7 @@
 // @flow
 
+import webpSupport from './webp-detect';
+
 const stockPhotos = {
   'Abuse/Neglect': '/asset/subcategories/abuse.jpg',
   'Adult Education': '/asset/subcategories/adultEd.jpg',
@@ -38,6 +40,7 @@ const determineStockPhoto = (
       : '/asset/subcategories/default.jpg';
   }
 
+  if (webpSupport()) src = src.replace('jpg', 'webp');
   return src;
 };
 
