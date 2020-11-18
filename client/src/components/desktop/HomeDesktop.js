@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Button, Col, Row, Carousel, notification } from 'antd';
 import { HeartTwoTone } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 
 import '../../css/Home.css';
 import { getCategories, getHomePage } from '../../utils/api';
-import webpSupport from '../../utils/webp-detect';
+import getIsWebpSupported from '../../utils/webp-detect';
 
 export const HomeBlock1Desktop = () => {
   const [categories, setCategories] = useState([]);
   const [backgroundImage, setBackgroundImage] = useState('');
-  const [webp] = useState(webpSupport());
+  const isWebpSupported = useMemo(getIsWebpSupported(), []);
 
   const fetchCategories = async () => {
     const res = await getCategories();
@@ -26,7 +26,7 @@ export const HomeBlock1Desktop = () => {
   const fetchBackgroundImage = async () => {
     const res = await getHomePage();
     if (res) {
-      const background = webp
+      const background = isWebpSupported
         ? res.result.backgroundImage.replace('jpg', 'webp')
         : res.result.backgroundImage;
       setBackgroundImage(
@@ -140,7 +140,7 @@ export const HomeBlock2Desktop = () => {
 
 export const HomeBlock3Desktop = () => {
   const [testimonials, setTestimonials] = useState([]);
-  const [webp] = useState(webpSupport());
+  const isWebpSupported = useMemo(getIsWebpSupported(), []);
 
   const fetchTestimonials = async () => {
     const res = await getHomePage();
@@ -149,7 +149,9 @@ export const HomeBlock3Desktop = () => {
       res.result.testimonials.forEach(t => {
         newTestimonials.push({
           person: t[0],
-          image: webp ? t[1].toLowerCase().replace('jpg', 'webp') : t[1],
+          image: isWebpSupported
+            ? t[1].toLowerCase().replace('jpg', 'webp')
+            : t[1],
           title: t[2],
           testimonial: t[3],
         });

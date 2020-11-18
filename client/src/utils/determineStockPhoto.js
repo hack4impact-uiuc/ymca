@@ -1,6 +1,6 @@
 // @flow
 
-import webpSupport from './webp-detect';
+import getIsWebpSupported from './webp-detect';
 
 const stockPhotos = {
   'Abuse/Neglect': '/asset/subcategories/abuse.jpg',
@@ -40,7 +40,7 @@ const determineStockPhoto = (
       : '/asset/subcategories/default.jpg';
   }
 
-  if (webpSupport()) src = src.replace('jpg', 'webp');
+  if (getIsWebpSupported()) src = src.replace('jpg', 'webp');
   return src;
 };
 

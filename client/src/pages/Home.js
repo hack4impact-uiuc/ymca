@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Textfit } from 'react-textfit';
 import { Col, Row } from 'antd';
 
 import { getHomePage } from '../utils/api';
-import webpSupport from '../utils/webp-detect';
+import getIsWebpSupported from '../utils/webp-detect';
 
 import '../css/Home.css';
 import '../css_mobile/Home.css';
@@ -24,7 +24,7 @@ const Home = () => {
   const [partners, setPartners] = useState([]);
   const [partnerRows, setPartnerRows] = useState([]);
   const [partnerHover, setPartnerHover] = useState('');
-  const [webp] = useState(webpSupport());
+  const isWebpSupported = useMemo(getIsWebpSupported(), []);
 
   const [dimensions, isMobile] = useWindowDimensions();
   const spanNum = isMobile ? 20 : 6;
@@ -38,7 +38,7 @@ const Home = () => {
       res.result.partners.forEach(t => {
         newPartners.push({
           name: t[0],
-          image: webp
+          image: isWebpSupported
             ? t[1]
                 .toLowerCase()
                 .replace('jpg', 'webp')
