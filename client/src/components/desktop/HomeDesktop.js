@@ -1,19 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Button, Col, Row, Carousel, notification } from 'antd';
 import { HeartTwoTone } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 
 import '../../css/Home.css';
 import { getCategories, getHomePage } from '../../utils/api';
+import getIsWebpSupported from '../../utils/webp-detect';
 
 export const HomeBlock1Desktop = () => {
   const [categories, setCategories] = useState([]);
   const [backgroundImage, setBackgroundImage] = useState('');
+  const isWebpSupported = useMemo(getIsWebpSupported, []);
 
   const fetchCategories = async () => {
     const res = await getCategories();
     const newCategories = [];
-    if (res != null) {
+    if (res) {
       res.result.forEach(c => {
         newCategories.push(c.name);
       });
@@ -23,11 +25,14 @@ export const HomeBlock1Desktop = () => {
 
   const fetchBackgroundImage = async () => {
     const res = await getHomePage();
-    if (res != null) {
+    if (res) {
+      const background = isWebpSupported
+        ? res.result.backgroundImage.replace('jpg', 'webp')
+        : res.result.backgroundImage;
       setBackgroundImage(
         `radial-gradient(70% 141% at 0 0, rgba(25, 132, 202, 0.6) 1%,` +
           ` rgba(105, 62, 158, 0.6) 100%),` +
-          ` url('${res.result.backgroundImage}')`,
+          ` url('${background}')`,
       );
     }
   };
@@ -35,11 +40,11 @@ export const HomeBlock1Desktop = () => {
     notification.open({
       message: 'COVID-19 Information & Resources',
       description: (
-        <div>
+        <>
           Find COVID-19 information & resources for immigrants in C-U in{' '}
           <a href="https://tinyurl.com/cuimmigrantcovid">this guide</a> updated
           daily.
-        </div>
+        </>
       ),
       icon: <HeartTwoTone twoToneColor="#eb2f96" />,
       top: 80,
@@ -65,7 +70,7 @@ export const HomeBlock1Desktop = () => {
     >
       <Col className="welcome-text">
         Welcome to Urbana-Champaign
-        {categories !== null && categories.length > 0 ? (
+        {categories && categories.length > 0 ? (
           <Row type="flex">
             <h1 className="welcome-text-bold">Find Resources for</h1>
             <div style={{ width: 'min-content' }}>
@@ -135,15 +140,18 @@ export const HomeBlock2Desktop = () => {
 
 export const HomeBlock3Desktop = () => {
   const [testimonials, setTestimonials] = useState([]);
+  const isWebpSupported = useMemo(getIsWebpSupported, []);
 
   const fetchTestimonials = async () => {
     const res = await getHomePage();
     const newTestimonials = [];
-    if (res != null) {
+    if (res) {
       res.result.testimonials.forEach(t => {
         newTestimonials.push({
           person: t[0],
-          image: t[1],
+          image: isWebpSupported
+            ? t[1].toLowerCase().replace('jpg', 'webp')
+            : t[1],
           title: t[2],
           testimonial: t[3],
         });
