@@ -10,7 +10,7 @@ import getIsWebpSupported from '../../utils/webp-detect';
 export const HomeBlock1Desktop = () => {
   const [categories, setCategories] = useState([]);
   const [backgroundImage, setBackgroundImage] = useState('');
-  const isWebpSupported = useMemo(getIsWebpSupported(), []);
+  const isWebpSupported = useMemo(getIsWebpSupported, []);
 
   const fetchCategories = async () => {
     const res = await getCategories();
@@ -140,7 +140,7 @@ export const HomeBlock2Desktop = () => {
 
 export const HomeBlock3Desktop = () => {
   const [testimonials, setTestimonials] = useState([]);
-  const isWebpSupported = useMemo(getIsWebpSupported(), []);
+  const isWebpSupported = useMemo(getIsWebpSupported, []);
 
   const fetchTestimonials = async () => {
     const res = await getHomePage();

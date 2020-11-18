@@ -24,7 +24,7 @@ const Home = () => {
   const [partners, setPartners] = useState([]);
   const [partnerRows, setPartnerRows] = useState([]);
   const [partnerHover, setPartnerHover] = useState('');
-  const isWebpSupported = useMemo(getIsWebpSupported(), []);
+  const isWebpSupported = useMemo(getIsWebpSupported, []);
 
   const [dimensions, isMobile] = useWindowDimensions();
   const spanNum = isMobile ? 20 : 6;
