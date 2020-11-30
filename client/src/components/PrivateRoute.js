@@ -1,14 +1,14 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
 type Props = {
-  minRole: String,
-  path: String,
-  component: Object,
-  authed: Boolean,
-  authRoleIsEquivalentTo: String => void,
+  minRole: string,
+  path: string,
+  component: React.ComponentType<any>,
+  authed: ?boolean,
+  authRoleIsEquivalentTo: string => ?boolean,
 };
 
 const PrivateRoute = (props: Props) => {

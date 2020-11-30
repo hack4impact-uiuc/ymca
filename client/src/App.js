@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react';
+// @flow
+
+import React, { useCallback } from 'react';
 import {
   Route,
   BrowserRouter as Router,
@@ -21,43 +23,12 @@ import Resources from './pages/Resources';
 import ResourceUnknown from './pages/ResourceUnknown';
 import RoleApproval from './pages/RoleApproval';
 import ScrollToTop from './components/ScrollToTop';
-import { verify, getAllRoles } from './utils/auth';
 import SavedResources from './pages/SavedResources';
 import ResourceDetailCommon from './components/ResourceDetailCommon';
+import { useAuth } from './utils/use-auth';
 
 const App = () => {
-  const [authed, setAuthed] = useState(null);
-  const [authRole, setAuthRole] = useState(null);
-  const [authRoles, setAuthRoles] = useState(null);
-
-  useEffect(() => {
-    async function fetchData() {
-      Promise.all([
-        getAllRoles(),
-        verify(
-          res => {
-            setAuthed(true);
-            setAuthRole(res.role);
-          },
-          () => {
-            setAuthed(false);
-            setAuthRole('');
-          },
-        ),
-      ]).then(vals => setAuthRoles(Object.keys(vals[0].roles).concat('')));
-    }
-    fetchData();
-  }, [setAuthed, setAuthRole, setAuthRoles]);
-
-  const authRoleIsEquivalentTo = useCallback(
-    role => {
-      return authRole === null || authRoles === null
-        ? null
-        : authRoles.indexOf(authRole.toLowerCase()) <=
-            authRoles.indexOf(role.toLowerCase());
-    },
-    [authRole, authRoles],
-  );
+  const { authed, authRoleIsEquivalentTo, setAuthed, setAuthRole } = useAuth();
 
   const showIfUnauthed = useCallback(
     component => {
