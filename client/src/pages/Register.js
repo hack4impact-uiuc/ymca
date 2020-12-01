@@ -57,7 +57,7 @@ const Register = ({ form }) => {
         }
       });
     },
-    [form],
+    [form, register],
   );
 
   const { getFieldDecorator } = form;

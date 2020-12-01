@@ -55,7 +55,7 @@ const PasswordReset = ({ form }) => {
         }
       });
     },
-    [form],
+    [form, resetPassword],
   );
 
   const { getFieldDecorator } = form;

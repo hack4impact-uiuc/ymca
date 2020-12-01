@@ -38,7 +38,7 @@ function Login(props: Props) {
         }
       });
     },
-    [form],
+    [form, login],
   );
 
   return (
