@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { PropTypes } from 'prop-types';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Form } from '@ant-design/compatible';
 import '@ant-design/compatible/assets/index.css';
@@ -9,10 +8,12 @@ import 'antd/dist/antd.css';
 import '../css/LoginRegister.css';
 
 import { getSecurityQuestions, register } from '../utils/auth';
+import { useAuth } from '../utils/use-auth';
 
 const { Option } = Select;
 
-const Register = ({ form, setAuthed, setAuthRole }) => {
+const Register = ({ form }) => {
+  const { setAuthed, setAuthRole } = useAuth();
   const [confirmDirty, setConfirmDirty] = useState(true);
   const [securityQuestions, setSecurityQuestions] = useState([]);
 
@@ -179,8 +180,6 @@ const Register = ({ form, setAuthed, setAuthRole }) => {
 
 Register.propTypes = {
   form: Form.isRequired,
-  setAuthed: PropTypes.func.isRequired,
-  setAuthRole: PropTypes.func.isRequired,
 };
 
 export default Form.create()(Register);

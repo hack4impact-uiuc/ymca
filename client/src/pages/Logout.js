@@ -3,12 +3,10 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 
-type Props = {
-  setAuthRole: String => void,
-  setAuthed: boolean => void,
-};
-const Logout = (props: Props) => {
-  const { setAuthed, setAuthRole } = props;
+import { useAuth } from '../utils/use-auth';
+
+const Logout = () => {
+  const { setAuthed, setAuthRole } = useAuth();
 
   localStorage.removeItem('token');
   setAuthed(false);

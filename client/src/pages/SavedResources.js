@@ -11,6 +11,7 @@ import useWindowDimensions from '../utils/mobile';
 import ResourcesBanner from '../components/desktop/ResourcesBanner';
 import ResourcesGrid from '../components/ResourcesGrid';
 import ResourcesBannerMobile from '../components/mobile/ResourcesBannerMobile';
+import { useAuth } from '../utils/use-auth';
 
 function SavedResources(props) {
   const [loading, setLoading] = useState(false);
@@ -19,7 +20,7 @@ function SavedResources(props) {
   const [savedSet, setSavedSet] = useState(new Set());
 
   const isMobile = useWindowDimensions()[1];
-  const { authed } = props;
+  const { authed } = useAuth();
 
   const updateSaved = useCallback(async () => {
     setLoading(true);
@@ -81,7 +82,6 @@ function SavedResources(props) {
           <ResourcesGrid
             filteredResources={resources}
             savedResources={savedSet}
-            authed={authed}
             updateSaved={updateSaved}
           />
         )}
@@ -93,7 +93,6 @@ function SavedResources(props) {
 SavedResources.defaultProps = {
   location: { search: '' },
   history: { pathname: '', search: '' },
-  authed: false,
 };
 
 SavedResources.propTypes = {
@@ -103,7 +102,6 @@ SavedResources.propTypes = {
     push: PropTypes.func,
     search: PropTypes.string,
   }),
-  authed: PropTypes.bool,
 };
 
 export default SavedResources;

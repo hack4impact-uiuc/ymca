@@ -10,15 +10,15 @@ import 'antd/dist/antd.css';
 import '../css/LoginRegister.css';
 
 import { login } from '../utils/auth';
+import { useAuth } from '../utils/use-auth';
 
 type Props = {
   form: Form,
-  setAuthed: boolean => void,
-  setAuthRole: Boolean => void,
 };
 
 function Login(props: Props) {
-  const { form, setAuthed, setAuthRole } = props;
+  const { setAuthed, setAuthRole } = useAuth();
+  const { form } = props;
   const { getFieldDecorator } = form;
   const [error, setError] = useState('');
 

@@ -6,9 +6,9 @@ import { Button, Popover } from 'antd';
 import { HeartOutlined, HeartFilled } from '@ant-design/icons';
 
 import '../css/SaveButton.css';
+import { useAuth } from '../utils/use-auth';
 
 type SaveButtonProps = {
-  authed: Boolean,
   isSaved: Boolean,
   fullButton: Boolean,
   deleteResourceHandler: () => void,
@@ -16,8 +16,8 @@ type SaveButtonProps = {
 };
 
 function SaveButton(props: SaveButtonProps) {
+  const { authed } = useAuth();
   const {
-    authed,
     isSaved,
     fullButton,
     deleteResourceHandler,

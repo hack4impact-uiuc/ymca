@@ -21,7 +21,6 @@ function ResourcePreview(props) {
     name,
     subcategory,
     isSaved,
-    authed,
     updateSaved,
     image,
   } = props;
@@ -98,7 +97,6 @@ function ResourcePreview(props) {
               <div className="resource-preview-name">{name}</div>
               <div style={{ float: 'right' }}>
                 <SaveButton
-                  authed={authed}
                   isSaved={isSaved}
                   deleteResourceHandler={deleteResourceHandler}
                   saveResourceHandler={saveResourceHandler}
@@ -123,7 +121,6 @@ ResourcePreview.propTypes = {
   name: PropTypes.string.isRequired,
   subcategory: PropTypes.arrayOf(PropTypes.string).isRequired,
   isSaved: PropTypes.bool.isRequired,
-  authed: PropTypes.bool.isRequired,
   updateSaved: PropTypes.func.isRequired,
   image: PropTypes.string.isRequired,
 };

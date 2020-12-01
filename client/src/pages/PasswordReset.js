@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { PropTypes } from 'prop-types';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Form } from '@ant-design/compatible';
 import '@ant-design/compatible/assets/index.css';
@@ -9,10 +8,12 @@ import 'antd/dist/antd.css';
 import '../css/LoginRegister.css';
 
 import { getSecurityQuestions, resetPassword } from '../utils/auth';
+import { useAuth } from '../utils/use-auth';
 
 const { Option } = Select;
 
-const PasswordReset = ({ form, setAuthed, setAuthRole }) => {
+const PasswordReset = ({ form }) => {
+  const { setAuthed, setAuthRole } = useAuth();
   const [confirmDirty, setConfirmDirty] = useState(true);
   const [securityQuestions, setSecurityQuestions] = useState([]);
 
@@ -179,8 +180,6 @@ const PasswordReset = ({ form, setAuthed, setAuthRole }) => {
 
 PasswordReset.propTypes = {
   form: Form.isRequired,
-  setAuthed: PropTypes.func.isRequired,
-  setAuthRole: PropTypes.func.isRequired,
 };
 
 export default Form.create()(PasswordReset);

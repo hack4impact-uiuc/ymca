@@ -23,12 +23,15 @@ import {
 import ResourcesBreadcrumb from '../ResourcesBreadcrumb';
 import SaveButton from '../SaveButton';
 import ShareButton from '../ShareButton';
+import { useAuth } from '../../utils/use-auth';
 
 import '../../css/ResourceDetail.css';
 
 const { Header } = Layout;
 
 function ResourceDetail(props) {
+  const { authed, authRoleIsEquivalentTo } = useAuth();
+
   const [name, setName] = useState('Resource Name');
   const [phone, setPhone] = useState([]);
   const [address, setAddress] = useState('');
@@ -101,7 +104,7 @@ function ResourceDetail(props) {
         setFinancialAidDetails(result.financialAidDetails);
         setContacts(result.contacts);
 
-        if (props.authed) {
+        if (authed) {
           let savedSet = new Set();
           const json = await getSavedResources();
           savedSet = new Set(json.result);
@@ -113,11 +116,11 @@ function ResourceDetail(props) {
       }
     }
     didMount();
-  }, [props.authed, props.match.params.id, updateIsSaved]);
+  }, [authed, props.match.params.id, updateIsSaved]);
 
   useEffect(() => {
     async function didUpdate() {
-      if (props.authed) {
+      if (authed) {
         let savedSet = new Set();
         const json = await getSavedResources();
         savedSet = new Set(json.result);
@@ -125,7 +128,7 @@ function ResourceDetail(props) {
       }
     }
     didUpdate();
-  }, [props.authed, updateIsSaved]);
+  }, [authed, updateIsSaved]);
 
   useEffect(() => {
     let adr = 'No address provided.';
@@ -219,7 +222,7 @@ function ResourceDetail(props) {
     interactive: true,
   });
 
-  const { authed, match, authRoleIsEquivalentTo } = props;
+  const { match } = props;
 
   if (!resourceExists) {
     return <Redirect to="/resources/unknown" />;
@@ -249,7 +252,6 @@ function ResourceDetail(props) {
         <Col span={15}>
           <span className="resource-name">{`${name}\n`}</span>
           <SaveButton
-            authed={authed}
             isSaved={isSaved}
             deleteResourceHandler={deleteSavedResourceHandler}
             saveResourceHandler={saveResourceHandler}
@@ -507,8 +509,6 @@ ResourceDetail.defaultProps = {
 };
 
 ResourceDetail.propTypes = {
-  authed: PropTypes.bool.isRequired,
-  authRoleIsEquivalentTo: PropTypes.func.isRequired,
   history: PropTypes.element,
   match: PropTypes.shape({
     params: PropTypes.shape({ id: PropTypes.string }),
