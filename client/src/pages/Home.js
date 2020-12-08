@@ -3,7 +3,7 @@ import { Textfit } from 'react-textfit';
 import { Col, Row } from 'antd';
 
 import { getHomePage } from '../utils/api';
-import getIsWebpSupported from '../utils/webp-detect';
+import { canBeWebpConverted, getIsWebpSupported } from '../utils/webp-detect';
 import useWindowDimensions from '../utils/mobile';
 
 import '../css/Home.css';
@@ -38,12 +38,13 @@ const Home = () => {
       res.result.partners.forEach(t => {
         newPartners.push({
           name: t[0],
-          image: isWebpSupported
-            ? t[1]
-                .toLowerCase()
-                .replace('jpg', 'webp')
-                .replace('png', 'webp')
-            : t[1],
+          image:
+            isWebpSupported && canBeWebpConverted(t[1])
+              ? t[1]
+                  .toLowerCase()
+                  .replace('jpg', 'webp')
+                  .replace('png', 'webp')
+              : t[1],
           link: t[2],
         });
         if (i % 5 === 0) {

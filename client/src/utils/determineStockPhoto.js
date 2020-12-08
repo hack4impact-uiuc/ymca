@@ -1,6 +1,6 @@
 // @flow
 
-import getIsWebpSupported from './webp-detect';
+import { getIsWebpSupported } from './webp-detect';
 
 const stockPhotos = {
   'Abuse/Neglect': '/asset/subcategories/abuse.jpg',

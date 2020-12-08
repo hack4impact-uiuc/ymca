@@ -5,7 +5,10 @@ import { Link } from 'react-router-dom';
 
 import '../../css/Home.css';
 import { getCategories, getHomePage } from '../../utils/api';
-import getIsWebpSupported from '../../utils/webp-detect';
+import {
+  canBeWebpConverted,
+  getIsWebpSupported,
+} from '../../utils/webp-detect';
 
 export const HomeBlock1Desktop = () => {
   const [categories, setCategories] = useState([]);
@@ -26,9 +29,10 @@ export const HomeBlock1Desktop = () => {
   const fetchBackgroundImage = async () => {
     const res = await getHomePage();
     if (res) {
-      const background = isWebpSupported
-        ? res.result.backgroundImage.replace('jpg', 'webp')
-        : res.result.backgroundImage;
+      const background =
+        isWebpSupported && canBeWebpConverted(res.result.backgroundImage)
+          ? res.result.backgroundImage.replace('jpg', 'webp')
+          : res.result.backgroundImage;
       setBackgroundImage(
         `radial-gradient(70% 141% at 0 0, rgba(25, 132, 202, 0.6) 1%,` +
           ` rgba(105, 62, 158, 0.6) 100%),` +
@@ -149,9 +153,10 @@ export const HomeBlock3Desktop = () => {
       res.result.testimonials.forEach(t => {
         newTestimonials.push({
           person: t[0],
-          image: isWebpSupported
-            ? t[1].toLowerCase().replace('jpg', 'webp')
-            : t[1],
+          image:
+            isWebpSupported && canBeWebpConverted(t[1])
+              ? t[1].toLowerCase().replace('jpg', 'webp')
+              : t[1],
           title: t[2],
           testimonial: t[3],
         });
