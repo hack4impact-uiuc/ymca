@@ -32,7 +32,7 @@ function Login(props: Props) {
             if (errorMessage !== null) {
               setError(errorMessage);
             } else {
-              setError('');
+              setError(null);
             }
           });
         }
