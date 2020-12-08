@@ -3,7 +3,7 @@ import { Textfit } from 'react-textfit';
 import { Button, Col, Row, Carousel } from 'antd';
 import { Link } from 'react-router-dom';
 
-import '../../css_mobile/Home.css';
+import '../../css/Home.css';
 import { getCategories, getHomePage } from '../../utils/api';
 
 export const HomeBlock1Mobile = () => {
