@@ -40,9 +40,6 @@ jobs:
     docker:
       - image: node:11.14.0
     working_directory: ~/ymca
-    dependencies:
-      override:
-        - echo $PATH
     steps:
       - checkout
       - run:
