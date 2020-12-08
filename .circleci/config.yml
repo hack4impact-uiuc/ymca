@@ -56,10 +56,8 @@ workflows:
       - cypress/run:
           name: frontend_test
           yarn: true
-          start: yarn start
           parallel: true
           parallelism: 4
-          group: "all tests"
           cache-key: 'cache-{{ arch }}-{{ .Branch }}-{{ checksum "client/package.json" }}'
           working_directory: client
           record: true
