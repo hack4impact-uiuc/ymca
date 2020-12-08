@@ -23,7 +23,7 @@ import {
 } from '../../utils/auth';
 import determineStockPhoto from '../../utils/determineStockPhoto';
 
-import '../../css_mobile/ResourceDetail.css';
+import '../../css/ResourceDetailMobile.css';
 
 type Props = {
   authed: Boolean,

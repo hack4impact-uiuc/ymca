@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { CheckOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 
-import '../../css_mobile/ResourcesFilterMobile.css';
+import '../../css/ResourcesFilterMobile.css';
 
 function ResourcesFilterMobile(props) {
   const {
