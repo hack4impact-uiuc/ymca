@@ -13,6 +13,7 @@ import { getSavedResources } from '../utils/auth';
 import languages from '../data/languages';
 import locations from '../data/locations';
 import useWindowDimensions from '../utils/mobile';
+import { useAuth } from '../utils/use-auth';
 import ResourcesBanner from '../components/desktop/ResourcesBanner';
 import ResourcesFilter from '../components/desktop/ResourcesFilter';
 import ResourcesGrid from '../components/ResourcesGrid';
@@ -40,6 +41,7 @@ function Resources(props) {
   const costs = ['Free', 'Free - $', 'Free - $$', 'Free - $$$'];
   const sorts = ['Name', 'Cost'];
   const isMobile = useWindowDimensions()[1];
+  const { authed } = useAuth();
 
   const fetchCategories = async () => {
     const res = await getCategories();
@@ -112,7 +114,7 @@ function Resources(props) {
         : await getResourcesByCategory(categorySelected);
 
     let localSavedSet = new Set();
-    if (props.authed) {
+    if (authed) {
       const json = await getSavedResources();
       localSavedSet = new Set(json.result);
       setSavedSet(localSavedSet);
@@ -137,7 +139,7 @@ function Resources(props) {
     setSubcategory(subcategorySelected);
 
     setLoading(false);
-  }, [getCategorySelectedFromSearch, props.saved, props.authed]);
+  }, [getCategorySelectedFromSearch, props.saved, authed]);
 
   const updateSaved = async () => {
     updateResources();
@@ -161,7 +163,7 @@ function Resources(props) {
 
   useEffect(() => {
     updateResources();
-  }, [props.location.search, props.saved, props.authed, updateResources]);
+  }, [props.location.search, props.saved, authed, updateResources]);
 
   useEffect(() => {
     const costMap = {
@@ -315,7 +317,6 @@ function Resources(props) {
           <ResourcesGrid
             filteredResources={filteredResources}
             savedResources={savedSet}
-            authed={props.authed}
             updateSaved={updateSaved}
           />
         )}
@@ -328,7 +329,6 @@ Resources.defaultProps = {
   location: { search: '' },
   history: { pathname: '', search: '' },
   saved: false,
-  authed: false,
 };
 
 Resources.propTypes = {
@@ -339,7 +339,6 @@ Resources.propTypes = {
     search: PropTypes.string,
   }),
   saved: PropTypes.bool,
-  authed: PropTypes.bool,
 };
 
 export default Resources;

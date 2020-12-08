@@ -1,6 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react';
+// @flow
+
+import React, { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { PropTypes } from 'prop-types';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Form } from '@ant-design/compatible';
 import '@ant-design/compatible/assets/index.css';
@@ -8,21 +9,13 @@ import { Button, Input, Select, Row, Col, message } from 'antd';
 import 'antd/dist/antd.css';
 import '../css/LoginRegister.css';
 
-import { getSecurityQuestions, resetPassword } from '../utils/auth';
+import { useAuth } from '../utils/use-auth';
 
 const { Option } = Select;
 
-const PasswordReset = ({ form, setAuthed, setAuthRole }) => {
+const PasswordReset = ({ form }) => {
+  const { resetPassword, securityQuestions } = useAuth();
   const [confirmDirty, setConfirmDirty] = useState(true);
-  const [securityQuestions, setSecurityQuestions] = useState([]);
-
-  useEffect(() => {
-    async function fetchSecurityQuestions() {
-      const securityQuestionsData = await getSecurityQuestions();
-      setSecurityQuestions(securityQuestionsData.questions);
-    }
-    fetchSecurityQuestions();
-  }, [setSecurityQuestions]);
 
   const handleConfirmBlur = useCallback(
     e => {
@@ -54,20 +47,15 @@ const PasswordReset = ({ form, setAuthed, setAuthRole }) => {
       form.validateFields((err, values) => {
         if (!err) {
           const { email, password, answer } = values;
-          resetPassword({ email, password, answer }).then(res => {
-            if (res.status === 200) {
-              localStorage.setItem('token', res.token);
-              setAuthed(true);
-              setAuthRole(res.permission);
-            } else {
-              // show error message
-              message.error(res.message);
+          resetPassword({ email, password, answer }).then(errorMessage => {
+            if (errorMessage !== null) {
+              message.error(errorMessage);
             }
           });
         }
       });
     },
-    [form, setAuthed, setAuthRole],
+    [form, resetPassword],
   );
 
   const { getFieldDecorator } = form;
@@ -179,8 +167,6 @@ const PasswordReset = ({ form, setAuthed, setAuthRole }) => {
 
 PasswordReset.propTypes = {
   form: Form.isRequired,
-  setAuthed: PropTypes.func.isRequired,
-  setAuthRole: PropTypes.func.isRequired,
 };
 
 export default Form.create()(PasswordReset);

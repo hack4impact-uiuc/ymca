@@ -4,11 +4,11 @@ import { Col, Row } from 'antd';
 
 import { getHomePage } from '../utils/api';
 import getIsWebpSupported from '../utils/webp-detect';
+import useWindowDimensions from '../utils/mobile';
 
 import '../css/Home.css';
 import '../css_mobile/Home.css';
 
-import useWindowDimensions from '../utils/mobile';
 import {
   HomeBlock1Desktop,
   HomeBlock2Desktop,

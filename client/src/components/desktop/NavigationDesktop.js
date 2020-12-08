@@ -5,15 +5,12 @@ import { Layout, Menu } from 'antd';
 import '../../css/Navigation.css';
 import { NavLink } from 'react-router-dom';
 
+import { useAuth } from '../../utils/use-auth';
+
 const { Header } = Layout;
 
-type Props = {
-  authed: Boolean,
-  authRoleIsEquivalentTo: String => void,
-};
-
-const NavDesktop = (props: Props) => {
-  const { authed, authRoleIsEquivalentTo } = props;
+const NavDesktop = () => {
+  const { authed, authRoleIsEquivalentTo } = useAuth();
 
   return (
     <Header className="navigation">

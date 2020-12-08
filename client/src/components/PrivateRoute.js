@@ -1,22 +1,23 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
+import { useAuth } from '../utils/use-auth';
+
 type Props = {
-  minRole: String,
-  path: String,
-  component: Object,
-  authed: Boolean,
-  authRoleIsEquivalentTo: String => void,
+  minRole: string,
+  path: string,
+  component: React.ComponentType<any>,
 };
 
 const PrivateRoute = (props: Props) => {
-  const { minRole, path, component, authed, authRoleIsEquivalentTo } = props;
+  const { authed, authRoleIsEquivalentTo } = useAuth();
+  const { minRole, path, component } = props;
 
   const equivalent = authRoleIsEquivalentTo(minRole);
 
-  if (authed && equivalent) {
+  if (authed === true && equivalent === true) {
     return <Route path={path} exact component={component} />;
   }
 

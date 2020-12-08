@@ -3,17 +3,11 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 
-type Props = {
-  setAuthRole: String => void,
-  setAuthed: boolean => void,
-};
-const Logout = (props: Props) => {
-  const { setAuthed, setAuthRole } = props;
+import { useAuth } from '../utils/use-auth';
 
-  localStorage.removeItem('token');
-  setAuthed(false);
-  setAuthRole('');
-
+const Logout = () => {
+  const { logout } = useAuth();
+  logout();
   return <Redirect to="/" />;
 };
 
