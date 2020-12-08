@@ -10,7 +10,14 @@ import {
   createContext,
 } from 'react';
 
-import { verify, getAllRoles } from './auth';
+import {
+  login as loginHelper,
+  getSecurityQuestions,
+  register as registerHelper,
+  resetPassword as resetPasswordHelper,
+  verify,
+  getAllRoles,
+} from './auth';
 
 type ProvideAuthParams = {
   children: React.Node,
@@ -19,8 +26,20 @@ type ProvideAuthParams = {
 type Auth = {
   authed: ?boolean,
   authRoleIsEquivalentTo: string => ?boolean,
-  setAuthed: (?boolean) => void,
-  setAuthRole: (?string) => void,
+  login: ({ email: string, password: string }) => Promise<?string>,
+  logout: () => void,
+  register: ({
+    email: string,
+    password: string,
+    questionIdx: string,
+    answer: string,
+  }) => Promise<?string>,
+  resetPassword: ({
+    email: string,
+    password: string,
+    answer: string,
+  }) => Promise<?string>,
+  securityQuestions: Array<string>,
 };
 
 // Provider hook that creates auth object and handles state
@@ -28,10 +47,12 @@ function useProvideAuth(): Auth {
   const [authed, setAuthed] = useState<?boolean>(null);
   const [authRole, setAuthRole] = useState<?string>(null);
   const [authRoles, setAuthRoles] = useState<?Array<string>>(null);
+  const [securityQuestions, setSecurityQuestions] = useState<Array<string>>([]);
 
   useEffect(() => {
     async function fetchData() {
       Promise.all([
+        getSecurityQuestions(),
         getAllRoles(),
         verify(
           res => {
@@ -43,7 +64,10 @@ function useProvideAuth(): Auth {
             setAuthRole('');
           },
         ),
-      ]).then(vals => setAuthRoles(Object.keys(vals[0].roles).concat('')));
+      ]).then(vals => {
+        setSecurityQuestions(vals[0].questions);
+        setAuthRoles(Object.keys(vals[1].roles).concat(''));
+      });
     }
     fetchData();
   }, []);
@@ -61,19 +85,56 @@ function useProvideAuth(): Auth {
     [authRole, authRoles],
   );
 
+  const authUser = res => {
+    if (res.status === 200) {
+      localStorage.setItem('token', res.token);
+      setAuthed(true);
+      setAuthRole(res.permission);
+      return null;
+    }
+    return res.message;
+  };
+
+  const register = async params => {
+    const res = await registerHelper(params);
+    return authUser(res);
+  };
+
+  const resetPassword = async params => {
+    const res = await resetPasswordHelper(params);
+    return authUser(res);
+  };
+
+  const login = async params => {
+    const res = await loginHelper(params);
+    return authUser(res);
+  };
+
+  const logout = () => {
+    localStorage.removeItem('token');
+    setAuthed(false);
+    setAuthRole('');
+  };
+
   return {
     authed,
     authRoleIsEquivalentTo,
-    setAuthed,
-    setAuthRole,
+    login,
+    logout,
+    register,
+    resetPassword,
+    securityQuestions,
   };
 }
 
 const defaultContext: Auth = {
   authed: null,
   authRoleIsEquivalentTo: () => null,
-  setAuthed: () => {},
-  setAuthRole: () => {},
+  login: () => new Promise(() => {}),
+  logout: () => {},
+  register: () => new Promise(() => {}),
+  resetPassword: () => new Promise(() => {}),
+  securityQuestions: [],
 };
 
 const authContext = createContext<Auth>(defaultContext);

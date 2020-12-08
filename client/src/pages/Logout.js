@@ -6,12 +6,8 @@ import { Redirect } from 'react-router-dom';
 import { useAuth } from '../utils/use-auth';
 
 const Logout = () => {
-  const { setAuthed, setAuthRole } = useAuth();
-
-  localStorage.removeItem('token');
-  setAuthed(false);
-  setAuthRole('');
-
+  const { logout } = useAuth();
+  logout();
   return <Redirect to="/" />;
 };
 

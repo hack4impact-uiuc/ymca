@@ -1,4 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
+// @flow
+
+import React, { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Form } from '@ant-design/compatible';
@@ -7,23 +9,13 @@ import { Button, Input, Select, Row, Col, message } from 'antd';
 import 'antd/dist/antd.css';
 import '../css/LoginRegister.css';
 
-import { getSecurityQuestions, register } from '../utils/auth';
 import { useAuth } from '../utils/use-auth';
 
 const { Option } = Select;
 
 const Register = ({ form }) => {
-  const { setAuthed, setAuthRole } = useAuth();
+  const { register, securityQuestions } = useAuth();
   const [confirmDirty, setConfirmDirty] = useState(true);
-  const [securityQuestions, setSecurityQuestions] = useState([]);
-
-  useEffect(() => {
-    async function fetchSecurityQuestions() {
-      const securityQuestionsData = await getSecurityQuestions();
-      setSecurityQuestions(securityQuestionsData.questions);
-    }
-    fetchSecurityQuestions();
-  }, [setSecurityQuestions]);
 
   const handleConfirmBlur = useCallback(
     e => {
@@ -55,20 +47,17 @@ const Register = ({ form }) => {
       form.validateFields((err, values) => {
         if (!err) {
           const { email, password, questionIdx, answer } = values;
-          register({ email, password, questionIdx, answer }).then(res => {
-            if (res.status === 200) {
-              localStorage.setItem('token', res.token);
-              setAuthed(true);
-              setAuthRole(res.permission);
-            } else {
-              // show error message
-              message.error(res.message);
-            }
-          });
+          register({ email, password, questionIdx, answer }).then(
+            errorMessage => {
+              if (errorMessage !== null) {
+                message.error(errorMessage);
+              }
+            },
+          );
         }
       });
     },
-    [form, setAuthed, setAuthRole],
+    [form, register],
   );
 
   const { getFieldDecorator } = form;

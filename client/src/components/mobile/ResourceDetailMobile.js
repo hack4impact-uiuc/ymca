@@ -288,7 +288,6 @@ const ResourceDetailMobile = (props: Props) => {
             </Col>
             <Col>
               <SaveButton
-                authed={authed}
                 isSaved={isSaved}
                 deleteResourceHandler={deleteResourceHandler}
                 saveResourceHandler={saveResourceHandler}
