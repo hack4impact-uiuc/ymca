@@ -1,4 +1,7 @@
-version: 2
+version: 2.1
+orbs:
+  cypress: cypress-io/cypress@1
+
 jobs:
   frontend_lint:
     docker:
@@ -37,9 +40,6 @@ jobs:
     docker:
       - image: node:11.14.0
     working_directory: ~/ymca
-    dependencies:
-      override:
-        - echo $PATH
     steps:
       - checkout
       - run:
@@ -47,10 +47,12 @@ jobs:
             cd auth
             yarn
 workflows:
-  version: 2
   build_test:
     jobs:
       - frontend_lint
       - backend_test
       - backend_lint
       - auth_test
+      - cypress/run:
+          yarn: true
+          working_directory: client
