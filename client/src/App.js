@@ -73,28 +73,27 @@ const App = () => {
             exact
             minRole="admin"
           />
-
           <Route
             path="/saved"
             render={props => <SavedResources {...props} />}
           />
-
           <Route path="/login" render={() => showIfUnauthed(<Login />)} />
-
           <Route path="/register" render={() => showIfUnauthed(<Register />)} />
-
           <Route
             path="/password-reset"
             render={() => showIfUnauthed(<PasswordReset />)}
           />
-
           <Route path="/logout" render={() => <Logout />} />
           <Route
             path="/resources"
             exact
             render={props => <Resources {...props} />}
           />
-          <Route path="/resources/unknown" component={ResourceUnknown} />
+          <Route
+            path="/resources/unknown"
+            component={ResourceUnknown}
+            status={404}
+          />
           <PrivateRoute
             path="/role-approval"
             component={RoleApproval}
@@ -104,7 +103,7 @@ const App = () => {
             path="/resources/:id"
             render={props => <ResourceDetailCommon {...props} />}
           />
-          <Route component={NotFound} />
+          <Route component={NotFound} status={404} />
         </Switch>
         <Footer />
       </Router>
