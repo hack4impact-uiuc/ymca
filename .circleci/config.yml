@@ -56,6 +56,6 @@ workflows:
       - cypress/run:
           yarn: true
           start: yarn start
-          cache-key: 'cache-{{ arch }}-{{ .Branch }}-{{ checksum "web/package.json" }}'
+          cache-key: 'cache-{{ arch }}-{{ .Branch }}-{{ checksum "client/package.json" }}'
           working_directory: client
           record: true
