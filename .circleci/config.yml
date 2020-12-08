@@ -60,5 +60,3 @@ workflows:
           working_directory: client
           record: true
           cache-key: 'cache-{{ arch }}-{{ .Branch }}-{{ checksum "client/package.json" }}'
-          parallel: true
-          parallelism: 4
