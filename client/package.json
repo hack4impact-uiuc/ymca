@@ -28,7 +28,7 @@
     "start": "react-scripts start",
     "lint": "eslint --fix src -c .eslintrc.json --ext js,jsx",
     "build": "CI=false react-scripts build",
-    "test": "react-scripts test",
+    "test": "yarn run cypress run",
     "eject": "react-scripts eject",
     "flow": "flow"
   },
