@@ -2,11 +2,11 @@
 
 context('Admin Access', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:3000');
+    cy.visit('/');
   });
 
   it('unauthenticated admin access redirects to login', () => {
-    cy.visit('http://localhost:3000/admin');
+    cy.visit('/admin');
     cy.url().should('match', /login/);
   });
 });
