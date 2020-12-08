@@ -1,6 +1,6 @@
 @import '~antd/dist/antd.css';
 
-.navigation {
+.nav-desktop {
   background: #fff;
   position: sticky;
   top: 0;
@@ -8,7 +8,7 @@
   padding-top: 0.5em;
 }
 
-.navigation .logo {
+.nav-desktop .nav-desktop-logo {
   background-color: #fff;
   background-image: url('/asset/icon/logo192.png');
   background-position: center;
@@ -19,19 +19,19 @@
   width: 32px;
 }
 
-.navigation .ant-menu {
+.nav-desktop .ant-menu {
   font-size: 16px;
   color: rgba(0, 0, 0, 0.65);
   line-height: 50px;
 }
 
-.navigation .ant-menu-horizontal {
+.nav-desktop .ant-menu-horizontal {
   border-bottom: none;
   float: right;
   margin-top: 6px;
 }
 
-.navigation .ant-menu-horizontal > .ant-menu-item,
+.nav-desktop .ant-menu-horizontal > .ant-menu-item,
 .ant-menu-horizontal > .ant-menu-item:hover {
   border-bottom: none;
   font-weight: 400;
@@ -78,4 +78,66 @@ a::after {
   content: '';
   bottom: -3px;
   text-align: center;
+}
+
+.nav-mobile {
+  z-index: 30;
+  background: white;
+  width: 100%;
+  transition: top 0.25s;
+}
+
+.nav-mobile-topbar-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(235, 235, 235, 1);
+  height: 3.5em;
+  padding: 0.4em;
+}
+
+.nav-mobile-topbar-container .nav-mobile-logo {
+  background-image: url('/asset/icon/logo192.png');
+  background-position: center;
+  background-size: cover;
+  height: 1.7em;
+  width: 1.7em;
+  margin-left: 1em;
+  margin-top: 0.5em;
+}
+
+.nav-mobile-menu-btn-icon {
+  font-size: 1.9em;
+  color: gray;
+  margin-top: 0.25em;
+}
+
+.nav-mobile-menu {
+  padding-top: 1em;
+}
+
+.nav-mobile-menu-item {
+  background-color: white !important;
+}
+
+.nav-mobile-menu-item.ant-menu-item-selected {
+  font-weight: bold;
+}
+
+.ant-menu-inline .ant-menu-item::after {
+  border-right: 0px none white !important;
+}
+
+.nav-mobile-option {
+  margin-left: 2em;
+
+  color: #232323 !important;
+  transition: color 0.3s ease;
+  font-size: 1.2em !important;
+  text-align: left !important;
+}
+
+.nav-mobile-option:hover {
+  color: #000 !important;
+  text-decoration: none !important;
 }

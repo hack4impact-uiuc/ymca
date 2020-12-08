@@ -147,3 +147,137 @@
   height: 10px;
   width: 10px;
 }
+
+@media (max-width: 700px) {
+  .welcome-text-mobile {
+    color: #fff;
+    font-weight: 400;
+    line-height: 1.25;
+    width: 80vw;
+    text-align: center;
+    font-size: 25px;
+  }
+
+  .welcome-text-mobile-bold {
+    color: #fff;
+    font-weight: 600;
+    line-height: 1.25;
+    width: 60vw;
+    text-align: center;
+    font-size: 35px;
+    margin-bottom: 0.1em;
+  }
+
+  .welcome-text-mobile-link {
+    color: rgb(136, 216, 208);
+    font-weight: 600;
+    line-height: 1.25;
+    width: 60vw;
+    text-align: center;
+    font-size: 50px;
+  }
+
+  .welcome-text-mobile-link:hover {
+    text-decoration: none;
+    color: rgb(140, 200, 255);
+  }
+
+  .welcome-to {
+    margin-bottom: 0.5em;
+  }
+
+  .welcome-carousel {
+    margin-bottom: 0.9em;
+  }
+
+  .home-block-1 {
+    height: 100vh;
+  }
+
+  .home-block-1 .ant-btn-primary {
+    background-color: rgb(136, 216, 208);
+    border-color: rgb(136, 216, 208);
+    border-radius: 15px;
+    font-size: 18px;
+    width: 200px;
+    height: 40px;
+    font-weight: 600;
+  }
+
+  .home-block-1 .ant-btn-primary:hover {
+    background-color: rgb(136, 216, 208);
+    border-color: rgb(136, 216, 208);
+  }
+
+  .home-block-2 {
+    padding-top: 0;
+    padding-bottom: 90px;
+  }
+
+  .home-block-4 {
+    padding-top: 0;
+  }
+
+  .home-block-2__top__text {
+    height: 10%;
+    margin-bottom: 3vh;
+    padding-left: 3vw;
+    padding-right: 5vw;
+    font-size: 30% !important;
+  }
+
+  .home-block-2__top__text strong {
+    font-size: 30%;
+  }
+
+  .home-block-4__title strong {
+    font-size: 30%;
+  }
+
+  .home-block-4__title {
+    padding-bottom: 30px;
+  }
+
+  .home-block-2__bottom__text {
+    padding-left: 3vw;
+    padding-right: 3vw;
+  }
+
+  .home-block-3 {
+    height: 100vh;
+    overflow: auto;
+  }
+
+  .home-block-3 .ant-carousel .slick-dots li.slick-active {
+    width: 16px;
+  }
+
+  .testimonial-block {
+    height: 75vh;
+  }
+  .testimonial-block__top__img {
+    margin-top: 5vh;
+    width: 40vw;
+    border-radius: 50%;
+    margin-bottom: 2vh;
+  }
+  .testimonial-block__bottom h1,
+  .testimonial-block__bottom h3,
+  .testimonial-block__bottom p {
+    text-align: center;
+    color: #fff;
+    padding-left: 10vw;
+    padding-right: 10vw;
+  }
+  .testimonial-block__bottom p {
+    font-size: 2.5vh;
+  }
+
+  .home-block-4 {
+    padding-left: 3vw;
+  }
+
+  h3 {
+    font-size: 150% !important;
+  }
+}

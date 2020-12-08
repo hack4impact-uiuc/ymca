@@ -7,7 +7,6 @@ import { canBeWebpConverted, getIsWebpSupported } from '../utils/webp-detect';
 import useWindowDimensions from '../utils/mobile';
 
 import '../css/Home.css';
-import '../css_mobile/Home.css';
 
 import {
   HomeBlock1Desktop,

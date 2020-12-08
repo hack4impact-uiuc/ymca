@@ -14,12 +14,11 @@ import languages from '../data/languages';
 import locations from '../data/locations';
 import useWindowDimensions from '../utils/mobile';
 import { useAuth } from '../utils/use-auth';
-import ResourcesBanner from '../components/desktop/ResourcesBanner';
+import ResourcesBanner from '../components/ResourcesBanner';
 import ResourcesFilter from '../components/desktop/ResourcesFilter';
 import ResourcesGrid from '../components/ResourcesGrid';
 import ResourceCategoryFilter from '../components/ResourceCategoryFilter';
 import ResourcesCatMobile from '../components/mobile/ResourcesCatMobile';
-import ResourcesBannerMobile from '../components/mobile/ResourcesBannerMobile';
 
 const { Sider } = Layout;
 
@@ -234,35 +233,11 @@ function Resources(props) {
 
   return (
     <Layout className="resources">
-      {!isMobile && (
-        <ResourcesBanner
-          categorySelected={category}
-          subcategorySelected={subcategory}
-        />
-      )}
-      {isMobile && (
-        <ResourcesBannerMobile
-          categorySelected={category}
-          subcategorySelected={subcategory}
-        />
-      )}
-      {!isMobile && (
-        <ResourcesFilter
-          costs={costs}
-          costSelected={cost}
-          languages={languages}
-          languageSelected={language}
-          locations={locations}
-          locationSelected={location}
-          sorts={sorts}
-          sortSelected={sort}
-          setCost={setCost}
-          setLanguage={setLanguage}
-          setLocation={setLocation}
-          setSort={setSort}
-        />
-      )}
-      {isMobile && (
+      <ResourcesBanner
+        categorySelected={category}
+        subcategorySelected={subcategory}
+      />
+      {isMobile ? (
         <div className="filter-bar">
           <hr className="line" />
           <ResourcesCatMobile
@@ -288,6 +263,21 @@ function Resources(props) {
           />
           <hr className="line" />
         </div>
+      ) : (
+        <ResourcesFilter
+          costs={costs}
+          costSelected={cost}
+          languages={languages}
+          languageSelected={language}
+          locations={locations}
+          locationSelected={location}
+          sorts={sorts}
+          sortSelected={sort}
+          setCost={setCost}
+          setLanguage={setLanguage}
+          setLocation={setLocation}
+          setSort={setSort}
+        />
       )}
       <Layout style={{ background: 'white' }}>
         {!isMobile && (

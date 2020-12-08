@@ -6,7 +6,7 @@ import { Button, Drawer, Menu } from 'antd';
 import ResourceCategoryFilter from '../ResourceCategoryFilter';
 import useWindowDimensions from '../../utils/mobile';
 
-import '../../css_mobile/ResourcesCatMobile.css';
+import '../../css/ResourcesCat.css';
 import ResourcesFilterMobile from './ResourcesFilterMobile';
 
 function ResourcesCatMobile(props) {
