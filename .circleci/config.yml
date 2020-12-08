@@ -55,6 +55,7 @@ workflows:
       - auth_test
       - cypress/run:
           yarn: true
+          start: yarn start
+          cache-key: 'cache-{{ arch }}-{{ .Branch }}-{{ checksum "web/package.json" }}'
           working_directory: client
           record: true
-          start: yarn start
