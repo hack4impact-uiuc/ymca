@@ -1,4 +1,4 @@
-//@flow
+// @flow
 
 // https://stackoverflow.com/questions/36862334/
 import { useState, useEffect } from 'react';

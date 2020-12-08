@@ -1,11 +1,11 @@
-//@flow
-
-import type { Testimonial } from '../../pages/Home';
+// @flow
 
 import React, { useEffect, useMemo, useState } from 'react';
 import { Button, Col, Row, Carousel, notification } from 'antd';
 import { HeartTwoTone } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+
+import type { Testimonial } from '../../pages/Home';
 
 import '../../css/Home.css';
 import { getCategories, getHomePage } from '../../utils/api';

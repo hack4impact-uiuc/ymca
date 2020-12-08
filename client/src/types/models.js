@@ -1,4 +1,4 @@
-//@flow
+// @flow
 
 export type Category = { name: string, subcategories: Array<string> };
 

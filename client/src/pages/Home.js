@@ -1,4 +1,4 @@
-//@flow
+// @flow
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { Textfit } from 'react-textfit';

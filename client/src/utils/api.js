@@ -1,10 +1,10 @@
-//@flow
+// @flow
 
 /* eslint-disable no-console */
 
-import type { Category, HomePage, Resource } from '../types/models';
-
 import axios from 'axios';
+
+import type { Category, HomePage, Resource } from '../types/models';
 
 type ApiResponse<T> = Promise<{
   code: number,
@@ -121,7 +121,8 @@ export const getResourceByID = (
   id: string,
   needLatLong: boolean,
 ): ApiResponse<Resource> => {
-  const requestExtension = `/api/resources/${id}?requireLatLong=${needLatLong.toString()}`;
+  const boolString = needLatLong.toString();
+  const requestExtension = `/api/resources/${id}?requireLatLong=${boolString}`;
   return instance.get(requestExtension).then(
     res => res.data,
     err => {
