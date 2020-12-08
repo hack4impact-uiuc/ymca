@@ -20,10 +20,10 @@ jobs:
     working_directory: client
     steps:
       - checkout
-      - name: Install dependencies
-        run: yarn
-      - name: Flow
-        run: yarn flow
+      - run:
+        command: |
+          yarn
+          yarn flow
   backend_test:
     docker:
       - image: circleci/node:10.16.3
