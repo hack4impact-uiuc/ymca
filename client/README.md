@@ -16,6 +16,10 @@ Then go to [http://localhost:3000](http://localhost:3000) in your browser. Make 
 
 Built with [React](https://reactjs.org/).
 
+### Testing
+
+Use Cypress to test. To run, `yarn test` in the directory.
+
 ### Code Style
 
 Use [ESLint](https://eslint.org) with [Prettier](https://prettier.io/) and the [Airbnb Javascript Style Guide](https://github.com/airbnb/javascript).

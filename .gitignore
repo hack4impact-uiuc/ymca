@@ -11,6 +11,10 @@ build/
 TODOS.txt
 yarn.lock
 
+# client
+client/cypress/screenshots
+client/cypress/videos
+
 # api
 api/.env
 api/src/logs
