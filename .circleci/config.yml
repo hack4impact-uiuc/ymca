@@ -55,7 +55,7 @@ workflows:
       # - auth_test
       - cypress/install
       - cypress/run:
-         requires:
+          requires:
             - cypress/install
           name: frontend_test
           yarn: true
