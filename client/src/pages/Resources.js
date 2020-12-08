@@ -14,12 +14,11 @@ import languages from '../data/languages';
 import locations from '../data/locations';
 import useWindowDimensions from '../utils/mobile';
 import { useAuth } from '../utils/use-auth';
-import ResourcesBanner from '../components/desktop/ResourcesBanner';
+import ResourcesBanner from '../components/ResourcesBanner';
 import ResourcesFilter from '../components/desktop/ResourcesFilter';
 import ResourcesGrid from '../components/ResourcesGrid';
 import ResourceCategoryFilter from '../components/ResourceCategoryFilter';
 import ResourcesCatMobile from '../components/mobile/ResourcesCatMobile';
-import ResourcesBannerMobile from '../components/mobile/ResourcesBannerMobile';
 
 const { Sider } = Layout;
 
@@ -234,18 +233,10 @@ function Resources(props) {
 
   return (
     <Layout className="resources">
-      {!isMobile && (
-        <ResourcesBanner
-          categorySelected={category}
-          subcategorySelected={subcategory}
-        />
-      )}
-      {isMobile && (
-        <ResourcesBannerMobile
-          categorySelected={category}
-          subcategorySelected={subcategory}
-        />
-      )}
+      <ResourcesBanner
+        categorySelected={category}
+        subcategorySelected={subcategory}
+      />
       {!isMobile && (
         <ResourcesFilter
           costs={costs}

@@ -8,9 +8,8 @@ import { Redirect } from 'react-router-dom';
 import { getResources } from '../utils/api';
 import { getSavedResources } from '../utils/auth';
 import useWindowDimensions from '../utils/mobile';
-import ResourcesBanner from '../components/desktop/ResourcesBanner';
+import ResourcesBanner from '../components/ResourcesBanner';
 import ResourcesGrid from '../components/ResourcesGrid';
-import ResourcesBannerMobile from '../components/mobile/ResourcesBannerMobile';
 import { useAuth } from '../utils/use-auth';
 
 function SavedResources(props) {
@@ -59,11 +58,7 @@ function SavedResources(props) {
 
   return (
     <Layout className="resources">
-      {isMobile ? (
-        <ResourcesBannerMobile categorySelected="Saved Resources" />
-      ) : (
-        <ResourcesBanner categorySelected="Saved Resources" />
-      )}
+      <ResourcesBanner categorySelected="Saved Resources" />
       <Layout style={{ background: 'white' }}>
         {loading ? (
           <Loader

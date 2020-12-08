@@ -66,16 +66,12 @@ const ResourceDetailMobile = (props: Props) => {
   const [image, setImage] = useState(null);
   const [financialAidDetails, setFinancialAidDetails] = useState(null);
   const [contacts, setContacts] = useState(null);
-
   const [resourceExists, setResourceExists] = useState(true);
-
   const [lat, setLat] = useState(0);
   const [lng, setLng] = useState(0);
   const [distFromResource, setDistFromResource] = useState(null);
-
   const [eligibility, setEligibility] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
-
   const [isSaved, setIsSaved] = useState(false);
   const [isWithinOperationHours, setIsWithinOperationHours] = useState(null);
 
