@@ -44,6 +44,16 @@
   line-height: 2;
 }
 
+.sort-dropdown a {
+  color: #000;
+}
+
+.sort-dropdown a:hover {
+  color: #000;
+  text-decoration: none;
+  font-weight: bold;
+}
+
 .radio-filter {
   display: block;
   height: 3em;
