@@ -28,7 +28,7 @@ import ResourceDetailCommon from './components/ResourceDetailCommon';
 import { useAuth } from './utils/use-auth';
 
 const App = () => {
-  const { authed, authRoleIsEquivalentTo, setAuthed, setAuthRole } = useAuth();
+  const { authed, authRoleIsEquivalentTo } = useAuth();
 
   const showIfUnauthed = useCallback(
     component => {
@@ -53,108 +53,56 @@ const App = () => {
     <>
       <Router>
         <ScrollToTop />
-        <Navigation
-          authed={authed}
-          authRoleIsEquivalentTo={authRoleIsEquivalentTo}
-        />
+        <Navigation />
         <Switch>
           <Route path="/" exact component={Home} />
           <PrivateRoute
             path="/admin"
             component={AdminResourceManager}
             exact
-            authed={authed}
-            authRoleIsEquivalentTo={authRoleIsEquivalentTo}
             minRole="admin"
           />
           <PrivateRoute
             path="/admin/:id"
             component={AdminResourceManager}
-            authed={authed}
-            authRoleIsEquivalentTo={authRoleIsEquivalentTo}
             minRole="admin"
           />
           <PrivateRoute
             path="/edit-home"
             component={EditHome}
             exact
-            authed={authed}
-            authRoleIsEquivalentTo={authRoleIsEquivalentTo}
             minRole="admin"
           />
 
           <Route
             path="/saved"
-            render={props => <SavedResources {...props} authed={authed} />}
+            render={props => <SavedResources {...props} />}
           />
 
-          <Route
-            path="/login"
-            render={() =>
-              showIfUnauthed(
-                <Login
-                  authed={authed}
-                  setAuthed={setAuthed}
-                  setAuthRole={setAuthRole}
-                />,
-              )
-            }
-          />
+          <Route path="/login" render={() => showIfUnauthed(<Login />)} />
 
-          <Route
-            path="/register"
-            render={() =>
-              showIfUnauthed(
-                <Register
-                  authed={authed}
-                  setAuthed={setAuthed}
-                  setAuthRole={setAuthRole}
-                />,
-              )
-            }
-          />
+          <Route path="/register" render={() => showIfUnauthed(<Register />)} />
 
           <Route
             path="/password-reset"
-            render={() =>
-              showIfUnauthed(
-                <PasswordReset
-                  authed={authed}
-                  setAuthed={setAuthed}
-                  setAuthRole={setAuthRole}
-                />,
-              )
-            }
+            render={() => showIfUnauthed(<PasswordReset />)}
           />
 
-          <Route
-            path="/logout"
-            render={() => (
-              <Logout setAuthed={setAuthed} setAuthRole={setAuthRole} />
-            )}
-          />
+          <Route path="/logout" render={() => <Logout />} />
           <Route
             path="/resources"
             exact
-            render={props => <Resources {...props} authed={authed} />}
+            render={props => <Resources {...props} />}
           />
           <Route path="/resources/unknown" component={ResourceUnknown} />
           <PrivateRoute
             path="/role-approval"
             component={RoleApproval}
-            authed={authed}
-            authRoleIsEquivalentTo={authRoleIsEquivalentTo}
             minRole="admin"
           />
           <Route
             path="/resources/:id"
-            render={props => (
-              <ResourceDetailCommon
-                {...props}
-                authed={authed}
-                authRoleIsEquivalentTo={authRoleIsEquivalentTo}
-              />
-            )}
+            render={props => <ResourceDetailCommon {...props} />}
           />
           <Route component={NotFound} />
         </Switch>

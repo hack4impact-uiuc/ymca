@@ -9,16 +9,15 @@ import { Button, Checkbox, Input, Row, Col } from 'antd';
 import 'antd/dist/antd.css';
 import '../css/LoginRegister.css';
 
-import { login } from '../utils/auth';
+import { useAuth } from '../utils/use-auth';
 
 type Props = {
   form: Form,
-  setAuthed: boolean => void,
-  setAuthRole: Boolean => void,
 };
 
 function Login(props: Props) {
-  const { form, setAuthed, setAuthRole } = props;
+  const { login } = useAuth();
+  const { form } = props;
   const { getFieldDecorator } = form;
   const [error, setError] = useState('');
 
@@ -29,21 +28,17 @@ function Login(props: Props) {
       form.validateFields((err, values) => {
         if (!err) {
           const { email, password } = values;
-          login({ email, password }).then(res => {
-            if (res.status === 200) {
-              localStorage.setItem('token', res.token);
-
-              setAuthed(true);
-              setAuthRole(res.permission);
-              setError('');
+          login({ email, password }).then(errorMessage => {
+            if (errorMessage !== null) {
+              setError(errorMessage);
             } else {
-              setError(res.message);
+              setError(null);
             }
           });
         }
       });
     },
-    [form, setAuthed, setAuthRole],
+    [form, login],
   );
 
   return (

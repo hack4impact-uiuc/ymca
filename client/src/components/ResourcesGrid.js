@@ -6,7 +6,7 @@ import ResourcePreview from './ResourcePreview';
 import '../css/ResourcesGrid.css';
 
 function ResourcesGrid(props) {
-  const { filteredResources, savedResources, authed, updateSaved } = props;
+  const { filteredResources, savedResources, updateSaved } = props;
 
   const cards = Array(Math.ceil(filteredResources.length / 3))
     .fill()
@@ -34,7 +34,6 @@ function ResourcesGrid(props) {
               name={first.name}
               subcategory={first.subcategory}
               isSaved={savedResources.has(first._id)}
-              authed={authed}
               updateSaved={updateSaved}
               image={first.image || ''}
             />
@@ -51,7 +50,6 @@ function ResourcesGrid(props) {
                 name={second.name}
                 subcategory={second.subcategory}
                 isSaved={savedResources.has(second._id)}
-                authed={authed}
                 updateSaved={updateSaved}
                 image={second.image || ''}
               />
@@ -69,7 +67,6 @@ function ResourcesGrid(props) {
                 name={third.name}
                 subcategory={third.subcategory}
                 isSaved={savedResources.has(third._id)}
-                authed={authed}
                 updateSaved={updateSaved}
                 image={third.image || ''}
               />
@@ -96,7 +93,6 @@ ResourcesGrid.propTypes = {
     }),
   ).isRequired,
   savedResources: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-  authed: PropTypes.bool.isRequired,
   updateSaved: PropTypes.func.isRequired,
 };
 

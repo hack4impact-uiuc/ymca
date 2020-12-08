@@ -6,13 +6,10 @@ import { MenuOutlined } from '@ant-design/icons';
 import { Drawer, Button, Menu } from 'antd';
 import '../../css_mobile/Navigation.css';
 
-type Props = {
-  authed: Boolean,
-  authRoleIsEquivalentTo: String => Boolean,
-};
+import { useAuth } from '../../utils/use-auth';
 
-const NavMobile = (props: Props) => {
-  const { authed, authRoleIsEquivalentTo } = props;
+const NavMobile = () => {
+  const { authed, authRoleIsEquivalentTo } = useAuth();
   const [drawerVisible, setDrawerVisible] = useState(false);
 
   return (
