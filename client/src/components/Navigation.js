@@ -9,7 +9,6 @@ import { MenuOutlined } from '@ant-design/icons';
 import { useAuth } from '../utils/use-auth';
 
 import '../css/Navigation.css';
-import '../css_mobile/Navigation.css';
 
 const { Header } = Layout;
 
@@ -22,9 +21,9 @@ const NavDesktop = () => {
   const { authed, authRoleIsEquivalentTo } = useAuth();
 
   return (
-    <Header className="navigation">
+    <Header className="nav-desktop">
       <NavLink exact to="/" aria-label="logo">
-        <div className="logo" />
+        <div className="nav-desktop-logo" />
       </NavLink>
       <Menu mode="horizontal">
         <Menu.Item key="home">
@@ -95,11 +94,11 @@ const NavMobile = () => {
   return (
     <nav>
       <div className="nav-mobile">
-        <div className="nav-topbar-container">
+        <div className="nav-mobile-topbar-container">
           <NavLink exact to="/">
             <div className="nav-mobile-logo" />
           </NavLink>
-          <div className="nav-menu-btn-container">
+          <div className="nav-mobile-menu-btn-container">
             <Button
               onClick={() => setDrawerVisible(true)}
               block
@@ -107,7 +106,7 @@ const NavMobile = () => {
               id="navbar"
             >
               <div align="right">
-                <MenuOutlined className="nav-menu-btn-icon" />
+                <MenuOutlined className="nav-mobile-menu-btn-icon" />
               </div>
             </Button>
           </div>
