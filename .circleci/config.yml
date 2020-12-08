@@ -53,7 +53,7 @@ workflows:
       # - backend_test
       # - backend_lint
       # - auth_test
-      - cypress/install
+      - cypress/install:
           yarn: true
           working_directory: client
       - cypress/run:
