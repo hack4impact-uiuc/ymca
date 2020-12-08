@@ -60,7 +60,7 @@ workflows:
           cache-key: 'cache-{{ arch }}-{{ .Branch }}-{{ checksum "client/package.json" }}'
       - cypress/run:
           requires:
-            - cypress/install
+            - frontend_test_install
           name: frontend_test
           yarn: true
           start: yarn start
