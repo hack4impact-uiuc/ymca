@@ -53,7 +53,10 @@ workflows:
       # - backend_test
       # - backend_lint
       # - auth_test
+      - cypress/install
       - cypress/run:
+         requires:
+            - cypress/install
           name: frontend_test
           yarn: true
           start: yarn start
