@@ -57,3 +57,4 @@ workflows:
           yarn: true
           working_directory: client
           record: true
+          start: yarn start
