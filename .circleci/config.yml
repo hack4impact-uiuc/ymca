@@ -54,6 +54,7 @@ workflows:
       - backend_lint
       - auth_test
       - cypress/run:
+          name: frontend_test
           yarn: true
           start: yarn start
           parallel: true
