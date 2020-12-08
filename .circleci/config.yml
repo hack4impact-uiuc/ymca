@@ -54,6 +54,8 @@ workflows:
       # - backend_lint
       # - auth_test
       - cypress/install
+          cache-key: 'cache-{{ arch }}-{{ .Branch }}-{{ checksum "client/package.json" }}'
+          working_directory: client
       - cypress/run:
           requires:
             - cypress/install
@@ -62,6 +64,5 @@ workflows:
           start: yarn start
           working_directory: client
           record: true
-          cache-key: 'cache-{{ arch }}-{{ .Branch }}-{{ checksum "client/package.json" }}'
           parallel: true
           parallelism: 4
