@@ -54,5 +54,4 @@ workflows:
       - backend_lint
       - auth_test
       - cypress/run:
-          start: yarn start
-          working_directory: client
+          start: cd client && yarn && yarn start
