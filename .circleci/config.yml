@@ -55,7 +55,6 @@ workflows:
       - backend_lint
       - auth_test
       - cypress/run:
-          - checkout
           - run:
               command: |
                 cd client
