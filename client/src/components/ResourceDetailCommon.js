@@ -16,13 +16,14 @@ type Props = {
     },
   },
 };
+
 const ResourceDetailCommon = (props: Props) => {
   const isMobile = useWindowDimensions()[1];
-
-  if (isMobile) {
-    return <ResourceDetailMobile {...props} />;
-  }
-  return <ResourceDetail {...props} />;
+  return isMobile ? (
+    <ResourceDetailMobile {...props} />
+  ) : (
+    <ResourceDetail {...props} />
+  );
 };
 
 export default ResourceDetailCommon;

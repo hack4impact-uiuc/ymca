@@ -237,23 +237,8 @@ function Resources(props) {
         categorySelected={category}
         subcategorySelected={subcategory}
       />
-      {!isMobile && (
-        <ResourcesFilter
-          costs={costs}
-          costSelected={cost}
-          languages={languages}
-          languageSelected={language}
-          locations={locations}
-          locationSelected={location}
-          sorts={sorts}
-          sortSelected={sort}
-          setCost={setCost}
-          setLanguage={setLanguage}
-          setLocation={setLocation}
-          setSort={setSort}
-        />
-      )}
-      {isMobile && (
+
+      {isMobile ? (
         <div className="filter-bar">
           <hr className="line" />
           <ResourcesCatMobile
@@ -279,6 +264,21 @@ function Resources(props) {
           />
           <hr className="line" />
         </div>
+      ) : (
+        <ResourcesFilter
+          costs={costs}
+          costSelected={cost}
+          languages={languages}
+          languageSelected={language}
+          locations={locations}
+          locationSelected={location}
+          sorts={sorts}
+          sortSelected={sort}
+          setCost={setCost}
+          setLanguage={setLanguage}
+          setLocation={setLocation}
+          setSort={setSort}
+        />
       )}
       <Layout style={{ background: 'white' }}>
         {!isMobile && (
