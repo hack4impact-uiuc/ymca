@@ -49,13 +49,15 @@ jobs:
 workflows:
   build_test:
     jobs:
-      # - frontend_lint
-      # - backend_test
-      # - backend_lint
-      # - auth_test
+      - frontend_lint
+      - backend_test
+      - backend_lint
+      - auth_test
       - cypress/install:
+          name: frontend_test_install
           yarn: true
           working_directory: client
+          cache-key: 'cache-{{ arch }}-{{ .Branch }}-{{ checksum "client/package.json" }}'
       - cypress/run:
           requires:
             - cypress/install
