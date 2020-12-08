@@ -237,7 +237,6 @@ function Resources(props) {
         categorySelected={category}
         subcategorySelected={subcategory}
       />
-
       {isMobile ? (
         <div className="filter-bar">
           <hr className="line" />

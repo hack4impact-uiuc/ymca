@@ -7,9 +7,13 @@ import ResourceBreadcrumb from './ResourcesBreadcrumb';
 
 const { Header } = Layout;
 
-const ResourcesBanner = () => {
+const ResourcesBanner = props => {
   const isMobile = useWindowDimensions()[1];
-  return isMobile ? <ResourcesBannerMobile /> : <ResourcesBannerDesktop />;
+  return isMobile ? (
+    <ResourcesBannerMobile {...props} />
+  ) : (
+    <ResourcesBannerDesktop {...props} />
+  );
 };
 
 function ResourcesBannerDesktop(props) {
