@@ -21,9 +21,9 @@ jobs:
     steps:
       - checkout
       - run:
-        command: |
-          yarn
-          yarn flow
+          command: |
+            yarn
+            yarn flow
   backend_test:
     docker:
       - image: circleci/node:10.16.3
