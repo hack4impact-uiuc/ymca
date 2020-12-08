@@ -1,11 +1,11 @@
 /// <reference types="cypress" />
 
-context('Navigation', () => {
+context('Admin Access', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000');
   });
 
-  it("cy.go() - go back or forward in the browser's history", () => {
+  it('unauthenticated admin access redirects to login', () => {
     cy.visit('http://localhost:3000/admin');
     cy.url().should('match', /login/);
   });

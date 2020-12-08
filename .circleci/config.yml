@@ -56,3 +56,4 @@ workflows:
       - cypress/run:
           yarn: true
           working_directory: client
+          record: true
