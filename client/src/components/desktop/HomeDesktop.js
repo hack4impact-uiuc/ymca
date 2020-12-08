@@ -1,3 +1,7 @@
+//@flow
+
+import type { Testimonial } from '../../pages/Home';
+
 import React, { useEffect, useMemo, useState } from 'react';
 import { Button, Col, Row, Carousel, notification } from 'antd';
 import { HeartTwoTone } from '@ant-design/icons';
@@ -11,7 +15,7 @@ import {
 } from '../../utils/webp-detect';
 
 export const HomeBlock1Desktop = () => {
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState<Array<string>>([]);
   const [backgroundImage, setBackgroundImage] = useState('');
   const isWebpSupported = useMemo(getIsWebpSupported, []);
 
@@ -143,7 +147,7 @@ export const HomeBlock2Desktop = () => {
 };
 
 export const HomeBlock3Desktop = () => {
-  const [testimonials, setTestimonials] = useState([]);
+  const [testimonials, setTestimonials] = useState<Array<Testimonial>>([]);
   const isWebpSupported = useMemo(getIsWebpSupported, []);
 
   const fetchTestimonials = async () => {
@@ -180,7 +184,7 @@ export const HomeBlock3Desktop = () => {
         >
           {testimonials.map(element => {
             return (
-              <div key={element}>
+              <div key={`${element.person}-${element.title}`}>
                 <Row type="flex" justify="center" align="middle">
                   <Col span={5} style={{ marginTop: '1em' }}>
                     <img
