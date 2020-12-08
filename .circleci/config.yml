@@ -49,10 +49,10 @@ jobs:
 workflows:
   build_test:
     jobs:
-      - frontend_lint
-      - backend_test
-      - backend_lint
-      - auth_test
+      # - frontend_lint
+      # - backend_test
+      # - backend_lint
+      # - auth_test
       - cypress/run:
           name: frontend_test
           yarn: true
@@ -60,3 +60,5 @@ workflows:
           working_directory: client
           record: true
           cache-key: 'cache-{{ arch }}-{{ .Branch }}-{{ checksum "client/package.json" }}'
+          parallel: true
+          parallelism: 4
