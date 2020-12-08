@@ -14,6 +14,16 @@ jobs:
             cd client
             yarn
             yarn lint
+  frontend_typecheck:
+    docker:
+      - image: circleci/node:10.16.3
+    working_directory: client
+    steps:
+      - checkout
+      - name: Install dependencies
+        run: yarn
+      - name: Flow
+        run: yarn flow
   backend_test:
     docker:
       - image: circleci/node:10.16.3
