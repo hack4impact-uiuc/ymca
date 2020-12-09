@@ -150,26 +150,25 @@ export const HomeBlock3Desktop = () => {
   const [testimonials, setTestimonials] = useState<Array<Testimonial>>([]);
   const isWebpSupported = useMemo(getIsWebpSupported, []);
 
-  const fetchTestimonials = async () => {
-    const res = await getHomePage();
-    const newTestimonials = [];
-    if (res) {
-      res.result.testimonials.forEach(t => {
-        newTestimonials.push({
-          person: t[0],
-          image:
-            isWebpSupported && canBeWebpConverted(t[1])
-              ? t[1].toLowerCase().replace('jpg', 'webp')
-              : t[1],
-          title: t[2],
-          testimonial: t[3],
-        });
-      });
-    }
-    setTestimonials(newTestimonials);
-  };
-
   useEffect(() => {
+    const fetchTestimonials = async () => {
+      const res = await getHomePage();
+      const newTestimonials = [];
+      if (res) {
+        res.result.testimonials.forEach(t => {
+          newTestimonials.push({
+            person: t[0],
+            image:
+              isWebpSupported && canBeWebpConverted(t[1])
+                ? t[1].toLowerCase().replace('jpg', 'webp')
+                : t[1],
+            title: t[2],
+            testimonial: t[3],
+          });
+        });
+      }
+      setTestimonials(newTestimonials);
+    };
     fetchTestimonials();
   }, [setTestimonials]);
 
