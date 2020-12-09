@@ -78,7 +78,7 @@ const Home = () => {
       <Row className="home-block-4" type="flex" justify="center" align="middle">
         <Col span={24}>
           <Row type="flex" justify="center" align="middle">
-            <Col span={spanNum} className="home-block-4__title">
+            <Col span={spanNum} className="home-block-4-title">
               <Textfit mode="single">
                 <p
                   className="home-block-4-title"
@@ -100,7 +100,7 @@ const Home = () => {
                   {partners.slice(index * 5, (index + 1) * 5).map(element => {
                     return (
                       <Col
-                        className="home-block-4__partner"
+                        className="home-block-4-partner"
                         span={isMobile ? 10 : 4}
                       >
                         <a
@@ -123,7 +123,7 @@ const Home = () => {
                   {dimensions.width > 976 &&
                     partners.slice(index * 5, (index + 1) * 5).map(element => {
                       return (
-                        <Col className="home-block-4__partner-name" span={4}>
+                        <Col className="home-block-4-partner-name" span={4}>
                           <h5
                             style={{
                               opacity: partnerHover === element.name ? 1 : 0,

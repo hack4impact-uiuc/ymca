@@ -98,14 +98,14 @@ export const HomeBlock2Mobile = () => {
     <Row className="home-block-2" type="flex" justify="center" align="middle">
       <Col className="home-block-2" span={24}>
         <Row type="flex" justify="center" align="middle">
-          <Col span={20} className="home-block-2__top__text">
+          <Col span={20} className="home-block-2-top-text">
             <Textfit mode="single">
               <strong>About the Guide </strong>
             </Textfit>
           </Col>
         </Row>
         <Row
-          className="home-block-2__bottom__text"
+          className="home-block-2-bottom-text"
           type="flex"
           justify="center"
           align="middle"
@@ -170,13 +170,13 @@ export const HomeBlock3Mobile = () => {
                 <Row type="flex" justify="center" align="middle">
                   <Col span={23} justify="center" align="middle">
                     <img
-                      className="testimonial-block__top__img"
+                      className="testimonial-block-top-img"
                       src={element.image}
                       alt=""
                     />
                   </Col>
                 </Row>
-                <Row className="testimonial-block__bottom">
+                <Row className="testimonial-block-bottom">
                   <Col>
                     <h1>{element.person}</h1>
                     <p>

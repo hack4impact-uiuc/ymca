@@ -16,11 +16,11 @@ context('Home page', () => {
   });
 
   it('five partners', () => {
-    cy.get('.home-block-4__partner').should('have.length', 5);
+    cy.get('.home-block-4-partner').should('have.length', 5);
   });
 
   it('first partner links to cufair', () => {
-    cy.get('.home-block-4__partner > a')
+    cy.get('.home-block-4-partner > a')
       .eq(0)
       .should('have.attr', 'href')
       .then(href => {
@@ -29,7 +29,7 @@ context('Home page', () => {
   });
 
   it('second partner links to cuphd', () => {
-    cy.get('.home-block-4__partner > a')
+    cy.get('.home-block-4-partner > a')
       .eq(1)
       .should('have.attr', 'href')
       .then(href => {
@@ -38,7 +38,7 @@ context('Home page', () => {
   });
 
   it('third partner links to cuphd', () => {
-    cy.get('.home-block-4__partner > a')
+    cy.get('.home-block-4-partner > a')
       .eq(2)
       .should('have.attr', 'href')
       .then(href => {
@@ -47,7 +47,7 @@ context('Home page', () => {
   });
 
   it('fourth partner links to cuphd', () => {
-    cy.get('.home-block-4__partner > a')
+    cy.get('.home-block-4-partner > a')
       .eq(3)
       .should('have.attr', 'href')
       .then(href => {
@@ -56,7 +56,7 @@ context('Home page', () => {
   });
 
   it('fifth partner links to cuphd', () => {
-    cy.get('.home-block-4__partner > a')
+    cy.get('.home-block-4-partner > a')
       .eq(4)
       .should('have.attr', 'href')
       .then(href => {
