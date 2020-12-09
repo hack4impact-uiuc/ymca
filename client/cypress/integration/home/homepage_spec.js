@@ -15,13 +15,52 @@ context('Home page', () => {
     cy.url().should('match', /resources/);
   });
 
-  it('Advertise link should refer to Contact page', () => {
-    cy.get('.home-block-4__partner')
-      .eq(1)
-      .get('a')
+  it('five partners', () => {
+    cy.get('.home-block-4__partner').should('have.length', 5);
+  });
+
+  it('first partner links to cufair', () => {
+    cy.get('.home-block-4__partner > a')
+      .eq(0)
       .should('have.attr', 'href')
       .then(href => {
-        cy.visit(href);
+        expect(href).to.equal('https://www.cu-fair.org/');
+      });
+  });
+
+  it('second partner links to cuphd', () => {
+    cy.get('.home-block-4__partner > a')
+      .eq(1)
+      .should('have.attr', 'href')
+      .then(href => {
+        expect(href).to.equal('https://www.c-uphd.org/');
+      });
+  });
+
+  it('third partner links to cuphd', () => {
+    cy.get('.home-block-4__partner > a')
+      .eq(2)
+      .should('have.attr', 'href')
+      .then(href => {
+        expect(href).to.equal('https://twitter.com/dharitreee/');
+      });
+  });
+
+  it('fourth partner links to cuphd', () => {
+    cy.get('.home-block-4__partner > a')
+      .eq(3)
+      .should('have.attr', 'href')
+      .then(href => {
+        expect(href).to.equal('https://www.threespinners.org/');
+      });
+  });
+
+  it('fifth partner links to cuphd', () => {
+    cy.get('.home-block-4__partner > a')
+      .eq(4)
+      .should('have.attr', 'href')
+      .then(href => {
+        expect(href).to.equal('https://www.therefugeecenter-cu.org/');
       });
   });
 });

@@ -123,7 +123,7 @@ const Home = () => {
                   {dimensions.width > 976 &&
                     partners.slice(index * 5, (index + 1) * 5).map(element => {
                       return (
-                        <Col className="home-block-4__partner" span={4}>
+                        <Col className="home-block-4__partner-name" span={4}>
                           <h5
                             style={{
                               opacity: partnerHover === element.name ? 1 : 0,
