@@ -9,6 +9,10 @@ context('Home page', () => {
     cy.visit('/');
   });
 
+  it('correct page title', () => {
+    cy.title().should('eq', 'NAWC Resource Center');
+  });
+
   it('find resources button redirects to /resources', () => {
     cy.get('.ant-btn-primary');
     cy.get('.ant-btn-primary').click();
