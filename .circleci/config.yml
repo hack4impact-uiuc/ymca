@@ -14,17 +14,6 @@ jobs:
             cd client
             yarn
             yarn lint
-  frontend_typecheck:
-    docker:
-      - image: circleci/node:10.16.3
-    working_directory: ~/ymca
-    steps:
-      - checkout
-      - run:
-          command: |
-            cd client
-            yarn
-            yarn flow
   backend_test:
     docker:
       - image: circleci/node:10.16.3
@@ -61,7 +50,6 @@ workflows:
   build_test:
     jobs:
       - frontend_lint
-      - frontend_typecheck
       - backend_test
       - backend_lint
       - auth_test
