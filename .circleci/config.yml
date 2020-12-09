@@ -17,11 +17,12 @@ jobs:
   frontend_typecheck:
     docker:
       - image: circleci/node:10.16.3
-    working_directory: client
+    working_directory: ~/ymca
     steps:
       - checkout
       - run:
           command: |
+            cd client
             yarn
             yarn flow
   backend_test:
