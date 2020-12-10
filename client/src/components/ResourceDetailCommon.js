@@ -8,8 +8,6 @@ import ResourceDetail from './desktop/ResourceDetail';
 import ResourceDetailMobile from './mobile/ResourceDetailMobile';
 
 type Props = {
-  authed: Boolean,
-  authRoleIsEquivalentTo: String => Boolean,
   match: {
     params: {
       id: any,
