@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Layout, Tooltip } from 'antd';
+
 import '../css/Footer.css';
 import useWindowDimensions from '../utils/mobile';
 

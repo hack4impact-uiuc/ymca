@@ -1,14 +1,19 @@
+// @flow
+
 // https://stackoverflow.com/questions/36862334/
 import { useState, useEffect } from 'react';
 
 const MOBILEWIDTHMAX = 700;
 
-function getWindowDimensions() {
+function getWindowDimensions(): { width: number, height: number } {
   const { innerWidth: width, innerHeight: height } = window;
   return { width, height };
 }
 
-export default function useWindowDimensions() {
+export default function useWindowDimensions(): [
+  { width: number, height: number },
+  boolean,
+] {
   const [windowDimensions, setWindowDimensions] = useState(
     getWindowDimensions(),
   );

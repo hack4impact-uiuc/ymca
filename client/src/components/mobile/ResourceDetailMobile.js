@@ -24,10 +24,9 @@ import {
 import determineStockPhoto from '../../utils/determineStockPhoto';
 
 import '../../css/ResourceDetailMobile.css';
+import { useAuth } from '../../utils/use-auth';
 
 type Props = {
-  authed: Boolean,
-  authRoleIsEquivalentTo: String => Boolean,
   match: {
     params: {
       id: any,
@@ -36,7 +35,7 @@ type Props = {
 };
 
 const ResourceDetailMobile = (props: Props) => {
-  const { authed, authRoleIsEquivalentTo } = props;
+  const { authed, authRoleIsEquivalentTo } = useAuth();
 
   const resourceId = props.match.params.id;
 

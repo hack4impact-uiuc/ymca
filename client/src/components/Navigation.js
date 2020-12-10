@@ -1,11 +1,11 @@
 // @flow
 
-import useWindowDimensions from '../utils/mobile';
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-
 import { Layout, Drawer, Button, Menu } from 'antd';
 import { MenuOutlined } from '@ant-design/icons';
+
+import useWindowDimensions from '../utils/mobile';
 import { useAuth } from '../utils/use-auth';
 
 import '../css/Navigation.css';
