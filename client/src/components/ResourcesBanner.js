@@ -1,6 +1,7 @@
 import React from 'react';
 import { Layout, Row } from 'antd';
 import PropTypes from 'prop-types';
+
 import useWindowDimensions from '../utils/mobile';
 
 import ResourceBreadcrumb from './ResourcesBreadcrumb';
