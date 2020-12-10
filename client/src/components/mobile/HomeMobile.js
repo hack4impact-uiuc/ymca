@@ -1,13 +1,17 @@
+// @flow
+
 import React, { useEffect, useState } from 'react';
 import { Textfit } from 'react-textfit';
 import { Button, Col, Row, Carousel } from 'antd';
 import { Link } from 'react-router-dom';
 
+import type { Testimonial } from '../../pages/Home';
+
 import '../../css/Home.css';
 import { getCategories, getHomePage } from '../../utils/api';
 
 export const HomeBlock1Mobile = () => {
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState<Array<string>>([]);
   const [backgroundImage, setBackgroundImage] = useState('');
 
   const fetchCategories = async () => {
@@ -133,7 +137,7 @@ export const HomeBlock2Mobile = () => {
 };
 
 export const HomeBlock3Mobile = () => {
-  const [testimonials, setTestimonials] = useState([]);
+  const [testimonials, setTestimonials] = useState<Array<Testimonial>>([]);
 
   const fetchTestimonials = async () => {
     const res = await getHomePage();
@@ -166,7 +170,10 @@ export const HomeBlock3Mobile = () => {
         >
           {testimonials.map(element => {
             return (
-              <div className="testimonial-block">
+              <div
+                key={`${element.person}-${element.title}`}
+                className="testimonial-block"
+              >
                 <Row type="flex" justify="center" align="middle">
                   <Col span={23} justify="center" align="middle">
                     <img

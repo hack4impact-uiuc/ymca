@@ -1,7 +1,11 @@
+// @flow
+
 import React, { useEffect, useMemo, useState } from 'react';
 import { Button, Col, Row, Carousel, notification } from 'antd';
 import { HeartTwoTone } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+
+import type { Testimonial } from '../../pages/Home';
 
 import '../../css/Home.css';
 import { getCategories, getHomePage } from '../../utils/api';
@@ -11,7 +15,7 @@ import {
 } from '../../utils/webp-detect';
 
 export const HomeBlock1Desktop = () => {
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState<Array<string>>([]);
   const [backgroundImage, setBackgroundImage] = useState('');
   const isWebpSupported = useMemo(getIsWebpSupported, []);
 
@@ -143,29 +147,28 @@ export const HomeBlock2Desktop = () => {
 };
 
 export const HomeBlock3Desktop = () => {
-  const [testimonials, setTestimonials] = useState([]);
+  const [testimonials, setTestimonials] = useState<Array<Testimonial>>([]);
   const isWebpSupported = useMemo(getIsWebpSupported, []);
 
-  const fetchTestimonials = async () => {
-    const res = await getHomePage();
-    const newTestimonials = [];
-    if (res) {
-      res.result.testimonials.forEach(t => {
-        newTestimonials.push({
-          person: t[0],
-          image:
-            isWebpSupported && canBeWebpConverted(t[1])
-              ? t[1].toLowerCase().replace('jpg', 'webp')
-              : t[1],
-          title: t[2],
-          testimonial: t[3],
-        });
-      });
-    }
-    setTestimonials(newTestimonials);
-  };
-
   useEffect(() => {
+    const fetchTestimonials = async () => {
+      const res = await getHomePage();
+      const newTestimonials = [];
+      if (res) {
+        res.result.testimonials.forEach(t => {
+          newTestimonials.push({
+            person: t[0],
+            image:
+              isWebpSupported && canBeWebpConverted(t[1])
+                ? t[1].toLowerCase().replace('jpg', 'webp')
+                : t[1],
+            title: t[2],
+            testimonial: t[3],
+          });
+        });
+      }
+      setTestimonials(newTestimonials);
+    };
     fetchTestimonials();
   }, [setTestimonials]);
 
@@ -180,7 +183,7 @@ export const HomeBlock3Desktop = () => {
         >
           {testimonials.map(element => {
             return (
-              <div key={element}>
+              <div key={`${element.person}-${element.title}`}>
                 <Row type="flex" justify="center" align="middle">
                   <Col span={5} style={{ marginTop: '1em' }}>
                     <img

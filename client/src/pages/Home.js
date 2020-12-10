@@ -1,3 +1,5 @@
+// @flow
+
 import React, { useState, useEffect, useMemo } from 'react';
 import { Textfit } from 'react-textfit';
 import { Col, Row } from 'antd';
@@ -19,10 +21,19 @@ import {
   HomeBlock3Mobile,
 } from '../components/mobile/HomeMobile';
 
+export type Testimonial = {
+  person: string,
+  image: string,
+  title: string,
+  testimonial: string,
+};
+
 const Home = () => {
-  const [partners, setPartners] = useState([]);
-  const [partnerRows, setPartnerRows] = useState([]);
-  const [partnerHover, setPartnerHover] = useState('');
+  const [partners, setPartners] = useState<
+    Array<{ name: string, image: string, link: string }>,
+  >([]);
+  const [partnerRows, setPartnerRows] = useState<Array<number>>([]);
+  const [partnerHover, setPartnerHover] = useState<string>('');
   const isWebpSupported = useMemo(getIsWebpSupported, []);
 
   const [dimensions, isMobile] = useWindowDimensions();

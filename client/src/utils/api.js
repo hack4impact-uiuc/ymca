@@ -1,12 +1,25 @@
+// @flow
+
 /* eslint-disable no-console */
 
-const axios = require('axios');
+import axios from 'axios';
+
+import type { Category, HomePage, Resource } from '../types/models';
+
+type ApiResponse<T> = Promise<{
+  code: number,
+  message: string,
+  success: boolean,
+  result: T,
+}>;
 
 const instance = axios.create({
   baseURL: 'https://nawc.now.sh',
 });
 
-export const imageToLink = image => {
+export const imageToLink = (
+  image: ?(string | ArrayBuffer),
+): ApiResponse<string> => {
   const requestExtension = 'api/admin/imageUpload';
   return instance
     .post(
@@ -27,7 +40,7 @@ export const imageToLink = image => {
     );
 };
 
-export const getHomePage = () => {
+export const getHomePage = (): ApiResponse<HomePage> => {
   return instance.get('/api/homepage').then(
     res => res.data,
     err => {
@@ -37,7 +50,7 @@ export const getHomePage = () => {
   );
 };
 
-export const editHomePage = homepage => {
+export const editHomePage = (homepage: HomePage): ApiResponse<void> => {
   const requestExtension = '/api/admin/homepage';
   return instance
     .put(requestExtension, homepage, {
@@ -54,7 +67,7 @@ export const editHomePage = homepage => {
     );
 };
 
-export const createHomePage = homepage => {
+export const createHomePage = (homepage: HomePage): ApiResponse<HomePage> => {
   const requestExtension = '/api/admin/homepage';
   return instance
     .post(requestExtension, homepage, {
@@ -71,7 +84,7 @@ export const createHomePage = homepage => {
     );
 };
 
-export const getCategories = () => {
+export const getCategories = (): ApiResponse<Array<Category>> => {
   return instance.get('/api/categories').then(
     res => res.data,
     err => {
@@ -81,7 +94,7 @@ export const getCategories = () => {
   );
 };
 
-export const getResources = () => {
+export const getResources = (): ApiResponse<Array<Resource>> => {
   return instance.get('/api/resources').then(
     res => res.data,
     err => {
@@ -91,7 +104,9 @@ export const getResources = () => {
   );
 };
 
-export const getResourcesByCategory = category => {
+export const getResourcesByCategory = (
+  category: string,
+): ApiResponse<Array<Resource>> => {
   const requestExtension = `/api/resources?category=${category}`;
   return instance.get(requestExtension).then(
     res => res.data,
@@ -102,8 +117,12 @@ export const getResourcesByCategory = category => {
   );
 };
 
-export const getResourceByID = (id, needLatLong) => {
-  const requestExtension = `/api/resources/${id}?requireLatLong=${needLatLong}`;
+export const getResourceByID = (
+  id: string,
+  needLatLong: boolean,
+): ApiResponse<Resource> => {
+  const boolString = needLatLong.toString();
+  const requestExtension = `/api/resources/${id}?requireLatLong=${boolString}`;
   return instance.get(requestExtension).then(
     res => res.data,
     err => {
@@ -113,7 +132,7 @@ export const getResourceByID = (id, needLatLong) => {
   );
 };
 
-export const addResource = resource => {
+export const addResource = (resource: Resource): ApiResponse<Resource> => {
   return instance
     .post('/api/admin/resources', resource, {
       headers: {
@@ -129,7 +148,10 @@ export const addResource = resource => {
     );
 };
 
-export const editResource = (id, resource) => {
+export const editResource = (
+  id: string,
+  resource: Resource,
+): ApiResponse<Resource> => {
   const requestExtension = `/api/admin/resources/${id}`;
   return instance
     .put(requestExtension, resource, {
@@ -146,7 +168,7 @@ export const editResource = (id, resource) => {
     );
 };
 
-export const deleteResource = id => {
+export const deleteResource = (id: string): ApiResponse<null> => {
   const requestExtension = `/api/admin/resources/${id}`;
   return instance
     .delete(requestExtension, {
