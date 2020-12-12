@@ -22,7 +22,7 @@ jobs:
           cd ../../base/client
           yarn
       - name: Run check
-        uses: jackieo5023/flow-coverage-compare@main
+        uses: jackieo5023/flow-coverage-compare@fix-dist
         with:
           path: client/
           pattern: ^client/src\/.*.js$
