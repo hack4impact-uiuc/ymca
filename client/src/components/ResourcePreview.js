@@ -1,3 +1,5 @@
+//@flow
+
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Card } from 'antd';
@@ -11,7 +13,20 @@ import SaveButton from './SaveButton';
 
 const { Meta } = Card;
 
-function ResourcePreview(props) {
+type Props = {
+  availableLanguages: Array<string>,
+  category: Array<string>,
+  city: string,
+  cost: string,
+  id: string,
+  name: string,
+  subcategory: Array<string>,
+  isSaved: boolean,
+  updateSaved: () => void,
+  image: string,
+};
+
+function ResourcePreview(props: Props) {
   const {
     availableLanguages,
     category,
@@ -111,18 +126,5 @@ function ResourcePreview(props) {
     </Link>
   );
 }
-
-ResourcePreview.propTypes = {
-  availableLanguages: PropTypes.arrayOf(PropTypes.string).isRequired,
-  category: PropTypes.arrayOf(PropTypes.string).isRequired,
-  city: PropTypes.string.isRequired,
-  cost: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  subcategory: PropTypes.arrayOf(PropTypes.string).isRequired,
-  isSaved: PropTypes.bool.isRequired,
-  updateSaved: PropTypes.func.isRequired,
-  image: PropTypes.string.isRequired,
-};
 
 export default ResourcePreview;

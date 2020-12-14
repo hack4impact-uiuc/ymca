@@ -1,0 +1,28 @@
+name: Flow Coverage Compare
+
+on: [pull_request]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout head branch
+        uses: actions/checkout@v2
+        with:
+          path: head
+      - name: Checkout base branch
+        uses: actions/checkout@v2
+        with:
+          path: base
+          ref: ${{ github.base_ref }}
+      - name: Install dependencies
+        run: |
+          cd head/client
+          yarn
+          cd ../../base/client
+          yarn
+      - name: Run check
+        uses: jackieo5023/flow-coverage-compare@v0.1
+        with:
+          path: client/
+          pattern: ^client/src\/.*.js$

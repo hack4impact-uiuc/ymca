@@ -21,8 +21,8 @@ const stockPhotos = {
 };
 
 const determineStockPhoto = (
-  category: [String],
-  subcategory: [String],
+  category: Array<string>,
+  subcategory: Array<string>,
 ): string => {
   let src = '';
   let found = false;
