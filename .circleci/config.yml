@@ -3,6 +3,17 @@ orbs:
   cypress: cypress-io/cypress@1
 
 jobs:
+  frontend_format:
+    docker:
+      - image: circleci/node:10.16.3
+    working_directory: ~/ymca
+    steps:
+      - checkout
+      - run:
+          command: |
+            cd client
+            yarn
+            yarn format
   frontend_lint:
     docker:
       - image: circleci/node:10.16.3
@@ -25,6 +36,17 @@ jobs:
             cd api
             yarn
             yarn test
+  backend_format:
+    docker:
+      - image: circleci/node:10.16.3
+    working_directory: ~/ymca
+    steps:
+      - checkout
+      - run:
+          command: |
+            cd api
+            yarn
+            yarn format
   backend_lint:
     docker:
       - image: circleci/node:10.16.3
@@ -49,8 +71,10 @@ jobs:
 workflows:
   build_test:
     jobs:
+      - frontend_format
       - frontend_lint
       - backend_test
+      - backend_format
       - backend_lint
       - auth_test
       - cypress/install:

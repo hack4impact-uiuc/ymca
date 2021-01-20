@@ -27,7 +27,7 @@ context('Home page', () => {
     cy.get('.home-block-4-partner > a')
       .eq(0)
       .should('have.attr', 'href')
-      .then(href => {
+      .then((href) => {
         expect(href).to.equal('https://www.cu-fair.org/');
       });
   });
@@ -36,7 +36,7 @@ context('Home page', () => {
     cy.get('.home-block-4-partner > a')
       .eq(1)
       .should('have.attr', 'href')
-      .then(href => {
+      .then((href) => {
         expect(href).to.equal('https://www.c-uphd.org/');
       });
   });
@@ -45,7 +45,7 @@ context('Home page', () => {
     cy.get('.home-block-4-partner > a')
       .eq(2)
       .should('have.attr', 'href')
-      .then(href => {
+      .then((href) => {
         expect(href).to.equal('https://twitter.com/dharitreee/');
       });
   });
@@ -54,7 +54,7 @@ context('Home page', () => {
     cy.get('.home-block-4-partner > a')
       .eq(3)
       .should('have.attr', 'href')
-      .then(href => {
+      .then((href) => {
         expect(href).to.equal('https://www.threespinners.org/');
       });
   });
@@ -63,7 +63,7 @@ context('Home page', () => {
     cy.get('.home-block-4-partner > a')
       .eq(4)
       .should('have.attr', 'href')
-      .then(href => {
+      .then((href) => {
         expect(href).to.equal('https://www.therefugeecenter-cu.org/');
       });
   });

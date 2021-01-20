@@ -23,7 +23,7 @@ describe('GET /api/resources/ ', () => {
   });
 });
 
-afterAll(async done => {
+afterAll(async (done) => {
   // TODO: drop database
   await mongoose.connection.close();
   done();
