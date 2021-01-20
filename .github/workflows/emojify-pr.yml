@@ -1,6 +1,6 @@
 name: Emojify PR Title
 
-on: [pull_request]
+on: pull_request
 
 jobs:
   emojify-pr-title:

@@ -32,23 +32,22 @@ export const imageToLink = (
       },
     )
     .then(
-      res => res.data,
-      err => {
+      (res) => res.data,
+      (err) => {
         console.error(err);
         return null;
       },
     );
 };
 
-export const getHomePage = (): ApiResponse<HomePage> => {
-  return instance.get('/api/homepage').then(
-    res => res.data,
-    err => {
+export const getHomePage = (): ApiResponse<HomePage> =>
+  instance.get('/api/homepage').then(
+    (res) => res.data,
+    (err) => {
       console.error(err);
       return null;
     },
   );
-};
 
 export const editHomePage = (homepage: HomePage): ApiResponse<void> => {
   const requestExtension = '/api/admin/homepage';
@@ -59,8 +58,8 @@ export const editHomePage = (homepage: HomePage): ApiResponse<void> => {
       },
     })
     .then(
-      res => res.data,
-      err => {
+      (res) => res.data,
+      (err) => {
         console.error(err);
         return null;
       },
@@ -76,41 +75,39 @@ export const createHomePage = (homepage: HomePage): ApiResponse<HomePage> => {
       },
     })
     .then(
-      res => res.data,
-      err => {
+      (res) => res.data,
+      (err) => {
         console.error(err);
         return null;
       },
     );
 };
 
-export const getCategories = (): ApiResponse<Array<Category>> => {
-  return instance.get('/api/categories').then(
-    res => res.data,
-    err => {
+export const getCategories = (): ApiResponse<Array<Category>> =>
+  instance.get('/api/categories').then(
+    (res) => res.data,
+    (err) => {
       console.error(err);
       return null;
     },
   );
-};
 
-export const getResources = (): ApiResponse<Array<Resource>> => {
-  return instance.get('/api/resources').then(
-    res => res.data,
-    err => {
+export const getResources = (): ApiResponse<Array<Resource>> =>
+  instance.get('/api/resources').then(
+    (res) => res.data,
+    (err) => {
       console.error(err);
       return null;
     },
   );
-};
 
 export const getResourcesByCategory = (
   category: string,
 ): ApiResponse<Array<Resource>> => {
   const requestExtension = `/api/resources?category=${category}`;
   return instance.get(requestExtension).then(
-    res => res.data,
-    err => {
+    (res) => res.data,
+    (err) => {
       console.error(err);
       return null;
     },
@@ -124,29 +121,28 @@ export const getResourceByID = (
   const boolString = needLatLong.toString();
   const requestExtension = `/api/resources/${id}?requireLatLong=${boolString}`;
   return instance.get(requestExtension).then(
-    res => res.data,
-    err => {
+    (res) => res.data,
+    (err) => {
       console.error(err);
       return null;
     },
   );
 };
 
-export const addResource = (resource: Resource): ApiResponse<Resource> => {
-  return instance
+export const addResource = (resource: Resource): ApiResponse<Resource> =>
+  instance
     .post('/api/admin/resources', resource, {
       headers: {
         token: localStorage.getItem('token'),
       },
     })
     .then(
-      res => res.data,
-      err => {
+      (res) => res.data,
+      (err) => {
         console.error(err);
         return null;
       },
     );
-};
 
 export const editResource = (
   id: string,
@@ -160,8 +156,8 @@ export const editResource = (
       },
     })
     .then(
-      res => res.data,
-      err => {
+      (res) => res.data,
+      (err) => {
         console.error(err);
         return null;
       },
@@ -177,8 +173,8 @@ export const deleteResource = (id: string): ApiResponse<null> => {
       },
     })
     .then(
-      res => res.data,
-      err => {
+      (res) => res.data,
+      (err) => {
         console.error(err);
         return null;
       },

@@ -5,7 +5,7 @@ const Category = require('../models/category');
 const Resource = require('../models/resource');
 const HomePage = require('../models/homepage');
 
-const imageHelper = async image => {
+const imageHelper = async (image) => {
   const imageResponse = await fetch('https://api.imgur.com/3/image', {
     method: 'POST',
     headers: {
@@ -77,7 +77,7 @@ router.put(
 router.delete(
   '/homepage',
   errorWrap(async (req, res) => {
-    await HomePage.deleteMany({}, function(err) {
+    await HomePage.deleteMany({}, function (err) {
       console.log(err);
     });
     res.json({

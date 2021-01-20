@@ -21,23 +21,17 @@ context('Navbar', () => {
 
   it('first link redirects to home', () => {
     cy.visit('/resources');
-    cy.get('.ant-menu > li > a')
-      .eq(0)
-      .click({ force: true });
+    cy.get('.ant-menu > li > a').eq(0).click({ force: true });
     cy.url().should('eq', `${Cypress.config().baseUrl}/`);
   });
 
   it('second link redirects to resources', () => {
-    cy.get('.ant-menu > li > a')
-      .eq(1)
-      .click({ force: true });
+    cy.get('.ant-menu > li > a').eq(1).click({ force: true });
     cy.url().should('match', /resources/);
   });
 
   it('third link redirects to login', () => {
-    cy.get('.ant-menu > li > a')
-      .eq(2)
-      .click({ force: true });
+    cy.get('.ant-menu > li > a').eq(2).click({ force: true });
     cy.url().should('match', /login/);
   });
 });

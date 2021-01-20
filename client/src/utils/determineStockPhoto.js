@@ -27,7 +27,7 @@ const determineStockPhoto = (
   let src = '';
   let found = false;
 
-  subcategory.forEach(sub => {
+  subcategory.forEach((sub) => {
     if (stockPhotos[sub]) {
       src = stockPhotos[sub];
       found = true;
@@ -40,7 +40,9 @@ const determineStockPhoto = (
       : '/asset/subcategories/default.jpg';
   }
 
-  if (getIsWebpSupported()) src = src.replace('jpg', 'webp');
+  if (getIsWebpSupported()) {
+    src = src.replace('jpg', 'webp');
+  }
   return src;
 };
 

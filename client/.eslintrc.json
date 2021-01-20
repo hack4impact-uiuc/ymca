@@ -6,13 +6,20 @@
   "parser": "babel-eslint",
   "extends": [
     "airbnb",
+    "plugin:@hack4impact-uiuc/base",
+    "plugin:@hack4impact-uiuc/react",
     "plugin:flowtype/recommended",
-    "plugin:import/errors",
-    "plugin:import/warnings",
     "prettier",
     "prettier/react"
   ],
-  "plugins": ["flowtype", "import", "prettier", "react", "react-hooks"],
+  "plugins": [
+    "@hack4impact-uiuc",
+    "flowtype",
+    "import",
+    "prettier",
+    "react",
+    "react-hooks"
+  ],
   "rules": {
     "camelcase": ["error", { "allow": ["^UNSAFE_"] }],
     "global-require": [1],
@@ -26,21 +33,19 @@
           "parent",
           "sibling",
           "index"
-        ],
-        "newlines-between": "always"
+        ]
       }
     ],
     "jsx-a11y/click-events-have-key-events": [0],
     "jsx-a11y/no-static-element-interactions": [0],
     "max-len": ["error", 80],
+    "no-magic-numbers": [0],
     "no-underscore-dangle": [0],
     "no-unused-vars": [1],
     "prettier/prettier": "error",
-    "react/destructuring-assignment": [0],
-    "react/jsx-filename-extension": [1, { "extensions": [".js", "jsx"] }],
+    "react/destructuring-assignment": [1],
     "react/jsx-props-no-spreading": [0],
     "react/no-unused-state": [1],
-    "react/prefer-stateless-function": [0],
     "react/style-prop-object": [0],
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
