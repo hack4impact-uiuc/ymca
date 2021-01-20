@@ -104,52 +104,46 @@ const Home = () => {
               </Textfit>
             </Col>
           </Row>
-          {partnerRows.map(index => {
-            return (
-              <>
-                <Row type="flex" justify="center" align="middle">
-                  {partners.slice(index * 5, (index + 1) * 5).map(element => {
-                    return (
-                      <Col
-                        className="home-block-4-partner"
-                        span={isMobile ? 10 : 4}
+          {partnerRows.map(index => (
+            <>
+              <Row type="flex" justify="center" align="middle">
+                {partners.slice(index * 5, (index + 1) * 5).map(element => (
+                  <Col
+                    className="home-block-4-partner"
+                    span={isMobile ? 10 : 4}
+                  >
+                    <a
+                      href={element.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <img
+                        onMouseEnter={() => setPartnerHover(element.name)}
+                        onMouseLeave={() => setPartnerHover('')}
+                        src={element.image}
+                        alt={element.name}
+                      />
+                    </a>
+                  </Col>
+                ))}
+              </Row>
+              <Row type="flex" justify="center" align="middle">
+                {dimensions.width > 976 &&
+                  partners.slice(index * 5, (index + 1) * 5).map(element => (
+                    <Col className="home-block-4-partner-name" span={4}>
+                      <h5
+                        style={{
+                          opacity: partnerHover === element.name ? 1 : 0,
+                          marginTop: '15px',
+                        }}
                       >
-                        <a
-                          href={element.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <img
-                            onMouseEnter={() => setPartnerHover(element.name)}
-                            onMouseLeave={() => setPartnerHover('')}
-                            src={element.image}
-                            alt={element.name}
-                          />
-                        </a>
-                      </Col>
-                    );
-                  })}
-                </Row>
-                <Row type="flex" justify="center" align="middle">
-                  {dimensions.width > 976 &&
-                    partners.slice(index * 5, (index + 1) * 5).map(element => {
-                      return (
-                        <Col className="home-block-4-partner-name" span={4}>
-                          <h5
-                            style={{
-                              opacity: partnerHover === element.name ? 1 : 0,
-                              marginTop: '15px',
-                            }}
-                          >
-                            {element.name}
-                          </h5>
-                        </Col>
-                      );
-                    })}
-                </Row>
-              </>
-            );
-          })}
+                        {element.name}
+                      </h5>
+                    </Col>
+                  ))}
+              </Row>
+            </>
+          ))}
         </Col>
       </Row>
     </>

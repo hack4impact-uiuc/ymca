@@ -183,8 +183,9 @@ function ResourceDetail(props) {
 
   const displayNote = note => {
     if (note.body.length > 0) {
-      if (note.subject.length > 0)
+      if (note.subject.length > 0) {
         return <li>{`${note.subject}: ${note.body}`}</li>;
+      }
       return <li>{note.body}</li>;
     }
     return null;
@@ -274,10 +275,7 @@ function ResourceDetail(props) {
           <GlobalOutlined />
           <MailOutlined />
           <PhoneFilled />
-          {phone.length > 0 &&
-            phone.map(() => {
-              return `\n`;
-            })}
+          {phone.length > 0 && phone.map(() => `\n`)}
           <EnvironmentOutlined />
         </Col>
         <Col span={8} className="header-info">
@@ -291,9 +289,7 @@ function ResourceDetail(props) {
           )}
           {email.length > 0 ? `${email}\n` : 'No email provided.\n'}
           {phone.length > 0
-            ? phone.map(p => {
-                return `${p.phoneType}: ${p.phoneNumber}\n`;
-              })
+            ? phone.map(p => `${p.phoneType}: ${p.phoneNumber}\n`)
             : 'No phone number provided.\n'}
           {addressString}
         </Col>
@@ -334,11 +330,9 @@ function ResourceDetail(props) {
         <Col span={11}>
           <div className="card-label">Languages Spoken{'\n'}</div>
           {languages.length > 0
-            ? languages.map((language, index) => {
-                return index < languages.length - 1
-                  ? `${language}, `
-                  : language;
-              })
+            ? languages.map((language, index) =>
+                index < languages.length - 1 ? `${language}, ` : language,
+              )
             : 'None provided.'}
         </Col>
         <Col span={1}>
@@ -472,16 +466,14 @@ function ResourceDetail(props) {
         )}
         {hours.length > 0 && (
           <Col span={12}>
-            {hours.map(day => {
-              return (
-                <div>
-                  <span className="day-of-week">{`${day.day}: `}</span>
-                  {day.period.length > 0
-                    ? `${day.period[0]} - ${day.period[1]}`
-                    : 'None'}
-                </div>
-              );
-            })}
+            {hours.map(day => (
+              <div>
+                <span className="day-of-week">{`${day.day}: `}</span>
+                {day.period.length > 0
+                  ? `${day.period[0]} - ${day.period[1]}`
+                  : 'None'}
+              </div>
+            ))}
           </Col>
         )}
       </Row>

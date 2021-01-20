@@ -85,7 +85,7 @@ const InternalNotesForm = Form.create({ name: 'internalNotes' })(
           })(
             <Input
               placeholder="Subject"
-              defaultValue={editNote == null ? null : editNote.body}
+              defaultValue={!editNote == null && editNote.body}
             />,
           )}
         </Form.Item>
@@ -107,7 +107,7 @@ const InternalNotesForm = Form.create({ name: 'internalNotes' })(
                 If letter from immigration authority in chicago most 
                 likely deportation proceedings. 
                 No one really in the area does this."
-              defaultValue={editNote == null ? null : editNote.body}
+              defaultValue={!editNote == null && editNote.body}
             />,
           )}
         </Form.Item>

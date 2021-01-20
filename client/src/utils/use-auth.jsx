@@ -140,9 +140,7 @@ const defaultContext: Auth = {
 const authContext = createContext<Auth>(defaultContext);
 
 // Hook for child components to get the auth object
-export const useAuth = () => {
-  return useContext(authContext);
-};
+export const useAuth = () => useContext(authContext);
 
 // Provider component that wraps your app and makes auth object ...
 // ... available to any child component that calls useAuth().

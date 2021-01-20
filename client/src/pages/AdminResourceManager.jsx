@@ -13,12 +13,10 @@ type Props = {
   },
 };
 
-const AdminResourceManager = (props: Props) => {
-  return (
-    <div className="admin-resource-form">
-      <ResourceForm id={props.match.params.id} />
-    </div>
-  );
-};
+const AdminResourceManager = (props: Props) => (
+  <div className="admin-resource-form">
+    <ResourceForm id={props.match.params.id} />
+  </div>
+);
 
 export default AdminResourceManager;

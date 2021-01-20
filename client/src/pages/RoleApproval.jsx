@@ -50,7 +50,9 @@ const RoleApproval = () => {
 
   const submitNewRole = async event => {
     event.preventDefault();
-    if (userWithNewRole.length === 0) return;
+    if (userWithNewRole.length === 0) {
+      return;
+    }
     const changeRoleData = await changeRole(userWithNewRole, newRole, password);
 
     const [changeRoleDataParsed, userData] = await Promise.all([
@@ -59,24 +61,24 @@ const RoleApproval = () => {
     ]);
     const userDataParsed = await userData.json();
 
-    if (changeRoleDataParsed.status === 400)
+    if (changeRoleDataParsed.status === 400) {
       message.error(changeRoleDataParsed.message);
-    else message.success(changeRoleDataParsed.message);
+    } else {
+      message.success(changeRoleDataParsed.message);
+    }
 
     setNewRole('');
     setUsers(userDataParsed.user_emails);
     setUserWithNewRole('');
   };
 
-  const RoleMenu = email => {
-    return (
-      <Menu onClick={e => setNewRoleAndUser(e.key, email)}>
-        <Menu.Item key="public">public</Menu.Item>
-        <Menu.Item key="intern">intern</Menu.Item>
-        <Menu.Item key="admin">admin</Menu.Item>
-      </Menu>
-    );
-  };
+  const RoleMenu = email => (
+    <Menu onClick={e => setNewRoleAndUser(e.key, email)}>
+      <Menu.Item key="public">public</Menu.Item>
+      <Menu.Item key="intern">intern</Menu.Item>
+      <Menu.Item key="admin">admin</Menu.Item>
+    </Menu>
+  );
 
   const columns = [
     {

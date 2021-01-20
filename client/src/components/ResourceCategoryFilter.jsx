@@ -36,22 +36,18 @@ function ResourceCategoryFilter(props) {
       <Menu.Item key="All Resources" onClick={() => categorySelectAll()}>
         All Resources
       </Menu.Item>
-      {Object.keys(orderedCategories).map(categoryName => {
-        return (
-          <SubMenu key={categoryName} title={categoryName}>
-            {orderedCategories[categoryName].map(subCategory => {
-              return (
-                <Menu.Item
-                  key={subCategory}
-                  onClick={() => subcategorySelect(subCategory)}
-                >
-                  {subCategory}
-                </Menu.Item>
-              );
-            })}
-          </SubMenu>
-        );
-      })}
+      {Object.keys(orderedCategories).map(categoryName => (
+        <SubMenu key={categoryName} title={categoryName}>
+          {orderedCategories[categoryName].map(subCategory => (
+            <Menu.Item
+              key={subCategory}
+              onClick={() => subcategorySelect(subCategory)}
+            >
+              {subCategory}
+            </Menu.Item>
+          ))}
+        </SubMenu>
+      ))}
     </Menu>
   );
 }

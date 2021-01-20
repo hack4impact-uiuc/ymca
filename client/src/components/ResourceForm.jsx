@@ -65,13 +65,15 @@ const ResourceForm = (props: FormProps) => {
     'Other',
   ];
 
-  const createCarouselCategories = useCallback(() => {
-    return CAROUSEL_CATEGORIES.map(category => (
-      <div>
-        <p>{category}</p>
-      </div>
-    ));
-  }, [CAROUSEL_CATEGORIES]);
+  const createCarouselCategories = useCallback(
+    () =>
+      CAROUSEL_CATEGORIES.map(category => (
+        <div>
+          <p>{category}</p>
+        </div>
+      )),
+    [CAROUSEL_CATEGORIES],
+  );
 
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);

@@ -102,9 +102,9 @@ const HoursOfOperationsForm = Form.create({ name: 'hoursOfOperation' })(
       'Sunday',
     ];
 
-    const generateInputs = useCallback(() => {
-      return days.map(day => {
-        return (
+    const generateInputs = useCallback(
+      () =>
+        days.map(day => (
           <HoursOfOperationInput
             day={day}
             setFieldsValue={setFieldsValue}
@@ -112,15 +112,15 @@ const HoursOfOperationsForm = Form.create({ name: 'hoursOfOperation' })(
             getFieldDecorator={getFieldDecorator}
             setTotalSubmitEnabled={setTotalSubmitEnabled}
           />
-        );
-      });
-    }, [
-      days,
-      setFieldsValue,
-      getFieldValue,
-      getFieldDecorator,
-      setTotalSubmitEnabled,
-    ]);
+        )),
+      [
+        days,
+        setFieldsValue,
+        getFieldValue,
+        getFieldDecorator,
+        setTotalSubmitEnabled,
+      ],
+    );
 
     useEffect(() => {
       hoursOfOperation.forEach(entry => {

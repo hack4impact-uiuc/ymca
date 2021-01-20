@@ -40,15 +40,14 @@ export const imageToLink = (
     );
 };
 
-export const getHomePage = (): ApiResponse<HomePage> => {
-  return instance.get('/api/homepage').then(
+export const getHomePage = (): ApiResponse<HomePage> =>
+  instance.get('/api/homepage').then(
     res => res.data,
     err => {
       console.error(err);
       return null;
     },
   );
-};
 
 export const editHomePage = (homepage: HomePage): ApiResponse<void> => {
   const requestExtension = '/api/admin/homepage';
@@ -84,25 +83,23 @@ export const createHomePage = (homepage: HomePage): ApiResponse<HomePage> => {
     );
 };
 
-export const getCategories = (): ApiResponse<Array<Category>> => {
-  return instance.get('/api/categories').then(
+export const getCategories = (): ApiResponse<Array<Category>> =>
+  instance.get('/api/categories').then(
     res => res.data,
     err => {
       console.error(err);
       return null;
     },
   );
-};
 
-export const getResources = (): ApiResponse<Array<Resource>> => {
-  return instance.get('/api/resources').then(
+export const getResources = (): ApiResponse<Array<Resource>> =>
+  instance.get('/api/resources').then(
     res => res.data,
     err => {
       console.error(err);
       return null;
     },
   );
-};
 
 export const getResourcesByCategory = (
   category: string,
@@ -132,8 +129,8 @@ export const getResourceByID = (
   );
 };
 
-export const addResource = (resource: Resource): ApiResponse<Resource> => {
-  return instance
+export const addResource = (resource: Resource): ApiResponse<Resource> =>
+  instance
     .post('/api/admin/resources', resource, {
       headers: {
         token: localStorage.getItem('token'),
@@ -146,7 +143,6 @@ export const addResource = (resource: Resource): ApiResponse<Resource> => {
         return null;
       },
     );
-};
 
 export const editResource = (
   id: string,

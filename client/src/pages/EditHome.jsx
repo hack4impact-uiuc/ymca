@@ -142,7 +142,9 @@ const EditHome = () => {
   };
 
   const handleUploadBackground = event => {
-    if (event.file.status !== 'uploading') return;
+    if (event.file.status !== 'uploading') {
+      return;
+    }
     const reader = new FileReader();
     reader.addEventListener('load', async () => {
       const imageRaw = reader.result;
@@ -179,7 +181,9 @@ const EditHome = () => {
   };
 
   const handleUploadTestimonial = (event, index) => {
-    if (event.file.status !== 'uploading') return;
+    if (event.file.status !== 'uploading') {
+      return;
+    }
     const reader = new FileReader();
     reader.addEventListener('load', async () => {
       const imageRaw = reader.result;
@@ -202,7 +206,9 @@ const EditHome = () => {
   };
 
   const handleUploadPartner = (event, index) => {
-    if (event.file.status !== 'uploading') return;
+    if (event.file.status !== 'uploading') {
+      return;
+    }
     const reader = new FileReader();
     reader.addEventListener('load', async () => {
       const imageRaw = reader.result;
@@ -259,202 +265,195 @@ const EditHome = () => {
         </Row>
         <h3>Testimonials</h3>
         <Form.List label="Testimonials" name="testimonials">
-          {(fields, { add, remove }) => {
-            return (
-              <div>
-                {fields.map((field, index) => (
-                  <Row key={field.key}>
-                    <Col className="edit-home-textbox-main">
-                      <Form.Item
-                        name={[field.name, 'name']}
-                        fieldKey={[field.fieldKey, 'name']}
-                        rules={rules}
+          {(fields, { add, remove }) => (
+            <div>
+              {fields.map((field, index) => (
+                <Row key={field.key}>
+                  <Col className="edit-home-textbox-main">
+                    <Form.Item
+                      name={[field.name, 'name']}
+                      fieldKey={[field.fieldKey, 'name']}
+                      rules={rules}
+                    >
+                      <Input placeholder="Name" />
+                    </Form.Item>
+                  </Col>
+                  <Col>
+                    <Form.Item
+                      name={[field.name, 'upload']}
+                      fieldKey={[field.fieldKey, 'upload']}
+                    >
+                      <Upload
+                        listType="picture-card"
+                        showUploadList={false}
+                        beforeUpload={beforeUpload}
+                        onChange={e => handleUploadTestimonial(e, field.key)}
                       >
-                        <Input placeholder="Name" />
-                      </Form.Item>
-                    </Col>
-                    <Col>
-                      <Form.Item
-                        name={[field.name, 'upload']}
-                        fieldKey={[field.fieldKey, 'upload']}
-                      >
-                        <Upload
-                          listType="picture-card"
-                          showUploadList={false}
-                          beforeUpload={beforeUpload}
-                          onChange={e => handleUploadTestimonial(e, field.key)}
-                        >
-                          {testimonialValues[
-                            extractTestimonialIndex(
-                              field.key,
-                              testimonialValues,
-                            )
-                          ] !== undefined ? (
-                            <img
-                              src={
-                                testimonialValues[
-                                  extractTestimonialIndex(
-                                    field.key,
-                                    testimonialValues,
-                                  )
-                                ].image
-                              }
-                              alt=""
-                              style={{ width: '100%' }}
-                            />
-                          ) : (
-                            <PlusOutlined style={{ fontSize: '3em' }} />
-                          )}
-                        </Upload>
-                      </Form.Item>
-                    </Col>
-                    <div className="edit-home-or">or</div>
-                    <Col className="edit-home-textbox-main">
-                      <Form.Item
-                        name={[field.name, 'image']}
-                        fieldKey={[field.fieldKey, 'image']}
-                        rules={rules}
-                      >
-                        <Input placeholder="Image URL" />
-                      </Form.Item>
-                    </Col>
-                    <Col className="edit-home-textbox-main">
-                      <Form.Item
-                        name={[field.name, 'title']}
-                        fieldKey={[field.fieldKey, 'title']}
-                        rules={rules}
-                      >
-                        <Input placeholder="Title" />
-                      </Form.Item>
-                    </Col>
-                    <Col className="testimony-box" span={8}>
-                      <Form.Item
-                        name={[field.name, 'testimony']}
-                        fieldKey={[field.fieldKey, 'testimony']}
-                        rules={rules}
-                      >
-                        <Input.TextArea placeholder="Testimony" />
-                      </Form.Item>
-                    </Col>
-                    <Col flex="none" className="edit-home-textbox-main">
-                      <MinusCircleOutlined
-                        className="dynamic-delete-button"
-                        onClick={() => {
-                          remove(field.name);
-                        }}
-                      />
-                    </Col>
-                  </Row>
-                ))}
-                <Form.Item>
-                  <Button
-                    type="dashed"
-                    onClick={() => {
-                      add({
-                        key: testimonialFieldLength,
-                        fieldKey: testimonialFieldLength,
-                      });
-                      setTestimonialFieldLength(testimonialFieldLength + 1);
-                    }}
-                  >
-                    <PlusOutlined /> Add Testimonial
-                  </Button>
-                </Form.Item>
-              </div>
-            );
-          }}
+                        {testimonialValues[
+                          extractTestimonialIndex(field.key, testimonialValues)
+                        ] !== undefined ? (
+                          <img
+                            src={
+                              testimonialValues[
+                                extractTestimonialIndex(
+                                  field.key,
+                                  testimonialValues,
+                                )
+                              ].image
+                            }
+                            alt=""
+                            style={{ width: '100%' }}
+                          />
+                        ) : (
+                          <PlusOutlined style={{ fontSize: '3em' }} />
+                        )}
+                      </Upload>
+                    </Form.Item>
+                  </Col>
+                  <div className="edit-home-or">or</div>
+                  <Col className="edit-home-textbox-main">
+                    <Form.Item
+                      name={[field.name, 'image']}
+                      fieldKey={[field.fieldKey, 'image']}
+                      rules={rules}
+                    >
+                      <Input placeholder="Image URL" />
+                    </Form.Item>
+                  </Col>
+                  <Col className="edit-home-textbox-main">
+                    <Form.Item
+                      name={[field.name, 'title']}
+                      fieldKey={[field.fieldKey, 'title']}
+                      rules={rules}
+                    >
+                      <Input placeholder="Title" />
+                    </Form.Item>
+                  </Col>
+                  <Col className="testimony-box" span={8}>
+                    <Form.Item
+                      name={[field.name, 'testimony']}
+                      fieldKey={[field.fieldKey, 'testimony']}
+                      rules={rules}
+                    >
+                      <Input.TextArea placeholder="Testimony" />
+                    </Form.Item>
+                  </Col>
+                  <Col flex="none" className="edit-home-textbox-main">
+                    <MinusCircleOutlined
+                      className="dynamic-delete-button"
+                      onClick={() => {
+                        remove(field.name);
+                      }}
+                    />
+                  </Col>
+                </Row>
+              ))}
+              <Form.Item>
+                <Button
+                  type="dashed"
+                  onClick={() => {
+                    add({
+                      key: testimonialFieldLength,
+                      fieldKey: testimonialFieldLength,
+                    });
+                    setTestimonialFieldLength(testimonialFieldLength + 1);
+                  }}
+                >
+                  <PlusOutlined /> Add Testimonial
+                </Button>
+              </Form.Item>
+            </div>
+          )}
         </Form.List>
         <h3>Partners</h3>
         <Form.List label="Partners" name="partners">
-          {(fields, { add, remove }) => {
-            return (
-              <div>
-                {fields.map((field, index) => (
-                  <Row key={field.key}>
-                    <Col className="edit-home-textbox-main">
-                      <Form.Item
-                        name={[field.name, 'name']}
-                        fieldKey={[field.fieldKey, 'name']}
-                        rules={rules}
+          {(fields, { add, remove }) => (
+            <div>
+              {fields.map((field, index) => (
+                <Row key={field.key}>
+                  <Col className="edit-home-textbox-main">
+                    <Form.Item
+                      name={[field.name, 'name']}
+                      fieldKey={[field.fieldKey, 'name']}
+                      rules={rules}
+                    >
+                      <Input placeholder="Name" />
+                    </Form.Item>
+                  </Col>
+                  <Col>
+                    <Form.Item
+                      name={[field.name, 'upload']}
+                      fieldKey={[field.fieldKey, 'upload']}
+                    >
+                      <Upload
+                        listType="picture-card"
+                        showUploadList={false}
+                        beforeUpload={beforeUpload}
+                        onChange={e => handleUploadPartner(e, field.key)}
                       >
-                        <Input placeholder="Name" />
-                      </Form.Item>
-                    </Col>
-                    <Col>
-                      <Form.Item
-                        name={[field.name, 'upload']}
-                        fieldKey={[field.fieldKey, 'upload']}
-                      >
-                        <Upload
-                          listType="picture-card"
-                          showUploadList={false}
-                          beforeUpload={beforeUpload}
-                          onChange={e => handleUploadPartner(e, field.key)}
-                        >
-                          {partnerValues[
-                            extractPartnerIndex(field.key, partnerValues)
-                          ] !== undefined ? (
-                            <img
-                              src={
-                                partnerValues[
-                                  extractPartnerIndex(field.key, partnerValues)
-                                ].image
-                              }
-                              alt=""
-                              style={{ width: '100%' }}
-                            />
-                          ) : (
-                            <PlusOutlined style={{ fontSize: '3em' }} />
-                          )}
-                        </Upload>
-                      </Form.Item>
-                    </Col>
-                    <div className="edit-home-or">or</div>
-                    <Col className="edit-home-textbox-main">
-                      <Form.Item
-                        name={[field.name, 'image']}
-                        fieldKey={[field.fieldKey, 'image']}
-                        rules={rules}
-                      >
-                        <Input placeholder="Image URL" />
-                      </Form.Item>
-                    </Col>
-                    <Col className="edit-home-textbox-main">
-                      <Form.Item
-                        name={[field.name, 'link']}
-                        fieldKey={[field.fieldKey, 'link']}
-                        rules={rules}
-                      >
-                        <Input placeholder="Link to Website" />
-                      </Form.Item>
-                    </Col>
-                    <Col flex="none" className="edit-home-textbox-main">
-                      <MinusCircleOutlined
-                        className="dynamic-delete-button"
-                        onClick={() => {
-                          remove(field.name);
-                        }}
-                      />
-                    </Col>
-                  </Row>
-                ))}
-                <Form.Item>
-                  <Button
-                    type="dashed"
-                    onClick={() => {
-                      add({
-                        key: partnerFieldLength,
-                        fieldKey: partnerFieldLength,
-                      });
-                      setPartnerFieldLength(partnerFieldLength + 1);
-                    }}
-                  >
-                    <PlusOutlined /> Add Partner
-                  </Button>
-                </Form.Item>
-              </div>
-            );
-          }}
+                        {partnerValues[
+                          extractPartnerIndex(field.key, partnerValues)
+                        ] !== undefined ? (
+                          <img
+                            src={
+                              partnerValues[
+                                extractPartnerIndex(field.key, partnerValues)
+                              ].image
+                            }
+                            alt=""
+                            style={{ width: '100%' }}
+                          />
+                        ) : (
+                          <PlusOutlined style={{ fontSize: '3em' }} />
+                        )}
+                      </Upload>
+                    </Form.Item>
+                  </Col>
+                  <div className="edit-home-or">or</div>
+                  <Col className="edit-home-textbox-main">
+                    <Form.Item
+                      name={[field.name, 'image']}
+                      fieldKey={[field.fieldKey, 'image']}
+                      rules={rules}
+                    >
+                      <Input placeholder="Image URL" />
+                    </Form.Item>
+                  </Col>
+                  <Col className="edit-home-textbox-main">
+                    <Form.Item
+                      name={[field.name, 'link']}
+                      fieldKey={[field.fieldKey, 'link']}
+                      rules={rules}
+                    >
+                      <Input placeholder="Link to Website" />
+                    </Form.Item>
+                  </Col>
+                  <Col flex="none" className="edit-home-textbox-main">
+                    <MinusCircleOutlined
+                      className="dynamic-delete-button"
+                      onClick={() => {
+                        remove(field.name);
+                      }}
+                    />
+                  </Col>
+                </Row>
+              ))}
+              <Form.Item>
+                <Button
+                  type="dashed"
+                  onClick={() => {
+                    add({
+                      key: partnerFieldLength,
+                      fieldKey: partnerFieldLength,
+                    });
+                    setPartnerFieldLength(partnerFieldLength + 1);
+                  }}
+                >
+                  <PlusOutlined /> Add Partner
+                </Button>
+              </Form.Item>
+            </div>
+          )}
         </Form.List>
         <Form.Item>
           <Button className="submit-button" type="primary" htmlType="submit">

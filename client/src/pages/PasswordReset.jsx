@@ -135,9 +135,9 @@ const PasswordReset = ({ form }) => {
             ],
           })(
             <Select placeholder="Please select your security question!">
-              {securityQuestions.map((question, idx) => {
-                return <Option value={idx}>{question}</Option>;
-              })}
+              {securityQuestions.map((question, idx) => (
+                <Option value={idx}>{question}</Option>
+              ))}
             </Select>,
           )}
         </Form.Item>

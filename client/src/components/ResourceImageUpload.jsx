@@ -78,7 +78,9 @@ const ImageUpload = (props: ImageUploadProps) => {
   };
 
   const handleUpload = event => {
-    if (event.file.status !== 'uploading') return;
+    if (event.file.status !== 'uploading') {
+      return;
+    }
     const reader = new FileReader();
     reader.addEventListener('load', () => setCroppingImg(reader.result));
     reader.readAsDataURL(event.file.originFileObj);

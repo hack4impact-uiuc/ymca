@@ -4,16 +4,15 @@ import fetch from 'isomorphic-fetch';
 
 const AUTH_SERVER_URI = 'https://nawc.now.sh/auth';
 
-export const login = body => {
+export const login = body =>
   // auth
-  return fetch(`${AUTH_SERVER_URI}/login`, {
+  fetch(`${AUTH_SERVER_URI}/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(body),
   }).then(res => res.json());
-};
 
 export const register = body => {
   const { email, password, questionIdx, answer } = body;
@@ -33,8 +32,8 @@ export const register = body => {
   }).then(res => res.json());
 };
 
-export const getUsersForRolesPage = () => {
-  return fetch(`${AUTH_SERVER_URI}/roles/selfset`, {
+export const getUsersForRolesPage = () =>
+  fetch(`${AUTH_SERVER_URI}/roles/selfset`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -42,13 +41,11 @@ export const getUsersForRolesPage = () => {
       google: !!localStorage.getItem('google'),
     },
   });
-};
 
-export const getSecurityQuestions = () => {
-  return fetch(`${AUTH_SERVER_URI}/getSecurityQuestions`, {
+export const getSecurityQuestions = () =>
+  fetch(`${AUTH_SERVER_URI}/getSecurityQuestions`, {
     method: 'GET',
   }).then(res => res.json());
-};
 
 export const resetPassword = body => {
   const { email, password, answer } = body;
@@ -65,8 +62,8 @@ export const resetPassword = body => {
   }).then(res => res.json());
 };
 
-export const changeRole = (userEmail, newRole, password) => {
-  return fetch(`${AUTH_SERVER_URI}/roleschange`, {
+export const changeRole = (userEmail, newRole, password) =>
+  fetch(`${AUTH_SERVER_URI}/roleschange`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -78,7 +75,6 @@ export const changeRole = (userEmail, newRole, password) => {
       password,
     }),
   });
-};
 
 export const verify = (onSucc, onErr) => {
   const token = localStorage.getItem('token');
@@ -105,24 +101,22 @@ export const verify = (onSucc, onErr) => {
     });
 };
 
-export const getAllRoles = () => {
-  return fetch(`${AUTH_SERVER_URI}/roles/all`, {
+export const getAllRoles = () =>
+  fetch(`${AUTH_SERVER_URI}/roles/all`, {
     method: 'GET',
   }).then(res => res.json());
-};
 
-export const getSavedResources = () => {
-  return fetch(`${AUTH_SERVER_URI}/resources`, {
+export const getSavedResources = () =>
+  fetch(`${AUTH_SERVER_URI}/resources`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
       token: localStorage.getItem('token'),
     },
   }).then(res => res.json());
-};
 
-export const saveResource = resID => {
-  return fetch(`${AUTH_SERVER_URI}/resource`, {
+export const saveResource = resID =>
+  fetch(`${AUTH_SERVER_URI}/resource`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -137,10 +131,9 @@ export const saveResource = resID => {
       console.err(err);
       return null;
     });
-};
 
-export const deleteSavedResource = resID => {
-  return fetch(`${AUTH_SERVER_URI}/resource`, {
+export const deleteSavedResource = resID =>
+  fetch(`${AUTH_SERVER_URI}/resource`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
@@ -155,4 +148,3 @@ export const deleteSavedResource = resID => {
       console.err(err);
       return null;
     });
-};

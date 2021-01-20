@@ -45,23 +45,21 @@ function ResourcesFilter(props) {
   );
 
   const radio = useCallback(
-    (filterName, filterOptions, value, isSort) => {
-      return (
-        <div className={isSort ? 'radio-container-sort' : 'radio-container'}>
-          {!isSort && <h5 className="title-filter">{filterName}</h5>}
-          <Radio.Group
-            onChange={target => onChange(filterName, target.target.value)}
-            value={value}
-          >
-            {filterOptions.map(option => (
-              <Radio className="radio-filter" key={option} value={option}>
-                {option}
-              </Radio>
-            ))}
-          </Radio.Group>
-        </div>
-      );
-    },
+    (filterName, filterOptions, value, isSort) => (
+      <div className={isSort ? 'radio-container-sort' : 'radio-container'}>
+        {!isSort && <h5 className="title-filter">{filterName}</h5>}
+        <Radio.Group
+          onChange={target => onChange(filterName, target.target.value)}
+          value={value}
+        >
+          {filterOptions.map(option => (
+            <Radio className="radio-filter" key={option} value={option}>
+              {option}
+            </Radio>
+          ))}
+        </Radio.Group>
+      </div>
+    ),
     [onChange],
   );
 

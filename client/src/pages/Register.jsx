@@ -137,9 +137,9 @@ const Register = ({ form }) => {
             ],
           })(
             <Select placeholder="Please select a security question!">
-              {securityQuestions.map((question, idx) => {
-                return <Option value={idx}>{question}</Option>;
-              })}
+              {securityQuestions.map((question, idx) => (
+                <Option value={idx}>{question}</Option>
+              ))}
             </Select>,
           )}
         </Form.Item>
