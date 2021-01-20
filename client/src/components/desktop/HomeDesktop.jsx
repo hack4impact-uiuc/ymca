@@ -30,20 +30,6 @@ export const HomeBlock1Desktop = () => {
     setCategories(newCategories);
   };
 
-  const fetchBackgroundImage = async () => {
-    const res = await getHomePage();
-    if (res) {
-      const background =
-        isWebpSupported && canBeWebpConverted(res.result.backgroundImage)
-          ? res.result.backgroundImage.replace('jpg', 'webp')
-          : res.result.backgroundImage;
-      setBackgroundImage(
-        `radial-gradient(70% 141% at 0 0, rgba(25, 132, 202, 0.6) 1%,` +
-          ` rgba(105, 62, 158, 0.6) 100%),` +
-          ` url('${background}')`,
-      );
-    }
-  };
   const openNotification = () => {
     notification.open({
       message: 'COVID-19 Information & Resources',
@@ -60,8 +46,23 @@ export const HomeBlock1Desktop = () => {
   };
 
   useEffect(() => {
+    const fetchBackgroundImage = async () => {
+      const res = await getHomePage();
+      if (res) {
+        const background =
+          isWebpSupported && canBeWebpConverted(res.result.backgroundImage)
+            ? res.result.backgroundImage.replace('jpg', 'webp')
+            : res.result.backgroundImage;
+        setBackgroundImage(
+          `radial-gradient(70% 141% at 0 0, rgba(25, 132, 202, 0.6) 1%,` +
+            ` rgba(105, 62, 158, 0.6) 100%),` +
+            ` url('${background}')`,
+        );
+      }
+    };
+
     fetchBackgroundImage();
-  }, [setBackgroundImage]);
+  }, [setBackgroundImage, isWebpSupported]);
 
   useEffect(() => {
     fetchCategories();
@@ -169,7 +170,7 @@ export const HomeBlock3Desktop = () => {
       setTestimonials(newTestimonials);
     };
     fetchTestimonials();
-  }, [setTestimonials]);
+  }, [setTestimonials, isWebpSupported]);
 
   return (
     <Row className="home-block-3" type="flex" justify="center" align="middle">

@@ -52,27 +52,27 @@ type FormProps = {
   },
 };
 
+const CAROUSEL_CATEGORIES = [
+  'Basic Information',
+  'Contact Information',
+  'Recommended Contacts',
+  'Financial Aid',
+  'Other',
+];
+
 const ResourceForm = (props: FormProps) => {
   const [totalSubmitEnabled, setTotalSubmitEnabled] = useState(true);
   const [showBackButton, setShowBackButton] = useState(false);
   const [showSubmitButton, setShowSubmitButton] = useState(false);
 
-  const CAROUSEL_CATEGORIES = [
-    'Basic Information',
-    'Contact Information',
-    'Recommended Contacts',
-    'Financial Aid',
-    'Other',
-  ];
-
   const createCarouselCategories = useCallback(
     () =>
       CAROUSEL_CATEGORIES.map((category) => (
-        <div>
+        <div key={category}>
           <p>{category}</p>
         </div>
       )),
-    [CAROUSEL_CATEGORIES],
+    [],
   );
 
   const [categories, setCategories] = useState([]);
@@ -86,8 +86,8 @@ const ResourceForm = (props: FormProps) => {
   const [hoursOfOperation, setHoursOfOperation] = useState([]);
   const [image, setImage] = useState('');
 
-  const { id } = props;
-  const { getFieldDecorator, getFieldValue, setFieldsValue } = props.form;
+  const { id, form } = props;
+  const { getFieldDecorator, getFieldValue, setFieldsValue } = form;
 
   useEffect(() => {
     async function fetchFields() {
@@ -135,13 +135,13 @@ const ResourceForm = (props: FormProps) => {
   const formCarouselRef = useRef();
   const formLabelRef = useRef();
 
-  const onBackButtonClick = useCallback(() => {
-    formCarouselRef.current.prev();
-  }, [formCarouselRef]);
+  const onBackButtonClick = useCallback(() => formCarouselRef.current.prev(), [
+    formCarouselRef,
+  ]);
 
-  const onNextButtonClick = useCallback(() => {
-    formCarouselRef.current.next();
-  }, [formCarouselRef]);
+  const onNextButtonClick = useCallback(() => formCarouselRef.current.next(), [
+    formCarouselRef,
+  ]);
 
   const onFormCarouselChange = useCallback(
     (current, to) => {
@@ -155,13 +155,7 @@ const ResourceForm = (props: FormProps) => {
 
       setTotalSubmitEnabled(showSubmitButton);
     },
-    [
-      formLabelRef,
-      setShowBackButton,
-      setShowSubmitButton,
-      CAROUSEL_CATEGORIES,
-      showSubmitButton,
-    ],
+    [formLabelRef, setShowBackButton, setShowSubmitButton, showSubmitButton],
   );
 
   return (

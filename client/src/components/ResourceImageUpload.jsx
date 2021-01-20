@@ -20,8 +20,8 @@ const ImageUpload = (props: ImageUploadProps) => {
   const [zoom, setZoom] = useState(1);
   const [croppedPixels, setCroppedPixels] = useState();
 
-  const changeCrop = (c) => setCrop(c);
-  const changeZoom = (z) => setZoom(z);
+  const changeCrop = setCrop;
+  const changeZoom = setZoom;
   const onCropComplete = (area, pixels) => setCroppedPixels(pixels);
 
   /* These two functions are from the creators of react-easy-crop */
@@ -29,7 +29,7 @@ const ImageUpload = (props: ImageUploadProps) => {
     new Promise((resolve, reject) => {
       const img = new Image();
       img.addEventListener('load', () => resolve(img));
-      img.addEventListener('error', (error) => reject(error));
+      img.addEventListener('error', reject);
       img.src = url;
     });
 

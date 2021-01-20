@@ -26,17 +26,18 @@ const RoleApproval = () => {
     return textCurrent < textNext ? -1 : bool;
   }
 
-  useEffect(() => {
-    async function fetchData() {
-      setLoading(true);
-      const userData = await getUsersForRolesPage();
-      const userDataParsed = await userData.json();
+  async function fetchData() {
+    setLoading(true);
+    const userData = await getUsersForRolesPage();
+    const userDataParsed = await userData.json();
 
-      if (userDataParsed.user_emails) {
-        setUsers(userDataParsed.user_emails);
-      }
-      setLoading(false);
+    if (userDataParsed.user_emails) {
+      setUsers(userDataParsed.user_emails);
     }
+    setLoading(false);
+  }
+
+  useEffect(() => {
     fetchData();
   }, [setUsers]);
 
@@ -85,44 +86,45 @@ const RoleApproval = () => {
       title: 'Email',
       dataIndex: 'email',
       defaultSortOrder: 'ascend',
-      sorter: (a, b) => compareEmails(a, b),
+      sorter: compareEmails,
     },
     {
       title: 'Role',
       dataIndex: 'role',
-      sorter: (a, b) => compareRoles(a, b),
+      sorter: compareRoles,
     },
     {
       title: 'Change Role',
-      render: (text, user) => (
-        <Dropdown
-          overlay={RoleMenu(user.email)}
-          placement="bottomLeft"
-          trigger={['click']}
-        >
-          <Button className="carousel-move-btn">
-            {user.email === userWithNewRole ? (
-              newRole
-            ) : (
-              <span>
-                {'New Role '}
-                <CaretDownOutlined />
-              </span>
-            )}
-          </Button>
-        </Dropdown>
-      ),
+      render: function ChangeRole(_, user) {
+        return (
+          <Dropdown
+            overlay={RoleMenu(user.email)}
+            placement="bottomLeft"
+            trigger={['click']}
+          >
+            <Button className="carousel-move-btn">
+              {user.email === userWithNewRole ? (
+                newRole
+              ) : (
+                <span>
+                  {'New Role '}
+                  <CaretDownOutlined />
+                </span>
+              )}
+            </Button>
+          </Dropdown>
+        );
+      },
     },
     {
       title: ' ',
-      render: () => (
-        <Button
-          className="carousel-move-btn"
-          onClick={(event) => submitNewRole(event)}
-        >
-          Submit
-        </Button>
-      ),
+      render: function SubmitNewRole() {
+        return (
+          <Button className="carousel-move-btn" onClick={submitNewRole}>
+            Submit
+          </Button>
+        );
+      },
     },
   ];
 

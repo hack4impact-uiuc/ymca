@@ -30,6 +30,8 @@ import '../../css/ResourceDetail.css';
 const { Header } = Layout;
 
 function ResourceDetail(props) {
+  const { match } = props;
+
   const { authed, authRoleIsEquivalentTo } = useAuth();
 
   const [name, setName] = useState('Resource Name');
@@ -62,14 +64,14 @@ function ResourceDetail(props) {
 
   const updateIsSaved = useCallback(
     (savedSet) => {
-      setIsSaved(!!savedSet.has(props.match.params.id));
+      setIsSaved(!!savedSet.has(match.params.id));
     },
-    [props.match.params.id],
+    [match.params.id],
   );
 
   useEffect(() => {
     async function didMount() {
-      const response = await getResourceByID(props.match.params.id, true);
+      const response = await getResourceByID(match.params.id, true);
       if (response !== null) {
         const { result } = response;
         setName(result.name);
@@ -116,7 +118,7 @@ function ResourceDetail(props) {
       }
     }
     didMount();
-  }, [authed, props.match.params.id, updateIsSaved]);
+  }, [authed, match.params.id, updateIsSaved]);
 
   useEffect(() => {
     async function didUpdate() {
@@ -222,8 +224,6 @@ function ResourceDetail(props) {
       'eDNscXQ3azJzajl0bCJ9.FDSFjP1IfSisbm4uvd70vg',
     interactive: true,
   });
-
-  const { match } = props;
 
   if (!resourceExists) {
     return <Redirect to="/resources/unknown" />;
@@ -396,7 +396,7 @@ function ResourceDetail(props) {
           <Row className="section recommended-contacts-row">
             {contacts &&
               contacts.map((contact) => (
-                <Col span={8} className="contact">
+                <Col span={8} className="contact" key={contact.name}>
                   <div className="financial-aid-subtitle">{contact.name}</div>
                   <div>
                     Role:{' '}
@@ -467,7 +467,7 @@ function ResourceDetail(props) {
         {hours.length > 0 && (
           <Col span={12}>
             {hours.map((day) => (
-              <div>
+              <div key={day}>
                 <span className="day-of-week">{`${day.day}: `}</span>
                 {day.period.length > 0
                   ? `${day.period[0]} - ${day.period[1]}`
@@ -485,7 +485,7 @@ function ResourceDetail(props) {
           <Col span={20}>
             <Row className="cardRow">
               {internalNotes.length > 0
-                ? internalNotes.map((note) => displayNote(note))
+                ? internalNotes.map(displayNote)
                 : 'No internal notes provided'}
             </Row>
           </Col>

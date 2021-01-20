@@ -169,6 +169,7 @@ const ContactFormItem = (props: FormItemProps) => {
                   e.preventDefault();
                   setContacts(contacts.filter((other) => other !== contact));
                 }}
+                key="delete-contact"
               >
                 Delete
               </Button>,

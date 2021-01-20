@@ -17,9 +17,14 @@ type FormProps = {
 };
 
 const StrForm = (props: FormProps) => {
-  const { listOfStrings, setListOfStrings, setTotalSubmitEnabled } = props;
+  const {
+    listOfStrings,
+    setListOfStrings,
+    setTotalSubmitEnabled,
+    form,
+  } = props;
 
-  const { getFieldDecorator, getFieldValue, setFieldsValue } = props.form;
+  const { getFieldDecorator, getFieldValue, setFieldsValue } = form;
 
   const onSubmit = useCallback(() => {
     const val = getFieldValue('requiredDocuments');
@@ -89,6 +94,7 @@ const RequiredDocumentsFormItem = (props: FormItemProps) => {
                   e.preventDefault();
                   setListOfStrings(listOfStrings.filter((str) => str !== item));
                 }}
+                key="delete"
               >
                 Delete
               </Button>,

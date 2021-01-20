@@ -39,34 +39,37 @@ const Home = () => {
   const [dimensions, isMobile] = useWindowDimensions();
   const spanNum = isMobile ? 20 : 6;
 
-  const fetchPartners = async () => {
-    const res = await getHomePage();
-    const newPartners = [];
-    const newPartnerRows = [];
-    let i = 0;
-    if (res != null) {
-      res.result.partners.forEach((t) => {
-        newPartners.push({
-          name: t[0],
-          image:
-            isWebpSupported && canBeWebpConverted(t[1])
-              ? t[1].toLowerCase().replace('jpg', 'webp').replace('png', 'webp')
-              : t[1],
-          link: t[2],
-        });
-        if (i % 5 === 0) {
-          newPartnerRows.push(i / 5);
-        }
-        i += 1;
-      });
-    }
-    setPartners(newPartners);
-    setPartnerRows(newPartnerRows);
-  };
-
   useEffect(() => {
+    const fetchPartners = async () => {
+      const res = await getHomePage();
+      const newPartners = [];
+      const newPartnerRows = [];
+      let i = 0;
+      if (res != null) {
+        res.result.partners.forEach((t) => {
+          newPartners.push({
+            name: t[0],
+            image:
+              isWebpSupported && canBeWebpConverted(t[1])
+                ? t[1]
+                    .toLowerCase()
+                    .replace('jpg', 'webp')
+                    .replace('png', 'webp')
+                : t[1],
+            link: t[2],
+          });
+          if (i % 5 === 0) {
+            newPartnerRows.push(i / 5);
+          }
+          i += 1;
+        });
+      }
+      setPartners(newPartners);
+      setPartnerRows(newPartnerRows);
+    };
+
     fetchPartners();
-  }, [setPartners, setPartnerRows]);
+  }, [setPartners, setPartnerRows, isWebpSupported]);
 
   return (
     <>
@@ -108,6 +111,7 @@ const Home = () => {
                   <Col
                     className="home-block-4-partner"
                     span={isMobile ? 10 : 4}
+                    key={element.name}
                   >
                     <a
                       href={element.link}
@@ -127,7 +131,11 @@ const Home = () => {
               <Row type="flex" justify="center" align="middle">
                 {dimensions.width > 976 &&
                   partners.slice(index * 5, (index + 1) * 5).map((element) => (
-                    <Col className="home-block-4-partner-name" span={4}>
+                    <Col
+                      className="home-block-4-partner-name"
+                      span={4}
+                      key={element.name}
+                    >
                       <h5
                         style={{
                           opacity: partnerHover === element.name ? 1 : 0,

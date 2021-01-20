@@ -92,19 +92,17 @@ const ResourceFilterSearch = () => {
               </Option>,
             );
 
-            Object.entries(subcategories).forEach(
-              ([subcategory, resourceNames]) => {
-                newOptions.push(
-                  <Option
-                    className="rfs-subcategory-option"
-                    key={subcategory}
-                    label={subcategory}
-                  >
-                    {subcategory}
-                  </Option>,
-                );
-              },
-            );
+            Object.entries(subcategories).forEach(([subcategory]) => {
+              newOptions.push(
+                <Option
+                  className="rfs-subcategory-option"
+                  key={subcategory}
+                  label={subcategory}
+                >
+                  {subcategory}
+                </Option>,
+              );
+            });
           });
 
           setAllOptions(newOptions);
@@ -156,7 +154,7 @@ const ResourceFilterSearch = () => {
     [history, allCategories, allSubcategories, allOptionsRep],
   );
 
-  useEffect(populateOptions, []);
+  useEffect(populateOptions, [populateOptions]);
 
   return (
     <AutoComplete

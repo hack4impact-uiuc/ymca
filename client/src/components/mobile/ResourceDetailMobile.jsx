@@ -37,7 +37,9 @@ type Props = {
 const ResourceDetailMobile = (props: Props) => {
   const { authed, authRoleIsEquivalentTo } = useAuth();
 
-  const resourceId = props.match.params.id;
+  const { match } = props;
+
+  const resourceId = match.params.id;
 
   /* SETUP START */
 
@@ -53,14 +55,14 @@ const ResourceDetailMobile = (props: Props) => {
   const [phone, setPhone] = useState([]);
   const [address, setAddress] = useState(null);
   const [addressLine2, setAddressLine2] = useState(null);
-  const [aptUnitSuite, setAptUnitSuite] = useState('');
+  // const [aptUnitSuite, setAptUnitSuite] = useState('');
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
   const [zip, setZip] = useState('');
   const [languages, setLanguages] = useState([]);
   const [requiredDocuments, setRequiredDocuments] = useState(null);
   const [cost, setCost] = useState(null);
-  const [internalNotes, setInternalNotes] = useState([]);
+  // const [internalNotes, setInternalNotes] = useState([]);
   const [hours, setHours] = useState(null);
   const [image, setImage] = useState(null);
   const [financialAidDetails, setFinancialAidDetails] = useState(null);
@@ -70,7 +72,7 @@ const ResourceDetailMobile = (props: Props) => {
   const [lng, setLng] = useState(0);
   const [distFromResource, setDistFromResource] = useState(null);
   const [eligibility, setEligibility] = useState('');
-  const [modalVisible, setModalVisible] = useState(false);
+  // const [modalVisible, setModalVisible] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [isWithinOperationHours, setIsWithinOperationHours] = useState(null);
 
@@ -156,7 +158,7 @@ const ResourceDetailMobile = (props: Props) => {
   }, [authed, resourceId]);
 
   useEffect(() => {
-    async function updateDistFromResource() {
+    function updateDistFromResource() {
       function deg2rad(deg) {
         return deg * (Math.PI / 180);
       }
@@ -314,7 +316,9 @@ const ResourceDetailMobile = (props: Props) => {
                 : ['No phone number provided.'],
               [
                 email || 'No email provided.',
-                <a href={website}>{website || 'No website provided.'}</a>,
+                <a href={website} key="website">
+                  {website || 'No website provided.'}
+                </a>,
               ],
             )}
           />
@@ -407,6 +411,7 @@ const ResourceDetailMobile = (props: Props) => {
               ? contacts.map((contact) => (
                   <InfoBlock
                     title={contact.name}
+                    key={contact.name}
                     icon={
                       <img
                         src="/asset/icon/user.svg"
@@ -419,6 +424,7 @@ const ResourceDetailMobile = (props: Props) => {
                       <Row
                         justify="space-between"
                         style={{ paddingLeft: 0, paddingBottom: 0 }}
+                        key={contact.name}
                       >
                         {Object.entries(contact).map(([key, value]) => {
                           if (key !== '_id' && key !== 'name') {
@@ -502,6 +508,7 @@ const ResourceDetailMobile = (props: Props) => {
               ].map((day) => (
                 <ScheduleEntry
                   day={day}
+                  key={day}
                   period={
                     hours &&
                     hours.filter((entry) => entry.day === day)[0].period
@@ -571,7 +578,9 @@ const InfoBlock = (props: InfoBlockProps) => {
         <Row className="mb-rd-info-title">{title}</Row>
         {content &&
           content.map((entry) => (
-            <Row className="mb-rd-thin-text">{entry}</Row>
+            <Row className="mb-rd-thin-text" key={entry}>
+              {entry}
+            </Row>
           ))}
       </Col>
     </Row>

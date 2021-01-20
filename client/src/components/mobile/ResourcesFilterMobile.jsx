@@ -52,7 +52,11 @@ function ResourcesFilterMobile(props) {
           <b>Cost</b>
         </div>
         {costs.map((cost) => (
-          <div className="filter-type" onClick={() => setTempCost(cost)}>
+          <div
+            className="filter-type"
+            onClick={() => setTempCost(cost)}
+            key={cost}
+          >
             {cost}
             {cost === tempCost && <CheckOutlined style={{ float: 'right' }} />}
           </div>
@@ -66,6 +70,7 @@ function ResourcesFilterMobile(props) {
           <div
             className="filter-type"
             onClick={() => setTempLanguage(language)}
+            key={language}
           >
             {language}
             {language === tempLanguage && (
@@ -82,6 +87,7 @@ function ResourcesFilterMobile(props) {
           <div
             className="filter-type"
             onClick={() => setTempLocation(location)}
+            key={location}
           >
             {location}
             {location === tempLocation && (

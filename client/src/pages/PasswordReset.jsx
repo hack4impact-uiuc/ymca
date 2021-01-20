@@ -68,7 +68,7 @@ const PasswordReset = ({ form }) => {
           <div className="header-text">Reset Password</div>
         </Col>
       </Row>
-      <Form onSubmit={(e) => onSubmit(e)} className="form">
+      <Form onSubmit={onSubmit} className="form">
         <Form.Item className="form-text">
           {getFieldDecorator('email', {
             rules: [
@@ -112,13 +112,12 @@ const PasswordReset = ({ form }) => {
                 message: 'Please confirm your password!',
               },
               {
-                validator: (rule, value, password) =>
-                  compareToFirstPassword(rule, value, password),
+                validator: compareToFirstPassword,
               },
             ],
           })(
             <Input.Password
-              onBlur={(e) => handleConfirmBlur(e)}
+              onBlur={handleConfirmBlur}
               prefix={<LockOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
               type="password"
               placeholder="Confirm Password"
@@ -136,7 +135,9 @@ const PasswordReset = ({ form }) => {
           })(
             <Select placeholder="Please select your security question!">
               {securityQuestions.map((question, idx) => (
-                <Option value={idx}>{question}</Option>
+                <Option value={idx} key={question}>
+                  {question}
+                </Option>
               ))}
             </Select>,
           )}

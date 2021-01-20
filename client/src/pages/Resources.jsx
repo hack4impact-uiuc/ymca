@@ -23,6 +23,10 @@ import ResourcesCatMobile from '../components/mobile/ResourcesCatMobile';
 const { Sider } = Layout;
 
 function Resources(props) {
+  const { saved, history } = props;
+  // eslint-disable-next-line react/destructuring-assignment
+  const locationProp = props.location;
+
   const [cost, setCost] = useState('Free - $$$');
   const [language, setLanguage] = useState('All');
   const [location, setLocation] = useState('All');
@@ -42,19 +46,19 @@ function Resources(props) {
   const isMobile = useWindowDimensions()[1];
   const { authed } = useAuth();
 
-  const fetchCategories = async () => {
-    const res = await getCategories();
-    const newCategories = {};
-    if (res != null) {
-      res.result.forEach((c) => {
-        newCategories[c.name] = c.subcategories;
-      });
-    }
-
-    setCategories(newCategories);
-  };
-
   useEffect(() => {
+    const fetchCategories = async () => {
+      const res = await getCategories();
+      const newCategories = {};
+      if (res != null) {
+        res.result.forEach((c) => {
+          newCategories[c.name] = c.subcategories;
+        });
+      }
+
+      setCategories(newCategories);
+    };
+
     fetchCategories();
   }, []);
 
@@ -78,7 +82,7 @@ function Resources(props) {
   }
 
   const getCategorySelectedFromSearch = useCallback(() => {
-    const { search } = props.location;
+    const { search } = locationProp;
     if (search === '') {
       return ['All Resources', ''];
     }
@@ -97,7 +101,7 @@ function Resources(props) {
     subcategorySelected = subcategorySelected.replace(/%[\d]*/g, ' ');
 
     return [categorySelected, subcategorySelected];
-  }, [props.location]);
+  }, [locationProp]);
 
   const updateResources = useCallback(async () => {
     const [
@@ -119,7 +123,7 @@ function Resources(props) {
       setSavedSet(localSavedSet);
     }
 
-    if (props.saved) {
+    if (saved) {
       newResources.result = newResources.result.filter((newResource) =>
         localSavedSet.has(newResource._id),
       );
@@ -138,11 +142,9 @@ function Resources(props) {
     setSubcategory(subcategorySelected);
 
     setLoading(false);
-  }, [getCategorySelectedFromSearch, props.saved, authed]);
+  }, [getCategorySelectedFromSearch, saved, authed]);
 
-  const updateSaved = async () => {
-    updateResources();
-  };
+  const updateSaved = updateResources;
 
   const updateSort = useCallback(() => {
     switch (sort) {
@@ -160,9 +162,12 @@ function Resources(props) {
     }
   }, [resources, sort]);
 
-  useEffect(() => {
-    updateResources();
-  }, [props.location.search, props.saved, authed, updateResources]);
+  useEffect(updateResources, [
+    locationProp.search,
+    saved,
+    authed,
+    updateResources,
+  ]);
 
   useEffect(() => {
     const costMap = {
@@ -185,26 +190,26 @@ function Resources(props) {
   }, [cost, language, location, subcategory, resources, sort, updateSort]);
 
   const categorySelectAll = useCallback(() => {
-    props.history.push({
+    history.push({
       pathname: '/resources',
     });
-  }, [props.history]);
+  }, [history]);
 
   const subcategorySelect = useCallback(
     (value) => {
-      props.history.push({
+      history.push({
         pathname: '/resources',
         search: `?category=${category}&subcategory=${value}`,
       });
     },
-    [category, props.history],
+    [category, history],
   );
 
   const onOpenChange = useCallback(
-    async (newOpenKeys) => {
+    (newOpenKeys) => {
       if (newOpenKeys.length === 0) {
         if (categories[category].indexOf(subcategory) !== -1) {
-          props.history.push({
+          history.push({
             pathname: '/resources',
             search: `?category=${category}`,
           });
@@ -223,12 +228,12 @@ function Resources(props) {
         setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
       }
       const categorySelected = latestOpenKey;
-      props.history.push({
+      history.push({
         pathname: '/resources',
         search: `?category=${categorySelected}`,
       });
     },
-    [categories, category, openKeys, subcategory, props.history],
+    [categories, category, openKeys, subcategory, history],
   );
 
   return (

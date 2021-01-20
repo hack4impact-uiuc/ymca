@@ -50,26 +50,23 @@ function useProvideAuth(): Auth {
   const [securityQuestions, setSecurityQuestions] = useState<Array<string>>([]);
 
   useEffect(() => {
-    async function fetchData() {
-      Promise.all([
-        getSecurityQuestions(),
-        getAllRoles(),
-        verify(
-          (res) => {
-            setAuthed(true);
-            setAuthRole(res.role);
-          },
-          () => {
-            setAuthed(false);
-            setAuthRole('');
-          },
-        ),
-      ]).then((vals) => {
-        setSecurityQuestions(vals[0].questions);
-        setAuthRoles(Object.keys(vals[1].roles).concat(''));
-      });
-    }
-    fetchData();
+    Promise.all([
+      getSecurityQuestions(),
+      getAllRoles(),
+      verify(
+        (res) => {
+          setAuthed(true);
+          setAuthRole(res.role);
+        },
+        () => {
+          setAuthed(false);
+          setAuthRole('');
+        },
+      ),
+    ]).then((vals) => {
+      setSecurityQuestions(vals[0].questions);
+      setAuthRoles(Object.keys(vals[1].roles).concat(''));
+    });
   }, []);
 
   const authRoleIsEquivalentTo = useCallback(

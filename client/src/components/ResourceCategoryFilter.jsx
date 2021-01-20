@@ -33,7 +33,7 @@ function ResourceCategoryFilter(props) {
       openKeys={openKeys}
       onOpenChange={onOpenChange}
     >
-      <Menu.Item key="All Resources" onClick={() => categorySelectAll()}>
+      <Menu.Item key="All Resources" onClick={categorySelectAll}>
         All Resources
       </Menu.Item>
       {Object.keys(orderedCategories).map((categoryName) => (

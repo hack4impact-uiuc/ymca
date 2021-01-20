@@ -110,6 +110,7 @@ const PhoneNumberFormItem = (props: FormItemProps) => {
                   e.preventDefault();
                   setPhoneNumbers(phoneNumbers.filter((num) => num !== item));
                 }}
+                key="delete"
               >
                 Delete
               </Button>,

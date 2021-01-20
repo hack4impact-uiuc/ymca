@@ -1367,10 +1367,10 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@hack4impact-uiuc/eslint-plugin@^2.0.6":
-  version "2.0.6"
-  resolved "https://registry.yarnpkg.com/@hack4impact-uiuc/eslint-plugin/-/eslint-plugin-2.0.6.tgz"
-  integrity sha512-cc4sda7IKQ/N1o3wbVan2JOM/dDl2tVXZFVE+Xii5i2FdpWp/BWagC9gmSgdwR9SrvDfALdOfdx6ozI1YCKQ+w==
+"@hack4impact-uiuc/eslint-plugin@^2.0.9":
+  version "2.0.9"
+  resolved "https://registry.yarnpkg.com/@hack4impact-uiuc/eslint-plugin/-/eslint-plugin-2.0.9.tgz#7fc10f910f069ca751c56624c7606ff8104e68ec"
+  integrity sha512-1vMmQJMIsh6U8jQGYARX/WeCF5vQQYji3JwcYoPXCeNtatbXIpS57NDtdDaFyvnTXJMWtWYp0+cWnOeFiuXSmA==
   dependencies:
     "@typescript-eslint/eslint-plugin" "^4.13.0"
     "@typescript-eslint/parser" "^4.13.0"

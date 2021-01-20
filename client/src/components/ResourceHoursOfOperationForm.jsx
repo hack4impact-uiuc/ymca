@@ -83,6 +83,17 @@ type FormProps = {
     getFieldDecorator: (any) => any,
   },
 };
+
+const days = [
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+  'Sunday',
+];
+
 const HoursOfOperationsForm = Form.create({ name: 'hoursOfOperation' })(
   (props: FormProps) => {
     const {
@@ -92,34 +103,19 @@ const HoursOfOperationsForm = Form.create({ name: 'hoursOfOperation' })(
     } = props;
     const { setFieldsValue, getFieldValue, getFieldDecorator } = props.form;
 
-    const days = [
-      'Monday',
-      'Tuesday',
-      'Wednesday',
-      'Thursday',
-      'Friday',
-      'Saturday',
-      'Sunday',
-    ];
-
     const generateInputs = useCallback(
       () =>
         days.map((day) => (
           <HoursOfOperationInput
             day={day}
+            key={day}
             setFieldsValue={setFieldsValue}
             getFieldValue={getFieldValue}
             getFieldDecorator={getFieldDecorator}
             setTotalSubmitEnabled={setTotalSubmitEnabled}
           />
         )),
-      [
-        days,
-        setFieldsValue,
-        getFieldValue,
-        getFieldDecorator,
-        setTotalSubmitEnabled,
-      ],
+      [setFieldsValue, getFieldValue, getFieldDecorator, setTotalSubmitEnabled],
     );
 
     useEffect(() => {

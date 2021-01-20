@@ -135,9 +135,7 @@ const InternalNotesFormItem = (props: FormItemProps) => {
 
   const [editNote, setEditNote] = useState(null);
 
-  const onEditButtonClick = (note) => {
-    setEditNote(note);
-  };
+  const onEditButtonClick = setEditNote;
 
   const onDeleteButtonClick = (item) => {
     setInternalNotes(internalNotes.filter((note) => note !== item));
@@ -151,6 +149,7 @@ const InternalNotesFormItem = (props: FormItemProps) => {
             e.preventDefault();
             onEditButtonClick(item);
           }}
+          key="edit"
         >
           Edit
         </Button>,
@@ -159,6 +158,7 @@ const InternalNotesFormItem = (props: FormItemProps) => {
             e.preventDefault();
             onDeleteButtonClick(item);
           }}
+          key="delete"
         >
           Delete
         </Button>,

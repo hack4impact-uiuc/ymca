@@ -49,11 +49,7 @@ function Login(props: Props) {
           <div className="header-text">Login</div>
         </Col>
       </Row>
-      <Form
-        justify="center"
-        onSubmit={(e) => onLoginSubmit(e)}
-        className="form"
-      >
+      <Form justify="center" onSubmit={onLoginSubmit} className="form">
         <Form.Item className="form-text">
           {getFieldDecorator('email', {
             rules: [

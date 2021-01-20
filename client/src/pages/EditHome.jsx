@@ -74,6 +74,7 @@ const EditHome = () => {
       }
     }
     fetchFields();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setBackgroundImage, setTestimonialValues, setPartnerValues]);
 
   const onFinish = async (values) => {
@@ -267,7 +268,7 @@ const EditHome = () => {
         <Form.List label="Testimonials" name="testimonials">
           {(fields, { add, remove }) => (
             <div>
-              {fields.map((field, index) => (
+              {fields.map((field) => (
                 <Row key={field.key}>
                   <Col className="edit-home-textbox-main">
                     <Form.Item
@@ -369,7 +370,7 @@ const EditHome = () => {
         <Form.List label="Partners" name="partners">
           {(fields, { add, remove }) => (
             <div>
-              {fields.map((field, index) => (
+              {fields.map((field) => (
                 <Row key={field.key}>
                   <Col className="edit-home-textbox-main">
                     <Form.Item

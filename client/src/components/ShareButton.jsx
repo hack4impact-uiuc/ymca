@@ -27,18 +27,14 @@ function ShareButton(props: ShareButtonProps) {
     <>
       {fullButton ? (
         <Popover content={info} Title="Error" trigger="click">
-          <Button className="share-button" onClick={() => copyLink()}>
+          <Button className="share-button" onClick={copyLink}>
             <ShareAltOutlined />
             Share
           </Button>
         </Popover>
       ) : (
         <Popover content={info} Title="Error" trigger="click">
-          <Button
-            className="share-button"
-            shape="circle"
-            onClick={() => copyLink()}
-          >
+          <Button className="share-button" shape="circle" onClick={copyLink}>
             <ShareAltOutlined />
           </Button>
         </Popover>

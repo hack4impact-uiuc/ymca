@@ -49,6 +49,7 @@ type CarouselProps = {
   getFieldDecorator: (any) => any,
 };
 
+// eslint-disable-next-line react/display-name
 const FormCarousel = React.forwardRef((props: CarouselProps, ref) => {
   const {
     beforeChange,
