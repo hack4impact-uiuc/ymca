@@ -14,33 +14,33 @@ export const HomeBlock1Mobile = () => {
   const [categories, setCategories] = useState<Array<string>>([]);
   const [backgroundImage, setBackgroundImage] = useState('');
 
-  const fetchCategories = async () => {
-    const res = await getCategories();
-    const newCategories = [];
-    if (res != null) {
-      res.result.forEach((c) => {
-        newCategories.push(c.name);
-      });
-    }
-    setCategories(newCategories);
-  };
-
-  const fetchBackgroundImage = async () => {
-    const res = await getHomePage();
-    if (res != null) {
-      setBackgroundImage(
-        `radial-gradient(70% 141% at 0 0, rgba(25, 132, 202, 0.6) 1%,` +
-          ` rgba(105, 62, 158, 0.6) 100%),` +
-          ` url('${res.result.backgroundImage}')`,
-      );
-    }
-  };
-
   useEffect(() => {
+    const fetchBackgroundImage = async () => {
+      const res = await getHomePage();
+      if (res != null) {
+        setBackgroundImage(
+          `radial-gradient(70% 141% at 0 0, rgba(25, 132, 202, 0.6) 1%,` +
+            ` rgba(105, 62, 158, 0.6) 100%),` +
+            ` url('${res.result.backgroundImage}')`,
+        );
+      }
+    };
+
     fetchBackgroundImage();
   }, [setBackgroundImage]);
 
   useEffect(() => {
+    const fetchCategories = async () => {
+      const res = await getCategories();
+      const newCategories = [];
+      if (res != null) {
+        res.result.forEach((c) => {
+          newCategories.push(c.name);
+        });
+      }
+      setCategories(newCategories);
+    };
+
     fetchCategories();
   }, []);
 
@@ -137,23 +137,23 @@ export const HomeBlock2Mobile = () => (
 export const HomeBlock3Mobile = () => {
   const [testimonials, setTestimonials] = useState<Array<Testimonial>>([]);
 
-  const fetchTestimonials = async () => {
-    const res = await getHomePage();
-    const newTestimonials = [];
-    if (res != null) {
-      res.result.testimonials.forEach((t) => {
-        newTestimonials.push({
-          person: t[0],
-          image: t[1],
-          title: t[2],
-          testimonial: t[3],
-        });
-      });
-    }
-    setTestimonials(newTestimonials);
-  };
-
   useEffect(() => {
+    const fetchTestimonials = async () => {
+      const res = await getHomePage();
+      const newTestimonials = [];
+      if (res != null) {
+        res.result.testimonials.forEach((t) => {
+          newTestimonials.push({
+            person: t[0],
+            image: t[1],
+            title: t[2],
+            testimonial: t[3],
+          });
+        });
+      }
+      setTestimonials(newTestimonials);
+    };
+
     fetchTestimonials();
   }, [setTestimonials]);
 

@@ -23,9 +23,7 @@ import ResourcesCatMobile from '../components/mobile/ResourcesCatMobile';
 const { Sider } = Layout;
 
 function Resources(props) {
-  const { saved, history } = props;
-  // eslint-disable-next-line react/destructuring-assignment
-  const locationProp = props.location;
+  const { saved, history, location: locationProp } = props;
 
   const [cost, setCost] = useState('Free - $$$');
   const [language, setLanguage] = useState('All');

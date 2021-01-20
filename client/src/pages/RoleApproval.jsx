@@ -26,18 +26,18 @@ const RoleApproval = () => {
     return textCurrent < textNext ? -1 : bool;
   }
 
-  async function fetchData() {
-    setLoading(true);
-    const userData = await getUsersForRolesPage();
-    const userDataParsed = await userData.json();
-
-    if (userDataParsed.user_emails) {
-      setUsers(userDataParsed.user_emails);
-    }
-    setLoading(false);
-  }
-
   useEffect(() => {
+    async function fetchData() {
+      setLoading(true);
+      const userData = await getUsersForRolesPage();
+      const userDataParsed = await userData.json();
+
+      if (userDataParsed.user_emails) {
+        setUsers(userDataParsed.user_emails);
+      }
+      setLoading(false);
+    }
+
     fetchData();
   }, [setUsers]);
 
