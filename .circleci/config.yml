@@ -77,19 +77,19 @@ workflows:
       - backend_format
       - backend_lint
       - auth_test
-      - cypress/install:
-          name: frontend_test_install
-          yarn: true
-          working_directory: client
-          cache-key: 'cache-{{ arch }}-{{ .Branch }}-{{ checksum "client/package.json" }}'
-      - cypress/run:
-          requires:
-            - frontend_test_install
-          name: frontend_test
-          yarn: true
-          start: yarn start
-          working_directory: client
-          cache-key: 'cache-{{ arch }}-{{ .Branch }}-{{ checksum "client/package.json" }}'
-          record: true
-          parallel: true
-          parallelism: 4
+      # - cypress/install:
+      #     name: frontend_test_install
+      #     yarn: true
+      #     working_directory: client
+      #     cache-key: 'cache-{{ arch }}-{{ .Branch }}-{{ checksum "client/package.json" }}'
+      # - cypress/run:
+      #     requires:
+      #       - frontend_test_install
+      #     name: frontend_test
+      #     yarn: true
+      #     start: yarn start
+      #     working_directory: client
+      #     cache-key: 'cache-{{ arch }}-{{ .Branch }}-{{ checksum "client/package.json" }}'
+      #     record: true
+      #     parallel: true
+      #     parallelism: 4
