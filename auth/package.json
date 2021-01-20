@@ -6,8 +6,8 @@
   "homepage": "https://nawc.now.sh/",
   "scripts": {
     "start": "nodemon src/startServer.js",
-    "lint": "eslint --fix src --ext js,jsx",
-    "lint:check": "eslint src --ext js,jsx"
+    "lint": "eslint src --ext js,jsx",
+    "lint:fix": "eslint --fix src --ext js,jsx"
   },
   "repository": {
     "type": "git",
