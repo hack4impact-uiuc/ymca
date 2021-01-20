@@ -32,8 +32,8 @@ export const imageToLink = (
       },
     )
     .then(
-      res => res.data,
-      err => {
+      (res) => res.data,
+      (err) => {
         console.error(err);
         return null;
       },
@@ -42,8 +42,8 @@ export const imageToLink = (
 
 export const getHomePage = (): ApiResponse<HomePage> =>
   instance.get('/api/homepage').then(
-    res => res.data,
-    err => {
+    (res) => res.data,
+    (err) => {
       console.error(err);
       return null;
     },
@@ -58,8 +58,8 @@ export const editHomePage = (homepage: HomePage): ApiResponse<void> => {
       },
     })
     .then(
-      res => res.data,
-      err => {
+      (res) => res.data,
+      (err) => {
         console.error(err);
         return null;
       },
@@ -75,8 +75,8 @@ export const createHomePage = (homepage: HomePage): ApiResponse<HomePage> => {
       },
     })
     .then(
-      res => res.data,
-      err => {
+      (res) => res.data,
+      (err) => {
         console.error(err);
         return null;
       },
@@ -85,8 +85,8 @@ export const createHomePage = (homepage: HomePage): ApiResponse<HomePage> => {
 
 export const getCategories = (): ApiResponse<Array<Category>> =>
   instance.get('/api/categories').then(
-    res => res.data,
-    err => {
+    (res) => res.data,
+    (err) => {
       console.error(err);
       return null;
     },
@@ -94,8 +94,8 @@ export const getCategories = (): ApiResponse<Array<Category>> =>
 
 export const getResources = (): ApiResponse<Array<Resource>> =>
   instance.get('/api/resources').then(
-    res => res.data,
-    err => {
+    (res) => res.data,
+    (err) => {
       console.error(err);
       return null;
     },
@@ -106,8 +106,8 @@ export const getResourcesByCategory = (
 ): ApiResponse<Array<Resource>> => {
   const requestExtension = `/api/resources?category=${category}`;
   return instance.get(requestExtension).then(
-    res => res.data,
-    err => {
+    (res) => res.data,
+    (err) => {
       console.error(err);
       return null;
     },
@@ -121,8 +121,8 @@ export const getResourceByID = (
   const boolString = needLatLong.toString();
   const requestExtension = `/api/resources/${id}?requireLatLong=${boolString}`;
   return instance.get(requestExtension).then(
-    res => res.data,
-    err => {
+    (res) => res.data,
+    (err) => {
       console.error(err);
       return null;
     },
@@ -137,8 +137,8 @@ export const addResource = (resource: Resource): ApiResponse<Resource> =>
       },
     })
     .then(
-      res => res.data,
-      err => {
+      (res) => res.data,
+      (err) => {
         console.error(err);
         return null;
       },
@@ -156,8 +156,8 @@ export const editResource = (
       },
     })
     .then(
-      res => res.data,
-      err => {
+      (res) => res.data,
+      (err) => {
         console.error(err);
         return null;
       },
@@ -173,8 +173,8 @@ export const deleteResource = (id: string): ApiResponse<null> => {
       },
     })
     .then(
-      res => res.data,
-      err => {
+      (res) => res.data,
+      (err) => {
         console.error(err);
         return null;
       },

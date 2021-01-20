@@ -7,18 +7,16 @@ import { Redirect } from 'react-router-dom';
 
 import { getResources } from '../utils/api';
 import { getSavedResources } from '../utils/auth';
-import useWindowDimensions from '../utils/mobile';
 import ResourcesBanner from '../components/ResourcesBanner';
 import ResourcesGrid from '../components/ResourcesGrid';
 import { useAuth } from '../utils/use-auth';
 
-function SavedResources(props) {
+function SavedResources() {
   const [loading, setLoading] = useState(false);
 
   const [resources, setResources] = useState([]);
   const [savedSet, setSavedSet] = useState(new Set());
 
-  const isMobile = useWindowDimensions()[1];
   const { authed } = useAuth();
 
   const updateSaved = useCallback(async () => {
@@ -33,7 +31,7 @@ function SavedResources(props) {
       setSavedSet(localSavedSet);
     }
 
-    newResources.result = newResources.result.filter(newResource =>
+    newResources.result = newResources.result.filter((newResource) =>
       localSavedSet.has(newResource._id),
     );
 

@@ -18,7 +18,7 @@ const Register = ({ form }) => {
   const [confirmDirty, setConfirmDirty] = useState(true);
 
   const handleConfirmBlur = useCallback(
-    e => {
+    (e) => {
       const { value } = e.target;
       if (!!value || confirmDirty) {
         setConfirmDirty(true);
@@ -41,14 +41,14 @@ const Register = ({ form }) => {
   );
 
   const onRegisterSubmit = useCallback(
-    e => {
+    (e) => {
       e.preventDefault();
 
       form.validateFields((err, values) => {
         if (!err) {
           const { email, password, questionIdx, answer } = values;
           register({ email, password, questionIdx, answer }).then(
-            errorMessage => {
+            (errorMessage) => {
               if (errorMessage !== null) {
                 message.error(errorMessage);
               }
@@ -70,7 +70,7 @@ const Register = ({ form }) => {
           <div className="header-text">Registration</div>
         </Col>
       </Row>
-      <Form onSubmit={e => onRegisterSubmit(e)} className="form">
+      <Form onSubmit={(e) => onRegisterSubmit(e)} className="form">
         <Form.Item className="form-text">
           {getFieldDecorator('email', {
             rules: [
@@ -120,7 +120,7 @@ const Register = ({ form }) => {
             ],
           })(
             <Input.Password
-              onBlur={e => handleConfirmBlur(e)}
+              onBlur={(e) => handleConfirmBlur(e)}
               prefix={<LockOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
               type="password"
               placeholder="Confirm Password"

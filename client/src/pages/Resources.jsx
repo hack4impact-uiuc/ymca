@@ -46,7 +46,7 @@ function Resources(props) {
     const res = await getCategories();
     const newCategories = {};
     if (res != null) {
-      res.result.forEach(c => {
+      res.result.forEach((c) => {
         newCategories[c.name] = c.subcategories;
       });
     }
@@ -120,7 +120,7 @@ function Resources(props) {
     }
 
     if (props.saved) {
-      newResources.result = newResources.result.filter(newResource =>
+      newResources.result = newResources.result.filter((newResource) =>
         localSavedSet.has(newResource._id),
       );
     }
@@ -173,7 +173,7 @@ function Resources(props) {
     };
     updateSort();
     const newFilteredResources = resources.filter(
-      resource =>
+      (resource) =>
         (resource.subcategory.includes(subcategory) || subcategory === '') &&
         (costMap[cost].includes(resource.cost) || cost === 'Free - $$$') &&
         (resource.availableLanguages.includes(language) ||
@@ -191,7 +191,7 @@ function Resources(props) {
   }, [props.history]);
 
   const subcategorySelect = useCallback(
-    value => {
+    (value) => {
       props.history.push({
         pathname: '/resources',
         search: `?category=${category}&subcategory=${value}`,
@@ -201,7 +201,7 @@ function Resources(props) {
   );
 
   const onOpenChange = useCallback(
-    async newOpenKeys => {
+    async (newOpenKeys) => {
       if (newOpenKeys.length === 0) {
         if (categories[category].indexOf(subcategory) !== -1) {
           props.history.push({
@@ -215,7 +215,7 @@ function Resources(props) {
       }
 
       const latestOpenKey = newOpenKeys.find(
-        key => openKeys.indexOf(key) === -1,
+        (key) => openKeys.indexOf(key) === -1,
       );
       if (Object.keys(categories).indexOf(latestOpenKey) === -1) {
         setOpenKeys(newOpenKeys);

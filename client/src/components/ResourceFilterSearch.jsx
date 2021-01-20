@@ -24,7 +24,7 @@ const ResourceFilterSearch = () => {
   const [filterWhitelist, setFilterWhitelist] = useState([]);
 
   const populateOptions = useCallback(() => {
-    getResources().then(res => {
+    getResources().then((res) => {
       if (res !== null) {
         if (res.code === 200) {
           const newOptions = [];
@@ -34,7 +34,7 @@ const ResourceFilterSearch = () => {
           const subcategoriesSet = new Set();
           const categoriesObj = {};
 
-          Object.values(res.result).forEach(resource => {
+          Object.values(res.result).forEach((resource) => {
             newOptions.push(
               <Option key={resource._id} label={resource.name}>
                 {resource.name}
@@ -73,7 +73,7 @@ const ResourceFilterSearch = () => {
             });
           });
 
-          Object.keys(newAscendantRelationMap).forEach(resourceName => {
+          Object.keys(newAscendantRelationMap).forEach((resourceName) => {
             newAscendantRelationMap[resourceName] = Array.from(
               newAscendantRelationMap[resourceName],
             );
@@ -141,7 +141,7 @@ const ResourceFilterSearch = () => {
   );
 
   const onSearchSelect = useCallback(
-    value => {
+    (value) => {
       if (allCategories.has(value)) {
         history.push(`/resources?category=${value}`);
       } else if (allSubcategories.has(value)) {

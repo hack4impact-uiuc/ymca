@@ -176,7 +176,7 @@ const ResourceDetailMobile = (props: Props) => {
         return d;
       }
 
-      window.navigator.geolocation.getCurrentPosition(pos => {
+      window.navigator.geolocation.getCurrentPosition((pos) => {
         setDistFromResource(
           (
             getDistanceFromLatLonInKm(
@@ -204,15 +204,13 @@ const ResourceDetailMobile = (props: Props) => {
   useEffect(() => {
     setIsWithinOperationHours(
       hours &&
-        hours.map(entry => {
+        hours.map((entry) => {
           const { day } = entry;
           const { period } = entry;
           let withinHours = false;
 
           if (period) {
-            const givenDay = moment()
-              .day(day)
-              .day();
+            const givenDay = moment().day(day).day();
             const start = moment(period[0], 'h:mm a');
             const startHour = start.hour();
             const startMin = start.minute();
@@ -307,9 +305,11 @@ const ResourceDetailMobile = (props: Props) => {
             content={[].concat(
               phone && phone.length > 0
                 ? phone.map(
-                    entry =>
-                      `${entry.phoneType.charAt(0).toUpperCase() +
-                        entry.phoneType.slice(1)}: ${entry.phoneNumber}`,
+                    (entry) =>
+                      `${
+                        entry.phoneType.charAt(0).toUpperCase() +
+                        entry.phoneType.slice(1)
+                      }: ${entry.phoneNumber}`,
                   )
                 : ['No phone number provided.'],
               [
@@ -404,7 +404,7 @@ const ResourceDetailMobile = (props: Props) => {
           <div className="mb-rd-block-2">
             <Row className="mb-rd-block-title">Recommended Contacts</Row>
             {contacts && contacts.length > 0
-              ? contacts.map(contact => (
+              ? contacts.map((contact) => (
                   <InfoBlock
                     title={contact.name}
                     icon={
@@ -461,9 +461,9 @@ const ResourceDetailMobile = (props: Props) => {
             <Row>{address}</Row>
             {addressLine2 && <Row>{addressLine2}</Row>}
             <Row justify="space-between">
-              <Col>{`${city}${state && state.length > 0 && `, ${state}`}${zip &&
-                zip.length > 0 &&
-                ` ${zip}`}`}</Col>
+              <Col>{`${city}${state && state.length > 0 && `, ${state}`}${
+                zip && zip.length > 0 && ` ${zip}`
+              }`}</Col>
               <Col>{distFromResource && `${distFromResource} mi`}</Col>
             </Row>
           </div>
@@ -499,16 +499,18 @@ const ResourceDetailMobile = (props: Props) => {
                 'Thursday',
                 'Friday',
                 'Saturday',
-              ].map(day => (
+              ].map((day) => (
                 <ScheduleEntry
                   day={day}
                   period={
-                    hours && hours.filter(entry => entry.day === day)[0].period
+                    hours &&
+                    hours.filter((entry) => entry.day === day)[0].period
                   }
                   isWithinOperationHours={
                     isWithinOperationHours &&
-                    isWithinOperationHours.filter(entry => entry.day === day)[0]
-                      .withinHours
+                    isWithinOperationHours.filter(
+                      (entry) => entry.day === day,
+                    )[0].withinHours
                   }
                 />
               ))}
@@ -568,7 +570,9 @@ const InfoBlock = (props: InfoBlockProps) => {
       <Col span={20}>
         <Row className="mb-rd-info-title">{title}</Row>
         {content &&
-          content.map(entry => <Row className="mb-rd-thin-text">{entry}</Row>)}
+          content.map((entry) => (
+            <Row className="mb-rd-thin-text">{entry}</Row>
+          ))}
       </Col>
     </Row>
   );

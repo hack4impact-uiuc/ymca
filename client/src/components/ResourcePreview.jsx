@@ -1,7 +1,6 @@
 // @flow
 
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { Card } from 'antd';
 import { Link } from 'react-router-dom';
 
@@ -58,7 +57,7 @@ function ResourcePreview(props: Props) {
 
   const description = [];
   let languages = '';
-  availableLanguages.forEach(language => {
+  availableLanguages.forEach((language) => {
     languages += `${language}, `;
   });
   if (languages !== '') {

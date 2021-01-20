@@ -10,16 +10,18 @@ import '../../css/ResourcesCat.css';
 import ResourcesFilterMobile from './ResourcesFilterMobile';
 
 function ResourcesCatMobile(props) {
+  const { category, subcategory } = props;
+
   const [categoriesVisible, setCategoriesVisible] = useState(false);
   const [filterVisible, setFilterVisible] = useState(false);
   const { width, height } = useWindowDimensions()[0];
 
   // Makes the dropdown disappear if the user selects a different subcategory
   useEffect(() => {
-    if (props.subcategory !== '') {
+    if (subcategory !== '') {
       setCategoriesVisible(false);
     }
-  }, [props.subcategory]);
+  }, [subcategory]);
 
   return (
     <nav>
@@ -30,12 +32,12 @@ function ResourcesCatMobile(props) {
         >
           <Menu.Item key="categories">
             <span className="category-dropdown">
-              {props.subcategory ? props.subcategory : props.category}
+              {subcategory || category}
               <DownOutlined className="down-icon" />
             </span>
             <a className="filter">
               <Button
-                onClick={e => {
+                onClick={(e) => {
                   setFilterVisible(true);
                   e.stopPropagation();
                 }}

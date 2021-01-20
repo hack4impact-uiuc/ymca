@@ -61,7 +61,7 @@ function ResourceDetail(props) {
   const [contacts, setContacts] = useState(null);
 
   const updateIsSaved = useCallback(
-    savedSet => {
+    (savedSet) => {
       setIsSaved(!!savedSet.has(props.match.params.id));
     },
     [props.match.params.id],
@@ -157,7 +157,7 @@ function ResourceDetail(props) {
     setModalVisible(true);
   };
 
-  const isOpen = hrs => {
+  const isOpen = (hrs) => {
     if (hrs === null || hrs.length === 0) {
       return false;
     }
@@ -181,7 +181,7 @@ function ResourceDetail(props) {
     setModalVisible(false);
   };
 
-  const displayNote = note => {
+  const displayNote = (note) => {
     if (note.body.length > 0) {
       if (note.subject.length > 0) {
         return <li>{`${note.subject}: ${note.body}`}</li>;
@@ -205,7 +205,7 @@ function ResourceDetail(props) {
     }
   };
 
-  const deleteResourceHandler = async id => {
+  const deleteResourceHandler = async (id) => {
     const deletedResource = await deleteResource(id);
     if (deletedResource) {
       message.success('Resource successfully deleted!');
@@ -289,7 +289,7 @@ function ResourceDetail(props) {
           )}
           {email.length > 0 ? `${email}\n` : 'No email provided.\n'}
           {phone.length > 0
-            ? phone.map(p => `${p.phoneType}: ${p.phoneNumber}\n`)
+            ? phone.map((p) => `${p.phoneType}: ${p.phoneNumber}\n`)
             : 'No phone number provided.\n'}
           {addressString}
         </Col>
@@ -395,7 +395,7 @@ function ResourceDetail(props) {
           </Row>
           <Row className="section recommended-contacts-row">
             {contacts &&
-              contacts.map(contact => (
+              contacts.map((contact) => (
                 <Col span={8} className="contact">
                   <div className="financial-aid-subtitle">{contact.name}</div>
                   <div>
@@ -466,7 +466,7 @@ function ResourceDetail(props) {
         )}
         {hours.length > 0 && (
           <Col span={12}>
-            {hours.map(day => (
+            {hours.map((day) => (
               <div>
                 <span className="day-of-week">{`${day.day}: `}</span>
                 {day.period.length > 0
@@ -485,7 +485,7 @@ function ResourceDetail(props) {
           <Col span={20}>
             <Row className="cardRow">
               {internalNotes.length > 0
-                ? internalNotes.map(note => displayNote(note))
+                ? internalNotes.map((note) => displayNote(note))
                 : 'No internal notes provided'}
             </Row>
           </Col>

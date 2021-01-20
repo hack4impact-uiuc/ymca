@@ -1,7 +1,8 @@
 {
   "name": "ymca-api",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "license": "MIT",
   "scripts": {
     "start": "if-env NODE_ENV=production ?? npm run start:prod || npm run start:dev",
     "start:prod": "dotenv node src/appListener.js && node ./bin/www",

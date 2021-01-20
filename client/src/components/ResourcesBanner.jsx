@@ -8,7 +8,7 @@ import ResourceBreadcrumb from './ResourcesBreadcrumb';
 
 const { Header } = Layout;
 
-const ResourcesBanner = props => {
+const ResourcesBanner = (props) => {
   const isMobile = useWindowDimensions()[1];
   return isMobile ? (
     <ResourcesBannerMobile {...props} />

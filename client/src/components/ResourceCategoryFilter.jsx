@@ -20,7 +20,7 @@ function ResourceCategoryFilter(props) {
     const newCategories = {};
     Object.keys(categories)
       .sort()
-      .forEach(key => {
+      .forEach((key) => {
         newCategories[key] = categories[key].sort();
       });
     setOrderedCategories(newCategories);
@@ -36,9 +36,9 @@ function ResourceCategoryFilter(props) {
       <Menu.Item key="All Resources" onClick={() => categorySelectAll()}>
         All Resources
       </Menu.Item>
-      {Object.keys(orderedCategories).map(categoryName => (
+      {Object.keys(orderedCategories).map((categoryName) => (
         <SubMenu key={categoryName} title={categoryName}>
-          {orderedCategories[categoryName].map(subCategory => (
+          {orderedCategories[categoryName].map((subCategory) => (
             <Menu.Item
               key={subCategory}
               onClick={() => subcategorySelect(subCategory)}

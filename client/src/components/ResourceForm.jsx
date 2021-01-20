@@ -67,7 +67,7 @@ const ResourceForm = (props: FormProps) => {
 
   const createCarouselCategories = useCallback(
     () =>
-      CAROUSEL_CATEGORIES.map(category => (
+      CAROUSEL_CATEGORIES.map((category) => (
         <div>
           <p>{category}</p>
         </div>
@@ -177,7 +177,7 @@ const ResourceForm = (props: FormProps) => {
         </Carousel>
         <Form
           className="resource-form"
-          onSubmit={e => {
+          onSubmit={(e) => {
             onSubmitNewResourceForm(e, totalSubmitEnabled, id, {
               category: categories,
               subcategory: subcategories,

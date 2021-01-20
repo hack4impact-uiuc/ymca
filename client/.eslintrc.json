@@ -33,20 +33,20 @@
           "parent",
           "sibling",
           "index"
-        ],
-        "newlines-between": "always"
+        ]
       }
     ],
     "jsx-a11y/click-events-have-key-events": [0],
     "jsx-a11y/no-static-element-interactions": [0],
     "max-len": ["error", 80],
+    "no-magic-numbers": [0],
     "no-underscore-dangle": [0],
     "no-unused-vars": [1],
     "prettier/prettier": "error",
-    "react/destructuring-assignment": [0],
+    "react/destructuring-assignment": [1],
     "react/jsx-props-no-spreading": [0],
     "react/no-unused-state": [1],
-    "react/prefer-stateless-function": [0],
+    "react/prefer-stateless-function": [1],
     "react/style-prop-object": [0],
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",

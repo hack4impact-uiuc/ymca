@@ -120,7 +120,7 @@ const NavMobile = () => {
           <Menu
             className="nav-mobile-menu"
             mode="inline"
-            onClick={args => {
+            onClick={(args) => {
               const { key } = args;
               if (key !== 'resources') {
                 setDrawerVisible(false);

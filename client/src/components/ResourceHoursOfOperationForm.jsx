@@ -11,7 +11,7 @@ const moment = require('moment');
 
 type InputProps = {
   day: String,
-  getFieldDecorator: any => any,
+  getFieldDecorator: (any) => any,
 };
 
 const HoursOfOperationInput = (props: InputProps) => {
@@ -54,11 +54,11 @@ const HoursOfOperationInput = (props: InputProps) => {
   );
 };
 
-const updateHoursOfOperation = args => {
+const updateHoursOfOperation = (args) => {
   const { setHoursOfOperation, getFieldValue, days } = args;
 
   setHoursOfOperation(
-    days.map(day => {
+    days.map((day) => {
       const start = getFieldValue(`${day}Start`);
       const end = getFieldValue(`${day}End`);
 
@@ -74,13 +74,13 @@ const updateHoursOfOperation = args => {
 };
 
 type FormProps = {
-  setHoursOfOperation: any => any,
+  setHoursOfOperation: (any) => any,
   hoursOfOperation: any,
-  setTotalSubmitEnabled: Boolean => any,
+  setTotalSubmitEnabled: (Boolean) => any,
   form: {
-    setFieldsValue: any => any,
-    getFieldValue: any => any,
-    getFieldDecorator: any => any,
+    setFieldsValue: (any) => any,
+    getFieldValue: (any) => any,
+    getFieldDecorator: (any) => any,
   },
 };
 const HoursOfOperationsForm = Form.create({ name: 'hoursOfOperation' })(
@@ -104,7 +104,7 @@ const HoursOfOperationsForm = Form.create({ name: 'hoursOfOperation' })(
 
     const generateInputs = useCallback(
       () =>
-        days.map(day => (
+        days.map((day) => (
           <HoursOfOperationInput
             day={day}
             setFieldsValue={setFieldsValue}
@@ -123,7 +123,7 @@ const HoursOfOperationsForm = Form.create({ name: 'hoursOfOperation' })(
     );
 
     useEffect(() => {
-      hoursOfOperation.forEach(entry => {
+      hoursOfOperation.forEach((entry) => {
         setFieldsValue({
           [`${entry.day}Start`]:
             entry.period[0] !== '' ? moment(entry.period[0], 'h:mm a') : null,
@@ -158,9 +158,9 @@ const HoursOfOperationsForm = Form.create({ name: 'hoursOfOperation' })(
 );
 
 type FormItemProps = {
-  setHoursOfOperation: any => any,
+  setHoursOfOperation: (any) => any,
   hoursOfOperation: any,
-  setTotalSubmitEnabled: Boolean => any,
+  setTotalSubmitEnabled: (Boolean) => any,
 };
 
 const HoursOfOperationsItemForm = (props: FormItemProps) => {

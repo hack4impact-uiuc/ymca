@@ -10,7 +10,7 @@ import { Form } from '@ant-design/compatible';
 import '@ant-design/compatible/assets/index.css';
 import { Input, Button, Descriptions } from 'antd';
 
-const FinancialAidForm = Form.create({ name: 'financialAid' })(props => {
+const FinancialAidForm = Form.create({ name: 'financialAid' })((props) => {
   const { setFinancialAidDetails, setTotalSubmitEnabled } = props;
 
   const { getFieldDecorator, getFieldValue } = props.form;

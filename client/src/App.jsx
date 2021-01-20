@@ -31,7 +31,7 @@ const App = () => {
   const { authed, authRoleIsEquivalentTo } = useAuth();
 
   const showIfUnauthed = useCallback(
-    component => {
+    (component) => {
       if (authed != null) {
         if (!authed) {
           return component;
@@ -76,7 +76,7 @@ const App = () => {
 
           <Route
             path="/saved"
-            render={props => <SavedResources {...props} />}
+            render={(props) => <SavedResources {...props} />}
           />
 
           <Route path="/login" render={() => showIfUnauthed(<Login />)} />
@@ -92,7 +92,7 @@ const App = () => {
           <Route
             path="/resources"
             exact
-            render={props => <Resources {...props} />}
+            render={(props) => <Resources {...props} />}
           />
           <Route path="/resources/unknown" component={ResourceUnknown} />
           <PrivateRoute
@@ -102,7 +102,7 @@ const App = () => {
           />
           <Route
             path="/resources/:id"
-            render={props => <ResourceDetailCommon {...props} />}
+            render={(props) => <ResourceDetailCommon {...props} />}
           />
           <Route component={NotFound} />
         </Switch>

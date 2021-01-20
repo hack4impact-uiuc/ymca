@@ -24,7 +24,7 @@ type FormItemProps = {
   setTotalSubmitEnabled: () => void,
 };
 
-const ContactForm = Form.create({ name: 'contactForm' })(props => {
+const ContactForm = Form.create({ name: 'contactForm' })((props) => {
   const { contacts, setContacts, setTotalSubmitEnabled } = props;
 
   const { getFieldDecorator, setFieldsValue, getFieldValue } = props.form;
@@ -161,13 +161,13 @@ const ContactFormItem = (props: FormItemProps) => {
     <Form.Item>
       <List
         dataSource={contacts}
-        renderItem={contact => (
+        renderItem={(contact) => (
           <List.Item
             actions={[
               <Button
-                onClick={e => {
+                onClick={(e) => {
                   e.preventDefault();
-                  setContacts(contacts.filter(other => other !== contact));
+                  setContacts(contacts.filter((other) => other !== contact));
                 }}
               >
                 Delete

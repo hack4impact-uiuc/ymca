@@ -10,7 +10,7 @@ import { Form } from '@ant-design/compatible';
 import '@ant-design/compatible/assets/index.css';
 import { Input, Button, List } from 'antd';
 
-const PhoneNumberForm = Form.create({ name: 'phoneNumber' })(props => {
+const PhoneNumberForm = Form.create({ name: 'phoneNumber' })((props) => {
   const { setPhoneNumbers, phoneNumbers, setTotalSubmitEnabled } = props;
   const { setFieldsValue, getFieldValue, getFieldDecorator } = props.form;
 
@@ -102,13 +102,13 @@ const PhoneNumberFormItem = (props: FormItemProps) => {
         className="phone-number-list"
         itemLayout="horizontal"
         dataSource={phoneNumbers}
-        renderItem={item => (
+        renderItem={(item) => (
           <List.Item
             actions={[
               <Button
-                onClick={e => {
+                onClick={(e) => {
                   e.preventDefault();
-                  setPhoneNumbers(phoneNumbers.filter(num => num !== item));
+                  setPhoneNumbers(phoneNumbers.filter((num) => num !== item));
                 }}
               >
                 Delete

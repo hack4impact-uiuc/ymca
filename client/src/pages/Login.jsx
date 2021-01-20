@@ -22,13 +22,13 @@ function Login(props: Props) {
   const [error, setError] = useState('');
 
   const onLoginSubmit = useCallback(
-    e => {
+    (e) => {
       e.preventDefault();
 
       form.validateFields((err, values) => {
         if (!err) {
           const { email, password } = values;
-          login({ email, password }).then(errorMessage => {
+          login({ email, password }).then((errorMessage) => {
             if (errorMessage !== null) {
               setError(errorMessage);
             } else {
@@ -49,7 +49,11 @@ function Login(props: Props) {
           <div className="header-text">Login</div>
         </Col>
       </Row>
-      <Form justify="center" onSubmit={e => onLoginSubmit(e)} className="form">
+      <Form
+        justify="center"
+        onSubmit={(e) => onLoginSubmit(e)}
+        className="form"
+      >
         <Form.Item className="form-text">
           {getFieldDecorator('email', {
             rules: [

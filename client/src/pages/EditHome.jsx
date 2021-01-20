@@ -76,11 +76,11 @@ const EditHome = () => {
     fetchFields();
   }, [setBackgroundImage, setTestimonialValues, setPartnerValues]);
 
-  const onFinish = async values => {
+  const onFinish = async (values) => {
     const partnersCompressed = [];
-    values.partners.forEach(element => {
+    values.partners.forEach((element) => {
       const slicedPartner = Array(3);
-      Object.keys(element).forEach(field => {
+      Object.keys(element).forEach((field) => {
         if (field === 'name') {
           slicedPartner[0] = element[field];
         }
@@ -94,9 +94,9 @@ const EditHome = () => {
       partnersCompressed.push(slicedPartner);
     });
     const testimonialsCompressed = [];
-    values.testimonials.forEach(element => {
+    values.testimonials.forEach((element) => {
       const slicedTestimonial = Array(4);
-      Object.keys(element).forEach(field => {
+      Object.keys(element).forEach((field) => {
         if (field === 'name') {
           slicedTestimonial[0] = element[field];
         }
@@ -125,7 +125,7 @@ const EditHome = () => {
     }
   };
 
-  const beforeUpload = file => {
+  const beforeUpload = (file) => {
     const isValidImage =
       file.type === 'image/jpeg' || file.type === 'image/png';
     if (!isValidImage) {
@@ -141,7 +141,7 @@ const EditHome = () => {
     return isValidImage && isSmall;
   };
 
-  const handleUploadBackground = event => {
+  const handleUploadBackground = (event) => {
     if (event.file.status !== 'uploading') {
       return;
     }
@@ -287,7 +287,7 @@ const EditHome = () => {
                         listType="picture-card"
                         showUploadList={false}
                         beforeUpload={beforeUpload}
-                        onChange={e => handleUploadTestimonial(e, field.key)}
+                        onChange={(e) => handleUploadTestimonial(e, field.key)}
                       >
                         {testimonialValues[
                           extractTestimonialIndex(field.key, testimonialValues)
@@ -389,7 +389,7 @@ const EditHome = () => {
                         listType="picture-card"
                         showUploadList={false}
                         beforeUpload={beforeUpload}
-                        onChange={e => handleUploadPartner(e, field.key)}
+                        onChange={(e) => handleUploadPartner(e, field.key)}
                       >
                         {partnerValues[
                           extractPartnerIndex(field.key, partnerValues)

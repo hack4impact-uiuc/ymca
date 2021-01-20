@@ -45,15 +45,12 @@ const Home = () => {
     const newPartnerRows = [];
     let i = 0;
     if (res != null) {
-      res.result.partners.forEach(t => {
+      res.result.partners.forEach((t) => {
         newPartners.push({
           name: t[0],
           image:
             isWebpSupported && canBeWebpConverted(t[1])
-              ? t[1]
-                  .toLowerCase()
-                  .replace('jpg', 'webp')
-                  .replace('png', 'webp')
+              ? t[1].toLowerCase().replace('jpg', 'webp').replace('png', 'webp')
               : t[1],
           link: t[2],
         });
@@ -104,10 +101,10 @@ const Home = () => {
               </Textfit>
             </Col>
           </Row>
-          {partnerRows.map(index => (
+          {partnerRows.map((index) => (
             <>
               <Row type="flex" justify="center" align="middle">
-                {partners.slice(index * 5, (index + 1) * 5).map(element => (
+                {partners.slice(index * 5, (index + 1) * 5).map((element) => (
                   <Col
                     className="home-block-4-partner"
                     span={isMobile ? 10 : 4}
@@ -129,7 +126,7 @@ const Home = () => {
               </Row>
               <Row type="flex" justify="center" align="middle">
                 {dimensions.width > 976 &&
-                  partners.slice(index * 5, (index + 1) * 5).map(element => (
+                  partners.slice(index * 5, (index + 1) * 5).map((element) => (
                     <Col className="home-block-4-partner-name" span={4}>
                       <h5
                         style={{

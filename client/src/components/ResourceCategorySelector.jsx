@@ -10,13 +10,13 @@ import { getCategories } from '../utils/api';
 const { Option, OptGroup } = Select;
 export const CAT_SUB_SPLITTER = '~';
 
-const wrappedSetCategory = args => {
+const wrappedSetCategory = (args) => {
   const { selected, setCategories, setSubcategories, setFieldsValue } = args;
 
   const selectedCategories = [];
   const selectedSubcategories = [];
 
-  selected.forEach(optionValue => {
+  selected.forEach((optionValue) => {
     const tokens = optionValue.split(CAT_SUB_SPLITTER);
     selectedCategories.push(tokens[0]);
     selectedSubcategories.push(tokens[1]);
@@ -45,7 +45,7 @@ const CategorySelector = (props: Props) => {
 
   const [fetchedCategories, setFetchedCategories] = useState([]);
 
-  const onCategoryChange = selected => {
+  const onCategoryChange = (selected) => {
     wrappedSetCategory({
       selected,
       setCategories,
@@ -56,7 +56,7 @@ const CategorySelector = (props: Props) => {
 
   // fetch categories && subcategories
   useEffect(() => {
-    getCategories().then(res => {
+    getCategories().then((res) => {
       if (res !== null) {
         if (res.code === 200) {
           setFetchedCategories(res.result);
@@ -83,9 +83,9 @@ const CategorySelector = (props: Props) => {
             showSearch
             onChange={onCategoryChange}
           >
-            {fetchedCategories.map(cat => (
+            {fetchedCategories.map((cat) => (
               <OptGroup key={cat.name} label={cat.name}>
-                {cat.subcategories.map(subcat => {
+                {cat.subcategories.map((subcat) => {
                   const val = `${cat.name}${CAT_SUB_SPLITTER}${subcat}`;
                   return (
                     <Option key={val} value={val}>

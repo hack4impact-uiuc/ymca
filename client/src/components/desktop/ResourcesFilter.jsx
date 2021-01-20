@@ -49,10 +49,10 @@ function ResourcesFilter(props) {
       <div className={isSort ? 'radio-container-sort' : 'radio-container'}>
         {!isSort && <h5 className="title-filter">{filterName}</h5>}
         <Radio.Group
-          onChange={target => onChange(filterName, target.target.value)}
+          onChange={(target) => onChange(filterName, target.target.value)}
           value={value}
         >
-          {filterOptions.map(option => (
+          {filterOptions.map((option) => (
             <Radio className="radio-filter" key={option} value={option}>
               {option}
             </Radio>
@@ -96,7 +96,7 @@ function ResourcesFilter(props) {
           placement="bottomRight"
           trigger={['click']}
         >
-          <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+          <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
             Sort By <DownOutlined style={{ verticalAlign: '.2em' }} />
           </a>
         </Dropdown>

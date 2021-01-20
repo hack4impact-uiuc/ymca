@@ -18,7 +18,7 @@ export const HomeBlock1Mobile = () => {
     const res = await getCategories();
     const newCategories = [];
     if (res != null) {
-      res.result.forEach(c => {
+      res.result.forEach((c) => {
         newCategories.push(c.name);
       });
     }
@@ -70,7 +70,7 @@ export const HomeBlock1Mobile = () => {
               className="welcome-carousel"
             >
               {categories.map(
-                category =>
+                (category) =>
                   !category === 'Other' && (
                     <Link
                       to={`/resources?category=${category}`}
@@ -141,7 +141,7 @@ export const HomeBlock3Mobile = () => {
     const res = await getHomePage();
     const newTestimonials = [];
     if (res != null) {
-      res.result.testimonials.forEach(t => {
+      res.result.testimonials.forEach((t) => {
         newTestimonials.push({
           person: t[0],
           image: t[1],
@@ -166,7 +166,7 @@ export const HomeBlock3Mobile = () => {
           autoplaySpeed={5000}
           effect="fade"
         >
-          {testimonials.map(element => (
+          {testimonials.map((element) => (
             <div
               key={`${element.person}-${element.title}`}
               className="testimonial-block"

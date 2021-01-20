@@ -18,7 +18,7 @@ const PasswordReset = ({ form }) => {
   const [confirmDirty, setConfirmDirty] = useState(true);
 
   const handleConfirmBlur = useCallback(
-    e => {
+    (e) => {
       const { value } = e.target;
       if (!!value || confirmDirty) {
         setConfirmDirty(true);
@@ -41,13 +41,13 @@ const PasswordReset = ({ form }) => {
   );
 
   const onSubmit = useCallback(
-    e => {
+    (e) => {
       e.preventDefault();
 
       form.validateFields((err, values) => {
         if (!err) {
           const { email, password, answer } = values;
-          resetPassword({ email, password, answer }).then(errorMessage => {
+          resetPassword({ email, password, answer }).then((errorMessage) => {
             if (errorMessage !== null) {
               message.error(errorMessage);
             }
@@ -68,7 +68,7 @@ const PasswordReset = ({ form }) => {
           <div className="header-text">Reset Password</div>
         </Col>
       </Row>
-      <Form onSubmit={e => onSubmit(e)} className="form">
+      <Form onSubmit={(e) => onSubmit(e)} className="form">
         <Form.Item className="form-text">
           {getFieldDecorator('email', {
             rules: [
@@ -118,7 +118,7 @@ const PasswordReset = ({ form }) => {
             ],
           })(
             <Input.Password
-              onBlur={e => handleConfirmBlur(e)}
+              onBlur={(e) => handleConfirmBlur(e)}
               prefix={<LockOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
               type="password"
               placeholder="Confirm Password"

@@ -4,7 +4,7 @@ import React from 'react';
 type LabelWrapperProps = {
   label: String,
   required: any,
-  component: any => any,
+  component: (any) => any,
 };
 
 const LabelWrapper = (props: LabelWrapperProps) => {

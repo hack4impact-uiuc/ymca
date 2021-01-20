@@ -48,7 +48,7 @@ const RoleApproval = () => {
     [setNewRole, setUserWithNewRole],
   );
 
-  const submitNewRole = async event => {
+  const submitNewRole = async (event) => {
     event.preventDefault();
     if (userWithNewRole.length === 0) {
       return;
@@ -72,8 +72,8 @@ const RoleApproval = () => {
     setUserWithNewRole('');
   };
 
-  const RoleMenu = email => (
-    <Menu onClick={e => setNewRoleAndUser(e.key, email)}>
+  const RoleMenu = (email) => (
+    <Menu onClick={(e) => setNewRoleAndUser(e.key, email)}>
       <Menu.Item key="public">public</Menu.Item>
       <Menu.Item key="intern">intern</Menu.Item>
       <Menu.Item key="admin">admin</Menu.Item>
@@ -118,7 +118,7 @@ const RoleApproval = () => {
       render: () => (
         <Button
           className="carousel-move-btn"
-          onClick={event => submitNewRole(event)}
+          onClick={(event) => submitNewRole(event)}
         >
           Submit
         </Button>
@@ -159,7 +159,7 @@ const RoleApproval = () => {
               <br />
               <Input.Password
                 style={{ width: '25%' }}
-                onChange={event => setPassword(event.target.value)}
+                onChange={(event) => setPassword(event.target.value)}
               />
             </div>
           )}

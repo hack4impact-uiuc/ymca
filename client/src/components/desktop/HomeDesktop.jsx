@@ -23,7 +23,7 @@ export const HomeBlock1Desktop = () => {
     const res = await getCategories();
     const newCategories = [];
     if (res) {
-      res.result.forEach(c => {
+      res.result.forEach((c) => {
         newCategories.push(c.name);
       });
     }
@@ -90,7 +90,7 @@ export const HomeBlock1Desktop = () => {
                 autoplaySpeed={3000}
               >
                 {categories.map(
-                  category =>
+                  (category) =>
                     !category === 'Other' && (
                       <Link
                         to={`/resources?category=${category}`}
@@ -154,7 +154,7 @@ export const HomeBlock3Desktop = () => {
       const res = await getHomePage();
       const newTestimonials = [];
       if (res) {
-        res.result.testimonials.forEach(t => {
+        res.result.testimonials.forEach((t) => {
           newTestimonials.push({
             person: t[0],
             image:
@@ -180,7 +180,7 @@ export const HomeBlock3Desktop = () => {
           autoplaySpeed={5000}
           effect="fade"
         >
-          {testimonials.map(element => (
+          {testimonials.map((element) => (
             <div key={`${element.person}-${element.title}`}>
               <Row type="flex" justify="center" align="middle">
                 <Col span={5} style={{ marginTop: '1em' }}>

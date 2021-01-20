@@ -25,7 +25,7 @@ type ProvideAuthParams = {
 
 type Auth = {
   authed: ?boolean,
-  authRoleIsEquivalentTo: string => ?boolean,
+  authRoleIsEquivalentTo: (string) => ?boolean,
   login: ({ email: string, password: string }) => Promise<?string>,
   logout: () => void,
   register: ({
@@ -55,7 +55,7 @@ function useProvideAuth(): Auth {
         getSecurityQuestions(),
         getAllRoles(),
         verify(
-          res => {
+          (res) => {
             setAuthed(true);
             setAuthRole(res.role);
           },
@@ -64,7 +64,7 @@ function useProvideAuth(): Auth {
             setAuthRole('');
           },
         ),
-      ]).then(vals => {
+      ]).then((vals) => {
         setSecurityQuestions(vals[0].questions);
         setAuthRoles(Object.keys(vals[1].roles).concat(''));
       });
@@ -73,7 +73,7 @@ function useProvideAuth(): Auth {
   }, []);
 
   const authRoleIsEquivalentTo = useCallback(
-    role => {
+    (role) => {
       if (authRole == null || authRoles == null) {
         return null;
       }
@@ -85,7 +85,7 @@ function useProvideAuth(): Auth {
     [authRole, authRoles],
   );
 
-  const authUser = res => {
+  const authUser = (res) => {
     if (res.status === 200) {
       localStorage.setItem('token', res.token);
       setAuthed(true);
@@ -95,17 +95,17 @@ function useProvideAuth(): Auth {
     return res.message;
   };
 
-  const register = async params => {
+  const register = async (params) => {
     const res = await registerHelper(params);
     return authUser(res);
   };
 
-  const resetPassword = async params => {
+  const resetPassword = async (params) => {
     const res = await resetPasswordHelper(params);
     return authUser(res);
   };
 
-  const login = async params => {
+  const login = async (params) => {
     const res = await loginHelper(params);
     return authUser(res);
   };

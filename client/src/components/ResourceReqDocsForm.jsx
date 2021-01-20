@@ -81,13 +81,13 @@ const RequiredDocumentsFormItem = (props: FormItemProps) => {
     <Form.Item label={label}>
       <List
         dataSource={listOfStrings}
-        renderItem={item => (
+        renderItem={(item) => (
           <List.Item
             actions={[
               <Button
-                onClick={e => {
+                onClick={(e) => {
                   e.preventDefault();
-                  setListOfStrings(listOfStrings.filter(str => str !== item));
+                  setListOfStrings(listOfStrings.filter((str) => str !== item));
                 }}
               >
                 Delete

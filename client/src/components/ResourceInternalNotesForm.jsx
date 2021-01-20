@@ -17,7 +17,7 @@ type FormProps = {
   setInternalNotes: (Array<InternalNote>) => void,
   setTotalSubmitEnabled: () => void,
   editNote: InternalNote,
-  setEditNote: InternalNote => void,
+  setEditNote: (InternalNote) => void,
   form: {
     getFieldDecorator: () => any,
     getFieldValue: () => any,
@@ -35,7 +35,7 @@ const InternalNotesForm = Form.create({ name: 'internalNotes' })(
     } = props;
     const { getFieldDecorator, getFieldValue, setFieldsValue } = props.form;
 
-    const onSubmit = e => {
+    const onSubmit = (e) => {
       e.preventDefault();
       const subject = getFieldValue('subject');
       const body = getFieldValue('body');
@@ -45,7 +45,7 @@ const InternalNotesForm = Form.create({ name: 'internalNotes' })(
         setInternalNotes([...internalNotes, note]);
       } else {
         const newInternalNotes = [];
-        internalNotes.forEach(item => {
+        internalNotes.forEach((item) => {
           if (item === editNote) {
             newInternalNotes.push(note);
           } else {
@@ -135,19 +135,19 @@ const InternalNotesFormItem = (props: FormItemProps) => {
 
   const [editNote, setEditNote] = useState(null);
 
-  const onEditButtonClick = note => {
+  const onEditButtonClick = (note) => {
     setEditNote(note);
   };
 
-  const onDeleteButtonClick = item => {
-    setInternalNotes(internalNotes.filter(note => note !== item));
+  const onDeleteButtonClick = (item) => {
+    setInternalNotes(internalNotes.filter((note) => note !== item));
   };
 
-  const renderItem = item => (
+  const renderItem = (item) => (
     <List.Item
       actions={[
         <Button
-          onClick={e => {
+          onClick={(e) => {
             e.preventDefault();
             onEditButtonClick(item);
           }}
@@ -155,7 +155,7 @@ const InternalNotesFormItem = (props: FormItemProps) => {
           Edit
         </Button>,
         <Button
-          onClick={e => {
+          onClick={(e) => {
             e.preventDefault();
             onDeleteButtonClick(item);
           }}
