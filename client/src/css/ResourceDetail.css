@@ -91,7 +91,7 @@
 .resource-detail .banner {
   padding: 0;
   height: 15vh;
-  background-image: url('/asset/images/background.png');
+  background-image: url('https://nawc.now.sh/asset/images/background.png');
   background-size: cover;
   color: #fff;
   font-size: 18px;
