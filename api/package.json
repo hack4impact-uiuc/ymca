@@ -3,11 +3,15 @@
   "version": "0.1.0",
   "private": false,
   "license": "MIT",
+  "homepage": "https://nawc.now.sh/",
   "scripts": {
     "start": "if-env NODE_ENV=production ?? npm run start:prod || npm run start:dev",
     "start:prod": "dotenv node src/appListener.js && node ./bin/www",
     "start:dev": "NODE_ENV=dev dotenv node src/appListener.js && node ./bin/www",
-    "lint": "eslint --fix src -c .eslintrc.json --ext js",
+    "lint": "eslint --fix src --ext js,jsx",
+    "lint:check": "eslint src --ext js,jsx",
+    "format": "prettier --write \"./**/*.{js,jsx,json,md}\"",
+    "format:check": "prettier --check \"./**/*.{js,jsx,json,md}\"",
     "test": "jest"
   },
   "dependencies": {
