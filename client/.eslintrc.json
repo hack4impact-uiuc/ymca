@@ -46,7 +46,6 @@
     "react/destructuring-assignment": [1],
     "react/jsx-props-no-spreading": [0],
     "react/no-unused-state": [1],
-    "react/prefer-stateless-function": [1],
     "react/style-prop-object": [0],
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
