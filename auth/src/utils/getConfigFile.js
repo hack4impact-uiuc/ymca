@@ -6,7 +6,7 @@ const getConfigFile = async () => {
    * requiring files in this fashion. If https://github.com/zeit/ncc/issues/216 resolves,
    * we may be able to do this another way.
    */
-  return await yaml.safeLoad(
+  return await yaml.load(
     fs.readFileSync(__dirname + "/../../config.yml", "utf8")
   );
 };
