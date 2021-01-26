@@ -13,7 +13,11 @@ import { useAuth } from '../utils/use-auth';
 
 const { Option } = Select;
 
-const Register = ({ form }) => {
+type Props = {
+  form: typeof Form,
+};
+
+const Register = ({ form }: Props) => {
   const { register, securityQuestions } = useAuth();
   const [confirmDirty, setConfirmDirty] = useState(true);
 
@@ -168,8 +172,4 @@ const Register = ({ form }) => {
   );
 };
 
-Register.propTypes = {
-  form: Form.isRequired,
-};
-
-export default Form.create()(Register);
+export default (Form.create()(Register): any);

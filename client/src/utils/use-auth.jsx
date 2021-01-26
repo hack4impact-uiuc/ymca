@@ -137,11 +137,15 @@ const defaultContext: Auth = {
 const authContext = createContext<Auth>(defaultContext);
 
 // Hook for child components to get the auth object
-export const useAuth = () => useContext(authContext);
+export const useAuth = (): Auth => useContext(authContext);
 
 // Provider component that wraps your app and makes auth object ...
 // ... available to any child component that calls useAuth().
-export function ProvideAuth({ children }: ProvideAuthParams) {
+export function ProvideAuth({
+  children,
+}: ProvideAuthParams): React$Element<
+  React$ComponentType<{ children?: React$Node, value: Auth, ... }>,
+> {
   const auth = useProvideAuth();
   return <authContext.Provider value={auth}>{children}</authContext.Provider>;
 }

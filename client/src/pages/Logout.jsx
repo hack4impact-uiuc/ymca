@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom';
 
 import { useAuth } from '../utils/use-auth';
 
-const Logout = () => {
+const Logout = (): React$Element<any> => {
   const { logout } = useAuth();
   logout();
   return <Redirect to="/" />;

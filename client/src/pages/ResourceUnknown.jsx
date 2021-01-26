@@ -1,6 +1,8 @@
+// @flow
+
 import React from 'react';
 
-function ResourceUnknown() {
+function ResourceUnknown(): React$Element<'div'> {
   return <div>Resource is unknown! Try again!</div>;
 }
 

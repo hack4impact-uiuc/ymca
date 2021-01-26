@@ -13,7 +13,7 @@ type Props = {
   },
 };
 
-const AdminResourceManager = (props: Props) => {
+const AdminResourceManager = (props: Props): React$Element<'div'> => {
   const { match } = props;
 
   return (

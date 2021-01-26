@@ -5,13 +5,7 @@
 import axios from 'axios';
 
 import type { Category, HomePage, Resource } from '../types/models';
-
-type ApiResponse<T> = Promise<{
-  code: number,
-  message: string,
-  success: boolean,
-  result: T,
-}>;
+import type { ApiResponse } from '../types/apiResponse';
 
 const instance = axios.create({
   baseURL: 'https://nawc.now.sh',
