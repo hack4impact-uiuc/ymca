@@ -92,7 +92,7 @@ export const HomeBlock1Desktop = () => {
               >
                 {categories.map(
                   (category) =>
-                    !category === 'Other' && (
+                    category !== 'Other' && (
                       <Link
                         to={`/resources?category=${category}`}
                         className="welcome-text-link"
