@@ -71,11 +71,11 @@ jobs:
 workflows:
   build_test:
     jobs:
-      - frontend_format
-      - frontend_lint
+      # - frontend_format
+      # - frontend_lint
       - backend_test
-      - backend_format
-      - backend_lint
+      # - backend_format
+      # - backend_lint
       - auth_test
       # - cypress/install:
       #     name: frontend_test_install
