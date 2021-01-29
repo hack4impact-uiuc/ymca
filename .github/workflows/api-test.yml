@@ -1,0 +1,81 @@
+name: api
+
+on: push
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: api/node_modules
+          key: ${{ runner.os }}-cache
+
+      - name: Install dependencies
+        working-directory: ./api
+        run: yarn
+
+      - name: Check formatting
+        working-directory: ./api
+        run: yarn format:check
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: api/node_modules
+          key: ${{ runner.os }}-cache
+
+      - name: Install dependencies
+        working-directory: ./api
+        run: yarn
+
+      - name: Run linter
+        working-directory: ./api
+        run: yarn lint
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: api/node_modules
+          key: ${{ runner.os }}-cache
+
+      - name: Install dependencies
+        working-directory: ./api
+        run: yarn
+
+      - name: Build application
+        working-directory: ./api
+        run: yarn test
+        env:
+          MONGO_URL: ${{ secrets.MONGO_URL }}

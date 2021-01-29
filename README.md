@@ -59,4 +59,4 @@ This application is built with React, Express, MongoDB, and tested with Cypress 
 
 ## License
 
-[MIT](https://github.com/hack4impact-uiuc/ymca/blob/master/LICENSE) licensed. Copyright © 2020 [Hack4Impact UIUC](https://github.com/hack4impact-uiuc).
+[MIT](https://github.com/hack4impact-uiuc/ymca/blob/master/LICENSE) licensed. Copyright © 2021 [Hack4Impact UIUC](https://github.com/hack4impact-uiuc).
