@@ -1,0 +1,95 @@
+name: Client Tests
+
+on: push
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: client/node_modules
+          key: ${{ runner.os }}-cache
+
+      - name: Install dependencies
+        working-directory: ./client
+        run: yarn
+
+      - name: Check formatting
+        working-directory: ./client
+        run: yarn format:check
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: client/node_modules
+          key: ${{ runner.os }}-cache
+
+      - name: Install dependencies
+        working-directory: ./client
+        run: yarn
+
+      - name: Run linter
+        working-directory: ./client
+        run: yarn lint
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: client/node_modules
+          key: ${{ runner.os }}-cache
+
+      - name: Install dependencies
+        working-directory: ./client
+        run: yarn
+
+      - name: Build application
+        working-directory: ./client
+        run: yarn build
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        with:
+          # record: true
+          # parallel: true
+          working-directory: client
+          start: yarn start
+          wait-on: "http://localhost:3000"
+          wait-on-timeout: 120
