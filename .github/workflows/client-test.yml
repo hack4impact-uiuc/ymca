@@ -85,6 +85,7 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
+          record: false
           parallel: true
           working-directory: client
           start: yarn start
