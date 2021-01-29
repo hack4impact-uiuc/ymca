@@ -85,6 +85,7 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
+          working-directory: client
           start: yarn start
           wait-on: "http://localhost:3000"
           wait-on-timeout: 120
@@ -100,4 +101,5 @@ jobs:
         with:
           record: true
           parallel: true
+          working-directory: client
           start: yarn test
