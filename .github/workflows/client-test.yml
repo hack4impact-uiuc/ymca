@@ -76,20 +76,6 @@ jobs:
       - name: Build application
         run: yarn build
 
-  start:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v2
-
-      - name: Cypress run
-        uses: cypress-io/github-action@v2
-        with:
-          working-directory: client
-          start: yarn start
-          wait-on: "http://localhost:3000"
-          wait-on-timeout: 120
-
   test:
     runs-on: ubuntu-latest
     steps:
@@ -102,4 +88,6 @@ jobs:
           record: true
           parallel: true
           working-directory: client
-          start: yarn test
+          start: yarn start
+          wait-on: "http://localhost:3000"
+          wait-on-timeout: 120
