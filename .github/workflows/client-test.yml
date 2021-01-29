@@ -2,6 +2,10 @@ name: client
 
 on: push
 
+defaults:
+  run:
+    working-directory: client
+
 jobs:
   format:
     runs-on: ubuntu-latest
@@ -21,11 +25,9 @@ jobs:
           key: ${{ runner.os }}-cache
 
       - name: Install dependencies
-        working-directory: ./client
         run: yarn
 
       - name: Check formatting
-        working-directory: ./client
         run: yarn format:check
 
   lint:
@@ -46,11 +48,9 @@ jobs:
           key: ${{ runner.os }}-cache
 
       - name: Install dependencies
-        working-directory: ./client
         run: yarn
 
       - name: Run linter
-        working-directory: ./client
         run: yarn lint
 
   build:
@@ -71,12 +71,23 @@ jobs:
           key: ${{ runner.os }}-cache
 
       - name: Install dependencies
-        working-directory: ./client
         run: yarn
 
       - name: Build application
-        working-directory: ./client
         run: yarn build
+
+  start:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        with:
+          start: yarn start
+          wait-on: "http://localhost:3000"
+          wait-on-timeout: 120
 
   test:
     runs-on: ubuntu-latest
@@ -87,9 +98,6 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
-          # record: true
-          # parallel: true
-          working-directory: client
-          start: yarn start
-          wait-on: "http://localhost:3000"
-          wait-on-timeout: 120
+          record: true
+          parallel: true
+          start: yarn test
