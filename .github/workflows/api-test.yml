@@ -77,3 +77,5 @@ jobs:
       - name: Build application
         working-directory: ./api
         run: yarn test
+        env:
+          MONGO_URL: ${{ secrets.MONGO_URL }}
