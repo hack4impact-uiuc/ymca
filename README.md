@@ -6,7 +6,7 @@
 </h1>
 
 <p align="center">
-    <img src="https://img.shields.io/circleci/build/github/hack4impact-uiuc/ymca/master?style=flat-square">
+    <img src="https://img.shields.io/github/checks-status/hack4impact-uiuc/ymca/master?style=flat-square">
     <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square">
 </p>
 
