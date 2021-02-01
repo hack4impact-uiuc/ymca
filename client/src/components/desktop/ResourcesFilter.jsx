@@ -114,9 +114,13 @@ function ResourcesFilter(props: Props): React$Element<'div'> {
           placement="bottomRight"
           trigger={['click']}
         >
-          <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
+          <button
+            type="button"
+            className="ant-dropdown-link"
+            onClick={(e) => e.preventDefault()}
+          >
             Sort By <DownOutlined style={{ verticalAlign: '.2em' }} />
-          </a>
+          </button>
         </Dropdown>
       </div>
     </div>
