@@ -1,3 +1,11 @@
+button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+}
+
 .ant-drawer-body {
   padding: 0;
 }
