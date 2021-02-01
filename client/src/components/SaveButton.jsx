@@ -44,13 +44,13 @@ function SaveButton(props: SaveButtonProps) {
               </Button>
             </Popover>
           ) : (
-            <a onClick={(e) => e.preventDefault()}>
+            <button type="button" onClick={(e) => e.preventDefault()}>
               <Popover content={loginMessage}>
                 <Button shape="circle" className="save-button">
                   <HeartOutlined />
                 </Button>
               </Popover>
-            </a>
+            </button>
           )}
         </>
       ) : (
@@ -70,7 +70,7 @@ function SaveButton(props: SaveButtonProps) {
                   </Button>
                 </Popover>
               ) : (
-                <a onClick={(e) => e.preventDefault()}>
+                <button type="button" onClick={(e) => e.preventDefault()}>
                   <Popover content={unsavedMessage}>
                     <Button
                       className="save-button"
@@ -82,7 +82,7 @@ function SaveButton(props: SaveButtonProps) {
                       <HeartFilled />
                     </Button>
                   </Popover>
-                </a>
+                </button>
               )}
             </>
           ) : (
@@ -100,7 +100,7 @@ function SaveButton(props: SaveButtonProps) {
                   </Button>
                 </Popover>
               ) : (
-                <a onClick={(e) => e.preventDefault()}>
+                <button type="button" onClick={(e) => e.preventDefault()}>
                   <Popover content={savedMessage}>
                     <Button
                       className="save-button"
@@ -112,7 +112,7 @@ function SaveButton(props: SaveButtonProps) {
                       <HeartOutlined />
                     </Button>
                   </Popover>
-                </a>
+                </button>
               )}
             </>
           )}

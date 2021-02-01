@@ -35,7 +35,7 @@ function ResourcesCatMobile(props) {
               {subcategory || category}
               <DownOutlined className="down-icon" />
             </span>
-            <a className="filter">
+            <button type="button" className="filter">
               <Button
                 onClick={(e) => {
                   setFilterVisible(true);
@@ -50,7 +50,7 @@ function ResourcesCatMobile(props) {
                   width="25"
                 />
               </Button>
-            </a>
+            </button>
           </Menu.Item>
         </Menu>
         <Drawer
