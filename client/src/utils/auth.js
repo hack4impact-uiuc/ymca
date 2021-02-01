@@ -1,6 +1,9 @@
+// @flow
 /* eslint-disable no-console */
 
 import fetch from 'isomorphic-fetch';
+
+import type { ApiResponse } from '../types/apiResponse';
 
 const AUTH_SERVER_URI = 'https://nawc.now.sh/auth';
 
@@ -106,7 +109,7 @@ export const getAllRoles = () =>
     method: 'GET',
   }).then((res) => res.json());
 
-export const getSavedResources = () =>
+export const getSavedResources = (): ApiResponse<Array<string>> =>
   fetch(`${AUTH_SERVER_URI}/resources`, {
     method: 'GET',
     headers: {

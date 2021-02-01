@@ -25,4 +25,4 @@ jobs:
         uses: jackieo5023/flow-coverage-compare@v0.2
         with:
           path: client/
-          pattern: ^client/src\/.*.js$
+          pattern: ^client\/src\/.*.jsx?$

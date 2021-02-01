@@ -170,4 +170,4 @@ PasswordReset.propTypes = {
   form: Form.isRequired,
 };
 
-export default Form.create()(PasswordReset);
+export default (Form.create()(PasswordReset): any);

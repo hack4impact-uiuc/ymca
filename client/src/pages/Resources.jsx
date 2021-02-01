@@ -1,8 +1,10 @@
+// @flow
+
 import React, { useCallback, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { Layout } from 'antd';
 import '../css/Resources.css';
 import Loader from 'react-loader-spinner';
+import type { Resource } from '../types/models';
 
 import {
   getCategories,
@@ -22,9 +24,24 @@ import ResourcesCatMobile from '../components/mobile/ResourcesCatMobile';
 
 const { Sider } = Layout;
 
-function Resources(props) {
-  const { saved, history, location: locationProp } = props;
+type Props = {
+  location: { search: string },
+  history: {
+    pathname: string,
+    push: ({
+      pathname: string,
+      search?: string,
+    }) => void,
+    search: string,
+  },
+  saved: boolean,
+};
 
+function Resources({
+  saved = false,
+  history = { pathname: '', search: '', push: () => {} },
+  location: locationProp = { search: '' },
+}: Props): React$Element<any> {
   const [cost, setCost] = useState('Free - $$$');
   const [language, setLanguage] = useState('All');
   const [location, setLocation] = useState('All');
@@ -33,11 +50,13 @@ function Resources(props) {
   const [sort, setSort] = useState('Name');
   const [loading, setLoading] = useState(false);
 
-  const [openKeys, setOpenKeys] = useState([]);
-  const [categories, setCategories] = useState({});
-  const [resources, setResources] = useState([]);
-  const [filteredResources, setFilteredResources] = useState([]);
-  const [savedSet, setSavedSet] = useState(new Set());
+  const [openKeys, setOpenKeys] = useState<Array<string>>([]);
+  const [categories, setCategories] = useState<{ [string]: Array<string> }>({});
+  const [resources, setResources] = useState<Array<Resource>>([]);
+  const [filteredResources, setFilteredResources] = useState<Array<Resource>>(
+    [],
+  );
+  const [savedSet, setSavedSet] = useState<Set<string>>(new Set());
 
   const costs = ['Free', 'Free - $', 'Free - $$', 'Free - $$$'];
   const sorts = ['Name', 'Cost'];
@@ -115,7 +134,7 @@ function Resources(props) {
         : await getResourcesByCategory(categorySelected);
 
     let localSavedSet = new Set();
-    if (authed) {
+    if (authed === true) {
       const json = await getSavedResources();
       localSavedSet = new Set(json.result);
       setSavedSet(localSavedSet);
@@ -160,12 +179,9 @@ function Resources(props) {
     }
   }, [resources, sort]);
 
-  useEffect(updateResources, [
-    locationProp.search,
-    saved,
-    authed,
-    updateResources,
-  ]);
+  useEffect(() => {
+    updateResources();
+  }, [locationProp.search, saved, authed, updateResources]);
 
   useEffect(() => {
     const costMap = {
@@ -179,7 +195,7 @@ function Resources(props) {
       (resource) =>
         (resource.subcategory.includes(subcategory) || subcategory === '') &&
         (costMap[cost].includes(resource.cost) || cost === 'Free - $$$') &&
-        (resource.availableLanguages.includes(language) ||
+        (resource.availableLanguages?.includes(language) ||
           language === 'All') &&
         (resource.city === location || location === 'All / Champaign County'),
     );
@@ -194,7 +210,7 @@ function Resources(props) {
   }, [history]);
 
   const subcategorySelect = useCallback(
-    (value) => {
+    (value: string) => {
       history.push({
         pathname: '/resources',
         search: `?category=${category}&subcategory=${value}`,
@@ -204,7 +220,7 @@ function Resources(props) {
   );
 
   const onOpenChange = useCallback(
-    (newOpenKeys) => {
+    (newOpenKeys: Array<string>) => {
       if (newOpenKeys.length === 0) {
         if (categories[category].indexOf(subcategory) !== -1) {
           history.push({
@@ -223,12 +239,12 @@ function Resources(props) {
       if (Object.keys(categories).indexOf(latestOpenKey) === -1) {
         setOpenKeys(newOpenKeys);
       } else {
-        setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
+        setOpenKeys(latestOpenKey != null ? [latestOpenKey] : []);
       }
       const categorySelected = latestOpenKey;
       history.push({
         pathname: '/resources',
-        search: `?category=${categorySelected}`,
+        search: `?category=${categorySelected ?? ''}`,
       });
     },
     [categories, category, openKeys, subcategory, history],
@@ -317,21 +333,5 @@ function Resources(props) {
     </Layout>
   );
 }
-
-Resources.defaultProps = {
-  location: { search: '' },
-  history: { pathname: '', search: '' },
-  saved: false,
-};
-
-Resources.propTypes = {
-  location: PropTypes.shape({ search: PropTypes.string }),
-  history: PropTypes.shape({
-    pathname: PropTypes.string,
-    push: PropTypes.func,
-    search: PropTypes.string,
-  }),
-  saved: PropTypes.bool,
-};
 
 export default Resources;

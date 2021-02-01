@@ -27,7 +27,7 @@ import SavedResources from './pages/SavedResources';
 import ResourceDetailCommon from './components/ResourceDetailCommon';
 import { useAuth } from './utils/use-auth';
 
-const App = () => {
+const App = (): React$Element<React$FragmentType> => {
   const { authed, authRoleIsEquivalentTo } = useAuth();
 
   const showIfUnauthed = useCallback(

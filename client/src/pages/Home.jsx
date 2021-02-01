@@ -28,7 +28,7 @@ export type Testimonial = {
   testimonial: string,
 };
 
-const Home = () => {
+const Home = (): React$Element<React$FragmentType> => {
   const [partners, setPartners] = useState<
     Array<{ name: string, image: string, link: string }>,
   >([]);

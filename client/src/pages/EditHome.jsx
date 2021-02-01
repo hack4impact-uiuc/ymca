@@ -13,12 +13,37 @@ const rules = [{ required: true }];
 
 const { Header } = Layout;
 
-const EditHome = () => {
+type UploadedTestimonial = {
+  fieldKey: number,
+  key: number,
+  name: string,
+  image: string,
+  title: string,
+  testimony: string,
+  upload: any,
+};
+
+type UploadedPartner = {
+  fieldKey: number,
+  key: number,
+  name: string,
+  image: string,
+  link: string,
+  upload: any,
+};
+
+const EditHome = (): React$Element<any> => {
   const [backgroundImage, setBackgroundImage] = useState('');
-  const [testimonialValues, setTestimonialValues] = useState([]);
-  const [partnerValues, setPartnerValues] = useState([]);
-  const [testimonialFieldLength, setTestimonialFieldLength] = useState(0);
-  const [partnerFieldLength, setPartnerFieldLength] = useState(0);
+  const [testimonialValues, setTestimonialValues] = useState<
+    Array<UploadedTestimonial>,
+  >([]);
+  const [partnerValues, setPartnerValues] = useState<Array<UploadedPartner>>(
+    [],
+  );
+  const [testimonialFieldLength, setTestimonialFieldLength] = useState<number>(
+    0,
+  );
+  const [partnerFieldLength, setPartnerFieldLength] = useState<number>(0);
 
   const [form] = Form.useForm();
 

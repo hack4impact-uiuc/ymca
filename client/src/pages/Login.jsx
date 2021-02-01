@@ -12,7 +12,7 @@ import '../css/LoginRegister.css';
 import { useAuth } from '../utils/use-auth';
 
 type Props = {
-  form: Form,
+  form: typeof Form,
 };
 
 function Login(props: Props) {
@@ -111,4 +111,4 @@ function Login(props: Props) {
   );
 }
 
-export default Form.create()(Login);
+export default (Form.create()(Login): any);

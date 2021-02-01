@@ -1,13 +1,29 @@
+// @flow
+
 import React, { useCallback } from 'react';
 import { DownOutlined } from '@ant-design/icons';
 import { Button, Dropdown, Radio } from 'antd';
-import PropTypes from 'prop-types';
 
 import ResourceFilterSearch from '../ResourceFilterSearch';
 
 import '../../css/ResourcesFilter.css';
 
-function ResourcesFilter(props) {
+type Props = {
+  costs: Array<string>,
+  costSelected: string,
+  languages: Array<string>,
+  languageSelected: string,
+  locations: Array<string>,
+  locationSelected: string,
+  sorts: Array<string>,
+  sortSelected: string,
+  setCost: (string) => void,
+  setLanguage: (string) => void,
+  setLocation: (string) => void,
+  setSort: (string) => void,
+};
+
+function ResourcesFilter(props: Props): React$Element<'div'> {
   const {
     costs,
     costSelected,
@@ -49,7 +65,9 @@ function ResourcesFilter(props) {
       <div className={isSort ? 'radio-container-sort' : 'radio-container'}>
         {!isSort && <h5 className="title-filter">{filterName}</h5>}
         <Radio.Group
-          onChange={(target) => onChange(filterName, target.target.value)}
+          onChange={(target: SyntheticInputEvent<>) =>
+            onChange(filterName, target.target.value)
+          }
           value={value}
         >
           {filterOptions.map((option) => (
@@ -108,20 +126,5 @@ function ResourcesFilter(props) {
     </div>
   );
 }
-
-ResourcesFilter.propTypes = {
-  costs: PropTypes.arrayOf(PropTypes.string).isRequired,
-  costSelected: PropTypes.string.isRequired,
-  languages: PropTypes.arrayOf(PropTypes.string).isRequired,
-  languageSelected: PropTypes.string.isRequired,
-  locations: PropTypes.arrayOf(PropTypes.string).isRequired,
-  locationSelected: PropTypes.string.isRequired,
-  sorts: PropTypes.arrayOf(PropTypes.string).isRequired,
-  sortSelected: PropTypes.string.isRequired,
-  setCost: PropTypes.func.isRequired,
-  setLanguage: PropTypes.func.isRequired,
-  setLocation: PropTypes.func.isRequired,
-  setSort: PropTypes.func.isRequired,
-};
 
 export default ResourcesFilter;

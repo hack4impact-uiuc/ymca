@@ -56,6 +56,7 @@ export type Resource = {
   requiredDocuments?: Array<string>,
   internalNotes?: Array<InternalNote>,
   image?: string,
+  _id: string,
 };
 
 export type HomePage = {
