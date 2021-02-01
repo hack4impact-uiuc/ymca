@@ -14,7 +14,7 @@ import {
   getIsWebpSupported,
 } from '../../utils/webp-detect';
 
-export const HomeBlock1Desktop = () => {
+export const HomeBlock1Desktop = (): React$Element<any> => {
   const [categories, setCategories] = useState<Array<string>>([]);
   const [backgroundImage, setBackgroundImage] = useState('');
   const isWebpSupported = useMemo(getIsWebpSupported, []);
@@ -121,7 +121,7 @@ export const HomeBlock1Desktop = () => {
   );
 };
 
-export const HomeBlock2Desktop = () => (
+export const HomeBlock2Desktop = (): React$Element<any> => (
   <Row className="home-block-2" type="flex" justify="center" align="middle">
     <Col className="home-block-2-divider" span={6}>
       <Row type="flex" justify="start" align="middle">
@@ -146,7 +146,7 @@ export const HomeBlock2Desktop = () => (
   </Row>
 );
 
-export const HomeBlock3Desktop = () => {
+export const HomeBlock3Desktop = (): React$Element<any> => {
   const [testimonials, setTestimonials] = useState<Array<Testimonial>>([]);
   const isWebpSupported = useMemo(getIsWebpSupported, []);
 

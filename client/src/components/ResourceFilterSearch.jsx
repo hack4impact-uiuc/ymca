@@ -13,7 +13,7 @@ const { Option } = AutoComplete;
 /*
 on search have the resource grid be populated with the filtered results here
 */
-const ResourceFilterSearch = () => {
+const ResourceFilterSearch = (): React$Element<any> => {
   const history = useHistory();
 
   const [allOptions, setAllOptions] = useState([]);
