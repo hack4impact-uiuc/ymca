@@ -59,4 +59,6 @@ This application is built with React, Express, MongoDB, and tested with Cypress 
 
 ## License
 
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fhack4impact-uiuc%2Fymca.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fhack4impact-uiuc%2Fymca?ref=badge_large)
+
 [MIT](https://github.com/hack4impact-uiuc/ymca/blob/master/LICENSE) licensed. Copyright © 2021 [Hack4Impact UIUC](https://github.com/hack4impact-uiuc).
