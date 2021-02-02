@@ -13,16 +13,16 @@
   "builds": [
     {
       "src": "api/src/app.js",
-      "use": "@now/node"
+      "use": "@vercel/node"
     },
     {
       "src": "client/package.json",
-      "use": "@now/static-build",
+      "use": "@vercel/static-build",
       "config": {
         "distDir": "build"
       }
     },
-    { "src": "auth/src/nowServer.js", "use": "@now/node" }
+    { "src": "auth/src/nowServer.js", "use": "@vercel/node" }
   ],
   "routes": [
     { "src": "/auth/(.*)", "dest": "auth/src/nowServer.js" },
