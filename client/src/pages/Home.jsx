@@ -34,14 +34,16 @@ const Home = (): React$Element<React$FragmentType> => {
   >([]);
   const [partnerRows, setPartnerRows] = useState<Array<number>>([]);
   const [partnerHover, setPartnerHover] = useState<string>('');
+  const [testimonials, setTestimonials] = useState<Array<Testimonial>>([]);
+  const [backgroundImage, setBackgroundImage] = useState<string>('');
   const isWebpSupported = useMemo(getIsWebpSupported, []);
 
   const [dimensions, isMobile] = useWindowDimensions();
   const spanNum = isMobile ? 20 : 6;
-
   useEffect(() => {
-    const fetchPartners = async () => {
+    const fetchHomeData = async () => {
       const res = await getHomePage();
+      const newTestimonials = [];
       const newPartners = [];
       const newPartnerRows = [];
       let i = 0;
@@ -63,27 +65,50 @@ const Home = (): React$Element<React$FragmentType> => {
           }
           i += 1;
         });
+
+        res.result.testimonials.forEach((t) => {
+          newTestimonials.push({
+            person: t[0],
+            image:
+              isWebpSupported && canBeWebpConverted(t[1])
+                ? t[1].toLowerCase().replace('jpg', 'webp')
+                : t[1],
+            title: t[2],
+            testimonial: t[3],
+          });
+        });
+
+        const background =
+          isWebpSupported && canBeWebpConverted(res.result.backgroundImage)
+            ? res.result.backgroundImage.replace('jpg', 'webp')
+            : res.result.backgroundImage;
+        setBackgroundImage(
+          `radial-gradient(70% 141% at 0 0, rgba(25, 132, 202, 0.6) 1%,` +
+            ` rgba(105, 62, 158, 0.6) 100%),` +
+            ` url('${background}')`,
+        );
       }
+      setTestimonials(newTestimonials);
       setPartners(newPartners);
       setPartnerRows(newPartnerRows);
     };
 
-    fetchPartners();
+    fetchHomeData();
   }, [setPartners, setPartnerRows, isWebpSupported]);
 
   return (
     <>
       {isMobile ? (
         <>
-          <HomeBlock1Mobile />
+          <HomeBlock1Mobile backgroundImage={backgroundImage} />
           <HomeBlock2Mobile />
-          <HomeBlock3Mobile />
+          <HomeBlock3Mobile testimonials={testimonials} />
         </>
       ) : (
         <>
-          <HomeBlock1Desktop />
+          <HomeBlock1Desktop backgroundImage={backgroundImage} />
           <HomeBlock2Desktop />
-          <HomeBlock3Desktop />
+          <HomeBlock3Desktop testimonials={testimonials} />
         </>
       )}
       <Row className="home-block-4" type="flex" justify="center" align="middle">

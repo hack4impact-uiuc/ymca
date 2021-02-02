@@ -1,6 +1,6 @@
 // @flow
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Col, Row, Carousel, notification } from 'antd';
 import { HeartTwoTone } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
@@ -8,16 +8,16 @@ import { Link } from 'react-router-dom';
 import type { Testimonial } from '../../pages/Home';
 
 import '../../css/Home.css';
-import { getCategories, getHomePage } from '../../utils/api';
-import {
-  canBeWebpConverted,
-  getIsWebpSupported,
-} from '../../utils/webp-detect';
+import { getCategories } from '../../utils/api';
 
-export const HomeBlock1Desktop = (): React$Element<any> => {
+type Block1Props = {
+  backgroundImage: string,
+};
+
+export const HomeBlock1Desktop = ({
+  backgroundImage,
+}: Block1Props): React$Element<any> => {
   const [categories, setCategories] = useState<Array<string>>([]);
-  const [backgroundImage, setBackgroundImage] = useState('');
-  const isWebpSupported = useMemo(getIsWebpSupported, []);
 
   const fetchCategories = async () => {
     const res = await getCategories();
@@ -44,25 +44,6 @@ export const HomeBlock1Desktop = (): React$Element<any> => {
       top: 80,
     });
   };
-
-  useEffect(() => {
-    const fetchBackgroundImage = async () => {
-      const res = await getHomePage();
-      if (res) {
-        const background =
-          isWebpSupported && canBeWebpConverted(res.result.backgroundImage)
-            ? res.result.backgroundImage.replace('jpg', 'webp')
-            : res.result.backgroundImage;
-        setBackgroundImage(
-          `radial-gradient(70% 141% at 0 0, rgba(25, 132, 202, 0.6) 1%,` +
-            ` rgba(105, 62, 158, 0.6) 100%),` +
-            ` url('${background}')`,
-        );
-      }
-    };
-
-    fetchBackgroundImage();
-  }, [setBackgroundImage, isWebpSupported]);
 
   useEffect(() => {
     fetchCategories();
@@ -146,61 +127,35 @@ export const HomeBlock2Desktop = (): React$Element<any> => (
   </Row>
 );
 
-export const HomeBlock3Desktop = (): React$Element<any> => {
-  const [testimonials, setTestimonials] = useState<Array<Testimonial>>([]);
-  const isWebpSupported = useMemo(getIsWebpSupported, []);
-
-  useEffect(() => {
-    const fetchTestimonials = async () => {
-      const res = await getHomePage();
-      const newTestimonials = [];
-      if (res) {
-        res.result.testimonials.forEach((t) => {
-          newTestimonials.push({
-            person: t[0],
-            image:
-              isWebpSupported && canBeWebpConverted(t[1])
-                ? t[1].toLowerCase().replace('jpg', 'webp')
-                : t[1],
-            title: t[2],
-            testimonial: t[3],
-          });
-        });
-      }
-      setTestimonials(newTestimonials);
-    };
-    fetchTestimonials();
-  }, [setTestimonials, isWebpSupported]);
-
-  return (
-    <Row className="home-block-3" type="flex" justify="center" align="middle">
-      <Col span={23}>
-        <Carousel
-          autoplay
-          dotPosition="right"
-          autoplaySpeed={5000}
-          effect="fade"
-        >
-          {testimonials.map((element) => (
-            <div key={`${element.person}-${element.title}`}>
-              <Row type="flex" justify="center" align="middle">
-                <Col span={5} style={{ marginTop: '1em' }}>
-                  <img
-                    className="testimonial-img"
-                    src={element.image}
-                    alt="profile"
-                  />
-                </Col>
-                <Col className="testimonial-text" span={12} offset={1}>
-                  <h2>{element.person}</h2>
-                  <h4>{element.title}</h4>
-                  <p>{element.testimonial}</p>
-                </Col>
-              </Row>
-            </div>
-          ))}
-        </Carousel>
-      </Col>
-    </Row>
-  );
+type Block3Props = {
+  testimonials: Array<Testimonial>,
 };
+
+export const HomeBlock3Desktop = ({
+  testimonials,
+}: Block3Props): React$Element<any> => (
+  <Row className="home-block-3" type="flex" justify="center" align="middle">
+    <Col span={23}>
+      <Carousel autoplay dotPosition="right" autoplaySpeed={5000} effect="fade">
+        {testimonials.map((element) => (
+          <div key={`${element.person}-${element.title}`}>
+            <Row type="flex" justify="center" align="middle">
+              <Col span={5} style={{ marginTop: '1em' }}>
+                <img
+                  className="testimonial-img"
+                  src={element.image}
+                  alt="profile"
+                />
+              </Col>
+              <Col className="testimonial-text" span={12} offset={1}>
+                <h2>{element.person}</h2>
+                <h4>{element.title}</h4>
+                <p>{element.testimonial}</p>
+              </Col>
+            </Row>
+          </div>
+        ))}
+      </Carousel>
+    </Col>
+  </Row>
+);
