@@ -8,26 +8,14 @@ import { Link } from 'react-router-dom';
 import type { Testimonial } from '../../pages/Home';
 
 import '../../css/Home.css';
-import { getCategories, getHomePage } from '../../utils/api';
+import { getCategories } from '../../utils/api';
 
-export const HomeBlock1Mobile = () => {
+type Block1Props = {
+  backgroundImage: string,
+};
+
+export const HomeBlock1Mobile = ({ backgroundImage }: Block1Props) => {
   const [categories, setCategories] = useState<Array<string>>([]);
-  const [backgroundImage, setBackgroundImage] = useState('');
-
-  useEffect(() => {
-    const fetchBackgroundImage = async () => {
-      const res = await getHomePage();
-      if (res != null) {
-        setBackgroundImage(
-          `radial-gradient(70% 141% at 0 0, rgba(25, 132, 202, 0.6) 1%,` +
-            ` rgba(105, 62, 158, 0.6) 100%),` +
-            ` url('${res.result.backgroundImage}')`,
-        );
-      }
-    };
-
-    fetchBackgroundImage();
-  }, [setBackgroundImage]);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -134,67 +122,47 @@ export const HomeBlock2Mobile = () => (
   </Row>
 );
 
-export const HomeBlock3Mobile = () => {
-  const [testimonials, setTestimonials] = useState<Array<Testimonial>>([]);
-
-  useEffect(() => {
-    const fetchTestimonials = async () => {
-      const res = await getHomePage();
-      const newTestimonials = [];
-      if (res != null) {
-        res.result.testimonials.forEach((t) => {
-          newTestimonials.push({
-            person: t[0],
-            image: t[1],
-            title: t[2],
-            testimonial: t[3],
-          });
-        });
-      }
-      setTestimonials(newTestimonials);
-    };
-
-    fetchTestimonials();
-  }, [setTestimonials]);
-
-  return (
-    <Row className="home-block-3" type="flex" justify="center" align="middle">
-      <Col span={23}>
-        <Carousel
-          autoplay
-          dotPosition="bottom"
-          autoplaySpeed={5000}
-          effect="fade"
-        >
-          {testimonials.map((element) => (
-            <div
-              key={`${element.person}-${element.title}`}
-              className="testimonial-block"
-            >
-              <Row type="flex" justify="center" align="middle">
-                <Col span={23} justify="center" align="middle">
-                  <img
-                    className="testimonial-block-top-img"
-                    src={element.image}
-                    alt=""
-                  />
-                </Col>
-              </Row>
-              <Row className="testimonial-block-bottom">
-                <Col>
-                  <h1>{element.person}</h1>
-                  <p>
-                    <Textfit mode="multi">{element.title}</Textfit>
-                  </p>
-                  <p>
-                    <Textfit mode="multi">{element.testimonial}</Textfit>
-                  </p>
-                </Col>
-              </Row>
-            </div>
-          ))}
-        </Carousel>
-      </Col>
-    </Row>
-  );
+type Block3Props = {
+  testimonials: Array<Testimonial>,
 };
+
+export const HomeBlock3Mobile = ({ testimonials }: Block3Props) => (
+  <Row className="home-block-3" type="flex" justify="center" align="middle">
+    <Col span={23}>
+      <Carousel
+        autoplay
+        dotPosition="bottom"
+        autoplaySpeed={5000}
+        effect="fade"
+      >
+        {testimonials.map((element) => (
+          <div
+            key={`${element.person}-${element.title}`}
+            className="testimonial-block"
+          >
+            <Row type="flex" justify="center" align="middle">
+              <Col span={23} justify="center" align="middle">
+                <img
+                  className="testimonial-block-top-img"
+                  src={element.image}
+                  alt=""
+                />
+              </Col>
+            </Row>
+            <Row className="testimonial-block-bottom">
+              <Col>
+                <h1>{element.person}</h1>
+                <p>
+                  <Textfit mode="multi">{element.title}</Textfit>
+                </p>
+                <p>
+                  <Textfit mode="multi">{element.testimonial}</Textfit>
+                </p>
+              </Col>
+            </Row>
+          </div>
+        ))}
+      </Carousel>
+    </Col>
+  </Row>
+);
