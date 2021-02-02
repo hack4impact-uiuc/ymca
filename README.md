@@ -20,7 +20,12 @@
   <a href="#license">License</a>
 </p>
 
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fhack4impact-uiuc%2Fymca.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fhack4impact-uiuc%2Fymca?ref=badge_large)
+
 ## Background
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fhack4impact-uiuc%2Fymca.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fhack4impact-uiuc%2Fymca?ref=badge_shield)
+
 
 Champaign County is home to over 24,000 immigrants from nearly 80 countries around the world. Starting a new life in a new place is a daunting task — newcomers grapple with a wide variety of challenges including but not limited to: language barriers, cultural differences, and work-life balance. In Champaign, there are over 100+ available resources addressing those challenges; however, valuable information about those resources are scattered and difficult to find. This information gap is preventing newcomers from reliably accessing resources that they need the most. Local organizations have taken steps to centralize this information, but it remains largely inaccessible due to language limitations and other barriers.
 
