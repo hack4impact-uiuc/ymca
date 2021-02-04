@@ -1,6 +1,6 @@
 # YMCA Authentication Server
 
-    nawc.now.sh/auth
+    nawc.vercel.app/auth
 
 Made from [H4i Infrastructure Authentication Server](https://github.com/hack4impact-uiuc/infra-authentication-server).
 

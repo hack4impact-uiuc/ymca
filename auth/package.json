@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": false,
   "license": "MIT",
-  "homepage": "https://nawc.now.sh/",
+  "homepage": "https://nawc.vercel.app/",
   "scripts": {
     "start": "nodemon src/startServer.js",
     "lint": "eslint src --ext js,jsx",
