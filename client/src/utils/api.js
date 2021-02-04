@@ -8,7 +8,7 @@ import type { Category, HomePage, Resource } from '../types/models';
 import type { ApiResponse } from '../types/apiResponse';
 
 const instance = axios.create({
-  baseURL: 'https://nawc.now.sh',
+  baseURL: 'https://nawc-staging.vercel.app',
 });
 
 export const imageToLink = (

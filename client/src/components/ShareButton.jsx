@@ -18,7 +18,7 @@ function ShareButton(props: ShareButtonProps) {
   const [info, setInfo] = useState('Copy resource link!');
 
   const copyLink = () => {
-    const link = `https://nawc.now.sh${location.pathname}`;
+    const link = `https://nawc-staging.vercel.app${location.pathname}`;
     navigator.clipboard.writeText(link);
     setInfo('Resource link copied!');
   };
