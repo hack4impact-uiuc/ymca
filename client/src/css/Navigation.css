@@ -10,7 +10,7 @@
 
 .nav-desktop .nav-desktop-logo {
   background-color: #fff;
-  background-image: url('https://nawc.now.sh/asset/icon/logo192.png');
+  background-image: url('https://nawc.vercel.app/asset/icon/logo192.png');
   background-position: center;
   background-size: cover;
   float: left;
@@ -97,7 +97,7 @@ a::after {
 }
 
 .nav-mobile-topbar-container .nav-mobile-logo {
-  background-image: url('https://nawc.now.sh/asset/icon/logo192.png');
+  background-image: url('https://nawc.vercel.app/asset/icon/logo192.png');
   background-position: center;
   background-size: cover;
   height: 1.7em;

@@ -19,7 +19,7 @@
 }
 
 .background-container {
-  background: url('https://nawc.now.sh/asset/images/login-background.jpg');
+  background: url('https://nawc.vercel.app/asset/images/login-background.jpg');
   background-size: cover;
   height: 100%;
   width: 100%;
