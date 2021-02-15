@@ -58,6 +58,7 @@ This application is built with React, Express, MongoDB, and tested with Cypress 
   <tr>
    <td align="center"><a href="https://www.linkedin.com/in/neha-konjeti-574135199/"><img src="https://avatars.githubusercontent.com/u/13949280?s=460&u=429740e7a45fb2acb81b02d14a16a5377b94fbf0&v=4" width="75px;" alt="Neha Konjeti"/><br /><b>Neha Konjeti</b></a><br /><sub>Software Developer</sub></td>
    <td align="center"><a href="https://www.linkedin.com/in/ayan-mallik/"><img src="https://user-images.githubusercontent.com/45826922/107898334-156c4680-6f01-11eb-95bd-a28c4dff9b58.png" width="75px;" alt="Ayan Mallik"/><br /><b>Ayan Mallik</b></a><br /><sub>Software Developer</sub></td>
+   <td align="center"><a href="https://www.linkedin.com/in/luciana-toledo-l%C3%B3pez-645556187/"><img src="https://avatars.githubusercontent.com/u/55062455?s=460&u=2571a804673e352e2e98a7c243a7c422d4c8970d&v=4" width="75px;" alt="Luciana Toledo-López"/><br /><b>Luciana Toledo-López</b></a><br /><sub>Software Developer</sub></td>
   </tr>
 </table>
 
