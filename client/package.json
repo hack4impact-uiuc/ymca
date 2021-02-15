@@ -18,6 +18,7 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-easy-crop": "^3.3.1",
+    "react-intl": "^5.12.3",
     "react-loader-spinner": "^3.1.5",
     "react-mapbox-gl": "^5.1.1",
     "react-router-dom": "^5.1.2",
