@@ -4,6 +4,7 @@ const { errorWrap } = require('../middleware');
 const Category = require('../models/category');
 const Resource = require('../models/resource');
 const HomePage = require('../models/homepage');
+const Translation = require('../models/translation')
 
 const imageHelper = async (image) => {
   const imageResponse = await fetch('https://api.imgur.com/3/image', {
@@ -177,6 +178,21 @@ router.delete(
       message: `Successfully deleted category ${id}`,
       success: true,
       result: null,
+    });
+  }),
+);
+
+// Create a translation object
+router.post(
+  '/translation',
+  errorWrap(async (req, res) => {
+    const newTranslation = new Translation(req.body);
+    await newTranslation.save();
+    res.json({
+      code: 200,
+      message: `Succesfully created new Translation object`,
+      success: true,
+      result: newTranslation,
     });
   }),
 );
