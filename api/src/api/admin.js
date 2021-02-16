@@ -166,6 +166,24 @@ router.post(
   }),
 );
 
+// Edit an existing category
+router.put(
+  '/categories/:id',
+  errorWrap(async (req, res) => {
+    const { id } = req.params;
+    const updatedCategory = await Category.findByIdAndUpdate(id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    res.json({
+      code: 200,
+      message: `Successfully updated category ${id}`,
+      success: true,
+      result: updatedCategory,
+    });
+  }),
+);
+
 // Delete a category
 router.delete(
   '/categories/:id',
