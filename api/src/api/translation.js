@@ -12,7 +12,12 @@ router.get(
     if (language != null) {
       translations = await Translation.find({ language: { $eq: language } });
     } else {
-      translations = await Translation.find();
+      res.json({
+        code: 400,
+        message: 'langauge is set to null',
+        success: false,
+        result: null,
+      });
     }
     res.json({
       code: 200,
