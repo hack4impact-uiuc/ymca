@@ -65,7 +65,7 @@ router.put(
     homePageObject.backgroundImage = req.body.backgroundImage;
     homePageObject.testimonials = req.body.testimonials;
     homePageObject.partners = req.body.partners;
-    homePageObject.save();
+    await homePageObject.save();
     res.json({
       code: 200,
       message: `Successfully updated homepage`,
@@ -193,6 +193,24 @@ router.post(
       message: `Succesfully created new Translation object`,
       success: true,
       result: newTranslation,
+    });
+  }),
+);
+
+// Add a translation message
+router.put(
+  '/translation',
+  errorWrap(async (req, res) => {
+    const updatedTranslation = await Translation.findOne({
+      language: { $eq: req.body.language },
+    });
+    updatedTranslation.messages.set(req.body.key, req.body.message);
+    await updatedTranslation.save();
+    res.json({
+      code: 200,
+      message: `Successfully added ${req.body.language} translation for ${req.body.key}`,
+      success: true,
+      result: updatedTranslation,
     });
   }),
 );
