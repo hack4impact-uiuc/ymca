@@ -4,7 +4,13 @@
 
 import axios from 'axios';
 
-import type { Category, HomePage, Resource } from '../types/models';
+import type {
+  Category,
+  HomePage,
+  Resource,
+  TranslationMessage,
+  Translation,
+} from '../types/models';
 import type { ApiResponse } from '../types/apiResponse';
 
 const instance = axios.create({
@@ -175,7 +181,6 @@ export const deleteResource = (id: string): ApiResponse<null> => {
     );
 };
 
-
 export const getTranslationByLanguage = (
   language: string,
 ): ApiResponse<Translation> => {
@@ -189,11 +194,12 @@ export const getTranslationByLanguage = (
   );
 };
 
-
-export const editTranslationMessage = (translation: Translation): ApiResponse<void> => {
+export const editTranslationMessage = (
+  translationMessage: TranslationMessage,
+): ApiResponse<void> => {
   const requestExtension = '/api/admin/translation';
   return instance
-    .put(requestExtension, translation, {
+    .put(requestExtension, translationMessage, {
       headers: {
         token: localStorage.getItem('token'),
       },
@@ -207,7 +213,9 @@ export const editTranslationMessage = (translation: Translation): ApiResponse<vo
     );
 };
 
-export const createTranslation = (translation: Translation): ApiResponse<Translation> => {
+export const createTranslation = (
+  translation: Translation,
+): ApiResponse<Translation> => {
   const requestExtension = '/api/admin/translation';
   return instance
     .post(requestExtension, translation, {
