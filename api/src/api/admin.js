@@ -166,7 +166,6 @@ router.post(
   }),
 );
 
-// Edit an existing category
 router.put(
   '/categories/:id',
   errorWrap(async (req, res) => {
@@ -175,11 +174,20 @@ router.put(
       new: true,
       runValidators: true,
     });
+
+    const updatedResources = await Resource.updateMany(
+      { category: req.body.currentName },
+      { $set: { 'category.$': req.body.newName } },
+    );
+
     res.json({
       code: 200,
       message: `Successfully updated category ${id}`,
       success: true,
-      result: updatedCategory,
+      result: {
+        updatedCategory,
+        updatedResources
+      }
     });
   }),
 );
@@ -190,11 +198,17 @@ router.delete(
   errorWrap(async (req, res) => {
     const { id } = req.params;
     await Category.findByIdAndDelete(id);
+
+    const updatedResources = await Resource.updateMany(
+      { category: req.body.currentName },
+      { $pull: { 'category': req.body.currentName } },
+    );
+
     res.json({
       code: 200,
       message: `Successfully deleted category ${id}`,
       success: true,
-      result: null,
+      result: updatedResources,
     });
   }),
 );
