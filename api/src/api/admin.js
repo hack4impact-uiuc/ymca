@@ -189,7 +189,7 @@ router.post(
     const newTranslation = new Translation(req.body);
     await newTranslation.save();
     res.json({
-      code: 200,
+      code: 201,
       message: `Succesfully created new Translation object`,
       success: true,
       result: newTranslation,
