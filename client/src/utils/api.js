@@ -184,7 +184,7 @@ export const deleteResource = (id: string): ApiResponse<null> => {
 export const getTranslationByLanguage = (
   language: string,
 ): ApiResponse<Translation> => {
-  const requestExtension = `/api/translation/?language=${language}`;
+  const requestExtension = `/api/translation?language=${language}`;
   return instance.get(requestExtension).then(
     (res) => res.data,
     (err) => {
