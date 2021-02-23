@@ -186,8 +186,8 @@ router.put(
       success: true,
       result: {
         updatedCategory,
-        updatedResources
-      }
+        updatedResources,
+      },
     });
   }),
 );
@@ -201,7 +201,7 @@ router.delete(
 
     const updatedResources = await Resource.updateMany(
       { category: req.body.currentName },
-      { $pull: { 'category': req.body.currentName } },
+      { $pull: { category: req.body.currentName } },
     );
 
     res.json({
@@ -209,6 +209,98 @@ router.delete(
       message: `Successfully deleted category ${id}`,
       success: true,
       result: updatedResources,
+    });
+  }),
+);
+
+// Create a new subcategory
+router.post(
+  '/subcategories/:id',
+  errorWrap(async (req, res) => {
+    const { id } = req.params;
+    const updatedCategory = await Category.findByIdAndUpdate(
+      id,
+      { $push: { subcategories: req.body.name } },
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
+    res.status(201).json({
+      code: 201,
+      message: `Successfully created new category ${req.body.name}`,
+      success: true,
+      result: updatedCategory,
+    });
+  }),
+);
+
+// renaming subcategory
+router.put(
+  '/subcategories/:id',
+  errorWrap(async (req, res) => {
+    const { id } = req.params;
+
+    const updatedCategory = await Category.findOneAndUpdate(
+      {
+        _id: req.params.id,
+        subcategories: req.body.currentName,
+      },
+      {
+        $set: { 'subcategories.$': req.body.newName },
+      },
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
+
+    const updatedResources = await Resource.updateMany(
+      { category: req.body.category, subcategory: req.body.currentName },
+      { $set: { 'subcategory.$': req.body.newName } },
+    );
+
+    res.json({
+      code: 200,
+      message: `Successfully updated subcategory ${req.body.newName}`,
+      success: true,
+      result: {
+        updatedCategory,
+        updatedResources,
+      },
+    });
+  }),
+);
+
+// Delete a subcategory
+router.delete(
+  '/subcategories/:id',
+  errorWrap(async (req, res) => {
+    const { id } = req.params;
+    const updatedCategory = await Category.findByIdAndUpdate(
+      id,
+      {
+        $pull: { subcategories: req.body.subcategory },
+      },
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
+
+    const updatedResources = await Resource.updateMany(
+      { category: req.body.category, subcategory: req.body.subcategory },
+      { $pull: { subcategory: req.body.subcategory } },
+    );
+
+    res.json({
+      code: 200,
+      message: `Successfully deleted category ${id}`,
+      success: true,
+      result: {
+        updatedCategory,
+        updatedResources,
+      },
     });
   }),
 );

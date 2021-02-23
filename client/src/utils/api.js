@@ -8,7 +8,8 @@ import type { Category, HomePage, Resource } from '../types/models';
 import type { ApiResponse } from '../types/apiResponse';
 
 const instance = axios.create({
-  baseURL: 'https://nawc-staging.vercel.app',
+  //baseURL: 'https://nawc-staging.vercel.app',
+   baseURL: 'http://localhost:9000',
 });
 
 export const imageToLink = (
@@ -212,6 +213,61 @@ export const editCategory = (
 
 export const deleteCategory = (id: string): ApiResponse<null> => {
   const requestExtension = `/api/admin/categories/${id}`;
+  return instance
+    .delete(requestExtension, {
+      headers: {
+        token: localStorage.getItem('token'),
+      },
+    })
+    .then(
+      (res) => res.data,
+      (err) => {
+        console.error(err);
+        return null;
+      },
+    );
+};
+
+export const addSubcategory = (
+  id: string,
+  category: Category
+): ApiResponse<Category> =>
+  instance
+    .post(`/api/admin/subcategories/${id}`, category, {
+      headers: {
+        token: localStorage.getItem('token'),
+      },
+    })
+    .then(
+      (res) => res.data,
+      (err) => {
+        console.error(err);
+        return null;
+      },
+    );
+
+export const editSubcategory = (
+  id: string,
+  category: Category,
+): ApiResponse<Category> => {
+  const requestExtension = `/api/admin/subcategories/${id}`;
+  return instance
+    .put(requestExtension, category, {
+      headers: {
+        token: localStorage.getItem('token'),
+      },
+    })
+    .then(
+      (res) => res.data,
+      (err) => {
+        console.error(err);
+        return null;
+      },
+    );
+};
+
+export const deleteSubcategory = (id: string): ApiResponse<Category> => {
+  const requestExtension = `/api/admin/subcategories/${id}`;
   return instance
     .delete(requestExtension, {
       headers: {
