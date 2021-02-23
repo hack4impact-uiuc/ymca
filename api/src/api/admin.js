@@ -201,14 +201,15 @@ router.post(
 router.put(
   '/translation',
   errorWrap(async (req, res) => {
+    const { language, key, message } = req.body;
     const updatedTranslation = await Translation.findOne({
-      language: { $eq: req.body.language },
+      language: { $eq: language },
     });
-    updatedTranslation.messages.set(req.body.key, req.body.message);
+    updatedTranslation.messages.set(key, message);
     await updatedTranslation.save();
     res.json({
       code: 200,
-      message: `Successfully added ${req.body.language} translation for ${req.body.key}`,
+      message: `Successfully added ${language} translation for ${key}`,
       success: true,
       result: updatedTranslation,
     });

@@ -10,7 +10,7 @@ router.get(
     const { language } = req.query;
     let translations;
     if (language != null) {
-      translations = await Translation.find({ language: { $eq: language } });
+      translations = await Translation.findOne({ language: { $eq: language } });
       res.json({
         code: 200,
         message: '',
