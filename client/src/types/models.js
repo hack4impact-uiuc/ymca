@@ -64,3 +64,14 @@ export type HomePage = {
   testimonials: Array<Array<string>>,
   partners: Array<Array<string>>,
 };
+
+export type TranslationMessage = {
+  language: string,
+  key: string,
+  message: string,
+};
+
+export type Translation = {
+  language: string,
+  messages: { [string]: string },
+};
