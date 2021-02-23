@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Col, Row, Carousel, notification } from 'antd';
 import { HeartTwoTone } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import { FormattedMessage } from 'react-intl';
 
 import type { Testimonial } from '../../pages/Home';
 
@@ -59,7 +60,7 @@ export const HomeBlock1Desktop = ({
       align="middle"
     >
       <Col className="welcome-text">
-        Welcome to Urbana-Champaign
+        <FormattedMessage id="homeWelcome" />
         {categories && categories.length > 0 ? (
           <Row type="flex">
             <h1 className="welcome-text-bold">Find Resources for</h1>

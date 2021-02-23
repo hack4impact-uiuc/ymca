@@ -1,12 +1,14 @@
 // @flow
 
-import React, { useCallback, Suspense, lazy } from 'react';
+import React, { useCallback, Suspense, lazy, useState } from 'react';
 import {
   Route,
   BrowserRouter as Router,
   Switch,
   Redirect,
 } from 'react-router-dom';
+import { IntlProvider } from 'react-intl';
+
 import PrivateRoute from './components/PrivateRoute';
 import Footer from './components/Footer';
 import Navigation from './components/Navigation';
@@ -32,6 +34,7 @@ const AdminResourceManager = lazy(() => import('./pages/AdminResourceManager'));
 
 const App = (): React$Element<React$FragmentType> => {
   const { authed, authRoleIsEquivalentTo } = useAuth();
+  const [locale, setLocale] = useState('en');
 
   const showIfUnauthed = useCallback(
     (component) => {
@@ -52,11 +55,24 @@ const App = (): React$Element<React$FragmentType> => {
     [authRoleIsEquivalentTo, authed],
   );
 
+  // query messages from backend based on locale/language
+  // may have to keep english translations for consistency with defaultMessage
+  const messagesEnglish = {
+    homeWelcome: 'Welcome to Urbana-Champaign',
+  };
+
+  const messagesSpanish = {
+    homeWelcome: 'Bienvenidos a Urbana-Champaign',
+  };
+
   return (
-    <>
+    <IntlProvider
+      messages={locale === 'en' ? messagesEnglish : messagesSpanish}
+      locale={locale}
+    >
       <Router>
         <ScrollToTop />
-        <Navigation />
+        <Navigation setLocale={setLocale} />
         <Suspense fallback={<div>Loading...</div>}>
           <Switch>
             <Route path="/" exact component={Home} />
@@ -77,24 +93,24 @@ const App = (): React$Element<React$FragmentType> => {
               exact
               minRole="admin"
             />
-
+            <PrivateRoute
+              path="/role-approval"
+              component={RoleApproval}
+              minRole="admin"
+            />
             <Route
               path="/saved"
               render={(props) => <SavedResources {...props} />}
             />
-
             <Route path="/login" render={() => showIfUnauthed(<Login />)} />
-
             <Route
               path="/register"
               render={() => showIfUnauthed(<Register />)}
             />
-
             <Route
               path="/password-reset"
               render={() => showIfUnauthed(<PasswordReset />)}
             />
-
             <Route path="/logout" render={() => <Logout />} />
             <Route
               path="/resources"
@@ -102,11 +118,6 @@ const App = (): React$Element<React$FragmentType> => {
               render={(props) => <Resources {...props} />}
             />
             <Route path="/resources/unknown" component={ResourceUnknown} />
-            <PrivateRoute
-              path="/role-approval"
-              component={RoleApproval}
-              minRole="admin"
-            />
             <Route
               path="/resources/:id"
               render={(props) => <ResourceDetailCommon {...props} />}
@@ -116,7 +127,7 @@ const App = (): React$Element<React$FragmentType> => {
         </Suspense>
         <Footer />
       </Router>
-    </>
+    </IntlProvider>
   );
 };
 
