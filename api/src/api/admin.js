@@ -4,6 +4,7 @@ const { errorWrap } = require('../middleware');
 const Category = require('../models/category');
 const Resource = require('../models/resource');
 const HomePage = require('../models/homepage');
+const Translation = require('../models/translation');
 
 const imageHelper = async (image) => {
   const imageResponse = await fetch('https://api.imgur.com/3/image', {
@@ -64,7 +65,7 @@ router.put(
     homePageObject.backgroundImage = req.body.backgroundImage;
     homePageObject.testimonials = req.body.testimonials;
     homePageObject.partners = req.body.partners;
-    homePageObject.save();
+    await homePageObject.save();
     res.json({
       code: 200,
       message: `Successfully updated homepage`,
@@ -177,6 +178,40 @@ router.delete(
       message: `Successfully deleted category ${id}`,
       success: true,
       result: null,
+    });
+  }),
+);
+
+// Create a translation object
+router.post(
+  '/translation',
+  errorWrap(async (req, res) => {
+    const newTranslation = new Translation(req.body);
+    await newTranslation.save();
+    res.json({
+      code: 201,
+      message: `Succesfully created new Translation object`,
+      success: true,
+      result: newTranslation,
+    });
+  }),
+);
+
+// Add a translation message
+router.put(
+  '/translation',
+  errorWrap(async (req, res) => {
+    const { language, key, message } = req.body;
+    const updatedTranslation = await Translation.findOne({
+      language: { $eq: language },
+    });
+    updatedTranslation.messages.set(key, message);
+    await updatedTranslation.save();
+    res.json({
+      code: 200,
+      message: `Successfully added ${language} translation for ${key}`,
+      success: true,
+      result: updatedTranslation,
     });
   }),
 );

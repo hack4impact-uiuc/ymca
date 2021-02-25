@@ -91,7 +91,11 @@
 .resource-detail .banner {
   padding: 0;
   height: 15vh;
+<<<<<<< HEAD
   background-image: url('https://nawc.vercel.app/asset/images/background.png');
+=======
+  background-image: url('https://nawc-staging.vercel.app/asset/images/background.png');
+>>>>>>> master
   background-size: cover;
   color: #fff;
   font-size: 18px;
