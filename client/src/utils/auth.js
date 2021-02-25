@@ -5,11 +5,7 @@ import fetch from 'isomorphic-fetch';
 
 import type { ApiResponse } from '../types/apiResponse';
 
-<<<<<<< HEAD
 const AUTH_SERVER_URI = 'https://nawc.vercel.app/auth';
-=======
-const AUTH_SERVER_URI = 'https://nawc-staging.vercel.app/auth';
->>>>>>> master
 
 export const login = (body) =>
   // auth

@@ -14,11 +14,7 @@ import type {
 import type { ApiResponse } from '../types/apiResponse';
 
 const instance = axios.create({
-<<<<<<< HEAD
   baseURL: 'https://nawc.vercel.app',
-=======
-  baseURL: 'https://nawc-staging.vercel.app',
->>>>>>> master
 });
 
 export const imageToLink = (

@@ -1,10 +1,6 @@
 const fetch = require('isomorphic-unfetch');
 
-<<<<<<< HEAD
 const AUTH_SERVER_URI = 'https://nawc.vercel.app/auth';
-=======
-const AUTH_SERVER_URI = 'https://nawc-staging.vercel.app/auth';
->>>>>>> master
 
 const authAdmin = async (req, res, next) => {
   auth(req, res, next, ['admin']);
