@@ -23,6 +23,7 @@ type Props = {
   isSaved: boolean,
   updateSaved: () => void,
   image: string,
+  description: string,
 };
 
 function ResourcePreview(props: Props) {
@@ -37,6 +38,7 @@ function ResourcePreview(props: Props) {
     isSaved,
     updateSaved,
     image,
+    description,
   } = props;
   const [src, setSrc] = useState('');
   const [hover, setHover] = useState(false);
@@ -55,7 +57,11 @@ function ResourcePreview(props: Props) {
     setSrc(determineStockPhoto(category, subcategory));
   }, [category, setSrc, subcategory]);
 
-  const description = [];
+  let descriptionText = '';
+  if (description && description !== '') {
+    descriptionText += `${description} `;
+  }
+  const resourceInfo = [];
   let languages = '';
   availableLanguages.forEach((language) => {
     languages += `${language}, `;
@@ -63,28 +69,31 @@ function ResourcePreview(props: Props) {
   if (languages !== '') {
     languages = languages.slice(0, languages.length - 2);
   }
-  let descriptionText = '';
+  let resourceInfoText = '';
   if (cost && cost !== '') {
-    descriptionText += `${cost} `;
+    resourceInfoText += `${cost} `;
   }
   if (city && city !== '') {
-    if (descriptionText !== '') {
-      descriptionText += '• ';
+    if (resourceInfoText !== '') {
+      resourceInfoText += '• ';
     }
-    descriptionText += `${city} `;
+    resourceInfoText += `${city} `;
   }
   if (languages && languages !== '') {
-    if (descriptionText !== '') {
-      descriptionText += '• ';
+    if (resourceInfoText !== '') {
+      resourceInfoText += '• ';
     }
-    descriptionText += `${languages} `;
+    resourceInfoText += `${languages} `;
   }
-  description.push(
-    <div key="description" style={{ color: 'black' }}>
-      {descriptionText}
-    </div>,
-  );
 
+  const descriptions = (
+    <>
+      <div className="description">{descriptionText}</div>,
+      <div key="resourceInfo" style={{ color: 'black' }}>
+        {resourceInfoText}
+      </div>
+    </>
+  );
   return (
     <Link
       to={{
@@ -118,7 +127,7 @@ function ResourcePreview(props: Props) {
               </div>
             </>
           }
-          description={description}
+          description={descriptions}
           style={{ marginLeft: '-1em' }}
         />
       </Card>
