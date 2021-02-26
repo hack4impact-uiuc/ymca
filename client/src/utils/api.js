@@ -196,17 +196,22 @@ export const addCategory = (category: Category): ApiResponse<Category> =>
       },
     );
 
-export const editCategory = (
+export const renameCategory = (
   id: string,
-  category: Category,
+  newName: string,
+  currentName: string,
 ): ApiResponse<Category> => {
   const requestExtension = `/api/admin/categories/${id}`;
   return instance
-    .put(requestExtension, category, {
-      headers: {
-        token: localStorage.getItem('token'),
+    .put(
+      requestExtension,
+      { newName, currentName },
+      {
+        headers: {
+          token: localStorage.getItem('token'),
+        },
       },
-    })
+    )
     .then(
       (res) => res.data,
       (err) => {
