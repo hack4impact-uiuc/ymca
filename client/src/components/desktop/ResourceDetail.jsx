@@ -229,6 +229,11 @@ function ResourceDetail(props) {
     return <Redirect to="/resources/unknown" />;
   }
 
+  let absoluteWebsiteURL = website;
+  if (website.includes('http') === false) {
+    absoluteWebsiteURL = `//${website}`;
+  }
+
   return (
     <div className="resource-detail">
       <Modal
@@ -280,7 +285,11 @@ function ResourceDetail(props) {
         </Col>
         <Col span={8} className="header-info">
           {website.length > 0 ? (
-            <a href={website} target="_blank" rel="noopener noreferrer">
+            <a
+              href={absoluteWebsiteURL}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               {`${website}`}
               {'\n'}
             </a>
