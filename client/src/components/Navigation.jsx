@@ -13,21 +13,21 @@ import '../css/Navigation.css';
 const { Header } = Layout;
 
 type NavigationProps = {
-  setLocale: (string) => void,
+  setLanguage: (string) => void,
 };
 
 const Navigation = (props: NavigationProps) => {
-  const { setLocale } = props;
+  const { setLanguage } = props;
   const isMobile = useWindowDimensions()[1];
   return isMobile ? (
-    <NavMobile setLocale={setLocale} />
+    <NavMobile setLanguage={setLanguage} />
   ) : (
-    <NavDesktop setLocale={setLocale} />
+    <NavDesktop setLanguage={setLanguage} />
   );
 };
 
 const NavDesktop = (props: NavigationProps) => {
-  const { setLocale } = props;
+  const { setLanguage } = props;
   const { authed, authRoleIsEquivalentTo } = useAuth();
 
   return (
@@ -35,8 +35,8 @@ const NavDesktop = (props: NavigationProps) => {
       <NavLink exact to="/" aria-label="logo">
         <div className="nav-desktop-logo" />
       </NavLink>
-      <Button onClick={() => setLocale('en')}>English</Button>
-      <Button onClick={() => setLocale('sp')}>Spanish</Button>
+      <Button onClick={() => setLanguage('English')}>English</Button>
+      <Button onClick={() => setLanguage('Spanish')}>Spanish</Button>
       <Menu mode="horizontal">
         <Menu.Item key="home">
           <NavLink exact to="/" activeClassName="navbar-active-style">
@@ -100,7 +100,7 @@ const NavDesktop = (props: NavigationProps) => {
 };
 
 const NavMobile = (props: NavigationProps) => {
-  const { setLocale } = props;
+  const { setLanguage } = props;
   const { authed, authRoleIsEquivalentTo } = useAuth();
   const [drawerVisible, setDrawerVisible] = useState(false);
 
@@ -111,8 +111,8 @@ const NavMobile = (props: NavigationProps) => {
           <NavLink exact to="/">
             <div className="nav-mobile-logo" />
           </NavLink>
-          <Button onClick={() => setLocale('en')}>English</Button>
-          <Button onClick={() => setLocale('sp')}>Spanish</Button>
+          <Button onClick={() => setLanguage('English')}>English</Button>
+          <Button onClick={() => setLanguage('Spanish')}>Spanish</Button>
           <div className="nav-mobile-menu-btn-container">
             <Button
               onClick={() => setDrawerVisible(true)}

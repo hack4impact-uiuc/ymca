@@ -14,13 +14,14 @@ import type {
 import type { ApiResponse } from '../types/apiResponse';
 
 const instance = axios.create({
-  baseURL: 'https://nawc-staging.vercel.app',
+  // baseURL: 'https://nawc-staging.vercel.app',
+  baseURL: 'http://localhost:9000',
 });
 
 export const imageToLink = (
   image: ?(string | ArrayBuffer),
 ): ApiResponse<string> => {
-  const requestExtension = 'api/admin/imageUpload';
+  const requestExtension = '/api/admin/imageUpload';
   return instance
     .post(
       requestExtension,

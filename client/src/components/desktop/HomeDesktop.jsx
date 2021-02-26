@@ -60,7 +60,7 @@ export const HomeBlock1Desktop = ({
       align="middle"
     >
       <Col className="welcome-text">
-        <FormattedMessage id="homeWelcome" />
+        <FormattedMessage id="homeWelcome" defaultMessage="default welcome" />
         {categories && categories.length > 0 ? (
           <Row type="flex">
             <h1 className="welcome-text-bold">Find Resources for</h1>

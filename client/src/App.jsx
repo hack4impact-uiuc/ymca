@@ -1,6 +1,6 @@
 // @flow
 
-import React, { useCallback, Suspense, lazy, useState } from 'react';
+import React, { useCallback, Suspense, lazy, useState, useEffect } from 'react';
 import {
   Route,
   BrowserRouter as Router,
@@ -14,6 +14,7 @@ import Footer from './components/Footer';
 import Navigation from './components/Navigation';
 import ScrollToTop from './components/ScrollToTop';
 import { useAuth } from './utils/use-auth';
+import { getTranslationByLanguage } from './utils/api';
 
 const EditHome = lazy(() => import('./pages/EditHome'));
 const Home = lazy(() => import('./pages/Home'));
@@ -34,7 +35,25 @@ const AdminResourceManager = lazy(() => import('./pages/AdminResourceManager'));
 
 const App = (): React$Element<React$FragmentType> => {
   const { authed, authRoleIsEquivalentTo } = useAuth();
-  const [locale, setLocale] = useState('en');
+  const [language, setLanguage] = useState('English');
+  const [messages, setMessages] = useState({});
+
+  useEffect(() => {
+    const fetchTranslations = async () => {
+      const res = await getTranslationByLanguage(language);
+      let newMessages = {};
+      if (res && res.result) {
+        newMessages = res.result.messages;
+      }
+      // if (res) {
+      //   res.result.forEach((id) => {
+      //     newMessages[id] = res.result[id];
+      //   });
+      // }
+      setMessages(newMessages);
+    };
+    fetchTranslations();
+  }, [language, setMessages]);
 
   const showIfUnauthed = useCallback(
     (component) => {
@@ -57,22 +76,22 @@ const App = (): React$Element<React$FragmentType> => {
 
   // query messages from backend based on locale/language
   // may have to keep english translations for consistency with defaultMessage
-  const messagesEnglish = {
-    homeWelcome: 'Welcome to Urbana-Champaign',
-  };
+  // const messagesEnglish = {
+  //   homeWelcome: 'Welcome to Urbana-Champaign',
+  // };
 
-  const messagesSpanish = {
-    homeWelcome: 'Bienvenidos a Urbana-Champaign',
-  };
+  // const messagesSpanish = {
+  //   homeWelcome: 'Bienvenidos a Urbana-Champaign',
+  // };
 
   return (
     <IntlProvider
-      messages={locale === 'en' ? messagesEnglish : messagesSpanish}
-      locale={locale}
+      messages={messages}
+      // locale={locale}
     >
       <Router>
         <ScrollToTop />
-        <Navigation setLocale={setLocale} />
+        <Navigation setLanguage={setLanguage} />
         <Suspense fallback={<div>Loading...</div>}>
           <Switch>
             <Route path="/" exact component={Home} />
