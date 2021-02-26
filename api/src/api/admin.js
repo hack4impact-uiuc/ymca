@@ -166,16 +166,21 @@ router.post(
   }),
 );
 
+// Rename an existing category
 router.put(
   '/categories/:id',
   errorWrap(async (req, res) => {
     const { id } = req.params;
-    const updatedCategory = await Category.findByIdAndUpdate(id, req.body, {
-      new: true,
-      runValidators: true,
-    });
+    const updatedCategory = await Category.findByIdAndUpdate(
+      id,
+      { $set: { name: req.body.newName } },
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
 
-    const updatedResources = await Resource.updateMany(
+    await Resource.updateMany(
       { category: req.body.currentName },
       { $set: { 'category.$': req.body.newName } },
     );
@@ -186,7 +191,6 @@ router.put(
       success: true,
       result: {
         updatedCategory,
-        updatedResources,
       },
     });
   }),
@@ -199,16 +203,16 @@ router.delete(
     const { id } = req.params;
     await Category.findByIdAndDelete(id);
 
-    const updatedResources = await Resource.updateMany(
-      { category: req.body.currentName },
-      { $pull: { category: req.body.currentName } },
+    await Resource.updateMany(
+      { category: req.body.categoryName },
+      { $pull: { category: req.body.categoryName } },
     );
 
     res.json({
       code: 200,
       message: `Successfully deleted category ${id}`,
       success: true,
-      result: updatedResources,
+      result: null,
     });
   }),
 );
@@ -228,14 +232,14 @@ router.post(
     );
     res.status(201).json({
       code: 201,
-      message: `Successfully created new category ${req.body.name}`,
+      message: `Successfully created new subcategory ${req.body.name}`,
       success: true,
       result: updatedCategory,
     });
   }),
 );
 
-// renaming subcategory
+// Rename an existing subcategory
 router.put(
   '/subcategories/:id',
   errorWrap(async (req, res) => {
@@ -255,7 +259,7 @@ router.put(
       },
     );
 
-    const updatedResources = await Resource.updateMany(
+    await Resource.updateMany(
       { category: req.body.category, subcategory: req.body.currentName },
       { $set: { 'subcategory.$': req.body.newName } },
     );
@@ -266,7 +270,6 @@ router.put(
       success: true,
       result: {
         updatedCategory,
-        updatedResources,
       },
     });
   }),
@@ -288,7 +291,7 @@ router.delete(
       },
     );
 
-    const updatedResources = await Resource.updateMany(
+    await Resource.updateMany(
       { category: req.body.category, subcategory: req.body.subcategory },
       { $pull: { subcategory: req.body.subcategory } },
     );
@@ -299,7 +302,6 @@ router.delete(
       success: true,
       result: {
         updatedCategory,
-        updatedResources,
       },
     });
   }),
