@@ -61,7 +61,6 @@ function ResourcePreview(props: Props) {
   if (description && description !== '') {
     descriptionText += `${description} `;
   }
-  const resourceInfo = [];
   let languages = '';
   availableLanguages.forEach((language) => {
     languages += `${language}, `;
@@ -88,7 +87,7 @@ function ResourcePreview(props: Props) {
 
   const descriptions = (
     <>
-      <div className="description">{descriptionText}</div>,
+      <div className="resource-preview-description">{descriptionText}</div>
       <div key="resourceInfo" style={{ color: 'black' }}>
         {resourceInfoText}
       </div>

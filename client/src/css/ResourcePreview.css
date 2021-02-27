@@ -21,7 +21,7 @@
   vertical-align: middle;
 }
 
-.description {
+.resource-preview-description {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
