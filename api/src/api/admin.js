@@ -4,6 +4,7 @@ const { errorWrap } = require('../middleware');
 const Category = require('../models/category');
 const Resource = require('../models/resource');
 const HomePage = require('../models/homepage');
+const Translation = require('../models/translation');
 
 const imageHelper = async (image) => {
   const imageResponse = await fetch('https://api.imgur.com/3/image', {
@@ -64,7 +65,7 @@ router.put(
     homePageObject.backgroundImage = req.body.backgroundImage;
     homePageObject.testimonials = req.body.testimonials;
     homePageObject.partners = req.body.partners;
-    homePageObject.save();
+    await homePageObject.save();
     res.json({
       code: 200,
       message: `Successfully updated homepage`,
@@ -166,17 +167,171 @@ router.post(
   }),
 );
 
+// Rename an existing category
+router.put(
+  '/categories/:id',
+  errorWrap(async (req, res) => {
+    const { id } = req.params;
+    const updatedCategory = await Category.findByIdAndUpdate(
+      id,
+      { $set: { name: req.body.newName } },
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
+
+    await Resource.updateMany(
+      { category: req.body.currentName },
+      { $set: { 'category.$': req.body.newName } },
+    );
+
+    res.json({
+      code: 200,
+      message: `Successfully updated category ${id}`,
+      success: true,
+      result: updatedCategory,
+    });
+  }),
+);
+
 // Delete a category
 router.delete(
   '/categories/:id',
   errorWrap(async (req, res) => {
     const { id } = req.params;
     await Category.findByIdAndDelete(id);
+
+    await Resource.updateMany(
+      { category: req.body.categoryName },
+      { $pull: { category: req.body.categoryName } },
+    );
+
     res.json({
       code: 200,
       message: `Successfully deleted category ${id}`,
       success: true,
       result: null,
+    });
+  }),
+);
+
+// Create a new subcategory
+router.post(
+  '/subcategories/:id',
+  errorWrap(async (req, res) => {
+    const { id } = req.params;
+    const updatedCategory = await Category.findByIdAndUpdate(
+      id,
+      { $push: { subcategories: req.body.name } },
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
+    res.status(201).json({
+      code: 201,
+      message: `Successfully created new subcategory ${req.body.name}`,
+      success: true,
+      result: updatedCategory,
+    });
+  }),
+);
+
+// Rename an existing subcategory
+router.put(
+  '/subcategories/:id',
+  errorWrap(async (req, res) => {
+    const { id } = req.params;
+
+    const updatedCategory = await Category.findOneAndUpdate(
+      {
+        _id: req.params.id,
+        subcategories: req.body.currentName,
+      },
+      {
+        $set: { 'subcategories.$': req.body.newName },
+      },
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
+
+    await Resource.updateMany(
+      { category: req.body.category, subcategory: req.body.currentName },
+      { $set: { 'subcategory.$': req.body.newName } },
+    );
+
+    res.json({
+      code: 200,
+      message: `Successfully updated subcategory ${req.body.newName}`,
+      success: true,
+      result: updatedCategory,
+    });
+  }),
+);
+
+// Delete a subcategory
+router.delete(
+  '/subcategories/:id',
+  errorWrap(async (req, res) => {
+    const { id } = req.params;
+    const updatedCategory = await Category.findByIdAndUpdate(
+      id,
+      {
+        $pull: { subcategories: req.body.subcategory },
+      },
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
+
+    await Resource.updateMany(
+      { category: req.body.category, subcategory: req.body.subcategory },
+      { $pull: { subcategory: req.body.subcategory } },
+    );
+
+    res.json({
+      code: 200,
+      message: `Successfully deleted category ${id}`,
+      success: true,
+      result: updatedCategory,
+    });
+  }),
+);
+
+// Create a translation object
+router.post(
+  '/translation',
+  errorWrap(async (req, res) => {
+    const newTranslation = new Translation(req.body);
+    await newTranslation.save();
+    res.json({
+      code: 201,
+      message: `Succesfully created new Translation object`,
+      success: true,
+      result: newTranslation,
+    });
+  }),
+);
+
+// Add a translation message
+router.put(
+  '/translation',
+  errorWrap(async (req, res) => {
+    const { language, key, message } = req.body;
+    const updatedTranslation = await Translation.findOne({
+      language: { $eq: language },
+    });
+    updatedTranslation.messages.set(key, message);
+    await updatedTranslation.save();
+    res.json({
+      code: 200,
+      message: `Successfully added ${language} translation for ${key}`,
+      success: true,
+      result: updatedTranslation,
     });
   }),
 );

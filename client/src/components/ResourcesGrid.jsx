@@ -36,6 +36,7 @@ function ResourcesGrid(props) {
               isSaved={savedResources.has(first._id)}
               updateSaved={updateSaved}
               image={first.image || ''}
+              description={first.description}
             />
           </Col>
           {second && (
@@ -52,6 +53,7 @@ function ResourcesGrid(props) {
                 isSaved={savedResources.has(second._id)}
                 updateSaved={updateSaved}
                 image={second.image || ''}
+                description={second.description}
               />
             </Col>
           )}
@@ -69,6 +71,7 @@ function ResourcesGrid(props) {
                 isSaved={savedResources.has(third._id)}
                 updateSaved={updateSaved}
                 image={third.image || ''}
+                description={third.description}
               />
             </Col>
           )}
