@@ -97,7 +97,11 @@ a::after {
 }
 
 .nav-mobile-topbar-container .nav-mobile-logo {
+<<<<<<< HEAD
   background-image: url('https://nawc.vercel.app/asset/icon/logo192.png');
+=======
+  background-image: url('https://nawc-staging.vercel.app/asset/icon/logo192.png');
+>>>>>>> master
   background-position: center;
   background-size: cover;
   height: 1.7em;

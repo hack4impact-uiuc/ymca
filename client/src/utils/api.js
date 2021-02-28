@@ -4,7 +4,13 @@
 
 import axios from 'axios';
 
-import type { Category, HomePage, Resource } from '../types/models';
+import type {
+  Category,
+  HomePage,
+  Resource,
+  TranslationMessage,
+  Translation,
+} from '../types/models';
 import type { ApiResponse } from '../types/apiResponse';
 
 const instance = axios.create({
@@ -162,6 +168,179 @@ export const deleteResource = (id: string): ApiResponse<null> => {
   const requestExtension = `/api/admin/resources/${id}`;
   return instance
     .delete(requestExtension, {
+      headers: {
+        token: localStorage.getItem('token'),
+      },
+    })
+    .then(
+      (res) => res.data,
+      (err) => {
+        console.error(err);
+        return null;
+      },
+    );
+};
+
+export const addCategory = (category: Category): ApiResponse<Category> =>
+  instance
+    .post('/api/admin/categories', category, {
+      headers: {
+        token: localStorage.getItem('token'),
+      },
+    })
+    .then(
+      (res) => res.data,
+      (err) => {
+        console.error(err);
+        return null;
+      },
+    );
+
+export const renameCategory = (
+  id: string,
+  newName: string,
+  currentName: string,
+): ApiResponse<Category> => {
+  const requestExtension = `/api/admin/categories/${id}`;
+  return instance
+    .put(
+      requestExtension,
+      { newName, currentName },
+      {
+        headers: {
+          token: localStorage.getItem('token'),
+        },
+      },
+    )
+    .then(
+      (res) => res.data,
+      (err) => {
+        console.error(err);
+        return null;
+      },
+    );
+};
+
+export const deleteCategory = (id: string): ApiResponse<null> => {
+  const requestExtension = `/api/admin/categories/${id}`;
+  return instance
+    .delete(requestExtension, {
+      headers: {
+        token: localStorage.getItem('token'),
+      },
+    })
+    .then(
+      (res) => res.data,
+      (err) => {
+        console.error(err);
+        return null;
+      },
+    );
+};
+
+export const addSubcategory = (
+  id: string,
+  name: string,
+): ApiResponse<Category> =>
+  instance
+    .post(
+      `/api/admin/subcategories/${id}`,
+      { name },
+      {
+        headers: {
+          token: localStorage.getItem('token'),
+        },
+      },
+    )
+    .then(
+      (res) => res.data,
+      (err) => {
+        console.error(err);
+        return null;
+      },
+    );
+
+export const renameSubcategory = (
+  id: string,
+  category: string,
+  currentName: string,
+  newName: string,
+): ApiResponse<Category> => {
+  const requestExtension = `/api/admin/subcategories/${id}`;
+  return instance
+    .put(
+      requestExtension,
+      { category, newName, currentName },
+      {
+        headers: {
+          token: localStorage.getItem('token'),
+        },
+      },
+    )
+    .then(
+      (res) => res.data,
+      (err) => {
+        console.error(err);
+        return null;
+      },
+    );
+};
+
+export const deleteSubcategory = (id: string): ApiResponse<Category> => {
+  const requestExtension = `/api/admin/subcategories/${id}`;
+  return instance
+    .delete(requestExtension, {
+      headers: {
+        token: localStorage.getItem('token'),
+      },
+    })
+    .then(
+      (res) => res.data,
+      (err) => {
+        console.error(err);
+        return null;
+      },
+    );
+};
+
+export const getTranslationByLanguage = (
+  language: string,
+): ApiResponse<Translation> => {
+  const requestExtension = `/api/translation?language=${language}`;
+  return instance.get(requestExtension).then(
+    (res) => res.data,
+    (err) => {
+      console.error(err);
+      return null;
+    },
+  );
+};
+
+export const editTranslationMessage = (
+  translationMessage: TranslationMessage,
+): ApiResponse<void> => {
+  const requestExtension = '/api/admin/translation';
+  return instance
+    .put(requestExtension, translationMessage, {
+      headers: {
+        token: localStorage.getItem('token'),
+      },
+    })
+    .then(
+      (res) => res.data,
+      (err) => {
+        console.error(err);
+        return null;
+      },
+    );
+};
+
+export const createTranslation = (
+  translation: Translation,
+): ApiResponse<Translation> => {
+  const requestExtension = '/api/admin/translation';
+  return instance
+    .post(requestExtension, translation, {
       headers: {
         token: localStorage.getItem('token'),
       },
