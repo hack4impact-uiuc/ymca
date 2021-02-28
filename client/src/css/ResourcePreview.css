@@ -20,3 +20,9 @@
   overflow: hidden;
   vertical-align: middle;
 }
+
+.resource-preview-description {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
