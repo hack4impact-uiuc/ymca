@@ -35,8 +35,7 @@ const InternalNotesForm = Form.create({ name: 'internalNotes' })(
     } = props;
     const { getFieldDecorator, getFieldValue, setFieldsValue } = props.form;
 
-    const onSubmit = (e) => {
-      e.preventDefault();
+    const onSubmit = () => {
       const subject = getFieldValue('subject');
       const body = getFieldValue('body');
       const note = { subject, body };
@@ -72,7 +71,7 @@ const InternalNotesForm = Form.create({ name: 'internalNotes' })(
     }, [editNote, setFieldsValue]);
 
     return (
-      <Form onSubmit={onSubmit}>
+      <Form>
         <Form.Item>
           {getFieldDecorator('subject', {
             rules: [
@@ -85,7 +84,8 @@ const InternalNotesForm = Form.create({ name: 'internalNotes' })(
           })(
             <Input
               placeholder="Subject"
-              defaultValue={!editNote == null && editNote.body}
+              // eslint-disable-next-line @hack4impact-uiuc/no-null-ternary
+              defaultValue={!editNote == null ? editNote.body : null}
             />,
           )}
         </Form.Item>
@@ -114,9 +114,11 @@ const InternalNotesForm = Form.create({ name: 'internalNotes' })(
 
         <Button
           type="primary"
-          htmlType="submit"
           className="form-btn"
-          onClick={() => setTotalSubmitEnabled(false)}
+          onClick={() => {
+            setTotalSubmitEnabled(false);
+            onSubmit();
+          }}
         >
           {editNote == null ? 'Add Note' : 'Edit Note'}
         </Button>
