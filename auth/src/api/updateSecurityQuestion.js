@@ -11,19 +11,15 @@ router.post(
   "/updateSecurityQuestion",
   [
     check("questionIdx").isNumeric(),
-    check("answer")
-      .isString()
-      .isLength({ min: 1 }),
-    check("password")
-      .isString()
-      .isLength({ min: 1 })
+    check("answer").isString().isLength({ min: 1 }),
+    check("password").isString().isLength({ min: 1 }),
   ],
-  handleAsyncErrors(async function(req, res) {
+  handleAsyncErrors(async function (req, res) {
     // Checks that the token is in the header and the questionIdx, answer, and passwword are in the body of the request.
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return sendResponse(res, 400, "Invalid request", {
-        errors: errors.array({ onlyFirstError: true })
+        errors: errors.array({ onlyFirstError: true }),
       });
     }
     if (!req.headers.token) {
@@ -69,7 +65,7 @@ router.post(
         { _id: user._id },
         {
           question: question,
-          answer: req.body.answer.toLowerCase().replace(/\s/g, "")
+          answer: req.body.answer.toLowerCase().replace(/\s/g, ""),
         }
       );
       return sendResponse(res, 200, "Succesfully added the security question");

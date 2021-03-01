@@ -7,7 +7,7 @@ const { sendPasswordChangeEmail } = require("../utils/sendMail");
 const { signAuthJWT } = require("../utils/jwtHelpers");
 const {
   isGmailEnabledForForgotPassword,
-  isSecurityQuestionEnabled
+  isSecurityQuestionEnabled,
 } = require("../utils/getConfigFile");
 const { expirePIN } = require("../utils/pinHelpers");
 const handleAsyncErrors = require("../utils/errorHandler");
@@ -16,23 +16,16 @@ router.post(
   "/passwordReset",
   [
     check("email").isEmail(),
-    check("password")
-      .isString()
-      .isLength({ min: 1 }),
-    check("pin")
-      .isNumeric()
-      .optional(),
-    check("answer")
-      .isString()
-      .isLength({ min: 1 })
-      .optional()
+    check("password").isString().isLength({ min: 1 }),
+    check("pin").isNumeric().optional(),
+    check("answer").isString().isLength({ min: 1 }).optional(),
   ],
-  handleAsyncErrors(async function(req, res) {
+  handleAsyncErrors(async function (req, res) {
     // Checks that the email, password, and pin or answer (depending on the config file) is in the body of the request
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return sendResponse(res, 400, "Invalid request", {
-        errors: errors.array({ onlyFirstError: true })
+        errors: errors.array({ onlyFirstError: true }),
       });
     }
 
@@ -103,7 +96,7 @@ router.post(
     // Responds to the request with a success message and a JWT token
     sendResponse(res, 200, "Password successfully reset", {
       token: await signAuthJWT(user._id, user.password),
-      permission: user.role
+      permission: user.role,
     });
   })
 );

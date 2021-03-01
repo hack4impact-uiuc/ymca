@@ -11,19 +11,15 @@ const { googleAuth } = require("../utils/getConfigFile");
 router.post(
   "/changePassword",
   [
-    check("currentPassword")
-      .isString()
-      .isLength({ min: 1 }),
-    check("newPassword")
-      .isString()
-      .isLength({ min: 1 })
+    check("currentPassword").isString().isLength({ min: 1 }),
+    check("newPassword").isString().isLength({ min: 1 }),
   ],
-  handleAsyncErrors(async function(req, res) {
+  handleAsyncErrors(async function (req, res) {
     // Checks that the token is in the header and the currentPassword and newPassword are in the body of the request
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return sendResponse(res, 400, "Invalid request", {
-        errors: errors.array({ onlyFirstError: true })
+        errors: errors.array({ onlyFirstError: true }),
       });
     }
     if (!req.headers.token) {
@@ -56,7 +52,7 @@ router.post(
         }
         // Sends a success message along with the new token.
         sendResponse(res, 200, "Successful change of password!", {
-          token: new_token
+          token: new_token,
         });
       }
     } else {

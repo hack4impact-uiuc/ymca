@@ -8,18 +8,13 @@ const handleAsyncErrors = require("../utils/errorHandler");
 
 router.post(
   "/login",
-  [
-    check("email").isEmail(),
-    check("password")
-      .isString()
-      .isLength({ min: 1 })
-  ],
-  handleAsyncErrors(async function(req, res) {
+  [check("email").isEmail(), check("password").isString().isLength({ min: 1 })],
+  handleAsyncErrors(async function (req, res) {
     // Checks that the request has the required fields (email, password)
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return sendResponse(res, 400, "Invalid Request", {
-        errors: errors.array({ onlyFirstError: true })
+        errors: errors.array({ onlyFirstError: true }),
       });
     }
 
@@ -37,7 +32,7 @@ router.post(
         message: "Successful login!",
         token: jwt_token,
         uid: user._id,
-        permission: user.role
+        permission: user.role,
       });
     } else {
       return sendResponse(res, 400, "Password incorrect. Please try again.");

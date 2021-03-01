@@ -259,8 +259,8 @@ router.put(
     );
 
     await Resource.updateMany(
-      { category: req.body.category, subcategory: req.body.currentName },
-      { $set: { 'subcategory.$': req.body.newName } },
+      { category: req.body.category, subcategories: req.body.currentName },
+      { $set: { 'subcategories.$': req.body.newName } },
     );
 
     res.json({
@@ -289,8 +289,8 @@ router.delete(
     );
 
     await Resource.updateMany(
-      { category: req.body.category, subcategory: req.body.subcategory },
-      { $pull: { subcategory: req.body.subcategory } },
+      { category: req.body.category, subcategories: req.body.subcategory },
+      { $pull: { subcategories: req.body.subcategory } },
     );
 
     res.json({
