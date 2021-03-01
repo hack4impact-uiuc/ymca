@@ -20,6 +20,7 @@ const Navigation = () => {
 const NavDesktop = () => {
   const { authed, authRoleIsEquivalentTo } = useAuth();
 
+  // I will modify this list of tabs
   return (
     <Header className="nav-desktop">
       <NavLink exact to="/" aria-label="logo">
