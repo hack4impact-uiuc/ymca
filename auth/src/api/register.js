@@ -1,18 +1,18 @@
 const router = require("express").Router();
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const { check, validationResult } = require("express-validator/check");
 const User = require("../models/User");
 const { sendResponse } = require("./../utils/sendResponse");
 const {
   getRolesForUser,
   getSuperiorsForRole,
-  getSecurityQuestions
+  getSecurityQuestions,
 } = require("./../utils/getConfigFile");
 const { signAuthJWT } = require("../utils/jwtHelpers");
 const { generatePIN } = require("../utils/pinHelpers");
 const {
   googleAuth,
-  isSecurityQuestionEnabled
+  isSecurityQuestionEnabled,
 } = require("../utils/getConfigFile");
 const { sendMail } = require("./../utils/sendMail");
 const handleAsyncErrors = require("../utils/errorHandler");
@@ -21,19 +21,15 @@ router.post(
   "/register",
   [
     check("email").isEmail(),
-    check("password")
-      .isString()
-      .isLength({ min: 1 }),
-    check("role")
-      .isString()
-      .isLength({ min: 1 })
+    check("password").isString().isLength({ min: 1 }),
+    check("role").isString().isLength({ min: 1 }),
   ],
-  handleAsyncErrors(async function(req, res) {
+  handleAsyncErrors(async function (req, res) {
     // Checks that the request has the required fields (email, password, and role)
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return sendResponse(res, 400, "Invalid Request", {
-        errors: errors.array({ onlyFirstError: true })
+        errors: errors.array({ onlyFirstError: true }),
       });
     }
 
@@ -49,7 +45,7 @@ router.post(
       password: encodedPassword,
       role: req.body.role,
       verified: false,
-      savedResources: []
+      savedResources: [],
     };
 
     // If the security question is enabled, checks that the security question index is valid and that there is an answer
@@ -89,7 +85,7 @@ router.post(
         subject: "New User Verification",
         text:
           "Thanks for signing up! Please enter the following PIN on the new user confirmation page: " +
-          user.pin
+          user.pin,
       };
       try {
         await sendMail(body);
@@ -111,7 +107,7 @@ router.post(
       message: "User added successfully!",
       token: jwt_token,
       uid: user._id,
-      permission: user.role
+      permission: user.role,
     });
   })
 );

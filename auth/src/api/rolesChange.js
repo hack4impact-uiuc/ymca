@@ -3,7 +3,7 @@ const { check, validationResult } = require("express-validator/check");
 const User = require("../models/User");
 const { sendResponse } = require("./../utils/sendResponse");
 const { getRolesForUser } = require("./../utils/getConfigFile");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const fetch = require("node-fetch");
 const handleAsyncErrors = require("../utils/errorHandler");
 const { verifyUser } = require("./../utils/userVerification");
@@ -13,16 +13,14 @@ router.post(
   "/roleschange",
   [
     check("userEmail").isEmail(),
-    check("newRole")
-      .isString()
-      .isLength({ min: 1 })
+    check("newRole").isString().isLength({ min: 1 }),
   ],
-  handleAsyncErrors(async function(req, res) {
+  handleAsyncErrors(async function (req, res) {
     // Check that it has the email and new role of the user being promoted
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return sendResponse(res, 400, "Invalid request", {
-        errors: errors.array({ onlyFirstError: true })
+        errors: errors.array({ onlyFirstError: true }),
       });
     }
 
