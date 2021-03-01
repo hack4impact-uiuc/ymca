@@ -74,21 +74,6 @@ const App = (): React$Element<React$FragmentType> => {
         >
           <Switch>
             <Route path="/" exact component={Home} />
-            {/* <Route
-              path="/"
-              render={() => (
-                <Loader
-                  className="app-loader"
-                  type="Circles"
-                  color="#6A3E9E"
-                  height={100}
-                  width={100}
-                  style={{
-                    textAlign: 'center',
-                  }}
-                />
-              )}
-            /> */}
             <PrivateRoute
               path="/admin"
               component={AdminResourceManager}
