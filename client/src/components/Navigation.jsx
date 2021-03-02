@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Layout, Drawer, Button, Menu } from 'antd';
+import { Layout, Drawer, Button, Menu, Dropdown } from 'antd';
 import { MenuOutlined } from '@ant-design/icons';
 
 import useWindowDimensions from '../utils/mobile';
@@ -16,6 +16,17 @@ const Navigation = () => {
   const isMobile = useWindowDimensions()[1];
   return isMobile ? <NavMobile /> : <NavDesktop />;
 };
+
+const languages = (
+  <>
+    <Menu>
+      <Menu.Item key="English"> English </Menu.Item>
+      <Menu.Item key="Spanish"> Español </Menu.Item>
+      <Menu.Item key="French"> Français </Menu.Item>
+      <Menu.Item key="Chinese"> 中文 </Menu.Item>
+    </Menu>
+  </>
+);
 
 const NavDesktop = () => {
   const { authed, authRoleIsEquivalentTo } = useAuth();
@@ -82,6 +93,9 @@ const NavDesktop = () => {
             </NavLink>
           </Menu.Item>
         )}
+        <Menu.Item key="languages">
+          <Dropdown overlay={languages}> Languages </Dropdown>
+        </Menu.Item>
       </Menu>
     </Header>
   );
