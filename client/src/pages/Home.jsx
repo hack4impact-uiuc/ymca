@@ -1,7 +1,7 @@
 // @flow
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { Textfit } from 'react-textfit'; // this is deprecated apparently
+import { Textfit } from 'react-textfit';
 import { Col, Row } from 'antd';
 import { FormattedMessage } from 'react-intl';
 

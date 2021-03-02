@@ -14,8 +14,7 @@ import type {
 import type { ApiResponse } from '../types/apiResponse';
 
 const instance = axios.create({
-  // baseURL: 'https://nawc-staging.vercel.app',
-  baseURL: 'http://localhost:9000',
+  baseURL: 'https://nawc-staging.vercel.app',
 });
 
 export const imageToLink = (
@@ -167,6 +166,128 @@ export const editResource = (
 
 export const deleteResource = (id: string): ApiResponse<null> => {
   const requestExtension = `/api/admin/resources/${id}`;
+  return instance
+    .delete(requestExtension, {
+      headers: {
+        token: localStorage.getItem('token'),
+      },
+    })
+    .then(
+      (res) => res.data,
+      (err) => {
+        console.error(err);
+        return null;
+      },
+    );
+};
+
+export const addCategory = (category: Category): ApiResponse<Category> =>
+  instance
+    .post('/api/admin/categories', category, {
+      headers: {
+        token: localStorage.getItem('token'),
+      },
+    })
+    .then(
+      (res) => res.data,
+      (err) => {
+        console.error(err);
+        return null;
+      },
+    );
+
+export const renameCategory = (
+  id: string,
+  newName: string,
+  currentName: string,
+): ApiResponse<Category> => {
+  const requestExtension = `/api/admin/categories/${id}`;
+  return instance
+    .put(
+      requestExtension,
+      { newName, currentName },
+      {
+        headers: {
+          token: localStorage.getItem('token'),
+        },
+      },
+    )
+    .then(
+      (res) => res.data,
+      (err) => {
+        console.error(err);
+        return null;
+      },
+    );
+};
+
+export const deleteCategory = (id: string): ApiResponse<null> => {
+  const requestExtension = `/api/admin/categories/${id}`;
+  return instance
+    .delete(requestExtension, {
+      headers: {
+        token: localStorage.getItem('token'),
+      },
+    })
+    .then(
+      (res) => res.data,
+      (err) => {
+        console.error(err);
+        return null;
+      },
+    );
+};
+
+export const addSubcategory = (
+  id: string,
+  name: string,
+): ApiResponse<Category> =>
+  instance
+    .post(
+      `/api/admin/subcategories/${id}`,
+      { name },
+      {
+        headers: {
+          token: localStorage.getItem('token'),
+        },
+      },
+    )
+    .then(
+      (res) => res.data,
+      (err) => {
+        console.error(err);
+        return null;
+      },
+    );
+
+export const renameSubcategory = (
+  id: string,
+  category: string,
+  currentName: string,
+  newName: string,
+): ApiResponse<Category> => {
+  const requestExtension = `/api/admin/subcategories/${id}`;
+  return instance
+    .put(
+      requestExtension,
+      { category, newName, currentName },
+      {
+        headers: {
+          token: localStorage.getItem('token'),
+        },
+      },
+    )
+    .then(
+      (res) => res.data,
+      (err) => {
+        console.error(err);
+        return null;
+      },
+    );
+};
+
+export const deleteSubcategory = (id: string): ApiResponse<Category> => {
+  const requestExtension = `/api/admin/subcategories/${id}`;
   return instance
     .delete(requestExtension, {
       headers: {

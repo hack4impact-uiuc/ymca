@@ -1,9 +1,5 @@
 // @flow
 
-/*
-TODO: Implement phoneType into form.
-*/
-
 import React from 'react';
 import '../css/ResourcePhoneNumberForm.css';
 import { Form } from '@ant-design/compatible';
@@ -15,18 +11,17 @@ const FinancialAidForm = Form.create({ name: 'financialAid' })((props) => {
 
   const { getFieldDecorator, getFieldValue } = props.form;
 
+  const onSubmit = () => {
+    setFinancialAidDetails({
+      education: getFieldValue('education'),
+      immigrationStatus: getFieldValue('immigrationStatus'),
+      deadline: getFieldValue('deadline'),
+      amount: getFieldValue('amount'),
+    });
+  };
+
   return (
-    <Form
-      className="financial-aid-form"
-      onSubmit={() => {
-        setFinancialAidDetails({
-          education: getFieldValue('education'),
-          immigrationStatus: getFieldValue('immigrationStatus'),
-          deadline: getFieldValue('deadline'),
-          amount: getFieldValue('amount'),
-        });
-      }}
-    >
+    <Form className="financial-aid-form">
       <Form.Item>
         {getFieldDecorator(
           'education',
@@ -81,9 +76,11 @@ const FinancialAidForm = Form.create({ name: 'financialAid' })((props) => {
       </Form.Item>
       <Button
         type="primary"
-        htmlType="submit"
         className="financial-aid-form form-btn"
-        onClick={() => setTotalSubmitEnabled(false)}
+        onClick={() => {
+          setTotalSubmitEnabled(false);
+          onSubmit();
+        }}
       >
         Add Financial Aid Details
       </Button>

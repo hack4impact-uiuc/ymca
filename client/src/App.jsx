@@ -8,7 +8,7 @@ import {
   Redirect,
 } from 'react-router-dom';
 import { IntlProvider } from 'react-intl';
-
+import Loader from 'react-loader-spinner';
 import PrivateRoute from './components/PrivateRoute';
 import Footer from './components/Footer';
 import Navigation from './components/Navigation';
@@ -45,11 +45,6 @@ const App = (): React$Element<React$FragmentType> => {
       if (res && res.result) {
         newMessages = res.result.messages;
       }
-      // if (res) {
-      //   res.result.forEach((id) => {
-      //     newMessages[id] = res.result[id];
-      //   });
-      // }
       setMessages(newMessages);
     };
     fetchTranslations();
@@ -74,16 +69,6 @@ const App = (): React$Element<React$FragmentType> => {
     [authRoleIsEquivalentTo, authed],
   );
 
-  // query messages from backend based on locale/language
-  // may have to keep english translations for consistency with defaultMessage
-  // const messagesEnglish = {
-  //   homeWelcome: 'Welcome to Urbana-Champaign',
-  // };
-
-  // const messagesSpanish = {
-  //   homeWelcome: 'Bienvenidos a Urbana-Champaign',
-  // };
-
   return (
     <IntlProvider
       messages={messages}
@@ -92,7 +77,20 @@ const App = (): React$Element<React$FragmentType> => {
       <Router>
         <ScrollToTop />
         <Navigation setLanguage={setLanguage} />
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense
+          fallback={
+            <Loader
+              className="app-loader"
+              type="Circles"
+              color="#6A3E9E"
+              height={100}
+              width={100}
+              style={{
+                textAlign: 'center',
+              }}
+            />
+          }
+        >
           <Switch>
             <Route path="/" exact component={Home} />
             <PrivateRoute

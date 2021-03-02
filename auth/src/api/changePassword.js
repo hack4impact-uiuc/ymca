@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const { check, validationResult } = require("express-validator/check");
 const { sendResponse } = require("../utils/sendResponse");
 const { sendPasswordChangeEmail } = require("../utils/sendMail");
