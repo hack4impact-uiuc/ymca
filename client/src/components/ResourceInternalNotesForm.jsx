@@ -81,13 +81,7 @@ const InternalNotesForm = Form.create({ name: 'internalNotes' })(
                 whitespace: true,
               },
             ],
-          })(
-            <Input
-              placeholder="Subject"
-              // eslint-disable-next-line @hack4impact-uiuc/no-null-ternary
-              defaultValue={!editNote == null ? editNote.body : null}
-            />,
-          )}
+          })(<Input placeholder="Subject" defaultValue={editNote?.subject} />)}
         </Form.Item>
         <Form.Item>
           {getFieldDecorator('body', {
@@ -107,7 +101,7 @@ const InternalNotesForm = Form.create({ name: 'internalNotes' })(
                 If letter from immigration authority in chicago most 
                 likely deportation proceedings. 
                 No one really in the area does this."
-              defaultValue={!editNote == null && editNote.body}
+              defaultValue={editNote?.body}
             />,
           )}
         </Form.Item>
