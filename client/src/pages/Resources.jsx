@@ -197,7 +197,8 @@ function Resources({
         (costMap[cost].includes(resource.cost) || cost === 'Free - $$$') &&
         (resource.availableLanguages?.includes(language) ||
           language === 'All') &&
-        (resource.city === location || location === 'All / Champaign County'),
+        (resource.city.toLowerCase() === location.toLowerCase() ||
+          location === 'All / Champaign County'),
     );
 
     setFilteredResources(newFilteredResources);
