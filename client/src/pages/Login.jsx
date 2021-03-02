@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Form } from '@ant-design/compatible';
 import '@ant-design/compatible/assets/index.css';
-import { Button, Checkbox, Input, Row, Col } from 'antd';
+import { Button, Input, Row, Col } from 'antd';
 import 'antd/dist/antd.css';
 import '../css/LoginRegister.css';
 
@@ -87,23 +87,15 @@ function Login(props: Props) {
         </Form.Item>
         <div className="red-text">{error}</div>
         <Form.Item>
-          {getFieldDecorator('remember', {
-            valuePropName: 'checked',
-            initialValue: true,
-          })(
-            <Checkbox className="form-checkbox">
-              <div className="white-text">Remember me</div>
-            </Checkbox>,
-          )}
-          <Link className="form-forgot" to="/password-reset">
-            Forgot password
-          </Link>
           <Button type="primary" htmlType="submit" className="form-button">
             Log In
           </Button>
           <div className="white-text">Don&#39;t have an account?</div>{' '}
           <Link className="link-now" to="/register">
             Register Now!
+          </Link>
+          <Link className="form-forgot" to="/password-reset">
+            Forgot password?
           </Link>
         </Form.Item>
       </Form>
