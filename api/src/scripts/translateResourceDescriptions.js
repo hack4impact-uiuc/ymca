@@ -57,15 +57,15 @@ resourceDescriptions.forEach(function (resource) {
   var source =
     `https://www.googleapis.com/language/translate/v2?key=${apiKey}&source=en&target=${language}&callback=translateText&q=` +
     descriptionText;
-  async (body) => {
-    const { resourceDescriptions } = body;
+  async () => {
     const res = await fetch(source, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        resourceDescriptions,
+        q: descriptionText,
+        target: languageType,
       }),
     });
     return translatedResourceDescriptions.set(
