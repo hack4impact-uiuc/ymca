@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Layout, Drawer, Button, Menu, Dropdown } from 'antd';
-import { MenuOutlined } from '@ant-design/icons';
+import { MenuOutlined, DownOutlined } from '@ant-design/icons';
 
 import useWindowDimensions from '../utils/mobile';
 import { useAuth } from '../utils/use-auth';
@@ -18,14 +18,28 @@ const Navigation = () => {
 };
 
 const languages = (
-  <>
-    <Menu>
-      <Menu.Item key="English"> English </Menu.Item>
-      <Menu.Item key="Spanish"> Español </Menu.Item>
-      <Menu.Item key="French"> Français </Menu.Item>
-      <Menu.Item key="Chinese"> 中文 </Menu.Item>
-    </Menu>
-  </>
+  <Menu>
+    <Menu.Item key="English">
+      <a target="_blank" rel="noopener noreferrer" href="https://www.hi.com">
+        English
+      </a>
+    </Menu.Item>
+    <Menu.Item key="Spanish">
+      <a target="_blank" rel="noopener noreferrer" href="https://www.hi.com">
+        Español
+      </a>
+    </Menu.Item>
+    <Menu.Item key="French">
+      <a target="_blank" rel="noopener noreferrer" href="https://www.hi.com">
+        Français
+      </a>
+    </Menu.Item>
+    <Menu.Item key="Chinese">
+      <a target="_blank" rel="noopener noreferrer" href="https://www.hi.com">
+        中文
+      </a>
+    </Menu.Item>
+  </Menu>
 );
 
 const NavDesktop = () => {
@@ -93,9 +107,11 @@ const NavDesktop = () => {
             </NavLink>
           </Menu.Item>
         )}
-        <Menu.Item key="languages">
-          <Dropdown overlay={languages}> Languages </Dropdown>
-        </Menu.Item>
+        <Dropdown overlay={languages}>
+          <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
+            English <DownOutlined />
+          </a>
+        </Dropdown>
       </Menu>
     </Header>
   );
