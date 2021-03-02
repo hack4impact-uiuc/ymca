@@ -32,7 +32,7 @@ mongoose.connection
  * Step 1: Get the descriptions of every Resource in our database
  */
 // Change this to get just the descriptions and their associated resource `_id` - so we have an array of objects with fields _id and description
-const resourceDescriptions = Resource.find({});
+const resourceDescriptions = Resource.find({}, { _id: 1, description: 1 });
 
 /**
  * Step 2: Call the Google API to translate those descriptions to the target language
@@ -47,7 +47,33 @@ const resourceDescriptions = Resource.find({});
  * For now, you can go ahead and write this code, but I'll supply the API key later (basically, I don't want to waste API credits) - to test Step 3,
  * you can mock out the resultant data to feed into Step 3
  */
-const language = process.argv.slice(2)[0]; // the language specified in the argument when running the script - the "target" argument in the POST request
+const apiKey = '';
+// map ids of resources to translated descriptions
+var translatedResourceDescriptions = new Map();
+const languageType = process.argv.slice(2)[0]; // the language specified in the argument when running the script - the "target" argument in the POST request
+resourceDescriptions.forEach(function (resource) {
+  var id = resource._id;
+  var descriptionText = resource.description;
+  var source =
+    `https://www.googleapis.com/language/translate/v2?key=${apiKey}&source=en&target=${language}&callback=translateText&q=` +
+    descriptionText;
+  async (body) => {
+    const { resourceDescriptions } = body;
+    const res = await fetch(source, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        resourceDescriptions,
+      }),
+    });
+    return translatedResourceDescriptions.set(
+      id,
+      res.json().body.data.translations[0].translatedText, // store translated descriptions with id
+    );
+  };
+});
 
 /**
  * Step 3: Store those translations back into our database
@@ -66,4 +92,35 @@ const language = process.argv.slice(2)[0]; // the language specified in the argu
  * We want to loop over our results from Step 2, and enter all of those into our database in the format above ^
  */
 
+var messagesMap = new Map();
+// store all descriptions with ids in messages map
+Object.keys(translatedResourceDescriptions).forEach(function (id) {
+  var messageKey = 'resource-description-' + id;
+  var messageValue = translatedResourceDescriptions.get(id);
+  messages.set(messageKey, messageValue);
+});
+
+var translation = new Translation({
+  language: languageType,
+  messages: messagesMap,
+});
+
 // Here we can use some update function on our model `Translation` (already imported) - you can look at the PUT request for /translation in api/admin.js for how to do this
+const AUTH_SERVER_URI = 'https://nawc-staging.vercel.app/auth';
+
+export const saveTranslation = () =>
+  fetch(`${AUTH_SERVER_URI}/api/admin/translation`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      token: localStorage.getItem('token'),
+    },
+    body: JSON.stringify({
+      translationMessage: translation,
+    }),
+  })
+    .then((res) => res.json())
+    .catch((err) => {
+      console.err(err);
+      return null;
+    });
