@@ -95,7 +95,7 @@ function Login(props: Props) {
             Register Now!
           </Link>
           <Link className="form-forgot" to="/password-reset">
-            Forgot password
+            Forgot password?
           </Link>
         </Form.Item>
       </Form>
