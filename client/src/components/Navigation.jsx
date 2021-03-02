@@ -20,7 +20,6 @@ const Navigation = () => {
 const NavDesktop = () => {
   const { authed, authRoleIsEquivalentTo } = useAuth();
 
-  // I will modify this list of tabs
   return (
     <Header className="nav-desktop">
       <NavLink exact to="/" aria-label="logo">
@@ -50,22 +49,6 @@ const NavDesktop = () => {
           <Menu.Item key="admin">
             <NavLink to="/admin" activeClassName="navbar-active-style">
               Admin
-            </NavLink>
-          </Menu.Item>
-        )}
-
-        {authRoleIsEquivalentTo('admin') && (
-          <Menu.Item key="edit-home">
-            <NavLink to="/edit-home" activeClassName="navbar-active-style">
-              Edit Home
-            </NavLink>
-          </Menu.Item>
-        )}
-
-        {authRoleIsEquivalentTo('admin') && (
-          <Menu.Item key="approval">
-            <NavLink to="/role-approval" activeClassName="navbar-active-style">
-              Users
             </NavLink>
           </Menu.Item>
         )}
@@ -156,20 +139,6 @@ const NavMobile = () => {
               <Menu.Item className="nav-mobile-menu-item">
                 <NavLink className="nav-mobile-option" to="/admin">
                   Admin
-                </NavLink>
-              </Menu.Item>
-            )}
-            {authRoleIsEquivalentTo('admin') && (
-              <Menu.Item className="nav-mobile-menu-item">
-                <NavLink className="nav-mobile-option" to="/edit-home">
-                  Edit Home
-                </NavLink>
-              </Menu.Item>
-            )}
-            {authRoleIsEquivalentTo('admin') && (
-              <Menu.Item className="nav-mobile-menu-item">
-                <NavLink className="nav-mobile-option" to="/role-approval">
-                  Users
                 </NavLink>
               </Menu.Item>
             )}
