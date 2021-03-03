@@ -57,22 +57,16 @@ resourceDescriptions.forEach(function (resource) {
   var source =
     `https://www.googleapis.com/language/translate/v2?key=${apiKey}&source=en&target=${language}&callback=translateText&q=` +
     descriptionText;
-  async () => {
-    const res = await fetch(source, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        q: descriptionText,
-        target: languageType,
-      }),
-    });
-    return translatedResourceDescriptions.set(
-      id,
-      res.json().body.data.translations[0].translatedText, // store translated descriptions with id
-    );
-  };
+  fetch(source, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  return translatedResourceDescriptions.set(
+    id,
+    res.json().body.data.translations[0].translatedText, // store translated descriptions with id
+  );
 });
 
 /**
@@ -95,32 +89,32 @@ resourceDescriptions.forEach(function (resource) {
 var messagesMap = new Map();
 // store all descriptions with ids in messages map
 Object.keys(translatedResourceDescriptions).forEach(function (id) {
-  var messageKey = 'resource-description-' + id;
-  var messageValue = translatedResourceDescriptions.get(id);
-  messages.set(messageKey, messageValue);
-});
-
-var translation = new Translation({
-  language: languageType,
-  messages: messagesMap,
+  messages.set(
+    `resource-description-${id}`,
+    translatedResourceDescriptions.get(id),
+  );
 });
 
 // Here we can use some update function on our model `Translation` (already imported) - you can look at the PUT request for /translation in api/admin.js for how to do this
 const AUTH_SERVER_URI = 'https://nawc-staging.vercel.app/auth';
 
-export const saveTranslation = () =>
-  fetch(`${AUTH_SERVER_URI}/api/admin/translation`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      token: localStorage.getItem('token'),
-    },
-    body: JSON.stringify({
-      translationMessage: translation,
+Object.keys(messagesMap).forEach(function (key) {
+  router.put(
+    '/translation',
+    errorWrap(async () => {
+      const updatedTranslation = await Translation.findOne({
+        language: { $eq: languageType },
+      });
+      updatedTranslation.messages.set(key, messagesMap.get(key));
+      await updatedTranslation.save();
+      res.json({
+        code: 200,
+        message: `Successfully added ${language} translation for ${key}`,
+        success: true,
+        result: updatedTranslation,
+      });
     }),
-  })
-    .then((res) => res.json())
-    .catch((err) => {
-      console.err(err);
-      return null;
-    });
+  );
+});
+
+module.exports = router;
