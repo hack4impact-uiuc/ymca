@@ -32,7 +32,10 @@ const AdminResourceManager = (props: Props): React$Element<'div'> => {
 
       <div style={{ margin: '2%' }}>
         <Tabs defaultActiveKey="1">
-          <TabPane tab="Add Resource" key="1">
+          <TabPane
+            tab={match.params.id ? 'Edit Resource' : 'Add Resource'}
+            key="1"
+          >
             <ResourceForm id={match.params.id} />
           </TabPane>
           <TabPane tab="Edit Home" key="2">
