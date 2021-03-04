@@ -14,7 +14,6 @@ import Navigation from './components/Navigation';
 import ScrollToTop from './components/ScrollToTop';
 import { useAuth } from './utils/use-auth';
 
-const EditHome = lazy(() => import('./pages/EditHome'));
 const Home = lazy(() => import('./pages/Home'));
 const Login = lazy(() => import('./pages/Login'));
 const Logout = lazy(() => import('./pages/Logout'));
@@ -23,7 +22,6 @@ const PasswordReset = lazy(() => import('./pages/PasswordReset'));
 const Register = lazy(() => import('./pages/Register'));
 const Resources = lazy(() => import('./pages/Resources'));
 const ResourceUnknown = lazy(() => import('./pages/ResourceUnknown'));
-const RoleApproval = lazy(() => import('./pages/RoleApproval'));
 const SavedResources = lazy(() => import('./pages/SavedResources'));
 const ResourceDetailCommon = lazy(() =>
   import('./components/ResourceDetailCommon'),
@@ -85,12 +83,6 @@ const App = (): React$Element<React$FragmentType> => {
               component={AdminResourceManager}
               minRole="admin"
             />
-            <PrivateRoute
-              path="/edit-home"
-              component={EditHome}
-              exact
-              minRole="admin"
-            />
 
             <Route
               path="/saved"
@@ -116,11 +108,6 @@ const App = (): React$Element<React$FragmentType> => {
               render={(props) => <Resources {...props} />}
             />
             <Route path="/resources/unknown" component={ResourceUnknown} />
-            <PrivateRoute
-              path="/role-approval"
-              component={RoleApproval}
-              minRole="admin"
-            />
             <Route
               path="/resources/:id"
               render={(props) => <ResourceDetailCommon {...props} />}
