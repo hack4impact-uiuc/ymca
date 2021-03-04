@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Form } from '@ant-design/compatible';
 import '@ant-design/compatible/assets/index.css';
-import { Button, message, Layout, Carousel } from 'antd';
+import { Button, message, Layout, Carousel, Row } from 'antd';
 
 import { addResource, editResource, getResourceByID } from '../utils/api';
 
@@ -13,6 +13,7 @@ import FormCarousel from './ResourceFormCarousel';
 import '../css/ResourceForm.css';
 
 const { Content } = Layout;
+const { Header } = Layout;
 
 const onSubmitNewResourceForm = async (e, enabled, id, resource) => {
   e.preventDefault();
@@ -160,6 +161,11 @@ const ResourceForm = (props: FormProps) => {
 
   return (
     <Layout className="resource-form-layout">
+      <Header className="header">
+        <Row justify="center" type="flex">
+          <h2>{id ? 'Edit a Resource' : 'Add a Resource'}</h2>
+        </Row>
+      </Header>
       <Content className="content">
         <Carousel ref={formLabelRef} className="form-label" dots={false}>
           {createCarouselCategories()}
