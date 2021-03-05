@@ -65,22 +65,6 @@ const NavDesktop = (props: NavigationProps) => {
           </Menu.Item>
         )}
 
-        {authRoleIsEquivalentTo('admin') && (
-          <Menu.Item key="edit-home">
-            <NavLink to="/edit-home" activeClassName="navbar-active-style">
-              Edit Home
-            </NavLink>
-          </Menu.Item>
-        )}
-
-        {authRoleIsEquivalentTo('admin') && (
-          <Menu.Item key="approval">
-            <NavLink to="/role-approval" activeClassName="navbar-active-style">
-              Users
-            </NavLink>
-          </Menu.Item>
-        )}
-
         {!authed ? (
           <Menu.Item key="login">
             <NavLink to="/login" activeClassName="navbar-active-style">
@@ -170,20 +154,6 @@ const NavMobile = (props: NavigationProps) => {
               <Menu.Item className="nav-mobile-menu-item">
                 <NavLink className="nav-mobile-option" to="/admin">
                   Admin
-                </NavLink>
-              </Menu.Item>
-            )}
-            {authRoleIsEquivalentTo('admin') && (
-              <Menu.Item className="nav-mobile-menu-item">
-                <NavLink className="nav-mobile-option" to="/edit-home">
-                  Edit Home
-                </NavLink>
-              </Menu.Item>
-            )}
-            {authRoleIsEquivalentTo('admin') && (
-              <Menu.Item className="nav-mobile-menu-item">
-                <NavLink className="nav-mobile-option" to="/role-approval">
-                  Users
                 </NavLink>
               </Menu.Item>
             )}

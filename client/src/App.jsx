@@ -16,7 +16,6 @@ import ScrollToTop from './components/ScrollToTop';
 import { useAuth } from './utils/use-auth';
 import { getTranslationByLanguage } from './utils/api';
 
-const EditHome = lazy(() => import('./pages/EditHome'));
 const Home = lazy(() => import('./pages/Home'));
 const Login = lazy(() => import('./pages/Login'));
 const Logout = lazy(() => import('./pages/Logout'));
@@ -25,7 +24,6 @@ const PasswordReset = lazy(() => import('./pages/PasswordReset'));
 const Register = lazy(() => import('./pages/Register'));
 const Resources = lazy(() => import('./pages/Resources'));
 const ResourceUnknown = lazy(() => import('./pages/ResourceUnknown'));
-const RoleApproval = lazy(() => import('./pages/RoleApproval'));
 const SavedResources = lazy(() => import('./pages/SavedResources'));
 const ResourceDetailCommon = lazy(() =>
   import('./components/ResourceDetailCommon'),
@@ -47,7 +45,7 @@ const App = (): React$Element<React$FragmentType> => {
 
   useEffect(() => {
     const fetchTranslations = async () => {
-      if (language == 'English') {
+      if (language === 'English') {
         setMessages({});
       } else {
         const res = await getTranslationByLanguage(language);
@@ -110,17 +108,6 @@ const App = (): React$Element<React$FragmentType> => {
             <PrivateRoute
               path="/admin/:id"
               component={AdminResourceManager}
-              minRole="admin"
-            />
-            <PrivateRoute
-              path="/edit-home"
-              component={EditHome}
-              exact
-              minRole="admin"
-            />
-            <PrivateRoute
-              path="/role-approval"
-              component={RoleApproval}
               minRole="admin"
             />
             <Route
