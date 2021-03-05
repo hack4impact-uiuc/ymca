@@ -84,7 +84,13 @@ a::after {
   position: relative;
   line-height: 28px;
   bottom: 8px;
+  right: 8px;
   font-size: 16px;
+}
+
+.globe {
+  position: relative;
+  bottom: 8px;
 }
 
 .ant-dropdown-link > .ant-menu-item > .navbar-active-style::after {

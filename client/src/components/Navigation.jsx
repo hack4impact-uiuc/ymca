@@ -23,12 +23,6 @@ const IconFont = createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/font_2401207_g448of2t16e.js',
 });
 
-const globe = (
-  <>
-    <IconFont type="icon-globe" />
-  </>
-);
-
 const NavDesktop = () => {
   const { authed, authRoleIsEquivalentTo } = useAuth();
 
@@ -94,12 +88,14 @@ const NavDesktop = () => {
             </NavLink>
           </Menu.Item>
         )}
-        <Select
-          className="languages"
-          defaultValue="English"
-          bordered={false}
-          suffixIcon={globe}
-        >
+        <img
+          src="/asset/icon/globe.svg"
+          className="globe"
+          alt="Globe"
+          height="18"
+          width="18"
+        />
+        <Select className="languages" defaultValue="English" bordered={false}>
           <Option value="English">English</Option>
           <Option value="Spanish">Español</Option>
           <Option value="French">Français</Option>
