@@ -80,6 +80,22 @@ a::after {
   text-align: center;
 }
 
+.languages {
+  position: relative;
+  line-height: 28px;
+  bottom: 8px;
+  font-size: 16px;
+}
+
+.ant-dropdown-link > .ant-menu-item > .navbar-active-style::after {
+  position: absolute;
+  border-bottom: 3px solid #6bdbd0;
+  width: 100%;
+  content: '';
+  bottom: -3px;
+  text-align: center;
+}
+
 .nav-mobile {
   z-index: 30;
   background: white;

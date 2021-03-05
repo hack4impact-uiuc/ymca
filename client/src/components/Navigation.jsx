@@ -2,8 +2,8 @@
 
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Layout, Drawer, Button, Menu, Dropdown } from 'antd';
-import { MenuOutlined, DownOutlined } from '@ant-design/icons';
+import { Layout, Drawer, Button, Menu, Select } from 'antd';
+import { MenuOutlined, createFromIconfontCN } from '@ant-design/icons';
 
 import useWindowDimensions from '../utils/mobile';
 import { useAuth } from '../utils/use-auth';
@@ -17,29 +17,16 @@ const Navigation = () => {
   return isMobile ? <NavMobile /> : <NavDesktop />;
 };
 
-const languages = (
-  <Menu>
-    <Menu.Item key="English">
-      <a target="_blank" rel="noopener noreferrer" href="https://www.hi.com">
-        English
-      </a>
-    </Menu.Item>
-    <Menu.Item key="Spanish">
-      <a target="_blank" rel="noopener noreferrer" href="https://www.hi.com">
-        Español
-      </a>
-    </Menu.Item>
-    <Menu.Item key="French">
-      <a target="_blank" rel="noopener noreferrer" href="https://www.hi.com">
-        Français
-      </a>
-    </Menu.Item>
-    <Menu.Item key="Chinese">
-      <a target="_blank" rel="noopener noreferrer" href="https://www.hi.com">
-        中文
-      </a>
-    </Menu.Item>
-  </Menu>
+const { Option } = Select;
+
+const IconFont = createFromIconfontCN({
+  scriptUrl: '//at.alicdn.com/t/font_2401207_g448of2t16e.js',
+});
+
+const globe = (
+  <>
+    <IconFont type="icon-globe" />
+  </>
 );
 
 const NavDesktop = () => {
@@ -107,11 +94,17 @@ const NavDesktop = () => {
             </NavLink>
           </Menu.Item>
         )}
-        <Dropdown overlay={languages}>
-          <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
-            English <DownOutlined />
-          </a>
-        </Dropdown>
+        <Select
+          className="languages"
+          defaultValue="English"
+          bordered={false}
+          suffixIcon={globe}
+        >
+          <Option value="English">English</Option>
+          <Option value="Spanish">Español</Option>
+          <Option value="French">Français</Option>
+          <Option value="Chinese">中文</Option>
+        </Select>
       </Menu>
     </Header>
   );
