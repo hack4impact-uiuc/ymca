@@ -60,7 +60,10 @@ export const HomeBlock1Desktop = ({
       align="middle"
     >
       <Col className="welcome-text">
-        <FormattedMessage id="homeWelcome" defaultMessage="default welcome" />
+        <FormattedMessage
+          id="homeWelcome"
+          defaultMessage="Welcome to Urbana-Champaign"
+        />
         {categories && categories.length > 0 ? (
           <Row type="flex">
             <h1 className="welcome-text-bold">
@@ -85,7 +88,7 @@ export const HomeBlock1Desktop = ({
                         className="welcome-text-link"
                       >
                         <FormattedMessage
-                          id={`category-${idx}`}
+                          id={`category-${category}`.replace(/\s/g, '')}
                           defaultMessage={category}
                         />
                       </Link>

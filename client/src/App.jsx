@@ -38,14 +38,25 @@ const App = (): React$Element<React$FragmentType> => {
   const [language, setLanguage] = useState('English');
   const [messages, setMessages] = useState({});
 
+  const localeDict = {
+    English: 'en',
+    Spanish: 'es',
+    French: 'fr',
+    Chinese: 'zh',
+  };
+
   useEffect(() => {
     const fetchTranslations = async () => {
-      const res = await getTranslationByLanguage(language);
-      let newMessages = {};
-      if (res && res.result) {
-        newMessages = res.result.messages;
+      if (language == 'English') {
+        setMessages({});
+      } else {
+        const res = await getTranslationByLanguage(language);
+        let newMessages = {};
+        if (res && res.result) {
+          newMessages = res.result.messages;
+        }
+        setMessages(newMessages);
       }
-      setMessages(newMessages);
     };
     fetchTranslations();
   }, [language, setMessages]);
@@ -70,10 +81,7 @@ const App = (): React$Element<React$FragmentType> => {
   );
 
   return (
-    <IntlProvider
-      messages={messages}
-      // locale={locale}
-    >
+    <IntlProvider messages={messages} locale={localeDict[language]}>
       <Router>
         <ScrollToTop />
         <Navigation setLanguage={setLanguage} />
