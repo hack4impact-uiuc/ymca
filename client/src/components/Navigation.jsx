@@ -19,10 +19,6 @@ const Navigation = () => {
 
 const { Option } = Select;
 
-const IconFont = createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/font_2401207_g448of2t16e.js',
-});
-
 const NavDesktop = () => {
   const { authed, authRoleIsEquivalentTo } = useAuth();
 
