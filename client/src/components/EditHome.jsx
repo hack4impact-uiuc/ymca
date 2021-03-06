@@ -11,8 +11,6 @@ import '../css/EditHome.css';
 
 const rules = [{ required: true }];
 
-const { Header } = Layout;
-
 type UploadedTestimonial = {
   fieldKey: number,
   key: number,
@@ -258,11 +256,6 @@ const EditHome = (): React$Element<any> => {
 
   return (
     <Layout className="edit-home-form-layout">
-      <Header className="header">
-        <Row justify="center" type="flex">
-          <h2>Edit the Home Page</h2>
-        </Row>
-      </Header>
       <Form form={form} onFinish={onFinish} className="edit-home-form">
         <h3>Background Image</h3>
         <Row type="flex">
