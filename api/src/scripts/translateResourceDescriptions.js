@@ -43,19 +43,7 @@ async function main() {
     {},
     { _id: 1, description: 1 },
   );
-  /**
-   * Step 2: Call the Google API to translate those descriptions to the target language
-   *
-   * Essentially we want to feed in our array from step 1 into the google API, and save an array of objects with fields _id and translated text
-   *
-   * https://cloud.google.com/translate/docs/reference/rest/v2/translate - this is the POST request we want
-   * We can make the POST request using `fetch` - you can look in client/src/utils/auth.js for examples
-   * Make sure to specify the `source` as "en"
-   * https://stackoverflow.com/questions/35139572/sample-code-for-google-translate-api - this may help on how to format the request URL
-   *
-   * For now, you can go ahead and write this code, but I'll supply the API key later (basically, I don't want to waste API credits) - to test Step 3,
-   * you can mock out the resultant data to feed into Step 3
-   */
+
   const apiKey = '';
   // map ids of resources to translated descriptions
   var translatedResourceDescriptions = new Map();
@@ -80,44 +68,7 @@ async function main() {
       responseJSON.data.translations[0].translatedText,
     );
   }
-  /*await resourceDescriptions.forEach(async function (resource) {
-    var id = resource._id;
-    var descriptionText = resource.description;
-    var source =
-      `https://www.googleapis.com/language/translate/v2?key=${apiKey}&source=en&target=${languageType}&callback=translateText&q=` +
-      descriptionText;
-    const res = await fetch(source, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    const responseJSON = await res.json();
-    translatedResourceDescriptions.set(
-      `resource-description-${id}`,
-      responseJSON.data.translations[0].translatedText,
-    );
-  }); */
   console.log(translatedResourceDescriptions);
-
-  //body.data.translations[0].translatedText
-  /**
-   * Step 3: Store those translations back into our database
-   *
-   * You can look at our model for a translation - essentially, a "Translation" has a field "language" and then a field "messages" which is a Map of strings to other strings
-   * This is the "message ID" to its translation, so for example, if a resource had _id "1234", and translation "hola" for its description, after entering that into our db,
-   * the resulting db entry might look like:
-   * {
-   *  language: "es",
-   *  messages: {
-   *      "resource-description-6789": "gracias",
-   *      "resource-description-1234": "hola"
-   *  }
-   * }
-   *
-   * We want to loop over our results from Step 2, and enter all of those into our database in the format above ^
-   */
-  // Here we can use some update function on our model `Translation` (already imported) - you can look at the PUT request for /translation in api/admin.js for how to do this
 
   const updatedTranslation = await Translation.findOne({
     language: { $eq: myDictionary[languageType] },
