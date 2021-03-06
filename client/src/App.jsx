@@ -7,13 +7,13 @@ import {
   Switch,
   Redirect,
 } from 'react-router-dom';
+import Loader from 'react-loader-spinner';
 import PrivateRoute from './components/PrivateRoute';
 import Footer from './components/Footer';
 import Navigation from './components/Navigation';
 import ScrollToTop from './components/ScrollToTop';
 import { useAuth } from './utils/use-auth';
 
-const EditHome = lazy(() => import('./pages/EditHome'));
 const Home = lazy(() => import('./pages/Home'));
 const Login = lazy(() => import('./pages/Login'));
 const Logout = lazy(() => import('./pages/Logout'));
@@ -22,7 +22,6 @@ const PasswordReset = lazy(() => import('./pages/PasswordReset'));
 const Register = lazy(() => import('./pages/Register'));
 const Resources = lazy(() => import('./pages/Resources'));
 const ResourceUnknown = lazy(() => import('./pages/ResourceUnknown'));
-const RoleApproval = lazy(() => import('./pages/RoleApproval'));
 const SavedResources = lazy(() => import('./pages/SavedResources'));
 const ResourceDetailCommon = lazy(() =>
   import('./components/ResourceDetailCommon'),
@@ -57,7 +56,20 @@ const App = (): React$Element<React$FragmentType> => {
       <Router>
         <ScrollToTop />
         <Navigation />
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense
+          fallback={
+            <Loader
+              className="app-loader"
+              type="Circles"
+              color="#6A3E9E"
+              height={100}
+              width={100}
+              style={{
+                textAlign: 'center',
+              }}
+            />
+          }
+        >
           <Switch>
             <Route path="/" exact component={Home} />
             <PrivateRoute
@@ -69,12 +81,6 @@ const App = (): React$Element<React$FragmentType> => {
             <PrivateRoute
               path="/admin/:id"
               component={AdminResourceManager}
-              minRole="admin"
-            />
-            <PrivateRoute
-              path="/edit-home"
-              component={EditHome}
-              exact
               minRole="admin"
             />
 
@@ -102,11 +108,6 @@ const App = (): React$Element<React$FragmentType> => {
               render={(props) => <Resources {...props} />}
             />
             <Route path="/resources/unknown" component={ResourceUnknown} />
-            <PrivateRoute
-              path="/role-approval"
-              component={RoleApproval}
-              minRole="admin"
-            />
             <Route
               path="/resources/:id"
               render={(props) => <ResourceDetailCommon {...props} />}

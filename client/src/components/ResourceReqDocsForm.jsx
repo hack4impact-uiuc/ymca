@@ -37,7 +37,7 @@ const StrForm = (props: FormProps) => {
   }, [getFieldValue, setListOfStrings, setFieldsValue, listOfStrings]);
 
   return (
-    <Form onSubmit={onSubmit}>
+    <Form>
       <Form.Item>
         {getFieldDecorator('requiredDocuments', {
           rules: [
@@ -52,8 +52,10 @@ const StrForm = (props: FormProps) => {
       <Button
         type="primary"
         className="form-btn"
-        htmlType="submit"
-        onClick={() => setTotalSubmitEnabled(false)}
+        onClick={() => {
+          setTotalSubmitEnabled(false);
+          onSubmit();
+        }}
       >
         Add
       </Button>
