@@ -7,6 +7,7 @@ import '../css/AdminResourceManager.css';
 import ResourceForm from '../components/ResourceForm';
 import EditHome from '../components/EditHome';
 import RoleApproval from '../components/RoleApproval';
+import ModalView from '../components/ModalView';
 
 const { Header } = Layout;
 const { TabPane } = Tabs;
@@ -48,6 +49,21 @@ const AdminResourceManager = (props: Props): React$Element<'div'> => {
             Manage Resources
           </TabPane>
         </Tabs>
+      </div>
+      <div>
+        <ModalView isAddCategory={true} isDeleteCategory={false}>
+          {' '}
+        </ModalView>
+      </div>
+      <div>
+        <ModalView isAddCategory={false} isDeleteCategory={true}>
+          {' '}
+        </ModalView>
+      </div>
+      <div>
+        <ModalView isAddCategory={false} isDeleteCategory={false}>
+          {' '}
+        </ModalView>
       </div>
     </div>
   );
