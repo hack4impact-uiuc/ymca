@@ -81,7 +81,7 @@ export const HomeBlock1Desktop = ({
                 autoplaySpeed={3000}
               >
                 {categories.map(
-                  (category, idx) =>
+                  (category) =>
                     category !== 'Other' && (
                       <Link
                         to={`/resources?category=${category}`}
