@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { Tabs, Layout, Row } from 'antd';
+import { Tabs, Layout, Row, Button } from 'antd';
 
 import '../css/AdminResourceManager.css';
 import ResourceForm from '../components/ResourceForm';
@@ -51,19 +51,13 @@ const AdminResourceManager = (props: Props): React$Element<'div'> => {
         </Tabs>
       </div>
       <div>
-        <ModalView isAddCategory={true} isDeleteCategory={false}>
-          {' '}
-        </ModalView>
+        <ModalView modalType="add"> </ModalView>
       </div>
       <div>
-        <ModalView isAddCategory={false} isDeleteCategory={true}>
-          {' '}
-        </ModalView>
+        <ModalView modalType="delete"> </ModalView>
       </div>
       <div>
-        <ModalView isAddCategory={false} isDeleteCategory={false}>
-          {' '}
-        </ModalView>
+        <ModalView modalType="rename"> </ModalView>
       </div>
     </div>
   );

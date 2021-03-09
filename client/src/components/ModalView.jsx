@@ -6,12 +6,12 @@ import { Modal, Button, Space, Input } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 type ModalProps = {
-  isAddCategory: boolean,
-  isDeleteCategory: boolean,
+  modalType: 'add' | 'delete' | 'rename',
 };
 
 function ModalView(props: ModalProps) {
-  const { isAddCategory, isDeleteCategory } = props;
+  // const { isAddCategory, isDeleteCategory } = props;
+  const { modalType } = props;
 
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -39,47 +39,56 @@ function ModalView(props: ModalProps) {
     });
   }
 
-  return (
-    <>
-      {isAddCategory ? (
-        <>
-          <Button type="primary" onClick={showModal}>
-            Add Category
-          </Button>
-          <Modal
-            title="Add Category"
-            visible={isModalVisible}
-            onOk={handleOk}
-            onCancel={handleCancel}
-          >
-            <Input placeholder="New Category" />
-          </Modal>
-        </>
-      ) : (
-        <>
-          {isDeleteCategory ? (
-            <>
-              <Button onClick={DeleteCategory}>Delete Category</Button>
-            </>
-          ) : (
-            <>
-              <Button type="primary" onClick={showModal}>
-                Rename Category
-              </Button>
-              <Modal
-                title="Rename Category"
-                visible={isModalVisible}
-                onOk={handleOk}
-                onCancel={handleCancel}
-              >
-                <Input placeholder="Legal Aid" />
-              </Modal>
-            </>
-          )}
-        </>
-      )}
-    </>
-  );
+  function modal() {
+    switch (modalType) {
+      case 'add':
+        return (
+          <div>
+            <Button type="primary" onClick={showModal}>
+              Add Category
+            </Button>
+            <Modal
+              title="Add Category"
+              visible={isModalVisible}
+              onOk={handleOk}
+              onCancel={handleCancel}
+            >
+              <Input placeholder="New Category" />
+            </Modal>
+          </div>
+        );
+      case 'delete':
+        return (
+          <div>
+            <Button onClick={DeleteCategory}>Delete Category</Button>
+          </div>
+        );
+      case 'rename':
+        return (
+          <div>
+            <Button type="primary" onClick={showModal}>
+              Rename Category
+            </Button>
+            <Modal
+              title="Rename Category"
+              visible={isModalVisible}
+              onOk={handleOk}
+              onCancel={handleCancel}
+            >
+              <Input placeholder="Legal Aid" />
+            </Modal>
+          </div>
+        );
+      default:
+        return (
+          <div>
+            <h1>No component found</h1>
+          </div>
+        );
+    }
+  }
+
+  return <div>{modal()}</div>;
 }
 
 export default ModalView;
