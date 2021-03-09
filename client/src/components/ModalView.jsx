@@ -2,16 +2,22 @@
 
 import React from 'react';
 import { useState } from 'react';
-import { Modal, Button, Space, Input } from 'antd';
-import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { Modal, Button, Space, Input, icon } from 'antd';
+import {
+  CloseOutlined,
+  EditOutlined,
+  ExclamationCircleOutlined,
+} from '@ant-design/icons';
 
 type ModalProps = {
   modalType: 'add' | 'delete' | 'rename',
+  categoryType: 'subcategory' | 'category',
 };
 
 function ModalView(props: ModalProps) {
-  // const { isAddCategory, isDeleteCategory } = props;
-  const { modalType } = props;
+  const { modalType, categoryType } = props;
+  const categoryTypeCapitalized =
+    categoryType[0].toUpperCase() + categoryType.slice(1);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -29,10 +35,10 @@ function ModalView(props: ModalProps) {
 
   function DeleteCategory() {
     Modal.confirm({
-      title: 'Are you sure you want to delete this category?',
+      title: `Are you sure you want to delete this ${categoryType}?`,
       icon: <ExclamationCircleOutlined />,
       content:
-        'This will permanently delete the category,' +
+        `This will permanently delete the ${categoryType},` +
         ' and untag resources associated.',
       okText: 'Yes',
       cancelText: 'No',
@@ -44,33 +50,29 @@ function ModalView(props: ModalProps) {
       case 'add':
         return (
           <div>
-            <Button type="primary" onClick={showModal}>
-              Add Category
+            <Button type="dashed" onClick={showModal}>
+              Add {categoryTypeCapitalized}
             </Button>
             <Modal
-              title="Add Category"
+              title={`Add ${categoryTypeCapitalized}`}
               visible={isModalVisible}
               onOk={handleOk}
               onCancel={handleCancel}
             >
-              <Input placeholder="New Category" />
+              <Input placeholder={`New ${categoryTypeCapitalized}`} />
             </Modal>
           </div>
         );
       case 'delete':
-        return (
-          <div>
-            <Button onClick={DeleteCategory}>Delete Category</Button>
-          </div>
-        );
+        return <CloseOutlined onClick={DeleteCategory}> </CloseOutlined>;
       case 'rename':
         return (
           <div>
-            <Button type="primary" onClick={showModal}>
-              Rename Category
-            </Button>
+            <EditOutlined type="primary" onClick={showModal}>
+              {' '}
+            </EditOutlined>
             <Modal
-              title="Rename Category"
+              title={`Rename ${categoryTypeCapitalized}`}
               visible={isModalVisible}
               onOk={handleOk}
               onCancel={handleCancel}

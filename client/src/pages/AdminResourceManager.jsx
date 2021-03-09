@@ -51,13 +51,34 @@ const AdminResourceManager = (props: Props): React$Element<'div'> => {
         </Tabs>
       </div>
       <div>
-        <ModalView modalType="add"> </ModalView>
+        <ModalView modalType="add" categoryType="category">
+          {' '}
+        </ModalView>
       </div>
       <div>
-        <ModalView modalType="delete"> </ModalView>
+        <ModalView modalType="delete" categoryType="category">
+          {' '}
+        </ModalView>
       </div>
       <div>
-        <ModalView modalType="rename"> </ModalView>
+        <ModalView modalType="rename" categoryType="category">
+          {' '}
+        </ModalView>
+      </div>
+      <div>
+        <ModalView modalType="add" categoryType="subcategory">
+          {' '}
+        </ModalView>
+      </div>
+      <div>
+        <ModalView modalType="delete" categoryType="subcategory">
+          {' '}
+        </ModalView>
+      </div>
+      <div>
+        <ModalView modalType="rename" categoryType="subcategory">
+          {' '}
+        </ModalView>
       </div>
     </div>
   );
