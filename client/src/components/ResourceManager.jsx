@@ -1,38 +1,51 @@
-import React from 'react';
+// @flow
+
+import React, { useEffect, useState } from 'react';
 import { Menu } from 'antd';
 import { DownOutlined, EditOutlined, CloseOutlined } from '@ant-design/icons';
+
+import { getCategories } from '../utils/api';
 
 import '../css/ResourceManager.css';
 
 const ResourceManager = () => {
   const { SubMenu } = Menu;
+  const [categories, setCategories] = useState<{ [string]: Array<string> }>({});
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const res = await getCategories();
+      const newCategories = {};
+      if (res != null) {
+        res.result.forEach((c) => {
+          newCategories[c.name] = c.subcategories;
+        });
+      }
+      setCategories(newCategories);
+    };
+
+    fetchCategories();
+  }, []);
 
   return (
-    <Menu
-      style={{ width: 256 }}
-      defaultSelectedKeys={['1']}
-      defaultOpenKeys={['sub1']}
-      mode="inline"
-      expandIcon={<div />}
-    >
-      <SubMenu key="sub1" icon={<DownOutlined />} title="Navigation One">
-        <Menu.Item key="1" className="subcategory">
-          Citizenship Assistance
-          <div>
-            <EditOutlined />
-            <CloseOutlined />
-          </div>
-        </Menu.Item>
-        <Menu.Item key="2">Option 2</Menu.Item>
-      </SubMenu>
-      <SubMenu key="sub2" icon={<DownOutlined />} title="Navigation Two">
-        <Menu.Item key="5">Option 5</Menu.Item>
-        <Menu.Item key="6">Option 6</Menu.Item>
-      </SubMenu>
-      <SubMenu key="sub4" icon={<DownOutlined />} title="Navigation Three">
-        <Menu.Item key="9">Option 9</Menu.Item>
-        <Menu.Item key="10">Option 10</Menu.Item>
-      </SubMenu>
+    <Menu style={{ width: 280 }} mode="inline" expandIcon={<div />}>
+      {Object.keys(categories).map((categoryName) => (
+        <SubMenu
+          key={categoryName}
+          title={categoryName}
+          icon={<DownOutlined />}
+        >
+          {categories[categoryName].map((subCategory) => (
+            <Menu.Item key={subCategory} className="subcategory">
+              {subCategory}
+              <div>
+                <EditOutlined />
+                <CloseOutlined color="action" />
+              </div>
+            </Menu.Item>
+          ))}
+        </SubMenu>
+      ))}
     </Menu>
   );
 };
