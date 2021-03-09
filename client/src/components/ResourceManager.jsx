@@ -40,7 +40,7 @@ const ResourceManager = () => {
               {subCategory}
               <div>
                 <EditOutlined />
-                <CloseOutlined color="action" />
+                <CloseOutlined style={{ color: '#FF0000' }} />
               </div>
             </Menu.Item>
           ))}
