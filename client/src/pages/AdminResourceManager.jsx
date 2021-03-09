@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { Tabs, Layout, Row, Button } from 'antd';
+import { Tabs, Layout, Row } from 'antd';
 
 import '../css/AdminResourceManager.css';
 import ResourceForm from '../components/ResourceForm';

@@ -1,8 +1,8 @@
 // @flow
 
-import React from 'react';
-import { useState } from 'react';
-import { Modal, Button, Space, Input, icon } from 'antd';
+import React, { useState } from 'react';
+
+import { Modal, Button, Input } from 'antd';
 import {
   CloseOutlined,
   EditOutlined,
