@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Layout, Drawer, Button, Menu, Select } from 'antd';
-import { MenuOutlined, createFromIconfontCN } from '@ant-design/icons';
+import { MenuOutlined } from '@ant-design/icons';
 
 import useWindowDimensions from '../utils/mobile';
 import { useAuth } from '../utils/use-auth';
