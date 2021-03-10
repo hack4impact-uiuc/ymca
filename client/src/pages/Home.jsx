@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Textfit } from 'react-textfit';
 import { Col, Row } from 'antd';
+import { FormattedMessage } from 'react-intl';
 
 import { getHomePage } from '../utils/api';
 import { canBeWebpConverted, getIsWebpSupported } from '../utils/webp-detect';
@@ -124,7 +125,10 @@ const Home = (): React$Element<React$FragmentType> => {
                     fontSize: `${isMobile ? '0.32em' : '0.45em'}`,
                   }}
                 >
-                  Partners in the Community
+                  <FormattedMessage
+                    id="homePartners"
+                    defaultMessage="Partners in the Community"
+                  />
                 </p>
               </Textfit>
             </Col>
