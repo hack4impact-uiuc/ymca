@@ -26,14 +26,10 @@ const Navigation = (props: NavigationProps) => {
   );
 };
 
-<<<<<<< HEAD
 const { Option } = Select;
 
-const NavDesktop = () => {
-=======
 const NavDesktop = (props: NavigationProps) => {
   const { setLanguage } = props;
->>>>>>> origin
   const { authed, authRoleIsEquivalentTo } = useAuth();
 
   return (
@@ -41,8 +37,6 @@ const NavDesktop = (props: NavigationProps) => {
       <NavLink exact to="/" aria-label="logo">
         <div className="nav-desktop-logo" />
       </NavLink>
-      <Button onClick={() => setLanguage('English')}>English</Button>
-      <Button onClick={() => setLanguage('Spanish')}>Spanish</Button>
       <Menu mode="horizontal">
         <Menu.Item key="home">
           <NavLink exact to="/" activeClassName="navbar-active-style">
@@ -92,8 +86,12 @@ const NavDesktop = (props: NavigationProps) => {
           width="18"
         />
         <Select className="languages" defaultValue="English" bordered={false}>
-          <Option value="English">English</Option>
-          <Option value="Spanish">Español</Option>
+          <Option value="English" onSelect={() => setLanguage('English')}>
+            English
+          </Option>
+          <Option value="Spanish" onSelect={() => setLanguage('Spanish')}>
+            Español
+          </Option>
           <Option value="French">Français</Option>
           <Option value="Chinese">中文</Option>
         </Select>
@@ -177,7 +175,7 @@ const NavMobile = (props: NavigationProps) => {
               </Menu.Item>
             )}
             {authed && (
-              <Menu.Item className="nav-mobile-menu-item">
+              <Menu.Item className="nav-mobile-menu-item" onSelect>
                 <NavLink className="nav-mobile-option" to="/logout">
                   Logout
                 </NavLink>
