@@ -68,18 +68,14 @@ async function main() {
       responseJSON.data.translations[0].translatedText,
     );
   }
-  console.log(translatedResourceDescriptions);
 
   const updatedTranslation = await Translation.findOne({
     language: { $eq: myDictionary[languageType] },
   });
-  console.log(updatedTranslation);
   // updatedTranslation.messages.set('resource-description-5eba229c29c48c083c6b19ef', 'Hola');
   translatedResourceDescriptions.forEach(function (value, key, map) {
-    console.log(key);
     updatedTranslation.messages.set(key, value);
   });
-  console.log(updatedTranslation);
   await updatedTranslation.save();
 }
 main();
