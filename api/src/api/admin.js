@@ -6,6 +6,13 @@ const Resource = require('../models/resource');
 const HomePage = require('../models/homepage');
 const Translation = require('../models/translation');
 
+const languageTypes = {
+  es: 'Spanish',
+  fr: 'French',
+  zh: 'Chinese',
+};
+const apiKey = '';
+
 const imageHelper = async (image) => {
   const imageResponse = await fetch('https://api.imgur.com/3/image', {
     method: 'POST',
@@ -99,9 +106,37 @@ router.post(
         req.body.image = link;
       }
     }
-
     const newResource = new Resource(req.body);
     await newResource.save();
+    // translate resource description and save in mongodb
+    async function translateAndSaveText() {
+      languageTypes.forEach(async function (value, key) {
+        var translationKey = '';
+        var translationValue = '';
+        var id = req.body._id;
+        var description = req.body.description;
+        var source =
+          `https://www.googleapis.com/language/translate/v2?key=${apiKey}&source=en&target=${key}&callback=translateText&q=` +
+          description;
+
+        source = encodeURI(source);
+        const res = await fetch(source, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        const responseJSON = await res.json();
+        translationKey = `resource-description-${id}`;
+        translationValue = responseJSON.data.translations[0].translatedText;
+        const updatedTranslation = await Translation.findOne({
+          language: { $eq: value },
+        });
+        updatedTranslation.messages.set(translationKey, translationValue);
+        await updatedTranslation.save();
+      });
+    }
+    translateAndSaveText();
     res.status(201).json({
       code: 201,
       message: `Successfully created new resource ${newResource.id}`,
