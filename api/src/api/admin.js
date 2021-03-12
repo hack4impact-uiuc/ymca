@@ -33,6 +33,33 @@ const imageHelper = async (image) => {
   return null;
 };
 
+// translate text for each language type and store in db
+async function translateAndSaveText(description, id) {
+  languageTypes.forEach(async function (value, key) {
+    var translationKey = '';
+    var translationValue = '';
+    var source =
+      `https://www.googleapis.com/language/translate/v2?key=${apiKey}&source=en&target=${key}&callback=translateText&q=` +
+      description;
+
+    source = encodeURI(source);
+    const res = await fetch(source, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const responseJSON = await res.json();
+    translationKey = `resource-description-${id}`;
+    translationValue = responseJSON.data.translations[0].translatedText;
+    const updatedTranslation = await Translation.findOne({
+      language: { $eq: value },
+    });
+    updatedTranslation.messages.set(translationKey, translationValue);
+    await updatedTranslation.save();
+  });
+}
+
 // create image
 router.post(
   '/imageUpload',
@@ -109,34 +136,8 @@ router.post(
     const newResource = new Resource(req.body);
     await newResource.save();
     // translate resource description and save in mongodb
-    async function translateAndSaveText() {
-      languageTypes.forEach(async function (value, key) {
-        var translationKey = '';
-        var translationValue = '';
-        var id = req.body._id;
-        var description = req.body.description;
-        var source =
-          `https://www.googleapis.com/language/translate/v2?key=${apiKey}&source=en&target=${key}&callback=translateText&q=` +
-          description;
-
-        source = encodeURI(source);
-        const res = await fetch(source, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-        const responseJSON = await res.json();
-        translationKey = `resource-description-${id}`;
-        translationValue = responseJSON.data.translations[0].translatedText;
-        const updatedTranslation = await Translation.findOne({
-          language: { $eq: value },
-        });
-        updatedTranslation.messages.set(translationKey, translationValue);
-        await updatedTranslation.save();
-      });
-    }
-    translateAndSaveText();
+    translateAndSaveText(req.body.description, newResource.id);
+    translateAndUpdateText();
     res.status(201).json({
       code: 201,
       message: `Successfully created new resource ${newResource.id}`,
@@ -163,6 +164,8 @@ router.put(
       new: true,
       runValidators: true,
     });
+    // translate resource description and save in mongodb
+    translateAndSaveText(req.body.description, id);
     res.json({
       code: 200,
       message: `Successfully updated resource ${id}`,
