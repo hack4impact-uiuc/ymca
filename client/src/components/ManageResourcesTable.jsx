@@ -24,6 +24,7 @@ const ManageResourcesTable = () => {
             description: r.description,
             categories: r.category,
             subcategories: r.subcategory,
+            id: r._id.toString(),
           });
         });
       }
@@ -59,9 +60,12 @@ const ManageResourcesTable = () => {
     },
     {
       title: ' ',
-      render: function goToEditResource() {
+      render: function goToEditResource(_, resource) {
         return (
-          <NavLink exact to="/">
+          <NavLink
+            to={`/admin/${resource.id}`}
+            onClick={() => window.location.reload()}
+          >
             <EditFilled />
           </NavLink>
         );
