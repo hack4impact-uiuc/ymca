@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { EditFilled } from '@ant-design/icons';
-import { Button, Menu, Dropdown, Table } from 'antd';
+import { Button, Menu, Dropdown, Table, Tag } from 'antd';
 
 import { getResources } from '../utils/api';
 
@@ -9,6 +9,51 @@ const ManageResourcesTable = () => {
   const category = 'Education';
   const subcategory = 'Children Education';
   const [resources, setResources] = useState([]);
+
+  const colorMap = {
+    a: 'blue',
+    b: 'gold',
+    c: 'red',
+    d: 'red',
+    e: 'green',
+    f: 'volcano',
+    g: 'orange',
+    h: 'orange',
+    i: 'magenta',
+    j: 'gold',
+    k: 'purple',
+    l: 'purple',
+    m: 'green',
+    n: 'green',
+    o: 'cyan',
+    p: 'cyan',
+    q: 'blue',
+    r: 'blue',
+    s: 'geekblue',
+    t: 'geekblue',
+    u: 'purple',
+    v: 'purple',
+    w: 'purple',
+    x: 'purple',
+    y: 'purple',
+    z: 'purple',
+  };
+
+  const displayTags = (categories) => (
+    <div>
+      {categories.map((c) => (
+        <Tag key={c} color={colorMap[c[0].toLowerCase()]}>
+          {c}
+        </Tag>
+      ))}
+      <Tag
+        onClick={() => window.location.reload()}
+        style={{ cursor: 'pointer' }}
+      >
+        +
+      </Tag>
+    </div>
+  );
 
   useEffect(() => {
     const fetchResources = async () => {
@@ -49,13 +94,13 @@ const ManageResourcesTable = () => {
     {
       title: 'Categories',
       render: function showCategories(_, resource) {
-        return resource.categories.toString();
+        return displayTags(resource.categories);
       },
     },
     {
       title: 'Subcategories',
       render: function showSubcategories(_, resource) {
-        return resource.subcategories.toString();
+        return displayTags(resource.subcategories);
       },
     },
     {
