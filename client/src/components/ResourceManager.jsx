@@ -2,7 +2,12 @@
 
 import React, { useEffect, useState } from 'react';
 import { Menu } from 'antd';
-import { DownOutlined, EditOutlined, CloseOutlined } from '@ant-design/icons';
+import {
+  DownOutlined,
+  EditOutlined,
+  CloseOutlined,
+  PlusOutlined,
+} from '@ant-design/icons';
 
 import { getCategories } from '../utils/api';
 
@@ -32,8 +37,16 @@ const ResourceManager = () => {
       {Object.keys(categories).map((categoryName) => (
         <SubMenu
           key={categoryName}
-          title={categoryName}
-          icon={<DownOutlined />}
+          title={
+            <React.Fragment style="display: flex; justify-content: flex-end">
+              {categoryName}
+              <>
+                <EditOutlined />
+                <CloseOutlined style={{ color: '#FF0000' }} />
+              </>
+            </React.Fragment>
+          }
+          icon={<DownOutlined style={{ position: 'relative', top: -2 }} />}
         >
           {categories[categoryName].map((subCategory) => (
             <Menu.Item key={subCategory} className="subcategory">
@@ -44,8 +57,16 @@ const ResourceManager = () => {
               </div>
             </Menu.Item>
           ))}
+          <Menu.Item key="Add Subcategory" className="subcategory">
+            Add Subcategory
+            <PlusOutlined style={{ position: 'relative', top: 10 }} />
+          </Menu.Item>
         </SubMenu>
       ))}
+      <Menu.Item key="Add Category" className="subcategory">
+        Add Category
+        <PlusOutlined style={{ position: 'relative', top: 10 }} />
+      </Menu.Item>
     </Menu>
   );
 };
