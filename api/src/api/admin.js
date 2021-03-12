@@ -137,7 +137,6 @@ router.post(
     await newResource.save();
     // translate resource description and save in mongodb
     translateAndSaveText(req.body.description, newResource.id);
-    translateAndUpdateText();
     res.status(201).json({
       code: 201,
       message: `Successfully created new resource ${newResource.id}`,
