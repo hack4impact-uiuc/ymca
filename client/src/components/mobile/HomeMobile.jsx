@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Textfit } from 'react-textfit';
 import { Button, Col, Row, Carousel } from 'antd';
 import { Link } from 'react-router-dom';
+import { FormattedMessage } from 'react-intl';
 
 import type { Testimonial } from '../../pages/Home';
 
@@ -42,12 +43,18 @@ export const HomeBlock1Mobile = ({ backgroundImage }: Block1Props) => {
     >
       <Col className="welcome-text-mobile">
         <Textfit className="welcome-to" mode="single">
-          Welcome to Urbana-Champaign
+          <FormattedMessage
+            id="homeWelcome"
+            defaultMessage="Welcome to Urbana-Champaign"
+          />
         </Textfit>
         {categories !== null && categories.length > 0 ? (
           <Row type="flex" align="middle" justify="center">
             <Textfit mode="single" className="welcome-text-mobile-bold">
-              Find Resources for
+              <FormattedMessage
+                id="homeResources"
+                defaultMessage="Find Resources for"
+              />
             </Textfit>
             <Carousel
               effect="fade"
@@ -64,7 +71,10 @@ export const HomeBlock1Mobile = ({ backgroundImage }: Block1Props) => {
                       to={`/resources?category=${category}`}
                       className="welcome-text-mobile-link"
                     >
-                      {category}
+                      <FormattedMessage
+                        id={`category-${category}`.replace(/\s/g, '')}
+                        defaultMessage={category}
+                      />
                     </Link>
                   ),
               )}
@@ -73,13 +83,21 @@ export const HomeBlock1Mobile = ({ backgroundImage }: Block1Props) => {
         ) : (
           <Row type="flex" align="middle" justify="center">
             <Textfit mode="single" className="welcome-text-mobile-bold">
-              Find Resources
+              <FormattedMessage
+                id="homeResourcesButton"
+                defaultMessage="Find Resources"
+              />
             </Textfit>
           </Row>
         )}
         <Row type="flex" justify="center" align="center">
           <Link to="/resources">
-            <Button type="primary">Find Resources</Button>
+            <Button type="primary">
+              <FormattedMessage
+                id="homeResourcesButton"
+                defaultMessage="Find Resources"
+              />
+            </Button>
           </Link>
         </Row>
       </Col>
@@ -92,7 +110,12 @@ export const HomeBlock2Mobile = () => (
       <Row type="flex" justify="center" align="middle">
         <Col span={20} className="home-block-2-top-text">
           <Textfit mode="single">
-            <strong>About the Guide </strong>
+            <strong>
+              <FormattedMessage
+                id="homeAboutGuide"
+                defaultMessage="About the Guide"
+              />
+            </strong>
           </Textfit>
         </Col>
       </Row>
@@ -104,17 +127,27 @@ export const HomeBlock2Mobile = () => (
       >
         <Col span={20}>
           <Textfit mode="multi">
-            Oasis exists to equalize and promote information access to Champaign
-            resources catered to your unique lifestyle and needs. Securing
-            reliable transportation, navigating the healthcare system, finding
-            legal aid — it can be difficult figuring out where to go in a large
-            place like Champaign that has hundreds of resources and a population
-            of over 80,000 people. This virtual guide, built with love by{' '}
-            <a href="https://uiuc.hack4impact.org/">Hack4Impact</a> curates
-            recommendations based on cost, language offerings, and more. As you
-            explore Oasis, we would love to hear about your experiences and
-            feedback through the{' '}
-            <a href="mailto:lalinea@universityymca.org"> Welcome Center.</a>
+            <FormattedMessage
+              id="homeAbout"
+              defaultMessage="
+        Oasis exists to equalize and promote information access to Champaign
+        resources catered to your unique lifestyle and needs. Securing reliable
+        transportation, navigating the healthcare system, finding legal aid — it
+        can be difficult figuring out where to go in a large place like
+        Champaign that has hundreds of resources and a population of over 80,000
+        people. This virtual guide, built with love by {linkH4I}, curates
+        recommendations based on cost, language offerings, and more. As you
+        explore Oasis, we would love to hear about your experiences and feedback
+        through the {linkWelcome}."
+              values={{
+                linkH4I: (
+                  <a href="https://uiuc.hack4impact.org/">Hack4Impact</a>
+                ),
+                linkWelcome: (
+                  <a href="mailto:lalinea@universityymca.org">Welcome Center</a>
+                ),
+              }}
+            />
           </Textfit>
         </Col>
       </Row>
@@ -153,10 +186,24 @@ export const HomeBlock3Mobile = ({ testimonials }: Block3Props) => (
               <Col>
                 <h1>{element.person}</h1>
                 <p>
-                  <Textfit mode="multi">{element.title}</Textfit>
+                  <Textfit mode="multi">
+                    <FormattedMessage
+                      id={`testimonial-title-${element.person}-${element.title}`
+                        .toLowerCase()
+                        .replace(/\s/g, '')}
+                      defaultMessage={element.title}
+                    />
+                  </Textfit>
                 </p>
                 <p>
-                  <Textfit mode="multi">{element.testimonial}</Textfit>
+                  <Textfit mode="multi">
+                    <FormattedMessage
+                      id={`testimonial-${element.person}-${element.title}`
+                        .toLowerCase()
+                        .replace(/\s/g, '')}
+                      defaultMessage={element.testimonial}
+                    />
+                  </Textfit>
                 </p>
               </Col>
             </Row>

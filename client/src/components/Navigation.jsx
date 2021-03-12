@@ -12,12 +12,22 @@ import '../css/Navigation.css';
 
 const { Header } = Layout;
 
-const Navigation = () => {
-  const isMobile = useWindowDimensions()[1];
-  return isMobile ? <NavMobile /> : <NavDesktop />;
+type NavigationProps = {
+  setLanguage: (string) => void,
 };
 
-const NavDesktop = () => {
+const Navigation = (props: NavigationProps) => {
+  const { setLanguage } = props;
+  const isMobile = useWindowDimensions()[1];
+  return isMobile ? (
+    <NavMobile setLanguage={setLanguage} />
+  ) : (
+    <NavDesktop setLanguage={setLanguage} />
+  );
+};
+
+const NavDesktop = (props: NavigationProps) => {
+  const { setLanguage } = props;
   const { authed, authRoleIsEquivalentTo } = useAuth();
 
   return (
@@ -25,6 +35,8 @@ const NavDesktop = () => {
       <NavLink exact to="/" aria-label="logo">
         <div className="nav-desktop-logo" />
       </NavLink>
+      <Button onClick={() => setLanguage('English')}>English</Button>
+      <Button onClick={() => setLanguage('Spanish')}>Spanish</Button>
       <Menu mode="horizontal">
         <Menu.Item key="home">
           <NavLink exact to="/" activeClassName="navbar-active-style">
@@ -71,7 +83,8 @@ const NavDesktop = () => {
   );
 };
 
-const NavMobile = () => {
+const NavMobile = (props: NavigationProps) => {
+  const { setLanguage } = props;
   const { authed, authRoleIsEquivalentTo } = useAuth();
   const [drawerVisible, setDrawerVisible] = useState(false);
 
@@ -82,6 +95,8 @@ const NavMobile = () => {
           <NavLink exact to="/">
             <div className="nav-mobile-logo" />
           </NavLink>
+          <Button onClick={() => setLanguage('English')}>English</Button>
+          <Button onClick={() => setLanguage('Spanish')}>Spanish</Button>
           <div className="nav-mobile-menu-btn-container">
             <Button
               onClick={() => setDrawerVisible(true)}
