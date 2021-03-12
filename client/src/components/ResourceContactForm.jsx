@@ -29,40 +29,39 @@ const ContactForm = Form.create({ name: 'contactForm' })((props) => {
 
   const { getFieldDecorator, setFieldsValue, getFieldValue } = props.form;
 
+  const onSubmit = () => {
+    const contactName = getFieldValue('contactName');
+    const contactRole = getFieldValue('contactRole');
+
+    if (
+      contactName !== undefined &&
+      contactRole !== undefined &&
+      contactName.trim() !== '' &&
+      contactRole.trim() !== ''
+    ) {
+      setContacts([
+        ...contacts,
+        {
+          name: contactName,
+          role: contactRole,
+          email: getFieldValue('contactEmail') || '',
+          phoneNumber: getFieldValue('contactPhoneNumber') || '',
+          note: getFieldValue('contactNote') || '',
+        },
+      ]);
+
+      setFieldsValue({
+        contactName: '',
+        contactRole: '',
+        contactEmail: '',
+        contactPhoneNumber: '',
+        contactNote: '',
+      });
+    }
+  };
+
   return (
-    <Form
-      className="contact-form"
-      onSubmit={() => {
-        const contactName = getFieldValue('contactName');
-        const contactRole = getFieldValue('contactRole');
-
-        if (
-          contactName !== undefined &&
-          contactRole !== undefined &&
-          contactName.trim() !== '' &&
-          contactRole.trim() !== ''
-        ) {
-          setContacts([
-            ...contacts,
-            {
-              name: contactName,
-              role: contactRole,
-              email: getFieldValue('contactEmail') || '',
-              phoneNumber: getFieldValue('contactPhoneNumber') || '',
-              note: getFieldValue('contactNote') || '',
-            },
-          ]);
-
-          setFieldsValue({
-            contactName: '',
-            contactRole: '',
-            contactEmail: '',
-            contactPhoneNumber: '',
-            contactNote: '',
-          });
-        }
-      }}
-    >
+    <Form className="contact-form">
       <Form.Item>
         {getFieldDecorator('contactName', {
           rules: [
@@ -144,9 +143,11 @@ const ContactForm = Form.create({ name: 'contactForm' })((props) => {
       </Form.Item>
       <Button
         type="primary"
-        htmlType="submit"
         className="contact-submit form-btn"
-        onClick={() => setTotalSubmitEnabled(false)}
+        onClick={() => {
+          setTotalSubmitEnabled(false);
+          onSubmit();
+        }}
       >
         Add Contact
       </Button>

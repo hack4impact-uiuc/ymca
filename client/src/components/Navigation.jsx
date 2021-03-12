@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Layout, Drawer, Button, Menu, Select } from 'antd';
-import { MenuOutlined, createFromIconfontCN } from '@ant-design/icons';
+import { MenuOutlined } from '@ant-design/icons';
 
 import useWindowDimensions from '../utils/mobile';
 import { useAuth } from '../utils/use-auth';
@@ -12,14 +12,24 @@ import '../css/Navigation.css';
 
 const { Header } = Layout;
 
-const Navigation = () => {
+type NavigationProps = {
+  setLanguage: (string) => void,
+};
+
+const Navigation = (props: NavigationProps) => {
+  const { setLanguage } = props;
   const isMobile = useWindowDimensions()[1];
-  return isMobile ? <NavMobile /> : <NavDesktop />;
+  return isMobile ? (
+    <NavMobile setLanguage={setLanguage} />
+  ) : (
+    <NavDesktop setLanguage={setLanguage} />
+  );
 };
 
 const { Option } = Select;
 
-const NavDesktop = () => {
+const NavDesktop = (props: NavigationProps) => {
+  const { setLanguage } = props;
   const { authed, authRoleIsEquivalentTo } = useAuth();
 
   return (
@@ -55,22 +65,6 @@ const NavDesktop = () => {
           </Menu.Item>
         )}
 
-        {authRoleIsEquivalentTo('admin') && (
-          <Menu.Item key="edit-home">
-            <NavLink to="/edit-home" activeClassName="navbar-active-style">
-              Edit Home
-            </NavLink>
-          </Menu.Item>
-        )}
-
-        {authRoleIsEquivalentTo('admin') && (
-          <Menu.Item key="approval">
-            <NavLink to="/role-approval" activeClassName="navbar-active-style">
-              Users
-            </NavLink>
-          </Menu.Item>
-        )}
-
         {!authed ? (
           <Menu.Item key="login">
             <NavLink to="/login" activeClassName="navbar-active-style">
@@ -92,8 +86,12 @@ const NavDesktop = () => {
           width="18"
         />
         <Select className="languages" defaultValue="English" bordered={false}>
-          <Option value="English">English</Option>
-          <Option value="Spanish">Español</Option>
+          <Option value="English" onSelect={() => setLanguage('English')}>
+            English
+          </Option>
+          <Option value="Spanish" onSelect={() => setLanguage('Spanish')}>
+            Español
+          </Option>
           <Option value="French">Français</Option>
           <Option value="Chinese">中文</Option>
         </Select>
@@ -102,7 +100,8 @@ const NavDesktop = () => {
   );
 };
 
-const NavMobile = () => {
+const NavMobile = (props: NavigationProps) => {
+  const { setLanguage } = props;
   const { authed, authRoleIsEquivalentTo } = useAuth();
   const [drawerVisible, setDrawerVisible] = useState(false);
 
@@ -113,6 +112,8 @@ const NavMobile = () => {
           <NavLink exact to="/">
             <div className="nav-mobile-logo" />
           </NavLink>
+          <Button onClick={() => setLanguage('English')}>English</Button>
+          <Button onClick={() => setLanguage('Spanish')}>Spanish</Button>
           <div className="nav-mobile-menu-btn-container">
             <Button
               onClick={() => setDrawerVisible(true)}
@@ -173,22 +174,8 @@ const NavMobile = () => {
                 </NavLink>
               </Menu.Item>
             )}
-            {authRoleIsEquivalentTo('admin') && (
-              <Menu.Item className="nav-mobile-menu-item">
-                <NavLink className="nav-mobile-option" to="/edit-home">
-                  Edit Home
-                </NavLink>
-              </Menu.Item>
-            )}
-            {authRoleIsEquivalentTo('admin') && (
-              <Menu.Item className="nav-mobile-menu-item">
-                <NavLink className="nav-mobile-option" to="/role-approval">
-                  Users
-                </NavLink>
-              </Menu.Item>
-            )}
             {authed && (
-              <Menu.Item className="nav-mobile-menu-item">
+              <Menu.Item className="nav-mobile-menu-item" onSelect>
                 <NavLink className="nav-mobile-option" to="/logout">
                   Logout
                 </NavLink>
