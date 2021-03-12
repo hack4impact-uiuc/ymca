@@ -92,8 +92,12 @@ const NavDesktop = (props: NavigationProps) => {
           <Option value="Spanish" onSelect={() => setLanguage('Spanish')}>
             Español
           </Option>
-          <Option value="French">Français</Option>
-          <Option value="Chinese">中文</Option>
+          <Option value="French" onSelect={() => setLanguage('French')}>
+            Français
+          </Option>
+          <Option value="Chinese" onSelect={() => setLanguage('Chinese')}>
+            中文
+          </Option>
         </Select>
       </Menu>
     </Header>
