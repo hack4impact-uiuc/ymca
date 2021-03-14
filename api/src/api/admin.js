@@ -11,7 +11,6 @@ const languageTypes = {
   fr: 'French',
   zh: 'Chinese',
 };
-const apiKey = '';
 
 const imageHelper = async (image) => {
   const imageResponse = await fetch('https://api.imgur.com/3/image', {
@@ -35,7 +34,8 @@ const imageHelper = async (image) => {
 
 // translate text for each language type and store in db
 async function translateAndSaveText(description, id) {
-  languageTypes.forEach(async function (value, key) {
+  const apiKey = process.env.GOOGLE_KEY;
+  Object.keys(languageTypes).forEach(async function (key) {
     var translationKey = '';
     var translationValue = '';
     var source =
@@ -53,7 +53,7 @@ async function translateAndSaveText(description, id) {
     translationKey = `resource-description-${id}`;
     translationValue = responseJSON.data.translations[0].translatedText;
     const updatedTranslation = await Translation.findOne({
-      language: { $eq: value },
+      language: { $eq: languageTypes[key] },
     });
     updatedTranslation.messages.set(translationKey, translationValue);
     await updatedTranslation.save();
@@ -136,7 +136,7 @@ router.post(
     const newResource = new Resource(req.body);
     await newResource.save();
     // translate resource description and save in mongodb
-    translateAndSaveText(req.body.description, newResource.id);
+    await translateAndSaveText(req.body.description, newResource.id);
     res.status(201).json({
       code: 201,
       message: `Successfully created new resource ${newResource.id}`,
@@ -164,7 +164,7 @@ router.put(
       runValidators: true,
     });
     // translate resource description and save in mongodb
-    translateAndSaveText(req.body.description, id);
+    await translateAndSaveText(req.body.description, id);
     res.json({
       code: 200,
       message: `Successfully updated resource ${id}`,
