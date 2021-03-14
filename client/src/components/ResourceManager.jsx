@@ -2,11 +2,12 @@
 
 import React, { useEffect, useState } from 'react';
 import { Menu } from 'antd';
-import { DownOutlined, EditOutlined, CloseOutlined } from '@ant-design/icons';
+import { DownOutlined } from '@ant-design/icons';
 
 import { getCategories } from '../utils/api';
 
 import '../css/ResourceManager.css';
+import EditCategoryModal from './EditCategoryModal';
 
 const ResourceManager = () => {
   const { SubMenu } = Menu;
@@ -39,8 +40,14 @@ const ResourceManager = () => {
             <Menu.Item key={subCategory} className="subcategory">
               {subCategory}
               <div>
-                <EditOutlined />
-                <CloseOutlined style={{ color: '#FF0000' }} />
+                <EditCategoryModal
+                  modalType="rename"
+                  categoryType="subcategory"
+                />
+                <EditCategoryModal
+                  modalType="delete"
+                  categoryType="subcategory"
+                />
               </div>
             </Menu.Item>
           ))}

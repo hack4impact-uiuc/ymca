@@ -49,7 +49,7 @@ function EditCategoryModal(props: ModalProps) {
     switch (modalType) {
       case 'add':
         return (
-          <div>
+          <>
             <Button type="dashed" onClick={showModal}>
               Add {categoryTypeCapitalized}
             </Button>
@@ -61,16 +61,19 @@ function EditCategoryModal(props: ModalProps) {
             >
               <Input placeholder={`New ${categoryTypeCapitalized}`} />
             </Modal>
-          </div>
+          </>
         );
       case 'delete':
-        return <CloseOutlined onClick={DeleteCategory}> </CloseOutlined>;
+        return (
+          <CloseOutlined
+            onClick={DeleteCategory}
+            style={{ color: '#FF0000' }}
+          />
+        );
       case 'rename':
         return (
-          <div>
-            <EditOutlined type="primary" onClick={showModal}>
-              {' '}
-            </EditOutlined>
+          <>
+            <EditOutlined type="primary" onClick={showModal} />
             <Modal
               title={`Rename ${categoryTypeCapitalized}`}
               visible={isModalVisible}
@@ -79,7 +82,7 @@ function EditCategoryModal(props: ModalProps) {
             >
               <Input placeholder="Legal Aid" />
             </Modal>
-          </div>
+          </>
         );
       default:
         return (
@@ -90,7 +93,7 @@ function EditCategoryModal(props: ModalProps) {
     }
   }
 
-  return <div>{modal()}</div>;
+  return <>{modal()}</>;
 }
 
 export default EditCategoryModal;
