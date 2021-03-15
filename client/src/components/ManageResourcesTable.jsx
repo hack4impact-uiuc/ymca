@@ -1,48 +1,46 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { EditFilled } from '@ant-design/icons';
-import { Button, Menu, Dropdown, Table, Tag } from 'antd';
+import { Table, Tag } from 'antd';
 
 import { getResources } from '../utils/api';
 
-const ManageResourcesTable = () => {
-  const category = 'Education';
-  const subcategory = 'Children Education';
-  const [resources, setResources] = useState([]);
+const TAG_COLOR_DICT = {
+  a: 'blue',
+  b: 'gold',
+  c: 'red',
+  d: 'volcano',
+  e: 'green',
+  f: 'geekblue',
+  g: 'orange',
+  h: 'cyan',
+  i: 'magenta',
+  j: 'gold',
+  k: 'purple',
+  l: 'purple',
+  m: 'green',
+  n: 'green',
+  o: 'blue',
+  p: 'cyan',
+  q: 'blue',
+  r: 'blue',
+  s: 'geekblue',
+  t: 'geekblue',
+  u: 'purple',
+  v: 'purple',
+  w: 'purple',
+  x: 'purple',
+  y: 'purple',
+  z: 'purple',
+};
 
-  const colorMap = {
-    a: 'blue',
-    b: 'gold',
-    c: 'red',
-    d: 'volcano',
-    e: 'green',
-    f: 'geekblue',
-    g: 'orange',
-    h: 'cyan',
-    i: 'magenta',
-    j: 'gold',
-    k: 'purple',
-    l: 'purple',
-    m: 'green',
-    n: 'green',
-    o: 'blue',
-    p: 'cyan',
-    q: 'blue',
-    r: 'blue',
-    s: 'geekblue',
-    t: 'geekblue',
-    u: 'purple',
-    v: 'purple',
-    w: 'purple',
-    x: 'purple',
-    y: 'purple',
-    z: 'purple',
-  };
+const ManageResourcesTable = () => {
+  const [resources, setResources] = useState([]);
 
   const displayTags = (categories) => (
     <div>
       {categories.map((c) => (
-        <Tag key={c} color={colorMap[c[0].toLowerCase()]}>
+        <Tag key={c} color={TAG_COLOR_DICT[c[0].toLowerCase()]}>
           {c}
         </Tag>
       ))}
@@ -58,30 +56,39 @@ const ManageResourcesTable = () => {
   useEffect(() => {
     const fetchResources = async () => {
       // TODO: replace with getResourcesByCategory and getResourcesBySubcategory
-      // TODO: replace with optimized get request
+      // add some states with values from sidebar and filter accordingly
+      // TODO: use optimized get request
       const res = await getResources();
-      const newCategories = [];
-      console.log(res.result);
+      const newResources = [];
       if (res != null) {
         res.result.forEach((r) => {
-          newCategories.push({
+          newResources.push({
             name: r.name,
             description: r.description,
-            categories: r.category,
-            subcategories: r.subcategory,
+            categories: [...new Set(r.category)],
+            subcategories: [...new Set(r.subcategory)],
             id: r._id.toString(),
           });
         });
       }
-      setResources(newCategories);
+      setResources(newResources);
     };
     fetchResources();
-  }, []);
+  }, [resources]);
+
+  function compareNames(current, next) {
+    const textCurrent = current.name.toUpperCase();
+    const textNext = next.name.toUpperCase();
+    const bool = textCurrent > textNext ? 1 : 0;
+    return textCurrent < textNext ? -1 : bool;
+  }
 
   const columns = [
     {
       title: 'Name',
       dataIndex: 'name',
+      defaultSortOrder: 'ascend',
+      sorter: compareNames,
     },
     {
       title: 'Description',
