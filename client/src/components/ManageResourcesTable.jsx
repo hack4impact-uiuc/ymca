@@ -114,12 +114,9 @@ const ManageResourcesTable = () => {
       title: ' ',
       render: function goToEditResource(_, resource) {
         return (
-          <NavLink
-            to={`/admin/${resource.id}`}
-            onClick={() => window.location.reload()}
-          >
+          <a href={`/admin/${resource.id}`}>
             <EditFilled />
-          </NavLink>
+          </a>
         );
       },
     },
