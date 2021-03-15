@@ -7,12 +7,12 @@ const { isSecurityQuestionEnabled } = require("../utils/getConfigFile");
 router.post(
   "/securityQuestionForUser",
   check("email").isEmail(),
-  async function(req, res) {
+  async function (req, res) {
     // Check that the user's email is in the body
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return sendResponse(res, 400, "Invalid request", {
-        errors: errors.array({ onlyFirstError: true })
+        errors: errors.array({ onlyFirstError: true }),
       });
     }
 
@@ -20,13 +20,13 @@ router.post(
       return sendResponse(res, 400, "Security questions are not enabled");
     }
 
-    // Finds the user in thhe database, and either returns that the user is not registered or the assocaited security question with their account
-    const user = await User.find({ email: req.body.email });
+    // Finds the user in the database, and either returns that the user is not registered or the assocaited security question with their account
+    const user = await User.find({ email: { $eq: req.body.email } });
     if (!user || !user.length) {
       return sendResponse(res, 400, "User is not registered!");
     } else {
       return res.status(200).send({
-        question: user[0].question
+        question: user[0].question,
       });
     }
   }

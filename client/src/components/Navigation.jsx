@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Layout, Drawer, Button, Menu } from 'antd';
+import { Layout, Drawer, Button, Menu, Select } from 'antd';
 import { MenuOutlined } from '@ant-design/icons';
 
 import useWindowDimensions from '../utils/mobile';
@@ -26,6 +26,8 @@ const Navigation = (props: NavigationProps) => {
   );
 };
 
+const { Option } = Select;
+
 const NavDesktop = (props: NavigationProps) => {
   const { setLanguage } = props;
   const { authed, authRoleIsEquivalentTo } = useAuth();
@@ -35,8 +37,6 @@ const NavDesktop = (props: NavigationProps) => {
       <NavLink exact to="/" aria-label="logo">
         <div className="nav-desktop-logo" />
       </NavLink>
-      <Button onClick={() => setLanguage('English')}>English</Button>
-      <Button onClick={() => setLanguage('Spanish')}>Spanish</Button>
       <Menu mode="horizontal">
         <Menu.Item key="home">
           <NavLink exact to="/" activeClassName="navbar-active-style">
@@ -78,6 +78,24 @@ const NavDesktop = (props: NavigationProps) => {
             </NavLink>
           </Menu.Item>
         )}
+        <img
+          src="/asset/icon/globe.svg"
+          className="globe"
+          alt="Globe"
+          height="18"
+          width="18"
+        />
+        <Select
+          className="languages"
+          defaultValue="English"
+          bordered={false}
+          onChange={setLanguage}
+        >
+          <Option value="English">English</Option>
+          <Option value="Spanish">Español</Option>
+          <Option value="French">Français</Option>
+          <Option value="Chinese">中文</Option>
+        </Select>
       </Menu>
     </Header>
   );
@@ -158,7 +176,7 @@ const NavMobile = (props: NavigationProps) => {
               </Menu.Item>
             )}
             {authed && (
-              <Menu.Item className="nav-mobile-menu-item">
+              <Menu.Item className="nav-mobile-menu-item" onSelect>
                 <NavLink className="nav-mobile-option" to="/logout">
                   Logout
                 </NavLink>
