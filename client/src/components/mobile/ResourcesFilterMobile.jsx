@@ -2,6 +2,9 @@ import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { CheckOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
+import { FormattedMessage } from 'react-intl';
+
+import { filterMessages } from '../../utils/messages';
 
 import '../../css/ResourcesFilterMobile.css';
 
@@ -49,7 +52,9 @@ function ResourcesFilterMobile(props) {
     <>
       <div className="filter-category filter-top">
         <div className="filter-title">
-          <b>Cost</b>
+          <b>
+            <FormattedMessage {...filterMessages.cost} />
+          </b>
         </div>
         {costs.map((cost) => (
           <div
@@ -64,7 +69,9 @@ function ResourcesFilterMobile(props) {
       </div>
       <div className="filter-category">
         <div className="filter-title">
-          <b>Language</b>
+          <b>
+            <FormattedMessage {...filterMessages.language} />
+          </b>
         </div>
         {languages.map((language) => (
           <div
@@ -81,7 +88,9 @@ function ResourcesFilterMobile(props) {
       </div>
       <div className="filter-category">
         <div className="filter-title">
-          <b>Location</b>
+          <b>
+            <FormattedMessage {...filterMessages.location} />
+          </b>
         </div>
         {locations.map((location) => (
           <div
@@ -103,7 +112,7 @@ function ResourcesFilterMobile(props) {
           size="large"
           onClick={applyFilters}
         >
-          Apply Filters
+          <FormattedMessage {...filterMessages.apply} />
         </Button>
       </div>
     </>

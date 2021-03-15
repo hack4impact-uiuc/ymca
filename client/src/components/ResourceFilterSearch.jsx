@@ -4,17 +4,26 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { SearchOutlined } from '@ant-design/icons';
 import { AutoComplete, Input } from 'antd';
+import { useIntl, defineMessages } from 'react-intl';
 
 import { getResources } from '../utils/api';
 import '../css/ResourcesFilter.css';
 
 const { Option } = AutoComplete;
 
+const messages = defineMessages({
+  searchPlaceholder: {
+    id: 'searchPlaceholder',
+    defaultMessage: 'Search for a Resource',
+  },
+});
+
 /*
 on search have the resource grid be populated with the filtered results here
 */
 const ResourceFilterSearch = (): React$Element<any> => {
   const history = useHistory();
+  const intl = useIntl();
 
   const [allOptions, setAllOptions] = useState([]);
   const [allOptionsRep, setAllOptionsRep] = useState({});
@@ -159,7 +168,7 @@ const ResourceFilterSearch = (): React$Element<any> => {
   return (
     <AutoComplete
       className="searchbar-filter"
-      placeholder="Search for a Resource"
+      placeholder={intl.formatMessage(messages.searchPlaceholder)}
       dataSource={allOptions}
       filterOption={filterSearchResults}
       onSelect={onSearchSelect}
