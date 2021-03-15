@@ -197,7 +197,7 @@ function Resources({
         (costMap[cost].includes(resource.cost) || cost === 'Free - $$$') &&
         (resource.availableLanguages?.includes(language) ||
           language === 'All') &&
-        (resource.city.toLowerCase() === location.toLowerCase() ||
+        (resource.city?.toLowerCase() === location.toLowerCase() ||
           location === 'All / Champaign County'),
     );
 
