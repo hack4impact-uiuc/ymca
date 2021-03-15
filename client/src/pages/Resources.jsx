@@ -1,9 +1,12 @@
 // @flow
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Layout } from 'antd';
 import '../css/Resources.css';
 import Loader from 'react-loader-spinner';
+import { useIntl } from 'react-intl';
+
+import { filterMessages } from '../utils/messages';
 import type { Resource } from '../types/models';
 
 import {
@@ -42,12 +45,22 @@ function Resources({
   history = { pathname: '', search: '', push: () => {} },
   location: locationProp = { search: '' },
 }: Props): React$Element<any> {
-  const [cost, setCost] = useState('Free - $$$');
+  const intl = useIntl();
+  const freeTranslated = useMemo(
+    () => intl.formatMessage(filterMessages.free),
+    [intl],
+  );
+  const nameTranslated = useMemo(
+    () => intl.formatMessage(filterMessages.name),
+    [intl],
+  );
+
+  const [cost, setCost] = useState(`${freeTranslated} - $$$`);
   const [language, setLanguage] = useState('All');
   const [location, setLocation] = useState('All');
   const [category, setCategory] = useState('');
   const [subcategory, setSubcategory] = useState('');
-  const [sort, setSort] = useState('Name');
+  const [sort, setSort] = useState(nameTranslated);
   const [loading, setLoading] = useState(false);
 
   const [openKeys, setOpenKeys] = useState<Array<string>>([]);
@@ -58,8 +71,26 @@ function Resources({
   );
   const [savedSet, setSavedSet] = useState<Set<string>>(new Set());
 
-  const costs = ['Free', 'Free - $', 'Free - $$', 'Free - $$$'];
-  const sorts = ['Name', 'Cost'];
+  // Reset cost when language switch
+  useEffect(() => {
+    setCost(`${freeTranslated} - $$$`);
+  }, [freeTranslated]);
+  // Reset sort when language switch
+  useEffect(() => setSort(nameTranslated), [nameTranslated]);
+
+  const costs = useMemo(
+    () => [
+      freeTranslated,
+      `${freeTranslated} - $`,
+      `${freeTranslated} - $$`,
+      `${freeTranslated} - $$$`,
+    ],
+    [freeTranslated],
+  );
+  const sorts = useMemo(
+    () => [nameTranslated, intl.formatMessage(filterMessages.cost)],
+    [intl, nameTranslated],
+  );
   const isMobile = useWindowDimensions()[1];
   const { authed } = useAuth();
 
@@ -86,17 +117,20 @@ function Resources({
     return textCurrent < textNext ? -1 : bool;
   }
 
-  function compareCosts(current, next) {
-    const costOrder = ['$$$', '$$', '$', 'Free'];
-    const costCurrent = current.cost;
-    const costNext = next.cost;
-    if (costCurrent === costNext) {
-      return 0;
-    }
-    return costOrder.indexOf(costNext) < costOrder.indexOf(costCurrent)
-      ? -1
-      : 1;
-  }
+  const compareCosts = useCallback(
+    (current, next) => {
+      const costOrder = ['$$$', '$$', '$', freeTranslated];
+      const costCurrent = current.cost;
+      const costNext = next.cost;
+      if (costCurrent === costNext) {
+        return 0;
+      }
+      return costOrder.indexOf(costNext) < costOrder.indexOf(costCurrent)
+        ? -1
+        : 1;
+    },
+    [freeTranslated],
+  );
 
   const getCategorySelectedFromSearch = useCallback(() => {
     const { search } = locationProp;
@@ -153,31 +187,31 @@ function Resources({
     setOpenKeys([categorySelected]);
     setResources(newResources == null ? [] : newResources.result);
     setSubcategory(subcategorySelected);
-    setCost('Free - $$$');
+    setCost(`${freeTranslated} - $$$`);
     setLanguage('All');
     setLocation('All / Champaign County');
     setSubcategory(subcategorySelected);
 
     setLoading(false);
-  }, [getCategorySelectedFromSearch, saved, authed]);
+  }, [getCategorySelectedFromSearch, saved, authed, freeTranslated]);
 
   const updateSaved = updateResources;
 
   const updateSort = useCallback(() => {
     switch (sort) {
-      case 'Name': {
+      case sorts[0]: {
         const newResources = resources.sort(compareNames);
         setResources(newResources);
         break;
       }
-      case 'Cost': {
+      case sorts[1]: {
         const newResources = resources.sort(compareCosts);
         setResources(newResources);
         break;
       }
       default:
     }
-  }, [resources, sort]);
+  }, [compareCosts, resources, sort, sorts]);
 
   useEffect(() => {
     updateResources();
@@ -185,16 +219,18 @@ function Resources({
 
   useEffect(() => {
     const costMap = {
-      Free: ['Free'],
-      'Free - $': ['Free', '$'],
-      'Free - $$': ['Free', '$', '$$'],
-      'Free - $$$': ['Free', '$', '$$', '$$$'],
+      [costs[0]]: [freeTranslated],
+      [costs[1]]: [freeTranslated, '$'],
+      [costs[2]]: [freeTranslated, '$', '$$'],
+      [costs[3]]: [freeTranslated, '$', '$$', '$$$'],
     };
     updateSort();
     const newFilteredResources = resources.filter(
       (resource) =>
         (resource.subcategory.includes(subcategory) || subcategory === '') &&
-        (costMap[cost].includes(resource.cost) || cost === 'Free - $$$') &&
+        (costMap[cost]?.includes(resource.cost) ||
+          cost === `${freeTranslated} - $$$` ||
+          resource.cost === 'Free') &&
         (resource.availableLanguages?.includes(language) ||
           language === 'All') &&
         (resource.city.toLowerCase() === location.toLowerCase() ||
@@ -202,7 +238,17 @@ function Resources({
     );
 
     setFilteredResources(newFilteredResources);
-  }, [cost, language, location, subcategory, resources, sort, updateSort]);
+  }, [
+    cost,
+    costs,
+    freeTranslated,
+    language,
+    location,
+    subcategory,
+    resources,
+    sort,
+    updateSort,
+  ]);
 
   const categorySelectAll = useCallback(() => {
     history.push({
