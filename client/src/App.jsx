@@ -35,7 +35,6 @@ const App = (): React$Element<React$FragmentType> => {
   const { authed, authRoleIsEquivalentTo } = useAuth();
   const [language, setLanguage] = useState('English');
   const [messages, setMessages] = useState({});
-  console.log(messages);
 
   const localeDict = {
     English: 'en',
