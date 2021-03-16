@@ -4,6 +4,7 @@
     "MONGO_URL": "@ymca_db_uri",
     "MAPBOX_KEY": "@ymca_mapbox_key",
     "IMGUR_KEY": "@ymca_imgur_key",
+    "GOOGLE_KEY": "@ymca_google_key",
     "INFRA_MONGO_URI": "@ymca_auth_mongo_uri",
     "INFRA_EMAIL": "@ymca_auth_email",
     "INFRA_CLIENT_ID": "@ymca_auth_client_id",
