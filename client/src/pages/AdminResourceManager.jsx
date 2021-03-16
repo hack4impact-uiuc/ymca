@@ -7,7 +7,7 @@ import '../css/AdminResourceManager.css';
 import ResourceForm from '../components/ResourceForm';
 import EditHome from '../components/EditHome';
 import RoleApproval from '../components/RoleApproval';
-import ManageResources from '../components/ManageResources';
+import ResourceManager from '../components/ResourceManager';
 
 const { Header } = Layout;
 const { TabPane } = Tabs;
@@ -46,7 +46,7 @@ const AdminResourceManager = (props: Props): React$Element<'div'> => {
             <RoleApproval />
           </TabPane>
           <TabPane tab="Manage Resources" key="4">
-            <ManageResources />
+            <ResourceManager />
           </TabPane>
         </Tabs>
       </div>

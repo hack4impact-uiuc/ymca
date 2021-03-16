@@ -145,10 +145,7 @@ const RoleApproval = () => {
           }}
         />
       ) : (
-        <Card
-          className="interview-card"
-          style={{ height: '60%', margin: '2%' }}
-        >
+        <>
           <Table
             columns={columns}
             dataSource={users}
@@ -165,7 +162,7 @@ const RoleApproval = () => {
               />
             </div>
           )}
-        </Card>
+        </>
       )}
     </div>
   );
