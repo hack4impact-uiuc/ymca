@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
 import { EditFilled } from '@ant-design/icons';
 import { Table, Tag } from 'antd';
 
@@ -74,7 +73,7 @@ const ManageResourcesTable = () => {
       setResources(newResources);
     };
     fetchResources();
-  }, [resources]);
+  }, []);
 
   function compareNames(current, next) {
     const textCurrent = current.name.toUpperCase();
