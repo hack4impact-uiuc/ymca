@@ -9,13 +9,32 @@ import { Button, Input, Row, Col } from 'antd';
 import 'antd/dist/antd.css';
 import '../css/LoginRegister.css';
 
+import { useIntl, FormattedMessage, defineMessages } from 'react-intl';
+import { filterMessages } from '../utils/messages';
+
 import { useAuth } from '../utils/use-auth';
 
 type Props = {
   form: typeof Form,
 };
 
+const messages = defineMessages({
+  pleaseInputValidEmail: {
+    id: 'pleaseInputValidEmail',
+    defaultMessage: 'Please input a valid E-mail!',
+  },
+  pleaseInputYourPassword: {
+    id: 'pleaseInputYourPassword',
+    defaultMessage: 'Please input your password!',
+  },
+  password: {
+    id: 'password',
+    defaultMessage: 'Password',
+  },
+});
+
 function Login(props: Props) {
+  const intl = useIntl();
   const { login } = useAuth();
   const { form } = props;
   const { getFieldDecorator } = form;
@@ -46,7 +65,9 @@ function Login(props: Props) {
       <Row type="flex" justify="center">
         <Col className="icon">
           <img src="/asset/icon/icon-with-words.png" alt="" />
-          <div className="header-text">Login</div>
+          <div className="header-text">
+            <FormattedMessage id="Login" defaultMessage="Login" />
+          </div>
         </Col>
       </Row>
       <Form justify="center" onSubmit={onLoginSubmit} className="form">
@@ -55,17 +76,19 @@ function Login(props: Props) {
             rules: [
               {
                 type: 'email',
-                message: 'Please input a valid E-mail!',
+                message: intl.formatMessage(messages.pleaseInputValidEmail),
               },
               {
                 required: true,
-                message: 'Please input your E-mail!',
+                message: intl.formatMessage(
+                  filterMessages.pleaseInputYourEmail,
+                ),
               },
             ],
           })(
             <Input
               prefix={<UserOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
-              placeholder="E-mail"
+              placeholder={intl.formatMessage(filterMessages.email)}
             />,
           )}
         </Form.Item>
@@ -74,28 +97,36 @@ function Login(props: Props) {
             rules: [
               {
                 required: true,
-                message: 'Please input your password!',
+                message: intl.formatMessage(messages.pleaseInputYourPassword),
               },
             ],
           })(
             <Input
               prefix={<LockOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
               type="password"
-              placeholder="Password"
+              placeholder={intl.formatMessage(messages.password)}
             />,
           )}
         </Form.Item>
         <div className="red-text">{error}</div>
         <Form.Item>
           <Button type="primary" htmlType="submit" className="form-button">
-            Log In
+            <FormattedMessage id="LogIn" defaultMessage="Log In" />
           </Button>
-          <div className="white-text">Don&#39;t have an account?</div>{' '}
+          <div className="white-text">
+            <FormattedMessage
+              id="dontHaveAnAccount"
+              defaultMessage="Don't have an account?"
+            />
+          </div>{' '}
           <Link className="link-now" to="/register">
-            Register Now!
+            <FormattedMessage id="registerNow" defaultMessage="Register Now!" />
           </Link>
           <Link className="form-forgot" to="/password-reset">
-            Forgot password?
+            <FormattedMessage
+              id="forgotPassword"
+              defaultMessage="Forgot password?"
+            />
           </Link>
         </Form.Item>
       </Form>
