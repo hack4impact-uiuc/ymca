@@ -9,8 +9,11 @@ import {
   ExclamationCircleOutlined,
 } from '@ant-design/icons';
 import {
+  addCategory,
   addSubcategory,
+  deleteCategory,
   deleteSubcategory,
+  renameCategory,
   renameSubcategory,
 } from '../utils/api';
 
@@ -29,7 +32,9 @@ function EditCategoryModal(props: ModalProps) {
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [newSubcategoryName, setNewSubcategoryName] = useState('');
+  const [newCategoryName, setNewCategoryName] = useState('');
   const [addSubcategoryName, setAddSubcategoryName] = useState('');
+  const [addCategoryName, setAddCategoryName] = useState('');
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -50,12 +55,46 @@ function EditCategoryModal(props: ModalProps) {
       } else if (modalType === 'add') {
         addSubcategory(id, addSubcategoryName);
       }
+    } else if (categoryType === 'category') {
+      if (modalType === 'rename') {
+        renameCategory(id, newCategoryName, categoryName);
+      } else if (modalType === 'add') {
+        const category = {
+          _id: id,
+          name: addCategoryName,
+          subcategories: [''],
+        };
+        addCategory(category);
+      } else if (modalType === 'delete') {
+        deleteCategory(id);
+      }
     }
   };
 
   const handleCancel = () => {
     setIsModalVisible(false);
   };
+
+  const findValueName = () => {
+    if (categoryType === 'category') {
+      return categoryName;
+    }
+    return subcategoryName;
+  };
+
+  function onChangeRename(value) {
+    if (categoryType === 'category') {
+      setNewCategoryName(value);
+    }
+    setNewSubcategoryName(value);
+  }
+
+  function onChangeAdd(value) {
+    if (categoryType === 'category') {
+      setAddCategoryName(value);
+    }
+    setAddSubcategoryName(value);
+  }
 
   function DeleteCategory() {
     Modal.confirm({
@@ -85,7 +124,7 @@ function EditCategoryModal(props: ModalProps) {
             >
               <Input
                 placeholder={`New ${categoryTypeCapitalized}`}
-                onChange={(e) => setAddSubcategoryName(e.target.value)}
+                onChange={(e) => onChangeAdd(e.target.value)}
               />
             </Modal>
           </>
@@ -108,8 +147,8 @@ function EditCategoryModal(props: ModalProps) {
               onCancel={handleCancel}
             >
               <Input
-                value={subcategoryName}
-                onChange={(e) => setNewSubcategoryName(e.target.value)}
+                value={findValueName}
+                onChange={(e) => onChangeRename(e.target.value)}
               />
             </Modal>
           </>
