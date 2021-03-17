@@ -147,7 +147,7 @@ function EditCategoryModal(props: ModalProps) {
               onCancel={handleCancel}
             >
               <Input
-                value={findValueName()}
+                defaultValue={findValueName()}
                 onChange={(e) => onChangeRename(e.target.value)}
               />
             </Modal>
