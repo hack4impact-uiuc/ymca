@@ -2,3 +2,8 @@
   display: flex;
   justify-content: space-between;
 }
+
+.category {
+  display: flex;
+  justify-content: space-between;
+}
