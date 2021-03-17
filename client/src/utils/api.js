@@ -288,14 +288,22 @@ export const renameSubcategory = (
     );
 };
 
-export const deleteSubcategory = (id: string): ApiResponse<Category> => {
+export const deleteSubcategory = (
+  id: string,
+  category: string,
+  subcategory: string,
+): ApiResponse<Category> => {
   const requestExtension = `/api/admin/subcategories/${id}`;
   return instance
-    .delete(requestExtension, {
-      headers: {
-        token: localStorage.getItem('token'),
+    .delete(
+      requestExtension,
+      { category, subcategory },
+      {
+        headers: {
+          token: localStorage.getItem('token'),
+        },
       },
-    })
+    )
     .then(
       (res) => res.data,
       (err) => {

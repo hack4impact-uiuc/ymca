@@ -8,18 +8,28 @@ import {
   EditOutlined,
   ExclamationCircleOutlined,
 } from '@ant-design/icons';
+import {
+  addSubcategory,
+  deleteSubcategory,
+  renameSubcategory,
+} from '../utils/api';
 
 type ModalProps = {
   modalType: 'add' | 'delete' | 'rename',
   categoryType: 'subcategory' | 'category',
+  subcategoryName: string,
+  id: string,
+  categoryName: string,
 };
 
 function EditCategoryModal(props: ModalProps) {
-  const { modalType, categoryType } = props;
+  const { modalType, categoryType, subcategoryName, id, categoryName } = props;
   const categoryTypeCapitalized =
     categoryType[0].toUpperCase() + categoryType.slice(1);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [newSubcategoryName, setNewSubcategoryName] = useState('');
+  const [addSubcategoryName, setAddSubcategoryName] = useState('');
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -27,6 +37,20 @@ function EditCategoryModal(props: ModalProps) {
 
   const handleOk = () => {
     setIsModalVisible(false);
+    if (categoryType === 'subcategory') {
+      if (modalType === 'rename') {
+        renameSubcategory(
+          id,
+          categoryName,
+          subcategoryName,
+          newSubcategoryName,
+        );
+      } else if (modalType === 'delete') {
+        deleteSubcategory(id, categoryName, subcategoryName);
+      } else if (modalType === 'add') {
+        addSubcategory(id, addSubcategoryName);
+      }
+    }
   };
 
   const handleCancel = () => {
@@ -59,7 +83,10 @@ function EditCategoryModal(props: ModalProps) {
               onOk={handleOk}
               onCancel={handleCancel}
             >
-              <Input placeholder={`New ${categoryTypeCapitalized}`} />
+              <Input
+                placeholder={`New ${categoryTypeCapitalized}`}
+                onChange={(e) => setAddSubcategoryName(e.target.value)}
+              />
             </Modal>
           </>
         );
@@ -80,7 +107,10 @@ function EditCategoryModal(props: ModalProps) {
               onOk={handleOk}
               onCancel={handleCancel}
             >
-              <Input placeholder="Legal Aid" />
+              <Input
+                value={subcategoryName}
+                onChange={(e) => setNewSubcategoryName(e.target.value)}
+              />
             </Modal>
           </>
         );
