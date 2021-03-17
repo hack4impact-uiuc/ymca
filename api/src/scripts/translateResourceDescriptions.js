@@ -72,7 +72,6 @@ async function main() {
   const updatedTranslation = await Translation.findOne({
     language: { $eq: myDictionary[languageType] },
   });
-  // updatedTranslation.messages.set('resource-description-5eba229c29c48c083c6b19ef', 'Hola');
   translatedResourceDescriptions.forEach(function (value, key, map) {
     updatedTranslation.messages.set(key, value);
   });

@@ -3,7 +3,9 @@
 import React, { useEffect, useState } from 'react';
 import { Card } from 'antd';
 import { Link } from 'react-router-dom';
+import { useIntl } from 'react-intl';
 
+import { filterMessages } from '../utils/messages';
 import '../css/ResourcePreview.css';
 import { saveResource, deleteSavedResource } from '../utils/auth';
 import determineStockPhoto from '../utils/determineStockPhoto';
@@ -40,6 +42,7 @@ function ResourcePreview(props: Props) {
     image,
     description,
   } = props;
+  const intl = useIntl();
   const [src, setSrc] = useState('');
   const [hover, setHover] = useState(false);
 
@@ -70,7 +73,11 @@ function ResourcePreview(props: Props) {
   }
   let resourceInfoText = '';
   if (cost && cost !== '') {
-    resourceInfoText += `${cost} `;
+    if (cost === 'Free') {
+      resourceInfoText += `${intl.formatMessage(filterMessages.free)} `;
+    } else {
+      resourceInfoText += `${cost} `;
+    }
   }
   if (city && city !== '') {
     if (resourceInfoText !== '') {
