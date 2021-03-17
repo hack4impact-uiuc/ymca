@@ -75,12 +75,12 @@ function EditCategoryModal(props: ModalProps) {
     setIsModalVisible(false);
   };
 
-  const findValueName = () => {
+  function findValueName() {
     if (categoryType === 'category') {
       return categoryName;
     }
     return subcategoryName;
-  };
+  }
 
   function onChangeRename(value) {
     if (categoryType === 'category') {
@@ -147,7 +147,7 @@ function EditCategoryModal(props: ModalProps) {
               onCancel={handleCancel}
             >
               <Input
-                value={findValueName}
+                value={findValueName()}
                 onChange={(e) => onChangeRename(e.target.value)}
               />
             </Modal>
