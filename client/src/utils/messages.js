@@ -1,6 +1,5 @@
 import { defineMessage, defineMessages } from 'react-intl';
 
-// eslint-disable-next-line
 export const filterMessages = defineMessages({
   cost: {
     id: 'filterCost',
