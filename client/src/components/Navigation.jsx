@@ -4,11 +4,14 @@ import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Layout, Drawer, Button, Menu, Select } from 'antd';
 import { MenuOutlined } from '@ant-design/icons';
+import { FormattedMessage } from 'react-intl';
 
 import useWindowDimensions from '../utils/mobile';
 import { useAuth } from '../utils/use-auth';
 
 import '../css/Navigation.css';
+
+import { savedResourcesMessage } from '../utils/messages';
 
 const { Header } = Layout;
 
@@ -52,7 +55,7 @@ const NavDesktop = (props: NavigationProps) => {
         {authed && (
           <Menu.Item key="saved">
             <NavLink exact to="/saved" activeClassName="navbar-active-style">
-              Saved Resources
+              <FormattedMessage {...savedResourcesMessage} />
             </NavLink>
           </Menu.Item>
         )}

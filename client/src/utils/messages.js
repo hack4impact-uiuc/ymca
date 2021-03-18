@@ -1,4 +1,4 @@
-import { defineMessages } from 'react-intl';
+import { defineMessage, defineMessages } from 'react-intl';
 
 // eslint-disable-next-line
 export const filterMessages = defineMessages({
@@ -34,4 +34,14 @@ export const filterMessages = defineMessages({
     id: 'filterName',
     defaultMessage: 'Name',
   },
+});
+
+export const allResourcesMessage = defineMessage({
+  id: 'allResources',
+  defaultMessage: 'All Resources',
+});
+
+export const savedResourcesMessage = defineMessage({
+  id: 'savedResources',
+  defaultMessage: 'Saved Resources',
 });
