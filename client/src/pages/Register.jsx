@@ -127,9 +127,7 @@ const Register = ({ form }: Props) => {
               },
               {
                 required: true,
-                message: intl.formatMessage(
-                  loginMessages.passwordsInconsistent,
-                ),
+                message: intl.formatMessage(messages.passwordsInconsistent),
               },
             ],
           })(
@@ -192,8 +190,19 @@ const Register = ({ form }: Props) => {
               )}
             >
               {securityQuestions.map((question, idx) => (
-                <Option value={idx} key={question}>
-                  {question}
+                <Option
+                  value={idx}
+                  key={
+                    <FormattedMessage
+                      id={`securityQuestion-${question}`.replace(/\s/g, '')}
+                      defaultMessage={question}
+                    />
+                  }
+                >
+                  <FormattedMessage
+                    id={`securityQuestion-${question}`.replace(/\s/g, '')}
+                    defaultMessage={question}
+                  />
                 </Option>
               ))}
             </Select>,
