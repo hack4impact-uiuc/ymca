@@ -7,7 +7,7 @@
   margin-right: 1%;
 }
 
-.resource-manager-sidebar-subcategory {
+.resource-manager-sidebar-category {
   display: flex;
   justify-content: space-between;
 }

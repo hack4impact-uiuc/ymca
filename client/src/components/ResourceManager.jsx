@@ -55,7 +55,7 @@ const SidebarCategory = (props: Props) => {
       {categories[categoryName].map((subCategory) => (
         <Menu.Item
           key={subCategory}
-          className="resource-manager-sidebar-subcategory"
+          className="resource-manager-sidebar-category"
         >
           {subCategory}
           <div>
@@ -66,7 +66,7 @@ const SidebarCategory = (props: Props) => {
       ))}
       <Menu.Item
         key="Add Subcategory"
-        className="resource-manager-sidebar-subcategory"
+        className="resource-manager-sidebar-category"
       >
         Add Subcategory
         <PlusOutlined style={{ position: 'relative', top: 10 }} />
@@ -106,7 +106,7 @@ const ResourceManager = () => {
           ))}
           <Menu.Item
             key="Add Category"
-            className="resource-manager-sidebar-subcategory"
+            className="resource-manager-sidebar-category"
           >
             Add Category
             <PlusOutlined style={{ position: 'relative', top: 10 }} />
