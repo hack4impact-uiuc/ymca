@@ -190,15 +190,7 @@ const Register = ({ form }: Props) => {
               )}
             >
               {securityQuestions.map((question, idx) => (
-                <Option
-                  value={idx}
-                  key={
-                    <FormattedMessage
-                      id={`securityQuestion-${question}`.replace(/\s/g, '')}
-                      defaultMessage={question}
-                    />
-                  }
-                >
+                <Option value={idx} key={question}>
                   <FormattedMessage
                     id={`securityQuestion-${question}`.replace(/\s/g, '')}
                     defaultMessage={question}
