@@ -1,3 +1,5 @@
+// @flow
+
 import React, { useState, useEffect } from 'react';
 import { EditFilled } from '@ant-design/icons';
 import { Table, Tag } from 'antd';
@@ -33,7 +35,13 @@ const TAG_COLOR_DICT = {
   z: 'purple',
 };
 
-const ManageResourcesTable = () => {
+type Props = {
+  selectedCategory: String,
+  selectedSubcategory: String,
+};
+
+const ManageResourcesTable = (props: Props) => {
+  const { selectedCategory, selectedSubcategory } = props;
   const [resources, setResources] = useState([]);
 
   const displayTags = (categories) => (
@@ -71,6 +79,12 @@ const ManageResourcesTable = () => {
     };
     fetchResources();
   }, []);
+
+  const filterResources = (resource) =>
+    !selectedCategory ||
+    (!selectedSubcategory && resource.categories.includes(selectedCategory)) ||
+    (resource.categories.includes(selectedCategory) &&
+      resource.subcategories.includes(selectedSubcategory));
 
   function compareNames(current, next) {
     const textCurrent = current.name.toUpperCase();
@@ -120,9 +134,11 @@ const ManageResourcesTable = () => {
 
   return (
     <div align="center">
+      {selectedCategory}
+      {selectedSubcategory}
       <Table
         columns={columns}
-        dataSource={resources}
+        dataSource={resources.filter(filterResources)}
         pagination={{ hideOnSinglePage: true }}
       />
     </div>

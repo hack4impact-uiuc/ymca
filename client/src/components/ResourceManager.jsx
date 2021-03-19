@@ -24,11 +24,21 @@ type Props = {
 const SidebarCategory = (props: Props) => {
   const { SubMenu } = Menu;
 
-  const { categories, categoryName } = props;
+  const {
+    categories,
+    categoryName,
+    setSelectedCategory,
+    setSelectedSubcategory,
+  } = props;
   const [opened, setOpened] = useState(false);
 
   const handleChange = () => {
     setOpened(!opened);
+    if (!opened) setSelectedCategory(categoryName);
+    else {
+      setSelectedCategory('');
+      setSelectedSubcategory('');
+    }
   };
 
   return (
@@ -52,12 +62,13 @@ const SidebarCategory = (props: Props) => {
       }
       onTitleClick={handleChange}
     >
-      {categories[categoryName].map((subCategory) => (
+      {categories[categoryName].map((subcategory) => (
         <Menu.Item
-          key={subCategory}
+          key={subcategory}
           className="resource-manager-sidebar-category"
+          onClick={() => setSelectedSubcategory(subcategory)}
         >
-          {subCategory}
+          {subcategory}
           <div>
             <EditOutlined />
             <CloseOutlined style={{ color: '#FF0000' }} />
@@ -77,6 +88,8 @@ const SidebarCategory = (props: Props) => {
 
 const ResourceManager = () => {
   const [categories, setCategories] = useState<{ [string]: Array<string> }>({});
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedSubcategory, setSelectedSubcategory] = useState('');
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -102,6 +115,8 @@ const ResourceManager = () => {
               categories={categories}
               categoryName={categoryName}
               key={categoryName}
+              setSelectedCategory={setSelectedCategory}
+              setSelectedSubcategory={setSelectedSubcategory}
             />
           ))}
           <Menu.Item
@@ -114,7 +129,10 @@ const ResourceManager = () => {
         </Menu>
       </div>
       <div className="resource-manager-table">
-        <ManageResourcesTable />
+        <ManageResourcesTable
+          selectedCategory={selectedCategory}
+          selectedSubcategory={selectedSubcategory}
+        />
       </div>
     </div>
   );
