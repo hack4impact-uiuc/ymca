@@ -5,6 +5,15 @@
   opacity: 1;
 }
 
+.welcome-resource-block {
+  display: flex;
+  flex-direction: row;
+}
+
+.welcome-carousel-block {
+  flex-shrink: 2;
+}
+
 .welcome-text {
   color: #fff;
   font-weight: 400;
@@ -19,6 +28,7 @@
   font-weight: 600;
   font-size: 65px;
   line-height: 1.25;
+  white-space: nowrap;
 }
 
 .welcome-text-link {
@@ -27,6 +37,8 @@
   font-size: 65px;
   line-height: 1.25;
   padding-left: 12px;
+  width: auto;
+  display: inline-block;
 }
 
 .welcome-text-link:hover {
@@ -189,6 +201,9 @@
 
   .welcome-carousel {
     margin-bottom: 0.9em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .home-block-1 {
