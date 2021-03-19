@@ -16,23 +16,19 @@ import { savedResourcesMessage } from '../utils/messages';
 const { Header } = Layout;
 
 type NavigationProps = {
+  language: string,
   setLanguage: (string) => void,
 };
 
 const Navigation = (props: NavigationProps) => {
-  const { setLanguage } = props;
   const isMobile = useWindowDimensions()[1];
-  return isMobile ? (
-    <NavMobile setLanguage={setLanguage} />
-  ) : (
-    <NavDesktop setLanguage={setLanguage} />
-  );
+  return isMobile ? <NavMobile {...props} /> : <NavDesktop {...props} />;
 };
 
 const { Option } = Select;
 
 const NavDesktop = (props: NavigationProps) => {
-  const { setLanguage } = props;
+  const { language, setLanguage } = props;
   const { authed, authRoleIsEquivalentTo } = useAuth();
 
   return (
@@ -93,6 +89,7 @@ const NavDesktop = (props: NavigationProps) => {
           defaultValue="English"
           bordered={false}
           onChange={setLanguage}
+          value={language}
         >
           <Option value="English">English</Option>
           <Option value="Spanish">Español</Option>
@@ -105,7 +102,9 @@ const NavDesktop = (props: NavigationProps) => {
 };
 
 const NavMobile = (props: NavigationProps) => {
-  const { setLanguage } = props;
+  // TODO: Fix when mobile switching complete
+  // eslint-disable-next-line no-unused-vars
+  const { language, setLanguage } = props;
   const { authed, authRoleIsEquivalentTo } = useAuth();
   const [drawerVisible, setDrawerVisible] = useState(false);
 

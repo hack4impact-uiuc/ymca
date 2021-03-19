@@ -51,7 +51,9 @@ const ANTD_LOCALE_DICT = {
 
 const App = (): React$Element<React$FragmentType> => {
   const { authed, authRoleIsEquivalentTo } = useAuth();
-  const [language, setLanguage] = useState('English');
+  const [language, setLanguage] = useState(
+    localStorage.getItem('language') || 'English',
+  );
   const [messages, setMessages] = useState({});
 
   useEffect(() => {
@@ -69,6 +71,11 @@ const App = (): React$Element<React$FragmentType> => {
     };
     fetchTranslations();
   }, [language, setMessages]);
+
+  const storeLanguage = (selectedLanguage) => {
+    localStorage.setItem('language', selectedLanguage);
+    setLanguage(selectedLanguage);
+  };
 
   const showIfUnauthed = useCallback(
     (component) => {
@@ -97,7 +104,7 @@ const App = (): React$Element<React$FragmentType> => {
       >
         <Router>
           <ScrollToTop />
-          <Navigation setLanguage={setLanguage} />
+          <Navigation language={language} setLanguage={storeLanguage} />
           <Suspense
             fallback={
               <Loader
