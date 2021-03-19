@@ -134,8 +134,6 @@ const ManageResourcesTable = (props: Props) => {
 
   return (
     <div align="center">
-      {selectedCategory}
-      {selectedSubcategory}
       <Table
         columns={columns}
         dataSource={resources.filter(filterResources)}
