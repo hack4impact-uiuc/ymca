@@ -37,7 +37,7 @@ const ManageResourcesTable = () => {
   const [resources, setResources] = useState([]);
 
   const displayTags = (categories) => (
-    <div>
+    <>
       {categories.map((c) => (
         <Tag key={c} color={TAG_COLOR_DICT[c[0].toLowerCase()]}>
           {c}
@@ -49,14 +49,11 @@ const ManageResourcesTable = () => {
       >
         +
       </Tag>
-    </div>
+    </>
   );
 
   useEffect(() => {
     const fetchResources = async () => {
-      // TODO: replace with getResourcesByCategory and getResourcesBySubcategory
-      // add some states with values from sidebar and filter accordingly
-      // TODO: use optimized get request
       const res = await getResources();
       const newResources = [];
       if (res != null) {

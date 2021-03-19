@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { CaretDownOutlined } from '@ant-design/icons';
-import { Button, Menu, Dropdown, message, Input, Card, Table } from 'antd';
+import { Button, Menu, Dropdown, message, Input, Table } from 'antd';
 import Loader from 'react-loader-spinner';
 
 import { getUsersForRolesPage, changeRole } from '../utils/auth';
