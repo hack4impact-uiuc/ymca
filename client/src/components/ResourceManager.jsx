@@ -66,7 +66,10 @@ const SidebarCategory = (props: Props) => {
         <Menu.Item
           key={subcategory}
           className="resource-manager-sidebar-category"
-          onClick={() => setSelectedSubcategory(subcategory)}
+          onClick={() => {
+            setSelectedSubcategory(subcategory);
+            setSelectedCategory(categoryName);
+          }}
         >
           {subcategory}
           <div>
