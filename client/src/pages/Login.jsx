@@ -10,7 +10,7 @@ import 'antd/dist/antd.css';
 import '../css/LoginRegister.css';
 
 import { useIntl, FormattedMessage, defineMessages } from 'react-intl';
-import { filterMessages } from '../utils/messages';
+import { loginMessages } from '../utils/messages';
 
 import { useAuth } from '../utils/use-auth';
 
@@ -66,7 +66,7 @@ function Login(props: Props) {
         <Col className="icon">
           <img src="/asset/icon/icon-with-words.png" alt="" />
           <div className="header-text">
-            <FormattedMessage id="Login" defaultMessage="Login" />
+            <FormattedMessage id="login" defaultMessage="Login" />
           </div>
         </Col>
       </Row>
@@ -80,15 +80,13 @@ function Login(props: Props) {
               },
               {
                 required: true,
-                message: intl.formatMessage(
-                  filterMessages.pleaseInputYourEmail,
-                ),
+                message: intl.formatMessage(loginMessages.pleaseInputYourEmail),
               },
             ],
           })(
             <Input
               prefix={<UserOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
-              placeholder={intl.formatMessage(filterMessages.email)}
+              placeholder={intl.formatMessage(loginMessages.email)}
             />,
           )}
         </Form.Item>
@@ -111,7 +109,7 @@ function Login(props: Props) {
         <div className="red-text">{error}</div>
         <Form.Item>
           <Button type="primary" htmlType="submit" className="form-button">
-            <FormattedMessage id="LogIn" defaultMessage="Log In" />
+            <FormattedMessage id="logInButton" defaultMessage="Log In" />
           </Button>
           <div className="white-text">
             <FormattedMessage

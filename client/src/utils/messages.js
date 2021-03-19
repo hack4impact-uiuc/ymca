@@ -43,3 +43,14 @@ export const filterMessages = defineMessages({
     defaultMessage: 'E-mail',
   },
 });
+
+export const loginMessages = defineMessages({
+  pleaseInputYourEmail: {
+    id: 'pleaseInputYourEmail',
+    defaultMessage: 'Please input your E-mail!',
+  },
+  email: {
+    id: 'email',
+    defaultMessage: 'E-mail',
+  },
+});

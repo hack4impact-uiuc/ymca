@@ -9,7 +9,7 @@ import { Button, Input, Select, Row, Col, message } from 'antd';
 import 'antd/dist/antd.css';
 import '../css/LoginRegister.css';
 import { useIntl, FormattedMessage, defineMessages } from 'react-intl';
-import { filterMessages } from '../utils/messages';
+import { loginMessages } from '../utils/messages';
 
 import { useAuth } from '../utils/use-auth';
 
@@ -24,8 +24,8 @@ const messages = defineMessages({
     id: 'passwordsInconsistent',
     defaultMessage: 'The two passwords you entered are inconsistent!',
   },
-  InputIsNotValidEmail: {
-    id: 'InputIsNotValidEmail',
+  inputIsNotValidEmail: {
+    id: 'inputIsNotValidEmail',
     defaultMessage: 'The input is not valid E-mail!',
   },
   pleaseCreateAPassword: {
@@ -123,19 +123,19 @@ const Register = ({ form }: Props) => {
             rules: [
               {
                 type: 'email',
-                message: intl.formatMessage(messages.InputIsNotValidEmail),
+                message: intl.formatMessage(messages.inputIsNotValidEmail),
               },
               {
                 required: true,
                 message: intl.formatMessage(
-                  filterMessages.passwordsInconsistent,
+                  loginMessages.passwordsInconsistent,
                 ),
               },
             ],
           })(
             <Input
               prefix={<UserOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
-              placeholder={intl.formatMessage(filterMessages.email)}
+              placeholder={intl.formatMessage(loginMessages.email)}
             />,
           )}
         </Form.Item>
@@ -151,7 +151,7 @@ const Register = ({ form }: Props) => {
             <Input.Password
               prefix={<LockOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
               type="password"
-              placeholder={intl.formatMessage(messages.pleaseCreateAPassword)}
+              placeholder={intl.formatMessage(messages.createPassword)}
             />,
           )}
         </Form.Item>
