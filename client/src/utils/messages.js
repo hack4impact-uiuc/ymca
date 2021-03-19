@@ -1,6 +1,5 @@
-import { defineMessages } from 'react-intl';
+import { defineMessage, defineMessages } from 'react-intl';
 
-// eslint-disable-next-line
 export const filterMessages = defineMessages({
   cost: {
     id: 'filterCost',
@@ -34,14 +33,6 @@ export const filterMessages = defineMessages({
     id: 'filterName',
     defaultMessage: 'Name',
   },
-  pleaseInputYourEmail: {
-    id: 'pleaseInputYourEmail',
-    defaultMessage: 'Please input your E-mail!',
-  },
-  email: {
-    id: 'email',
-    defaultMessage: 'E-mail',
-  },
 });
 
 export const loginMessages = defineMessages({
@@ -53,4 +44,14 @@ export const loginMessages = defineMessages({
     id: 'email',
     defaultMessage: 'E-mail',
   },
+});
+
+export const allResourcesMessage = defineMessage({
+  id: 'allResources',
+  defaultMessage: 'All Resources',
+});
+
+export const savedResourcesMessage = defineMessage({
+  id: 'savedResources',
+  defaultMessage: 'Saved Resources',
 });

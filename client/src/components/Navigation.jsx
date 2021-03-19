@@ -4,11 +4,14 @@ import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Layout, Drawer, Button, Menu, Select } from 'antd';
 import { MenuOutlined } from '@ant-design/icons';
+import { FormattedMessage } from 'react-intl';
 
 import useWindowDimensions from '../utils/mobile';
 import { useAuth } from '../utils/use-auth';
 
 import '../css/Navigation.css';
+
+import { savedResourcesMessage } from '../utils/messages';
 
 const { Header } = Layout;
 
@@ -36,19 +39,19 @@ const NavDesktop = (props: NavigationProps) => {
       <Menu mode="horizontal">
         <Menu.Item key="home">
           <NavLink exact to="/" activeClassName="navbar-active-style">
-            Home
+            <FormattedMessage id="home" defaultMessage="Home" />
           </NavLink>
         </Menu.Item>
         <Menu.Item key="resources">
           <NavLink exact to="/resources" activeClassName="navbar-active-style">
-            Resources
+            <FormattedMessage id="resources" defaultMessage="Resources" />
           </NavLink>
         </Menu.Item>
 
         {authed && (
           <Menu.Item key="saved">
             <NavLink exact to="/saved" activeClassName="navbar-active-style">
-              Saved Resources
+              <FormattedMessage {...savedResourcesMessage} />
             </NavLink>
           </Menu.Item>
         )}
@@ -64,13 +67,13 @@ const NavDesktop = (props: NavigationProps) => {
         {!authed ? (
           <Menu.Item key="login">
             <NavLink to="/login" activeClassName="navbar-active-style">
-              Login
+              <FormattedMessage id="login" defaultMessage="Login" />
             </NavLink>
           </Menu.Item>
         ) : (
           <Menu.Item key="logout">
             <NavLink to="/logout" activeClassName="navbar-active-style">
-              Logout
+              <FormattedMessage id="logout" defaultMessage="Logout" />
             </NavLink>
           </Menu.Item>
         )}
@@ -146,25 +149,25 @@ const NavMobile = (props: NavigationProps) => {
             {!authed && (
               <Menu.Item className="nav-mobile-menu-item">
                 <NavLink className="nav-mobile-option" to="/login">
-                  Login
+                  <FormattedMessage id="login" defaultMessage="Login" />
                 </NavLink>
               </Menu.Item>
             )}
             <Menu.Item className="nav-mobile-menu-item">
               <NavLink className="nav-mobile-option" exact to="/">
-                Home
+                <FormattedMessage id="home" defaultMessage="Home" />
               </NavLink>
             </Menu.Item>
             {authed && (
               <Menu.Item className="nav-mobile-menu-item">
                 <NavLink className="nav-mobile-option" exact to="/saved">
-                  Saved
+                  <FormattedMessage {...savedResourcesMessage} />
                 </NavLink>
               </Menu.Item>
             )}
             <Menu.Item className="nav-mobile-menu-item">
               <NavLink className="nav-mobile-option" exact to="/resources">
-                Resources
+                <FormattedMessage id="resources" defaultMessage="Resources" />
               </NavLink>
             </Menu.Item>
             {authRoleIsEquivalentTo('admin') && (
@@ -177,7 +180,7 @@ const NavMobile = (props: NavigationProps) => {
             {authed && (
               <Menu.Item className="nav-mobile-menu-item" onSelect>
                 <NavLink className="nav-mobile-option" to="/logout">
-                  Logout
+                  <FormattedMessage id="logout" defaultMessage="Logout" />
                 </NavLink>
               </Menu.Item>
             )}
