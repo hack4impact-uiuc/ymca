@@ -82,7 +82,7 @@ const Register = ({ form }: Props) => {
         callback();
       }
     },
-    [form],
+    [intl, form],
   );
 
   const onRegisterSubmit = useCallback(
