@@ -23,10 +23,18 @@ type ModalProps = {
   subcategoryName: string,
   id: string,
   categoryName: string,
+  fetchCategories: () => void,
 };
 
 function EditCategoryModal(props: ModalProps) {
-  const { modalType, categoryType, subcategoryName, id, categoryName } = props;
+  const {
+    modalType,
+    categoryType,
+    subcategoryName,
+    id,
+    categoryName,
+    fetchCategories,
+  } = props;
   const categoryTypeCapitalized =
     categoryType[0].toUpperCase() + categoryType.slice(1);
 
@@ -40,37 +48,37 @@ function EditCategoryModal(props: ModalProps) {
     setIsModalVisible(true);
   };
 
-  const handleOk = () => {
-    setIsModalVisible(false);
+  async function handleSubmit() {
     if (categoryType === 'subcategory') {
       if (modalType === 'rename') {
-        renameSubcategory(
+        await renameSubcategory(
           id,
           categoryName,
           subcategoryName,
           newSubcategoryName,
         );
-      } else if (modalType === 'delete') {
-        deleteSubcategory(id, categoryName, subcategoryName);
       } else if (modalType === 'add') {
-        addSubcategory(id, addSubcategoryName);
+        await addSubcategory(id, addSubcategoryName);
       }
     } else if (categoryType === 'category') {
       if (modalType === 'rename') {
-        renameCategory(id, newCategoryName, categoryName);
+        await renameCategory(id, newCategoryName, categoryName);
       } else if (modalType === 'add') {
         const category = {
           _id: id,
           name: addCategoryName,
           subcategories: [''],
         };
-        addCategory(category);
-      } else if (modalType === 'delete') {
-        deleteCategory(id);
+        await addCategory(category);
       }
     }
-  };
+  }
 
+  const handleOk = async () => {
+    setIsModalVisible(false);
+    await handleSubmit();
+    fetchCategories();
+  };
   const handleCancel = () => {
     setIsModalVisible(false);
   };
@@ -105,6 +113,14 @@ function EditCategoryModal(props: ModalProps) {
         ' and untag resources associated.',
       okText: 'Yes',
       cancelText: 'No',
+      async onOk() {
+        console.log(`cat: ${categoryName} id: ${id}sub: ${subcategoryName}`);
+        if (categoryType === 'category') {
+          deleteCategory(id);
+        } else if (categoryType === 'subcategory') {
+          await renameSubcategory(id, categoryName, subcategoryName, 'neha');
+        }
+      },
     });
   }
 

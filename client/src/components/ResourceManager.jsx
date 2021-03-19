@@ -17,14 +17,15 @@ import EditCategoryModal from './EditCategoryModal';
 
 type Props = {
   categories: { [string]: Array<string> },
-  categoryName: String,
+  categoryName: string,
   categoryIds: { [string]: Array<string> },
+  fetchCategories: () => void,
 };
 
 const SidebarCategory = (props: Props) => {
   const { SubMenu } = Menu;
 
-  const { categories, categoryName, categoryIds } = props;
+  const { categories, categoryName, categoryIds, fetchCategories } = props;
   const [opened, setOpened] = useState(false);
 
   const handleChange = () => {
@@ -62,6 +63,7 @@ const SidebarCategory = (props: Props) => {
               subcategoryName={subCategory}
               id={categoryIds[categoryName]}
               categoryName={categoryName}
+              fetchCategories={fetchCategories}
             />
             <EditCategoryModal
               modalType="delete"
@@ -69,6 +71,7 @@ const SidebarCategory = (props: Props) => {
               subcategoryName={subCategory}
               id={categoryIds[categoryName]}
               categoryName={categoryName}
+              fetchCategories={fetchCategories}
             />
           </div>
         </Menu.Item>
@@ -85,21 +88,21 @@ const ResourceManager = () => {
   const [categories, setCategories] = useState<{ [string]: Array<string> }>({});
   const [categoryIds, setCategoryIds] = useState({});
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      const res = await getCategories();
-      const newCategories = {};
-      const ids = {};
-      if (res != null) {
-        res.result.forEach((c) => {
-          newCategories[c.name] = c.subcategories;
-          ids[c.name] = c._id;
-        });
-      }
-      setCategories(newCategories);
-      setCategoryIds(ids);
-    };
+  const fetchCategories = async () => {
+    const res = await getCategories();
+    const newCategories = {};
+    const ids = {};
+    if (res != null) {
+      res.result.forEach((c) => {
+        newCategories[c.name] = c.subcategories;
+        ids[c.name] = c._id;
+      });
+    }
+    setCategories(newCategories);
+    setCategoryIds(ids);
+  };
 
+  useEffect(() => {
     fetchCategories();
   }, []);
 
@@ -111,6 +114,7 @@ const ResourceManager = () => {
           categoryName={categoryName}
           key={categoryName}
           categoryIds={categoryIds}
+          fetchCategories={fetchCategories}
         />
       ))}
       <Menu.Item key="Add Category" className="subcategory">

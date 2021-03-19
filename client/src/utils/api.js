@@ -287,7 +287,6 @@ export const renameSubcategory = (
       },
     );
 };
-
 export const deleteSubcategory = (
   id: string,
   category: string,
