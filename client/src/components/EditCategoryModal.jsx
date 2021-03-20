@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 
-import { Modal, Button, Input } from 'antd';
+import { Modal, Input } from 'antd';
 import {
   CloseOutlined,
   EditOutlined,
@@ -115,7 +115,6 @@ function EditCategoryModal(props: ModalProps) {
       okText: 'Yes',
       cancelText: 'No',
       async onOk() {
-        console.log(`cat: ${categoryName} id: ${id}sub: ${subcategoryName}`);
         if (categoryType === 'category') {
           await deleteCategory(id, categoryName);
           fetchCategories();

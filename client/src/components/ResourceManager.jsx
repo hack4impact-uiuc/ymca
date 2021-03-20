@@ -82,7 +82,10 @@ const SidebarCategory = (props: Props) => {
           </div>
         </Menu.Item>
       ))}
-      <Menu.Item key="Add Subcategory" className="subcategory">
+      <Menu.Item
+        key={categoryIds[categoryName].toString().concat('-add-subcategory')}
+        className="subcategory"
+      >
         Add Subcategory
         <EditCategoryModal
           modalType="add"
