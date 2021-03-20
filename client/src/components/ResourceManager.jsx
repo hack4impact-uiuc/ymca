@@ -2,23 +2,20 @@
 
 import React, { useEffect, useState } from 'react';
 import { Menu } from 'antd';
-import {
-  DownOutlined,
-  UpOutlined,
-  EditOutlined,
-  CloseOutlined,
-  PlusOutlined,
-} from '@ant-design/icons';
+import { DownOutlined, UpOutlined } from '@ant-design/icons';
 
 import { getCategories } from '../utils/api';
 
 import ManageResourcesTable from './ManageResourcesTable';
 
 import '../css/ResourceManager.css';
+import EditCategoryModal from './EditCategoryModal';
 
 type Props = {
   categories: { [string]: Array<string> },
-  categoryName: String,
+  categoryName: string,
+  categoryIds: { [string]: Array<string> },
+  fetchCategories: () => void,
 };
 
 const SidebarCategory = (props: Props) => {
@@ -27,6 +24,8 @@ const SidebarCategory = (props: Props) => {
   const {
     categories,
     categoryName,
+    categoryIds,
+    fetchCategories,
     setSelectedCategory,
     setSelectedSubcategory,
   } = props;
@@ -48,8 +47,20 @@ const SidebarCategory = (props: Props) => {
         <span>
           {categoryName}
           <span style={{ position: 'absolute', right: 15 }}>
-            <EditOutlined />
-            <CloseOutlined style={{ color: '#FF0000' }} />
+            <EditCategoryModal
+              modalType="rename"
+              categoryType="category"
+              id={categoryIds[categoryName]}
+              categoryName={categoryName}
+              fetchCategories={fetchCategories}
+            />
+            <EditCategoryModal
+              modalType="delete"
+              categoryType="category"
+              id={categoryIds[categoryName]}
+              categoryName={categoryName}
+              fetchCategories={fetchCategories}
+            />
           </span>
         </span>
       }
@@ -73,17 +84,37 @@ const SidebarCategory = (props: Props) => {
         >
           {subcategory}
           <div>
-            <EditOutlined />
-            <CloseOutlined style={{ color: '#FF0000' }} />
+            <EditCategoryModal
+              modalType="rename"
+              categoryType="subcategory"
+              subcategoryName={subcategory}
+              id={categoryIds[categoryName]}
+              categoryName={categoryName}
+              fetchCategories={fetchCategories}
+            />
+            <EditCategoryModal
+              modalType="delete"
+              categoryType="subcategory"
+              subcategoryName={subcategory}
+              id={categoryIds[categoryName]}
+              categoryName={categoryName}
+              fetchCategories={fetchCategories}
+            />
           </div>
         </Menu.Item>
       ))}
       <Menu.Item
-        key="Add Subcategory"
+        key={categoryIds[categoryName].toString().concat('-add-subcategory')}
         className="resource-manager-sidebar-category"
       >
         Add Subcategory
-        <PlusOutlined style={{ position: 'relative', top: 10 }} />
+        <EditCategoryModal
+          modalType="add"
+          categoryType="subcategory"
+          id={categoryIds[categoryName]}
+          categoryName={categoryName}
+          fetchCategories={fetchCategories}
+        />
       </Menu.Item>
     </SubMenu>
   );
@@ -91,21 +122,25 @@ const SidebarCategory = (props: Props) => {
 
 const ResourceManager = () => {
   const [categories, setCategories] = useState<{ [string]: Array<string> }>({});
+  const [categoryIds, setCategoryIds] = useState({});
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedSubcategory, setSelectedSubcategory] = useState('');
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      const res = await getCategories();
-      const newCategories = {};
-      if (res != null) {
-        res.result.forEach((c) => {
-          newCategories[c.name] = c.subcategories;
-        });
-      }
-      setCategories(newCategories);
-    };
+  const fetchCategories = async () => {
+    const res = await getCategories();
+    const newCategories = {};
+    const ids = {};
+    if (res != null) {
+      res.result.forEach((c) => {
+        newCategories[c.name] = c.subcategories;
+        ids[c.name] = c._id;
+      });
+    }
+    setCategoryIds(ids);
+    setCategories(newCategories);
+  };
 
+  useEffect(() => {
     fetchCategories();
   }, []);
 
@@ -118,6 +153,8 @@ const ResourceManager = () => {
               categories={categories}
               categoryName={categoryName}
               key={categoryName}
+              categoryIds={categoryIds}
+              fetchCategories={fetchCategories}
               setSelectedCategory={setSelectedCategory}
               setSelectedSubcategory={setSelectedSubcategory}
             />
@@ -127,7 +164,11 @@ const ResourceManager = () => {
             className="resource-manager-sidebar-category"
           >
             Add Category
-            <PlusOutlined style={{ position: 'relative', top: 10 }} />
+            <EditCategoryModal
+              modalType="add"
+              categoryType="category"
+              fetchCategories={fetchCategories}
+            />
           </Menu.Item>
         </Menu>
       </div>

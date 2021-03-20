@@ -223,21 +223,25 @@ export const renameCategory = (
     );
 };
 
-export const deleteCategory = (id: string): ApiResponse<null> => {
+export const deleteCategory = (
+  id: string,
+  categoryName: string,
+): ApiResponse<null> => {
   const requestExtension = `/api/admin/categories/${id}`;
-  return instance
-    .delete(requestExtension, {
-      headers: {
-        token: localStorage.getItem('token'),
-      },
-    })
-    .then(
-      (res) => res.data,
-      (err) => {
-        console.error(err);
-        return null;
-      },
-    );
+  return instance({
+    url: requestExtension,
+    method: 'delete',
+    data: { categoryName },
+    headers: {
+      token: localStorage.getItem('token'),
+    },
+  }).then(
+    (res) => res.data,
+    (err) => {
+      console.error(err);
+      return null;
+    },
+  );
 };
 
 export const addSubcategory = (
@@ -287,22 +291,26 @@ export const renameSubcategory = (
       },
     );
 };
-
-export const deleteSubcategory = (id: string): ApiResponse<Category> => {
+export const deleteSubcategory = (
+  id: string,
+  category: string,
+  subcategory: string,
+): ApiResponse<Category> => {
   const requestExtension = `/api/admin/subcategories/${id}`;
-  return instance
-    .delete(requestExtension, {
-      headers: {
-        token: localStorage.getItem('token'),
-      },
-    })
-    .then(
-      (res) => res.data,
-      (err) => {
-        console.error(err);
-        return null;
-      },
-    );
+  return instance({
+    url: requestExtension,
+    method: 'delete',
+    data: { category, subcategory },
+    headers: {
+      token: localStorage.getItem('token'),
+    },
+  }).then(
+    (res) => res.data,
+    (err) => {
+      console.error(err);
+      return null;
+    },
+  );
 };
 
 export const getTranslationByLanguage = (

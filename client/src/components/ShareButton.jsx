@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Button, Popover } from 'antd';
 import { ShareAltOutlined } from '@ant-design/icons';
+import { useIntl, FormattedMessage } from 'react-intl';
 
 import '../css/ShareButton.css';
 
@@ -14,13 +15,19 @@ type ShareButtonProps = {
 function ShareButton(props: ShareButtonProps) {
   const { fullButton } = props;
   const location = useLocation();
+  const intl = useIntl();
 
   const [info, setInfo] = useState('Copy resource link!');
 
   const copyLink = () => {
     const link = `https://nawc-staging.vercel.app${location.pathname}`;
     navigator.clipboard.writeText(link);
-    setInfo('Resource link copied!');
+    setInfo(
+      intl.formatMessage({
+        id: 'linkCopied',
+        defaultMessage: 'Resource link copied!',
+      }),
+    );
   };
 
   return (
@@ -29,7 +36,7 @@ function ShareButton(props: ShareButtonProps) {
         <Popover content={info} Title="Error" trigger="click">
           <Button className="share-button" onClick={copyLink}>
             <ShareAltOutlined />
-            Share
+            <FormattedMessage id="share" defaultMessage="Share" />
           </Button>
         </Popover>
       ) : (

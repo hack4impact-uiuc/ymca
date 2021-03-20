@@ -62,7 +62,10 @@ function ResourcePreview(props: Props) {
 
   let descriptionText = '';
   if (description && description !== '') {
-    descriptionText += `${description} `;
+    descriptionText += `${intl.formatMessage({
+      id: `resource-description-${id}`,
+      defaultMessage: description,
+    })} `;
   }
   let languages = '';
   availableLanguages.forEach((language) => {
