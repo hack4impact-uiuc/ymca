@@ -2,13 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Menu } from 'antd';
-import {
-  DownOutlined,
-  UpOutlined,
-  EditOutlined,
-  CloseOutlined,
-  PlusOutlined,
-} from '@ant-design/icons';
+import { DownOutlined, UpOutlined } from '@ant-design/icons';
 
 import { getCategories } from '../utils/api';
 
@@ -39,8 +33,20 @@ const SidebarCategory = (props: Props) => {
         <span>
           {categoryName}
           <span style={{ position: 'absolute', right: 15 }}>
-            <EditOutlined />
-            <CloseOutlined style={{ color: '#FF0000' }} />
+            <EditCategoryModal
+              modalType="rename"
+              categoryType="category"
+              id={categoryIds[categoryName]}
+              categoryName={categoryName}
+              fetchCategories={fetchCategories}
+            />
+            <EditCategoryModal
+              modalType="delete"
+              categoryType="category"
+              id={categoryIds[categoryName]}
+              categoryName={categoryName}
+              fetchCategories={fetchCategories}
+            />
           </span>
         </span>
       }
@@ -78,7 +84,13 @@ const SidebarCategory = (props: Props) => {
       ))}
       <Menu.Item key="Add Subcategory" className="subcategory">
         Add Subcategory
-        <PlusOutlined style={{ position: 'relative', top: 10 }} />
+        <EditCategoryModal
+          modalType="add"
+          categoryType="subcategory"
+          id={categoryIds[categoryName]}
+          categoryName={categoryName}
+          fetchCategories={fetchCategories}
+        />
       </Menu.Item>
     </SubMenu>
   );
@@ -119,7 +131,11 @@ const ResourceManager = () => {
       ))}
       <Menu.Item key="Add Category" className="subcategory">
         Add Category
-        <PlusOutlined style={{ position: 'relative', top: 10 }} />
+        <EditCategoryModal
+          modalType="add"
+          categoryType="category"
+          fetchCategories={fetchCategories}
+        />
       </Menu.Item>
     </Menu>
   );

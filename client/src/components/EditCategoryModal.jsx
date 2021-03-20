@@ -7,6 +7,7 @@ import {
   CloseOutlined,
   EditOutlined,
   ExclamationCircleOutlined,
+  PlusOutlined,
 } from '@ant-design/icons';
 import {
   addCategory,
@@ -67,7 +68,7 @@ function EditCategoryModal(props: ModalProps) {
         const category = {
           _id: id,
           name: addCategoryName,
-          subcategories: [''],
+          subcategories: [],
         };
         await addCategory(category);
       }
@@ -116,9 +117,11 @@ function EditCategoryModal(props: ModalProps) {
       async onOk() {
         console.log(`cat: ${categoryName} id: ${id}sub: ${subcategoryName}`);
         if (categoryType === 'category') {
-          deleteCategory(id);
+          await deleteCategory(id, categoryName);
+          fetchCategories();
         } else if (categoryType === 'subcategory') {
-          await renameSubcategory(id, categoryName, subcategoryName, 'neha');
+          await deleteSubcategory(id, categoryName, subcategoryName);
+          fetchCategories();
         }
       },
     });
@@ -129,9 +132,10 @@ function EditCategoryModal(props: ModalProps) {
       case 'add':
         return (
           <>
-            <Button type="dashed" onClick={showModal}>
-              Add {categoryTypeCapitalized}
-            </Button>
+            <PlusOutlined
+              onClick={showModal}
+              style={{ position: 'relative', top: 10 }}
+            />
             <Modal
               title={`Add ${categoryTypeCapitalized}`}
               visible={isModalVisible}
