@@ -66,7 +66,7 @@ export const HomeBlock1Mobile = ({ backgroundImage }: Block1Props) => {
             >
               {categories.map(
                 (category) =>
-                  !category === 'Other' && (
+                  category !== 'Other' && (
                     <Link
                       to={`/resources?category=${category}`}
                       className="welcome-text-mobile-link"

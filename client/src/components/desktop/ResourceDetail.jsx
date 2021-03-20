@@ -13,6 +13,7 @@ import {
 import { Button, Col, message, Modal, Row, Layout } from 'antd';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 import * as moment from 'moment';
+import { useIntl, FormattedMessage } from 'react-intl';
 
 import { deleteResource, getResourceByID } from '../../utils/api';
 import {
@@ -25,6 +26,8 @@ import SaveButton from '../SaveButton';
 import ShareButton from '../ShareButton';
 import { useAuth } from '../../utils/use-auth';
 
+import { detailMessages, filterMessages } from '../../utils/messages';
+
 import '../../css/ResourceDetail.css';
 
 const { Header } = Layout;
@@ -32,6 +35,7 @@ const { Header } = Layout;
 function ResourceDetail(props) {
   const { match } = props;
 
+  const intl = useIntl();
   const { authed, authRoleIsEquivalentTo } = useAuth();
 
   const [name, setName] = useState('Resource Name');
@@ -133,7 +137,7 @@ function ResourceDetail(props) {
   }, [authed, updateIsSaved]);
 
   useEffect(() => {
-    let adr = 'No address provided.';
+    let adr = intl.formatMessage(detailMessages.noAddress);
     if (address.length > 0) {
       adr = address;
       if (addressLine2.length > 0) {
@@ -153,7 +157,7 @@ function ResourceDetail(props) {
       }
     }
     setAddresString(adr);
-  }, [address, addressLine2, aptUnitSuite, city, state, zip]);
+  }, [address, addressLine2, aptUnitSuite, city, intl, state, zip]);
 
   const showModal = () => {
     setModalVisible(true);
@@ -234,6 +238,15 @@ function ResourceDetail(props) {
     absoluteWebsiteURL = `//${website}`;
   }
 
+  let textCost = cost;
+  if (cost != null) {
+    if (cost === 'Free') {
+      textCost = <FormattedMessage {...filterMessages.free} />;
+    }
+  } else {
+    textCost = <FormattedMessage {...detailMessages.noneProvided} />;
+  }
+
   return (
     <div className="resource-detail">
       <Modal
@@ -294,24 +307,36 @@ function ResourceDetail(props) {
               {'\n'}
             </a>
           ) : (
-            'No website provided.\n'
+            `${intl.formatMessage(detailMessages.noWebsite)}\n`
           )}
-          {email.length > 0 ? `${email}\n` : 'No email provided.\n'}
+          {email.length > 0
+            ? `${email}\n`
+            : `${intl.formatMessage(detailMessages.noEmail)}\n`}
           {phone.length > 0
             ? phone.map((p) => `${p.phoneType}: ${p.phoneNumber}\n`)
-            : 'No phone number provided.\n'}
+            : `${intl.formatMessage(detailMessages.noPhoneNumber)}\n`}
           {addressString}
         </Col>
       </Row>
       <Row className="section card-row">
         <Col span={24}>
-          {description.length > 0 ? description : 'No description provided.'}
-          {eligibility && `\n\nEligibility Requirements: ${eligibility}`}
+          {description.length > 0 ? (
+            <FormattedMessage
+              id={`resource-description-${match.params.id}`}
+              defaultMessage={description}
+            />
+          ) : (
+            <FormattedMessage {...detailMessages.noDescription} />
+          )}
+          {eligibility &&
+            `\n\n${intl.formatMessage(
+              detailMessages.eligibility,
+            )}: ${eligibility}`}
         </Col>
       </Row>
       <Row>
         <Col span={24} className="section-label card-row">
-          Basic Information
+          <FormattedMessage {...detailMessages.basicInfo} />
         </Col>
       </Row>
       <Row className="card-row">
@@ -319,17 +344,24 @@ function ResourceDetail(props) {
           <FolderOpenFilled />
         </Col>
         <Col span={11}>
-          <div className="card-label">Required Documents {'\n'}</div>
-          {requiredDocuments.length > 0
-            ? requiredDocuments.join(', ')
-            : 'None provided.'}
+          <div className="card-label">
+            <FormattedMessage {...detailMessages.requiredDoc} /> {'\n'}
+          </div>
+          {requiredDocuments.length > 0 ? (
+            requiredDocuments.join(', ')
+          ) : (
+            <FormattedMessage {...detailMessages.noneProvided} />
+          )}
         </Col>
         <Col span={1}>
           <DollarCircleFilled />
         </Col>
         <Col span={11}>
-          <div className="card-label">Cost{'\n'}</div>
-          {cost != null ? cost : 'None provided.'}
+          <div className="card-label">
+            <FormattedMessage {...filterMessages.cost} />
+            {'\n'}
+          </div>
+          {textCost}
         </Col>
       </Row>
       <Row className="card-row">
@@ -337,12 +369,17 @@ function ResourceDetail(props) {
           <WechatFilled />
         </Col>
         <Col span={11}>
-          <div className="card-label">Languages Spoken{'\n'}</div>
-          {languages.length > 0
-            ? languages.map((language, index) =>
-                index < languages.length - 1 ? `${language}, ` : language,
-              )
-            : 'None provided.'}
+          <div className="card-label">
+            <FormattedMessage {...detailMessages.languagesSpoken} />
+            {'\n'}
+          </div>
+          {languages.length > 0 ? (
+            languages.map((language, index) =>
+              index < languages.length - 1 ? `${language}, ` : language,
+            )
+          ) : (
+            <FormattedMessage {...detailMessages.noneProvided} />
+          )}
         </Col>
         <Col span={1}>
           <img
@@ -354,7 +391,10 @@ function ResourceDetail(props) {
           />
         </Col>
         <Col span={11}>
-          <div className="card-label">Financial Aid{'\n'}</div>
+          <div className="card-label">
+            <FormattedMessage {...detailMessages.financialAid} />
+            {'\n'}
+          </div>
           {financialAidDetails &&
           (financialAidDetails.education ||
             financialAidDetails.immigrationStatus ||
@@ -366,14 +406,20 @@ function ResourceDetail(props) {
                 style={{ paddingLeft: 0, paddingBottom: 0 }}
               >
                 <Col span={12}>
-                  <div className="financial-aid-subtitle">Education:</div>
-                  {financialAidDetails.education || 'None provided.'}
+                  <div className="financial-aid-subtitle">
+                    <FormattedMessage {...detailMessages.education} />:
+                  </div>
+                  {financialAidDetails.education || (
+                    <FormattedMessage {...detailMessages.noneProvided} />
+                  )}
                 </Col>
                 <Col span={12}>
                   <div className="financial-aid-subtitle">
-                    Immigration Status:
+                    <FormattedMessage {...detailMessages.immigrationStatus} />:
                   </div>
-                  {financialAidDetails.immigrationStatus || 'None provided.'}
+                  {financialAidDetails.immigrationStatus || (
+                    <FormattedMessage {...detailMessages.noneProvided} />
+                  )}
                 </Col>
               </Row>
               <Row
@@ -381,17 +427,25 @@ function ResourceDetail(props) {
                 style={{ paddingLeft: 0, paddingBottom: 0 }}
               >
                 <Col span={12}>
-                  <div className="financial-aid-subtitle">Deadline:</div>
-                  {financialAidDetails.deadline || 'None provided.'}
+                  <div className="financial-aid-subtitle">
+                    <FormattedMessage {...detailMessages.deadline} />:
+                  </div>
+                  {financialAidDetails.deadline || (
+                    <FormattedMessage {...detailMessages.noneProvided} />
+                  )}
                 </Col>
                 <Col span={12}>
-                  <div className="financial-aid-subtitle">Amount:</div>
-                  {financialAidDetails.amount || 'None provided.'}
+                  <div className="financial-aid-subtitle">
+                    <FormattedMessage {...detailMessages.amount} />:
+                  </div>
+                  {financialAidDetails.amount || (
+                    <FormattedMessage {...detailMessages.noneProvided} />
+                  )}
                 </Col>
               </Row>
             </div>
           ) : (
-            'None provided.'
+            <FormattedMessage {...detailMessages.noneProvided} />
           )}
         </Col>
       </Row>
@@ -410,25 +464,33 @@ function ResourceDetail(props) {
                   <div>
                     Role:{' '}
                     <span className="recommended-contacts-info">
-                      {contact.role || 'None provided.'}
+                      {contact.role || (
+                        <FormattedMessage {...detailMessages.noneProvided} />
+                      )}
                     </span>
                   </div>
                   <div>
                     Email:{' '}
                     <span className="recommended-contacts-info">
-                      {contact.email || 'None provided.'}
+                      {contact.email || (
+                        <FormattedMessage {...detailMessages.noneProvided} />
+                      )}
                     </span>
                   </div>
                   <div>
                     Phone Number:{' '}
                     <span className="recommended-contacts-info">
-                      {contact.phoneNumber || 'None provided.'}
+                      {contact.phoneNumber || (
+                        <FormattedMessage {...detailMessages.noneProvided} />
+                      )}
                     </span>
                   </div>
                   <div>
                     Note:{' '}
                     <span className="recommended-contacts-info">
-                      {contact.note || 'None provided.'}
+                      {contact.note || (
+                        <FormattedMessage {...detailMessages.noneProvided} />
+                      )}
                     </span>
                   </div>
                 </Col>
@@ -438,17 +500,21 @@ function ResourceDetail(props) {
       )}
       <Row>
         <Col span={24} className="section-label card-row">
-          Location and Hours
+          <FormattedMessage {...detailMessages.locationAndHours} />
         </Col>
       </Row>
       <Row className="card-row">
         <Col span={12}>{addressString}</Col>
         {isOpen(hours) && (
           <Col span={12} className="open-now">
-            Open now!
+            <FormattedMessage {...detailMessages.openNow} />
           </Col>
         )}
-        {hours.length === 0 && <Col span={12}>No schedule provided.</Col>}
+        {hours.length === 0 && (
+          <Col span={12}>
+            <FormattedMessage {...detailMessages.noSchedule} />
+          </Col>
+        )}
       </Row>
       <Row className="card-row">
         {address && (
@@ -477,10 +543,15 @@ function ResourceDetail(props) {
           <Col span={12}>
             {hours.map((day) => (
               <div key={day}>
-                <span className="day-of-week">{`${day.day}: `}</span>
-                {day.period.length > 0
-                  ? `${day.period[0]} - ${day.period[1]}`
-                  : 'None'}
+                <span className="day-of-week">{`${intl.formatMessage({
+                  id: `detail-${day.day}`,
+                  defaultMessage: day.day,
+                })}: `}</span>
+                {day.period.length > 0 ? (
+                  `${day.period[0]} - ${day.period[1]}`
+                ) : (
+                  <FormattedMessage {...detailMessages.none} />
+                )}
               </div>
             ))}
           </Col>
