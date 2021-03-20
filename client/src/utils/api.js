@@ -14,7 +14,7 @@ import type {
 import type { ApiResponse } from '../types/apiResponse';
 
 const instance = axios.create({
-  baseURL: 'http://localhost:9000',
+  baseURL: 'https://nawc-staging.vercel.app',
   // For testing on dev database:
   // baseURL: 'http://localhost:9000',
 });
