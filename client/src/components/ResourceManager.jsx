@@ -6,6 +6,8 @@ import { DownOutlined, UpOutlined } from '@ant-design/icons';
 
 import { getCategories } from '../utils/api';
 
+import ManageResourcesTable from './ManageResourcesTable';
+
 import '../css/ResourceManager.css';
 import EditCategoryModal from './EditCategoryModal';
 
@@ -19,11 +21,23 @@ type Props = {
 const SidebarCategory = (props: Props) => {
   const { SubMenu } = Menu;
 
-  const { categories, categoryName, categoryIds, fetchCategories } = props;
+  const {
+    categories,
+    categoryName,
+    categoryIds,
+    fetchCategories,
+    setSelectedCategory,
+    setSelectedSubcategory,
+  } = props;
   const [opened, setOpened] = useState(false);
 
   const handleChange = () => {
     setOpened(!opened);
+    if (!opened) setSelectedCategory(categoryName);
+    else {
+      setSelectedCategory('');
+      setSelectedSubcategory('');
+    }
   };
 
   return (
@@ -59,14 +73,21 @@ const SidebarCategory = (props: Props) => {
       }
       onTitleClick={handleChange}
     >
-      {categories[categoryName].map((subCategory) => (
-        <Menu.Item key={subCategory} className="subcategory">
-          {subCategory}
+      {categories[categoryName].map((subcategory) => (
+        <Menu.Item
+          key={subcategory}
+          className="resource-manager-sidebar-category"
+          onClick={() => {
+            setSelectedSubcategory(subcategory);
+            setSelectedCategory(categoryName);
+          }}
+        >
+          {subcategory}
           <div>
             <EditCategoryModal
               modalType="rename"
               categoryType="subcategory"
-              subcategoryName={subCategory}
+              subcategoryName={subcategory}
               id={categoryIds[categoryName]}
               categoryName={categoryName}
               fetchCategories={fetchCategories}
@@ -74,7 +95,7 @@ const SidebarCategory = (props: Props) => {
             <EditCategoryModal
               modalType="delete"
               categoryType="subcategory"
-              subcategoryName={subCategory}
+              subcategoryName={subcategory}
               id={categoryIds[categoryName]}
               categoryName={categoryName}
               fetchCategories={fetchCategories}
@@ -84,7 +105,7 @@ const SidebarCategory = (props: Props) => {
       ))}
       <Menu.Item
         key={categoryIds[categoryName].toString().concat('-add-subcategory')}
-        className="subcategory"
+        className="resource-manager-sidebar-category"
       >
         Add Subcategory
         <EditCategoryModal
@@ -102,6 +123,8 @@ const SidebarCategory = (props: Props) => {
 const ResourceManager = () => {
   const [categories, setCategories] = useState<{ [string]: Array<string> }>({});
   const [categoryIds, setCategoryIds] = useState({});
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedSubcategory, setSelectedSubcategory] = useState('');
 
   const fetchCategories = async () => {
     const res = await getCategories();
@@ -122,25 +145,40 @@ const ResourceManager = () => {
   }, []);
 
   return (
-    <Menu style={{ width: 280 }} mode="inline" expandIcon={<div />}>
-      {Object.keys(categories).map((categoryName) => (
-        <SidebarCategory
-          categories={categories}
-          categoryName={categoryName}
-          key={categoryName}
-          categoryIds={categoryIds}
-          fetchCategories={fetchCategories}
+    <div className="resource-manager-flexbox">
+      <div className="resource-manager-sidebar">
+        <Menu mode="inline" expandIcon={<div />}>
+          {Object.keys(categories).map((categoryName) => (
+            <SidebarCategory
+              categories={categories}
+              categoryName={categoryName}
+              key={categoryName}
+              categoryIds={categoryIds}
+              fetchCategories={fetchCategories}
+              setSelectedCategory={setSelectedCategory}
+              setSelectedSubcategory={setSelectedSubcategory}
+            />
+          ))}
+          <Menu.Item
+            key="Add Category"
+            className="resource-manager-sidebar-category"
+          >
+            Add Category
+            <EditCategoryModal
+              modalType="add"
+              categoryType="category"
+              fetchCategories={fetchCategories}
+            />
+          </Menu.Item>
+        </Menu>
+      </div>
+      <div className="resource-manager-table">
+        <ManageResourcesTable
+          selectedCategory={selectedCategory}
+          selectedSubcategory={selectedSubcategory}
         />
-      ))}
-      <Menu.Item key="Add Category" className="subcategory">
-        Add Category
-        <EditCategoryModal
-          modalType="add"
-          categoryType="category"
-          fetchCategories={fetchCategories}
-        />
-      </Menu.Item>
-    </Menu>
+      </div>
+    </div>
   );
 };
 

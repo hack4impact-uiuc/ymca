@@ -1,9 +1,17 @@
-.subcategory {
+.resource-manager-flexbox {
+  display: flex;
+}
+
+.resource-manager-sidebar {
+  width: 24%;
+  margin-right: 1%;
+}
+
+.resource-manager-sidebar-category {
   display: flex;
   justify-content: space-between;
 }
 
-.category {
-  display: flex;
-  justify-content: space-between;
+.resource-manager-table {
+  width: 75%;
 }
