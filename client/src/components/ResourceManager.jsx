@@ -113,8 +113,8 @@ const ResourceManager = () => {
         ids[c.name] = c._id;
       });
     }
-    setCategories(newCategories);
     setCategoryIds(ids);
+    setCategories(newCategories);
   };
 
   useEffect(() => {
