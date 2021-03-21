@@ -1,10 +1,10 @@
 // @flow
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Menu } from 'antd';
 import { DownOutlined, UpOutlined } from '@ant-design/icons';
 
-import { getCategories } from '../utils/api';
+import { getCategories, getResources } from '../utils/api';
 
 import ManageResourcesTable from './ManageResourcesTable';
 
@@ -14,8 +14,7 @@ import EditCategoryModal from './EditCategoryModal';
 type Props = {
   categories: { [string]: Array<string> },
   categoryName: string,
-  categoryIds: { [string]: Array<string> },
-  fetchCategories: () => void,
+  updateView: () => void,
 };
 
 const SidebarCategory = (props: Props) => {
@@ -24,10 +23,9 @@ const SidebarCategory = (props: Props) => {
   const {
     categories,
     categoryName,
-    categoryIds,
-    fetchCategories,
     setSelectedCategory,
     setSelectedSubcategory,
+    updateView,
   } = props;
   const [opened, setOpened] = useState(false);
 
@@ -50,16 +48,16 @@ const SidebarCategory = (props: Props) => {
             <EditCategoryModal
               modalType="rename"
               categoryType="category"
-              id={categoryIds[categoryName]}
+              id={categories[categoryName][1]}
               categoryName={categoryName}
-              fetchCategories={fetchCategories}
+              updateView={updateView}
             />
             <EditCategoryModal
               modalType="delete"
               categoryType="category"
-              id={categoryIds[categoryName]}
+              id={categories[categoryName][1]}
               categoryName={categoryName}
-              fetchCategories={fetchCategories}
+              updateView={updateView}
             />
           </span>
         </span>
@@ -73,47 +71,50 @@ const SidebarCategory = (props: Props) => {
       }
       onTitleClick={handleChange}
     >
-      {categories[categoryName].map((subcategory) => (
-        <Menu.Item
-          key={subcategory}
-          className="resource-manager-sidebar-category"
-          onClick={() => {
-            setSelectedSubcategory(subcategory);
-            setSelectedCategory(categoryName);
-          }}
-        >
-          {subcategory}
-          <div>
-            <EditCategoryModal
-              modalType="rename"
-              categoryType="subcategory"
-              subcategoryName={subcategory}
-              id={categoryIds[categoryName]}
-              categoryName={categoryName}
-              fetchCategories={fetchCategories}
-            />
-            <EditCategoryModal
-              modalType="delete"
-              categoryType="subcategory"
-              subcategoryName={subcategory}
-              id={categoryIds[categoryName]}
-              categoryName={categoryName}
-              fetchCategories={fetchCategories}
-            />
-          </div>
-        </Menu.Item>
-      ))}
+      {categories[categoryName][0].map((subcategory) => {
+        console.log(categories, categoryName);
+        return (
+          <Menu.Item
+            key={subcategory}
+            className="resource-manager-sidebar-category"
+            onClick={() => {
+              setSelectedSubcategory(subcategory);
+              setSelectedCategory(categoryName);
+            }}
+          >
+            {subcategory}
+            <div>
+              <EditCategoryModal
+                modalType="rename"
+                categoryType="subcategory"
+                subcategoryName={subcategory}
+                id={categories[categoryName][1]}
+                categoryName={categoryName}
+                updateView={updateView}
+              />
+              <EditCategoryModal
+                modalType="delete"
+                categoryType="subcategory"
+                subcategoryName={subcategory}
+                id={categories[categoryName][1]}
+                categoryName={categoryName}
+                updateView={updateView}
+              />
+            </div>
+          </Menu.Item>
+        );
+      })}
       <Menu.Item
-        key={categoryIds[categoryName].toString().concat('-add-subcategory')}
+        key={categories[categoryName][1].toString().concat('-add-subcategory')}
         className="resource-manager-sidebar-category"
       >
         Add Subcategory
         <EditCategoryModal
           modalType="add"
           categoryType="subcategory"
-          id={categoryIds[categoryName]}
+          id={categories[categoryName][1]}
           categoryName={categoryName}
-          fetchCategories={fetchCategories}
+          updateView={updateView}
         />
       </Menu.Item>
     </SubMenu>
@@ -121,28 +122,58 @@ const SidebarCategory = (props: Props) => {
 };
 
 const ResourceManager = () => {
-  const [categories, setCategories] = useState<{ [string]: Array<string> }>({});
-  const [categoryIds, setCategoryIds] = useState({});
+  // Category: [subcategories, _id]
+  const [categories, setCategories] = useState<{
+    [string]: [Array<string>, number],
+  }>({});
+  const [resources, setResources] = useState<
+    Array<{
+      name: string,
+      description: string,
+      categories: Array<string>,
+      subcategories: Array<string>,
+      id: string,
+    }>,
+  >([]);
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedSubcategory, setSelectedSubcategory] = useState('');
 
   const fetchCategories = async () => {
     const res = await getCategories();
     const newCategories = {};
-    const ids = {};
     if (res != null) {
       res.result.forEach((c) => {
-        newCategories[c.name] = c.subcategories;
-        ids[c.name] = c._id;
+        newCategories[c.name] = [c.subcategories, c._id];
       });
+      setCategories(newCategories);
     }
-    setCategoryIds(ids);
-    setCategories(newCategories);
   };
 
-  useEffect(() => {
-    fetchCategories();
+  const fetchResources = async () => {
+    const res = await getResources();
+    const newResources = [];
+    if (res != null) {
+      res.result.forEach((r) => {
+        newResources.push({
+          name: r.name,
+          description: r.description,
+          categories: [...new Set(r.category)],
+          subcategories: [...new Set(r.subcategory)],
+          id: r._id.toString(),
+        });
+      });
+    }
+    console.log(newResources);
+    setResources(newResources);
+  };
+
+  const updateView = useCallback(async () => {
+    await Promise.all([fetchCategories(), fetchResources()]);
   }, []);
+
+  useEffect(() => {
+    updateView();
+  }, [updateView]);
 
   return (
     <div className="resource-manager-flexbox">
@@ -153,8 +184,7 @@ const ResourceManager = () => {
               categories={categories}
               categoryName={categoryName}
               key={categoryName}
-              categoryIds={categoryIds}
-              fetchCategories={fetchCategories}
+              updateView={updateView}
               setSelectedCategory={setSelectedCategory}
               setSelectedSubcategory={setSelectedSubcategory}
             />
@@ -167,7 +197,7 @@ const ResourceManager = () => {
             <EditCategoryModal
               modalType="add"
               categoryType="category"
-              fetchCategories={fetchCategories}
+              updateView={updateView}
             />
           </Menu.Item>
         </Menu>
@@ -176,6 +206,7 @@ const ResourceManager = () => {
         <ManageResourcesTable
           selectedCategory={selectedCategory}
           selectedSubcategory={selectedSubcategory}
+          resources={resources}
         />
       </div>
     </div>

@@ -1,10 +1,8 @@
 // @flow
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { EditFilled } from '@ant-design/icons';
 import { Table, Tag } from 'antd';
-
-import { getResources } from '../utils/api';
 
 const TAG_COLOR_DICT = {
   a: 'blue',
@@ -36,13 +34,19 @@ const TAG_COLOR_DICT = {
 };
 
 type Props = {
-  selectedCategory: String,
-  selectedSubcategory: String,
+  selectedCategory: string,
+  selectedSubcategory: string,
+  resources: Array<{
+    name: string,
+    description: string,
+    categories: Array<string>,
+    subcategories: Array<string>,
+    id: string,
+  }>,
 };
 
 const ManageResourcesTable = (props: Props) => {
-  const { selectedCategory, selectedSubcategory } = props;
-  const [resources, setResources] = useState([]);
+  const { selectedCategory, selectedSubcategory, resources } = props;
 
   const displayTags = (categories) => (
     <>
@@ -59,26 +63,6 @@ const ManageResourcesTable = (props: Props) => {
       </Tag>
     </>
   );
-
-  useEffect(() => {
-    const fetchResources = async () => {
-      const res = await getResources();
-      const newResources = [];
-      if (res != null) {
-        res.result.forEach((r) => {
-          newResources.push({
-            name: r.name,
-            description: r.description,
-            categories: [...new Set(r.category)],
-            subcategories: [...new Set(r.subcategory)],
-            id: r._id.toString(),
-          });
-        });
-      }
-      setResources(newResources);
-    };
-    fetchResources();
-  }, []);
 
   const filterResources = (resource) =>
     !selectedCategory ||
