@@ -24,7 +24,7 @@ type ModalProps = {
   subcategoryName: string,
   id: string,
   categoryName: string,
-  fetchCategories: () => void,
+  updateView: () => void,
 };
 
 function EditCategoryModal(props: ModalProps) {
@@ -34,7 +34,7 @@ function EditCategoryModal(props: ModalProps) {
     subcategoryName,
     id,
     categoryName,
-    fetchCategories,
+    updateView,
   } = props;
   const categoryTypeCapitalized =
     categoryType[0].toUpperCase() + categoryType.slice(1);
@@ -78,7 +78,7 @@ function EditCategoryModal(props: ModalProps) {
   const handleOk = async () => {
     setIsModalVisible(false);
     await handleSubmit();
-    fetchCategories();
+    updateView();
   };
   const handleCancel = () => {
     setIsModalVisible(false);
@@ -117,10 +117,10 @@ function EditCategoryModal(props: ModalProps) {
       async onOk() {
         if (categoryType === 'category') {
           await deleteCategory(id, categoryName);
-          fetchCategories();
+          updateView();
         } else if (categoryType === 'subcategory') {
           await deleteSubcategory(id, categoryName, subcategoryName);
-          fetchCategories();
+          updateView();
         }
       },
     });
