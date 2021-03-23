@@ -68,7 +68,7 @@ const ManageResourcesTable = (props: Props) => {
     <>
       {categories.map((c) => (
         <Tag key={c} color={TAG_COLOR_DICT[c[0].toLowerCase()]}>
-          {c}
+          {`${c} x`}
         </Tag>
       ))}
       {displayDropdown && (
