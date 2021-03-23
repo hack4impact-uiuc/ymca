@@ -104,10 +104,16 @@ export const getResources = (): ApiResponse<Array<Resource>> =>
   );
 
 export const getResourcesByCategory = (
-  category: string,
+  category: ?string,
+  subcategory: ?string,
+  cost: ?string,
+  language: ?string,
+  city: ?string,
+  sort: ?string,
 ): ApiResponse<Array<Resource>> => {
-  const requestExtension = `/api/resources?category=${category}`;
-  return instance.get(requestExtension).then(
+  const requestExtension = `/api/resources`;
+  const params = { category, subcategory, cost, language, city, sort };
+  return instance.get(requestExtension, { params }).then(
     (res) => res.data,
     (err) => {
       console.error(err);
