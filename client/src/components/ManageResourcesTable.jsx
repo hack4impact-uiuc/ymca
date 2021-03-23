@@ -1,8 +1,12 @@
 // @flow
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { EditFilled } from '@ant-design/icons';
-import { Table, Tag } from 'antd';
+import { Select, Table, Tag } from 'antd';
+import { CAT_SUB_SPLITTER } from './ResourceCategorySelector';
+import { getCategories } from '../utils/api';
+
+const { Option, OptGroup } = Select;
 
 const TAG_COLOR_DICT = {
   a: 'blue',
@@ -48,19 +52,46 @@ type Props = {
 const ManageResourcesTable = (props: Props) => {
   const { selectedCategory, selectedSubcategory, resources } = props;
 
-  const displayTags = (categories) => (
+  const [fetchedCategories, setFetchedCategories] = useState([]);
+
+  useEffect(() => {
+    getCategories().then((res) => {
+      if (res !== null) {
+        if (res.code === 200) {
+          setFetchedCategories(res.result);
+        }
+      }
+    });
+  }, []);
+
+  const displayTags = (categories, displayDropdown) => (
     <>
       {categories.map((c) => (
         <Tag key={c} color={TAG_COLOR_DICT[c[0].toLowerCase()]}>
           {c}
         </Tag>
       ))}
-      <Tag
-        onClick={() => window.location.reload()}
-        style={{ cursor: 'pointer' }}
-      >
-        +
-      </Tag>
+      {displayDropdown && (
+        <Select
+          placeholder="+"
+          showArrow={false}
+          style={{ width: '250px' }}
+          // onChange={onCategoryChange}
+        >
+          {fetchedCategories.map((cat) => (
+            <OptGroup key={cat.name} label={cat.name}>
+              {cat.subcategories.map((subcat) => {
+                const val = `${cat.name}${CAT_SUB_SPLITTER}${subcat}`;
+                return (
+                  <Option key={val} value={val}>
+                    {subcat}
+                  </Option>
+                );
+              })}
+            </OptGroup>
+          ))}
+        </Select>
+      )}
     </>
   );
 
@@ -95,13 +126,13 @@ const ManageResourcesTable = (props: Props) => {
     {
       title: 'Categories',
       render: function showCategories(_, resource) {
-        return displayTags(resource.categories);
+        return displayTags(resource.categories, false);
       },
     },
     {
       title: 'Subcategories',
       render: function showSubcategories(_, resource) {
-        return displayTags(resource.subcategories);
+        return displayTags(resource.subcategories, true);
       },
     },
     {
