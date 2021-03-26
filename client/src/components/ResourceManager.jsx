@@ -163,7 +163,6 @@ const ResourceManager = () => {
         });
       });
     }
-    console.log(newResources);
     setResources(newResources);
   };
 
