@@ -16,12 +16,9 @@ const { Content } = Layout;
 
 const linkResource = (resourceId, type) => (
   <>
-    <div>
-      {' '}
-      Resource successfully {type}! Click
-      <a href={`/resources/${resourceId}`}> here </a>
-      to to see the resource you {type}!
-    </div>
+    Resource {type}! Click
+    <a href={`/resources/${resourceId}`}> here </a>
+    to view!
   </>
 );
 const onSubmitNewResourceForm = async (e, enabled, id, resource) => {
