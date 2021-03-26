@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import { EditFilled } from '@ant-design/icons';
 import { Select, Table, Tag } from 'antd';
-import { CAT_SUB_SPLITTER } from './ResourceCategorySelector';
 import { getCategories } from '../utils/api';
 
 const { Option, OptGroup } = Select;
@@ -64,34 +63,59 @@ const ManageResourcesTable = (props: Props) => {
     });
   }, []);
 
-  const displayTags = (categories, displayDropdown) => (
+  const addCategoryAndSubcategory = (selected) => {
+    const tokens = selected.split('~');
+    const cat = tokens[0];
+    const subcat = tokens[1];
+
+    // edit category and subcategory here
+  };
+
+  const displayCategoryTags = (categories) => (
     <>
       {categories.map((c) => (
         <Tag key={c} color={TAG_COLOR_DICT[c[0].toLowerCase()]}>
-          {`${c} x`}
+          {c}
         </Tag>
       ))}
-      {displayDropdown && (
-        <Select
-          placeholder="+"
-          showArrow={false}
-          style={{ width: '250px' }}
-          // onChange={onCategoryChange}
-        >
-          {fetchedCategories.map((cat) => (
-            <OptGroup key={cat.name} label={cat.name}>
-              {cat.subcategories.map((subcat) => {
-                const val = `${cat.name}${CAT_SUB_SPLITTER}${subcat}`;
-                return (
-                  <Option key={val} value={val}>
-                    {subcat}
-                  </Option>
-                );
-              })}
-            </OptGroup>
-          ))}
-        </Select>
-      )}
+    </>
+  );
+
+  const displaySubcategoryTags = (subcategories) => (
+    <>
+      {subcategories.map((c) => (
+        <Tag key={c} color={TAG_COLOR_DICT[c[0].toLowerCase()]}>
+          <span>
+            {c}
+            <t
+              onClick={() => window.location.reload()}
+              style={{ marginLeft: '5px', cursor: 'pointer' }}
+            >
+              x
+            </t>
+          </span>
+        </Tag>
+      ))}
+      <Select
+        placeholder="+"
+        showArrow={false}
+        size="small"
+        dropdownStyle={{ minWidth: '250px' }}
+        onChange={addCategoryAndSubcategory}
+      >
+        {fetchedCategories.map((cat) => (
+          <OptGroup key={cat.name} label={cat.name}>
+            {cat.subcategories.map((subcat) => {
+              const val = `${cat.name}~${subcat}`;
+              return (
+                <Option key={val} value={val}>
+                  {subcat}
+                </Option>
+              );
+            })}
+          </OptGroup>
+        ))}
+      </Select>
     </>
   );
 
@@ -126,13 +150,13 @@ const ManageResourcesTable = (props: Props) => {
     {
       title: 'Categories',
       render: function showCategories(_, resource) {
-        return displayTags(resource.categories, false);
+        return displayCategoryTags(resource.categories);
       },
     },
     {
       title: 'Subcategories',
       render: function showSubcategories(_, resource) {
-        return displayTags(resource.subcategories, true);
+        return displaySubcategoryTags(resource.subcategories);
       },
     },
     {
