@@ -9,11 +9,7 @@ import { useIntl } from 'react-intl';
 import { filterMessages } from '../utils/messages';
 import type { Resource } from '../types/models';
 
-import {
-  getCategories,
-  getResources,
-  getResourcesByCategory,
-} from '../utils/api';
+import { getCategories, getResourcesByCategory } from '../utils/api';
 import { getSavedResources } from '../utils/auth';
 import languages from '../data/languages';
 import locations from '../data/locations';
@@ -57,7 +53,7 @@ function Resources({
 
   const [cost, setCost] = useState(`${freeTranslated} - $$$`);
   const [language, setLanguage] = useState('All');
-  const [location, setLocation] = useState('All');
+  const [location, setLocation] = useState('All / Champaign County');
   const [category, setCategory] = useState('');
   const [subcategory, setSubcategory] = useState('');
   const [sort, setSort] = useState(nameTranslated);
@@ -65,7 +61,6 @@ function Resources({
 
   const [openKeys, setOpenKeys] = useState<Array<string>>([]);
   const [categories, setCategories] = useState<{ [string]: Array<string> }>({});
-  const [resources, setResources] = useState<Array<Resource>>([]);
   const [filteredResources, setFilteredResources] = useState<Array<Resource>>(
     [],
   );
@@ -110,28 +105,6 @@ function Resources({
     fetchCategories();
   }, []);
 
-  function compareNames(current, next) {
-    const textCurrent = current.name.toUpperCase();
-    const textNext = next.name.toUpperCase();
-    const bool = textCurrent > textNext ? 1 : 0;
-    return textCurrent < textNext ? -1 : bool;
-  }
-
-  const compareCosts = useCallback(
-    (current, next) => {
-      const costOrder = ['$$$', '$$', '$', freeTranslated];
-      const costCurrent = current.cost;
-      const costNext = next.cost;
-      if (costCurrent === costNext) {
-        return 0;
-      }
-      return costOrder.indexOf(costNext) < costOrder.indexOf(costCurrent)
-        ? -1
-        : 1;
-    },
-    [freeTranslated],
-  );
-
   const getCategorySelectedFromSearch = useCallback(() => {
     const { search } = locationProp;
     if (search === '') {
@@ -162,10 +135,14 @@ function Resources({
 
     setLoading(true);
 
-    const newResources =
-      categorySelected === 'All Resources'
-        ? await getResources()
-        : await getResourcesByCategory(categorySelected);
+    const newResources = await getResourcesByCategory(
+      categorySelected,
+      subcategorySelected,
+      cost,
+      language,
+      location,
+      sort,
+    );
 
     let localSavedSet = new Set();
     if (authed === true) {
@@ -180,75 +157,28 @@ function Resources({
       );
     }
 
-    newResources.result.sort(compareNames);
-
     setCategory(categorySelected);
     setFilteredResources(newResources == null ? [] : newResources.result);
     setOpenKeys([categorySelected]);
-    setResources(newResources == null ? [] : newResources.result);
-    setSubcategory(subcategorySelected);
-    setCost(`${freeTranslated} - $$$`);
-    setLanguage('All');
-    setLocation('All / Champaign County');
+    setFilteredResources(newResources == null ? [] : newResources.result);
     setSubcategory(subcategorySelected);
 
     setLoading(false);
-  }, [getCategorySelectedFromSearch, saved, authed, freeTranslated]);
+  }, [
+    getCategorySelectedFromSearch,
+    cost,
+    language,
+    location,
+    sort,
+    authed,
+    saved,
+  ]);
 
   const updateSaved = updateResources;
-
-  const updateSort = useCallback(() => {
-    switch (sort) {
-      case sorts[0]: {
-        const newResources = resources.sort(compareNames);
-        setResources(newResources);
-        break;
-      }
-      case sorts[1]: {
-        const newResources = resources.sort(compareCosts);
-        setResources(newResources);
-        break;
-      }
-      default:
-    }
-  }, [compareCosts, resources, sort, sorts]);
 
   useEffect(() => {
     updateResources();
   }, [locationProp.search, saved, authed, updateResources]);
-
-  useEffect(() => {
-    const costMap = {
-      [costs[0]]: [freeTranslated],
-      [costs[1]]: [freeTranslated, '$'],
-      [costs[2]]: [freeTranslated, '$', '$$'],
-      [costs[3]]: [freeTranslated, '$', '$$', '$$$'],
-    };
-    updateSort();
-    const newFilteredResources = resources.filter(
-      (resource) =>
-        (resource.subcategory.includes(subcategory) || subcategory === '') &&
-        (costMap[cost]?.includes(resource.cost) ||
-          cost === `${freeTranslated} - $$$` ||
-          resource.cost === 'Free') &&
-        (resource.availableLanguages?.includes(language) ||
-          language === 'All') &&
-        (resource.city?.toLowerCase() === location.toLowerCase() ||
-          location === 'All / Champaign County'),
-    );
-
-    setFilteredResources(newFilteredResources);
-  }, [
-    cost,
-    costs,
-    freeTranslated,
-    language,
-    location,
-    subcategory,
-    resources,
-    sort,
-    updateSort,
-  ]);
 
   const categorySelectAll = useCallback(() => {
     history.push({
