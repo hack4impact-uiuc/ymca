@@ -63,12 +63,18 @@ const ManageResourcesTable = (props: Props) => {
     });
   }, []);
 
-  const addCategoryAndSubcategory = (selected) => {
+  const addCategoryAndSubcategory = (selected, resource) => {
     const tokens = selected.split('~');
-    const cat = tokens[0];
-    const subcat = tokens[1];
+    const newCategories = resource.categories.push(tokens[0]);
+    const newSubcategories = resource.subcategories.push(tokens[1]);
+    // editResourceCategories(resource.id, newCategories, newSubcategories);
+  };
 
-    // edit category and subcategory here
+  const removeCategoryAndSubcategory = (selected, resource) => {
+    const idx = resource.subcategories.indexOf(selected);
+    const newCategories = resource.categories.splice(idx, 1);
+    const newSubcategories = resource.subcategories.splice(idx, 1);
+    // editResourceCategories(resource.id, newCategories, newSubcategories);
   };
 
   const displayCategoryTags = (categories) => (
@@ -81,14 +87,14 @@ const ManageResourcesTable = (props: Props) => {
     </>
   );
 
-  const displaySubcategoryTags = (subcategories) => (
+  const displaySubcategoryTags = (resource) => (
     <>
-      {subcategories.map((c) => (
+      {resource.subcategories.map((c) => (
         <Tag key={c} color={TAG_COLOR_DICT[c[0].toLowerCase()]}>
           <span>
             {c}
             <t
-              onClick={() => window.location.reload()}
+              onClick={() => removeCategoryAndSubcategory(c, resource)}
               style={{ marginLeft: '5px', cursor: 'pointer' }}
             >
               x
@@ -101,7 +107,7 @@ const ManageResourcesTable = (props: Props) => {
         showArrow={false}
         size="small"
         dropdownStyle={{ minWidth: '250px' }}
-        onChange={addCategoryAndSubcategory}
+        onChange={(e) => addCategoryAndSubcategory(e, resource)}
       >
         {fetchedCategories.map((cat) => (
           <OptGroup key={cat.name} label={cat.name}>
@@ -156,7 +162,7 @@ const ManageResourcesTable = (props: Props) => {
     {
       title: 'Subcategories',
       render: function showSubcategories(_, resource) {
-        return displaySubcategoryTags(resource.subcategories);
+        return displaySubcategoryTags(resource);
       },
     },
     {
