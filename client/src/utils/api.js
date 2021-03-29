@@ -291,6 +291,7 @@ export const renameSubcategory = (
       },
     );
 };
+
 export const deleteSubcategory = (
   id: string,
   category: string,
@@ -355,6 +356,31 @@ export const createTranslation = (
         token: localStorage.getItem('token'),
       },
     })
+    .then(
+      (res) => res.data,
+      (err) => {
+        console.error(err);
+        return null;
+      },
+    );
+};
+
+export const editResourceCategories = (
+  id: string,
+  category: Array<string>,
+  subcategory: Array<string>,
+): ApiResponse<Resource> => {
+  const requestExtension = `/api/admin/resources/${id}`;
+  return instance
+    .patch(
+      requestExtension,
+      { category, subcategory },
+      {
+        headers: {
+          token: localStorage.getItem('token'),
+        },
+      },
+    )
     .then(
       (res) => res.data,
       (err) => {
