@@ -15,50 +15,65 @@ import {
   FolderOpenTwoTone,
 } from '@ant-design/icons';
 
+import '../css/MapViewModal.css';
+
 type ItemProps = {};
 
 const GridItem = (props: ItemProps) => {
   const { icon, text } = props;
 
   return (
-    <Row align="bottom">
-      <Col span={4}>{icon}</Col>
-      <Col span={20}>{text}</Col>
+    <Row>
+      <Col span={4} className="grid-item">
+        {icon}
+      </Col>
+      <Col span={20} className="grid-text">
+        {text}
+      </Col>
     </Row>
   );
 };
 
 type Props = {};
 
-const ResourceModal = (props: Props) => {
+const MapViewModal = (props: Props) => {
   const { data } = props;
 
   return (
     <Card
       hoverable
-      style={{ width: 250 }}
-      cover={<img alt="example" src="/asset/images/splash.webp" />}
+      className="card"
+      cover={
+        <img alt="example" src="/asset/images/splash.webp" className="cover" />
+      }
     >
-      <h4>Resource Name</h4>
+      <h5>Resource Name</h5>
       <p>
         src\components\ResourceModal.jsx Line 11:11: 'data' is assigned a value
-        but never used no-unused-vars Search for the keywords to learn more
-        about each warning. To ignore, add // eslint-disable-next-line to the
-        line before.
+        but never used no-unused-vars
       </p>
-      <Row justify="center">
+      <Row className="top-row">
         <Col span={8}>
-          <CompassTwoTone />
+          <CompassTwoTone className="main-icon" />
+          Directions
         </Col>
         <Col span={8}>
-          <HeartTwoTone />
+          <HeartTwoTone className="main-icon" />
+          Save
         </Col>
         <Col span={8}>
-          <ShareAltOutlined />
+          <ShareAltOutlined
+            className="main-icon"
+            style={{ color: '#1890FF' }}
+          />
+          Share
         </Col>
       </Row>
       <GridItem icon={<EnvironmentTwoTone />} text="my home" />
-      <GridItem icon={<GlobalOutlined />} text="my home" />
+      <GridItem
+        icon={<GlobalOutlined style={{ color: '#1890FF' }} />}
+        text="my home"
+      />
       <GridItem icon={<PhoneTwoTone />} text="my home" />
       <GridItem icon={<MailTwoTone />} text="my home" />
       <GridItem icon={<DollarTwoTone />} text="my home" />
@@ -68,4 +83,4 @@ const ResourceModal = (props: Props) => {
   );
 };
 
-export default ResourceModal;
+export default MapViewModal;

@@ -8,7 +8,7 @@ import ResourceForm from '../components/ResourceForm';
 import EditHome from '../components/EditHome';
 import RoleApproval from '../components/RoleApproval';
 import ResourceManager from '../components/ResourceManager';
-import ResourceModal from '../components/ResourceModal';
+import MapViewModal from '../components/MapViewModal';
 
 const { Header } = Layout;
 const { TabPane } = Tabs;
@@ -50,7 +50,7 @@ const AdminResourceManager = (props: Props): React$Element<'div'> => {
             <ResourceManager />
           </TabPane>
           <TabPane tab="Resource Modal" key="5">
-            <ResourceModal />
+            <MapViewModal />
           </TabPane>
         </Tabs>
       </div>
