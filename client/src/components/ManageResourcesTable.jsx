@@ -7,27 +7,27 @@ import { getCategories } from '../utils/api';
 
 const { Option, OptGroup } = Select;
 
-const TAG_COLOR_DICT = {
+const CATEGORY_COLOR_DICT = {
   a: 'blue',
   b: 'gold',
-  c: 'red',
+  c: 'volcano',
   d: 'volcano',
   e: 'green',
-  f: 'geekblue',
+  f: 'magenta',
   g: 'orange',
   h: 'cyan',
   i: 'magenta',
   j: 'gold',
   k: 'purple',
-  l: 'purple',
+  l: 'orange',
   m: 'green',
   n: 'green',
-  o: 'blue',
+  o: 'purple',
   p: 'cyan',
   q: 'blue',
   r: 'blue',
   s: 'geekblue',
-  t: 'geekblue',
+  t: 'volcano',
   u: 'purple',
   v: 'purple',
   w: 'purple',
@@ -80,7 +80,7 @@ const ManageResourcesTable = (props: Props) => {
   const displayCategoryTags = (categories) => (
     <>
       {categories.map((c) => (
-        <Tag key={c} color={TAG_COLOR_DICT[c[0].toLowerCase()]}>
+        <Tag key={c} color={CATEGORY_COLOR_DICT[c[0].toLowerCase()]}>
           {c}
         </Tag>
       ))}
@@ -89,8 +89,11 @@ const ManageResourcesTable = (props: Props) => {
 
   const displaySubcategoryTags = (resource) => (
     <>
-      {resource.subcategories.map((c) => (
-        <Tag key={c} color={TAG_COLOR_DICT[c[0].toLowerCase()]}>
+      {resource.subcategories.map((c, idx) => (
+        <Tag
+          key={c}
+          color={CATEGORY_COLOR_DICT[resource.categories[idx][0].toLowerCase()]}
+        >
           <span>
             {c}
             <t
@@ -156,7 +159,7 @@ const ManageResourcesTable = (props: Props) => {
     {
       title: 'Categories',
       render: function showCategories(_, resource) {
-        return displayCategoryTags(resource.categories);
+        return displayCategoryTags([...new Set(resource.categories)]);
       },
     },
     {

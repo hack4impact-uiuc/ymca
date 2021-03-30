@@ -157,8 +157,8 @@ const ResourceManager = () => {
         newResources.push({
           name: r.name,
           description: r.description,
-          categories: [...new Set(r.category)],
-          subcategories: [...new Set(r.subcategory)],
+          categories: r.category,
+          subcategories: r.subcategory,
           id: r._id.toString(),
         });
       });
