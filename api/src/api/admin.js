@@ -146,6 +146,35 @@ router.post(
   }),
 );
 
+// Edit categories of a resource
+router.patch(
+  '/resources/:id',
+  errorWrap(async (req, res) => {
+    if (req.body.category && req.body.subcategory) {
+      const { id } = req.params;
+      const updatedResource = await Resource.findByIdAndUpdate(
+        id,
+        {
+          $set: {
+            category: req.body.category,
+            subcategory: req.body.subcategory,
+          },
+        },
+        {
+          new: true,
+          runValidators: true,
+        },
+      );
+      res.json({
+        code: 200,
+        message: `Successfully updated resource ${id}`,
+        success: true,
+        result: updatedResource,
+      });
+    }
+  }),
+);
+
 // Edit an existing resource
 router.put(
   '/resources/:id',
