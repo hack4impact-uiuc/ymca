@@ -11,7 +11,7 @@ import { useAuth } from '../utils/use-auth';
 import '../css/Navigation.css';
 
 const { Header } = Layout;
-
+const { SubMenu } = Menu;
 type NavigationProps = {
   setLanguage: (string) => void,
 };
@@ -27,6 +27,16 @@ const Navigation = (props: NavigationProps) => {
 };
 
 const { Option } = Select;
+
+const globe = (
+  <img
+    src="/asset/icon/globe.svg"
+    className="globe"
+    alt="Globe"
+    height="18"
+    width="18"
+  />
+);
 
 const NavDesktop = (props: NavigationProps) => {
   const { setLanguage } = props;
@@ -113,8 +123,6 @@ const NavMobile = (props: NavigationProps) => {
           <NavLink exact to="/">
             <div className="nav-mobile-logo" />
           </NavLink>
-          <Button onClick={() => setLanguage('English')}>English</Button>
-          <Button onClick={() => setLanguage('Spanish')}>Spanish</Button>
           <div className="nav-mobile-menu-btn-container">
             <Button
               onClick={() => setDrawerVisible(true)}
@@ -182,6 +190,12 @@ const NavMobile = (props: NavigationProps) => {
                 </NavLink>
               </Menu.Item>
             )}
+            <SubMenu key="language-switcher" icon={globe} title="Language">
+              <Menu.Item key="English">English</Menu.Item>
+              <Menu.Item key="Spanish">Español</Menu.Item>
+              <Menu.Item key="French">Français</Menu.Item>
+              <Menu.Item key="Chinese">中文</Menu.Item>
+            </SubMenu>
           </Menu>
         </Drawer>
       </div>
