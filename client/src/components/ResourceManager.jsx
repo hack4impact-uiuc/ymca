@@ -71,39 +71,36 @@ const SidebarCategory = (props: Props) => {
       }
       onTitleClick={handleChange}
     >
-      {categories[categoryName][0].map((subcategory) => {
-        console.log(categories, categoryName);
-        return (
-          <Menu.Item
-            key={subcategory}
-            className="resource-manager-sidebar-category"
-            onClick={() => {
-              setSelectedSubcategory(subcategory);
-              setSelectedCategory(categoryName);
-            }}
-          >
-            {subcategory}
-            <div>
-              <EditCategoryModal
-                modalType="rename"
-                categoryType="subcategory"
-                subcategoryName={subcategory}
-                id={categories[categoryName][1]}
-                categoryName={categoryName}
-                updateView={updateView}
-              />
-              <EditCategoryModal
-                modalType="delete"
-                categoryType="subcategory"
-                subcategoryName={subcategory}
-                id={categories[categoryName][1]}
-                categoryName={categoryName}
-                updateView={updateView}
-              />
-            </div>
-          </Menu.Item>
-        );
-      })}
+      {categories[categoryName][0].map((subcategory) => (
+        <Menu.Item
+          key={subcategory}
+          className="resource-manager-sidebar-category"
+          onClick={() => {
+            setSelectedSubcategory(subcategory);
+            setSelectedCategory(categoryName);
+          }}
+        >
+          {subcategory}
+          <div>
+            <EditCategoryModal
+              modalType="rename"
+              categoryType="subcategory"
+              subcategoryName={subcategory}
+              id={categories[categoryName][1]}
+              categoryName={categoryName}
+              updateView={updateView}
+            />
+            <EditCategoryModal
+              modalType="delete"
+              categoryType="subcategory"
+              subcategoryName={subcategory}
+              id={categories[categoryName][1]}
+              categoryName={categoryName}
+              updateView={updateView}
+            />
+          </div>
+        </Menu.Item>
+      ))}
       <Menu.Item
         key={categories[categoryName][1].toString().concat('-add-subcategory')}
         className="resource-manager-sidebar-category"
@@ -163,7 +160,6 @@ const ResourceManager = () => {
         });
       });
     }
-    console.log(newResources);
     setResources(newResources);
   };
 

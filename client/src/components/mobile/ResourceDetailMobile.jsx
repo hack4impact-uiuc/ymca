@@ -11,6 +11,7 @@ import {
 import { Carousel, Row, Col, Timeline } from 'antd';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 import moment from 'moment';
+import { useIntl, FormattedMessage } from 'react-intl';
 
 import ResourcesBreadcrumb from '../ResourcesBreadcrumb';
 import SaveButton from '../SaveButton';
@@ -25,6 +26,7 @@ import determineStockPhoto from '../../utils/determineStockPhoto';
 
 import '../../css/ResourceDetailMobile.css';
 import { useAuth } from '../../utils/use-auth';
+import { detailMessages, filterMessages } from '../../utils/messages';
 
 type Props = {
   match: {
@@ -35,6 +37,7 @@ type Props = {
 };
 
 const ResourceDetailMobile = (props: Props) => {
+  const intl = useIntl();
   const { authed, authRoleIsEquivalentTo } = useAuth();
 
   const { match } = props;
@@ -292,15 +295,23 @@ const ResourceDetailMobile = (props: Props) => {
           </Row>
           <Row className="mb-rd-description-container">
             <Col className="mb-rd-description" span={20}>
-              {description}
+              <FormattedMessage
+                id={`resource-description-${match.params.id}`}
+                defaultMessage={description}
+              />
               <Row>
-                {eligibility && `Eligibility Requirements: ${eligibility}`}
+                {eligibility &&
+                  `${intl.formatMessage(
+                    detailMessages.eligibility,
+                  )}: ${eligibility}`}
               </Row>
             </Col>
           </Row>
         </div>
         <div className="mb-rd-block-2">
-          <Row className="mb-rd-block-title">Basic Information</Row>
+          <Row className="mb-rd-block-title">
+            <FormattedMessage {...detailMessages.basicInfo} />
+          </Row>
           <InfoBlock
             title="Contact Information"
             icon={<PhoneFilled className="mb-rd-phone-icon mb-rd-icon" />}
@@ -313,39 +324,43 @@ const ResourceDetailMobile = (props: Props) => {
                         entry.phoneType.slice(1)
                       }: ${entry.phoneNumber}`,
                   )
-                : ['No phone number provided.'],
+                : [intl.formatMessage(detailMessages.noPhoneNumber)],
               [
-                email || 'No email provided.',
+                email || intl.formatMessage(detailMessages.noEmail),
                 <a href={website} key="website">
-                  {website || 'No website provided.'}
+                  {website || intl.formatMessage(detailMessages.noWebsite)}
                 </a>,
               ],
             )}
           />
           <InfoBlock
-            title="Languages Spoken"
+            title={intl.formatMessage(detailMessages.languagesSpoken)}
             icon={<WechatFilled className="mb-rd-icon" />}
             content={[
               languages && languages.length > 0
                 ? languages.join(', ')
-                : 'None provided.',
+                : intl.formatMessage(detailMessages.noneProvided),
             ]}
           />
           <InfoBlock
-            title="Cost"
+            title={intl.formatMessage(filterMessages.cost)}
             icon={<DollarCircleFilled className="mb-rd-icon" />}
-            content={[cost || 'None provided.']}
+            content={[
+              (cost === 'Free'
+                ? intl.formatMessage(filterMessages.free)
+                : cost) || intl.formatMessage(detailMessages.noneProvided),
+            ]}
           />
           <InfoBlock
-            title="Required Documents"
+            title={intl.formatMessage(detailMessages.requiredDoc)}
             icon={<FolderOpenFilled className="mb-rd-icon" />}
             content={[
               (requiredDocuments && requiredDocuments.join(', ')) ||
-                'None provided.',
+                intl.formatMessage(detailMessages.noneProvided),
             ]}
           />
           <InfoBlock
-            title="Financial Aid"
+            title={intl.formatMessage(detailMessages.financialAid)}
             icon={
               <img
                 className="rd-mb-financial-aid-icon"
@@ -368,16 +383,22 @@ const ResourceDetailMobile = (props: Props) => {
                   >
                     <Col span={12}>
                       <div className="rd-mb-financial-aid-subtitle">
-                        Education:
+                        <FormattedMessage {...detailMessages.education} />:
                       </div>
-                      {financialAidDetails.education || 'None provided.'}
+                      {financialAidDetails.education || (
+                        <FormattedMessage {...detailMessages.noneProvided} />
+                      )}
                     </Col>
                     <Col span={12}>
                       <div className="rd-mb-financial-aid-subtitle">
-                        Immigration Status:
+                        <FormattedMessage
+                          {...detailMessages.immigrationStatus}
+                        />
+                        :
                       </div>
-                      {financialAidDetails.immigrationStatus ||
-                        'None provided.'}
+                      {financialAidDetails.immigrationStatus || (
+                        <FormattedMessage {...detailMessages.noneProvided} />
+                      )}
                     </Col>
                   </Row>
                   <Row
@@ -386,20 +407,24 @@ const ResourceDetailMobile = (props: Props) => {
                   >
                     <Col span={12}>
                       <div className="rd-mb-financial-aid-subtitle">
-                        Deadline:
+                        <FormattedMessage {...detailMessages.deadline} />:
                       </div>
-                      {financialAidDetails.deadline || 'None provided.'}
+                      {financialAidDetails.deadline || (
+                        <FormattedMessage {...detailMessages.noneProvided} />
+                      )}
                     </Col>
                     <Col span={12}>
                       <div className="rd-mb-financial-aid-subtitle">
-                        Amount:
+                        <FormattedMessage {...detailMessages.amount} />:
                       </div>
-                      {financialAidDetails.amount || 'None provided.'}
+                      {financialAidDetails.amount || (
+                        <FormattedMessage {...detailMessages.noneProvided} />
+                      )}
                     </Col>
                   </Row>
                 </div>
               ) : (
-                'None provided.'
+                <FormattedMessage {...detailMessages.noneProvided} />
               ),
             ]}
           />
@@ -462,7 +487,9 @@ const ResourceDetailMobile = (props: Props) => {
           </div>
         )}
         <div className="mb-rd-block-2">
-          <Row className="mb-rd-block-title">Location</Row>
+          <Row className="mb-rd-block-title">
+            <FormattedMessage {...filterMessages.location} />
+          </Row>
           <div className="mb-rd-location-info mb-rd-thin-text">
             <Row>{address}</Row>
             {addressLine2 && <Row>{addressLine2}</Row>}
@@ -494,17 +521,40 @@ const ResourceDetailMobile = (props: Props) => {
           </Row>
         </div>
         <div className="mb-rd-block-2">
-          <Row className="mb-rd-block-title">Schedule</Row>
+          <Row className="mb-rd-block-title">
+            <FormattedMessage {...detailMessages.schedule} />
+          </Row>
           <Row>
             <Timeline className="mb-rd-schedule">
               {[
-                'Sunday',
-                'Monday',
-                'Tuesday',
-                'Wednesday',
-                'Thursday',
-                'Friday',
-                'Saturday',
+                intl.formatMessage({
+                  id: 'detail-Sunday',
+                  defaultMessage: 'Sunday',
+                }),
+                intl.formatMessage({
+                  id: 'detail-Monday',
+                  defaultMessage: 'Monday',
+                }),
+                intl.formatMessage({
+                  id: 'detail-Tuesday',
+                  defaultMessage: 'Tuesday',
+                }),
+                intl.formatMessage({
+                  id: 'detail-Wednesday',
+                  defaultMessage: 'Wednesday',
+                }),
+                intl.formatMessage({
+                  id: 'detail-Thursday',
+                  defaultMessage: 'Thursday',
+                }),
+                intl.formatMessage({
+                  id: 'detail-Friday',
+                  defaultMessage: 'Friday',
+                }),
+                intl.formatMessage({
+                  id: 'detail-Saturday',
+                  defaultMessage: 'Saturday',
+                }),
               ].map((day) => (
                 <ScheduleEntry
                   day={day}
@@ -548,10 +598,16 @@ const ScheduleEntry = (props: ScheduleEntryProps) => {
       <div className="md-rd-schedule-entry">
         <Row className="mb-rd-schedule-entry-title">{day}</Row>
         <Row className="mb-rd-schedule-text">
-          {startTime && endTime ? `${startTime} - ${endTime}` : 'None'}
+          {startTime && endTime ? (
+            `${startTime} - ${endTime}`
+          ) : (
+            <FormattedMessage {...detailMessages.none} />
+          )}
         </Row>
         {isWithinOperationHours && (
-          <Row className="mb-rd-schedule-open-now">Open now!</Row>
+          <Row className="mb-rd-schedule-open-now">
+            <FormattedMessage {...detailMessages.openNow} />
+          </Row>
         )}
       </div>
     </Timeline.Item>
