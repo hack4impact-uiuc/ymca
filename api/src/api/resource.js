@@ -33,7 +33,17 @@ const addFields = {
 router.get(
   '/',
   errorWrap(async (req, res) => {
-    const { category, subcategory, cost, language, city, sort } = req.query;
+    // add page and size
+    const {
+      category,
+      subcategory,
+      cost,
+      language,
+      city,
+      sort,
+      size,
+      page,
+    } = req.query;
 
     let query = {};
     if (category != null && category !== '' && category !== 'All Resources') {
@@ -88,18 +98,40 @@ router.get(
         orderBy = { name: 1 };
       }
     }
+
     const aggregation =
       orderBy === null
-        ? [addFields, { $match: query }]
-        : [addFields, { $match: query }, { $sort: orderBy }];
+        ? [
+            {
+              $facet: {
+                totalData: [addFields, { $match: query }],
+              },
+            },
+          ]
+        : [
+            {
+              $facet: {
+                totalData: [
+                  addFields,
+                  { $match: query },
+                  { $sort: orderBy },
+                  { $limit: size },
+                  { $skip: size * (page - 1) },
+                ],
+                totalCount: [{ $count: 'number of resources' }],
+              },
+            },
+          ];
 
     const resources = await Resource.aggregate(aggregation);
+    console.log(resources[0].totalData);
+    console.log(resources[0].totalCount);
 
     res.json({
       code: 200,
       message: '',
       success: true,
-      result: resources,
+      result: resources[0].totalData,
     });
   }),
 );
