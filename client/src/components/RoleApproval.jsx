@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { CaretDownOutlined } from '@ant-design/icons';
-import { Button, Menu, Dropdown, message, Input, Card, Table } from 'antd';
+import { Button, Menu, Dropdown, message, Input, Table } from 'antd';
 import Loader from 'react-loader-spinner';
 
 import { getUsersForRolesPage, changeRole } from '../utils/auth';
@@ -145,10 +145,7 @@ const RoleApproval = () => {
           }}
         />
       ) : (
-        <Card
-          className="interview-card"
-          style={{ height: '60%', margin: '2%' }}
-        >
+        <>
           <Table
             columns={columns}
             dataSource={users}
@@ -165,7 +162,7 @@ const RoleApproval = () => {
               />
             </div>
           )}
-        </Card>
+        </>
       )}
     </div>
   );

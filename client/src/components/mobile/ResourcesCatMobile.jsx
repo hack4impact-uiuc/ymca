@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { DownOutlined } from '@ant-design/icons';
 import { Button, Drawer, Menu } from 'antd';
+import { FormattedMessage } from 'react-intl';
 
 import ResourceCategoryFilter from '../ResourceCategoryFilter';
 import useWindowDimensions from '../../utils/mobile';
@@ -22,6 +23,14 @@ function ResourcesCatMobile(props) {
       setCategoriesVisible(false);
     }
   }, [subcategory]);
+  let dropdownId = '';
+  const dropdownTitle = subcategory || category;
+  if (subcategory !== '') {
+    dropdownId = `subcategory-${subcategory}`;
+  } else {
+    dropdownId =
+      category === 'All Resources' ? 'allResources' : `category-${category}`;
+  }
 
   return (
     <nav>
@@ -32,7 +41,10 @@ function ResourcesCatMobile(props) {
         >
           <Menu.Item key="categories">
             <span className="category-dropdown">
-              {subcategory || category}
+              <FormattedMessage
+                id={dropdownId}
+                defaultMessage={dropdownTitle}
+              />
               <DownOutlined className="down-icon" />
             </span>
             <button type="button" className="filter">

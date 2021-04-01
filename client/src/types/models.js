@@ -1,6 +1,10 @@
 // @flow
 
-export type Category = { name: string, subcategories: Array<string> };
+export type Category = {
+  name: string,
+  subcategories: Array<string>,
+  _id: string,
+};
 
 type PhoneNumber = {
   phoneType: string,

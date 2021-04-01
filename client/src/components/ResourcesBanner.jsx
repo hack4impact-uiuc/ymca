@@ -1,7 +1,9 @@
 import React from 'react';
 import { Layout, Row } from 'antd';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 
+import { allResourcesMessage, savedResourcesMessage } from '../utils/messages';
 import useWindowDimensions from '../utils/mobile';
 
 import ResourceBreadcrumb from './ResourcesBreadcrumb';
@@ -15,6 +17,22 @@ const ResourcesBanner = (props) => {
   ) : (
     <ResourcesBannerDesktop {...props} />
   );
+};
+
+const getBannerTitle = (categorySelected) => {
+  let bannerTitle = (
+    <FormattedMessage
+      id={`category-${categorySelected.replace(/\s/g, '')}`}
+      defaultMessage={categorySelected}
+    />
+  );
+  if (categorySelected === 'All Resources') {
+    bannerTitle = <FormattedMessage {...allResourcesMessage} />;
+  } else if (categorySelected === 'Saved Resources') {
+    bannerTitle = <FormattedMessage {...savedResourcesMessage} />;
+  }
+
+  return bannerTitle;
 };
 
 function ResourcesBannerDesktop(props) {
@@ -37,11 +55,13 @@ function ResourcesBannerDesktop(props) {
             subcategorySelected={subcategorySelected}
           />
         ) : (
-          <span>Saved Resources</span>
+          <span>
+            <FormattedMessage {...savedResourcesMessage} />
+          </span>
         )}
       </Row>
       <Row>
-        <h1 style={{ color: 'white' }}>{categorySelected}</h1>
+        <h1 style={{ color: 'white' }}>{getBannerTitle(categorySelected)}</h1>
       </Row>
     </Header>
   );
@@ -74,11 +94,15 @@ function ResourcesBannerMobile(props) {
             subcategorySelected={subcategorySelected}
           />
         ) : (
-          <span>Saved Resources</span>
+          <span>
+            <FormattedMessage {...savedResourcesMessage} />
+          </span>
         )}
       </Row>
       <Row>
-        <h1 style={{ color: 'white', fontSize: '36px' }}>{categorySelected}</h1>
+        <h1 style={{ color: 'white', fontSize: '36px' }}>
+          {getBannerTitle(categorySelected)}
+        </h1>
       </Row>
     </Header>
   );

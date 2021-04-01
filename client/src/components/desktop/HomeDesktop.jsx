@@ -65,14 +65,14 @@ export const HomeBlock1Desktop = ({
           defaultMessage="Welcome to Urbana-Champaign"
         />
         {categories && categories.length > 0 ? (
-          <Row type="flex">
+          <div className="welcome-resource-block">
             <h1 className="welcome-text-bold">
               <FormattedMessage
                 id="homeResources"
                 defaultMessage="Find Resources for"
               />
             </h1>
-            <div style={{ width: 'min-content' }}>
+            <span className="welcome-carousel-block">
               <Carousel
                 effect="fade"
                 autoplay
@@ -95,8 +95,8 @@ export const HomeBlock1Desktop = ({
                     ),
                 )}
               </Carousel>
-            </div>
-          </Row>
+            </span>
+          </div>
         ) : (
           <Row type="flex">
             <h1 className="welcome-text-bold">
