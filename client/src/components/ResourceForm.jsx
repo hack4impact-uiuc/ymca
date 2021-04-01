@@ -14,13 +14,20 @@ import '../css/ResourceForm.css';
 
 const { Content } = Layout;
 
+const linkResource = (resourceId, type) => (
+  <>
+    Resource {type}! Click
+    <a href={`/resources/${resourceId}`}> here </a>
+    to view!
+  </>
+);
 const onSubmitNewResourceForm = async (e, enabled, id, resource) => {
   e.preventDefault();
   if (enabled) {
     if (id) {
       const editedResource = await editResource(id, resource);
       if (editedResource) {
-        message.success('Resource successfully edited!');
+        message.success(linkResource(id, 'edited'));
       } else {
         message.error(
           `Resource could not be edited.
@@ -31,7 +38,7 @@ const onSubmitNewResourceForm = async (e, enabled, id, resource) => {
     } else {
       const createdResource = await addResource(resource);
       if (createdResource) {
-        message.success('Resource successfully created!');
+        message.success(linkResource(createdResource.result._id, 'created'));
       } else {
         message.error(
           `Resource could not be created.

@@ -131,7 +131,7 @@ router.get(
       code: 200,
       message: '',
       success: true,
-      result: resources[0].totalData,
+      result: resources[0],
     });
   }),
 );
