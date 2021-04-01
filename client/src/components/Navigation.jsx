@@ -31,7 +31,7 @@ const { Option } = Select;
 const globe = (
   <img
     src="/asset/icon/globe.svg"
-    className="globe"
+    className="globe-mobile"
     alt="Globe"
     height="18"
     width="18"
@@ -190,11 +190,44 @@ const NavMobile = (props: NavigationProps) => {
                 </NavLink>
               </Menu.Item>
             )}
-            <SubMenu key="language-switcher" icon={globe} title="Language">
-              <Menu.Item key="English">English</Menu.Item>
-              <Menu.Item key="Spanish">Español</Menu.Item>
-              <Menu.Item key="French">Français</Menu.Item>
-              <Menu.Item key="Chinese">中文</Menu.Item>
+            <SubMenu
+              key="language-switcher"
+              popupClassName="switcher-mobile"
+              icon={globe}
+              title="Language"
+            >
+              <Menu.Item
+                key="English"
+                onClick={() => {
+                  setLanguage('English');
+                }}
+              >
+                English
+              </Menu.Item>
+              <Menu.Item
+                key="Spanish"
+                onClick={() => {
+                  setLanguage('Spanish');
+                }}
+              >
+                Español
+              </Menu.Item>
+              <Menu.Item
+                key="French"
+                onClick={() => {
+                  setLanguage('French');
+                }}
+              >
+                Français
+              </Menu.Item>
+              <Menu.Item
+                key="Chinese"
+                oonClick={() => {
+                  setLanguage('Chinese');
+                }}
+              >
+                中文
+              </Menu.Item>
             </SubMenu>
           </Menu>
         </Drawer>
