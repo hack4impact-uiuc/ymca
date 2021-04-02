@@ -72,20 +72,20 @@ const ResourceFilterSearch = (): React$Element<any> => {
                 categoriesObj[category][subcategory] = [];
               }
 
-              if (!newAscendantRelationMap[resource.name]) {
-                newAscendantRelationMap[resource.name] = new Set();
+              if (!newAscendantRelationMap[resource._id]) {
+                newAscendantRelationMap[resource._id] = new Set();
               }
-              console.log(resource.name);
-              newAscendantRelationMap[resource.name].add(category);
-              newAscendantRelationMap[resource.name].add(subcategory);
 
-              categoriesObj[category][subcategory].push(resource.name);
+              newAscendantRelationMap[resource._id].add(category);
+              newAscendantRelationMap[resource._id].add(subcategory);
+
+              categoriesObj[category][subcategory].push(resource._id);
             });
           });
 
-          Object.keys(newAscendantRelationMap).forEach((resourceName) => {
-            newAscendantRelationMap[resourceName] = Array.from(
-              newAscendantRelationMap[resourceName],
+          Object.keys(newAscendantRelationMap).forEach((resourceId) => {
+            newAscendantRelationMap[resourceId] = Array.from(
+              newAscendantRelationMap[resourceId],
             );
           });
 
@@ -98,7 +98,10 @@ const ResourceFilterSearch = (): React$Element<any> => {
                 key={category}
                 label={category}
               >
-                {category}
+                {intl.formatMessage({
+                  id: `category-${category}`.replace(/\s/g, ''),
+                  defaultMessage: category,
+                })}
               </Option>,
             );
 
@@ -109,7 +112,10 @@ const ResourceFilterSearch = (): React$Element<any> => {
                   key={subcategory}
                   label={subcategory}
                 >
-                  {subcategory}
+                  {intl.formatMessage({
+                    id: `subcategory-${subcategory}`.replace(/\s/g, ''),
+                    defaultMessage: subcategory,
+                  })}
                 </Option>,
               );
             });
@@ -125,11 +131,11 @@ const ResourceFilterSearch = (): React$Element<any> => {
       }
       // also show error
     });
-  }, [setAllOptions]);
+  }, [intl, setAllOptions]);
 
   const filterSearchResults = useCallback(
     (input, option) => {
-      if (filterWhitelist.includes(option.props.children)) {
+      if (filterWhitelist.includes(option.props.key)) {
         return true;
       }
 
@@ -140,7 +146,7 @@ const ResourceFilterSearch = (): React$Element<any> => {
           .indexOf(input.toUpperCase()) !== -1 ||
         option.props.children.toUpperCase().indexOf(input.toUpperCase()) !== -1
       ) {
-        setFilterWhitelist(ascendantRelationMap[option.props.children]);
+        setFilterWhitelist(ascendantRelationMap[option.props.key]);
         return true;
       }
       return false;
