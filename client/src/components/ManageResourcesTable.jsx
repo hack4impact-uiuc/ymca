@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { EditFilled } from '@ant-design/icons';
 import { Select, Table, Tag } from 'antd';
-import { getCategories } from '../utils/api';
+import { getCategories, editResourceCategories } from '../utils/api';
 
 const { Option, OptGroup } = Select;
 
@@ -61,26 +61,30 @@ const ManageResourcesTable = (props: Props) => {
         }
       }
     });
-  }, []);
+  }, [fetchedCategories]);
 
   const addCategoryAndSubcategory = (selected, resource) => {
     const tokens = selected.split('~');
-    const newCategories = resource.categories.push(tokens[0]);
-    const newSubcategories = resource.subcategories.push(tokens[1]);
-    // editResourceCategories(resource.id, newCategories, newSubcategories);
+    const newCategories = resource.categories;
+    const newSubcategories = resource.subcategories;
+    newCategories.push(tokens[0]);
+    newSubcategories.push(tokens[1]);
+    editResourceCategories(resource.id, newCategories, newSubcategories);
   };
 
   const removeCategoryAndSubcategory = (selected, resource) => {
     const idx = resource.subcategories.indexOf(selected);
-    const newCategories = resource.categories.splice(idx, 1);
-    const newSubcategories = resource.subcategories.splice(idx, 1);
-    // editResourceCategories(resource.id, newCategories, newSubcategories);
+    const newCategories = resource.categories;
+    const newSubcategories = resource.subcategories;
+    newCategories.splice(idx, 1);
+    newSubcategories.splice(idx, 1);
+    editResourceCategories(resource.id, newCategories, newSubcategories);
   };
 
   const displayCategoryTags = (categories) => (
     <>
       {categories.map((c) => (
-        <Tag key={c} color={CATEGORY_COLOR_DICT[c[0].toLowerCase()]}>
+        <Tag key={c} color={CATEGORY_COLOR_DICT[c[0]?.toLowerCase()]}>
           {c}
         </Tag>
       ))}
@@ -92,7 +96,9 @@ const ManageResourcesTable = (props: Props) => {
       {resource.subcategories.map((c, idx) => (
         <Tag
           key={c}
-          color={CATEGORY_COLOR_DICT[resource.categories[idx][0].toLowerCase()]}
+          color={
+            CATEGORY_COLOR_DICT[resource.categories[idx][0]?.toLowerCase()]
+          }
         >
           <span>
             {c}
@@ -109,7 +115,7 @@ const ManageResourcesTable = (props: Props) => {
         placeholder="+"
         showArrow={false}
         size="small"
-        dropdownStyle={{ minWidth: '250px' }}
+        dropdownMatchSelectWidth={false}
         onChange={(e) => addCategoryAndSubcategory(e, resource)}
       >
         {fetchedCategories.map((cat) => (
