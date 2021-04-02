@@ -222,7 +222,7 @@ const NavMobile = (props: NavigationProps) => {
               </Menu.Item>
               <Menu.Item
                 key="Chinese"
-                oonClick={() => {
+                onClick={() => {
                   setLanguage('Chinese');
                 }}
               >
