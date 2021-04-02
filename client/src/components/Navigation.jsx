@@ -117,6 +117,18 @@ const NavMobile = (props: NavigationProps) => {
   const { language, setLanguage } = props;
   const { authed, authRoleIsEquivalentTo } = useAuth();
   const [drawerVisible, setDrawerVisible] = useState(false);
+  const getLanguage = () => {
+    if (language === 'Spanish') {
+      return 'Español';
+    }
+    if (language === 'French') {
+      return 'Français';
+    }
+    if (language === 'Chinese') {
+      return '中文';
+    }
+    return 'English';
+  };
 
   return (
     <nav>
@@ -196,7 +208,7 @@ const NavMobile = (props: NavigationProps) => {
               key="language-switcher"
               popupClassName="switcher-mobile"
               icon={globe}
-              title="Language"
+              title={getLanguage()}
             >
               <Menu.Item
                 key="English"
