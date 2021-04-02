@@ -183,7 +183,6 @@ router.put(
       const link = await imageHelper(req.body.image);
       if (link) {
         req.body.image = link;
-        console.log(req.body);
       }
     }
 

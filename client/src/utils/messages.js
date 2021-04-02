@@ -119,13 +119,45 @@ export const detailMessages = defineMessages({
 });
 
 export const loginMessages = defineMessages({
-  pleaseInputYourEmail: {
-    id: 'pleaseInputYourEmail',
-    defaultMessage: 'Please input your E-mail!',
+  confirmPassword: {
+    id: 'confirmPassword',
+    defaultMessage: 'Confirm Password',
+  },
+  createPassword: {
+    id: 'createPassword',
+    defaultMessage: 'Create password',
   },
   email: {
     id: 'email',
     defaultMessage: 'E-mail',
+  },
+  inputIsNotValidEmail: {
+    id: 'inputIsNotValidEmail',
+    defaultMessage: 'The input is not valid E-mail!',
+  },
+  passwordsInconsistent: {
+    id: 'passwordsInconsistent',
+    defaultMessage: 'The two passwords you entered are inconsistent!',
+  },
+  pleaseConfirmYourPassword: {
+    id: 'pleaseConfirmYourPassword',
+    defaultMessage: 'Please confirm your password!',
+  },
+  pleaseCreateAPassword: {
+    id: 'pleaseCreateAPassword',
+    defaultMessage: 'Please create a password!',
+  },
+  pleaseInputYourEmail: {
+    id: 'pleaseInputYourEmail',
+    defaultMessage: 'Please input your E-mail!',
+  },
+  pleaseTypeInAnAnswer: {
+    id: 'pleaseTypeInAnAnswer',
+    defaultMessage: 'Please type in an answer!',
+  },
+  answer: {
+    id: 'answer',
+    defaultMessage: 'Answer',
   },
 });
 

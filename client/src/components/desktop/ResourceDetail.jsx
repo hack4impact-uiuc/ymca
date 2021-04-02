@@ -25,7 +25,6 @@ import ResourcesBreadcrumb from '../ResourcesBreadcrumb';
 import SaveButton from '../SaveButton';
 import ShareButton from '../ShareButton';
 import { useAuth } from '../../utils/use-auth';
-
 import { detailMessages, filterMessages } from '../../utils/messages';
 
 import '../../css/ResourceDetail.css';
