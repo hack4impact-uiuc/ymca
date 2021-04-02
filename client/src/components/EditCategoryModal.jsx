@@ -2,36 +2,108 @@
 
 import React, { useState } from 'react';
 
-import { Modal, Button, Input } from 'antd';
+import { Modal, Input } from 'antd';
 import {
   CloseOutlined,
   EditOutlined,
   ExclamationCircleOutlined,
+  PlusOutlined,
 } from '@ant-design/icons';
+import {
+  addCategory,
+  addSubcategory,
+  deleteCategory,
+  deleteSubcategory,
+  renameCategory,
+  renameSubcategory,
+} from '../utils/api';
 
 type ModalProps = {
   modalType: 'add' | 'delete' | 'rename',
   categoryType: 'subcategory' | 'category',
+  subcategoryName: string,
+  id: string,
+  categoryName: string,
+  updateView: () => void,
 };
 
 function EditCategoryModal(props: ModalProps) {
-  const { modalType, categoryType } = props;
+  const {
+    modalType,
+    categoryType,
+    subcategoryName,
+    id,
+    categoryName,
+    updateView,
+  } = props;
   const categoryTypeCapitalized =
     categoryType[0].toUpperCase() + categoryType.slice(1);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [newSubcategoryName, setNewSubcategoryName] = useState('');
+  const [newCategoryName, setNewCategoryName] = useState('');
+  const [addSubcategoryName, setAddSubcategoryName] = useState('');
+  const [addCategoryName, setAddCategoryName] = useState('');
 
   const showModal = () => {
     setIsModalVisible(true);
   };
 
-  const handleOk = () => {
-    setIsModalVisible(false);
-  };
+  async function handleSubmit() {
+    if (categoryType === 'subcategory') {
+      if (modalType === 'rename') {
+        await renameSubcategory(
+          id,
+          categoryName,
+          subcategoryName,
+          newSubcategoryName,
+        );
+      } else if (modalType === 'add') {
+        await addSubcategory(id, addSubcategoryName);
+      }
+    } else if (categoryType === 'category') {
+      if (modalType === 'rename') {
+        await renameCategory(id, newCategoryName, categoryName);
+      } else if (modalType === 'add') {
+        const category = {
+          _id: id,
+          name: addCategoryName,
+          subcategories: [],
+        };
+        await addCategory(category);
+      }
+    }
+  }
 
+  const handleOk = async () => {
+    setIsModalVisible(false);
+    await handleSubmit();
+    updateView();
+  };
   const handleCancel = () => {
     setIsModalVisible(false);
   };
+
+  function findValueName() {
+    if (categoryType === 'category') {
+      return categoryName;
+    }
+    return subcategoryName;
+  }
+
+  function onChangeRename(value) {
+    if (categoryType === 'category') {
+      setNewCategoryName(value);
+    }
+    setNewSubcategoryName(value);
+  }
+
+  function onChangeAdd(value) {
+    if (categoryType === 'category') {
+      setAddCategoryName(value);
+    }
+    setAddSubcategoryName(value);
+  }
 
   function DeleteCategory() {
     Modal.confirm({
@@ -42,6 +114,15 @@ function EditCategoryModal(props: ModalProps) {
         ' and untag resources associated.',
       okText: 'Yes',
       cancelText: 'No',
+      async onOk() {
+        if (categoryType === 'category') {
+          await deleteCategory(id, categoryName);
+          updateView();
+        } else if (categoryType === 'subcategory') {
+          await deleteSubcategory(id, categoryName, subcategoryName);
+          updateView();
+        }
+      },
     });
   }
 
@@ -49,37 +130,47 @@ function EditCategoryModal(props: ModalProps) {
     switch (modalType) {
       case 'add':
         return (
-          <div>
-            <Button type="dashed" onClick={showModal}>
-              Add {categoryTypeCapitalized}
-            </Button>
+          <>
+            <PlusOutlined
+              onClick={showModal}
+              style={{ position: 'relative', top: 10 }}
+            />
             <Modal
               title={`Add ${categoryTypeCapitalized}`}
               visible={isModalVisible}
               onOk={handleOk}
               onCancel={handleCancel}
             >
-              <Input placeholder={`New ${categoryTypeCapitalized}`} />
+              <Input
+                placeholder={`New ${categoryTypeCapitalized}`}
+                onChange={(e) => onChangeAdd(e.target.value)}
+              />
             </Modal>
-          </div>
+          </>
         );
       case 'delete':
-        return <CloseOutlined onClick={DeleteCategory}> </CloseOutlined>;
+        return (
+          <CloseOutlined
+            onClick={DeleteCategory}
+            style={{ color: '#FF0000' }}
+          />
+        );
       case 'rename':
         return (
-          <div>
-            <EditOutlined type="primary" onClick={showModal}>
-              {' '}
-            </EditOutlined>
+          <>
+            <EditOutlined type="primary" onClick={showModal} />
             <Modal
               title={`Rename ${categoryTypeCapitalized}`}
               visible={isModalVisible}
               onOk={handleOk}
               onCancel={handleCancel}
             >
-              <Input placeholder="Legal Aid" />
+              <Input
+                defaultValue={findValueName()}
+                onChange={(e) => onChangeRename(e.target.value)}
+              />
             </Modal>
-          </div>
+          </>
         );
       default:
         return (
@@ -90,7 +181,7 @@ function EditCategoryModal(props: ModalProps) {
     }
   }
 
-  return <div>{modal()}</div>;
+  return <>{modal()}</>;
 }
 
 export default EditCategoryModal;
