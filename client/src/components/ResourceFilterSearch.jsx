@@ -42,8 +42,9 @@ const ResourceFilterSearch = (): React$Element<any> => {
           const categoriesSet = new Set();
           const subcategoriesSet = new Set();
           const categoriesObj = {};
+          console.log(res.result.totalData);
 
-          Object.values(res.result).forEach((resource) => {
+          Object.values(res.result.totalData).forEach((resource) => {
             newOptions.push(
               <Option key={resource._id} label={resource.name}>
                 {resource.name}
@@ -74,7 +75,7 @@ const ResourceFilterSearch = (): React$Element<any> => {
               if (!newAscendantRelationMap[resource.name]) {
                 newAscendantRelationMap[resource.name] = new Set();
               }
-
+              console.log(resource.name);
               newAscendantRelationMap[resource.name].add(category);
               newAscendantRelationMap[resource.name].add(subcategory);
 

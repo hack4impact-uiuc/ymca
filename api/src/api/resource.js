@@ -44,7 +44,6 @@ router.get(
       size,
       page,
     } = req.query;
-
     let query = {};
     if (category != null && category !== '' && category !== 'All Resources') {
       query = { category: category };
@@ -98,8 +97,42 @@ router.get(
         orderBy = { name: 1 };
       }
     }
+    function getAggregation() {
+      if (orderBy === null) {
+        return [
+          {
+            $facet: {
+              totalData: [addFields, { $match: query }],
+            },
+          },
+        ];
+      } else if (page === undefined || size === undefined) {
+        return [
+          {
+            $facet: {
+              totalData: [addFields, { $match: query }, { $sort: orderBy }],
+            },
+          },
+        ];
+      } else {
+        return [
+          {
+            $facet: {
+              totalData: [
+                addFields,
+                { $match: query },
+                { $sort: orderBy },
+                { $limit: size },
+                { $skip: size * (page - 1) },
+              ],
+              totalCount: [{ $count: 'number of resources' }],
+            },
+          },
+        ];
+      }
+    }
 
-    const aggregation =
+    /* const aggregation =
       orderBy === null
         ? [
             {
@@ -121,11 +154,10 @@ router.get(
                 totalCount: [{ $count: 'number of resources' }],
               },
             },
-          ];
-
+          ]; */
+    const aggregation = await getAggregation();
     const resources = await Resource.aggregate(aggregation);
-    console.log(resources[0].totalData);
-    console.log(resources[0].totalCount);
+    console.log(resources[0]);
 
     res.json({
       code: 200,
