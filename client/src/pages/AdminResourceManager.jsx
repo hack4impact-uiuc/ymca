@@ -8,6 +8,7 @@ import ResourceForm from '../components/ResourceForm';
 import EditHome from '../components/EditHome';
 import RoleApproval from '../components/RoleApproval';
 import ResourceManager from '../components/ResourceManager';
+import MapViewEntry from '../components/MapViewEntry';
 
 const { Header } = Layout;
 const { TabPane } = Tabs;
@@ -47,6 +48,9 @@ const AdminResourceManager = (props: Props): React$Element<'div'> => {
           </TabPane>
           <TabPane tab="Manage Resources" key="4">
             <ResourceManager />
+          </TabPane>
+          <TabPane tab="Map View Entry" key="5">
+            <MapViewEntry />
           </TabPane>
         </Tabs>
       </div>
