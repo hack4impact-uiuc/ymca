@@ -64,6 +64,14 @@ const NavDesktop = (props: NavigationProps) => {
           </Menu.Item>
         )}
 
+        {authRoleIsEquivalentTo('admin') && (
+          <Menu.Item key="translation">
+            <NavLink to="/translation" activeClassName="navbar-active-style">
+              Translations
+            </NavLink>
+          </Menu.Item>
+        )}
+
         {!authed ? (
           <Menu.Item key="login">
             <NavLink to="/login" activeClassName="navbar-active-style">
