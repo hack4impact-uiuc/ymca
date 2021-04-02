@@ -1,6 +1,6 @@
 // @flow
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Button, Col, Row, Carousel, notification } from 'antd';
 import { HeartTwoTone } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
@@ -18,6 +18,7 @@ type Block1Props = {
 export const HomeBlock1Desktop = ({
   backgroundImage,
 }: Block1Props): React$Element<any> => {
+  const [api, contextHolder] = notification.useNotification();
   const [categories, setCategories] = useState<Array<string>>([]);
 
   const fetchCategories = async () => {
@@ -31,25 +32,37 @@ export const HomeBlock1Desktop = ({
     setCategories(newCategories);
   };
 
-  const openNotification = () => {
-    notification.open({
-      message: 'COVID-19 Information & Resources',
+  const openNotification = useCallback(() => {
+    api.open({
+      message: (
+        <FormattedMessage
+          id="covid19Info"
+          defaultMessage="COVID-19 Information & Resources"
+        />
+      ),
       description: (
-        <>
-          Find COVID-19 information & resources for immigrants in C-U in{' '}
-          <a href="https://tinyurl.com/cuimmigrantcovid">this guide</a> updated
-          daily.
-        </>
+        <FormattedMessage
+          id="covid19InfoDescription"
+          defaultMessage="Find COVID-19 information & resources for immigrants
+          in C-U in {linkGuide} updated daily."
+          values={{
+            linkGuide: (
+              <a href="https://tinyurl.com/cuimmigrantcovid">
+                <FormattedMessage id="thisGuide" defaultMessage="this guide" />
+              </a>
+            ),
+          }}
+        />
       ),
       icon: <HeartTwoTone twoToneColor="#eb2f96" />,
       top: 80,
     });
-  };
+  }, [api]);
 
   useEffect(() => {
     fetchCategories();
     openNotification();
-  }, []);
+  }, [openNotification]);
 
   return (
     <Row
@@ -59,6 +72,7 @@ export const HomeBlock1Desktop = ({
       justify="left"
       align="middle"
     >
+      {contextHolder}
       <Col className="welcome-text">
         <FormattedMessage
           id="homeWelcome"
