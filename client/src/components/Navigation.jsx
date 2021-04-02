@@ -65,8 +65,8 @@ const NavDesktop = (props: NavigationProps) => {
         )}
 
         {authRoleIsEquivalentTo('admin') && (
-          <Menu.Item key="translation">
-            <NavLink to="/translation" activeClassName="navbar-active-style">
+          <Menu.Item key="translations">
+            <NavLink to="/translations" activeClassName="navbar-active-style">
               Translations
             </NavLink>
           </Menu.Item>
@@ -123,8 +123,6 @@ const NavMobile = (props: NavigationProps) => {
           <NavLink exact to="/">
             <div className="nav-mobile-logo" />
           </NavLink>
-          <Button onClick={() => setLanguage('English')}>English</Button>
-          <Button onClick={() => setLanguage('Spanish')}>Spanish</Button>
           <div className="nav-mobile-menu-btn-container">
             <Button
               onClick={() => setDrawerVisible(true)}
@@ -185,6 +183,17 @@ const NavMobile = (props: NavigationProps) => {
                 </NavLink>
               </Menu.Item>
             )}
+            {authRoleIsEquivalentTo('admin') && (
+              <Menu.Item className="nav-mobile-menu-item">
+                <NavLink className="nav-mobile-option" exact to="/translations">
+                  <FormattedMessage
+                    id="translations"
+                    defaultMessage="Translations"
+                  />
+                </NavLink>
+              </Menu.Item>
+            )}
+
             {authed && (
               <Menu.Item className="nav-mobile-menu-item" onSelect>
                 <NavLink className="nav-mobile-option" to="/logout">
