@@ -8,7 +8,7 @@ import '@ant-design/compatible/assets/index.css';
 import { Button, Input, Select, Row, Col, message } from 'antd';
 import 'antd/dist/antd.css';
 import '../css/LoginRegister.css';
-import { useIntl, FormattedMessage, defineMessages } from 'react-intl';
+import { useIntl, FormattedMessage, defineMessage } from 'react-intl';
 import { loginMessages } from '../utils/messages';
 
 import { useAuth } from '../utils/use-auth';
@@ -19,44 +19,13 @@ type Props = {
   form: typeof Form,
 };
 
-const messages = defineMessages({
-  passwordsInconsistent: {
-    id: 'passwordsInconsistent',
-    defaultMessage: 'The two passwords you entered are inconsistent!',
-  },
-  inputIsNotValidEmail: {
-    id: 'inputIsNotValidEmail',
-    defaultMessage: 'The input is not valid E-mail!',
-  },
-  pleaseCreateAPassword: {
-    id: 'pleaseCreateAPassword',
-    defaultMessage: 'Please create a password!',
-  },
-  createPassword: {
-    id: 'createPassword',
-    defaultMessage: 'Create password',
-  },
-  pleaseConfirmYourPassword: {
-    id: 'pleaseConfirmYourPassword',
-    defaultMessage: 'Please confirm your password!',
-  },
-  confirmPassword: {
-    id: 'confirmPassword',
-    defaultMessage: 'Confirm Password',
-  },
+const messages = defineMessage({
   pleaseSelectASecurityQuestion: {
     id: 'pleaseSelectASecurityQuestion',
     defaultMessage: 'Please select a security question!',
   },
-  pleaseTypeInAnAnswer: {
-    id: 'pleaseTypeInAnAnswer',
-    defaultMessage: 'Please type in an answer!',
-  },
-  answer: {
-    id: 'answer',
-    defaultMessage: 'Answer',
-  },
 });
+
 const Register = ({ form }: Props) => {
   const intl = useIntl();
   const { register, securityQuestions } = useAuth();
@@ -77,7 +46,7 @@ const Register = ({ form }: Props) => {
   const compareToFirstPassword = useCallback(
     (rule, value, callback) => {
       if (value && value !== form.getFieldValue('password')) {
-        callback(intl.formatMessage(messages.passwordsInconsistent));
+        callback(intl.formatMessage(loginMessages.passwordsInconsistent));
       } else {
         callback();
       }
@@ -123,11 +92,11 @@ const Register = ({ form }: Props) => {
             rules: [
               {
                 type: 'email',
-                message: intl.formatMessage(messages.inputIsNotValidEmail),
+                message: intl.formatMessage(loginMessages.inputIsNotValidEmail),
               },
               {
                 required: true,
-                message: intl.formatMessage(messages.passwordsInconsistent),
+                message: intl.formatMessage(loginMessages.pleaseInputYourEmail),
               },
             ],
           })(
@@ -142,14 +111,16 @@ const Register = ({ form }: Props) => {
             rules: [
               {
                 required: true,
-                message: intl.formatMessage(messages.pleaseCreateAPassword),
+                message: intl.formatMessage(
+                  loginMessages.pleaseCreateAPassword,
+                ),
               },
             ],
           })(
             <Input.Password
               prefix={<LockOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
               type="password"
-              placeholder={intl.formatMessage(messages.createPassword)}
+              placeholder={intl.formatMessage(loginMessages.createPassword)}
             />,
           )}
         </Form.Item>
@@ -158,7 +129,9 @@ const Register = ({ form }: Props) => {
             rules: [
               {
                 required: true,
-                message: intl.formatMessage(messages.pleaseConfirmYourPassword),
+                message: intl.formatMessage(
+                  loginMessages.pleaseConfirmYourPassword,
+                ),
               },
               {
                 validator: compareToFirstPassword,
@@ -169,7 +142,7 @@ const Register = ({ form }: Props) => {
               onBlur={handleConfirmBlur}
               prefix={<LockOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
               type="password"
-              placeholder={intl.formatMessage(messages.confirmPassword)}
+              placeholder={intl.formatMessage(loginMessages.confirmPassword)}
             />,
           )}
         </Form.Item>
@@ -205,10 +178,10 @@ const Register = ({ form }: Props) => {
             rules: [
               {
                 required: true,
-                message: intl.formatMessage(messages.pleaseTypeInAnAnswer),
+                message: intl.formatMessage(loginMessages.pleaseTypeInAnAnswer),
               },
             ],
-          })(<Input placeholder={intl.formatMessage(messages.answer)} />)}
+          })(<Input placeholder={intl.formatMessage(loginMessages.answer)} />)}
         </Form.Item>
         <Form.Item>
           <Button className="form-button" type="primary" htmlType="submit">
