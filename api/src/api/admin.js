@@ -208,6 +208,16 @@ router.delete(
   errorWrap(async (req, res) => {
     const { id } = req.params;
     await Resource.findByIdAndDelete(id);
+
+    const translationKey = `resource-description-${id}`;
+    Object.values(languageTypes).map(async (language) => {
+      const translation = await Translation.findOne({
+        language: { $eq: language },
+      });
+      translation.messages.delete(translationKey);
+      await translation.save();
+    });
+
     res.json({
       code: 200,
       message: `Successfully deleted resource ${id}`,
@@ -353,10 +363,16 @@ router.delete(
       },
     );
 
+    // Removes subcategory, set one matching category to null
+    // Then, remove that null. Workaround to remove only one matching category
     await Resource.updateMany(
       { category: req.body.category, subcategory: req.body.subcategory },
-      { $pull: { subcategory: req.body.subcategory } },
+      {
+        $pull: { subcategory: req.body.subcategory },
+        $unset: { 'category.$': true },
+      },
     );
+    await Resource.updateMany({}, { $pull: { category: null } });
 
     res.json({
       code: 200,
