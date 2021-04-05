@@ -44,6 +44,7 @@ type Props = {
     description: string,
     categories: Array<string>,
     subcategories: Array<string>,
+    categoryPairs: Array<string>,
     id: string,
   }>,
 };
@@ -62,6 +63,17 @@ const ManageResourcesTable = (props: Props) => {
       }
     });
   }, [fetchedCategories]);
+
+  const updateCategories = (selectedValues, resource) => {
+    const newCategories = [];
+    const newSubcategories = [];
+    selectedValues.forEach((selected) => {
+      const tokens = selected.split('~');
+      newCategories.push(tokens[0]);
+      newSubcategories.push(tokens[1]);
+    });
+    editResourceCategories(resource.id, newCategories, newSubcategories);
+  };
 
   const addCategoryAndSubcategory = (selected, resource) => {
     const tokens = selected.split('~');
@@ -118,6 +130,14 @@ const ManageResourcesTable = (props: Props) => {
         dropdownMatchSelectWidth={false}
         onChange={(e) => addCategoryAndSubcategory(e, resource)}
       >
+        {/* <Select
+        mode="multiple"
+        defaultValue={resource.categoryPairs}
+        dropdownMatchSelectWidth={false}
+        bordered={false}
+        style={{ width: '100%' }}
+        onChange={(e) => updateCategories(e, resource)}
+      > */}
         {fetchedCategories.map((cat) => (
           <OptGroup key={cat.name} label={cat.name}>
             {cat.subcategories.map((subcat) => {
