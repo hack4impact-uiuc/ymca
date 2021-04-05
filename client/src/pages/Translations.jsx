@@ -3,6 +3,8 @@
 import React from 'react';
 import { Tabs, Layout, Row } from 'antd';
 
+import '../css/Translations.css';
+
 const { Header } = Layout;
 const { TabPane } = Tabs;
 
