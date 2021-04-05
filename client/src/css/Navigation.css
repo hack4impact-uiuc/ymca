@@ -92,6 +92,9 @@ a::after {
   position: relative;
   bottom: 8px;
 }
+.globe-mobile {
+  margin-right: 15px;
+}
 
 .ant-dropdown-link > .ant-menu-item > .navbar-active-style::after {
   position: absolute;
@@ -162,4 +165,8 @@ a::after {
 .nav-mobile-option:hover {
   color: #000 !important;
   text-decoration: none !important;
+}
+
+.switcher-mobile {
+  margin-right: 50px;
 }
