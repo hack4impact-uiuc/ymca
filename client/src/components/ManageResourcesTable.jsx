@@ -47,10 +47,16 @@ type Props = {
     categoryPairs: Array<string>,
     id: string,
   }>,
+  updateView: () => void,
 };
 
 const ManageResourcesTable = (props: Props) => {
-  const { selectedCategory, selectedSubcategory, resources } = props;
+  const {
+    selectedCategory,
+    selectedSubcategory,
+    resources,
+    updateView,
+  } = props;
 
   const [fetchedCategories, setFetchedCategories] = useState([]);
 
@@ -62,7 +68,7 @@ const ManageResourcesTable = (props: Props) => {
         }
       }
     });
-  }, [fetchedCategories]);
+  }, []);
 
   const updateCategories = (selectedValues, resource) => {
     const newCategories = [];
@@ -73,24 +79,8 @@ const ManageResourcesTable = (props: Props) => {
       newSubcategories.push(tokens[1]);
     });
     editResourceCategories(resource.id, newCategories, newSubcategories);
-  };
-
-  const addCategoryAndSubcategory = (selected, resource) => {
-    const tokens = selected.split('~');
-    const newCategories = resource.categories;
-    const newSubcategories = resource.subcategories;
-    newCategories.push(tokens[0]);
-    newSubcategories.push(tokens[1]);
-    editResourceCategories(resource.id, newCategories, newSubcategories);
-  };
-
-  const removeCategoryAndSubcategory = (selected, resource) => {
-    const idx = resource.subcategories.indexOf(selected);
-    const newCategories = resource.categories;
-    const newSubcategories = resource.subcategories;
-    newCategories.splice(idx, 1);
-    newSubcategories.splice(idx, 1);
-    editResourceCategories(resource.id, newCategories, newSubcategories);
+    updateView();
+    // window.location.reload();
   };
 
   const displayCategoryTags = (categories) => (
@@ -103,55 +93,49 @@ const ManageResourcesTable = (props: Props) => {
     </>
   );
 
-  const displaySubcategoryTags = (resource) => (
-    <>
-      {resource.subcategories.map((c, idx) => (
-        <Tag
-          key={c}
-          color={
-            CATEGORY_COLOR_DICT[resource.categories[idx][0]?.toLowerCase()]
-          }
-        >
-          <span>
-            {c}
-            <t
-              onClick={() => removeCategoryAndSubcategory(c, resource)}
-              style={{ marginLeft: '5px', cursor: 'pointer' }}
-            >
-              x
-            </t>
-          </span>
-        </Tag>
-      ))}
-      <Select
-        placeholder="+"
-        showArrow={false}
-        size="small"
-        dropdownMatchSelectWidth={false}
-        onChange={(e) => addCategoryAndSubcategory(e, resource)}
+  const subcategoryTag = (tagProps, resource) => {
+    const { label, value, closable, onClose } = tagProps;
+    const tokens = value.split('~');
+    const idx = resource.subcategories.indexOf(tokens[1]);
+    return (
+      <Tag
+        color={
+          resource.categories[idx]
+            ? CATEGORY_COLOR_DICT[resource.categories[idx][0]?.toLowerCase()]
+            : 'white'
+        }
+        closable={closable}
+        onClose={onClose}
       >
-        {/* <Select
-        mode="multiple"
-        defaultValue={resource.categoryPairs}
-        dropdownMatchSelectWidth={false}
-        bordered={false}
-        style={{ width: '100%' }}
-        onChange={(e) => updateCategories(e, resource)}
-      > */}
-        {fetchedCategories.map((cat) => (
-          <OptGroup key={cat.name} label={cat.name}>
-            {cat.subcategories.map((subcat) => {
-              const val = `${cat.name}~${subcat}`;
-              return (
-                <Option key={val} value={val}>
-                  {subcat}
-                </Option>
-              );
-            })}
-          </OptGroup>
-        ))}
-      </Select>
-    </>
+        {label}
+      </Tag>
+    );
+  };
+
+  const displaySubcategoryTags = (resource) => (
+    <Select
+      mode="multiple"
+      defaultValue={resource.categoryPairs}
+      dropdownMatchSelectWidth={false}
+      bordered={false}
+      showArrow
+      style={{ width: '100%' }}
+      onChange={(e) => updateCategories(e, resource)}
+      tagRender={(tagProps) => subcategoryTag(tagProps, resource)}
+    >
+      {fetchedCategories.map((cat) => (
+        <OptGroup key={cat.name} label={cat.name}>
+          {cat.subcategories.map((subcat) => {
+            const val = `${cat.name}~${subcat}`;
+            return (
+              <Option key={val} value={val}>
+                {subcat}
+              </Option>
+            );
+          })}
+        </OptGroup>
+      ))}
+    </Select>
   );
 
   const filterResources = (resource) =>
