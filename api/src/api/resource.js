@@ -106,7 +106,7 @@ router.get(
             },
           },
         ];
-      } else if (page === undefined || size === undefined) {
+      } else if (page === null || size === null) {
         return [
           {
             $facet: {
