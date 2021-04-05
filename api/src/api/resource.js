@@ -131,33 +131,8 @@ router.get(
         ];
       }
     }
-
-    /* const aggregation =
-      orderBy === null
-        ? [
-            {
-              $facet: {
-                totalData: [addFields, { $match: query }],
-              },
-            },
-          ]
-        : [
-            {
-              $facet: {
-                totalData: [
-                  addFields,
-                  { $match: query },
-                  { $sort: orderBy },
-                  { $limit: size },
-                  { $skip: size * (page - 1) },
-                ],
-                totalCount: [{ $count: 'number of resources' }],
-              },
-            },
-          ]; */
     const aggregation = await getAggregation();
     const resources = await Resource.aggregate(aggregation);
-    console.log(resources[0]);
 
     res.json({
       code: 200,

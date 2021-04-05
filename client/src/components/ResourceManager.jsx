@@ -150,7 +150,7 @@ const ResourceManager = () => {
     const res = await getResources();
     const newResources = [];
     if (res != null) {
-      res.result.forEach((r) => {
+      res.result.totalData.forEach((r) => {
         newResources.push({
           name: r.name,
           description: r.description,

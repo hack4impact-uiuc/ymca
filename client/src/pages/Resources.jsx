@@ -7,7 +7,6 @@ import Loader from 'react-loader-spinner';
 import { useIntl } from 'react-intl';
 
 import { filterMessages } from '../utils/messages';
-import type { Resource } from '../types/models';
 
 import { getCategories, getResourcesByCategory } from '../utils/api';
 import { getSavedResources } from '../utils/auth';

@@ -7,7 +7,6 @@ import '../css/ResourcesGrid.css';
 
 function ResourcesGrid(props) {
   const { filteredResources, savedResources, updateSaved } = props;
-  console.log(filteredResources);
   const cards = (
     <List
       grid={{

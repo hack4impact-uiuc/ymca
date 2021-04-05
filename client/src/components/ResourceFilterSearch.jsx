@@ -42,7 +42,6 @@ const ResourceFilterSearch = (): React$Element<any> => {
           const categoriesSet = new Set();
           const subcategoriesSet = new Set();
           const categoriesObj = {};
-          console.log(res.result.totalData);
 
           Object.values(res.result.totalData).forEach((resource) => {
             newOptions.push(
