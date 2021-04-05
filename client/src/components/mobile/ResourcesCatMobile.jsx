@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { DownOutlined } from '@ant-design/icons';
 import { Button, Drawer, Menu } from 'antd';
-import { FormattedMessage } from 'react-intl';
+import { useIntl, FormattedMessage } from 'react-intl';
 
 import ResourceCategoryFilter from '../ResourceCategoryFilter';
 import useWindowDimensions from '../../utils/mobile';
@@ -11,6 +11,7 @@ import '../../css/ResourcesCat.css';
 import ResourcesFilterMobile from './ResourcesFilterMobile';
 
 function ResourcesCatMobile(props) {
+  const intl = useIntl();
   const { category, subcategory } = props;
 
   const [categoriesVisible, setCategoriesVisible] = useState(false);
@@ -26,10 +27,12 @@ function ResourcesCatMobile(props) {
   let dropdownId = '';
   const dropdownTitle = subcategory || category;
   if (subcategory !== '') {
-    dropdownId = `subcategory-${subcategory}`;
+    dropdownId = `subcategory-${subcategory}`.replace(/\s/g, '');
   } else {
     dropdownId =
-      category === 'All Resources' ? 'allResources' : `category-${category}`;
+      category === 'All Resources'
+        ? 'allResources'
+        : `category-${category}`.replace(/\s/g, '');
   }
 
   return (
@@ -80,7 +83,10 @@ function ResourcesCatMobile(props) {
           />
         </Drawer>
         <Drawer
-          title="Resource Categories"
+          title={intl.formatMessage({
+            id: 'resourceCategories',
+            defaultMessage: 'Resource Categories',
+          })}
           placement="bottom"
           height={(height * 4) / 5}
           closable

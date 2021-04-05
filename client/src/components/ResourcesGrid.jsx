@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Col, Row } from 'antd';
+import { List } from 'antd';
 
 import ResourcePreview from './ResourcePreview';
 import '../css/ResourcesGrid.css';
@@ -8,76 +8,38 @@ import '../css/ResourcesGrid.css';
 function ResourcesGrid(props) {
   const { filteredResources, savedResources, updateSaved } = props;
 
-  const cards = Array(Math.ceil(filteredResources.length / 3))
-    .fill()
-    .map((_, index) => {
-      const first = filteredResources[index * 3];
-      const second =
-        index * 3 + 1 < filteredResources.length
-          ? filteredResources[index * 3 + 1]
-          : null;
-      const third =
-        index * 3 + 2 < filteredResources.length
-          ? filteredResources[index * 3 + 2]
-          : null;
-
-      return (
-        <Row key={first.name} gutter={[32, 32]} type="flex">
-          <Col xs={24} md={8}>
-            <ResourcePreview
-              availableLanguages={first.availableLanguages}
-              category={first.category}
-              city={first.city}
-              cost={first.cost}
-              id={first._id}
-              key={first._id}
-              name={first.name}
-              subcategory={first.subcategory}
-              isSaved={savedResources.has(first._id)}
-              updateSaved={updateSaved}
-              image={first.image || ''}
-              description={first.description}
-            />
-          </Col>
-          {second && (
-            <Col xs={24} md={8}>
-              <ResourcePreview
-                availableLanguages={second.availableLanguages}
-                category={second.category}
-                city={second.city}
-                cost={second.cost}
-                id={second._id}
-                key={second._id}
-                name={second.name}
-                subcategory={second.subcategory}
-                isSaved={savedResources.has(second._id)}
-                updateSaved={updateSaved}
-                image={second.image || ''}
-                description={second.description}
-              />
-            </Col>
-          )}
-          {third && (
-            <Col xs={24} md={8}>
-              <ResourcePreview
-                availableLanguages={third.availableLanguages}
-                category={third.category}
-                city={third.city}
-                cost={third.cost}
-                id={third._id}
-                key={third._id}
-                name={third.name}
-                subcategory={third.subcategory}
-                isSaved={savedResources.has(third._id)}
-                updateSaved={updateSaved}
-                image={third.image || ''}
-                description={third.description}
-              />
-            </Col>
-          )}
-        </Row>
-      );
-    });
+  const cards = (
+    <List
+      grid={{
+        gutter: [32, 16],
+        xs: 1,
+        sm: 2,
+        md: 4,
+        lg: 4,
+        xl: 6,
+        xxl: 3,
+      }}
+      dataSource={filteredResources}
+      renderItem={(resource) => (
+        <List.Item>
+          <ResourcePreview
+            availableLanguages={resource.availableLanguages}
+            category={resource.category}
+            city={resource.city}
+            cost={resource.cost}
+            id={resource._id}
+            key={resource._id}
+            name={resource.name}
+            subcategory={resource.subcategory}
+            isSaved={savedResources.has(resource._id)}
+            updateSaved={updateSaved}
+            image={resource.image || ''}
+            description={resource.description}
+          />
+        </List.Item>
+      )}
+    />
+  );
 
   return <div className="resources-grid">{cards}</div>;
 }

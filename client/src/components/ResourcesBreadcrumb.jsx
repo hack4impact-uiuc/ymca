@@ -44,7 +44,7 @@ function ResourcesBreadcrumb(props) {
             }}
           >
             <FormattedMessage
-              id={`category-${categorySelected.replace(/\s/g, '')}`}
+              id={`category-${categorySelected?.replace(/\s/g, '')}`}
               defaultMessage={categorySelected}
             />
           </Link>
@@ -65,7 +65,7 @@ function ResourcesBreadcrumb(props) {
               }}
             >
               <FormattedMessage
-                id={`subcategory-${subcategorySelected.replace(/\s/g, '')}`}
+                id={`subcategory-${subcategorySelected?.replace(/\s/g, '')}`}
                 defaultMessage={subcategorySelected}
               />
             </Link>
@@ -83,7 +83,7 @@ function ResourcesBreadcrumb(props) {
             &nbsp;&gt;&nbsp;
             <strong>
               <FormattedMessage
-                id={`subcategory-${subcategorySelected.replace(/\s/g, '')}`}
+                id={`subcategory-${subcategorySelected?.replace(/\s/g, '')}`}
                 defaultMessage={subcategorySelected}
               />
             </strong>
@@ -96,7 +96,7 @@ function ResourcesBreadcrumb(props) {
           &nbsp;&gt;&nbsp;
           <strong>
             <FormattedMessage
-              id={`category-${categorySelected.replace(/\s/g, '')}`}
+              id={`category-${categorySelected?.replace(/\s/g, '')}`}
               defaultMessage={categorySelected}
             />
           </strong>
