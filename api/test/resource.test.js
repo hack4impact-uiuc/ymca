@@ -18,7 +18,7 @@ describe('GET /api/resources/ ', () => {
   test('API should return working message', async () => {
     const response = await request(app).get('/api/resources/');
     expect(response.body.message).toEqual('');
-    expect(response.body.result).toEqual([]);
+    expect(response.body.result.totalData).toEqual([]);
     expect(response.statusCode).toBe(200);
   });
 });
