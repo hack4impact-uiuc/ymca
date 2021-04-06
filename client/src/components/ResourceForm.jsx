@@ -23,7 +23,6 @@ const linkResource = (resourceId, type) => (
 );
 const onSubmitNewResourceForm = async (e, enabled, id, resource) => {
   e.preventDefault();
-  console.log('RESOURCE', resource);
   if (enabled) {
     if (id) {
       const editedResource = await editResource(id, resource);
@@ -165,7 +164,6 @@ const ResourceForm = (props: FormProps) => {
     },
     [formLabelRef, setShowBackButton, setShowSubmitButton, showSubmitButton],
   );
-  console.log(financialAidDetails);
 
   return (
     <Layout className="resource-form-layout">

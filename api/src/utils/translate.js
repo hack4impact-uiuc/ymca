@@ -6,8 +6,33 @@ const languageTypes = {
   zh: 'Chinese',
 };
 
-async function deleteTranslatedText(id) {
-  const translationKey = `resource-description-${id}`;
+async function deleteTranslatedText(
+  description,
+  phoneNumbers,
+  financialAidDetails,
+  eligibilityRequirements,
+  requiredDocuments,
+  id,
+) {
+  await deleteString(description, `resource-description-${id}`);
+  if (phoneNumbers != null && phoneNumbers.length !== 0) {
+    await deletePhoneTypes(phoneNumbers);
+  }
+  if (financialAidDetails != null) {
+    await deleteFinancialAidDetails(financialAidDetails);
+  }
+  if (eligibilityRequirements != null && eligibilityRequirements !== '') {
+    await deleteString(
+      eligibilityRequirements,
+      `resource-eligibilityRequirements-${id}`,
+    );
+  }
+  if (requiredDocuments != null && requiredDocuments.length !== 0) {
+    await deleteRequiredDocuments(requiredDocuments, id);
+  }
+}
+
+async function deleteString(text, translationKey) {
   Object.values(languageTypes).map(async (language) => {
     const translation = await Translation.findOne({
       language: { $eq: language },
@@ -17,7 +42,47 @@ async function deleteTranslatedText(id) {
   });
 }
 
-// translate text for each language type and store in db
+async function deletePhoneTypes(phoneNumbers) {
+  Object.keys(languageTypes).forEach(async function (key) {
+    phoneNumbers.forEach(async (phone) => {
+      const translation = await Translation.findOne({
+        language: { $eq: languageTypes[key] },
+      });
+      const translationKey = `resource-phoneType-${phone._id}`;
+      translation.messages.delete(translationKey);
+      await translation.save();
+    });
+  });
+}
+
+async function deleteFinancialAidDetails(financialAidDetails) {
+  Object.keys(languageTypes).forEach(async function (key) {
+    Object.keys(financialAidDetails.toJSON()).forEach(async (financialKey) => {
+      if (financialKey !== '_id') {
+        const translation = await Translation.findOne({
+          language: { $eq: languageTypes[key] },
+        });
+        const translationKey = `resource-financialAid-${financialKey}-${financialAidDetails._id}`;
+        translation.messages.delete(translationKey);
+        await translation.save();
+      }
+    });
+  });
+}
+
+async function deleteRequiredDocuments(requiredDocuments, resourceId) {
+  Object.keys(languageTypes).forEach(async function (key) {
+    requiredDocuments.forEach(async (requiredDoc, idx) => {
+      const translation = await Translation.findOne({
+        language: { $eq: languageTypes[key] },
+      });
+      const translationKey = `resource-requiredDoc-${resourceId}-${idx}`;
+      translation.messages.delete(translationKey);
+      await translation.save();
+    });
+  });
+}
+
 async function translateAndSaveText(
   description,
   phoneNumbers,
@@ -76,11 +141,6 @@ async function translateFinancialAidDetails(financialAidDetails) {
         const updatedTranslation = await Translation.findOne({
           language: { $eq: languageTypes[key] },
         });
-        console.log(
-          financialAidDetails.toJSON(),
-          financialKey,
-          financialAidDetails[financialKey],
-        );
         const translationKey = `resource-financialAid-${financialKey}-${financialAidDetails._id}`;
         const translationValue = await translateText(
           financialAidDetails[financialKey],

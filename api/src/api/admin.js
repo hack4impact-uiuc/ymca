@@ -103,7 +103,6 @@ router.post(
         req.body.image = link;
       }
     }
-    console.log(req.body);
 
     const newResource = new Resource(req.body);
     await newResource.save();
@@ -116,7 +115,6 @@ router.post(
       eligibilityRequirements,
       requiredDocuments,
     } = newResource;
-    console.log(newResource);
     await translateAndSaveText(
       description,
       phoneNumbers,
@@ -176,12 +174,27 @@ router.put(
     }
 
     const { id } = req.params;
-    const updatedResource = await Resource.findByIdAndUpdate(id, req.body, {
+    const {
+      description,
+      phoneNumbers,
+      financialAidDetails,
+      eligibilityRequirements,
+      requiredDocuments,
+    } = await Resource.findByIdAndUpdate(id, req.body, {
       new: true,
       runValidators: true,
     });
-    // translate resource description and save in mongodb
-    await translateAndSaveText(req.body.description, id);
+
+    // translate resource text and save in mongodb
+    await translateAndSaveText(
+      description,
+      phoneNumbers,
+      financialAidDetails,
+      eligibilityRequirements,
+      requiredDocuments,
+      id,
+    );
+
     res.json({
       code: 200,
       message: `Successfully updated resource ${id}`,
@@ -196,8 +209,22 @@ router.delete(
   '/resources/:id',
   errorWrap(async (req, res) => {
     const { id } = req.params;
-    await Resource.findByIdAndDelete(id);
-    await deleteTranslatedText(id);
+    const {
+      description,
+      phoneNumbers,
+      financialAidDetails,
+      eligibilityRequirements,
+      requiredDocuments,
+    } = await Resource.findByIdAndDelete(id);
+    console.log(description, phoneNumbers);
+    await deleteTranslatedText(
+      description,
+      phoneNumbers,
+      financialAidDetails,
+      eligibilityRequirements,
+      requiredDocuments,
+      id,
+    );
 
     res.json({
       code: 200,

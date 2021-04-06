@@ -428,7 +428,15 @@ function ResourceDetail(props) {
                   <div className="financial-aid-subtitle">
                     <FormattedMessage {...detailMessages.education} />:
                   </div>
-                  {financialAidDetails.education || (
+                  {financialAidDetails.education ? (
+                    <FormattedMessage
+                      id={
+                        'resource-financialAid-education-' +
+                        `${financialAidDetails._id}`
+                      }
+                      defaultMessage={financialAidDetails.education}
+                    />
+                  ) : (
                     <FormattedMessage {...detailMessages.noneProvided} />
                   )}
                 </Col>
@@ -436,7 +444,15 @@ function ResourceDetail(props) {
                   <div className="financial-aid-subtitle">
                     <FormattedMessage {...detailMessages.immigrationStatus} />:
                   </div>
-                  {financialAidDetails.immigrationStatus || (
+                  {financialAidDetails.immigrationStatus ? (
+                    <FormattedMessage
+                      id={
+                        'resource-financialAid-immigrationStatus-' +
+                        `${financialAidDetails._id}`
+                      }
+                      defaultMessage={financialAidDetails.education}
+                    />
+                  ) : (
                     <FormattedMessage {...detailMessages.noneProvided} />
                   )}
                 </Col>
@@ -449,7 +465,15 @@ function ResourceDetail(props) {
                   <div className="financial-aid-subtitle">
                     <FormattedMessage {...detailMessages.deadline} />:
                   </div>
-                  {financialAidDetails.deadline || (
+                  {financialAidDetails.deadline ? (
+                    <FormattedMessage
+                      id={
+                        'resource-financialAid-deadline-' +
+                        `${financialAidDetails._id}`
+                      }
+                      defaultMessage={financialAidDetails.education}
+                    />
+                  ) : (
                     <FormattedMessage {...detailMessages.noneProvided} />
                   )}
                 </Col>
@@ -457,7 +481,15 @@ function ResourceDetail(props) {
                   <div className="financial-aid-subtitle">
                     <FormattedMessage {...detailMessages.amount} />:
                   </div>
-                  {financialAidDetails.amount || (
+                  {financialAidDetails.amount ? (
+                    <FormattedMessage
+                      id={
+                        'resource-financialAid-amount-' +
+                        `${financialAidDetails._id}`
+                      }
+                      defaultMessage={financialAidDetails.education}
+                    />
+                  ) : (
                     <FormattedMessage {...detailMessages.noneProvided} />
                   )}
                 </Col>

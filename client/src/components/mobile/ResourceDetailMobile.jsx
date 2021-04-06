@@ -253,7 +253,7 @@ const ResourceDetailMobile = (props: Props) => {
 
   const translatedRequiredDocuments = useMemo(
     () =>
-      requiredDocuments.map((requiredDocument, idx) =>
+      requiredDocuments?.map((requiredDocument, idx) =>
         intl.formatMessage({
           id: `resource-requiredDoc-${match.params.id}-${idx}`,
           defaultMessage: requiredDocument,
@@ -418,7 +418,15 @@ const ResourceDetailMobile = (props: Props) => {
                         />
                         :
                       </div>
-                      {financialAidDetails.immigrationStatus || (
+                      {financialAidDetails.immigrationStatus ? (
+                        <FormattedMessage
+                          id={
+                            'resource-financialAid-immigrationStatus-' +
+                            `${financialAidDetails._id}`
+                          }
+                          defaultMessage={financialAidDetails.education}
+                        />
+                      ) : (
                         <FormattedMessage {...detailMessages.noneProvided} />
                       )}
                     </Col>
@@ -431,7 +439,15 @@ const ResourceDetailMobile = (props: Props) => {
                       <div className="rd-mb-financial-aid-subtitle">
                         <FormattedMessage {...detailMessages.deadline} />:
                       </div>
-                      {financialAidDetails.deadline || (
+                      {financialAidDetails.deadline ? (
+                        <FormattedMessage
+                          id={
+                            'resource-financialAid-deadline-' +
+                            `${financialAidDetails._id}`
+                          }
+                          defaultMessage={financialAidDetails.education}
+                        />
+                      ) : (
                         <FormattedMessage {...detailMessages.noneProvided} />
                       )}
                     </Col>
@@ -439,7 +455,15 @@ const ResourceDetailMobile = (props: Props) => {
                       <div className="rd-mb-financial-aid-subtitle">
                         <FormattedMessage {...detailMessages.amount} />:
                       </div>
-                      {financialAidDetails.amount || (
+                      {financialAidDetails.amount ? (
+                        <FormattedMessage
+                          id={
+                            'resource-financialAid-amount-' +
+                            `${financialAidDetails._id}`
+                          }
+                          defaultMessage={financialAidDetails.education}
+                        />
+                      ) : (
                         <FormattedMessage {...detailMessages.noneProvided} />
                       )}
                     </Col>
