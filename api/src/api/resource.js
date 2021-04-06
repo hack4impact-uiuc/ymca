@@ -97,43 +97,41 @@ router.get(
         orderBy = { name: 1 };
       }
     }
-    function getAggregation() {
-      if (orderBy === null) {
-        return [
-          {
-            $facet: {
-              totalData: [addFields, { $match: query }],
-            },
+    let aggregation = [];
+    if (orderBy === null) {
+      aggregation = [
+        {
+          $facet: {
+            totalData: [addFields, { $match: query }],
           },
-        ];
-      } else if (page === null || size === null) {
-        return [
-          {
-            $facet: {
-              totalData: [addFields, { $match: query }, { $sort: orderBy }],
-            },
+        },
+      ];
+    } else if (page == null || size == null) {
+      aggregation = [
+        {
+          $facet: {
+            totalData: [addFields, { $match: query }, { $sort: orderBy }],
           },
-        ];
-      } else {
-        return [
-          {
-            $facet: {
-              totalData: [
-                addFields,
-                { $match: query },
-                { $sort: orderBy },
-                { $limit: size },
-                { $skip: size * (page - 1) },
-              ],
-              totalCount: [{ $count: 'number of resources' }],
-            },
+        },
+      ];
+    } else {
+      aggregation = [
+        {
+          $facet: {
+            totalData: [
+              addFields,
+              { $match: query },
+              { $sort: orderBy },
+              { $limit: size },
+              { $skip: size * (page - 1) },
+            ],
+            totalCount: [{ $count: 'number of resources' }],
           },
-        ];
-      }
+        },
+      ];
     }
-    const aggregation = await getAggregation();
     const resources = await Resource.aggregate(aggregation);
-
+    console.log(resources[0]);
     res.json({
       code: 200,
       message: '',
