@@ -1,0 +1,28 @@
+.card {
+  width: 250px;
+  border-radius: 25px;
+}
+
+.cover {
+  border-radius: 25px 25px 0px 0px;
+}
+
+.top-row {
+  position: relative;
+  text-align: center;
+  font-size: 110%;
+  color: #1890ff;
+}
+
+.main-icon {
+  font-size: 250%;
+}
+
+.grid-item {
+  font-size: 125%;
+}
+
+.grid-text {
+  position: relative;
+  top: 5px;
+}
