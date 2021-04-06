@@ -50,7 +50,8 @@ const AdminResourceManager = (props: Props): React$Element<'div'> => {
             <ResourceManager />
           </TabPane>
           <TabPane tab="Map View Entry" key="5">
-            <MapViewEntry />
+            <MapViewEntry selected />
+            <MapViewEntry selected={false} />
           </TabPane>
         </Tabs>
       </div>
