@@ -217,7 +217,6 @@ router.delete(
       eligibilityRequirements,
       requiredDocuments,
     } = await Resource.findByIdAndDelete(id);
-    console.log(description, phoneNumbers);
     await deleteTranslatedText(
       description,
       phoneNumbers,
