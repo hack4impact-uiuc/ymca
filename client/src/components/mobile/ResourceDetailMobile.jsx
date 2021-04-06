@@ -1,6 +1,6 @@
 // @flow
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useMemo, useState, useEffect, useCallback } from 'react';
 import { Redirect } from 'react-router-dom';
 import {
   DollarCircleFilled,
@@ -251,6 +251,17 @@ const ResourceDetailMobile = (props: Props) => {
     );
   }, [hours]);
 
+  const translatedRequiredDocuments = useMemo(
+    () =>
+      requiredDocuments.map((requiredDocument, idx) =>
+        intl.formatMessage({
+          id: `resource-requiredDoc-${match.params.id}-${idx}`,
+          defaultMessage: requiredDocument,
+        }),
+      ),
+    [match.params.id, requiredDocuments, intl],
+  );
+
   if (!resourceExists) {
     return <Redirect to="/resources/unknown" />;
   }
@@ -303,7 +314,10 @@ const ResourceDetailMobile = (props: Props) => {
                 {eligibility &&
                   `${intl.formatMessage(
                     detailMessages.eligibility,
-                  )}: ${eligibility}`}
+                  )}: ${intl.formatMessage({
+                    id: `resource-eligibilityRequirements-${match.params.id}`,
+                    defaultMessage: eligibility,
+                  })}`}
               </Row>
             </Col>
           </Row>
@@ -319,10 +333,10 @@ const ResourceDetailMobile = (props: Props) => {
               phone && phone.length > 0
                 ? phone.map(
                     (entry) =>
-                      `${
-                        entry.phoneType.charAt(0).toUpperCase() +
-                        entry.phoneType.slice(1)
-                      }: ${entry.phoneNumber}`,
+                      `${intl.formatMessage({
+                        id: `resource-phoneType-${entry._id}`,
+                        defaultMessage: entry.phoneType,
+                      })}: ${entry.phoneNumber}`,
                   )
                 : [intl.formatMessage(detailMessages.noPhoneNumber)],
               [
@@ -355,7 +369,7 @@ const ResourceDetailMobile = (props: Props) => {
             title={intl.formatMessage(detailMessages.requiredDoc)}
             icon={<FolderOpenFilled className="mb-rd-icon" />}
             content={[
-              (requiredDocuments && requiredDocuments.join(', ')) ||
+              (requiredDocuments && translatedRequiredDocuments.join(', ')) ||
                 intl.formatMessage(detailMessages.noneProvided),
             ]}
           />
@@ -385,7 +399,15 @@ const ResourceDetailMobile = (props: Props) => {
                       <div className="rd-mb-financial-aid-subtitle">
                         <FormattedMessage {...detailMessages.education} />:
                       </div>
-                      {financialAidDetails.education || (
+                      {financialAidDetails.education ? (
+                        <FormattedMessage
+                          id={
+                            'resource-financialAid-education-' +
+                            `${financialAidDetails._id}`
+                          }
+                          defaultMessage={financialAidDetails.education}
+                        />
+                      ) : (
                         <FormattedMessage {...detailMessages.noneProvided} />
                       )}
                     </Col>

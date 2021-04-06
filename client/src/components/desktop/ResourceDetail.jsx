@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
@@ -221,6 +221,17 @@ function ResourceDetail(props) {
     props.history.push('/resources');
   };
 
+  const translatedRequiredDocuments = useMemo(
+    () =>
+      requiredDocuments.map((requiredDocument, idx) =>
+        intl.formatMessage({
+          id: `resource-requiredDoc-${match.params.id}-${idx}`,
+          defaultMessage: requiredDocument,
+        }),
+      ),
+    [match.params.id, requiredDocuments, intl],
+  );
+
   const Map = ReactMapboxGl({
     accessToken:
       'pk.eyJ1IjoiYW5vb2psYWwiLCJhIjoiY2syemtiYjZoMGp1' +
@@ -312,7 +323,13 @@ function ResourceDetail(props) {
             ? `${email}\n`
             : `${intl.formatMessage(detailMessages.noEmail)}\n`}
           {phone.length > 0
-            ? phone.map((p) => `${p.phoneType}: ${p.phoneNumber}\n`)
+            ? phone.map(
+                (p) =>
+                  `${intl.formatMessage({
+                    id: `resource-phoneType-${p._id}`,
+                    defaultMessage: p.phoneType,
+                  })}: ${p.phoneNumber}\n`,
+              )
             : `${intl.formatMessage(detailMessages.noPhoneNumber)}\n`}
           {addressString}
         </Col>
@@ -330,7 +347,10 @@ function ResourceDetail(props) {
           {eligibility &&
             `\n\n${intl.formatMessage(
               detailMessages.eligibility,
-            )}: ${eligibility}`}
+            )}: ${intl.formatMessage({
+              id: `resource-eligibilityRequirements-${match.params.id}`,
+              defaultMessage: eligibility,
+            })}`}
         </Col>
       </Row>
       <Row>
@@ -347,7 +367,7 @@ function ResourceDetail(props) {
             <FormattedMessage {...detailMessages.requiredDoc} /> {'\n'}
           </div>
           {requiredDocuments.length > 0 ? (
-            requiredDocuments.join(', ')
+            translatedRequiredDocuments.join(', ')
           ) : (
             <FormattedMessage {...detailMessages.noneProvided} />
           )}

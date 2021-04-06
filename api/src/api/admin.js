@@ -5,12 +5,10 @@ const Category = require('../models/category');
 const Resource = require('../models/resource');
 const HomePage = require('../models/homepage');
 const Translation = require('../models/translation');
-
-const languageTypes = {
-  es: 'Spanish',
-  fr: 'French',
-  zh: 'Chinese',
-};
+const {
+  deleteTranslatedText,
+  translateAndSaveText,
+} = require('../utils/translate');
 
 const imageHelper = async (image) => {
   const imageResponse = await fetch('https://api.imgur.com/3/image', {
@@ -31,34 +29,6 @@ const imageHelper = async (image) => {
   }
   return null;
 };
-
-// translate text for each language type and store in db
-async function translateAndSaveText(description, id) {
-  const apiKey = process.env.GOOGLE_KEY;
-  Object.keys(languageTypes).forEach(async function (key) {
-    var translationKey = '';
-    var translationValue = '';
-    var source =
-      `https://www.googleapis.com/language/translate/v2?key=${apiKey}&source=en&target=${key}&callback=translateText&q=` +
-      description;
-
-    source = encodeURI(source);
-    const res = await fetch(source, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    const responseJSON = await res.json();
-    translationKey = `resource-description-${id}`;
-    translationValue = responseJSON.data.translations[0].translatedText;
-    const updatedTranslation = await Translation.findOne({
-      language: { $eq: languageTypes[key] },
-    });
-    updatedTranslation.messages.set(translationKey, translationValue);
-    await updatedTranslation.save();
-  });
-}
 
 // create image
 router.post(
@@ -133,10 +103,29 @@ router.post(
         req.body.image = link;
       }
     }
+    console.log(req.body);
+
     const newResource = new Resource(req.body);
     await newResource.save();
-    // translate resource description and save in mongodb
-    await translateAndSaveText(req.body.description, newResource.id);
+
+    // translate resource fields and save in mongodb
+    const {
+      description,
+      phoneNumbers,
+      financialAidDetails,
+      eligibilityRequirements,
+      requiredDocuments,
+    } = newResource;
+    console.log(newResource);
+    await translateAndSaveText(
+      description,
+      phoneNumbers,
+      financialAidDetails,
+      eligibilityRequirements,
+      requiredDocuments,
+      newResource.id,
+    );
+
     res.status(201).json({
       code: 201,
       message: `Successfully created new resource ${newResource.id}`,
@@ -208,15 +197,7 @@ router.delete(
   errorWrap(async (req, res) => {
     const { id } = req.params;
     await Resource.findByIdAndDelete(id);
-
-    const translationKey = `resource-description-${id}`;
-    Object.values(languageTypes).map(async (language) => {
-      const translation = await Translation.findOne({
-        language: { $eq: language },
-      });
-      translation.messages.delete(translationKey);
-      await translation.save();
-    });
+    await deleteTranslatedText(id);
 
     res.json({
       code: 200,
