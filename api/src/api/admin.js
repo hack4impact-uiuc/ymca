@@ -174,18 +174,19 @@ router.put(
     }
 
     const { id } = req.params;
+    const updatedResource = await Resource.findByIdAndUpdate(id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+
+    // translate resource text and save in mongodb
     const {
       description,
       phoneNumbers,
       financialAidDetails,
       eligibilityRequirements,
       requiredDocuments,
-    } = await Resource.findByIdAndUpdate(id, req.body, {
-      new: true,
-      runValidators: true,
-    });
-
-    // translate resource text and save in mongodb
+    } = updatedResource;
     await translateAndSaveText(
       description,
       phoneNumbers,
