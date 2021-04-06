@@ -96,6 +96,7 @@ const ManageResourcesTable = (props: Props) => {
     const { label, value, closable, onClose } = tagProps;
     const tokens = value.split('~');
     const idx = resource.subcategories.indexOf(tokens[1]);
+
     return (
       <Tag
         color={
@@ -114,13 +115,13 @@ const ManageResourcesTable = (props: Props) => {
   const displaySubcategoryTags = (resource) => (
     <Select
       mode="multiple"
-      defaultValue={resource.categoryPairs}
       dropdownMatchSelectWidth={false}
       bordered={false}
       showArrow
       style={{ width: '100%' }}
       onChange={(e) => updateCategories(e, resource)}
       tagRender={(tagProps) => subcategoryTag(tagProps, resource)}
+      value={resource.categoryPairs}
     >
       {fetchedCategories.map((cat) => (
         <OptGroup key={cat.name} label={cat.name}>
