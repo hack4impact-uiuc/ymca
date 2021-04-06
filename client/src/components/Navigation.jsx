@@ -14,7 +14,7 @@ import '../css/Navigation.css';
 import { savedResourcesMessage } from '../utils/messages';
 
 const { Header } = Layout;
-
+const { SubMenu } = Menu;
 type NavigationProps = {
   language: string,
   setLanguage: (string) => void,
@@ -26,6 +26,16 @@ const Navigation = (props: NavigationProps) => {
 };
 
 const { Option } = Select;
+
+const globe = (
+  <img
+    src="/asset/icon/globe.svg"
+    className="globe-mobile"
+    alt="Globe"
+    height="18"
+    width="18"
+  />
+);
 
 const NavDesktop = (props: NavigationProps) => {
   const { language, setLanguage } = props;
@@ -107,6 +117,18 @@ const NavMobile = (props: NavigationProps) => {
   const { language, setLanguage } = props;
   const { authed, authRoleIsEquivalentTo } = useAuth();
   const [drawerVisible, setDrawerVisible] = useState(false);
+  const getLanguage = () => {
+    if (language === 'Spanish') {
+      return 'Español';
+    }
+    if (language === 'French') {
+      return 'Français';
+    }
+    if (language === 'Chinese') {
+      return '中文';
+    }
+    return 'English';
+  };
 
   return (
     <nav>
@@ -115,8 +137,6 @@ const NavMobile = (props: NavigationProps) => {
           <NavLink exact to="/">
             <div className="nav-mobile-logo" />
           </NavLink>
-          <Button onClick={() => setLanguage('English')}>English</Button>
-          <Button onClick={() => setLanguage('Spanish')}>Spanish</Button>
           <div className="nav-mobile-menu-btn-container">
             <Button
               onClick={() => setDrawerVisible(true)}
@@ -184,6 +204,45 @@ const NavMobile = (props: NavigationProps) => {
                 </NavLink>
               </Menu.Item>
             )}
+            <SubMenu
+              key="language-switcher"
+              popupClassName="switcher-mobile"
+              icon={globe}
+              title={getLanguage()}
+            >
+              <Menu.Item
+                key="English"
+                onClick={() => {
+                  setLanguage('English');
+                }}
+              >
+                English
+              </Menu.Item>
+              <Menu.Item
+                key="Spanish"
+                onClick={() => {
+                  setLanguage('Spanish');
+                }}
+              >
+                Español
+              </Menu.Item>
+              <Menu.Item
+                key="French"
+                onClick={() => {
+                  setLanguage('French');
+                }}
+              >
+                Français
+              </Menu.Item>
+              <Menu.Item
+                key="Chinese"
+                onClick={() => {
+                  setLanguage('Chinese');
+                }}
+              >
+                中文
+              </Menu.Item>
+            </SubMenu>
           </Menu>
         </Drawer>
       </div>

@@ -6,14 +6,24 @@ import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Form } from '@ant-design/compatible';
 import '@ant-design/compatible/assets/index.css';
 import { Button, Input, Select, Row, Col, message } from 'antd';
+import { useIntl, FormattedMessage, defineMessage } from 'react-intl';
 import 'antd/dist/antd.css';
 import '../css/LoginRegister.css';
 
 import { useAuth } from '../utils/use-auth';
+import { loginMessages } from '../utils/messages';
 
 const { Option } = Select;
 
+const messages = defineMessage({
+  pleaseSelectYourSecurityQuestion: {
+    id: 'pleaseSelectYourSecurityQuestion',
+    defaultMessage: 'Please select your security question!',
+  },
+});
+
 const PasswordReset = ({ form }) => {
+  const intl = useIntl();
   const { resetPassword, securityQuestions } = useAuth();
   const [confirmDirty, setConfirmDirty] = useState(true);
 
@@ -32,12 +42,12 @@ const PasswordReset = ({ form }) => {
   const compareToFirstPassword = useCallback(
     (rule, value, callback) => {
       if (value && value !== form.getFieldValue('password')) {
-        callback('The two passwords you entered are inconsistent!');
+        callback(intl.formatMessage(loginMessages.passwordsInconsistent));
       } else {
         callback();
       }
     },
-    [form],
+    [intl, form],
   );
 
   const onSubmit = useCallback(
@@ -65,7 +75,12 @@ const PasswordReset = ({ form }) => {
       <Row type="flex" justify="center">
         <Col className="icon">
           <img src="/asset/icon/icon-with-words.png" alt="" />
-          <div className="header-text">Reset Password</div>
+          <div className="header-text">
+            <FormattedMessage
+              id="resetPassword"
+              defaultMessage="Reset Password"
+            />
+          </div>
         </Col>
       </Row>
       <Form onSubmit={onSubmit} className="form">
@@ -74,11 +89,11 @@ const PasswordReset = ({ form }) => {
             rules: [
               {
                 type: 'email',
-                message: 'The input is not valid E-mail!',
+                message: intl.formatMessage(loginMessages.inputIsNotValidEmail),
               },
               {
                 required: true,
-                message: 'Please input your E-mail!',
+                message: intl.formatMessage(loginMessages.pleaseInputYourEmail),
               },
             ],
           })(
@@ -93,14 +108,16 @@ const PasswordReset = ({ form }) => {
             rules: [
               {
                 required: true,
-                message: 'Please create a password!',
+                message: intl.formatMessage(
+                  loginMessages.pleaseCreateAPassword,
+                ),
               },
             ],
           })(
             <Input.Password
               prefix={<LockOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
               type="password"
-              placeholder="Create Password"
+              placeholder={intl.formatMessage(loginMessages.createPassword)}
             />,
           )}
         </Form.Item>
@@ -109,7 +126,7 @@ const PasswordReset = ({ form }) => {
             rules: [
               {
                 required: true,
-                message: 'Please confirm your password!',
+                message: intl.formatMessage(loginMessages.confirmPassword),
               },
               {
                 validator: compareToFirstPassword,
@@ -120,7 +137,7 @@ const PasswordReset = ({ form }) => {
               onBlur={handleConfirmBlur}
               prefix={<LockOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
               type="password"
-              placeholder="Confirm Password"
+              placeholder={intl.formatMessage(loginMessages.confirmPassword)}
             />,
           )}
         </Form.Item>
@@ -129,14 +146,23 @@ const PasswordReset = ({ form }) => {
             rules: [
               {
                 required: true,
-                message: 'Please select your security question!',
+                message: intl.formatMessage(
+                  messages.pleaseSelectYourSecurityQuestion,
+                ),
               },
             ],
           })(
-            <Select placeholder="Please select your security question!">
+            <Select
+              placeholder={intl.formatMessage(
+                messages.pleaseSelectYourSecurityQuestion,
+              )}
+            >
               {securityQuestions.map((question, idx) => (
                 <Option value={idx} key={question}>
-                  {question}
+                  <FormattedMessage
+                    id={`securityQuestion-${question}`.replace(/\s/g, '')}
+                    defaultMessage={question}
+                  />
                 </Option>
               ))}
             </Select>,
@@ -147,18 +173,23 @@ const PasswordReset = ({ form }) => {
             rules: [
               {
                 required: true,
-                message: 'Please type in an answer!',
+                message: intl.formatMessage(loginMessages.pleaseTypeInAnAnswer),
               },
             ],
-          })(<Input placeholder="Answer" />)}
+          })(<Input placeholder={intl.formatMessage(loginMessages.answer)} />)}
         </Form.Item>
         <Form.Item>
           <Button className="form-button" type="primary" htmlType="submit">
-            Reset
+            <FormattedMessage id="reset" defaultMessage="Reset" />
           </Button>
-          <div className="white-text">Remember your login?</div>{' '}
+          <div className="white-text">
+            <FormattedMessage
+              id="rememberYourLogin"
+              defaultMessage="Remember your login?"
+            />
+          </div>{' '}
           <Link className="link-now" to="/login">
-            Login now!
+            <FormattedMessage id="loginNow" defaultMessage="Login now!" />
           </Link>
         </Form.Item>
       </Form>
