@@ -73,6 +73,7 @@ const ContactForm = Form.create({ name: 'contactForm' })((props) => {
           ],
         })(
           <Input
+            spellcheck
             placeholder="Contact Name"
             onFocus={() => setTotalSubmitEnabled(false)}
             onBlur={() => setTotalSubmitEnabled(true)}
@@ -90,6 +91,7 @@ const ContactForm = Form.create({ name: 'contactForm' })((props) => {
           ],
         })(
           <Input
+            spellcheck
             placeholder="Contact Role"
             onFocus={() => setTotalSubmitEnabled(false)}
             onBlur={() => setTotalSubmitEnabled(true)}
@@ -135,6 +137,7 @@ const ContactForm = Form.create({ name: 'contactForm' })((props) => {
           ],
         })(
           <Input
+            spellcheck
             placeholder="Contact Note"
             onFocus={() => setTotalSubmitEnabled(false)}
             onBlur={() => setTotalSubmitEnabled(true)}

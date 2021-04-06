@@ -27,6 +27,7 @@ import determineStockPhoto from '../../utils/determineStockPhoto';
 import '../../css/ResourceDetailMobile.css';
 import { useAuth } from '../../utils/use-auth';
 import { detailMessages, filterMessages } from '../../utils/messages';
+import languageConversion from '../../utils/languages';
 
 type Props = {
   match: {
@@ -352,7 +353,7 @@ const ResourceDetailMobile = (props: Props) => {
             icon={<WechatFilled className="mb-rd-icon" />}
             content={[
               languages && languages.length > 0
-                ? languages.join(', ')
+                ? languages.map((l) => languageConversion[l]).join(', ')
                 : intl.formatMessage(detailMessages.noneProvided),
             ]}
           />

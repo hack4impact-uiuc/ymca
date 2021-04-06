@@ -28,6 +28,7 @@ const FinancialAidForm = Form.create({ name: 'financialAid' })((props) => {
           {},
         )(
           <Input
+            spellcheck
             placeholder="Education | 
             Ex: College juniors only, must be attending college in US"
             onFocus={() => setTotalSubmitEnabled(false)}
@@ -41,6 +42,7 @@ const FinancialAidForm = Form.create({ name: 'financialAid' })((props) => {
           {},
         )(
           <Input
+            spellcheck
             placeholder="Immigration Status |
             Ex: no citizenship required"
             onFocus={() => setTotalSubmitEnabled(false)}
@@ -54,6 +56,7 @@ const FinancialAidForm = Form.create({ name: 'financialAid' })((props) => {
           {},
         )(
           <Input
+            spellcheck
             placeholder="Deadline |
             Ex: July 31"
             onFocus={() => setTotalSubmitEnabled(false)}
@@ -67,6 +70,7 @@ const FinancialAidForm = Form.create({ name: 'financialAid' })((props) => {
           {},
         )(
           <Input
+            spellcheck
             placeholder="Amount |
           Ex: $500-$1000"
             onFocus={() => setTotalSubmitEnabled(false)}

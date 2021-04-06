@@ -47,7 +47,7 @@ const StrForm = (props: FormProps) => {
               whitespace: true,
             },
           ],
-        })(<Input placeholder="Enter required documents" />)}
+        })(<Input spellcheck placeholder="Enter required documents" />)}
       </Form.Item>
       <Button
         type="primary"

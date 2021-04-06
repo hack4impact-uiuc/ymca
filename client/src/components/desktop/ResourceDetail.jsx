@@ -26,6 +26,7 @@ import SaveButton from '../SaveButton';
 import ShareButton from '../ShareButton';
 import { useAuth } from '../../utils/use-auth';
 import { detailMessages, filterMessages } from '../../utils/messages';
+import languageConversion from '../../utils/languages';
 
 import '../../css/ResourceDetail.css';
 
@@ -394,7 +395,9 @@ function ResourceDetail(props) {
           </div>
           {languages.length > 0 ? (
             languages.map((language, index) =>
-              index < languages.length - 1 ? `${language}, ` : language,
+              index < languages.length - 1
+                ? `${languageConversion[language]}, `
+                : languageConversion[language],
             )
           ) : (
             <FormattedMessage {...detailMessages.noneProvided} />
