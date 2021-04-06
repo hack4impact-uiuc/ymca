@@ -209,7 +209,6 @@ const ResourceManager = () => {
           selectedSubcategory={selectedSubcategory}
           resources={resources}
           updateView={updateView}
-          // fetchResources={fetchResource}
         />
       </div>
     </div>
