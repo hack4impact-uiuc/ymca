@@ -12,7 +12,9 @@ const MapViewEntry = (props: Props) => {
     <>
       <Row style={{ width: 300 }} align="middle">
         <Col span={16}>
-          <Row>Crisis Nursery</Row>
+          <Row>
+            <b>Crisis Nursery</b>
+          </Row>
           <Row justify="space-between">
             <Col>Urbana</Col>
             <Col>•</Col>
@@ -28,8 +30,12 @@ const MapViewEntry = (props: Props) => {
           <Divider type="vertical" style={{ height: 60 }} />
         </Col>
         <Col span={2}>
-          <Row>1.2</Row>
-          <Row>mi</Row>
+          <Row>
+            <b>1.2</b>
+          </Row>
+          <Row>
+            <b>mi</b>
+          </Row>
         </Col>
         <Col
           span={1}
