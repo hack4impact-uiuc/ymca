@@ -70,7 +70,7 @@ const ManageResourcesTable = (props: Props) => {
     });
   }, []);
 
-  const updateCategories = (selectedValues, resource) => {
+  const updateCategories = async (selectedValues, resource) => {
     const newCategories = [];
     const newSubcategories = [];
     selectedValues.forEach((selected) => {
@@ -78,9 +78,8 @@ const ManageResourcesTable = (props: Props) => {
       newCategories.push(tokens[0]);
       newSubcategories.push(tokens[1]);
     });
-    editResourceCategories(resource.id, newCategories, newSubcategories);
-    updateView();
-    // window.location.reload();
+    await editResourceCategories(resource.id, newCategories, newSubcategories);
+    await updateView();
   };
 
   const displayCategoryTags = (categories) => (
