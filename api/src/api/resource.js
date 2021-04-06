@@ -131,7 +131,6 @@ router.get(
       ];
     }
     const resources = await Resource.aggregate(aggregation);
-    console.log(resources[0]);
     res.json({
       code: 200,
       message: '',
