@@ -11,8 +11,6 @@ import '../css/EditHome.css';
 
 const rules = [{ required: true }];
 
-const { Header } = Layout;
-
 type UploadedTestimonial = {
   fieldKey: number,
   key: number,
@@ -258,11 +256,6 @@ const EditHome = (): React$Element<any> => {
 
   return (
     <Layout className="edit-home-form-layout">
-      <Header className="header">
-        <Row justify="center" type="flex">
-          <h2>Edit the Home Page</h2>
-        </Row>
-      </Header>
       <Form form={form} onFinish={onFinish} className="edit-home-form">
         <h3>Background Image</h3>
         <Row type="flex">
@@ -301,7 +294,7 @@ const EditHome = (): React$Element<any> => {
                       fieldKey={[field.fieldKey, 'name']}
                       rules={rules}
                     >
-                      <Input placeholder="Name" />
+                      <Input spellcheck placeholder="Name" />
                     </Form.Item>
                   </Col>
                   <Col>
@@ -352,7 +345,7 @@ const EditHome = (): React$Element<any> => {
                       fieldKey={[field.fieldKey, 'title']}
                       rules={rules}
                     >
-                      <Input placeholder="Title" />
+                      <Input spellcheck placeholder="Title" />
                     </Form.Item>
                   </Col>
                   <Col className="testimony-box" span={8}>
@@ -361,7 +354,7 @@ const EditHome = (): React$Element<any> => {
                       fieldKey={[field.fieldKey, 'testimony']}
                       rules={rules}
                     >
-                      <Input.TextArea placeholder="Testimony" />
+                      <Input.TextArea spellcheck placeholder="Testimony" />
                     </Form.Item>
                   </Col>
                   <Col flex="none" className="edit-home-textbox-main">
@@ -403,7 +396,7 @@ const EditHome = (): React$Element<any> => {
                       fieldKey={[field.fieldKey, 'name']}
                       rules={rules}
                     >
-                      <Input placeholder="Name" />
+                      <Input spellcheck placeholder="Name" />
                     </Form.Item>
                   </Col>
                   <Col>

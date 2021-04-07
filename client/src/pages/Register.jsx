@@ -8,6 +8,8 @@ import '@ant-design/compatible/assets/index.css';
 import { Button, Input, Select, Row, Col, message } from 'antd';
 import 'antd/dist/antd.css';
 import '../css/LoginRegister.css';
+import { useIntl, FormattedMessage, defineMessage } from 'react-intl';
+import { loginMessages } from '../utils/messages';
 
 import { useAuth } from '../utils/use-auth';
 
@@ -17,7 +19,15 @@ type Props = {
   form: typeof Form,
 };
 
+const messages = defineMessage({
+  pleaseSelectASecurityQuestion: {
+    id: 'pleaseSelectASecurityQuestion',
+    defaultMessage: 'Please select a security question!',
+  },
+});
+
 const Register = ({ form }: Props) => {
+  const intl = useIntl();
   const { register, securityQuestions } = useAuth();
   const [confirmDirty, setConfirmDirty] = useState(true);
 
@@ -36,12 +46,12 @@ const Register = ({ form }: Props) => {
   const compareToFirstPassword = useCallback(
     (rule, value, callback) => {
       if (value && value !== form.getFieldValue('password')) {
-        callback('The two passwords you entered are inconsistent!');
+        callback(intl.formatMessage(loginMessages.passwordsInconsistent));
       } else {
         callback();
       }
     },
-    [form],
+    [intl, form],
   );
 
   const onRegisterSubmit = useCallback(
@@ -71,7 +81,9 @@ const Register = ({ form }: Props) => {
       <Row type="flex" justify="center">
         <Col className="icon">
           <img src="/asset/icon/icon-with-words.png" alt="" />
-          <div className="header-text">Registration</div>
+          <div className="header-text">
+            <FormattedMessage id="registration" defaultMessage="Registration" />
+          </div>
         </Col>
       </Row>
       <Form onSubmit={onRegisterSubmit} className="form">
@@ -80,17 +92,17 @@ const Register = ({ form }: Props) => {
             rules: [
               {
                 type: 'email',
-                message: 'The input is not valid E-mail!',
+                message: intl.formatMessage(loginMessages.inputIsNotValidEmail),
               },
               {
                 required: true,
-                message: 'Please input your E-mail!',
+                message: intl.formatMessage(loginMessages.pleaseInputYourEmail),
               },
             ],
           })(
             <Input
               prefix={<UserOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
-              placeholder="E-mail"
+              placeholder={intl.formatMessage(loginMessages.email)}
             />,
           )}
         </Form.Item>
@@ -99,14 +111,16 @@ const Register = ({ form }: Props) => {
             rules: [
               {
                 required: true,
-                message: 'Please create a password!',
+                message: intl.formatMessage(
+                  loginMessages.pleaseCreateAPassword,
+                ),
               },
             ],
           })(
             <Input.Password
               prefix={<LockOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
               type="password"
-              placeholder="Create Password"
+              placeholder={intl.formatMessage(loginMessages.createPassword)}
             />,
           )}
         </Form.Item>
@@ -115,7 +129,9 @@ const Register = ({ form }: Props) => {
             rules: [
               {
                 required: true,
-                message: 'Please confirm your password!',
+                message: intl.formatMessage(
+                  loginMessages.pleaseConfirmYourPassword,
+                ),
               },
               {
                 validator: compareToFirstPassword,
@@ -126,7 +142,7 @@ const Register = ({ form }: Props) => {
               onBlur={handleConfirmBlur}
               prefix={<LockOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
               type="password"
-              placeholder="Confirm Password"
+              placeholder={intl.formatMessage(loginMessages.confirmPassword)}
             />,
           )}
         </Form.Item>
@@ -135,14 +151,23 @@ const Register = ({ form }: Props) => {
             rules: [
               {
                 required: true,
-                message: 'Please select a security question!',
+                message: intl.formatMessage(
+                  messages.pleaseSelectASecurityQuestion,
+                ),
               },
             ],
           })(
-            <Select placeholder="Please select a security question!">
+            <Select
+              placeholder={intl.formatMessage(
+                messages.pleaseSelectASecurityQuestion,
+              )}
+            >
               {securityQuestions.map((question, idx) => (
                 <Option value={idx} key={question}>
-                  {question}
+                  <FormattedMessage
+                    id={`securityQuestion-${question}`.replace(/\s/g, '')}
+                    defaultMessage={question}
+                  />
                 </Option>
               ))}
             </Select>,
@@ -153,18 +178,23 @@ const Register = ({ form }: Props) => {
             rules: [
               {
                 required: true,
-                message: 'Please type in an answer!',
+                message: intl.formatMessage(loginMessages.pleaseTypeInAnAnswer),
               },
             ],
-          })(<Input placeholder="Answer" />)}
+          })(<Input placeholder={intl.formatMessage(loginMessages.answer)} />)}
         </Form.Item>
         <Form.Item>
           <Button className="form-button" type="primary" htmlType="submit">
-            Register
+            <FormattedMessage id="register" defaultMessage="Register" />
           </Button>
-          <div className="white-text">Have an account?</div>{' '}
+          <div className="white-text">
+            <FormattedMessage
+              id="haveAnAccount"
+              defaultMessage="Have an account?"
+            />
+          </div>{' '}
           <Link className="link-now" to="/login">
-            Login now!
+            <FormattedMessage id="loginNow" defaultMessage="Login now!" />
           </Link>
         </Form.Item>
       </Form>

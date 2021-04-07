@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import { Menu } from 'antd';
+
+import { allResourcesMessage } from '../utils/messages';
 
 const { SubMenu } = Menu;
 
@@ -14,6 +17,7 @@ function ResourceCategoryFilter(props) {
     subcategory,
     subcategorySelect,
   } = props;
+  const intl = useIntl();
 
   const [orderedCategories, setOrderedCategories] = useState({});
   useEffect(() => {
@@ -34,16 +38,25 @@ function ResourceCategoryFilter(props) {
       onOpenChange={onOpenChange}
     >
       <Menu.Item key="All Resources" onClick={categorySelectAll}>
-        All Resources
+        <FormattedMessage {...allResourcesMessage} />
       </Menu.Item>
       {Object.keys(orderedCategories).map((categoryName) => (
-        <SubMenu key={categoryName} title={categoryName}>
+        <SubMenu
+          key={categoryName}
+          title={intl.formatMessage({
+            id: `category-${categoryName}`.replace(/\s/g, ''),
+            defaultMessage: categoryName,
+          })}
+        >
           {orderedCategories[categoryName].map((subCategory) => (
             <Menu.Item
               key={subCategory}
               onClick={() => subcategorySelect(subCategory)}
             >
-              {subCategory}
+              <FormattedMessage
+                id={`subcategory-${subCategory}`.replace(/\s/g, '')}
+                defaultMessage={subCategory}
+              />
             </Menu.Item>
           ))}
         </SubMenu>

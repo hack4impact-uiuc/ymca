@@ -3,8 +3,11 @@
 import React, { useCallback } from 'react';
 import { DownOutlined } from '@ant-design/icons';
 import { Button, Dropdown, Radio } from 'antd';
+import { useIntl, FormattedMessage } from 'react-intl';
 
+import { filterMessages } from '../../utils/messages';
 import ResourceFilterSearch from '../ResourceFilterSearch';
+import languageConversion from '../../utils/languages';
 
 import '../../css/ResourcesFilter.css';
 
@@ -38,26 +41,42 @@ function ResourcesFilter(props: Props): React$Element<'div'> {
     setLocation,
     setSort,
   } = props;
+  const intl = useIntl();
+  const translatedCost = intl.formatMessage(filterMessages.cost);
+  const translatedLanguagesOffered = intl.formatMessage(
+    filterMessages.languagesOffered,
+  );
+  const translatedLocation = intl.formatMessage(filterMessages.location);
+  const translatedSort = intl.formatMessage(filterMessages.sort);
 
   const onChange = useCallback(
     (filterName, value) => {
       switch (filterName) {
-        case 'Cost':
+        case translatedCost:
           setCost(value);
           break;
-        case 'Languages Offered':
+        case translatedLanguagesOffered:
           setLanguage(value);
           break;
-        case 'Location':
+        case translatedLocation:
           setLocation(value);
           break;
-        case 'Sort By':
+        case translatedSort:
           setSort(value);
           break;
         default:
       }
     },
-    [setCost, setLanguage, setLocation, setSort],
+    [
+      translatedCost,
+      translatedLanguagesOffered,
+      translatedLocation,
+      translatedSort,
+      setCost,
+      setLanguage,
+      setLocation,
+      setSort,
+    ],
   );
 
   const radio = useCallback(
@@ -72,7 +91,9 @@ function ResourcesFilter(props: Props): React$Element<'div'> {
         >
           {filterOptions.map((option) => (
             <Radio className="radio-filter" key={option} value={option}>
-              {option}
+              {Object.keys(languageConversion).includes(option)
+                ? languageConversion[option]
+                : option}
             </Radio>
           ))}
         </Radio.Group>
@@ -84,25 +105,36 @@ function ResourcesFilter(props: Props): React$Element<'div'> {
   return (
     <div className="resources-filter">
       <Dropdown
-        overlay={radio('Cost', costs, costSelected, false)}
+        overlay={radio(translatedCost, costs, costSelected, false)}
         placement="bottomLeft"
         trigger={['click']}
       >
-        <Button className="button">Cost</Button>
+        <Button className="button">
+          <FormattedMessage {...filterMessages.cost} />
+        </Button>
       </Dropdown>
       <Dropdown
-        overlay={radio('Languages Offered', languages, languageSelected, false)}
+        overlay={radio(
+          translatedLanguagesOffered,
+          languages,
+          languageSelected,
+          false,
+        )}
         placement="bottomLeft"
         trigger={['click']}
       >
-        <Button className="button">Language</Button>
+        <Button className="button">
+          <FormattedMessage {...filterMessages.language} />
+        </Button>
       </Dropdown>
       <Dropdown
-        overlay={radio('Location', locations, locationSelected, false)}
+        overlay={radio(translatedLocation, locations, locationSelected, false)}
         placement="bottomLeft"
         trigger={['click']}
       >
-        <Button className="button">Location</Button>
+        <Button className="button">
+          <FormattedMessage {...filterMessages.location} />
+        </Button>
       </Dropdown>
       <div className="searchbar-align-right">
         <ResourceFilterSearch />
@@ -110,7 +142,7 @@ function ResourcesFilter(props: Props): React$Element<'div'> {
       <div className="sort-dropdown">
         <Dropdown
           className="dropdown"
-          overlay={radio('Sort By', sorts, sortSelected, true)}
+          overlay={radio(translatedSort, sorts, sortSelected, true)}
           placement="bottomRight"
           trigger={['click']}
         >
@@ -119,7 +151,8 @@ function ResourcesFilter(props: Props): React$Element<'div'> {
             className="ant-dropdown-link"
             onClick={(e) => e.preventDefault()}
           >
-            Sort By <DownOutlined style={{ verticalAlign: '.2em' }} />
+            <FormattedMessage {...filterMessages.sort} />{' '}
+            <DownOutlined style={{ verticalAlign: '.2em' }} />
           </button>
         </Dropdown>
       </div>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { DownOutlined } from '@ant-design/icons';
 import { Button, Drawer, Menu } from 'antd';
+import { useIntl, FormattedMessage } from 'react-intl';
 
 import ResourceCategoryFilter from '../ResourceCategoryFilter';
 import useWindowDimensions from '../../utils/mobile';
@@ -10,6 +11,7 @@ import '../../css/ResourcesCat.css';
 import ResourcesFilterMobile from './ResourcesFilterMobile';
 
 function ResourcesCatMobile(props) {
+  const intl = useIntl();
   const { category, subcategory } = props;
 
   const [categoriesVisible, setCategoriesVisible] = useState(false);
@@ -22,6 +24,16 @@ function ResourcesCatMobile(props) {
       setCategoriesVisible(false);
     }
   }, [subcategory]);
+  let dropdownId = '';
+  const dropdownTitle = subcategory || category;
+  if (subcategory !== '') {
+    dropdownId = `subcategory-${subcategory}`.replace(/\s/g, '');
+  } else {
+    dropdownId =
+      category === 'All Resources'
+        ? 'allResources'
+        : `category-${category}`.replace(/\s/g, '');
+  }
 
   return (
     <nav>
@@ -32,7 +44,10 @@ function ResourcesCatMobile(props) {
         >
           <Menu.Item key="categories">
             <span className="category-dropdown">
-              {subcategory || category}
+              <FormattedMessage
+                id={dropdownId}
+                defaultMessage={dropdownTitle}
+              />
               <DownOutlined className="down-icon" />
             </span>
             <button type="button" className="filter">
@@ -68,7 +83,10 @@ function ResourcesCatMobile(props) {
           />
         </Drawer>
         <Drawer
-          title="Resource Categories"
+          title={intl.formatMessage({
+            id: 'resourceCategories',
+            defaultMessage: 'Resource Categories',
+          })}
           placement="bottom"
           height={(height * 4) / 5}
           closable

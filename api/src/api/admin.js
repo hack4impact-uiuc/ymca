@@ -5,6 +5,10 @@ const Category = require('../models/category');
 const Resource = require('../models/resource');
 const HomePage = require('../models/homepage');
 const Translation = require('../models/translation');
+const {
+  deleteTranslatedText,
+  translateAndSaveText,
+} = require('../utils/translate');
 
 const imageHelper = async (image) => {
   const imageResponse = await fetch('https://api.imgur.com/3/image', {
@@ -102,12 +106,59 @@ router.post(
 
     const newResource = new Resource(req.body);
     await newResource.save();
+
+    // translate resource fields and save in mongodb
+    const {
+      description,
+      phoneNumbers,
+      financialAidDetails,
+      eligibilityRequirements,
+      requiredDocuments,
+    } = newResource;
+    await translateAndSaveText(
+      description,
+      phoneNumbers,
+      financialAidDetails,
+      eligibilityRequirements,
+      requiredDocuments,
+      newResource.id,
+    );
+
     res.status(201).json({
       code: 201,
       message: `Successfully created new resource ${newResource.id}`,
       success: true,
       result: newResource,
     });
+  }),
+);
+
+// Edit categories of a resource
+router.patch(
+  '/resources/:id',
+  errorWrap(async (req, res) => {
+    if (req.body.category && req.body.subcategory) {
+      const { id } = req.params;
+      const updatedResource = await Resource.findByIdAndUpdate(
+        id,
+        {
+          $set: {
+            category: req.body.category,
+            subcategory: req.body.subcategory,
+          },
+        },
+        {
+          new: true,
+          runValidators: true,
+        },
+      );
+      res.json({
+        code: 200,
+        message: `Successfully updated resource ${id}`,
+        success: true,
+        result: updatedResource,
+      });
+    }
   }),
 );
 
@@ -119,7 +170,6 @@ router.put(
       const link = await imageHelper(req.body.image);
       if (link) {
         req.body.image = link;
-        console.log(req.body);
       }
     }
 
@@ -128,6 +178,24 @@ router.put(
       new: true,
       runValidators: true,
     });
+
+    // translate resource text and save in mongodb
+    const {
+      description,
+      phoneNumbers,
+      financialAidDetails,
+      eligibilityRequirements,
+      requiredDocuments,
+    } = updatedResource;
+    await translateAndSaveText(
+      description,
+      phoneNumbers,
+      financialAidDetails,
+      eligibilityRequirements,
+      requiredDocuments,
+      id,
+    );
+
     res.json({
       code: 200,
       message: `Successfully updated resource ${id}`,
@@ -142,7 +210,22 @@ router.delete(
   '/resources/:id',
   errorWrap(async (req, res) => {
     const { id } = req.params;
-    await Resource.findByIdAndDelete(id);
+    const {
+      description,
+      phoneNumbers,
+      financialAidDetails,
+      eligibilityRequirements,
+      requiredDocuments,
+    } = await Resource.findByIdAndDelete(id);
+    await deleteTranslatedText(
+      description,
+      phoneNumbers,
+      financialAidDetails,
+      eligibilityRequirements,
+      requiredDocuments,
+      id,
+    );
+
     res.json({
       code: 200,
       message: `Successfully deleted resource ${id}`,
@@ -288,10 +371,16 @@ router.delete(
       },
     );
 
+    // Removes subcategory, set one matching category to null
+    // Then, remove that null. Workaround to remove only one matching category
     await Resource.updateMany(
       { category: req.body.category, subcategory: req.body.subcategory },
-      { $pull: { subcategory: req.body.subcategory } },
+      {
+        $pull: { subcategory: req.body.subcategory },
+        $unset: { 'category.$': true },
+      },
     );
+    await Resource.updateMany({}, { $pull: { category: null } });
 
     res.json({
       code: 200,

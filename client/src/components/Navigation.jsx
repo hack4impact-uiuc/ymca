@@ -2,22 +2,43 @@
 
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Layout, Drawer, Button, Menu } from 'antd';
+import { Layout, Drawer, Button, Menu, Select } from 'antd';
 import { MenuOutlined } from '@ant-design/icons';
+import { FormattedMessage } from 'react-intl';
 
 import useWindowDimensions from '../utils/mobile';
 import { useAuth } from '../utils/use-auth';
 
 import '../css/Navigation.css';
 
-const { Header } = Layout;
+import { savedResourcesMessage } from '../utils/messages';
 
-const Navigation = () => {
-  const isMobile = useWindowDimensions()[1];
-  return isMobile ? <NavMobile /> : <NavDesktop />;
+const { Header } = Layout;
+const { SubMenu } = Menu;
+type NavigationProps = {
+  language: string,
+  setLanguage: (string) => void,
 };
 
-const NavDesktop = () => {
+const Navigation = (props: NavigationProps) => {
+  const isMobile = useWindowDimensions()[1];
+  return isMobile ? <NavMobile {...props} /> : <NavDesktop {...props} />;
+};
+
+const { Option } = Select;
+
+const globe = (
+  <img
+    src="/asset/icon/globe.svg"
+    className="globe-mobile"
+    alt="Globe"
+    height="18"
+    width="18"
+  />
+);
+
+const NavDesktop = (props: NavigationProps) => {
+  const { language, setLanguage } = props;
   const { authed, authRoleIsEquivalentTo } = useAuth();
 
   return (
@@ -28,19 +49,19 @@ const NavDesktop = () => {
       <Menu mode="horizontal">
         <Menu.Item key="home">
           <NavLink exact to="/" activeClassName="navbar-active-style">
-            Home
+            <FormattedMessage id="home" defaultMessage="Home" />
           </NavLink>
         </Menu.Item>
         <Menu.Item key="resources">
           <NavLink exact to="/resources" activeClassName="navbar-active-style">
-            Resources
+            <FormattedMessage id="resources" defaultMessage="Resources" />
           </NavLink>
         </Menu.Item>
 
         {authed && (
           <Menu.Item key="saved">
             <NavLink exact to="/saved" activeClassName="navbar-active-style">
-              Saved Resources
+              <FormattedMessage {...savedResourcesMessage} />
             </NavLink>
           </Menu.Item>
         )}
@@ -53,43 +74,61 @@ const NavDesktop = () => {
           </Menu.Item>
         )}
 
-        {authRoleIsEquivalentTo('admin') && (
-          <Menu.Item key="edit-home">
-            <NavLink to="/edit-home" activeClassName="navbar-active-style">
-              Edit Home
-            </NavLink>
-          </Menu.Item>
-        )}
-
-        {authRoleIsEquivalentTo('admin') && (
-          <Menu.Item key="approval">
-            <NavLink to="/role-approval" activeClassName="navbar-active-style">
-              Users
-            </NavLink>
-          </Menu.Item>
-        )}
-
         {!authed ? (
           <Menu.Item key="login">
             <NavLink to="/login" activeClassName="navbar-active-style">
-              Login
+              <FormattedMessage id="login" defaultMessage="Login" />
             </NavLink>
           </Menu.Item>
         ) : (
           <Menu.Item key="logout">
             <NavLink to="/logout" activeClassName="navbar-active-style">
-              Logout
+              <FormattedMessage id="logout" defaultMessage="Logout" />
             </NavLink>
           </Menu.Item>
         )}
+        <img
+          src="/asset/icon/globe.svg"
+          className="globe"
+          alt="Globe"
+          height="18"
+          width="18"
+        />
+        <Select
+          className="languages"
+          defaultValue="English"
+          bordered={false}
+          onChange={setLanguage}
+          value={language}
+        >
+          <Option value="English">English</Option>
+          <Option value="Spanish">Español</Option>
+          <Option value="French">Français</Option>
+          <Option value="Chinese">中文</Option>
+        </Select>
       </Menu>
     </Header>
   );
 };
 
-const NavMobile = () => {
+const NavMobile = (props: NavigationProps) => {
+  // TODO: Fix when mobile switching complete
+  // eslint-disable-next-line no-unused-vars
+  const { language, setLanguage } = props;
   const { authed, authRoleIsEquivalentTo } = useAuth();
   const [drawerVisible, setDrawerVisible] = useState(false);
+  const getLanguage = () => {
+    if (language === 'Spanish') {
+      return 'Español';
+    }
+    if (language === 'French') {
+      return 'Français';
+    }
+    if (language === 'Chinese') {
+      return '中文';
+    }
+    return 'English';
+  };
 
   return (
     <nav>
@@ -130,25 +169,25 @@ const NavMobile = () => {
             {!authed && (
               <Menu.Item className="nav-mobile-menu-item">
                 <NavLink className="nav-mobile-option" to="/login">
-                  Login
+                  <FormattedMessage id="login" defaultMessage="Login" />
                 </NavLink>
               </Menu.Item>
             )}
             <Menu.Item className="nav-mobile-menu-item">
               <NavLink className="nav-mobile-option" exact to="/">
-                Home
+                <FormattedMessage id="home" defaultMessage="Home" />
               </NavLink>
             </Menu.Item>
             {authed && (
               <Menu.Item className="nav-mobile-menu-item">
                 <NavLink className="nav-mobile-option" exact to="/saved">
-                  Saved
+                  <FormattedMessage {...savedResourcesMessage} />
                 </NavLink>
               </Menu.Item>
             )}
             <Menu.Item className="nav-mobile-menu-item">
               <NavLink className="nav-mobile-option" exact to="/resources">
-                Resources
+                <FormattedMessage id="resources" defaultMessage="Resources" />
               </NavLink>
             </Menu.Item>
             {authRoleIsEquivalentTo('admin') && (
@@ -158,27 +197,52 @@ const NavMobile = () => {
                 </NavLink>
               </Menu.Item>
             )}
-            {authRoleIsEquivalentTo('admin') && (
-              <Menu.Item className="nav-mobile-menu-item">
-                <NavLink className="nav-mobile-option" to="/edit-home">
-                  Edit Home
-                </NavLink>
-              </Menu.Item>
-            )}
-            {authRoleIsEquivalentTo('admin') && (
-              <Menu.Item className="nav-mobile-menu-item">
-                <NavLink className="nav-mobile-option" to="/role-approval">
-                  Users
-                </NavLink>
-              </Menu.Item>
-            )}
             {authed && (
-              <Menu.Item className="nav-mobile-menu-item">
+              <Menu.Item className="nav-mobile-menu-item" onSelect>
                 <NavLink className="nav-mobile-option" to="/logout">
-                  Logout
+                  <FormattedMessage id="logout" defaultMessage="Logout" />
                 </NavLink>
               </Menu.Item>
             )}
+            <SubMenu
+              key="language-switcher"
+              popupClassName="switcher-mobile"
+              icon={globe}
+              title={getLanguage()}
+            >
+              <Menu.Item
+                key="English"
+                onClick={() => {
+                  setLanguage('English');
+                }}
+              >
+                English
+              </Menu.Item>
+              <Menu.Item
+                key="Spanish"
+                onClick={() => {
+                  setLanguage('Spanish');
+                }}
+              >
+                Español
+              </Menu.Item>
+              <Menu.Item
+                key="French"
+                onClick={() => {
+                  setLanguage('French');
+                }}
+              >
+                Français
+              </Menu.Item>
+              <Menu.Item
+                key="Chinese"
+                onClick={() => {
+                  setLanguage('Chinese');
+                }}
+              >
+                中文
+              </Menu.Item>
+            </SubMenu>
           </Menu>
         </Drawer>
       </div>
