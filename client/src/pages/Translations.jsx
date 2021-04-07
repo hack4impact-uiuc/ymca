@@ -8,11 +8,9 @@ import '../css/Translations.css';
 const { Header } = Layout;
 const { TabPane } = Tabs;
 
-const AdminResourceManager = (props: Props): React$Element<'div'> => {
-  const { match } = props;
-
+function Translations() {
   return (
-    <div className="admin-resource-form">
+    <div className="tranlsations-header">
       <Header className="header">
         <Row justify="left" type="flex">
           <h2>Translations</h2>
@@ -34,6 +32,6 @@ const AdminResourceManager = (props: Props): React$Element<'div'> => {
       </div>
     </div>
   );
-};
+}
 
-export default AdminResourceManager;
+export default Translations;
