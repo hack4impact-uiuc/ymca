@@ -1,30 +1,33 @@
 // @flow
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { EditFilled } from '@ant-design/icons';
-import { Table, Tag } from 'antd';
+import { Select, Table, Tag } from 'antd';
+import { getCategories, editResourceCategories } from '../utils/api';
 
-const TAG_COLOR_DICT = {
+const { Option, OptGroup } = Select;
+
+const CATEGORY_COLOR_DICT = {
   a: 'blue',
   b: 'gold',
-  c: 'red',
+  c: 'volcano',
   d: 'volcano',
   e: 'green',
-  f: 'geekblue',
+  f: 'magenta',
   g: 'orange',
   h: 'cyan',
   i: 'magenta',
   j: 'gold',
   k: 'purple',
-  l: 'purple',
+  l: 'orange',
   m: 'green',
   n: 'green',
-  o: 'blue',
+  o: 'purple',
   p: 'cyan',
   q: 'blue',
   r: 'blue',
   s: 'geekblue',
-  t: 'geekblue',
+  t: 'volcano',
   u: 'purple',
   v: 'purple',
   w: 'purple',
@@ -41,27 +44,98 @@ type Props = {
     description: string,
     categories: Array<string>,
     subcategories: Array<string>,
+    categoryPairs: Array<string>,
     id: string,
   }>,
+  updateView: () => void,
 };
 
 const ManageResourcesTable = (props: Props) => {
-  const { selectedCategory, selectedSubcategory, resources } = props;
+  const {
+    selectedCategory,
+    selectedSubcategory,
+    resources,
+    updateView,
+  } = props;
 
-  const displayTags = (categories) => (
+  const [fetchedCategories, setFetchedCategories] = useState([]);
+
+  useEffect(() => {
+    getCategories().then((res) => {
+      if (res !== null) {
+        if (res.code === 200) {
+          setFetchedCategories(res.result);
+        }
+      }
+    });
+  }, []);
+
+  const updateCategories = async (selectedValues, resource) => {
+    const newCategories = [];
+    const newSubcategories = [];
+    selectedValues.forEach((selected) => {
+      const tokens = selected.split('~');
+      newCategories.push(tokens[0]);
+      newSubcategories.push(tokens[1]);
+    });
+    await editResourceCategories(resource.id, newCategories, newSubcategories);
+    await updateView();
+  };
+
+  const displayCategoryTags = (categories) => (
     <>
       {categories.map((c) => (
-        <Tag key={c} color={TAG_COLOR_DICT[c[0].toLowerCase()]}>
+        <Tag key={c} color={CATEGORY_COLOR_DICT[c[0]?.toLowerCase()]}>
           {c}
         </Tag>
       ))}
-      <Tag
-        onClick={() => window.location.reload()}
-        style={{ cursor: 'pointer' }}
-      >
-        +
-      </Tag>
     </>
+  );
+
+  const subcategoryTag = (tagProps, resource) => {
+    const { label, value, closable, onClose } = tagProps;
+    const tokens = value.split('~');
+    const idx = resource.subcategories.indexOf(tokens[1]);
+
+    return (
+      <Tag
+        color={
+          resource.categories[idx]
+            ? CATEGORY_COLOR_DICT[resource.categories[idx][0]?.toLowerCase()]
+            : 'white'
+        }
+        closable={closable}
+        onClose={onClose}
+      >
+        {label}
+      </Tag>
+    );
+  };
+
+  const displaySubcategoryTags = (resource) => (
+    <Select
+      mode="multiple"
+      dropdownMatchSelectWidth={false}
+      bordered={false}
+      showArrow
+      style={{ width: '100%' }}
+      onChange={(e) => updateCategories(e, resource)}
+      tagRender={(tagProps) => subcategoryTag(tagProps, resource)}
+      value={resource.categoryPairs}
+    >
+      {fetchedCategories.map((cat) => (
+        <OptGroup key={cat.name} label={cat.name}>
+          {cat.subcategories.map((subcat) => {
+            const val = `${cat.name}~${subcat}`;
+            return (
+              <Option key={val} value={val}>
+                {subcat}
+              </Option>
+            );
+          })}
+        </OptGroup>
+      ))}
+    </Select>
   );
 
   const filterResources = (resource) =>
@@ -95,13 +169,13 @@ const ManageResourcesTable = (props: Props) => {
     {
       title: 'Categories',
       render: function showCategories(_, resource) {
-        return displayTags(resource.categories);
+        return displayCategoryTags([...new Set(resource.categories)]);
       },
     },
     {
       title: 'Subcategories',
       render: function showSubcategories(_, resource) {
-        return displayTags(resource.subcategories);
+        return displaySubcategoryTags(resource);
       },
     },
     {

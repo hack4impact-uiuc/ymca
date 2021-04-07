@@ -54,7 +54,6 @@ const CategorySelector = (props: Props) => {
     });
   };
 
-  // fetch categories && subcategories
   useEffect(() => {
     getCategories().then((res) => {
       if (res !== null) {
