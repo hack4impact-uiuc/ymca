@@ -135,7 +135,6 @@ const HoursOfOperationsForm = Form.create({ name: 'hoursOfOperation' })(
         <Button
           type="primary"
           className="form-btn"
-          htmlType="submit"
           onClick={() => {
             setTotalSubmitEnabled(false);
             updateHoursOfOperation({

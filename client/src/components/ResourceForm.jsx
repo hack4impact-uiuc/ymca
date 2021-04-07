@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Form } from '@ant-design/compatible';
 import '@ant-design/compatible/assets/index.css';
-import { Button, message, Row, Layout, Carousel } from 'antd';
+import { Button, message, Layout, Carousel } from 'antd';
 
 import { addResource, editResource, getResourceByID } from '../utils/api';
 
@@ -12,15 +12,22 @@ import FormCarousel from './ResourceFormCarousel';
 
 import '../css/ResourceForm.css';
 
-const { Header, Content } = Layout;
+const { Content } = Layout;
 
+const linkResource = (resourceId, type) => (
+  <>
+    Resource {type}! Click
+    <a href={`/resources/${resourceId}`}> here </a>
+    to view!
+  </>
+);
 const onSubmitNewResourceForm = async (e, enabled, id, resource) => {
   e.preventDefault();
   if (enabled) {
     if (id) {
       const editedResource = await editResource(id, resource);
       if (editedResource) {
-        message.success('Resource successfully edited!');
+        message.success(linkResource(id, 'edited'));
       } else {
         message.error(
           `Resource could not be edited.
@@ -31,7 +38,7 @@ const onSubmitNewResourceForm = async (e, enabled, id, resource) => {
     } else {
       const createdResource = await addResource(resource);
       if (createdResource) {
-        message.success('Resource successfully created!');
+        message.success(linkResource(createdResource.result._id, 'created'));
       } else {
         message.error(
           `Resource could not be created.
@@ -160,11 +167,6 @@ const ResourceForm = (props: FormProps) => {
 
   return (
     <Layout className="resource-form-layout">
-      <Header className="header">
-        <Row justify="center" type="flex">
-          <h2>{id ? 'Edit a Resource' : 'Add a Resource'}</h2>
-        </Row>
-      </Header>
       <Content className="content">
         <Carousel ref={formLabelRef} className="form-label" dots={false}>
           {createCarouselCategories()}

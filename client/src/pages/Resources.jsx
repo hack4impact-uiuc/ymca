@@ -1,16 +1,15 @@
 // @flow
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Layout } from 'antd';
 import '../css/Resources.css';
 import Loader from 'react-loader-spinner';
+import { useIntl } from 'react-intl';
+
+import { filterMessages } from '../utils/messages';
 import type { Resource } from '../types/models';
 
-import {
-  getCategories,
-  getResources,
-  getResourcesByCategory,
-} from '../utils/api';
+import { getCategories, getResourcesByCategory } from '../utils/api';
 import { getSavedResources } from '../utils/auth';
 import languages from '../data/languages';
 import locations from '../data/locations';
@@ -42,24 +41,51 @@ function Resources({
   history = { pathname: '', search: '', push: () => {} },
   location: locationProp = { search: '' },
 }: Props): React$Element<any> {
-  const [cost, setCost] = useState('Free - $$$');
+  const intl = useIntl();
+  const freeTranslated = useMemo(
+    () => intl.formatMessage(filterMessages.free),
+    [intl],
+  );
+  const nameTranslated = useMemo(
+    () => intl.formatMessage(filterMessages.name),
+    [intl],
+  );
+
+  const [cost, setCost] = useState(`${freeTranslated} - $$$`);
   const [language, setLanguage] = useState('All');
-  const [location, setLocation] = useState('All');
+  const [location, setLocation] = useState('All / Champaign County');
   const [category, setCategory] = useState('');
   const [subcategory, setSubcategory] = useState('');
-  const [sort, setSort] = useState('Name');
+  const [sort, setSort] = useState(nameTranslated);
   const [loading, setLoading] = useState(false);
 
   const [openKeys, setOpenKeys] = useState<Array<string>>([]);
   const [categories, setCategories] = useState<{ [string]: Array<string> }>({});
-  const [resources, setResources] = useState<Array<Resource>>([]);
   const [filteredResources, setFilteredResources] = useState<Array<Resource>>(
     [],
   );
   const [savedSet, setSavedSet] = useState<Set<string>>(new Set());
 
-  const costs = ['Free', 'Free - $', 'Free - $$', 'Free - $$$'];
-  const sorts = ['Name', 'Cost'];
+  // Reset cost when language switch
+  useEffect(() => {
+    setCost(`${freeTranslated} - $$$`);
+  }, [freeTranslated]);
+  // Reset sort when language switch
+  useEffect(() => setSort(nameTranslated), [nameTranslated]);
+
+  const costs = useMemo(
+    () => [
+      freeTranslated,
+      `${freeTranslated} - $`,
+      `${freeTranslated} - $$`,
+      `${freeTranslated} - $$$`,
+    ],
+    [freeTranslated],
+  );
+  const sorts = useMemo(
+    () => [nameTranslated, intl.formatMessage(filterMessages.cost)],
+    [intl, nameTranslated],
+  );
   const isMobile = useWindowDimensions()[1];
   const { authed } = useAuth();
 
@@ -78,25 +104,6 @@ function Resources({
 
     fetchCategories();
   }, []);
-
-  function compareNames(current, next) {
-    const textCurrent = current.name.toUpperCase();
-    const textNext = next.name.toUpperCase();
-    const bool = textCurrent > textNext ? 1 : 0;
-    return textCurrent < textNext ? -1 : bool;
-  }
-
-  function compareCosts(current, next) {
-    const costOrder = ['$$$', '$$', '$', 'Free'];
-    const costCurrent = current.cost;
-    const costNext = next.cost;
-    if (costCurrent === costNext) {
-      return 0;
-    }
-    return costOrder.indexOf(costNext) < costOrder.indexOf(costCurrent)
-      ? -1
-      : 1;
-  }
 
   const getCategorySelectedFromSearch = useCallback(() => {
     const { search } = locationProp;
@@ -128,10 +135,14 @@ function Resources({
 
     setLoading(true);
 
-    const newResources =
-      categorySelected === 'All Resources'
-        ? await getResources()
-        : await getResourcesByCategory(categorySelected);
+    const newResources = await getResourcesByCategory(
+      categorySelected,
+      subcategorySelected,
+      cost,
+      language,
+      location,
+      sort,
+    );
 
     let localSavedSet = new Set();
     if (authed === true) {
@@ -146,62 +157,28 @@ function Resources({
       );
     }
 
-    newResources.result.sort(compareNames);
-
     setCategory(categorySelected);
     setFilteredResources(newResources == null ? [] : newResources.result);
     setOpenKeys([categorySelected]);
-    setResources(newResources == null ? [] : newResources.result);
-    setSubcategory(subcategorySelected);
-    setCost('Free - $$$');
-    setLanguage('All');
-    setLocation('All / Champaign County');
+    setFilteredResources(newResources == null ? [] : newResources.result);
     setSubcategory(subcategorySelected);
 
     setLoading(false);
-  }, [getCategorySelectedFromSearch, saved, authed]);
+  }, [
+    getCategorySelectedFromSearch,
+    cost,
+    language,
+    location,
+    sort,
+    authed,
+    saved,
+  ]);
 
   const updateSaved = updateResources;
-
-  const updateSort = useCallback(() => {
-    switch (sort) {
-      case 'Name': {
-        const newResources = resources.sort(compareNames);
-        setResources(newResources);
-        break;
-      }
-      case 'Cost': {
-        const newResources = resources.sort(compareCosts);
-        setResources(newResources);
-        break;
-      }
-      default:
-    }
-  }, [resources, sort]);
 
   useEffect(() => {
     updateResources();
   }, [locationProp.search, saved, authed, updateResources]);
-
-  useEffect(() => {
-    const costMap = {
-      Free: ['Free'],
-      'Free - $': ['Free', '$'],
-      'Free - $$': ['Free', '$', '$$'],
-      'Free - $$$': ['Free', '$', '$$', '$$$'],
-    };
-    updateSort();
-    const newFilteredResources = resources.filter(
-      (resource) =>
-        (resource.subcategory.includes(subcategory) || subcategory === '') &&
-        (costMap[cost].includes(resource.cost) || cost === 'Free - $$$') &&
-        (resource.availableLanguages?.includes(language) ||
-          language === 'All') &&
-        (resource.city === location || location === 'All / Champaign County'),
-    );
-
-    setFilteredResources(newFilteredResources);
-  }, [cost, language, location, subcategory, resources, sort, updateSort]);
 
   const categorySelectAll = useCallback(() => {
     history.push({

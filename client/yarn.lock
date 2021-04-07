@@ -1466,7 +1466,7 @@
     intl-messageformat-parser "6.4.1"
     tslib "^2.1.0"
 
-"@hack4impact-uiuc/eslint-plugin@^2.0.9":
+"@hack4impact-uiuc/eslint-plugin@^2.0.10":
   version "2.0.10"
   resolved "https://registry.yarnpkg.com/@hack4impact-uiuc/eslint-plugin/-/eslint-plugin-2.0.10.tgz#d68a223141a550a861e4041de97b4d3819062465"
   integrity sha512-L8TPs1F0P/lV9vAx5tZ1QoqBPXw7ypbEVCkrEswFpILXt9e839WEUlNrMBqx6KSbOu1K0gYBKUjO5HfhkV7xDQ==

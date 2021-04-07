@@ -1,9 +1,5 @@
 // @flow
 
-/*
-TODO: Implement phoneType into form.
-*/
-
 import React from 'react';
 import '../css/ResourcePhoneNumberForm.css';
 import { Form } from '@ant-design/compatible';
@@ -15,24 +11,24 @@ const FinancialAidForm = Form.create({ name: 'financialAid' })((props) => {
 
   const { getFieldDecorator, getFieldValue } = props.form;
 
+  const onSubmit = () => {
+    setFinancialAidDetails({
+      education: getFieldValue('education'),
+      immigrationStatus: getFieldValue('immigrationStatus'),
+      deadline: getFieldValue('deadline'),
+      amount: getFieldValue('amount'),
+    });
+  };
+
   return (
-    <Form
-      className="financial-aid-form"
-      onSubmit={() => {
-        setFinancialAidDetails({
-          education: getFieldValue('education'),
-          immigrationStatus: getFieldValue('immigrationStatus'),
-          deadline: getFieldValue('deadline'),
-          amount: getFieldValue('amount'),
-        });
-      }}
-    >
+    <Form className="financial-aid-form">
       <Form.Item>
         {getFieldDecorator(
           'education',
           {},
         )(
           <Input
+            spellcheck
             placeholder="Education | 
             Ex: College juniors only, must be attending college in US"
             onFocus={() => setTotalSubmitEnabled(false)}
@@ -46,6 +42,7 @@ const FinancialAidForm = Form.create({ name: 'financialAid' })((props) => {
           {},
         )(
           <Input
+            spellcheck
             placeholder="Immigration Status |
             Ex: no citizenship required"
             onFocus={() => setTotalSubmitEnabled(false)}
@@ -59,6 +56,7 @@ const FinancialAidForm = Form.create({ name: 'financialAid' })((props) => {
           {},
         )(
           <Input
+            spellcheck
             placeholder="Deadline |
             Ex: July 31"
             onFocus={() => setTotalSubmitEnabled(false)}
@@ -72,6 +70,7 @@ const FinancialAidForm = Form.create({ name: 'financialAid' })((props) => {
           {},
         )(
           <Input
+            spellcheck
             placeholder="Amount |
           Ex: $500-$1000"
             onFocus={() => setTotalSubmitEnabled(false)}
@@ -81,9 +80,11 @@ const FinancialAidForm = Form.create({ name: 'financialAid' })((props) => {
       </Form.Item>
       <Button
         type="primary"
-        htmlType="submit"
         className="financial-aid-form form-btn"
-        onClick={() => setTotalSubmitEnabled(false)}
+        onClick={() => {
+          setTotalSubmitEnabled(false);
+          onSubmit();
+        }}
       >
         Add Financial Aid Details
       </Button>

@@ -80,6 +80,31 @@ a::after {
   text-align: center;
 }
 
+.languages {
+  position: relative;
+  line-height: 28px;
+  bottom: 7px;
+  right: 8px;
+  font-size: 16px;
+}
+
+.globe {
+  position: relative;
+  bottom: 8px;
+}
+.globe-mobile {
+  margin-right: 15px;
+}
+
+.ant-dropdown-link > .ant-menu-item > .navbar-active-style::after {
+  position: absolute;
+  border-bottom: 3px solid #6bdbd0;
+  width: 100%;
+  content: '';
+  bottom: -3px;
+  text-align: center;
+}
+
 .nav-mobile {
   z-index: 30;
   background: white;
@@ -140,4 +165,8 @@ a::after {
 .nav-mobile-option:hover {
   color: #000 !important;
   text-decoration: none !important;
+}
+
+.switcher-mobile {
+  margin-right: 50px;
 }

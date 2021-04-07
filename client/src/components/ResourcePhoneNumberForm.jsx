@@ -14,29 +14,28 @@ const PhoneNumberForm = Form.create({ name: 'phoneNumber' })((props) => {
   const { setPhoneNumbers, phoneNumbers, setTotalSubmitEnabled } = props;
   const { setFieldsValue, getFieldValue, getFieldDecorator } = props.form;
 
+  const onSubmit = () => {
+    const phoneNumber = getFieldValue('phoneNumber');
+    const phoneType = getFieldValue('phoneType') || '';
+
+    if (phoneNumber !== undefined && phoneNumber.trim() !== '') {
+      setPhoneNumbers([
+        ...phoneNumbers,
+        {
+          phoneNumber,
+          phoneType,
+        },
+      ]);
+
+      setFieldsValue({
+        phoneNumber: '',
+        phoneType: '',
+      });
+    }
+  };
+
   return (
-    <Form
-      className="phone-number-form"
-      onSubmit={() => {
-        const phoneNumber = getFieldValue('phoneNumber');
-        const phoneType = getFieldValue('phoneType') || '';
-
-        if (phoneNumber !== undefined && phoneNumber.trim() !== '') {
-          setPhoneNumbers([
-            ...phoneNumbers,
-            {
-              phoneNumber,
-              phoneType,
-            },
-          ]);
-
-          setFieldsValue({
-            phoneNumber: '',
-            phoneType: '',
-          });
-        }
-      }}
-    >
+    <Form className="phone-number-form">
       <Form.Item>
         {getFieldDecorator('phoneNumber', {
           rules: [
@@ -64,6 +63,7 @@ const PhoneNumberForm = Form.create({ name: 'phoneNumber' })((props) => {
           ],
         })(
           <Input
+            spellcheck
             placeholder="Phone Type (i.e. Mobile, Home, etc.)"
             onFocus={() => setTotalSubmitEnabled(false)}
             onBlur={() => setTotalSubmitEnabled(true)}
@@ -73,8 +73,10 @@ const PhoneNumberForm = Form.create({ name: 'phoneNumber' })((props) => {
       <Button
         type="primary"
         className="form-btn"
-        htmlType="submit"
-        onClick={() => setTotalSubmitEnabled(false)}
+        onClick={() => {
+          setTotalSubmitEnabled(false);
+          onSubmit();
+        }}
       >
         Add Phone Number
       </Button>

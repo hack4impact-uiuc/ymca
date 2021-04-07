@@ -1,9 +1,10 @@
 // @flow
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Button, Col, Row, Carousel, notification } from 'antd';
 import { HeartTwoTone } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import { FormattedMessage } from 'react-intl';
 
 import type { Testimonial } from '../../pages/Home';
 
@@ -17,6 +18,7 @@ type Block1Props = {
 export const HomeBlock1Desktop = ({
   backgroundImage,
 }: Block1Props): React$Element<any> => {
+  const [api, contextHolder] = notification.useNotification();
   const [categories, setCategories] = useState<Array<string>>([]);
 
   const fetchCategories = async () => {
@@ -30,25 +32,37 @@ export const HomeBlock1Desktop = ({
     setCategories(newCategories);
   };
 
-  const openNotification = () => {
-    notification.open({
-      message: 'COVID-19 Information & Resources',
+  const openNotification = useCallback(() => {
+    api.open({
+      message: (
+        <FormattedMessage
+          id="covid19Info"
+          defaultMessage="COVID-19 Information & Resources"
+        />
+      ),
       description: (
-        <>
-          Find COVID-19 information & resources for immigrants in C-U in{' '}
-          <a href="https://tinyurl.com/cuimmigrantcovid">this guide</a> updated
-          daily.
-        </>
+        <FormattedMessage
+          id="covid19InfoDescription"
+          defaultMessage="Find COVID-19 information & resources for immigrants
+          in C-U in {linkGuide} updated daily."
+          values={{
+            linkGuide: (
+              <a href="https://tinyurl.com/cuimmigrantcovid">
+                <FormattedMessage id="thisGuide" defaultMessage="this guide" />
+              </a>
+            ),
+          }}
+        />
       ),
       icon: <HeartTwoTone twoToneColor="#eb2f96" />,
       top: 80,
     });
-  };
+  }, [api]);
 
   useEffect(() => {
     fetchCategories();
     openNotification();
-  }, []);
+  }, [openNotification]);
 
   return (
     <Row
@@ -58,12 +72,21 @@ export const HomeBlock1Desktop = ({
       justify="left"
       align="middle"
     >
+      {contextHolder}
       <Col className="welcome-text">
-        Welcome to Urbana-Champaign
+        <FormattedMessage
+          id="homeWelcome"
+          defaultMessage="Welcome to Urbana-Champaign"
+        />
         {categories && categories.length > 0 ? (
-          <Row type="flex">
-            <h1 className="welcome-text-bold">Find Resources for</h1>
-            <div style={{ width: 'min-content' }}>
+          <div className="welcome-resource-block">
+            <h1 className="welcome-text-bold">
+              <FormattedMessage
+                id="homeResources"
+                defaultMessage="Find Resources for"
+              />
+            </h1>
+            <span className="welcome-carousel-block">
               <Carousel
                 effect="fade"
                 autoplay
@@ -78,22 +101,35 @@ export const HomeBlock1Desktop = ({
                         to={`/resources?category=${category}`}
                         className="welcome-text-link"
                       >
-                        {category}
+                        <FormattedMessage
+                          id={`category-${category}`.replace(/\s/g, '')}
+                          defaultMessage={category}
+                        />
                       </Link>
                     ),
                 )}
               </Carousel>
-            </div>
-          </Row>
+            </span>
+          </div>
         ) : (
           <Row type="flex">
-            <h1 className="welcome-text-bold">Find Resources</h1>
+            <h1 className="welcome-text-bold">
+              <FormattedMessage
+                id="homeResourcesButton"
+                defaultMessage="Find Resources"
+              />
+            </h1>
           </Row>
         )}
         <Row type="flex" justify="left" align="left">
           <Col span={14}>
             <Link to="/resources">
-              <Button type="primary">Find Resources</Button>
+              <Button type="primary">
+                <FormattedMessage
+                  id="homeResourcesButton"
+                  defaultMessage="Find Resources"
+                />
+              </Button>
             </Link>
           </Col>
         </Row>
@@ -107,22 +143,33 @@ export const HomeBlock2Desktop = (): React$Element<any> => (
     <Col className="home-block-2-divider" span={6}>
       <Row type="flex" justify="start" align="middle">
         <Col span={20} className="home-block-2-left">
-          About the Guide
+          <FormattedMessage
+            id="homeAboutGuide"
+            defaultMessage="About the Guide"
+          />
         </Col>
       </Row>
     </Col>
     <Col className="home-block-2-right" span={14}>
-      Oasis exists to equalize and promote information access to Champaign
-      resources catered to your unique lifestyle and needs. Securing reliable
-      transportation, navigating the healthcare system, finding legal aid — it
-      can be difficult figuring out where to go in a large place like Champaign
-      that has hundreds of resources and a population of over 80,000 people.
-      This virtual guide, built with love by{' '}
-      <a href="https://uiuc.hack4impact.org/">Hack4Impact</a> curates
-      recommendations based on cost, language offerings, and more. As you
-      explore Oasis, we would love to hear about your experiences and feedback
-      through the{' '}
-      <a href="mailto:lalinea@universityymca.org"> Welcome Center.</a>
+      <FormattedMessage
+        id="homeAbout"
+        defaultMessage="
+        Oasis exists to equalize and promote information access to Champaign
+        resources catered to your unique lifestyle and needs. Securing reliable
+        transportation, navigating the healthcare system, finding legal aid — it
+        can be difficult figuring out where to go in a large place like
+        Champaign that has hundreds of resources and a population of over 80,000
+        people. This virtual guide, built with love by {linkH4I}, curates
+        recommendations based on cost, language offerings, and more. As you
+        explore Oasis, we would love to hear about your experiences and feedback
+        through the {linkWelcome}."
+        values={{
+          linkH4I: <a href="https://uiuc.hack4impact.org/">Hack4Impact</a>,
+          linkWelcome: (
+            <a href="mailto:lalinea@universityymca.org">Welcome Center</a>
+          ),
+        }}
+      />
     </Col>
   </Row>
 );
@@ -149,8 +196,22 @@ export const HomeBlock3Desktop = ({
               </Col>
               <Col className="testimonial-text" span={12} offset={1}>
                 <h2>{element.person}</h2>
-                <h4>{element.title}</h4>
-                <p>{element.testimonial}</p>
+                <h4>
+                  <FormattedMessage
+                    id={`testimonial-title-${element.person}-${element.title}`
+                      .toLowerCase()
+                      .replace(/\s/g, '')}
+                    defaultMessage={element.title}
+                  />
+                </h4>
+                <p>
+                  <FormattedMessage
+                    id={`testimonial-${element.person}-${element.title}`
+                      .toLowerCase()
+                      .replace(/\s/g, '')}
+                    defaultMessage={element.testimonial}
+                  />
+                </p>
               </Col>
             </Row>
           </div>
