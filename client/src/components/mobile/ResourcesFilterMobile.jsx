@@ -5,6 +5,7 @@ import { Button } from 'antd';
 import { FormattedMessage } from 'react-intl';
 
 import { filterMessages } from '../../utils/messages';
+import languageConversion from '../../utils/languages';
 
 import '../../css/ResourcesFilterMobile.css';
 
@@ -79,7 +80,7 @@ function ResourcesFilterMobile(props) {
             onClick={() => setTempLanguage(language)}
             key={language}
           >
-            {language}
+            {languageConversion[language]}
             {language === tempLanguage && (
               <CheckOutlined style={{ float: 'right' }} />
             )}

@@ -294,7 +294,7 @@ const EditHome = (): React$Element<any> => {
                       fieldKey={[field.fieldKey, 'name']}
                       rules={rules}
                     >
-                      <Input placeholder="Name" />
+                      <Input spellcheck placeholder="Name" />
                     </Form.Item>
                   </Col>
                   <Col>
@@ -345,7 +345,7 @@ const EditHome = (): React$Element<any> => {
                       fieldKey={[field.fieldKey, 'title']}
                       rules={rules}
                     >
-                      <Input placeholder="Title" />
+                      <Input spellcheck placeholder="Title" />
                     </Form.Item>
                   </Col>
                   <Col className="testimony-box" span={8}>
@@ -354,7 +354,7 @@ const EditHome = (): React$Element<any> => {
                       fieldKey={[field.fieldKey, 'testimony']}
                       rules={rules}
                     >
-                      <Input.TextArea placeholder="Testimony" />
+                      <Input.TextArea spellcheck placeholder="Testimony" />
                     </Form.Item>
                   </Col>
                   <Col flex="none" className="edit-home-textbox-main">
@@ -396,7 +396,7 @@ const EditHome = (): React$Element<any> => {
                       fieldKey={[field.fieldKey, 'name']}
                       rules={rules}
                     >
-                      <Input placeholder="Name" />
+                      <Input spellcheck placeholder="Name" />
                     </Form.Item>
                   </Col>
                   <Col>

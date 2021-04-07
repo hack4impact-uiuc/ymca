@@ -81,7 +81,13 @@ const InternalNotesForm = Form.create({ name: 'internalNotes' })(
                 whitespace: true,
               },
             ],
-          })(<Input placeholder="Subject" defaultValue={editNote?.subject} />)}
+          })(
+            <Input
+              spellcheck
+              placeholder="Subject"
+              defaultValue={editNote?.subject}
+            />,
+          )}
         </Form.Item>
         <Form.Item>
           {getFieldDecorator('body', {
@@ -94,6 +100,7 @@ const InternalNotesForm = Form.create({ name: 'internalNotes' })(
             ],
           })(
             <TextArea
+              spellcheck
               autoSize
               placeholder="Ex: Cases that deal with the courts 
             = NAWC does not accept.

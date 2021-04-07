@@ -9,6 +9,7 @@ import { filterMessages } from '../utils/messages';
 import '../css/ResourcePreview.css';
 import { saveResource, deleteSavedResource } from '../utils/auth';
 import determineStockPhoto from '../utils/determineStockPhoto';
+import languageConversion from '../utils/languages';
 
 import SaveButton from './SaveButton';
 
@@ -69,7 +70,7 @@ function ResourcePreview(props: Props) {
   }
   let languages = '';
   availableLanguages.forEach((language) => {
-    languages += `${language}, `;
+    languages += `${languageConversion[language]}, `;
   });
   if (languages !== '') {
     languages = languages.slice(0, languages.length - 2);
