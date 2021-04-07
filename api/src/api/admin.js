@@ -5,12 +5,10 @@ const Category = require('../models/category');
 const Resource = require('../models/resource');
 const HomePage = require('../models/homepage');
 const Translation = require('../models/translation');
-
-const languageTypes = {
-  es: 'Spanish',
-  fr: 'French',
-  zh: 'Chinese',
-};
+const {
+  deleteTranslatedText,
+  translateAndSaveText,
+} = require('../utils/translate');
 
 const imageHelper = async (image) => {
   const imageResponse = await fetch('https://api.imgur.com/3/image', {
@@ -31,34 +29,6 @@ const imageHelper = async (image) => {
   }
   return null;
 };
-
-// translate text for each language type and store in db
-async function translateAndSaveText(description, id) {
-  const apiKey = process.env.GOOGLE_KEY;
-  Object.keys(languageTypes).forEach(async function (key) {
-    var translationKey = '';
-    var translationValue = '';
-    var source =
-      `https://www.googleapis.com/language/translate/v2?key=${apiKey}&source=en&target=${key}&callback=translateText&q=` +
-      description;
-
-    source = encodeURI(source);
-    const res = await fetch(source, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    const responseJSON = await res.json();
-    translationKey = `resource-description-${id}`;
-    translationValue = responseJSON.data.translations[0].translatedText;
-    const updatedTranslation = await Translation.findOne({
-      language: { $eq: languageTypes[key] },
-    });
-    updatedTranslation.messages.set(translationKey, translationValue);
-    await updatedTranslation.save();
-  });
-}
 
 // create image
 router.post(
@@ -133,10 +103,27 @@ router.post(
         req.body.image = link;
       }
     }
+
     const newResource = new Resource(req.body);
     await newResource.save();
-    // translate resource description and save in mongodb
-    await translateAndSaveText(req.body.description, newResource.id);
+
+    // translate resource fields and save in mongodb
+    const {
+      description,
+      phoneNumbers,
+      financialAidDetails,
+      eligibilityRequirements,
+      requiredDocuments,
+    } = newResource;
+    await translateAndSaveText(
+      description,
+      phoneNumbers,
+      financialAidDetails,
+      eligibilityRequirements,
+      requiredDocuments,
+      newResource.id,
+    );
+
     res.status(201).json({
       code: 201,
       message: `Successfully created new resource ${newResource.id}`,
@@ -191,8 +178,24 @@ router.put(
       new: true,
       runValidators: true,
     });
-    // translate resource description and save in mongodb
-    await translateAndSaveText(req.body.description, id);
+
+    // translate resource text and save in mongodb
+    const {
+      description,
+      phoneNumbers,
+      financialAidDetails,
+      eligibilityRequirements,
+      requiredDocuments,
+    } = updatedResource;
+    await translateAndSaveText(
+      description,
+      phoneNumbers,
+      financialAidDetails,
+      eligibilityRequirements,
+      requiredDocuments,
+      id,
+    );
+
     res.json({
       code: 200,
       message: `Successfully updated resource ${id}`,
@@ -207,7 +210,22 @@ router.delete(
   '/resources/:id',
   errorWrap(async (req, res) => {
     const { id } = req.params;
-    await Resource.findByIdAndDelete(id);
+    const {
+      description,
+      phoneNumbers,
+      financialAidDetails,
+      eligibilityRequirements,
+      requiredDocuments,
+    } = await Resource.findByIdAndDelete(id);
+    await deleteTranslatedText(
+      description,
+      phoneNumbers,
+      financialAidDetails,
+      eligibilityRequirements,
+      requiredDocuments,
+      id,
+    );
+
     res.json({
       code: 200,
       message: `Successfully deleted resource ${id}`,
@@ -353,10 +371,16 @@ router.delete(
       },
     );
 
+    // Removes subcategory, set one matching category to null
+    // Then, remove that null. Workaround to remove only one matching category
     await Resource.updateMany(
       { category: req.body.category, subcategory: req.body.subcategory },
-      { $pull: { subcategory: req.body.subcategory } },
+      {
+        $pull: { subcategory: req.body.subcategory },
+        $unset: { 'category.$': true },
+      },
     );
+    await Resource.updateMany({}, { $pull: { category: null } });
 
     res.json({
       code: 200,

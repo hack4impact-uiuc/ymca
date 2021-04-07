@@ -7,6 +7,7 @@ import { useIntl, FormattedMessage } from 'react-intl';
 
 import { filterMessages } from '../../utils/messages';
 import ResourceFilterSearch from '../ResourceFilterSearch';
+import languageConversion from '../../utils/languages';
 
 import '../../css/ResourcesFilter.css';
 
@@ -90,7 +91,9 @@ function ResourcesFilter(props: Props): React$Element<'div'> {
         >
           {filterOptions.map((option) => (
             <Radio className="radio-filter" key={option} value={option}>
-              {option}
+              {Object.keys(languageConversion).includes(option)
+                ? languageConversion[option]
+                : option}
             </Radio>
           ))}
         </Radio.Group>

@@ -129,6 +129,7 @@ const ResourceManager = () => {
       description: string,
       categories: Array<string>,
       subcategories: Array<string>,
+      categoryPairs: Array<string>,
       id: string,
     }>,
   >([]);
@@ -151,11 +152,15 @@ const ResourceManager = () => {
     const newResources = [];
     if (res != null) {
       res.result.totalData.forEach((r) => {
+        const pairs = r.subcategory.map(
+          (subcat, idx) => `${r.category[idx]}~${subcat}`,
+        );
         newResources.push({
           name: r.name,
           description: r.description,
-          categories: [...new Set(r.category)],
-          subcategories: [...new Set(r.subcategory)],
+          categories: r.category,
+          subcategories: r.subcategory,
+          categoryPairs: pairs,
           id: r._id.toString(),
         });
       });
@@ -203,6 +208,7 @@ const ResourceManager = () => {
           selectedCategory={selectedCategory}
           selectedSubcategory={selectedSubcategory}
           resources={resources}
+          updateView={updateView}
         />
       </div>
     </div>
