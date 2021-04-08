@@ -151,7 +151,7 @@ const ResourceManager = () => {
     const res = await getResources();
     const newResources = [];
     if (res != null) {
-      res.result.forEach((r) => {
+      res.result.totalData.forEach((r) => {
         const pairs = r.subcategory.map(
           (subcat, idx) => `${r.category[idx]}~${subcat}`,
         );
