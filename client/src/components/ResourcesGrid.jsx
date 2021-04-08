@@ -1,12 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { List } from 'antd';
+import { List, Pagination } from 'antd';
 
 import ResourcePreview from './ResourcePreview';
 import '../css/ResourcesGrid.css';
 
 function ResourcesGrid(props) {
-  const { filteredResources, savedResources, updateSaved } = props;
+  const {
+    filteredResources,
+    savedResources,
+    updateSaved,
+    resourceCount,
+  } = props;
   const cards = (
     <List
       grid={{
@@ -19,6 +24,7 @@ function ResourcesGrid(props) {
         xxl: 3,
       }}
       dataSource={filteredResources}
+      pagination={<Pagination defaultCurrent={1} total={resourceCount} />}
       renderItem={(resource) => (
         <List.Item>
           <ResourcePreview

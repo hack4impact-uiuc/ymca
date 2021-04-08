@@ -110,6 +110,7 @@ router.get(
         {
           $facet: {
             totalData: [addFields, { $match: query }, { $sort: orderBy }],
+            totalCount: [{ $count: 'resourceCount' }],
           },
         },
       ];
@@ -124,7 +125,7 @@ router.get(
               { $limit: size },
               { $skip: size * (page - 1) },
             ],
-            totalCount: [{ $count: 'number of resources' }],
+            totalCount: [{ $count: 'resourceCount' }],
           },
         },
       ];

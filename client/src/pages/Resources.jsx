@@ -57,7 +57,7 @@ function Resources({
   const [subcategory, setSubcategory] = useState('');
   const [sort, setSort] = useState(nameTranslated);
   const [loading, setLoading] = useState(false);
-
+  const [resourceCount, setResourceCount] = useState(0);
   const [openKeys, setOpenKeys] = useState<Array<string>>([]);
   const [categories, setCategories] = useState<{ [string]: Array<string> }>({});
   const [filteredResources, setFilteredResources] = useState<Array<Resource>>(
@@ -164,6 +164,12 @@ function Resources({
     setFilteredResources(
       newResources == null ? [] : newResources.result.totalData,
     );
+    setResourceCount(
+      newResources == null
+        ? []
+        : newResources.result.totalCount[0].resourceCount,
+    );
+
     setSubcategory(subcategorySelected);
 
     setLoading(false);
@@ -307,6 +313,7 @@ function Resources({
             filteredResources={filteredResources}
             savedResources={savedSet}
             updateSaved={updateSaved}
+            resourceCount={resourceCount}
           />
         )}
       </Layout>
