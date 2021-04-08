@@ -43,7 +43,7 @@ const ResourceFilterSearch = (): React$Element<any> => {
           const subcategoriesSet = new Set();
           const categoriesObj = {};
 
-          Object.values(res.result).forEach((resource) => {
+          Object.values(res.result.totalData).forEach((resource) => {
             newOptions.push(
               <Option key={resource._id} label={resource.name}>
                 {resource.name}
