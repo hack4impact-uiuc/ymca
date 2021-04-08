@@ -33,7 +33,6 @@ const addFields = {
 router.get(
   '/',
   errorWrap(async (req, res) => {
-    // add page and size
     const {
       category,
       subcategory,
