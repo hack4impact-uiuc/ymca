@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { List, Pagination } from 'antd';
+import { List } from 'antd';
 
 import ResourcePreview from './ResourcePreview';
 import '../css/ResourcesGrid.css';
@@ -24,7 +24,11 @@ function ResourcesGrid(props) {
         xxl: 3,
       }}
       dataSource={filteredResources}
-      pagination={<Pagination defaultCurrent={1} total={resourceCount} />}
+      pagination={{
+        pageSizeOptions: ['10', '20', '30', '50'],
+        showSizeChanger: true,
+        total: resourceCount,
+      }}
       renderItem={(resource) => (
         <List.Item>
           <ResourcePreview
