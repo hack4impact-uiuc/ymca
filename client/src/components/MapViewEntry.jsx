@@ -4,30 +4,36 @@ import React from 'react';
 import { Divider, Row, Col } from 'antd';
 import { CaretRightFilled } from '@ant-design/icons';
 
+import '../css/MapViewEntry.css';
+
+type Props = {
+  selected: string,
+};
+
 const MapViewEntry = (props: Props) => {
   const { selected } = props;
   const color = selected ? '#1890FF' : '#D9D9D9';
 
   return (
     <>
-      <Row style={{ width: 300 }} align="middle">
+      <Row className="entry">
         <Col span={16}>
           <Row>
             <b>Crisis Nursery</b>
           </Row>
-          <Row justify="space-between">
+          <Row className="row">
             <Col>Urbana</Col>
-            <Col>•</Col>
-            <Col>1309 West Hill Street</Col>
+            <Col className="second">•</Col>
+            <Col className="third">1309 West Hill Street</Col>
           </Row>
-          <Row justify="space-between">
+          <Row>
             <Col>$</Col>
-            <Col>•</Col>
-            <Col>English, Spanish, French, Chinese</Col>
+            <Col className="second">•</Col>
+            <Col className="third">English, Spanish, French, Chinese</Col>
           </Row>
         </Col>
         <Col span={2}>
-          <Divider type="vertical" style={{ height: 60 }} />
+          <Divider type="vertical" className="bar" />
         </Col>
         <Col span={2}>
           <Row>
@@ -41,18 +47,10 @@ const MapViewEntry = (props: Props) => {
           span={1}
           style={{
             backgroundColor: color,
-            borderTopRightRadius: 5,
-            borderBottomRightRadius: 5,
-            height: 60,
           }}
+          className="arrow"
         >
-          <CaretRightFilled
-            style={{
-              color: 'white',
-              position: 'relative',
-              top: 20,
-            }}
-          />
+          <CaretRightFilled className="caret" />
         </Col>
       </Row>
     </>
