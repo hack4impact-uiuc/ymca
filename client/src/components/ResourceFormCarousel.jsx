@@ -117,6 +117,7 @@ const FormCarousel = React.forwardRef((props: CarouselProps, ref) => {
                 ],
               })(
                 <Input
+                  spellcheck
                   placeholder="Resource Name"
                   onFocus={() => setTotalSubmitEnabled(true)}
                 />,
@@ -138,6 +139,7 @@ const FormCarousel = React.forwardRef((props: CarouselProps, ref) => {
                 ],
               })(
                 <TextArea
+                  spellcheck
                   rows={4}
                   placeholder="Description"
                   onFocus={() => setTotalSubmitEnabled(true)}
@@ -155,6 +157,7 @@ const FormCarousel = React.forwardRef((props: CarouselProps, ref) => {
                 {},
               )(
                 <Input
+                  spellcheck
                   placeholder="Address"
                   onFocus={() => setTotalSubmitEnabled(true)}
                 />,
@@ -173,6 +176,7 @@ const FormCarousel = React.forwardRef((props: CarouselProps, ref) => {
                     {},
                   )(
                     <Input
+                      spellcheck
                       placeholder="Address 2"
                       onFocus={() => setTotalSubmitEnabled(true)}
                     />,
@@ -191,6 +195,7 @@ const FormCarousel = React.forwardRef((props: CarouselProps, ref) => {
                     {},
                   )(
                     <Input
+                      spellcheck
                       placeholder=""
                       onFocus={() => setTotalSubmitEnabled(true)}
                     />,
@@ -211,6 +216,7 @@ const FormCarousel = React.forwardRef((props: CarouselProps, ref) => {
                     {},
                   )(
                     <Input
+                      spellcheck
                       placeholder="City"
                       onFocus={() => setTotalSubmitEnabled(true)}
                     />,
@@ -229,6 +235,7 @@ const FormCarousel = React.forwardRef((props: CarouselProps, ref) => {
                     {},
                   )(
                     <Input
+                      spellcheck
                       placeholder="State"
                       onFocus={() => setTotalSubmitEnabled(true)}
                     />,
@@ -395,6 +402,7 @@ const FormCarousel = React.forwardRef((props: CarouselProps, ref) => {
                 {},
               )(
                 <Input
+                  spellcheck
                   placeholder="Visa or receipt letter"
                   onFocus={() => setTotalSubmitEnabled(true)}
                 />,

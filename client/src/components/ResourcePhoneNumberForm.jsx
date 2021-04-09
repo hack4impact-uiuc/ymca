@@ -63,6 +63,7 @@ const PhoneNumberForm = Form.create({ name: 'phoneNumber' })((props) => {
           ],
         })(
           <Input
+            spellcheck
             placeholder="Phone Type (i.e. Mobile, Home, etc.)"
             onFocus={() => setTotalSubmitEnabled(false)}
             onBlur={() => setTotalSubmitEnabled(true)}

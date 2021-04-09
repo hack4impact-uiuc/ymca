@@ -33,8 +33,16 @@ const addFields = {
 router.get(
   '/',
   errorWrap(async (req, res) => {
-    const { category, subcategory, cost, language, city, sort } = req.query;
-
+    const {
+      category,
+      subcategory,
+      cost,
+      language,
+      city,
+      sort,
+      size,
+      page,
+    } = req.query;
     let query = {};
     if (category != null && category !== '' && category !== 'All Resources') {
       query = { category: category };
@@ -88,18 +96,45 @@ router.get(
         orderBy = { name: 1 };
       }
     }
-    const aggregation =
-      orderBy === null
-        ? [addFields, { $match: query }]
-        : [addFields, { $match: query }, { $sort: orderBy }];
-
+    let aggregation = [];
+    if (orderBy === null) {
+      aggregation = [
+        {
+          $facet: {
+            totalData: [addFields, { $match: query }],
+          },
+        },
+      ];
+    } else if (page == null || size == null) {
+      aggregation = [
+        {
+          $facet: {
+            totalData: [addFields, { $match: query }, { $sort: orderBy }],
+          },
+        },
+      ];
+    } else {
+      aggregation = [
+        {
+          $facet: {
+            totalData: [
+              addFields,
+              { $match: query },
+              { $sort: orderBy },
+              { $limit: size },
+              { $skip: size * (page - 1) },
+            ],
+            totalCount: [{ $count: 'number of resources' }],
+          },
+        },
+      ];
+    }
     const resources = await Resource.aggregate(aggregation);
-
     res.json({
       code: 200,
       message: '',
       success: true,
-      result: resources,
+      result: resources[0],
     });
   }),
 );

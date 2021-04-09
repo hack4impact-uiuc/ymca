@@ -7,7 +7,6 @@ import Loader from 'react-loader-spinner';
 import { useIntl } from 'react-intl';
 
 import { filterMessages } from '../utils/messages';
-import type { Resource } from '../types/models';
 
 import { getCategories, getResourcesByCategory } from '../utils/api';
 import { getSavedResources } from '../utils/auth';
@@ -134,7 +133,7 @@ function Resources({
     ] = getCategorySelectedFromSearch();
 
     setLoading(true);
-
+    // TODO: size and page
     const newResources = await getResourcesByCategory(
       categorySelected,
       subcategorySelected,
@@ -152,15 +151,19 @@ function Resources({
     }
 
     if (saved) {
-      newResources.result = newResources.result.filter((newResource) =>
-        localSavedSet.has(newResource._id),
+      newResources.result.totalData = newResources.result.totalData.filter(
+        (newResource) => localSavedSet.has(newResource._id),
       );
     }
 
     setCategory(categorySelected);
-    setFilteredResources(newResources == null ? [] : newResources.result);
+    setFilteredResources(
+      newResources == null ? [] : newResources.result.totalData,
+    );
     setOpenKeys([categorySelected]);
-    setFilteredResources(newResources == null ? [] : newResources.result);
+    setFilteredResources(
+      newResources == null ? [] : newResources.result.totalData,
+    );
     setSubcategory(subcategorySelected);
 
     setLoading(false);

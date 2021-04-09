@@ -1,6 +1,6 @@
 // @flow
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useMemo, useState, useEffect, useCallback } from 'react';
 import { Redirect } from 'react-router-dom';
 import {
   DollarCircleFilled,
@@ -27,6 +27,7 @@ import determineStockPhoto from '../../utils/determineStockPhoto';
 import '../../css/ResourceDetailMobile.css';
 import { useAuth } from '../../utils/use-auth';
 import { detailMessages, filterMessages } from '../../utils/messages';
+import languageConversion from '../../utils/languages';
 
 type Props = {
   match: {
@@ -251,6 +252,17 @@ const ResourceDetailMobile = (props: Props) => {
     );
   }, [hours]);
 
+  const translatedRequiredDocuments = useMemo(
+    () =>
+      requiredDocuments?.map((requiredDocument, idx) =>
+        intl.formatMessage({
+          id: `resource-requiredDoc-${match.params.id}-${idx}`,
+          defaultMessage: requiredDocument,
+        }),
+      ),
+    [match.params.id, requiredDocuments, intl],
+  );
+
   if (!resourceExists) {
     return <Redirect to="/resources/unknown" />;
   }
@@ -303,7 +315,10 @@ const ResourceDetailMobile = (props: Props) => {
                 {eligibility &&
                   `${intl.formatMessage(
                     detailMessages.eligibility,
-                  )}: ${eligibility}`}
+                  )}: ${intl.formatMessage({
+                    id: `resource-eligibilityRequirements-${match.params.id}`,
+                    defaultMessage: eligibility,
+                  })}`}
               </Row>
             </Col>
           </Row>
@@ -319,10 +334,10 @@ const ResourceDetailMobile = (props: Props) => {
               phone && phone.length > 0
                 ? phone.map(
                     (entry) =>
-                      `${
-                        entry.phoneType.charAt(0).toUpperCase() +
-                        entry.phoneType.slice(1)
-                      }: ${entry.phoneNumber}`,
+                      `${intl.formatMessage({
+                        id: `resource-phoneType-${entry._id}`,
+                        defaultMessage: entry.phoneType,
+                      })}: ${entry.phoneNumber}`,
                   )
                 : [intl.formatMessage(detailMessages.noPhoneNumber)],
               [
@@ -338,7 +353,7 @@ const ResourceDetailMobile = (props: Props) => {
             icon={<WechatFilled className="mb-rd-icon" />}
             content={[
               languages && languages.length > 0
-                ? languages.join(', ')
+                ? languages.map((l) => languageConversion[l]).join(', ')
                 : intl.formatMessage(detailMessages.noneProvided),
             ]}
           />
@@ -355,7 +370,7 @@ const ResourceDetailMobile = (props: Props) => {
             title={intl.formatMessage(detailMessages.requiredDoc)}
             icon={<FolderOpenFilled className="mb-rd-icon" />}
             content={[
-              (requiredDocuments && requiredDocuments.join(', ')) ||
+              (requiredDocuments && translatedRequiredDocuments.join(', ')) ||
                 intl.formatMessage(detailMessages.noneProvided),
             ]}
           />
@@ -385,7 +400,15 @@ const ResourceDetailMobile = (props: Props) => {
                       <div className="rd-mb-financial-aid-subtitle">
                         <FormattedMessage {...detailMessages.education} />:
                       </div>
-                      {financialAidDetails.education || (
+                      {financialAidDetails.education ? (
+                        <FormattedMessage
+                          id={
+                            'resource-financialAid-education-' +
+                            `${financialAidDetails._id}`
+                          }
+                          defaultMessage={financialAidDetails.education}
+                        />
+                      ) : (
                         <FormattedMessage {...detailMessages.noneProvided} />
                       )}
                     </Col>
@@ -396,7 +419,15 @@ const ResourceDetailMobile = (props: Props) => {
                         />
                         :
                       </div>
-                      {financialAidDetails.immigrationStatus || (
+                      {financialAidDetails.immigrationStatus ? (
+                        <FormattedMessage
+                          id={
+                            'resource-financialAid-immigrationStatus-' +
+                            `${financialAidDetails._id}`
+                          }
+                          defaultMessage={financialAidDetails.education}
+                        />
+                      ) : (
                         <FormattedMessage {...detailMessages.noneProvided} />
                       )}
                     </Col>
@@ -409,7 +440,15 @@ const ResourceDetailMobile = (props: Props) => {
                       <div className="rd-mb-financial-aid-subtitle">
                         <FormattedMessage {...detailMessages.deadline} />:
                       </div>
-                      {financialAidDetails.deadline || (
+                      {financialAidDetails.deadline ? (
+                        <FormattedMessage
+                          id={
+                            'resource-financialAid-deadline-' +
+                            `${financialAidDetails._id}`
+                          }
+                          defaultMessage={financialAidDetails.education}
+                        />
+                      ) : (
                         <FormattedMessage {...detailMessages.noneProvided} />
                       )}
                     </Col>
@@ -417,7 +456,15 @@ const ResourceDetailMobile = (props: Props) => {
                       <div className="rd-mb-financial-aid-subtitle">
                         <FormattedMessage {...detailMessages.amount} />:
                       </div>
-                      {financialAidDetails.amount || (
+                      {financialAidDetails.amount ? (
+                        <FormattedMessage
+                          id={
+                            'resource-financialAid-amount-' +
+                            `${financialAidDetails._id}`
+                          }
+                          defaultMessage={financialAidDetails.education}
+                        />
+                      ) : (
                         <FormattedMessage {...detailMessages.noneProvided} />
                       )}
                     </Col>

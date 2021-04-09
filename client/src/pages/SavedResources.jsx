@@ -31,7 +31,7 @@ function SavedResources() {
       setSavedSet(localSavedSet);
     }
 
-    newResources.result = newResources.result.filter((newResource) =>
+    newResources.result = newResources.result.totalData.filter((newResource) =>
       localSavedSet.has(newResource._id),
     );
 
