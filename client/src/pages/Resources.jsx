@@ -161,9 +161,6 @@ function Resources({
       newResources == null ? [] : newResources.result.totalData,
     );
     setOpenKeys([categorySelected]);
-    setFilteredResources(
-      newResources == null ? [] : newResources.result.totalData,
-    );
     setSubcategory(subcategorySelected);
 
     setLoading(false);
