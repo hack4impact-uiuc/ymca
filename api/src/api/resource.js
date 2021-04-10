@@ -29,6 +29,22 @@ const addFields = {
   },
 };
 
+const getGeoNear = (long, lat) => {
+  return {
+    $geoNear: {
+      near: {
+        $geometry: {
+          type: 'Point',
+          coordinates: [parseFloat(long), parseFloat(lat)],
+        },
+      },
+      distanceField: 'calculatedDistance',
+      spherical: true,
+      distanceMultiplier: 0.000621371,
+    },
+  };
+};
+
 // Get all resources (with query params)
 router.get(
   '/',
@@ -42,6 +58,8 @@ router.get(
       sort,
       size,
       page,
+      long,
+      lat,
     } = req.query;
     let query = {};
     if (category != null && category !== '' && category !== 'All Resources') {
@@ -98,43 +116,74 @@ router.get(
     }
     let aggregation = [];
     if (orderBy === null) {
-      aggregation = [
-        {
-          $facet: {
-            totalData: [addFields, { $match: query }],
+      if (long == null || lat == null) {
+        aggregation = [
+          {
+            $facet: {
+              totalData: [addFields, { $match: query }],
+            },
           },
-        },
-      ];
+        ];
+      } else {
+        aggregation = [
+          {
+            $facet: {
+              totalData: [addFields, { $match: query }, getGeoNear(long, lat)],
+            },
+          },
+        ];
+      }
     } else if (page == null || size == null) {
-      aggregation = [
-        {
-          $facet: {
-            totalData: [addFields, { $match: query }, { $sort: orderBy }],
+      if (long == null || lat == null) {
+        aggregation = [
+          {
+            $facet: {
+              totalData: [addFields, { $match: query }, { $sort: orderBy }],
+            },
           },
-        },
-      ];
+        ];
+      } else {
+        aggregation = [
+          getGeoNear(long, lat),
+          addFields,
+          { $match: query },
+          { $group: { _id: null, count: { $sum: 1 } } },
+        ];
+      }
     } else {
-      aggregation = [
-        {
-          $facet: {
-            totalData: [
-              addFields,
-              { $match: query },
-              { $sort: orderBy },
-              { $limit: size },
-              { $skip: size * (page - 1) },
-            ],
-            totalCount: [{ $count: 'number of resources' }],
+      if (long == null || lat == null) {
+        aggregation = [
+          {
+            $facet: {
+              totalData: [
+                addFields,
+                { $match: query },
+                { $sort: orderBy },
+                { $limit: size },
+                { $skip: size * (page - 1) },
+              ],
+              totalCount: [{ $count: 'number of resources' }],
+            },
           },
-        },
-      ];
+        ];
+      } else {
+        aggregation = [
+          getGeoNear(long, lat),
+          addFields,
+          { $match: query },
+          { $limit: size },
+          { $skip: size * (page - 1) },
+          { $group: { _id: null, count: { $sum: 1 } } },
+        ];
+      }
     }
+
     const resources = await Resource.aggregate(aggregation);
     res.json({
       code: 200,
       message: '',
       success: true,
-      result: resources[0],
+      result: resources,
     });
   }),
 );
