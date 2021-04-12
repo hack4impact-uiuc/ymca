@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { errorWrap } = require('../middleware');
 const Resource = require('../models/resource');
+const extractLongLat = require('../utils/extractLongLat');
 
 const addFields = {
   $addFields: {
@@ -43,23 +44,6 @@ const getGeoNear = (long, lat) => {
       distanceMultiplier: 0.000621371,
     },
   };
-};
-
-// Address,city,state,zip
-const extractLongLat = async (location) => {
-  if (location != null) {
-    const apiLatLong =
-      `https://www.mapquestapi.com/geocoding/v1/address?key=` +
-      `${process.env.MAPBOX_KEY}&maxResults=5&location=${location}`;
-    const response = await fetch(apiLatLong, {});
-
-    const responseJson = await response.json();
-    if (responseJson.info.statuscode === 0) {
-      const { latLng } = responseJson.results[0].locations[0];
-      return [latLng.lng, latLng.lat];
-    }
-  }
-  return [null, null];
 };
 
 // Get all resources (with query params)
@@ -132,7 +116,6 @@ router.get(
     }
 
     const [long, lat] = await extractLongLat(location);
-    console.log(long, lat);
     let aggregation = [];
     if (long == null || lat == null) {
       if (orderBy === null) {
@@ -171,12 +154,19 @@ router.get(
       aggregation = [getGeoNear(long, lat), addFields, { $match: query }];
     }
 
-    const resources = await Resource.aggregate(aggregation);
+    let resources = await Resource.aggregate(aggregation);
+    // is this a geo aggregate?
+    if (!('totalData' in resources[0])) {
+      const resourcesList = resources;
+      resources = [];
+      resources[0] = { totalData: resourcesList };
+    }
+
     res.json({
       code: 200,
       message: '',
       success: true,
-      result: resources,
+      result: resources[0],
     });
   }),
 );
@@ -196,28 +186,6 @@ router.get(
         success: false,
         result: null,
       });
-    }
-
-    if (requireLatLong) {
-      const apiLatLong =
-        resource.address.length > 0 ||
-        resource.city.length > 0 ||
-        resource.state.length > 0 ||
-        resource.zip.length > 0
-          ? `https://www.mapquestapi.com/geocoding/v1/address?key=` +
-            `${process.env.MAPBOX_KEY}&maxResults=5&location=${resource.address},${resource.city},${resource.state},${resource.zip}`
-          : `https://www.mapquestapi.com/geocoding/v1/address?key=` +
-            `${process.env.MAPBOX_KEY}&maxResults=5&location=`;
-      const response = await fetch(apiLatLong, {});
-
-      const responseJson = await response.json();
-
-      if (responseJson.info.statuscode === 0) {
-        resource = {
-          ...resource._doc,
-          ...responseJson.results[0].locations[0].latLng,
-        };
-      }
     }
 
     res.json({

@@ -60,6 +60,7 @@ export type Resource = {
   requiredDocuments?: Array<string>,
   internalNotes?: Array<InternalNote>,
   image?: string,
+  geoLocation?: { type: 'Point', coordinates: [number, number] },
   _id: string,
 };
 
