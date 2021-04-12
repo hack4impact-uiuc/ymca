@@ -140,6 +140,11 @@ const App = (): React$Element<React$FragmentType> => {
                 exact
                 minRole="admin"
               />
+              <PrivateRoute
+                path="/translations/:id"
+                component={Translations}
+                minRole="admin"
+              />
               <Route
                 path="/saved"
                 render={(props) => <SavedResources {...props} />}
