@@ -45,6 +45,23 @@ const getGeoNear = (long, lat) => {
   };
 };
 
+// Address,city,state,zip
+const extractLongLat = async (location) => {
+  if (location != null) {
+    const apiLatLong =
+      `https://www.mapquestapi.com/geocoding/v1/address?key=` +
+      `${process.env.MAPBOX_KEY}&maxResults=5&location=${location}`;
+    const response = await fetch(apiLatLong, {});
+
+    const responseJson = await response.json();
+    if (responseJson.info.statuscode === 0) {
+      const { latLng } = responseJson.results[0].locations[0];
+      return [latLng.lng, latLng.lat];
+    }
+  }
+  return [null, null];
+};
+
 // Get all resources (with query params)
 router.get(
   '/',
@@ -58,8 +75,7 @@ router.get(
       sort,
       size,
       page,
-      long,
-      lat,
+      location,
     } = req.query;
     let query = {};
     if (category != null && category !== '' && category !== 'All Resources') {
@@ -114,9 +130,12 @@ router.get(
         orderBy = { name: 1 };
       }
     }
+
+    const [long, lat] = await extractLongLat(location);
+    console.log(long, lat);
     let aggregation = [];
-    if (orderBy === null) {
-      if (long == null || lat == null) {
+    if (long == null || lat == null) {
+      if (orderBy === null) {
         aggregation = [
           {
             $facet: {
@@ -124,17 +143,7 @@ router.get(
             },
           },
         ];
-      } else {
-        aggregation = [
-          {
-            $facet: {
-              totalData: [addFields, { $match: query }, getGeoNear(long, lat)],
-            },
-          },
-        ];
-      }
-    } else if (page == null || size == null) {
-      if (long == null || lat == null) {
+      } else if (page == null || size == null) {
         aggregation = [
           {
             $facet: {
@@ -143,15 +152,6 @@ router.get(
           },
         ];
       } else {
-        aggregation = [
-          getGeoNear(long, lat),
-          addFields,
-          { $match: query },
-          { $group: { _id: null, count: { $sum: 1 } } },
-        ];
-      }
-    } else {
-      if (long == null || lat == null) {
         aggregation = [
           {
             $facet: {
@@ -166,16 +166,9 @@ router.get(
             },
           },
         ];
-      } else {
-        aggregation = [
-          getGeoNear(long, lat),
-          addFields,
-          { $match: query },
-          { $limit: size },
-          { $skip: size * (page - 1) },
-          { $group: { _id: null, count: { $sum: 1 } } },
-        ];
       }
+    } else {
+      aggregation = [getGeoNear(long, lat), addFields, { $match: query }];
     }
 
     const resources = await Resource.aggregate(aggregation);
