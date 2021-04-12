@@ -280,7 +280,11 @@ function Resources({
           </Layout>
         </>
       ) : (
-        <Tabs defaultActiveKey="1" className="tabs">
+        <Tabs
+          defaultActiveKey="1"
+          className="tabs"
+          tabBarStyle={{ paddingLeft: '1.2em' }}
+        >
           <TabPane tab="Grid" key="1">
             <ResourcesFilter
               costs={costs}
