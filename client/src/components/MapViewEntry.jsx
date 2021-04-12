@@ -7,7 +7,7 @@ import { CaretRightFilled } from '@ant-design/icons';
 import '../css/MapViewEntry.css';
 
 type Props = {
-  selected: string,
+  selected: boolean,
 };
 
 const MapViewEntry = (props: Props) => {
