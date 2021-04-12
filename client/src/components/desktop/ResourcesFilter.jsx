@@ -2,7 +2,7 @@
 
 import React, { useCallback } from 'react';
 import { DownOutlined } from '@ant-design/icons';
-import { Button, Dropdown, Radio } from 'antd';
+import { Button, Dropdown, Radio, Tabs } from 'antd';
 import { useIntl, FormattedMessage } from 'react-intl';
 
 import { filterMessages } from '../../utils/messages';
@@ -10,6 +10,8 @@ import ResourceFilterSearch from '../ResourceFilterSearch';
 import languageConversion from '../../utils/languages';
 
 import '../../css/ResourcesFilter.css';
+
+const { TabPane } = Tabs;
 
 type Props = {
   costs: Array<string>,
@@ -24,6 +26,7 @@ type Props = {
   setLanguage: (string) => void,
   setLocation: (string) => void,
   setSort: (string) => void,
+  display: object,
 };
 
 function ResourcesFilter(props: Props): React$Element<'div'> {
@@ -40,6 +43,7 @@ function ResourcesFilter(props: Props): React$Element<'div'> {
     setLanguage,
     setLocation,
     setSort,
+    display,
   } = props;
   const intl = useIntl();
   const translatedCost = intl.formatMessage(filterMessages.cost);
@@ -102,8 +106,8 @@ function ResourcesFilter(props: Props): React$Element<'div'> {
     [onChange],
   );
 
-  return (
-    <div className="resources-filter">
+  const filter = (
+    <div>
       <Dropdown
         overlay={radio(translatedCost, costs, costSelected, false)}
         placement="bottomLeft"
@@ -156,6 +160,19 @@ function ResourcesFilter(props: Props): React$Element<'div'> {
           </button>
         </Dropdown>
       </div>
+    </div>
+  );
+
+  return (
+    <div className="resources-filter">
+      <Tabs tabBarExtraContent={filter} defaultActiveKey="2">
+        <TabPane tab="Map" key="1">
+          Map
+        </TabPane>
+        <TabPane tab="Grid" key="2">
+          {display}
+        </TabPane>
+      </Tabs>
     </div>
   );
 }
