@@ -1,0 +1,172 @@
+@import '~antd/dist/antd.css';
+
+.nav-desktop {
+  background: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  padding-top: 0.5em;
+}
+
+.nav-desktop .nav-desktop-logo {
+  background-color: #fff;
+  background-image: url('https://nawc-staging.vercel.app/asset/icon/logo192.png');
+  background-position: center;
+  background-size: cover;
+  float: left;
+  height: 32px;
+  margin-top: 0.5em;
+  width: 32px;
+}
+
+.nav-desktop .ant-menu {
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.65);
+  line-height: 50px;
+}
+
+.nav-desktop .ant-menu-horizontal {
+  border-bottom: none;
+  float: right;
+  margin-top: 6px;
+}
+
+.nav-desktop .ant-menu-horizontal > .ant-menu-item,
+.ant-menu-horizontal > .ant-menu-item:hover {
+  border-bottom: none;
+  font-weight: 400;
+}
+
+.ant-menu-horizontal > .ant-menu-item > a {
+  position: relative;
+  line-height: 28px;
+  bottom: 8px;
+}
+
+.ant-menu-horizontal > .ant-menu-item > a:hover {
+  color: rgba(0, 0, 0, 0.65);
+  text-decoration: none;
+}
+
+/* transition inspired by: https://codepen.io/sreisner/pen/yOOOjx */
+.ant-menu-horizontal > .ant-menu-item > a::before {
+  transition: 300ms;
+  border-bottom: 3px solid #6bdbd0;
+  width: 0%;
+  margin-bottom: -1px;
+  left: 50%;
+}
+
+.ant-menu-horizontal > .ant-menu-item > a:hover::before,
+a::after {
+  width: 100%;
+  left: 0%;
+}
+
+.ant-menu-horizontal > .ant-menu-item-selected > a {
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.ant-menu-horizontal > .ant-menu-item > .navbar-active-style {
+  font-weight: bold;
+}
+
+.ant-menu-horizontal > .ant-menu-item > .navbar-active-style::after {
+  position: absolute;
+  border-bottom: 3px solid #6bdbd0;
+  width: 100%;
+  content: '';
+  bottom: -3px;
+  text-align: center;
+}
+
+.languages {
+  position: relative;
+  line-height: 28px;
+  bottom: 7px;
+  right: 8px;
+  font-size: 16px;
+}
+
+.globe {
+  position: relative;
+  bottom: 8px;
+}
+.globe-mobile {
+  margin-right: 15px;
+}
+
+.ant-dropdown-link > .ant-menu-item > .navbar-active-style::after {
+  position: absolute;
+  border-bottom: 3px solid #6bdbd0;
+  width: 100%;
+  content: '';
+  bottom: -3px;
+  text-align: center;
+}
+
+.nav-mobile {
+  z-index: 30;
+  background: white;
+  width: 100%;
+  transition: top 0.25s;
+}
+
+.nav-mobile-topbar-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(235, 235, 235, 1);
+  height: 3.5em;
+  padding: 0.4em;
+}
+
+.nav-mobile-topbar-container .nav-mobile-logo {
+  background-image: url('https://nawc-staging.vercel.app/asset/icon/logo192.png');
+  background-position: center;
+  background-size: cover;
+  height: 1.7em;
+  width: 1.7em;
+  margin-left: 1em;
+  margin-top: 0.5em;
+}
+
+.nav-mobile-menu-btn-icon {
+  font-size: 1.9em;
+  color: gray;
+  margin-top: 0.25em;
+}
+
+.nav-mobile-menu {
+  padding-top: 1em;
+}
+
+.nav-mobile-menu-item {
+  background-color: white !important;
+}
+
+.nav-mobile-menu-item.ant-menu-item-selected {
+  font-weight: bold;
+}
+
+.ant-menu-inline .ant-menu-item::after {
+  border-right: 0px none white !important;
+}
+
+.nav-mobile-option {
+  margin-left: 2em;
+
+  color: #232323 !important;
+  transition: color 0.3s ease;
+  font-size: 1.2em !important;
+  text-align: left !important;
+}
+
+.nav-mobile-option:hover {
+  color: #000 !important;
+  text-decoration: none !important;
+}
+
+.switcher-mobile {
+  margin-right: 50px;
+}
