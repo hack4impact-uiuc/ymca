@@ -285,7 +285,7 @@ const ResourceDetailMobile = (props: Props) => {
   });
 
   /* SETUP END */
-  console.log('HUH', category);
+
   return (
     <div className="mb-rd-container">
       <Carousel className="mb-rd-carousel">
