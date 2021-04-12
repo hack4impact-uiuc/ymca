@@ -1,0 +1,37 @@
+.entry {
+  width: 300px;
+  align-items: center;
+}
+
+.row {
+  justify-content: left;
+  position: relative;
+  left: 15px;
+}
+
+.second {
+  position: relative;
+  left: 5px;
+}
+
+.third {
+  position: relative;
+  left: 10px;
+  text-overflow: ellipsis;
+}
+
+.bar {
+  height: 60px;
+}
+
+.arrow {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  height: 60px;
+}
+
+.caret {
+  color: #ffffff;
+  position: relative;
+  top: 20px;
+}
