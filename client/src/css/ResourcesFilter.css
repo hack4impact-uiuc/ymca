@@ -22,9 +22,7 @@ button {
 .resources-filter {
   background: #fff;
   border-bottom: 1px solid rgba(235, 235, 235, 1);
-  border-top: 1px solid rgba(235, 235, 235, 1);
-  /* padding-left: 220px; */
-  padding-top: 1em;
+  padding-left: 220px;
   padding-bottom: 1em;
   position: sticky;
   top: 4em;

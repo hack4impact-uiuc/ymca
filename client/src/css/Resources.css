@@ -94,3 +94,8 @@
   margin: 0;
   height: '1px';
 }
+
+.resources .tabs {
+  background: white;
+  padding-left: 1.2em;
+}
