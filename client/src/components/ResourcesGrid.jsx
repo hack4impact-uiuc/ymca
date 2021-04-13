@@ -11,23 +11,31 @@ function ResourcesGrid(props) {
     savedResources,
     updateSaved,
     resourceCount,
+    updatePagination,
+    pageSize,
+    page,
   } = props;
+  console.log(resourceCount);
   const cards = (
     <List
       grid={{
         gutter: [32, 16],
         xs: 1,
-        sm: 2,
-        md: 4,
-        lg: 4,
-        xl: 6,
+        sm: 3,
+        md: 3,
+        lg: 3,
+        xl: 3,
         xxl: 3,
       }}
       dataSource={filteredResources}
       pagination={{
-        pageSizeOptions: ['10', '20', '30', '50'],
+        pageSizeOptions: ['6', '15', '30'],
         showSizeChanger: true,
         total: resourceCount,
+        current: page,
+        pageSize,
+        onChange: updatePagination,
+        onShowSizeChange: (current, size) => updatePagination(1, size),
       }}
       renderItem={(resource) => (
         <List.Item>

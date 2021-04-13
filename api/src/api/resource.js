@@ -115,6 +115,8 @@ router.get(
         },
       ];
     } else {
+      console.log(size);
+      console.log(page);
       aggregation = [
         {
           $facet: {
@@ -122,10 +124,10 @@ router.get(
               addFields,
               { $match: query },
               { $sort: orderBy },
-              { $limit: size },
-              { $skip: size * (page - 1) },
+              { $skip: parseInt(size) * (parseInt(page) - 1) },
+              { $limit: parseInt(size) },
             ],
-            totalCount: [{ $count: 'resourceCount' }],
+            totalCount: [{ $match: query }, { $count: 'resourceCount' }],
           },
         },
       ];

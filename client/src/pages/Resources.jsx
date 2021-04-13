@@ -58,6 +58,8 @@ function Resources({
   const [sort, setSort] = useState(nameTranslated);
   const [loading, setLoading] = useState(false);
   const [resourceCount, setResourceCount] = useState(0);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(6);
   const [openKeys, setOpenKeys] = useState<Array<string>>([]);
   const [categories, setCategories] = useState<{ [string]: Array<string> }>({});
   const [filteredResources, setFilteredResources] = useState<Array<Resource>>(
@@ -141,6 +143,8 @@ function Resources({
       language,
       location,
       sort,
+      pageSize,
+      page,
     );
 
     let localSavedSet = new Set();
@@ -181,6 +185,8 @@ function Resources({
     sort,
     authed,
     saved,
+    page,
+    pageSize,
   ]);
 
   const updateSaved = updateResources;
@@ -188,6 +194,13 @@ function Resources({
   useEffect(() => {
     updateResources();
   }, [locationProp.search, saved, authed, updateResources]);
+
+  const updatePagination = useCallback((pageNumber, pageItems) => {
+    console.log(pageNumber);
+    console.log(pageItems);
+    setPage(parseInt(pageNumber, 10));
+    setPageSize(parseInt(pageItems, 10));
+  }, []);
 
   const categorySelectAll = useCallback(() => {
     history.push({
@@ -314,6 +327,9 @@ function Resources({
             savedResources={savedSet}
             updateSaved={updateSaved}
             resourceCount={resourceCount}
+            updatePagination={updatePagination}
+            pageSize={pageSize}
+            page={page}
           />
         )}
       </Layout>
