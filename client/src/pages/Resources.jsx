@@ -283,6 +283,7 @@ function Resources({
         <Tabs
           defaultActiveKey="1"
           className="tabs"
+          type="card"
           tabBarStyle={{ paddingLeft: '1.2em' }}
         >
           <TabPane tab="Grid" key="1">
