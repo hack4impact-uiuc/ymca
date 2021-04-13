@@ -11,7 +11,7 @@ type Props = {
 };
 
 const MapViewEntry = (props: Props) => {
-  const { selected } = props;
+  const { data, selected } = props;
   const color = selected ? '#1890FF' : '#D9D9D9';
 
   return (
@@ -19,7 +19,7 @@ const MapViewEntry = (props: Props) => {
       <Row className="entry">
         <Col span={16}>
           <Row>
-            <b>Crisis Nursery</b>
+            <b>{data.name}</b>
           </Row>
           <Row className="row">
             <Col>Urbana</Col>
@@ -37,7 +37,7 @@ const MapViewEntry = (props: Props) => {
         </Col>
         <Col span={2}>
           <Row>
-            <b>1.2</b>
+            <b>{data.distance}</b>
           </Row>
           <Row>
             <b>mi</b>
