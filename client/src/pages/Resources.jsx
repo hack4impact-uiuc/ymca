@@ -284,7 +284,7 @@ function Resources({
           defaultActiveKey="1"
           className="tabs"
           type="card"
-          tabBarStyle={{ paddingLeft: '1.2em' }}
+          tabBarStyle={{ paddingLeft: '1.2em', marginTop: '1.2em' }}
         >
           <TabPane tab="Grid" key="1">
             <ResourcesFilter
