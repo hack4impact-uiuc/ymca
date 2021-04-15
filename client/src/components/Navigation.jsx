@@ -74,6 +74,14 @@ const NavDesktop = (props: NavigationProps) => {
           </Menu.Item>
         )}
 
+        {authRoleIsEquivalentTo('admin') && (
+          <Menu.Item key="translations">
+            <NavLink to="/translations" activeClassName="navbar-active-style">
+              Translations
+            </NavLink>
+          </Menu.Item>
+        )}
+
         {!authed ? (
           <Menu.Item key="login">
             <NavLink to="/login" activeClassName="navbar-active-style">
@@ -197,6 +205,17 @@ const NavMobile = (props: NavigationProps) => {
                 </NavLink>
               </Menu.Item>
             )}
+            {authRoleIsEquivalentTo('admin') && (
+              <Menu.Item className="nav-mobile-menu-item">
+                <NavLink className="nav-mobile-option" exact to="/translations">
+                  <FormattedMessage
+                    id="translations"
+                    defaultMessage="Translations"
+                  />
+                </NavLink>
+              </Menu.Item>
+            )}
+
             {authed && (
               <Menu.Item className="nav-mobile-menu-item" onSelect>
                 <NavLink className="nav-mobile-option" to="/logout">
