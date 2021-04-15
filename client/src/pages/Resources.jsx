@@ -170,7 +170,7 @@ function Resources({
     );
     setResourceCount(
       newResources == null
-        ? []
+        ? 0
         : newResources.result.totalCount[0].resourceCount,
     );
 
