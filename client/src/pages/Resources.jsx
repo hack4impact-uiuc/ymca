@@ -333,7 +333,36 @@ function Resources({
             </Layout>
           </TabPane>
           <TabPane tab="Map" key="2">
-            Map
+            <ResourcesFilter
+              costs={costs}
+              costSelected={cost}
+              languages={languages}
+              languageSelected={language}
+              locations={locations}
+              locationSelected={location}
+              sorts={sorts}
+              sortSelected={sort}
+              setCost={setCost}
+              setLanguage={setLanguage}
+              setLocation={setLocation}
+              setSort={setSort}
+            />
+            <Layout style={{ background: 'white' }}>
+              <div>
+                <Sider className="filter-sider">
+                  <ResourceCategoryFilter
+                    category={category}
+                    categories={categories}
+                    categorySelectAll={categorySelectAll}
+                    onOpenChange={onOpenChange}
+                    openKeys={openKeys}
+                    subcategory={subcategory}
+                    subcategorySelect={subcategorySelect}
+                  />
+                </Sider>
+              </div>
+              Map
+            </Layout>
           </TabPane>
         </Tabs>
       )}
