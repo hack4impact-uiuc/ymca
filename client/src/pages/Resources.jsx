@@ -196,8 +196,6 @@ function Resources({
   }, [locationProp.search, saved, authed, updateResources]);
 
   const updatePagination = useCallback((pageNumber, pageItems) => {
-    console.log(pageNumber);
-    console.log(pageItems);
     setPage(parseInt(pageNumber, 10));
     setPageSize(parseInt(pageItems, 10));
   }, []);

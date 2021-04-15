@@ -115,8 +115,6 @@ router.get(
         },
       ];
     } else {
-      console.log(size);
-      console.log(page);
       aggregation = [
         {
           $facet: {

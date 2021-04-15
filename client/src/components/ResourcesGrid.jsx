@@ -15,7 +15,7 @@ function ResourcesGrid(props) {
     pageSize,
     page,
   } = props;
-  console.log(resourceCount);
+
   const cards = (
     <List
       grid={{
