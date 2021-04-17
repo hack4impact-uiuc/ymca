@@ -94,3 +94,7 @@
   margin: 0;
   height: '1px';
 }
+
+.resources .tabs {
+  background: white;
+}
