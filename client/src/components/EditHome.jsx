@@ -55,15 +55,17 @@ const EditHome = (): React$Element<any> => {
       const partnerFields = [];
       if (res != null) {
         setBackgroundImage(res.result.backgroundImage);
-        res.result.testimonials.forEach((t, i) => {
-          newTestimonials.push({
-            name: t[0],
-            image: t[1],
-            title: t[2],
-            testimony: t[3],
-          });
-          testimonialFields.push({ key: i, fieldKey: i, name: i });
-        });
+        res.result.testimonials.forEach(
+          ({ person, image, title, testimonial }, i) => {
+            newTestimonials.push({
+              name: person,
+              image,
+              title,
+              testimony: testimonial,
+            });
+            testimonialFields.push({ key: i, fieldKey: i, name: i });
+          },
+        );
         res.result.partners.forEach((t, i) => {
           newPartners.push({
             name: t[0],
@@ -119,19 +121,19 @@ const EditHome = (): React$Element<any> => {
     });
     const testimonialsCompressed = [];
     values.testimonials.forEach((element) => {
-      const slicedTestimonial = Array(4);
+      const slicedTestimonial = {};
       Object.keys(element).forEach((field) => {
         if (field === 'name') {
-          slicedTestimonial[0] = element[field];
+          slicedTestimonial.person = element[field];
         }
         if (field === 'image') {
-          slicedTestimonial[1] = element[field];
+          slicedTestimonial.image = element[field];
         }
         if (field === 'title') {
-          slicedTestimonial[2] = element[field];
+          slicedTestimonial.title = element[field];
         }
         if (field === 'testimony') {
-          slicedTestimonial[3] = element[field];
+          slicedTestimonial.testimonial = element[field];
         }
       });
       testimonialsCompressed.push(slicedTestimonial);
