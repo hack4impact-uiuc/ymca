@@ -5,7 +5,7 @@ import '../css/Resources.css';
 import Loader from 'react-loader-spinner';
 import { Redirect } from 'react-router-dom';
 
-import { getResourcesByCategory } from '../utils/api';
+import { getResources } from '../utils/api';
 import { getSavedResources } from '../utils/auth';
 import ResourcesBanner from '../components/ResourcesBanner';
 import ResourcesGrid from '../components/ResourcesGrid';
@@ -24,16 +24,7 @@ function SavedResources() {
   const updateSaved = useCallback(async () => {
     setLoading(true);
 
-    const newResources = await getResourcesByCategory(
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      pageSize,
-      page,
-    );
+    const newResources = await getResources();
 
     let localSavedSet = new Set();
     if (authed) {
@@ -55,7 +46,7 @@ function SavedResources() {
 
     setResources(newResources == null ? [] : newResources.result);
     setLoading(false);
-  }, [authed, page, pageSize]);
+  }, [authed]);
 
   useEffect(() => {
     updateSaved();
