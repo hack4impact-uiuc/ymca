@@ -5,7 +5,7 @@ import '../css/Resources.css';
 import Loader from 'react-loader-spinner';
 import { Redirect } from 'react-router-dom';
 
-import { getResources } from '../utils/api';
+import { getResourcesByCategory } from '../utils/api';
 import { getSavedResources } from '../utils/auth';
 import ResourcesBanner from '../components/ResourcesBanner';
 import ResourcesGrid from '../components/ResourcesGrid';
@@ -16,13 +16,24 @@ function SavedResources() {
 
   const [resources, setResources] = useState([]);
   const [savedSet, setSavedSet] = useState(new Set());
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(6);
 
   const { authed } = useAuth();
 
   const updateSaved = useCallback(async () => {
     setLoading(true);
 
-    const newResources = await getResources();
+    const newResources = await getResourcesByCategory(
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      pageSize,
+      page,
+    );
 
     let localSavedSet = new Set();
     if (authed) {
@@ -44,16 +55,20 @@ function SavedResources() {
 
     setResources(newResources == null ? [] : newResources.result);
     setLoading(false);
-  }, [authed]);
+  }, [authed, page, pageSize]);
 
   useEffect(() => {
     updateSaved();
   }, [authed, updateSaved]);
 
+  const updatePagination = useCallback((pageNumber, pageItems) => {
+    setPage(parseInt(pageNumber, 10));
+    setPageSize(parseInt(pageItems, 10));
+  }, []);
+
   if (authed === false) {
     return <Redirect to="/resources" />;
   }
-
   return (
     <Layout className="resources">
       <ResourcesBanner categorySelected="Saved Resources" />
@@ -76,6 +91,10 @@ function SavedResources() {
             filteredResources={resources}
             savedResources={savedSet}
             updateSaved={updateSaved}
+            resourceCount={resources.length}
+            updatePagination={updatePagination}
+            pageSize={pageSize}
+            page={page}
           />
         )}
       </Layout>
