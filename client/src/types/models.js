@@ -60,12 +60,20 @@ export type Resource = {
   requiredDocuments?: Array<string>,
   internalNotes?: Array<InternalNote>,
   image?: string,
+  geoLocation?: { type: 'Point', coordinates: [number, number] },
   _id: string,
+};
+export type Testimonial = {
+  _id?: string,
+  person: string,
+  image: string,
+  title: string,
+  testimonial: string,
 };
 
 export type HomePage = {
   backgroundImage: string,
-  testimonials: Array<Array<string>>,
+  testimonials: Array<Testimonial>,
   partners: Array<Array<string>>,
 };
 

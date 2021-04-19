@@ -16,6 +16,8 @@ function SavedResources() {
 
   const [resources, setResources] = useState([]);
   const [savedSet, setSavedSet] = useState(new Set());
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(6);
 
   const { authed } = useAuth();
 
@@ -50,10 +52,14 @@ function SavedResources() {
     updateSaved();
   }, [authed, updateSaved]);
 
+  const updatePagination = useCallback((pageNumber, pageItems) => {
+    setPage(parseInt(pageNumber, 10));
+    setPageSize(parseInt(pageItems, 10));
+  }, []);
+
   if (authed === false) {
     return <Redirect to="/resources" />;
   }
-
   return (
     <Layout className="resources">
       <ResourcesBanner categorySelected="Saved Resources" />
@@ -76,6 +82,10 @@ function SavedResources() {
             filteredResources={resources}
             savedResources={savedSet}
             updateSaved={updateSaved}
+            resourceCount={resources.length}
+            updatePagination={updatePagination}
+            pageSize={pageSize}
+            page={page}
           />
         )}
       </Layout>
