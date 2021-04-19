@@ -57,6 +57,18 @@ const Resource = new mongoose.Schema({
   requiredDocuments: { type: [String], required: false },
   internalNotes: { type: [InternalNote], required: false },
   image: { type: String, required: false },
+  geoLocation: {
+    type: {
+      type: String,
+      enum: ['Point'],
+      default: 'Point',
+    },
+    coordinates: {
+      type: [Number],
+      default: undefined,
+    },
+  },
 });
+Resource.index({ geoLocation: '2dsphere' }, { sparse: false });
 
 module.exports = mongoose.model('Resource', Resource);

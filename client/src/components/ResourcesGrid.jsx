@@ -6,19 +6,37 @@ import ResourcePreview from './ResourcePreview';
 import '../css/ResourcesGrid.css';
 
 function ResourcesGrid(props) {
-  const { filteredResources, savedResources, updateSaved } = props;
+  const {
+    filteredResources,
+    savedResources,
+    updateSaved,
+    resourceCount,
+    updatePagination,
+    pageSize,
+    page,
+  } = props;
+
   const cards = (
     <List
       grid={{
         gutter: [32, 16],
         xs: 1,
-        sm: 2,
+        sm: 3,
         md: 3,
         lg: 3,
-        xl: 4,
-        xxl: 4,
+        xl: 3,
+        xxl: 3,
       }}
       dataSource={filteredResources}
+      pagination={{
+        pageSizeOptions: ['6', '15', '30'],
+        showSizeChanger: true,
+        total: resourceCount,
+        current: page,
+        pageSize,
+        onChange: updatePagination,
+        onShowSizeChange: (current, size) => updatePagination(1, size),
+      }}
       renderItem={(resource) => (
         <List.Item>
           <ResourcePreview
