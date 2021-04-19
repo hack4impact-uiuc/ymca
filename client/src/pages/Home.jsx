@@ -8,6 +8,7 @@ import { FormattedMessage } from 'react-intl';
 import { getHomePage } from '../utils/api';
 import { canBeWebpConverted, getIsWebpSupported } from '../utils/webp-detect';
 import useWindowDimensions from '../utils/mobile';
+import type { Testimonial } from '../types/models';
 
 import '../css/Home.css';
 
@@ -21,13 +22,6 @@ import {
   HomeBlock2Mobile,
   HomeBlock3Mobile,
 } from '../components/mobile/HomeMobile';
-
-export type Testimonial = {
-  person: string,
-  image: string,
-  title: string,
-  testimonial: string,
-};
 
 const Home = (): React$Element<React$FragmentType> => {
   const [partners, setPartners] = useState<
@@ -67,17 +61,19 @@ const Home = (): React$Element<React$FragmentType> => {
           i += 1;
         });
 
-        res.result.testimonials.forEach((t) => {
-          newTestimonials.push({
-            person: t[0],
-            image:
-              isWebpSupported && canBeWebpConverted(t[1])
-                ? t[1].toLowerCase().replace('jpg', 'webp')
-                : t[1],
-            title: t[2],
-            testimonial: t[3],
-          });
-        });
+        res.result.testimonials.forEach(
+          ({ person, image, title, testimonial }) => {
+            newTestimonials.push({
+              person,
+              image:
+                isWebpSupported && canBeWebpConverted(image)
+                  ? image.toLowerCase().replace('jpg', 'webp')
+                  : image,
+              title,
+              testimonial,
+            });
+          },
+        );
 
         const background =
           isWebpSupported && canBeWebpConverted(res.result.backgroundImage)
