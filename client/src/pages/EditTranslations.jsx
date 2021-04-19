@@ -50,10 +50,11 @@ function Translations() {
               showInfo={false}
             />
           </div>
-
-          <Button type="primary" className="submit-button">
-            Submit
-          </Button>
+          <div className="submit-button-wrapper">
+            <Button type="primary" className="submit-button">
+              Submit
+            </Button>
+          </div>
         </div>
       </div>
     </div>
