@@ -7,17 +7,16 @@ import '../css/MapViewList.css';
 import { getResourcesByCategory } from '../utils/api';
 import MapViewEntry from './MapViewEntry';
 
-type Props = {};
-
-const MapViewList = (props: Props) => {
-  const { selected } = props;
-
+const MapViewList = () => {
   const [resources, setResources] = useState<Array<Resource>>([]);
-  const location = '1299 N Arbor Ln, Palatine, IL 60067';
+  const [selectedID, setSelectedID] = useState('');
+  const location = '505 E Healey St, Champaign, IL 61820';
 
   useEffect(() => {
     const fetchResources = async () => {
       const res = await getResourcesByCategory(
+        null,
+        null,
         null,
         null,
         null,
@@ -29,17 +28,15 @@ const MapViewList = (props: Props) => {
       const newResources = [];
       if (res != null) {
         res.result.totalData.forEach((r) => {
-          const pairs = r.subcategory.map(
-            (subcat, idx) => `${r.category[idx]}~${subcat}`,
-          );
           newResources.push({
             name: r.name,
-            description: r.description,
-            categories: r.category,
-            subcategories: r.subcategory,
-            categoryPairs: pairs,
+            city: r.city,
+            address: r.address,
+            cost: r.cost,
             id: r._id.toString(),
+            languages: r.availableLanguages,
             distance: r.calculatedDistance,
+            selected: false,
           });
         });
       }
@@ -52,10 +49,14 @@ const MapViewList = (props: Props) => {
   return (
     <List
       bordered
+      className="list"
       dataSource={resources}
       renderItem={(resource) => (
-        <List.Item>
-          <MapViewEntry data={resource} selected />
+        <List.Item onClick={() => setSelectedID(resource.id)}>
+          <MapViewEntry
+            resource={resource}
+            selected={resource.id === selectedID}
+          />
         </List.Item>
       )}
     />

@@ -1,3 +1,4 @@
+/* eslint-disable radix */
 // @flow
 
 import React from 'react';
@@ -11,7 +12,7 @@ type Props = {
 };
 
 const MapViewEntry = (props: Props) => {
-  const { data, selected } = props;
+  const { resource, selected } = props;
   const color = selected ? '#1890FF' : '#D9D9D9';
 
   return (
@@ -19,32 +20,36 @@ const MapViewEntry = (props: Props) => {
       <Row className="entry">
         <Col span={16}>
           <Row>
-            <b>{data.name}</b>
+            <b>{resource.name}</b>
           </Row>
           <Row className="row">
-            <Col>Urbana</Col>
-            <Col className="second">•</Col>
-            <Col className="third">1309 West Hill Street</Col>
+            <Col>{resource.city}</Col>
+            <Col className="second-element">•</Col>
+            <Col className="third-element">
+              {resource.address || 'Address not provided'}
+            </Col>
           </Row>
           <Row>
             <Col>$</Col>
-            <Col className="second">•</Col>
-            <Col className="third">English, Spanish, French, Chinese</Col>
+            <Col className="second-element">•</Col>
+            <Col className="third-element">
+              {resource.languages.join(', ') || 'English'}
+            </Col>
           </Row>
         </Col>
-        <Col span={2}>
+        <Col span={3}>
           <Divider type="vertical" className="bar" />
         </Col>
-        <Col span={2}>
+        <Col span={3}>
           <Row>
-            <b>{data.distance}</b>
+            <b>{resource.distance.toString().slice(0, 3)}</b>
           </Row>
           <Row>
             <b>mi</b>
           </Row>
         </Col>
         <Col
-          span={1}
+          span={1.5}
           style={{
             backgroundColor: color,
           }}

@@ -1,7 +1,7 @@
 // @flow
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Layout } from 'antd';
+import { Layout, Tabs } from 'antd';
 import '../css/Resources.css';
 import Loader from 'react-loader-spinner';
 import { useIntl } from 'react-intl';
@@ -21,6 +21,7 @@ import ResourceCategoryFilter from '../components/ResourceCategoryFilter';
 import ResourcesCatMobile from '../components/mobile/ResourcesCatMobile';
 
 const { Sider } = Layout;
+const { TabPane } = Tabs;
 
 type Props = {
   location: { search: string },
@@ -57,7 +58,9 @@ function Resources({
   const [subcategory, setSubcategory] = useState('');
   const [sort, setSort] = useState(nameTranslated);
   const [loading, setLoading] = useState(false);
-
+  const [resourceCount, setResourceCount] = useState(0);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(6);
   const [openKeys, setOpenKeys] = useState<Array<string>>([]);
   const [categories, setCategories] = useState<{ [string]: Array<string> }>({});
   const [filteredResources, setFilteredResources] = useState<Array<Resource>>(
@@ -133,7 +136,6 @@ function Resources({
     ] = getCategorySelectedFromSearch();
 
     setLoading(true);
-    // TODO: size and page
     const newResources = await getResourcesByCategory(
       categorySelected,
       subcategorySelected,
@@ -141,6 +143,8 @@ function Resources({
       language,
       location,
       sort,
+      pageSize,
+      page,
     );
 
     let localSavedSet = new Set();
@@ -161,6 +165,11 @@ function Resources({
       newResources == null ? [] : newResources.result.totalData,
     );
     setOpenKeys([categorySelected]);
+    setResourceCount(
+      newResources == null
+        ? 0
+        : newResources.result.totalCount[0].resourceCount,
+    );
     setSubcategory(subcategorySelected);
 
     setLoading(false);
@@ -172,6 +181,8 @@ function Resources({
     sort,
     authed,
     saved,
+    page,
+    pageSize,
   ]);
 
   const updateSaved = updateResources;
@@ -179,6 +190,15 @@ function Resources({
   useEffect(() => {
     updateResources();
   }, [locationProp.search, saved, authed, updateResources]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [cost, language, location, sort, category, subcategory]);
+
+  const updatePagination = useCallback((pageNumber, pageItems) => {
+    setPage(parseInt(pageNumber, 10));
+    setPageSize(parseInt(pageItems, 10));
+  }, []);
 
   const categorySelectAll = useCallback(() => {
     history.push({
@@ -234,81 +254,142 @@ function Resources({
         subcategorySelected={subcategory}
       />
       {isMobile ? (
-        <div className="filter-bar">
-          <hr className="line" />
-          <ResourcesCatMobile
-            category={category}
-            categories={categories}
-            categorySelectAll={categorySelectAll}
-            onOpenChange={onOpenChange}
-            openKeys={openKeys}
-            subcategory={subcategory}
-            subcategorySelect={subcategorySelect}
-            costs={costs}
-            costSelected={cost}
-            languages={languages}
-            languageSelected={language}
-            locations={locations}
-            locationSelected={location}
-            sorts={sorts}
-            sortSelected={sort}
-            setCost={setCost}
-            setLanguage={setLanguage}
-            setLocation={setLocation}
-            setSort={setSort}
-          />
-          <hr className="line" />
-        </div>
-      ) : (
-        <ResourcesFilter
-          costs={costs}
-          costSelected={cost}
-          languages={languages}
-          languageSelected={language}
-          locations={locations}
-          locationSelected={location}
-          sorts={sorts}
-          sortSelected={sort}
-          setCost={setCost}
-          setLanguage={setLanguage}
-          setLocation={setLocation}
-          setSort={setSort}
-        />
-      )}
-      <Layout style={{ background: 'white' }}>
-        {!isMobile && (
-          <div>
-            <Sider className="filter-sider">
-              <ResourceCategoryFilter
-                category={category}
-                categories={categories}
-                categorySelectAll={categorySelectAll}
-                onOpenChange={onOpenChange}
-                openKeys={openKeys}
-                subcategory={subcategory}
-                subcategorySelect={subcategorySelect}
-              />
-            </Sider>
+        <>
+          <div className="filter-bar">
+            <hr className="line" />
+            <ResourcesCatMobile
+              category={category}
+              categories={categories}
+              categorySelectAll={categorySelectAll}
+              onOpenChange={onOpenChange}
+              openKeys={openKeys}
+              subcategory={subcategory}
+              subcategorySelect={subcategorySelect}
+              costs={costs}
+              costSelected={cost}
+              languages={languages}
+              languageSelected={language}
+              locations={locations}
+              locationSelected={location}
+              sorts={sorts}
+              sortSelected={sort}
+              setCost={setCost}
+              setLanguage={setLanguage}
+              setLocation={setLocation}
+              setSort={setSort}
+            />
+            <hr className="line" />
           </div>
-        )}
-        {loading ? (
-          <Loader
-            className="loader"
-            type="Circles"
-            color="#6A3E9E"
-            height={100}
-            width={100}
-          />
-        ) : (
-          <ResourcesGrid
-            filteredResources={filteredResources}
-            savedResources={savedSet}
-            updateSaved={updateSaved}
-          />
-        )}
-      </Layout>
+          <Layout style={{ background: 'white' }}>
+            {loading ? (
+              <Loader
+                className="loader"
+                type="Circles"
+                color="#6A3E9E"
+                height={100}
+                width={100}
+              />
+            ) : (
+              <ResourcesGrid
+                filteredResources={filteredResources}
+                savedResources={savedSet}
+                updateSaved={updateSaved}
+              />
+            )}
+          </Layout>
+        </>
+      ) : (
+        <Tabs
+          defaultActiveKey="1"
+          className="tabs"
+          type="card"
+          tabBarStyle={{ paddingLeft: '1.2em', marginTop: '1.2em' }}
+        >
+          <TabPane tab="Grid" key="1">
+            <ResourcesFilter
+              costs={costs}
+              costSelected={cost}
+              languages={languages}
+              languageSelected={language}
+              locations={locations}
+              locationSelected={location}
+              sorts={sorts}
+              sortSelected={sort}
+              setCost={setCost}
+              setLanguage={setLanguage}
+              setLocation={setLocation}
+              setSort={setSort}
+            />
+            <Layout style={{ background: 'white' }}>
+              <div>
+                <Sider className="filter-sider">
+                  <ResourceCategoryFilter
+                    category={category}
+                    categories={categories}
+                    categorySelectAll={categorySelectAll}
+                    onOpenChange={onOpenChange}
+                    openKeys={openKeys}
+                    subcategory={subcategory}
+                    subcategorySelect={subcategorySelect}
+                  />
+                </Sider>
+              </div>
+              {loading ? (
+                <Loader
+                  className="loader"
+                  type="Circles"
+                  color="#6A3E9E"
+                  height={100}
+                  width={100}
+                />
+              ) : (
+                <ResourcesGrid
+                  filteredResources={filteredResources}
+                  savedResources={savedSet}
+                  updateSaved={updateSaved}
+                  resourceCount={resourceCount}
+                  updatePagination={updatePagination}
+                  pageSize={pageSize}
+                  page={page}
+                />
+              )}
+            </Layout>
+          </TabPane>
+          <TabPane tab="Map" key="2">
+            <ResourcesFilter
+              costs={costs}
+              costSelected={cost}
+              languages={languages}
+              languageSelected={language}
+              locations={locations}
+              locationSelected={location}
+              sorts={sorts}
+              sortSelected={sort}
+              setCost={setCost}
+              setLanguage={setLanguage}
+              setLocation={setLocation}
+              setSort={setSort}
+            />
+            <Layout style={{ background: 'white' }}>
+              <div>
+                <Sider className="filter-sider">
+                  <ResourceCategoryFilter
+                    category={category}
+                    categories={categories}
+                    categorySelectAll={categorySelectAll}
+                    onOpenChange={onOpenChange}
+                    openKeys={openKeys}
+                    subcategory={subcategory}
+                    subcategorySelect={subcategorySelect}
+                  />
+                </Sider>
+              </div>
+              Map
+            </Layout>
+          </TabPane>
+        </Tabs>
+      )}
     </Layout>
   );
 }
-
 export default Resources;

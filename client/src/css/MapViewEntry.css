@@ -9,29 +9,32 @@
   left: 15px;
 }
 
-.second {
+.second-element {
   position: relative;
   left: 5px;
 }
 
-.third {
+.third-element {
   position: relative;
   left: 10px;
+  width: 110px;
+  overflow: hidden;
+  white-space: nowrap;
   text-overflow: ellipsis;
 }
 
 .bar {
-  height: 60px;
+  height: 80px;
 }
 
 .arrow {
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
-  height: 60px;
+  height: 80px;
 }
 
 .caret {
   color: #ffffff;
   position: relative;
-  top: 20px;
+  top: 30px;
 }

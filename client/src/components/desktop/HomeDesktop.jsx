@@ -6,7 +6,7 @@ import { HeartTwoTone } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
-import type { Testimonial } from '../../pages/Home';
+import type { Testimonial } from '../../types/models';
 
 import '../../css/Home.css';
 import { getCategories } from '../../utils/api';
