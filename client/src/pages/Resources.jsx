@@ -136,7 +136,6 @@ function Resources({
     ] = getCategorySelectedFromSearch();
 
     setLoading(true);
-    // TODO: size and page
     const newResources = await getResourcesByCategory(
       categorySelected,
       subcategorySelected,
@@ -166,15 +165,11 @@ function Resources({
       newResources == null ? [] : newResources.result.totalData,
     );
     setOpenKeys([categorySelected]);
-    setFilteredResources(
-      newResources == null ? [] : newResources.result.totalData,
-    );
     setResourceCount(
       newResources == null
         ? 0
         : newResources.result.totalCount[0].resourceCount,
     );
-
     setSubcategory(subcategorySelected);
 
     setLoading(false);
@@ -195,6 +190,10 @@ function Resources({
   useEffect(() => {
     updateResources();
   }, [locationProp.search, saved, authed, updateResources]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [cost, language, location, sort, category, subcategory]);
 
   const updatePagination = useCallback((pageNumber, pageItems) => {
     setPage(parseInt(pageNumber, 10));
