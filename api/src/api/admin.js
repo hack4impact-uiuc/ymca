@@ -14,6 +14,7 @@ const extractLongLat = require('../utils/extractLongLat');
 const {
   getVerifiedAggregation,
   getNestedVerifiedAggregation,
+  getVerificationDetails,
 } = require('../utils/verification');
 
 const imageHelper = async (image) => {
@@ -472,9 +473,9 @@ router.put(
 
 // Get verified translations for table
 router.get(
-  '/verified/:language',
+  '/verified',
   errorWrap(async (req, res) => {
-    const { language } = req.params;
+    const { language } = req.query;
     const resourceInfo = await Resource.aggregate(
       getVerifiedAggregation(language, 'resourceID', 'resource'),
     );
@@ -507,6 +508,35 @@ router.get(
         subcategoryInfo,
         testimonialInfo,
       ),
+    });
+  }),
+);
+
+// Get verified translations for an ID
+router.get(
+  '/verified/:id',
+  errorWrap(async (req, res) => {
+    const { id } = req.params;
+    const { language, type } = req.query;
+
+    const verificationDetails = await getVerificationDetails(
+      type,
+      language,
+      id,
+    );
+    const { messages } = await Translation.findOne({
+      language: { $eq: language },
+    });
+    verificationDetails.forEach((verificationObject) => {
+      const key = Object.keys(verificationObject)[0];
+      verificationObject[key][language] = messages.get(key);
+    });
+
+    res.json({
+      code: 200,
+      message: 'Successfully returned verified translation info',
+      success: true,
+      result: verificationDetails,
     });
   }),
 );
