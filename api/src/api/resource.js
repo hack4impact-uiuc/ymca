@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { errorWrap } = require('../middleware');
 const Resource = require('../models/resource');
+const extractLongLat = require('../utils/extractLongLat');
 
 const addFields = {
   $addFields: {
@@ -29,6 +30,22 @@ const addFields = {
   },
 };
 
+const getGeoNear = (long, lat) => {
+  return {
+    $geoNear: {
+      near: {
+        $geometry: {
+          type: 'Point',
+          coordinates: [parseFloat(long), parseFloat(lat)],
+        },
+      },
+      distanceField: 'calculatedDistance',
+      spherical: true,
+      distanceMultiplier: 0.000621371,
+    },
+  };
+};
+
 // Get all resources (with query params)
 router.get(
   '/',
@@ -42,6 +59,7 @@ router.get(
       sort,
       size,
       page,
+      location,
     } = req.query;
     let query = {};
     if (category != null && category !== '' && category !== 'All Resources') {
@@ -96,40 +114,56 @@ router.get(
         orderBy = { name: 1 };
       }
     }
+
+    const [long, lat] = await extractLongLat(location);
     let aggregation = [];
-    if (orderBy === null) {
-      aggregation = [
-        {
-          $facet: {
-            totalData: [addFields, { $match: query }],
+    if (long == null || lat == null) {
+      if (orderBy === null) {
+        aggregation = [
+          {
+            $facet: {
+              totalData: [addFields, { $match: query }],
+              totalCount: [{ $match: query }, { $count: 'resourceCount' }],
+            },
           },
-        },
-      ];
-    } else if (page == null || size == null) {
-      aggregation = [
-        {
-          $facet: {
-            totalData: [addFields, { $match: query }, { $sort: orderBy }],
+        ];
+      } else if (page == null || size == null) {
+        aggregation = [
+          {
+            $facet: {
+              totalData: [addFields, { $match: query }, { $sort: orderBy }],
+              totalCount: [{ $match: query }, { $count: 'resourceCount' }],
+            },
           },
-        },
-      ];
+        ];
+      } else {
+        aggregation = [
+          {
+            $facet: {
+              totalData: [
+                addFields,
+                { $match: query },
+                { $sort: orderBy },
+                { $skip: parseInt(size) * (parseInt(page) - 1) },
+                { $limit: parseInt(size) },
+              ],
+              totalCount: [{ $match: query }, { $count: 'resourceCount' }],
+            },
+          },
+        ];
+      }
     } else {
-      aggregation = [
-        {
-          $facet: {
-            totalData: [
-              addFields,
-              { $match: query },
-              { $sort: orderBy },
-              { $limit: size },
-              { $skip: size * (page - 1) },
-            ],
-            totalCount: [{ $count: 'number of resources' }],
-          },
-        },
-      ];
+      aggregation = [getGeoNear(long, lat), addFields, { $match: query }];
     }
-    const resources = await Resource.aggregate(aggregation);
+
+    let resources = await Resource.aggregate(aggregation);
+    // is this a geo aggregate?
+    if (!('totalData' in resources[0])) {
+      const resourcesList = resources;
+      resources = [];
+      resources[0] = { totalData: resourcesList };
+    }
+
     res.json({
       code: 200,
       message: '',
@@ -154,28 +188,6 @@ router.get(
         success: false,
         result: null,
       });
-    }
-
-    if (requireLatLong) {
-      const apiLatLong =
-        resource.address.length > 0 ||
-        resource.city.length > 0 ||
-        resource.state.length > 0 ||
-        resource.zip.length > 0
-          ? `https://www.mapquestapi.com/geocoding/v1/address?key=` +
-            `${process.env.MAPBOX_KEY}&maxResults=5&location=${resource.address},${resource.city},${resource.state},${resource.zip}`
-          : `https://www.mapquestapi.com/geocoding/v1/address?key=` +
-            `${process.env.MAPBOX_KEY}&maxResults=5&location=`;
-      const response = await fetch(apiLatLong, {});
-
-      const responseJson = await response.json();
-
-      if (responseJson.info.statuscode === 0) {
-        resource = {
-          ...resource._doc,
-          ...responseJson.results[0].locations[0].latLng,
-        };
-      }
     }
 
     res.json({

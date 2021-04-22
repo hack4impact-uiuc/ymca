@@ -1,9 +1,10 @@
 // @flow
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { EditFilled } from '@ant-design/icons';
 import { Select, Table, Tag } from 'antd';
-import { getCategories, editResourceCategories } from '../utils/api';
+import { editResourceCategories } from '../utils/api';
+import type { Subcategory } from '../types/models';
 
 const { Option, OptGroup } = Select;
 
@@ -37,6 +38,9 @@ const CATEGORY_COLOR_DICT = {
 };
 
 type Props = {
+  categories: {
+    [string]: [Array<Subcategory>, number],
+  },
   selectedCategory: string,
   selectedSubcategory: string,
   resources: Array<{
@@ -52,23 +56,12 @@ type Props = {
 
 const ManageResourcesTable = (props: Props) => {
   const {
+    categories,
     selectedCategory,
     selectedSubcategory,
     resources,
     updateView,
   } = props;
-
-  const [fetchedCategories, setFetchedCategories] = useState([]);
-
-  useEffect(() => {
-    getCategories().then((res) => {
-      if (res !== null) {
-        if (res.code === 200) {
-          setFetchedCategories(res.result);
-        }
-      }
-    });
-  }, []);
 
   const updateCategories = async (selectedValues, resource) => {
     const newCategories = [];
@@ -82,9 +75,9 @@ const ManageResourcesTable = (props: Props) => {
     await updateView();
   };
 
-  const displayCategoryTags = (categories) => (
+  const displayCategoryTags = (cats) => (
     <>
-      {categories.map((c) => (
+      {cats.map((c) => (
         <Tag key={c} color={CATEGORY_COLOR_DICT[c[0]?.toLowerCase()]}>
           {c}
         </Tag>
@@ -123,13 +116,13 @@ const ManageResourcesTable = (props: Props) => {
       tagRender={(tagProps) => subcategoryTag(tagProps, resource)}
       value={resource.categoryPairs}
     >
-      {fetchedCategories.map((cat) => (
-        <OptGroup key={cat.name} label={cat.name}>
-          {cat.subcategories.map((subcat) => {
-            const val = `${cat.name}~${subcat}`;
+      {Object.keys(categories).map((categoryName) => (
+        <OptGroup key={categoryName} label={categoryName}>
+          {categories[categoryName][0].map((subcat) => {
+            const val = `${categoryName}~${subcat.name}`;
             return (
               <Option key={val} value={val}>
-                {subcat}
+                {subcat.name}
               </Option>
             );
           })}

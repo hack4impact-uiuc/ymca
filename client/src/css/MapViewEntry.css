@@ -1,37 +1,43 @@
-.entry {
+.mapview-entry {
   width: 300px;
   align-items: center;
 }
 
-.row {
-  justify-content: left;
-  position: relative;
-  left: 15px;
-}
-
-.second {
+.mapview-dot {
   position: relative;
   left: 5px;
 }
 
-.third {
+.mapview-address {
   position: relative;
   left: 10px;
+  width: 110px;
+  overflow: hidden;
+  white-space: nowrap;
   text-overflow: ellipsis;
 }
 
-.bar {
-  height: 60px;
+.mapview-languages {
+  position: relative;
+  left: 10px;
+  width: 160px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
-.arrow {
+.mapview-bar {
+  height: 80px;
+}
+
+.mapview-arrow {
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
-  height: 60px;
+  height: 80px;
 }
 
-.caret {
+.mapview-caret {
   color: #ffffff;
   position: relative;
-  top: 20px;
+  top: 30px;
 }

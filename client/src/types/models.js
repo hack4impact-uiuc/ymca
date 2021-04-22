@@ -1,8 +1,13 @@
 // @flow
 
+export type Subcategory = {
+  name: string,
+  _id: string,
+};
+
 export type Category = {
   name: string,
-  subcategories: Array<string>,
+  subcategories: Array<Subcategory>,
   _id: string,
 };
 
@@ -60,6 +65,7 @@ export type Resource = {
   requiredDocuments?: Array<string>,
   internalNotes?: Array<InternalNote>,
   image?: string,
+  geoLocation?: { type: 'Point', coordinates: [number, number] },
   _id: string,
 };
 export type Testimonial = {
