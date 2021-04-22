@@ -1,14 +1,11 @@
 // @flow
 
 import React from 'react';
-import { Tabs, Layout, Row, Table, Tag } from 'antd';
+import { Tabs, Layout, Row, Table } from 'antd';
 import { Link } from 'react-router-dom';
-import {
-  ExclamationCircleOutlined,
-  CheckCircleTwoTone,
-} from '@ant-design/icons';
 import '../css/Translations.css';
 import StatusTag from '../components/StatusTag';
+import PriorityIcon from '../components/PriorityIcon';
 
 const { Header } = Layout;
 const { TabPane } = Tabs;
@@ -41,21 +38,21 @@ function Translations() {
     {
       key: '1',
       name: 'New York No. 1 Lake Park',
-      priority: <Tag color="error">Urgent</Tag>,
+      priority: <PriorityIcon priorityType="High" />,
       status: <StatusTag status="Verified" />,
       translate: <Link to="#/">Translate</Link>,
     },
     {
       key: '2',
       name: 'London No. 1 Lake Park',
-      priority: <Tag color="success">Low</Tag>,
+      priority: <PriorityIcon priorityType="Urgent" />,
       status: <StatusTag status="Unverified" />,
       translate: <Link to="#/">Translate</Link>,
     },
     {
       key: '3',
       name: 'Sidney No. 1 Lake Park',
-      priority: <Tag color="warning">High</Tag>,
+      priority: <PriorityIcon priorityType="Low" />,
       status: <StatusTag status="Unverified" />,
       translate: <Link to="#/">Translate</Link>,
     },
