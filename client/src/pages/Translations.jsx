@@ -2,11 +2,13 @@
 
 import React from 'react';
 import { Tabs, Layout, Row, Table, Tag } from 'antd';
+import { Link } from 'react-router-dom';
 import {
   ExclamationCircleOutlined,
-  CheckCircleOutlined,
+  CheckCircleTwoTone,
 } from '@ant-design/icons';
 import '../css/Translations.css';
+import StatusTag from '../components/StatusTag';
 
 const { Header } = Layout;
 const { TabPane } = Tabs;
@@ -40,34 +42,22 @@ function Translations() {
       key: '1',
       name: 'New York No. 1 Lake Park',
       priority: <Tag color="error">Urgent</Tag>,
-      status: (
-        <Tag icon={<CheckCircleOutlined />} color="success">
-          Verified
-        </Tag>
-      ),
-      translate: <a href="#/">Translate</a>,
+      status: <StatusTag status="Verified" />,
+      translate: <Link to="#/">Translate</Link>,
     },
     {
       key: '2',
       name: 'London No. 1 Lake Park',
       priority: <Tag color="success">Low</Tag>,
-      status: (
-        <Tag icon={<ExclamationCircleOutlined />} color="warning">
-          Unverified
-        </Tag>
-      ),
-      translate: <a href="#/">Translate</a>,
+      status: <StatusTag status="Unverified" />,
+      translate: <Link to="#/">Translate</Link>,
     },
     {
       key: '3',
       name: 'Sidney No. 1 Lake Park',
       priority: <Tag color="warning">High</Tag>,
-      status: (
-        <Tag icon={<ExclamationCircleOutlined />} color="warning">
-          Unverified
-        </Tag>
-      ),
-      translate: <a href="#/">Translate</a>,
+      status: <StatusTag status="Unverified" />,
+      translate: <Link to="#/">Translate</Link>,
     },
   ];
 
