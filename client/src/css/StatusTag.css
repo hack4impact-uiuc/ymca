@@ -1,0 +1,16 @@
+.status-tag {
+  display: flex;
+  align-items: center;
+}
+.verified-status-name {
+  margin-left: 5px;
+  font-size: 1em;
+  color: #52c41a;
+  margin-top: 2px;
+}
+.unverified-status-name {
+  margin-left: 5px;
+  font-size: 1em;
+  color: #ffa940;
+  margin-top: 2px;
+}
