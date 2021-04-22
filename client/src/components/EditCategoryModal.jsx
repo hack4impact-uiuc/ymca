@@ -122,7 +122,6 @@ function EditCategoryModal(props: ModalProps) {
           await deleteCategory(id, categoryName);
           updateView();
         } else if (categoryType === 'subcategory') {
-          console.log('HI', id, categoryName, subcategoryName, subcategoryId);
           await deleteSubcategory(
             id,
             categoryName,

@@ -62,7 +62,6 @@ const ManageResourcesTable = (props: Props) => {
     resources,
     updateView,
   } = props;
-  console.log(categories);
 
   const updateCategories = async (selectedValues, resource) => {
     const newCategories = [];
