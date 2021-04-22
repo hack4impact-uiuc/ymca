@@ -14,9 +14,9 @@ import type {
 import type { ApiResponse } from '../types/apiResponse';
 
 const instance = axios.create({
-  baseURL: 'https://nawc-staging.vercel.app',
+  // baseURL: 'https://nawc-staging.vercel.app',
   // For testing on dev database:
-  // baseURL: 'http://localhost:9000',
+  baseURL: 'http://localhost:9000',
 });
 
 export const imageToLink = (
@@ -287,13 +287,14 @@ export const renameSubcategory = (
   id: string,
   category: string,
   currentName: string,
+  subcategoryId: string,
   newName: string,
 ): ApiResponse<Category> => {
   const requestExtension = `/api/admin/subcategories/${id}`;
   return instance
     .put(
       requestExtension,
-      { category, newName, currentName },
+      { category, newName, currentName, subcategoryId },
       {
         headers: {
           token: localStorage.getItem('token'),
@@ -313,12 +314,13 @@ export const deleteSubcategory = (
   id: string,
   category: string,
   subcategory: string,
+  subcategoryId: string,
 ): ApiResponse<Category> => {
   const requestExtension = `/api/admin/subcategories/${id}`;
   return instance({
     url: requestExtension,
     method: 'delete',
-    data: { category, subcategory },
+    data: { category, subcategory, subcategoryId },
     headers: {
       token: localStorage.getItem('token'),
     },

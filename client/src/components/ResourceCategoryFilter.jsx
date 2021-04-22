@@ -25,7 +25,17 @@ function ResourceCategoryFilter(props) {
     Object.keys(categories)
       .sort()
       .forEach((key) => {
-        newCategories[key] = categories[key].sort();
+        newCategories[key] = categories[key].sort((a, b) => {
+          const textA = a.name.toUpperCase();
+          const textB = b.name.toUpperCase();
+          if (textA < textB) {
+            return -1;
+          }
+          if (textA > textB) {
+            return 1;
+          }
+          return 0;
+        });
       });
     setOrderedCategories(newCategories);
   }, [categories]);
@@ -50,12 +60,12 @@ function ResourceCategoryFilter(props) {
         >
           {orderedCategories[categoryName].map((subCategory) => (
             <Menu.Item
-              key={subCategory}
-              onClick={() => subcategorySelect(subCategory)}
+              key={subCategory.name}
+              onClick={() => subcategorySelect(subCategory.name)}
             >
               <FormattedMessage
-                id={`subcategory-${subCategory}`.replace(/\s/g, '')}
-                defaultMessage={subCategory}
+                id={`subcategory-${subCategory.name}`.replace(/\s/g, '')}
+                defaultMessage={subCategory.name}
               />
             </Menu.Item>
           ))}

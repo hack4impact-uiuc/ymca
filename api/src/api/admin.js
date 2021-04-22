@@ -339,7 +339,7 @@ router.post(
     const { id } = req.params;
     const updatedCategory = await Category.findByIdAndUpdate(
       id,
-      { $push: { subcategories: req.body.name } },
+      { $push: { subcategories: { name: req.body.name } } },
       {
         new: true,
         runValidators: true,
@@ -363,10 +363,15 @@ router.put(
     const updatedCategory = await Category.findOneAndUpdate(
       {
         _id: req.params.id,
-        subcategories: req.body.currentName,
+        subcategories: { $elemMatch: { _id: req.body.subcategoryId } },
       },
       {
-        $set: { 'subcategories.$': req.body.newName },
+        $set: {
+          'subcategories.$': {
+            _id: req.body.subcategoryId,
+            name: req.body.newName,
+          },
+        },
       },
       {
         new: true,
@@ -396,7 +401,9 @@ router.delete(
     const updatedCategory = await Category.findByIdAndUpdate(
       id,
       {
-        $pull: { subcategories: req.body.subcategory },
+        $pull: {
+          subcategories: { _id: req.body.subcategoryId },
+        },
       },
       {
         new: true,
@@ -417,7 +424,7 @@ router.delete(
 
     res.json({
       code: 200,
-      message: `Successfully deleted category ${id}`,
+      message: `Successfully deleted subcategory ${req.body.subcategoryId}`,
       success: true,
       result: updatedCategory,
     });
