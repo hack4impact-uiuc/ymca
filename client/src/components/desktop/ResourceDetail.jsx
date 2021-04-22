@@ -92,10 +92,16 @@ function ResourceDetail(props) {
         setSubcategory(result.subcategory[0]);
         setCost(result.cost);
         setLat(
-          Number.isNaN(result.lat) || result.lat == null ? 0.0 : result.lat,
+          result.geoLocation == null ||
+            Number.isNaN(result.geoLocation.coordinates[1])
+            ? 0.0
+            : result.geoLocation.coordinates[1],
         );
         setLng(
-          Number.isNaN(result.lng) || result.lng == null ? 0.0 : result.lng,
+          result.geoLocation == null ||
+            Number.isNaN(result.geoLocation.coordinates[0])
+            ? 0.0
+            : result.geoLocation.coordinates[0],
         );
         setEmail(result.email || '');
         setWebsite(result.website || '');
@@ -170,7 +176,7 @@ function ResourceDetail(props) {
 
     const format = 'hh:mm a';
     const currentTime = moment();
-    let dayIndex = new Date().getDay() - 1;
+    let dayIndex = new Date().getDay();
 
     if (dayIndex < 0) {
       dayIndex += 7;

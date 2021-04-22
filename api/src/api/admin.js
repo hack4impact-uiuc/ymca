@@ -9,6 +9,7 @@ const {
   deleteTranslatedText,
   translateAndSaveText,
 } = require('../utils/translate');
+const extractLongLat = require('../utils/extractLongLat');
 
 const imageHelper = async (image) => {
   const imageResponse = await fetch('https://api.imgur.com/3/image', {
@@ -97,10 +98,26 @@ router.delete(
 router.post(
   '/resources',
   errorWrap(async (req, res) => {
-    if (req.body.image && req.body.image.length > 0) {
-      const link = await imageHelper(req.body.image);
+    const { image, address, city, state, zip } = req.body;
+
+    if (image && image.length > 0) {
+      const link = await imageHelper(image);
       if (link) {
         req.body.image = link;
+      }
+    }
+
+    if (
+      (address && address.length > 0) ||
+      (city && city.length > 0) ||
+      (state && state.length > 0) ||
+      (zip && zip.length > 0)
+    ) {
+      const [long, lat] = await extractLongLat(
+        `${address},${city},${state},${zip}`,
+      );
+      if (long != null && lat != null) {
+        req.body.geoLocation = { type: 'Point', coordinates: [long, lat] };
       }
     }
 
@@ -166,10 +183,26 @@ router.patch(
 router.put(
   '/resources/:id',
   errorWrap(async (req, res) => {
-    if (req.body.image && req.body.image.length > 0) {
-      const link = await imageHelper(req.body.image);
+    const { image, address, city, state, zip } = req.body;
+
+    if (image && image.length > 0) {
+      const link = await imageHelper(image);
       if (link) {
         req.body.image = link;
+      }
+    }
+
+    if (
+      (address && address.length > 0) ||
+      (city && city.length > 0) ||
+      (state && state.length > 0) ||
+      (zip && zip.length > 0)
+    ) {
+      const [long, lat] = await extractLongLat(
+        `${address},${city},${state},${zip}`,
+      );
+      if (long != null && lat != null) {
+        req.body.geoLocation = { type: 'Point', coordinates: [long, lat] };
       }
     }
 
@@ -306,7 +339,7 @@ router.post(
     const { id } = req.params;
     const updatedCategory = await Category.findByIdAndUpdate(
       id,
-      { $push: { subcategories: req.body.name } },
+      { $push: { subcategories: { name: req.body.name } } },
       {
         new: true,
         runValidators: true,
@@ -330,10 +363,15 @@ router.put(
     const updatedCategory = await Category.findOneAndUpdate(
       {
         _id: req.params.id,
-        subcategories: req.body.currentName,
+        subcategories: { $elemMatch: { _id: req.body.subcategoryId } },
       },
       {
-        $set: { 'subcategories.$': req.body.newName },
+        $set: {
+          'subcategories.$': {
+            _id: req.body.subcategoryId,
+            name: req.body.newName,
+          },
+        },
       },
       {
         new: true,
@@ -363,7 +401,9 @@ router.delete(
     const updatedCategory = await Category.findByIdAndUpdate(
       id,
       {
-        $pull: { subcategories: req.body.subcategory },
+        $pull: {
+          subcategories: { _id: req.body.subcategoryId },
+        },
       },
       {
         new: true,
@@ -384,7 +424,7 @@ router.delete(
 
     res.json({
       code: 200,
-      message: `Successfully deleted category ${id}`,
+      message: `Successfully deleted subcategory ${req.body.subcategoryId}`,
       success: true,
       result: updatedCategory,
     });

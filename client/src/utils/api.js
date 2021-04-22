@@ -110,9 +110,22 @@ export const getResourcesByCategory = (
   language: ?string,
   city: ?string,
   sort: ?string,
+  size: ?number,
+  page: ?number,
+  location: ?string,
 ): ApiResponse<Array<Resource>> => {
   const requestExtension = `/api/resources`;
-  const params = { category, subcategory, cost, language, city, sort };
+  const params = {
+    category,
+    subcategory,
+    cost,
+    language,
+    city,
+    sort,
+    size,
+    page,
+    location,
+  };
   return instance.get(requestExtension, { params }).then(
     (res) => res.data,
     (err) => {
@@ -276,13 +289,14 @@ export const renameSubcategory = (
   id: string,
   category: string,
   currentName: string,
+  subcategoryId: string,
   newName: string,
 ): ApiResponse<Category> => {
   const requestExtension = `/api/admin/subcategories/${id}`;
   return instance
     .put(
       requestExtension,
-      { category, newName, currentName },
+      { category, newName, currentName, subcategoryId },
       {
         headers: {
           token: localStorage.getItem('token'),
@@ -302,12 +316,13 @@ export const deleteSubcategory = (
   id: string,
   category: string,
   subcategory: string,
+  subcategoryId: string,
 ): ApiResponse<Category> => {
   const requestExtension = `/api/admin/subcategories/${id}`;
   return instance({
     url: requestExtension,
     method: 'delete',
-    data: { category, subcategory },
+    data: { category, subcategory, subcategoryId },
     headers: {
       token: localStorage.getItem('token'),
     },
