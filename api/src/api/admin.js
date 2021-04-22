@@ -5,11 +5,16 @@ const Category = require('../models/category');
 const Resource = require('../models/resource');
 const HomePage = require('../models/homepage');
 const Translation = require('../models/translation');
+const VerifiedTranslation = require('../models/verifiedTranslation');
 const {
   deleteTranslatedText,
   translateAndSaveText,
 } = require('../utils/translate');
 const extractLongLat = require('../utils/extractLongLat');
+const {
+  getVerifiedAggregation,
+  getNestedVerifiedAggregation,
+} = require('../utils/verification');
 
 const imageHelper = async (image) => {
   const imageResponse = await fetch('https://api.imgur.com/3/image', {
@@ -461,6 +466,44 @@ router.put(
       message: `Successfully added ${language} translation for ${key}`,
       success: true,
       result: updatedTranslation,
+    });
+  }),
+);
+
+// Get verified translations for table
+router.get(
+  '/verified',
+  errorWrap(async (req, res) => {
+    const resourceInfo = await Resource.aggregate(
+      getVerifiedAggregation('resourceID', 'resource'),
+    );
+    const categoryInfo = await Category.aggregate(
+      getVerifiedAggregation('categoryID', 'category'),
+    );
+    const subcategoryInfo = await Category.aggregate(
+      getNestedVerifiedAggregation(
+        'subcategoryID',
+        'subcategory',
+        'subcategories',
+      ),
+    );
+    const testimonialInfo = await HomePage.aggregate(
+      getNestedVerifiedAggregation(
+        'testimonialID',
+        'testimonial',
+        'testimonials',
+      ),
+    );
+
+    res.json({
+      code: 200,
+      message: 'Successfully returned verified translation table info',
+      success: true,
+      result: resourceInfo.concat(
+        categoryInfo,
+        subcategoryInfo,
+        testimonialInfo,
+      ),
     });
   }),
 );
