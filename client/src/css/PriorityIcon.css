@@ -1,0 +1,37 @@
+.priority-container {
+  display: flex;
+  align-items: center;
+}
+.urgent-priority-outline {
+  border-radius: 1em;
+  border-color: #ff4d4f;
+  background-color: #ff4d4f;
+  width: 25%;
+  padding: 1px;
+}
+.high-priority-outline {
+  border-radius: 1em;
+  border-color: #ffa940;
+  background-color: #ffa940;
+  width: 25%;
+  padding: 1px;
+}
+.medium-priority-outline {
+  border-radius: 1em;
+  border-color: #fff566;
+  background-color: #fff566;
+  width: 25%;
+  padding: 1px;
+}
+.low-priority-outline {
+  border-radius: 1em;
+  border-color: #bae637;
+  background-color: #bae637;
+  width: 25%;
+  padding: 1px;
+}
+.priority-text {
+  text-align: center;
+  color: white;
+  font-size: 1em;
+}
