@@ -289,13 +289,14 @@ export const renameSubcategory = (
   id: string,
   category: string,
   currentName: string,
+  subcategoryId: string,
   newName: string,
 ): ApiResponse<Category> => {
   const requestExtension = `/api/admin/subcategories/${id}`;
   return instance
     .put(
       requestExtension,
-      { category, newName, currentName },
+      { category, newName, currentName, subcategoryId },
       {
         headers: {
           token: localStorage.getItem('token'),
@@ -315,12 +316,13 @@ export const deleteSubcategory = (
   id: string,
   category: string,
   subcategory: string,
+  subcategoryId: string,
 ): ApiResponse<Category> => {
   const requestExtension = `/api/admin/subcategories/${id}`;
   return instance({
     url: requestExtension,
     method: 'delete',
-    data: { category, subcategory },
+    data: { category, subcategory, subcategoryId },
     headers: {
       token: localStorage.getItem('token'),
     },

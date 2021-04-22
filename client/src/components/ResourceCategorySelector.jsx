@@ -85,10 +85,10 @@ const CategorySelector = (props: Props) => {
             {fetchedCategories.map((cat) => (
               <OptGroup key={cat.name} label={cat.name}>
                 {cat.subcategories.map((subcat) => {
-                  const val = `${cat.name}${CAT_SUB_SPLITTER}${subcat}`;
+                  const val = `${cat.name}${CAT_SUB_SPLITTER}${subcat.name}`;
                   return (
                     <Option key={val} value={val}>
-                      {subcat}
+                      {subcat.name}
                     </Option>
                   );
                 })}
