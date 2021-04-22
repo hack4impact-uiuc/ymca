@@ -1,4 +1,4 @@
-const getVerifiedAggregation = (foreignField, type) => {
+const getVerifiedAggregation = (language, foreignField, type) => {
   return [
     {
       $lookup: {
@@ -8,7 +8,12 @@ const getVerifiedAggregation = (foreignField, type) => {
         as: 'verificationInfo',
       },
     },
-    { $match: { verificationInfo: { $ne: [] } } },
+    {
+      $match: {
+        verificationInfo: { $ne: [] },
+        'verificationInfo.language': language,
+      },
+    },
     {
       $addFields: {
         verifiedTranslationsCount: {
@@ -34,7 +39,7 @@ const getVerifiedAggregation = (foreignField, type) => {
   ];
 };
 
-const getNestedVerifiedAggregation = (foreignField, type, field) => {
+const getNestedVerifiedAggregation = (language, foreignField, type, field) => {
   return [
     { $unwind: `$${field}` },
     {
@@ -45,7 +50,12 @@ const getNestedVerifiedAggregation = (foreignField, type, field) => {
         as: 'verificationInfo',
       },
     },
-    { $match: { verificationInfo: { $ne: [] } } },
+    {
+      $match: {
+        verificationInfo: { $ne: [] },
+        'verificationInfo.language': language,
+      },
+    },
     {
       $addFields: {
         verifiedTranslationsCount: {

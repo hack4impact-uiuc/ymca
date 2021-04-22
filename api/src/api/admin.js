@@ -472,16 +472,18 @@ router.put(
 
 // Get verified translations for table
 router.get(
-  '/verified',
+  '/verified/:language',
   errorWrap(async (req, res) => {
+    const { language } = req.params;
     const resourceInfo = await Resource.aggregate(
-      getVerifiedAggregation('resourceID', 'resource'),
+      getVerifiedAggregation(language, 'resourceID', 'resource'),
     );
     const categoryInfo = await Category.aggregate(
-      getVerifiedAggregation('categoryID', 'category'),
+      getVerifiedAggregation(language, 'categoryID', 'category'),
     );
     const subcategoryInfo = await Category.aggregate(
       getNestedVerifiedAggregation(
+        language,
         'subcategoryID',
         'subcategory',
         'subcategories',
@@ -489,6 +491,7 @@ router.get(
     );
     const testimonialInfo = await HomePage.aggregate(
       getNestedVerifiedAggregation(
+        language,
         'testimonialID',
         'testimonial',
         'testimonials',

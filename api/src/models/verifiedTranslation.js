@@ -9,6 +9,7 @@ const VerifiedTranslation = new mongoose.Schema({
   translationID: { type: String, required: true },
   verified: { type: Boolean, required: true },
   numReports: { type: Number, required: true },
+  language: { type: String, required: true },
 });
 
 module.exports = mongoose.model('VerifiedTranslation', VerifiedTranslation);
