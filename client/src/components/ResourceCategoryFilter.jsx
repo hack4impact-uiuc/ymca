@@ -26,6 +26,7 @@ function ResourceCategoryFilter(props) {
       .sort()
       .forEach((key) => {
         newCategories[key] = categories[key].sort((a, b) => {
+          // Sorts alphabetically by subcategory name
           const textA = a.name?.toUpperCase();
           const textB = b.name?.toUpperCase();
           if (textA < textB) {

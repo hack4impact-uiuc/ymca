@@ -24,3 +24,4 @@ module.exports = mongoose.model('VerifiedTranslation', VerifiedTranslation);
 
 // endpoint for table returns name, priority, status, type,
 // resource/category/subcategory/testimonial-ID
+// TODO: jackie delete these comments when done with backend
