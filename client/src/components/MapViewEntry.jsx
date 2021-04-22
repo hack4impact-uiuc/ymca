@@ -6,8 +6,10 @@ import { Divider, Row, Col } from 'antd';
 import { CaretRightFilled } from '@ant-design/icons';
 
 import '../css/MapViewEntry.css';
+import languageConversion from '../utils/languages';
 
 type Props = {
+  resource: Resource,
   selected: boolean,
 };
 
@@ -15,30 +17,36 @@ const MapViewEntry = (props: Props) => {
   const { resource, selected } = props;
   const color = selected ? '#1890FF' : '#D9D9D9';
 
+  let languages = '';
+  resource.languages.forEach((language) => {
+    languages += `${languageConversion[language]}, `;
+  });
+  if (languages !== '') {
+    languages = languages.slice(0, languages.length - 2);
+  }
+
   return (
     <>
-      <Row className="entry">
+      <Row className="mapview-entry">
         <Col span={16}>
           <Row>
             <b>{resource.name}</b>
           </Row>
-          <Row className="row">
+          <Row>
             <Col>{resource.city}</Col>
-            <Col className="second-element">•</Col>
-            <Col className="third-element">
+            <Col className="mapview-dot">•</Col>
+            <Col className="mapview-address">
               {resource.address || 'Address not provided'}
             </Col>
           </Row>
           <Row>
-            <Col>$</Col>
-            <Col className="second-element">•</Col>
-            <Col className="third-element">
-              {resource.languages.join(', ') || 'English'}
-            </Col>
+            <Col>{resource.cost || '$'}</Col>
+            <Col className="mapview-dot">•</Col>
+            <Col className="mapview-languages">{languages || 'English'}</Col>
           </Row>
         </Col>
         <Col span={3}>
-          <Divider type="vertical" className="bar" />
+          <Divider type="vertical" className="mapview-bar" />
         </Col>
         <Col span={3}>
           <Row>
@@ -53,9 +61,9 @@ const MapViewEntry = (props: Props) => {
           style={{
             backgroundColor: color,
           }}
-          className="arrow"
+          className="mapview-arrow"
         >
-          <CaretRightFilled className="caret" />
+          <CaretRightFilled className="mapview-caret" />
         </Col>
       </Row>
     </>

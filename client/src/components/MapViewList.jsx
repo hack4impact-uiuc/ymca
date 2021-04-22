@@ -36,7 +36,6 @@ const MapViewList = () => {
             id: r._id.toString(),
             languages: r.availableLanguages,
             distance: r.calculatedDistance,
-            selected: false,
           });
         });
       }
@@ -48,7 +47,6 @@ const MapViewList = () => {
 
   return (
     <List
-      bordered
       className="list"
       dataSource={resources}
       renderItem={(resource) => (

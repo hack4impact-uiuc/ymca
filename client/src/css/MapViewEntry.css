@@ -1,20 +1,14 @@
-.entry {
+.mapview-entry {
   width: 300px;
   align-items: center;
 }
 
-.row {
-  justify-content: left;
-  position: relative;
-  left: 15px;
-}
-
-.second-element {
+.mapview-dot {
   position: relative;
   left: 5px;
 }
 
-.third-element {
+.mapview-address {
   position: relative;
   left: 10px;
   width: 110px;
@@ -23,17 +17,26 @@
   text-overflow: ellipsis;
 }
 
-.bar {
+.mapview-languages {
+  position: relative;
+  left: 10px;
+  width: 160px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.mapview-bar {
   height: 80px;
 }
 
-.arrow {
+.mapview-arrow {
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
   height: 80px;
 }
 
-.caret {
+.mapview-caret {
   color: #ffffff;
   position: relative;
   top: 30px;
