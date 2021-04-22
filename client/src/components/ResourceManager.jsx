@@ -5,6 +5,7 @@ import { Menu } from 'antd';
 import { DownOutlined, UpOutlined } from '@ant-design/icons';
 
 import { getCategories, getResources } from '../utils/api';
+import type { Subcategory } from '../types/models';
 
 import ManageResourcesTable from './ManageResourcesTable';
 
@@ -12,7 +13,7 @@ import '../css/ResourceManager.css';
 import EditCategoryModal from './EditCategoryModal';
 
 type Props = {
-  categories: { [string]: Array<string> },
+  categories: { [string]: [Array<Subcategory>, number] },
   categoryName: string,
   updateView: () => void,
 };
@@ -73,19 +74,20 @@ const SidebarCategory = (props: Props) => {
     >
       {categories[categoryName][0].map((subcategory) => (
         <Menu.Item
-          key={subcategory}
+          key={subcategory._id}
           className="resource-manager-sidebar-category"
           onClick={() => {
-            setSelectedSubcategory(subcategory);
+            setSelectedSubcategory(subcategory.name);
             setSelectedCategory(categoryName);
           }}
         >
-          {subcategory}
+          {subcategory.name}
           <div>
             <EditCategoryModal
               modalType="rename"
               categoryType="subcategory"
-              subcategoryName={subcategory}
+              subcategoryName={subcategory.name}
+              subcategoryId={subcategory._id}
               id={categories[categoryName][1]}
               categoryName={categoryName}
               updateView={updateView}
@@ -93,7 +95,8 @@ const SidebarCategory = (props: Props) => {
             <EditCategoryModal
               modalType="delete"
               categoryType="subcategory"
-              subcategoryName={subcategory}
+              subcategoryName={subcategory.name}
+              subcategoryId={subcategory._id}
               id={categories[categoryName][1]}
               categoryName={categoryName}
               updateView={updateView}
@@ -121,7 +124,7 @@ const SidebarCategory = (props: Props) => {
 const ResourceManager = () => {
   // Category: [subcategories, _id]
   const [categories, setCategories] = useState<{
-    [string]: [Array<string>, number],
+    [string]: [Array<Subcategory>, number],
   }>({});
   const [resources, setResources] = useState<
     Array<{
@@ -205,6 +208,7 @@ const ResourceManager = () => {
       </div>
       <div className="resource-manager-table">
         <ManageResourcesTable
+          categories={categories}
           selectedCategory={selectedCategory}
           selectedSubcategory={selectedSubcategory}
           resources={resources}
