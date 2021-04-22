@@ -166,7 +166,7 @@ function Resources({
     );
     setOpenKeys([categorySelected]);
     setResourceCount(
-      newResources == null
+      newResources?.result?.totalCount[0] == null
         ? 0
         : newResources.result.totalCount[0].resourceCount,
     );
@@ -219,7 +219,7 @@ function Resources({
   const onOpenChange = useCallback(
     (newOpenKeys: Array<string>) => {
       if (newOpenKeys.length === 0) {
-        if (categories[category].indexOf(subcategory) !== -1) {
+        if (categories[category].some((sub) => sub.name === subcategory)) {
           history.push({
             pathname: '/resources',
             search: `?category=${category}`,
@@ -294,6 +294,10 @@ function Resources({
                 filteredResources={filteredResources}
                 savedResources={savedSet}
                 updateSaved={updateSaved}
+                resourceCount={resourceCount}
+                updatePagination={updatePagination}
+                pageSize={pageSize}
+                page={page}
               />
             )}
           </Layout>
