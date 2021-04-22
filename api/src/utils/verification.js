@@ -10,10 +10,24 @@ const getVerifiedAggregation = (foreignField, type) => {
     },
     { $match: { verificationInfo: { $ne: [] } } },
     {
+      $addFields: {
+        verifiedTranslationsCount: {
+          $size: {
+            $filter: {
+              input: '$verificationInfo',
+              as: 'part',
+              cond: { $eq: ['$$part.verified', true] },
+            },
+          },
+        },
+      },
+    },
+    {
       $project: {
         name: 1,
         type,
-        isAllVerified: { $allElementsTrue: '$verificationInfo.verified' },
+        verifiedTranslationsCount: 1,
+        totalTranslations: { $size: '$verificationInfo' },
         totalReports: { $sum: '$verificationInfo.numReports' },
       },
     },
@@ -33,11 +47,25 @@ const getNestedVerifiedAggregation = (foreignField, type, field) => {
     },
     { $match: { verificationInfo: { $ne: [] } } },
     {
+      $addFields: {
+        verifiedTranslationsCount: {
+          $size: {
+            $filter: {
+              input: '$verificationInfo',
+              as: 'part',
+              cond: { $eq: ['$$part.verified', true] },
+            },
+          },
+        },
+      },
+    },
+    {
       $project: {
         _id: `$${field}._id`,
         name: `$${field}.person`,
         type,
-        isAllVerified: { $allElementsTrue: '$verificationInfo.verified' },
+        verifiedTranslationsCount: 1,
+        totalTranslations: { $size: '$verificationInfo' },
         totalReports: { $sum: '$verificationInfo.numReports' },
       },
     },
