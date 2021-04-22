@@ -25,7 +25,7 @@ function StatusTag(props: StatusTagProps) {
     case 'Unverified':
       return (
         <div className="status-tag">
-          <ExclamationCircleTwoTone twoToneColor="#ff9900" />
+          <ExclamationCircleTwoTone twoToneColor="#ffa940" />
           <span className="unverified-status-name">{status}</span>
         </div>
       );
