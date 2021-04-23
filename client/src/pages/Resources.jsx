@@ -68,6 +68,8 @@ function Resources({
     [],
   );
   const [savedSet, setSavedSet] = useState<Set<string>>(new Set());
+  const [locationValue, setLocationValue] = useState('');
+  const [locationResults, setLocationResults] = useState([]);
 
   // Reset cost when language switch
   useEffect(() => {
@@ -370,6 +372,8 @@ function Resources({
               setLanguage={setLanguage}
               setLocation={setLocation}
               setSort={setSort}
+              setLocationValue={setLocationValue}
+              setLocationResults={setLocationResults}
             />
             <Layout style={{ background: 'white' }}>
               <div>
