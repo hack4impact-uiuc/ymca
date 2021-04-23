@@ -44,7 +44,13 @@ const getVerifiedAggregation = (language, foreignField, type) => {
   ];
 };
 
-const getNestedVerifiedAggregation = (language, foreignField, type, field) => {
+const getNestedVerifiedAggregation = (
+  language,
+  foreignField,
+  type,
+  field,
+  nameField,
+) => {
   return [
     { $unwind: `$${field}` },
     {
@@ -77,7 +83,7 @@ const getNestedVerifiedAggregation = (language, foreignField, type, field) => {
     {
       $project: {
         _id: `$${field}._id`,
-        name: `$${field}.person`,
+        name: `$${field}.${nameField}`,
         type,
         verifiedTranslationsCount: 1,
         totalTranslations: { $size: '$verificationInfo' },

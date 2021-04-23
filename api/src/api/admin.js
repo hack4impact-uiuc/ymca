@@ -488,6 +488,7 @@ router.get(
         'subcategoryID',
         'subcategory',
         'subcategories',
+        'name',
       ),
     );
     const testimonialInfo = await HomePage.aggregate(
@@ -496,6 +497,7 @@ router.get(
         'testimonialID',
         'testimonial',
         'testimonials',
+        'person',
       ),
     );
 
