@@ -22,6 +22,7 @@ type ModalProps = {
   modalType: 'add' | 'delete' | 'rename',
   categoryType: 'subcategory' | 'category',
   subcategoryName: string,
+  subcategoryId: string,
   id: string,
   categoryName: string,
   updateView: () => void,
@@ -32,6 +33,7 @@ function EditCategoryModal(props: ModalProps) {
     modalType,
     categoryType,
     subcategoryName,
+    subcategoryId,
     id,
     categoryName,
     updateView,
@@ -56,6 +58,7 @@ function EditCategoryModal(props: ModalProps) {
           id,
           categoryName,
           subcategoryName,
+          subcategoryId,
           newSubcategoryName,
         );
       } else if (modalType === 'add') {
@@ -119,7 +122,12 @@ function EditCategoryModal(props: ModalProps) {
           await deleteCategory(id, categoryName);
           updateView();
         } else if (categoryType === 'subcategory') {
-          await deleteSubcategory(id, categoryName, subcategoryName);
+          await deleteSubcategory(
+            id,
+            categoryName,
+            subcategoryName,
+            subcategoryId,
+          );
           updateView();
         }
       },

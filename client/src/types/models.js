@@ -1,8 +1,13 @@
 // @flow
 
+export type Subcategory = {
+  name: string,
+  _id: string,
+};
+
 export type Category = {
   name: string,
-  subcategories: Array<string>,
+  subcategories: Array<Subcategory>,
   _id: string,
 };
 

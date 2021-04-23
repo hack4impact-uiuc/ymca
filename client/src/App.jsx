@@ -36,6 +36,7 @@ const ResourceDetailCommon = lazy(() =>
 
 const AdminResourceManager = lazy(() => import('./pages/AdminResourceManager'));
 const Translations = lazy(() => import('./pages/Translations'));
+const EditTranslations = lazy(() => import('./pages/EditTranslations'));
 
 const FORMAT_JS_LOCALE_DICT = {
   English: 'en',
@@ -138,6 +139,11 @@ const App = (): React$Element<React$FragmentType> => {
                 path="/translations"
                 component={Translations}
                 exact
+                minRole="admin"
+              />
+              <PrivateRoute
+                path="/translations/:id"
+                component={EditTranslations}
                 minRole="admin"
               />
               <Route
