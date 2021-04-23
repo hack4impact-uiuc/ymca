@@ -21,7 +21,7 @@ function ResourceFilterAutofill(props: Props) {
       const results = await searchLocation(search);
       setLocationResults(results.features);
       setAutofillOptions(
-        results.features.map((place, idx) => {
+        results.features.map((place) => {
           const split = place.place_name.split(', ');
           split.pop();
           return { value: split.join(', ') };
