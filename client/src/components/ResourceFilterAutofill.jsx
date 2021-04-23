@@ -1,7 +1,7 @@
 // @flow
 
 import React, { useState } from 'react';
-import { AutoComplete } from 'antd';
+import { AutoComplete, Input } from 'antd';
 import { HomeTwoTone } from '@ant-design/icons';
 import searchLocation from '../utils/geocoding';
 
@@ -40,8 +40,10 @@ function ResourceFilterAutofill(props: Props) {
         onChange={onLocationSearch}
         options={autofillOptions}
         placeholder="Enter your location here..."
-        style={{ width: '200px' }}
-      />
+        style={{ width: '15em' }}
+      >
+        <Input />
+      </AutoComplete>
     </>
   );
 }
