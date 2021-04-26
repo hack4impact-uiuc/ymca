@@ -552,10 +552,9 @@ router.patch(
 
     const updateQuery = { $inc: { numReports: 1 } };
 
-    let verified;
     switch (type) {
       case 'resource':
-        verified = await VerifiedTranslation.updateOne(
+        await VerifiedTranslation.updateOne(
           {
             resourceID: id,
             language,
@@ -564,7 +563,7 @@ router.patch(
         );
         break;
       case 'category':
-        verified = await VerifiedTranslation.updateOne(
+        await VerifiedTranslation.updateOne(
           {
             categoryID: id,
             language,
@@ -573,7 +572,7 @@ router.patch(
         );
         break;
       case 'subcategory':
-        verified = await VerifiedTranslation.updateOne(
+        await VerifiedTranslation.updateOne(
           {
             subcategoryID: id,
             language,
@@ -582,7 +581,7 @@ router.patch(
         );
         break;
       case 'testimonial':
-        verified = await VerifiedTranslation.updateOne(
+        await VerifiedTranslation.updateOne(
           {
             testimonialID: id,
             language,
