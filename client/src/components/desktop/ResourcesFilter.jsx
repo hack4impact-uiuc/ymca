@@ -26,7 +26,7 @@ type Props = {
   setLocation: (string) => void,
   setSort: (string) => void,
   setLocationValue: (string) => void,
-  setLocationResults: (Array) => void,
+  setLocationResult: (object) => void,
 };
 
 function ResourcesFilter(props: Props): React$Element<'div'> {
@@ -44,7 +44,7 @@ function ResourcesFilter(props: Props): React$Element<'div'> {
     setLocation,
     setSort,
     setLocationValue,
-    setLocationResults,
+    setLocationResult,
   } = props;
   const intl = useIntl();
   const translatedCost = intl.formatMessage(filterMessages.cost);
@@ -145,7 +145,7 @@ function ResourcesFilter(props: Props): React$Element<'div'> {
         <span className="resources-filter-autofill">
           <ResourceFilterAutofill
             setLocationValue={setLocationValue}
-            setLocationResults={setLocationResults}
+            setLocationResult={setLocationResult}
           />
         </span>
       )}
