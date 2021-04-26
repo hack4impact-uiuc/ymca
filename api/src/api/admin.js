@@ -488,6 +488,7 @@ router.get(
         'subcategoryID',
         'subcategory',
         'subcategories',
+        'name',
       ),
     );
     const testimonialInfo = await HomePage.aggregate(
@@ -496,6 +497,7 @@ router.get(
         'testimonialID',
         'testimonial',
         'testimonials',
+        'person',
       ),
     );
 
@@ -537,6 +539,70 @@ router.get(
       message: 'Successfully returned verified translation info',
       success: true,
       result: verificationDetails,
+    });
+  }),
+);
+
+// Report a translation error for an ID
+router.patch(
+  '/report/:id',
+  errorWrap(async (req, res) => {
+    const { id } = req.params;
+    const { language, type } = req.query;
+
+    const updateQuery = { $inc: { numReports: 1 } };
+
+    switch (type) {
+      case 'resource':
+        await VerifiedTranslation.updateOne(
+          {
+            resourceID: id,
+            language,
+          },
+          updateQuery,
+        );
+        break;
+      case 'category':
+        await VerifiedTranslation.updateOne(
+          {
+            categoryID: id,
+            language,
+          },
+          updateQuery,
+        );
+        break;
+      case 'subcategory':
+        await VerifiedTranslation.updateOne(
+          {
+            subcategoryID: id,
+            language,
+          },
+          updateQuery,
+        );
+        break;
+      case 'testimonial':
+        await VerifiedTranslation.updateOne(
+          {
+            testimonialID: id,
+            language,
+          },
+          updateQuery,
+        );
+        break;
+      default:
+        res.json({
+          code: 400,
+          message: 'Could not find specified type',
+          success: false,
+          result: null,
+        });
+    }
+
+    res.json({
+      code: 200,
+      message: 'Successfully reported an error',
+      success: true,
+      result: null,
     });
   }),
 );
