@@ -20,25 +20,49 @@ const getVerifiedAggregation = (language, foreignField, type) => {
       },
     },
     {
-      $addFields: {
+      $project: {
+        name: 1,
+        type,
         verifiedTranslationsCount: {
           $size: {
             $filter: {
               input: '$verificationInfo',
               as: 'part',
-              cond: { $eq: ['$$part.verified', true] },
+              cond: {
+                $and: [
+                  { $eq: ['$$part.verified', true] },
+                  { $eq: ['$$part.language', language] },
+                ],
+              },
             },
           },
         },
-      },
-    },
-    {
-      $project: {
-        name: 1,
-        type,
-        verifiedTranslationsCount: 1,
-        totalTranslations: { $size: '$verificationInfo' },
-        totalReports: { $sum: '$verificationInfo.numReports' },
+        totalTranslations: {
+          $size: {
+            $filter: {
+              input: '$verificationInfo',
+              as: 'part',
+              cond: {
+                $eq: ['$$part.language', language],
+              },
+            },
+          },
+        },
+        totalReports: {
+          $sum: {
+            $map: {
+              input: '$verificationInfo',
+              as: 'part',
+              in: {
+                $cond: [
+                  { $eq: ['$$part.language', language] },
+                  '$$part.numReports',
+                  0,
+                ],
+              },
+            },
+          },
+        },
       },
     },
   ];
