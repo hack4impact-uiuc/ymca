@@ -543,4 +543,69 @@ router.get(
   }),
 );
 
+// Report a translation error for an ID
+router.patch(
+  '/report/:id',
+  errorWrap(async (req, res) => {
+    const { id } = req.params;
+    const { language, type } = req.query;
+
+    const updateQuery = { $inc: { numReports: 1 } };
+
+    let verified;
+    switch (type) {
+      case 'resource':
+        verified = await VerifiedTranslation.updateOne(
+          {
+            resourceID: id,
+            language,
+          },
+          updateQuery,
+        );
+        break;
+      case 'category':
+        verified = await VerifiedTranslation.updateOne(
+          {
+            categoryID: id,
+            language,
+          },
+          updateQuery,
+        );
+        break;
+      case 'subcategory':
+        verified = await VerifiedTranslation.updateOne(
+          {
+            subcategoryID: id,
+            language,
+          },
+          updateQuery,
+        );
+        break;
+      case 'testimonial':
+        verified = await VerifiedTranslation.updateOne(
+          {
+            testimonialID: id,
+            language,
+          },
+          updateQuery,
+        );
+        break;
+      default:
+        res.json({
+          code: 400,
+          message: 'Could not find specified type',
+          success: false,
+          result: null,
+        });
+    }
+
+    res.json({
+      code: 200,
+      message: 'Successfully reported an error',
+      success: true,
+      result: null,
+    });
+  }),
+);
+
 module.exports = router;
