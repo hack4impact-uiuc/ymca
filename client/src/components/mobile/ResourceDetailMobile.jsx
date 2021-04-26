@@ -435,7 +435,7 @@ const ResourceDetailMobile = (props: Props) => {
                             'resource-financialAid-immigrationStatus-' +
                             `${financialAidDetails._id}`
                           }
-                          defaultMessage={financialAidDetails.education}
+                          defaultMessage={financialAidDetails.immigrationStatus}
                         />
                       ) : (
                         <FormattedMessage {...detailMessages.noneProvided} />
@@ -456,7 +456,7 @@ const ResourceDetailMobile = (props: Props) => {
                             'resource-financialAid-deadline-' +
                             `${financialAidDetails._id}`
                           }
-                          defaultMessage={financialAidDetails.education}
+                          defaultMessage={financialAidDetails.deadline}
                         />
                       ) : (
                         <FormattedMessage {...detailMessages.noneProvided} />
@@ -472,7 +472,7 @@ const ResourceDetailMobile = (props: Props) => {
                             'resource-financialAid-amount-' +
                             `${financialAidDetails._id}`
                           }
-                          defaultMessage={financialAidDetails.education}
+                          defaultMessage={financialAidDetails.amount}
                         />
                       ) : (
                         <FormattedMessage {...detailMessages.noneProvided} />

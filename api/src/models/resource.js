@@ -61,7 +61,6 @@ const Resource = new mongoose.Schema({
     type: {
       type: String,
       enum: ['Point'],
-      default: 'Point',
     },
     coordinates: {
       type: [Number],
@@ -69,6 +68,6 @@ const Resource = new mongoose.Schema({
     },
   },
 });
-Resource.index({ geoLocation: '2dsphere' }, { sparse: false });
+Resource.index({ geoLocation: '2dsphere' });
 
 module.exports = mongoose.model('Resource', Resource);
