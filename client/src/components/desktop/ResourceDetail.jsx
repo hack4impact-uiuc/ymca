@@ -24,6 +24,7 @@ import {
 import ResourcesBreadcrumb from '../ResourcesBreadcrumb';
 import SaveButton from '../SaveButton';
 import ShareButton from '../ShareButton';
+import TranslationPopup from '../TranslationPopup';
 import { useAuth } from '../../utils/use-auth';
 import { detailMessages, filterMessages } from '../../utils/messages';
 import languageConversion from '../../utils/languages';
@@ -286,7 +287,9 @@ function ResourceDetail(props) {
       </Header>
       <Row className="section">
         <Col span={15}>
-          <span className="resource-name">{`${name}\n`}</span>
+          <t className="resource-name">{name}</t>
+          <TranslationPopup id={match.params.id} type="resource" />
+          <br />
           <SaveButton
             isSaved={isSaved}
             deleteResourceHandler={deleteSavedResourceHandler}
@@ -294,7 +297,6 @@ function ResourceDetail(props) {
             fullButton
           />
           <ShareButton fullButton />
-
           {authed && authRoleIsEquivalentTo('admin') && (
             <span className="resource-edit-delete">
               <Button href={`/admin/${match.params.id}`}>Edit</Button>
@@ -344,10 +346,12 @@ function ResourceDetail(props) {
       <Row className="section card-row">
         <Col span={24}>
           {description.length > 0 ? (
-            <FormattedMessage
-              id={`resource-description-${match.params.id}`}
-              defaultMessage={description}
-            />
+            <>
+              <FormattedMessage
+                id={`resource-description-${match.params.id}`}
+                defaultMessage={description}
+              />
+            </>
           ) : (
             <FormattedMessage {...detailMessages.noDescription} />
           )}

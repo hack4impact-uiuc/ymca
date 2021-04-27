@@ -13,7 +13,7 @@ function onChange(e) {
 
 function Translations() {
   return (
-    <div className="edit-tranlsations">
+    <div className="edit-translations">
       <Header className="header">
         <Row justify="left" type="flex">
           <h2>Edit Resource Translations</h2>

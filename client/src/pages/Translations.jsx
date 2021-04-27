@@ -59,7 +59,7 @@ function Translations() {
   ];
 
   return (
-    <div className="tranlsations-header">
+    <div className="translations-header">
       <Header className="header">
         <Row justify="left" type="flex">
           <h2>Translations</h2>
