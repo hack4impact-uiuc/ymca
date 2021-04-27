@@ -42,7 +42,6 @@ function Translations() {
           </div>
           <div className="submit-button-wrapper">
             <Button type="primary" onClick={error} className="submit-button">
-
               Submit
             </Button>
           </div>
