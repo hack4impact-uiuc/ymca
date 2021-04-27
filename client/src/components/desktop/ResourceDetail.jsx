@@ -346,12 +346,10 @@ function ResourceDetail(props) {
       <Row className="section card-row">
         <Col span={24}>
           {description.length > 0 ? (
-            <>
-              <FormattedMessage
-                id={`resource-description-${match.params.id}`}
-                defaultMessage={description}
-              />
-            </>
+            <FormattedMessage
+              id={`resource-description-${match.params.id}`}
+              defaultMessage={description}
+            />
           ) : (
             <FormattedMessage {...detailMessages.noDescription} />
           )}
