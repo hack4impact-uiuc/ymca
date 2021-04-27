@@ -30,15 +30,6 @@ const SidebarCategory = (props: Props) => {
   } = props;
   const [opened, setOpened] = useState(false);
 
-  const handleChange = () => {
-    setOpened(!opened);
-    if (!opened) setSelectedCategory(categoryName);
-    else {
-      setSelectedCategory('');
-      setSelectedSubcategory('');
-    }
-  };
-
   return (
     <SubMenu
       {...props}
@@ -70,7 +61,6 @@ const SidebarCategory = (props: Props) => {
           <DownOutlined style={{ position: 'relative', top: -2 }} />
         )
       }
-      onTitleClick={handleChange}
     >
       {categories[categoryName][0].map((subcategory) => (
         <Menu.Item
@@ -138,6 +128,7 @@ const ResourceManager = () => {
   >([]);
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedSubcategory, setSelectedSubcategory] = useState('');
+  const [openKeys, setOpenKeys] = useState<Array<string>>([]);
 
   const fetchCategories = async () => {
     const res = await getCategories();
@@ -179,10 +170,56 @@ const ResourceManager = () => {
     updateView();
   }, [updateView]);
 
+  const onOpenChange = (newOpenKeys: Array<string>) => {
+    if (newOpenKeys.length === 0) {
+      if (categories[category].some((sub) => sub.name === subcategory)) {
+        history.push({
+          pathname: '/resources',
+          search: `?category=${category}`,
+        });
+        return;
+      }
+      setOpenKeys([]);
+      return;
+    }
+
+    const latestOpenKey = newOpenKeys.find(
+      (key) => openKeys.indexOf(key) === -1,
+    );
+    if (Object.keys(categories).indexOf(latestOpenKey) === -1) {
+      setOpenKeys(newOpenKeys);
+    } else {
+      setOpenKeys(latestOpenKey != null ? [latestOpenKey] : []);
+    }
+    const categorySelected = latestOpenKey;
+    history.push({
+      pathname: '/resources',
+      search: `?category=${categorySelected ?? ''}`,
+    });
+  };
+
+  // const onOpenChange = (e) => {
+  //   console.log(e);
+  //   setOpened(!opened);
+  //   if (!opened) setSelectedCategory(categoryName);
+  //   else {
+  //     setSelectedCategory('');
+  //     setSelectedSubcategory('');
+  //   }
+  // };
+
   return (
     <div className="resource-manager-flexbox">
       <div className="resource-manager-sidebar">
-        <Menu mode="inline" expandIcon={<div />}>
+        <Menu
+          mode="inline"
+          selectedKeys={
+            selectedSubcategory === '' ? selectedCategory : selectedSubcategory
+          }
+          openKeys={openKeys}
+          onOpenChange={onOpenChange}
+          expandIcon={<div />}
+        >
           {Object.keys(categories).map((categoryName) => (
             <SidebarCategory
               categories={categories}
