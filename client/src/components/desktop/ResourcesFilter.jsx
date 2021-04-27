@@ -7,6 +7,7 @@ import { useIntl, FormattedMessage } from 'react-intl';
 
 import { filterMessages } from '../../utils/messages';
 import ResourceFilterSearch from '../ResourceFilterSearch';
+import ResourceFilterAutofill from '../ResourceFilterAutofill';
 import languageConversion from '../../utils/languages';
 
 import '../../css/ResourcesFilter.css';
@@ -24,6 +25,8 @@ type Props = {
   setLanguage: (string) => void,
   setLocation: (string) => void,
   setSort: (string) => void,
+  setLocationSearch: (string) => void,
+  setLocationResult: (object) => void,
 };
 
 function ResourcesFilter(props: Props): React$Element<'div'> {
@@ -40,6 +43,8 @@ function ResourcesFilter(props: Props): React$Element<'div'> {
     setLanguage,
     setLocation,
     setSort,
+    setLocationSearch,
+    setLocationResult,
   } = props;
   const intl = useIntl();
   const translatedCost = intl.formatMessage(filterMessages.cost);
@@ -136,6 +141,14 @@ function ResourcesFilter(props: Props): React$Element<'div'> {
           <FormattedMessage {...filterMessages.location} />
         </Button>
       </Dropdown>
+      {setLocationSearch && (
+        <span className="resources-filter-autofill">
+          <ResourceFilterAutofill
+            setLocationSearch={setLocationSearch}
+            setLocationResult={setLocationResult}
+          />
+        </span>
+      )}
       <div className="searchbar-align-right">
         <ResourceFilterSearch />
       </div>
