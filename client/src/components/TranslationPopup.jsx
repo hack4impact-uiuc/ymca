@@ -17,7 +17,6 @@ function TranslationPopup(props: Props) {
     // TODO: call error report endpoint here
     // get language with localStorage.getItem('language') || 'English'
     message.success('Thank you for your feedback!');
-    message.success(localStorage.getItem('language'));
   };
 
   return (
