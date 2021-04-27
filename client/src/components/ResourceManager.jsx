@@ -173,7 +173,6 @@ const ResourceManager = () => {
   }, [updateView]);
 
   const onOpenChange = (newOpenKeys: Array<string>) => {
-    console.log(newOpenKeys);
     if (newOpenKeys.length === 0) {
       setSelectedCategory('All Resources');
       setSelectedSubcategory('');
