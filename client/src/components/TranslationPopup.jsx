@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { message, Tooltip } from 'antd';
+import { message, Button, Tooltip } from 'antd';
 import { InfoCircleOutlined } from '@ant-design/icons';
 
 import '../css/TranslationPopup.css';
@@ -27,9 +27,14 @@ function TranslationPopup(props: Props) {
         <div className="translation-popup-text">
           This page has automated translations.
           <br />
-          <a href="#" onClick={reportError}>
+          <Button
+            className="translation-popup-link"
+            onClick={reportError}
+            size="small"
+            type="link"
+          >
             Report an error?
-          </a>
+          </Button>
         </div>
       }
     >
