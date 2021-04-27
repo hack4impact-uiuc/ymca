@@ -19,6 +19,7 @@ import ResourcesFilter from '../components/desktop/ResourcesFilter';
 import ResourcesGrid from '../components/ResourcesGrid';
 import ResourceCategoryFilter from '../components/ResourceCategoryFilter';
 import ResourcesCatMobile from '../components/mobile/ResourcesCatMobile';
+import ResourcesMap from '../components/ResourcesMap';
 
 const { Sider } = Layout;
 const { TabPane } = Tabs;
@@ -67,6 +68,8 @@ function Resources({
     [],
   );
   const [savedSet, setSavedSet] = useState<Set<string>>(new Set());
+  const [locationSearch, setLocationSearch] = useState('');
+  const [locationResult, setLocationResult] = useState({});
 
   // Reset cost when language switch
   useEffect(() => {
@@ -373,6 +376,8 @@ function Resources({
               setLanguage={setLanguage}
               setLocation={setLocation}
               setSort={setSort}
+              setLocationSearch={setLocationSearch}
+              setLocationResult={setLocationResult}
             />
             <Layout style={{ background: 'white' }}>
               <div>
@@ -388,7 +393,7 @@ function Resources({
                   />
                 </Sider>
               </div>
-              Map
+              <ResourcesMap />
             </Layout>
           </TabPane>
         </Tabs>
