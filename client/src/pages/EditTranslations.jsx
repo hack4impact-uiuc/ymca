@@ -1,19 +1,21 @@
 // @flow
 
 import React from 'react';
-import { Row, Progress, Checkbox, Layout, Button, Input } from 'antd';
+import { Row, Progress, Layout, Button, message } from 'antd';
 
 import '../css/EditTranslations.css';
 
+import TranslationFormRow from '../components/TranslationFormRow';
+
 const { Header } = Layout;
 
-function onChange(e) {
-  console.log(`checked = ${e.target.checked}`);
-}
+const error = () => {
+  message.error('You must verify at least one translation!');
+};
 
 function Translations() {
   return (
-    <div className="edit-tranlsations">
+    <div className="edit-translations">
       <Header className="header">
         <Row justify="left" type="flex">
           <h2>Edit Resource Translations</h2>
@@ -27,19 +29,7 @@ function Translations() {
           <div className="to-translate-language">Español</div>
           <div>Verified?</div>
         </div>
-        <div className="translation-container">
-          <div className="resource-description">Resource Descriptions</div>
-          <div className="text-to-translate">
-            Assist with insurance applications, community care applications, and
-            general orientation of the health care system.
-          </div>
-          <div className="translation-input">
-            <Input placeholder="Translation" />
-          </div>
-          <Checkbox onChange={onChange} className="checkbox-translation">
-            {' '}
-          </Checkbox>
-        </div>
+        <TranslationFormRow />
         <div className="grid">
           <div>
             <div className="progress-bar-text">0/11 translations verified</div>
@@ -51,7 +41,7 @@ function Translations() {
             />
           </div>
           <div className="submit-button-wrapper">
-            <Button type="primary" className="submit-button">
+            <Button type="primary" onClick={error} className="submit-button">
               Submit
             </Button>
           </div>
