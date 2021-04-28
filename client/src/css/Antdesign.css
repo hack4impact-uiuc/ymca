@@ -5,3 +5,7 @@
 .ant-select-selection-placeholder {
   font-size: 16px;
 }
+
+.ant-select-arrow {
+  top: 43%;
+}

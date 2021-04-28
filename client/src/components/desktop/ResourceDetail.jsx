@@ -308,39 +308,44 @@ function ResourceDetail(props) {
             </span>
           )}
         </Col>
-        <Col span={1} className="header-info">
-          <GlobalOutlined />
-          <MailOutlined />
-          <PhoneFilled />
-          {phone.length > 0 && phone.map(() => `\n`)}
-          <EnvironmentOutlined />
-        </Col>
-        <Col span={8} className="header-info">
-          {website.length > 0 ? (
-            <a
-              href={absoluteWebsiteURL}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {`${website}`}
-              {'\n'}
-            </a>
-          ) : (
-            `${intl.formatMessage(detailMessages.noWebsite)}\n`
-          )}
-          {email.length > 0
-            ? `${email}\n`
-            : `${intl.formatMessage(detailMessages.noEmail)}\n`}
-          {phone.length > 0
-            ? phone.map(
-                (p) =>
-                  `${intl.formatMessage({
-                    id: `resource-phoneType-${p._id}`,
-                    defaultMessage: p.phoneType,
-                  })}: ${p.phoneNumber}\n`,
-              )
-            : `${intl.formatMessage(detailMessages.noPhoneNumber)}\n`}
-          {addressString}
+        <Col span={9} className="header-info">
+          <div className="info-row">
+            <GlobalOutlined />
+            {website.length > 0 ? (
+              <a
+                href={absoluteWebsiteURL}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {`${website}`}
+                {'\n'}
+              </a>
+            ) : (
+              `${intl.formatMessage(detailMessages.noWebsite)}\n`
+            )}
+          </div>
+          <div className="info-row">
+            <MailOutlined />
+            {email.length > 0
+              ? `${email}\n`
+              : `${intl.formatMessage(detailMessages.noEmail)}\n`}
+          </div>
+          <div className="info-row">
+            <PhoneFilled />
+            {phone.length > 0
+              ? phone.map(
+                  (p) =>
+                    `${intl.formatMessage({
+                      id: `resource-phoneType-${p._id}`,
+                      defaultMessage: p.phoneType,
+                    })}: ${p.phoneNumber}\n`,
+                )
+              : `${intl.formatMessage(detailMessages.noPhoneNumber)}\n`}
+          </div>
+          <div className="info-row">
+            <EnvironmentOutlined />
+            {addressString}
+          </div>
         </Col>
       </Row>
       <Row className="section card-row">

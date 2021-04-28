@@ -57,7 +57,7 @@ function SaveButton(props: SaveButtonProps) {
           {fullButton ? (
             <Popover content={loginMessage}>
               <Button className="save-button">
-                <HeartOutlined />
+                <HeartOutlined style={{ marginRight: 4 }} />
                 <FormattedMessage id="save" defaultMessage="Save" />
               </Button>
             </Popover>
@@ -83,7 +83,7 @@ function SaveButton(props: SaveButtonProps) {
                       await deleteResourceHandler();
                     }}
                   >
-                    <HeartFilled />
+                    <HeartFilled style={{ marginRight: 4 }} />
                     <FormattedMessage id="save" defaultMessage="Save" />
                   </Button>
                 </Popover>
@@ -113,7 +113,7 @@ function SaveButton(props: SaveButtonProps) {
                       await saveResourceHandler();
                     }}
                   >
-                    <HeartOutlined />
+                    <HeartOutlined style={{ marginRight: 4 }} />
                     <FormattedMessage id="save" defaultMessage="Save" />
                   </Button>
                 </Popover>

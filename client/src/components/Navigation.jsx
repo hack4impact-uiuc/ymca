@@ -10,6 +10,7 @@ import useWindowDimensions from '../utils/mobile';
 import { useAuth } from '../utils/use-auth';
 
 import '../css/Navigation.css';
+import '../css/Antdesign.css';
 
 import { savedResourcesMessage } from '../utils/messages';
 
@@ -95,25 +96,27 @@ const NavDesktop = (props: NavigationProps) => {
             </NavLink>
           </Menu.Item>
         )}
-        <img
-          src="/asset/icon/globe.svg"
-          className="globe"
-          alt="Globe"
-          height="18"
-          width="18"
-        />
-        <Select
-          className="languages"
-          defaultValue="English"
-          bordered={false}
-          onChange={setLanguage}
-          value={language}
-        >
-          <Option value="English">English</Option>
-          <Option value="Spanish">Español</Option>
-          <Option value="French">Français</Option>
-          <Option value="Chinese">中文</Option>
-        </Select>
+        <Menu.Item key="languages">
+          <img
+            src="/asset/icon/globe.svg"
+            className="globe"
+            alt="Globe"
+            height="18"
+            width="18"
+          />
+          <Select
+            className="languages"
+            defaultValue="English"
+            bordered={false}
+            onChange={setLanguage}
+            value={language}
+          >
+            <Option value="English">English</Option>
+            <Option value="Spanish">Español</Option>
+            <Option value="French">Français</Option>
+            <Option value="Chinese">中文</Option>
+          </Select>
+        </Menu.Item>
       </Menu>
     </Header>
   );
