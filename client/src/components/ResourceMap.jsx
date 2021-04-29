@@ -1,6 +1,6 @@
 // @flow
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import '../css/ResourceMap.css';
 
 import ReactMapboxGl from 'react-mapbox-gl';
@@ -23,16 +23,23 @@ const ResourceMap = (props: Props) => {
     interactive: true,
   });
 
-  return (
-    <div className="map">
+  const mapComponent = useMemo(
+    () => (
       <Map
         style="mapbox://styles/mapbox/light-v9"
         containerStyle={{
           height: '600px',
-          width: '800px',
+          width: '875px',
         }}
         zoom={[15]}
       />
+    ),
+    [],
+  );
+
+  return (
+    <div className="map">
+      {mapComponent}
       {modalOpened && selectedResource && (
         <MapViewModal
           resource={selectedResource}

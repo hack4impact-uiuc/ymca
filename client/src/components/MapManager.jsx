@@ -33,6 +33,7 @@ const MapManager = () => {
             address: r.address,
             cost: r.cost,
             id: r._id.toString(),
+            image: r.image,
             languages: r.availableLanguages,
             distance: r.calculatedDistance,
             description: r.description,
@@ -53,6 +54,7 @@ const MapManager = () => {
     <>
       <MapViewList
         resources={resources}
+        selectedResource={selectedResource}
         setSelectedResource={setSelectedResource}
       />
       <ResourceMap selectedResource={selectedResource} className="map" />

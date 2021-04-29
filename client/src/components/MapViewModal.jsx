@@ -60,7 +60,11 @@ const MapViewModal = (props: Props) => {
       hoverable
       className="card"
       cover={
-        <img alt="example" src="/asset/images/splash.webp" className="cover" />
+        <img
+          alt="example"
+          src={resource.image || '/asset/images/splash.webp'}
+          className="cover"
+        />
       }
     >
       <h5>{resource.name}</h5>

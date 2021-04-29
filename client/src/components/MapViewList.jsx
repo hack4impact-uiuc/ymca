@@ -1,6 +1,6 @@
 // @flow
 
-import React, { useState } from 'react';
+import React from 'react';
 import { List } from 'antd';
 
 import '../css/MapViewList.css';
@@ -11,8 +11,7 @@ type Props = {
 };
 
 const MapViewList = (props: Props) => {
-  const { resources, setSelectedResource } = props;
-  const [selectedID, setSelectedID] = useState('');
+  const { resources, selectedResource, setSelectedResource } = props;
 
   return (
     <List
@@ -21,13 +20,12 @@ const MapViewList = (props: Props) => {
       renderItem={(resource) => (
         <List.Item
           onClick={() => {
-            setSelectedID(resource.id);
             setSelectedResource(resource);
           }}
         >
           <MapViewEntry
             resource={resource}
-            selected={resource.id === selectedID}
+            selected={resource.id === selectedResource?.id}
           />
         </List.Item>
       )}
