@@ -32,14 +32,14 @@ function Translations() {
 
         if (verification.totalReports >= 1) {
           unverifiedResources[l].push({
-            key: '1',
+            key: verification._id,
             name: verification.name,
             priority: <PriorityIcon priorityType="Urgent" />,
             status: <StatusTag status="Unverified" />,
             translate: (
               <Link
                 to={
-                  `/translation/${verification._id}?` +
+                  `/translations/${verification._id}?` +
                   `language=${l}&type=${verification.type}`
                 }
               >
@@ -49,13 +49,13 @@ function Translations() {
           });
         } else if (percentage === 100.0) {
           verifiedResources[l].push({
-            key: '1',
+            key: verification._id,
             name: verification.name,
             status: <StatusTag status="Verified" />,
             translate: (
               <Link
                 to={
-                  `/translation/${verification._id}?` +
+                  `/translations/${verification._id}?` +
                   `language=${l}&type=${verification.type}`
                 }
               >
@@ -73,14 +73,14 @@ function Translations() {
             priority = <PriorityIcon priorityType="Low" />;
           }
           unverifiedResources[l].push({
-            key: '1',
+            key: verification._id,
             name: verification.name,
             priority,
             status: <StatusTag status="Unverified" />,
             translate: (
               <Link
                 to={
-                  `/translation/${verification._id}?` +
+                  `/translations/${verification._id}?` +
                   `language=${l}&type=${verification.type}`
                 }
               >
