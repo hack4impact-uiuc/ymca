@@ -1,6 +1,6 @@
 // @flow
 
-import { React, useEffect, useState, setState, useCallback } from 'react';
+import { React, useEffect, useState, useCallback } from 'react';
 import { Row, Progress, Layout, Button, message } from 'antd';
 
 import '../css/EditTranslations.css';

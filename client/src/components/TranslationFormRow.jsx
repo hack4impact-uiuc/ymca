@@ -10,7 +10,7 @@ function onChange(e) {
   console.log(`checked = ${e.target.checked}`);
 }
 
-const TranslationFormRow = ({ key, translationId, text, translation }) => {
+const TranslationFormRow = ({ translationId, text, translation }) => {
   const [firstCol, setFirstCol] = useState('');
 
   useEffect(() => {
