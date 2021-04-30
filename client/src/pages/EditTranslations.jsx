@@ -70,7 +70,7 @@ function Translations({ location, match }) {
         <div className="title">
           <div> </div>
           <div>English</div>
-          <div className="to-translate-language">Español</div>
+          <div className="to-translate-language">{language}</div>
           <div>Verified?</div>
         </div>
         {rows}
