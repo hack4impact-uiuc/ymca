@@ -6,10 +6,18 @@ import { getResourcesByCategory } from '../utils/api';
 import MapViewList from './MapViewList';
 import ResourceMap from './ResourceMap';
 
-const MapManager = () => {
+const CHAMPAIGN_COORDS = [-88.2434, 40.1164];
+
+type Props = { locationResult: { center: [number, number] } };
+
+const MapManager = (props: Props) => {
+  const { locationResult } = props;
+
   const [resources, setResources] = useState<Array<Resource>>([]);
   const [selectedResource, setSelectedResource] = useState<Resource>(null);
-  const location = '505 E Healey St, Champaign, IL 61820';
+  const [currentLocation, setCurrentLocation] = useState<[number, number]>(
+    CHAMPAIGN_COORDS,
+  );
 
   useEffect(() => {
     const fetchResources = async () => {
@@ -22,7 +30,7 @@ const MapManager = () => {
         null,
         null,
         null,
-        location,
+        locationResult.center ?? CHAMPAIGN_COORDS,
       );
       const newResources = [];
       if (res != null) {
@@ -41,23 +49,39 @@ const MapManager = () => {
             phoneNumber: r.phoneNumbers[0]?.phoneNumber,
             email: r.email,
             category: r.category[0],
+            coordinates: r.geoLocation.coordinates,
           });
         });
       }
       setResources(newResources);
+      setCurrentLocation(newResources[0].coordinates);
     };
 
     fetchResources();
-  }, []);
+  }, [locationResult.center]);
+
+  useEffect(() => {
+    if (locationResult?.center) {
+      setCurrentLocation(locationResult.center);
+    }
+  }, [locationResult]);
 
   return (
     <>
       <MapViewList
         resources={resources}
         selectedResource={selectedResource}
-        setSelectedResource={setSelectedResource}
+        setSelectedResource={(resource) => {
+          setSelectedResource(resource);
+          setCurrentLocation(resource.coordinates);
+        }}
       />
-      <ResourceMap selectedResource={selectedResource} className="map" />
+      <ResourceMap
+        resources={resources}
+        selectedResource={selectedResource}
+        currentLocation={currentLocation}
+        className="map"
+      />
     </>
   );
 };

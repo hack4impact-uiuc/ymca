@@ -17,6 +17,7 @@ const MapViewList = (props: Props) => {
     <List
       className="list"
       dataSource={resources}
+      pagination={{ simple: true }}
       renderItem={(resource) => (
         <List.Item
           onClick={() => {

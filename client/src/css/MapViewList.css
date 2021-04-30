@@ -1,4 +1,6 @@
 .list {
   width: 325px;
   cursor: pointer;
+  height: 600px;
+  overflow-y: scroll;
 }

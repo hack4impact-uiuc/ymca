@@ -112,7 +112,7 @@ export const getResourcesByCategory = (
   sort: ?string,
   size: ?number,
   page: ?number,
-  location: ?string,
+  coordinates: ?[number, number],
 ): ApiResponse<Array<Resource>> => {
   const requestExtension = `/api/resources`;
   const params = {
@@ -124,7 +124,8 @@ export const getResourcesByCategory = (
     sort,
     size,
     page,
-    location,
+    long: coordinates && coordinates[0],
+    lat: coordinates && coordinates[1],
   };
   return instance.get(requestExtension, { params }).then(
     (res) => res.data,
