@@ -16,6 +16,7 @@ import { useIntl, FormattedMessage } from 'react-intl';
 import ResourcesBreadcrumb from '../ResourcesBreadcrumb';
 import SaveButton from '../SaveButton';
 import ShareButton from '../ShareButton';
+import TranslationPopup from '../TranslationPopup';
 import { getResourceByID } from '../../utils/api';
 import {
   saveResource,
@@ -304,7 +305,8 @@ const ResourceDetailMobile = (props: Props) => {
           />
           <Row className="mb-rd-header-bar" type="flex">
             <Col>
-              <h2 className="mb-rd-header-text">{name}</h2>
+              <span className="mb-rd-header-text">{name}</span>
+              <TranslationPopup id={match.params.id} type="resource" isMobile />
             </Col>
             <Col>
               <SaveButton
