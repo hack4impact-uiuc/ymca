@@ -46,7 +46,6 @@ function Translations({ location, match }) {
   }, [getLanguageAndTypeFromSearch, match.params.id]);
   const rows = textToTranslate.map((verificationObject) => {
     const key = Object.keys(verificationObject)[0];
-    // key in this case is `testimonial-danielladistefano-legalservicesintern`
     return (
       <TranslationFormRow
         key={key}
