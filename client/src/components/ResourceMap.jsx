@@ -30,7 +30,7 @@ const ResourceMap = (props: Props) => {
         center={currentLocation}
         containerStyle={{
           height: '600px',
-          width: '875px',
+          width: '100%',
         }}
         zoom={[17]}
       >

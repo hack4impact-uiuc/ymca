@@ -6,16 +6,18 @@ import { getResourcesByCategory } from '../utils/api';
 import MapViewList from './MapViewList';
 import ResourceMap from './ResourceMap';
 
-type Props = {};
+const CHAMPAIGN_COORDS = [-88.2434, 40.1164];
+
+type Props = { locationResult: { center: [number, number] } };
 
 const MapManager = (props: Props) => {
   const { locationResult } = props;
 
   const [resources, setResources] = useState<Array<Resource>>([]);
   const [selectedResource, setSelectedResource] = useState<Resource>(null);
-  const [currentLocation, setCurrentLocation] = useState([0, 0]);
-
-  const location = '505 E Healey St, Champaign, IL 61820';
+  const [currentLocation, setCurrentLocation] = useState<[number, number]>(
+    CHAMPAIGN_COORDS,
+  );
 
   useEffect(() => {
     const fetchResources = async () => {
@@ -28,7 +30,7 @@ const MapManager = (props: Props) => {
         null,
         null,
         null,
-        location,
+        locationResult.center ?? CHAMPAIGN_COORDS,
       );
       const newResources = [];
       if (res != null) {
@@ -56,22 +58,23 @@ const MapManager = (props: Props) => {
     };
 
     fetchResources();
-  }, []);
+  }, [locationResult.center]);
 
   useEffect(() => {
-    setCurrentLocation(locationResult.center);
+    if (locationResult?.center) {
+      setCurrentLocation(locationResult.center);
+    }
   }, [locationResult]);
-
-  useEffect(() => {
-    setCurrentLocation(selectedResource.coordinates);
-  }, [selectedResource]);
 
   return (
     <>
       <MapViewList
         resources={resources}
         selectedResource={selectedResource}
-        setSelectedResource={setSelectedResource}
+        setSelectedResource={(resource) => {
+          setSelectedResource(resource);
+          setCurrentLocation(resource.coordinates);
+        }}
       />
       <ResourceMap
         resources={resources}
