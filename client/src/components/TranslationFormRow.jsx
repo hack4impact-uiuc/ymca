@@ -15,7 +15,6 @@ const TranslationFormRow = ({ translationId, text, translation }) => {
 
   useEffect(() => {
     function firstColumn() {
-      console.log(translationId);
       if (translationId.indexOf('resource-description') !== -1) {
         setFirstCol('Resource Description');
       } else if (
