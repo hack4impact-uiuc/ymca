@@ -125,16 +125,18 @@ const ResourceDetailMobile = (props: Props) => {
         );
 
         setLat(
-          result.geoLocation == null ||
-            Number.isNaN(result.geoLocation.coordinates[1])
+          result?.geoLocation == null ||
+            result?.geoLocation?.coordinates == null ||
+            Number.isNaN(result?.geoLocation?.coordinates[1])
             ? 0.0
-            : result.geoLocation.coordinates[1],
+            : result?.geoLocation?.coordinates[1],
         );
         setLng(
-          result.geoLocation == null ||
-            Number.isNaN(result.geoLocation.coordinates[0])
+          result?.geoLocation == null ||
+            result?.geoLocation?.coordinates == null ||
+            Number.isNaN(result?.geoLocation?.coordinates[0])
             ? 0.0
-            : result.geoLocation.coordinates[0],
+            : result?.geoLocation?.coordinates[0],
         );
       } else {
         setResourceExists(false);
