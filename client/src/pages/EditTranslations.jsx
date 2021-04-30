@@ -1,6 +1,6 @@
 // @flow
 
-import { React, useEffect, useCallback } from 'react';
+import { React, useEffect, useState, setState, useCallback } from 'react';
 import { Row, Progress, Layout, Button, message } from 'antd';
 
 import '../css/EditTranslations.css';
@@ -15,6 +15,9 @@ const error = () => {
 };
 
 function Translations({ location, match }) {
+  const [textToTranslate, setTextToTranslate] = useState([]);
+  const [language, setLanguage] = useState('');
+
   const getLanguageAndTypeFromSearch = useCallback(() => {
     const { search } = location;
     if (search === '') {
@@ -34,11 +37,27 @@ function Translations({ location, match }) {
 
   useEffect(() => {
     async function fetchData() {
-      const [language, type] = getLanguageAndTypeFromSearch();
-      const json = await getTextToBeTranslated(match.params.id, language, type);
+      const [lang, type] = getLanguageAndTypeFromSearch();
+      setLanguage(lang);
+      const json = await getTextToBeTranslated(match.params.id, lang, type);
+      console.log(json.result);
+      setTextToTranslate(json.result);
     }
     fetchData();
   }, [getLanguageAndTypeFromSearch, match.params.id]);
+  console.log(textToTranslate);
+  const rows = textToTranslate.map((verificationObject) => {
+    const key = Object.keys(verificationObject)[0];
+    // key in this case is `testimonial-danielladistefano-legalservicesintern`
+    return (
+      <TranslationFormRow
+        key={key}
+        translationId={key}
+        text={verificationObject[key].English}
+        translation={verificationObject[key][language]}
+      />
+    );
+  });
   return (
     <div className="edit-translations">
       <Header className="header">
@@ -54,7 +73,7 @@ function Translations({ location, match }) {
           <div className="to-translate-language">Español</div>
           <div>Verified?</div>
         </div>
-        <TranslationFormRow />
+        {rows}
         <div className="grid">
           <div>
             <div className="progress-bar-text">0/11 translations verified</div>
