@@ -6,9 +6,15 @@ import { getResourcesByCategory } from '../utils/api';
 import MapViewList from './MapViewList';
 import ResourceMap from './ResourceMap';
 
-const MapManager = () => {
+type Props = {};
+
+const MapManager = (props: Props) => {
+  const { locationResult } = props;
+
   const [resources, setResources] = useState<Array<Resource>>([]);
   const [selectedResource, setSelectedResource] = useState<Resource>(null);
+  const [currentLocation, setCurrentLocation] = useState([0, 0]);
+
   const location = '505 E Healey St, Champaign, IL 61820';
 
   useEffect(() => {
@@ -41,14 +47,24 @@ const MapManager = () => {
             phoneNumber: r.phoneNumbers[0]?.phoneNumber,
             email: r.email,
             category: r.category[0],
+            coordinates: r.geoLocation.coordinates,
           });
         });
       }
       setResources(newResources);
+      setCurrentLocation(newResources[0].coordinates);
     };
 
     fetchResources();
   }, []);
+
+  useEffect(() => {
+    setCurrentLocation(locationResult.center);
+  }, [locationResult]);
+
+  useEffect(() => {
+    setCurrentLocation(selectedResource.coordinates);
+  }, [selectedResource]);
 
   return (
     <>
@@ -57,7 +73,12 @@ const MapManager = () => {
         selectedResource={selectedResource}
         setSelectedResource={setSelectedResource}
       />
-      <ResourceMap selectedResource={selectedResource} className="map" />
+      <ResourceMap
+        resources={resources}
+        selectedResource={selectedResource}
+        currentLocation={currentLocation}
+        className="map"
+      />
     </>
   );
 };
