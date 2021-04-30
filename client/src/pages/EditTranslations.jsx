@@ -40,12 +40,10 @@ function Translations({ location, match }) {
       const [lang, type] = getLanguageAndTypeFromSearch();
       setLanguage(lang);
       const json = await getTextToBeTranslated(match.params.id, lang, type);
-      console.log(json.result);
       setTextToTranslate(json.result);
     }
     fetchData();
   }, [getLanguageAndTypeFromSearch, match.params.id]);
-  console.log(textToTranslate);
   const rows = textToTranslate.map((verificationObject) => {
     const key = Object.keys(verificationObject)[0];
     // key in this case is `testimonial-danielladistefano-legalservicesintern`
