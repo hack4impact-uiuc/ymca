@@ -412,6 +412,28 @@ export const editResourceCategories = (
     );
 };
 
+export const getTextToBeTranslated = (
+  id: string,
+  language: string,
+  type: string,
+): ApiResponse<Text> => {
+  const requestExtension =
+    // eslint-disable-next-line no-useless-concat
+    `/api/admin/verified/${id}` + `?language=${language}&type=${type}`;
+  return instance
+    .get(requestExtension, {
+      headers: {
+        token: localStorage.getItem('token'),
+      },
+    })
+    .then(
+      (res) => res.data,
+      (err) => {
+        console.error(err);
+        return null;
+      },
+    );
+};
 export const getVerifications = (language: string): ApiResponse<Void> => {
   const requestExtension = '/api/admin/verified';
   return instance({
