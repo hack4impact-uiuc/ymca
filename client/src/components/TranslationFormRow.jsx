@@ -1,8 +1,6 @@
 // @flow
 
-
 import { React, useState, useEffect } from 'react';
-
 
 import { Input, Checkbox } from 'antd';
 
@@ -40,7 +38,7 @@ const TranslationFormRow = ({ translationId, text, translation }) => {
         setFirstCol('none');
       }
     }
-    
+
     firstColumn();
   }, [translationId]);
   return (
@@ -54,6 +52,5 @@ const TranslationFormRow = ({ translationId, text, translation }) => {
     </div>
   );
 };
-
 
 export default TranslationFormRow;
