@@ -411,7 +411,6 @@ export const editResourceCategories = (
     );
 };
 
-
 export const getTextToBeTranslated = (
   id: string,
   language: string,
@@ -433,7 +432,7 @@ export const getTextToBeTranslated = (
         return null;
       },
     );
-
+};
 export const getVerifications = (language: string): ApiResponse<Void> => {
   const requestExtension = '/api/admin/verified';
   return instance({
@@ -450,5 +449,4 @@ export const getVerifications = (language: string): ApiResponse<Void> => {
       return null;
     },
   );
-
 };
