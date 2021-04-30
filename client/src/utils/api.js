@@ -410,3 +410,21 @@ export const editResourceCategories = (
       },
     );
 };
+
+export const getVerifications = (language: string): ApiResponse<Void> => {
+  const requestExtension = '/api/admin/verified';
+  return instance({
+    url: requestExtension,
+    method: 'get',
+    params: { language },
+    headers: {
+      token: localStorage.getItem('token'),
+    },
+  }).then(
+    (res) => res.data,
+    (err) => {
+      console.error(err);
+      return null;
+    },
+  );
+};

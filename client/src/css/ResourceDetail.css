@@ -25,7 +25,13 @@
 }
 
 .resource-detail .header-info {
+  display: flex;
+  flex-direction: column;
   float: right;
+}
+
+.resource-detail .header-info .info-row {
+  display: inline-block;
 }
 
 .resource-detail .section-label {
