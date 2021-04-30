@@ -393,7 +393,7 @@ function Resources({
                   />
                 </Sider>
               </div>
-              <MapManager />
+              <MapManager locationResult={locationResult} />
             </Layout>
           </TabPane>
         </Tabs>
