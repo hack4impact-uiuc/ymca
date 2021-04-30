@@ -8,6 +8,7 @@ import { getCategories, getResources } from '../utils/api';
 import type { Subcategory } from '../types/models';
 
 import ManageResourcesTable from './ManageResourcesTable';
+import ResourcesBreadcrumb from './ResourcesBreadcrumb';
 
 import '../css/ResourceManager.css';
 import EditCategoryModal from './EditCategoryModal';
@@ -181,39 +182,53 @@ const ResourceManager = () => {
 
   return (
     <div className="resource-manager-flexbox">
-      <div className="resource-manager-sidebar">
-        <Menu mode="inline" expandIcon={<div />}>
-          {Object.keys(categories).map((categoryName) => (
-            <SidebarCategory
-              categories={categories}
-              categoryName={categoryName}
-              key={categoryName}
-              updateView={updateView}
-              setSelectedCategory={setSelectedCategory}
-              setSelectedSubcategory={setSelectedSubcategory}
-            />
-          ))}
-          <Menu.Item
-            key="Add Category"
-            className="resource-manager-sidebar-category"
-          >
-            Add Category
-            <EditCategoryModal
-              modalType="add"
-              categoryType="category"
-              updateView={updateView}
-            />
-          </Menu.Item>
-        </Menu>
+      <div className="resource-manager-header">
+        <div className="resource-manager-header-title"> Categories </div>
+        <div className="resource-manager-header-breadcrumb">
+          <ResourcesBreadcrumb
+            categorySelected={
+              selectedCategory === '' ? 'All Resources' : selectedCategory
+            }
+            subcategorySelected={selectedSubcategory}
+            textColor="black"
+          />
+        </div>
       </div>
-      <div className="resource-manager-table">
-        <ManageResourcesTable
-          categories={categories}
-          selectedCategory={selectedCategory}
-          selectedSubcategory={selectedSubcategory}
-          resources={resources}
-          updateView={updateView}
-        />
+      <div className="resource-manager-content">
+        <div className="resource-manager-sidebar">
+          <Menu mode="inline" expandIcon={<div />}>
+            {Object.keys(categories).map((categoryName) => (
+              <SidebarCategory
+                categories={categories}
+                categoryName={categoryName}
+                key={categoryName}
+                updateView={updateView}
+                setSelectedCategory={setSelectedCategory}
+                setSelectedSubcategory={setSelectedSubcategory}
+              />
+            ))}
+            <Menu.Item
+              key="Add Category"
+              className="resource-manager-sidebar-category"
+            >
+              Add Category
+              <EditCategoryModal
+                modalType="add"
+                categoryType="category"
+                updateView={updateView}
+              />
+            </Menu.Item>
+          </Menu>
+        </div>
+        <div className="resource-manager-table">
+          <ManageResourcesTable
+            categories={categories}
+            selectedCategory={selectedCategory}
+            selectedSubcategory={selectedSubcategory}
+            resources={resources}
+            updateView={updateView}
+          />
+        </div>
       </div>
     </div>
   );

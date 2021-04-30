@@ -8,14 +8,21 @@ import { allResourcesMessage } from '../utils/messages';
 import '../css/ResourcesBreadcrumb.css';
 
 function ResourcesBreadcrumb(props) {
-  const { categorySelected, subcategorySelected, resourceSelected } = props;
-
+  const {
+    categorySelected,
+    subcategorySelected,
+    resourceSelected,
+    textColor,
+  } = props;
   const breadcrumbs = [];
 
   if (categorySelected === 'All Resources') {
     breadcrumbs.push(
       <span key="all">
-        <FormattedMessage {...allResourcesMessage} />
+        <FormattedMessage
+          style={{ color: textColor }}
+          {...allResourcesMessage}
+        />
       </span>,
     );
   } else if (categorySelected !== '') {
@@ -28,7 +35,10 @@ function ResourcesBreadcrumb(props) {
         }}
       >
         <span>
-          <FormattedMessage {...allResourcesMessage} />
+          <FormattedMessage
+            style={{ color: textColor }}
+            {...allResourcesMessage}
+          />
         </span>
       </Link>,
     );
@@ -44,6 +54,7 @@ function ResourcesBreadcrumb(props) {
             }}
           >
             <FormattedMessage
+              style={{ color: textColor }}
               id={`category-${categorySelected?.replace(/\s/g, '')}`}
               defaultMessage={categorySelected}
             />
@@ -65,6 +76,7 @@ function ResourcesBreadcrumb(props) {
               }}
             >
               <FormattedMessage
+                style={{ color: textColor }}
                 id={`subcategory-${subcategorySelected?.replace(/\s/g, '')}`}
                 defaultMessage={subcategorySelected}
               />
@@ -83,6 +95,7 @@ function ResourcesBreadcrumb(props) {
             &nbsp;&gt;&nbsp;
             <strong>
               <FormattedMessage
+                style={{ color: textColor }}
                 id={`subcategory-${subcategorySelected?.replace(/\s/g, '')}`}
                 defaultMessage={subcategorySelected}
               />
@@ -96,6 +109,7 @@ function ResourcesBreadcrumb(props) {
           &nbsp;&gt;&nbsp;
           <strong>
             <FormattedMessage
+              style={{ color: textColor }}
               id={`category-${categorySelected?.replace(/\s/g, '')}`}
               defaultMessage={categorySelected}
             />

@@ -1,5 +1,27 @@
 .resource-manager-flexbox {
   display: flex;
+  flex-direction: column;
+}
+
+.resource-manager-header {
+  display: flex;
+  flex-direction: row;
+  padding-left: 2%;
+}
+
+.resource-manager-header-title {
+  width: 24%;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.resource-manager-header-breadcrumbs {
+  width: 75%;
+}
+
+.resource-manager-content {
+  display: flex;
+  flex-direction: row;
 }
 
 .resource-manager-sidebar {
@@ -13,5 +35,6 @@
 }
 
 .resource-manager-table {
+  display: flex;
   width: 75%;
 }
