@@ -5,11 +5,17 @@ const Category = require('../models/category');
 const Resource = require('../models/resource');
 const HomePage = require('../models/homepage');
 const Translation = require('../models/translation');
+const VerifiedTranslation = require('../models/verifiedTranslation');
 const {
   deleteTranslatedText,
   translateAndSaveText,
 } = require('../utils/translate');
 const extractLongLat = require('../utils/extractLongLat');
+const {
+  getVerifiedAggregation,
+  getNestedVerifiedAggregation,
+  getVerificationDetails,
+} = require('../utils/verification');
 
 const imageHelper = async (image) => {
   const imageResponse = await fetch('https://api.imgur.com/3/image', {
@@ -461,6 +467,142 @@ router.put(
       message: `Successfully added ${language} translation for ${key}`,
       success: true,
       result: updatedTranslation,
+    });
+  }),
+);
+
+// Get verified translations for table
+router.get(
+  '/verified',
+  errorWrap(async (req, res) => {
+    const { language } = req.query;
+    const resourceInfo = await Resource.aggregate(
+      getVerifiedAggregation(language, 'resourceID', 'resource'),
+    );
+    const categoryInfo = await Category.aggregate(
+      getVerifiedAggregation(language, 'categoryID', 'category'),
+    );
+    const subcategoryInfo = await Category.aggregate(
+      getNestedVerifiedAggregation(
+        language,
+        'subcategoryID',
+        'subcategory',
+        'subcategories',
+        'name',
+      ),
+    );
+    const testimonialInfo = await HomePage.aggregate(
+      getNestedVerifiedAggregation(
+        language,
+        'testimonialID',
+        'testimonial',
+        'testimonials',
+        'person',
+      ),
+    );
+
+    res.json({
+      code: 200,
+      message: 'Successfully returned verified translation table info',
+      success: true,
+      result: resourceInfo.concat(
+        categoryInfo,
+        subcategoryInfo,
+        testimonialInfo,
+      ),
+    });
+  }),
+);
+
+// Get verified translations for an ID
+router.get(
+  '/verified/:id',
+  errorWrap(async (req, res) => {
+    const { id } = req.params;
+    const { language, type } = req.query;
+
+    const verificationDetails = await getVerificationDetails(
+      type,
+      language,
+      id,
+    );
+    const { messages } = await Translation.findOne({
+      language: { $eq: language },
+    });
+    verificationDetails.forEach((verificationObject) => {
+      const key = Object.keys(verificationObject)[0];
+      verificationObject[key][language] = messages.get(key);
+    });
+
+    res.json({
+      code: 200,
+      message: 'Successfully returned verified translation info',
+      success: true,
+      result: verificationDetails,
+    });
+  }),
+);
+
+// Report a translation error for an ID
+router.patch(
+  '/report/:id',
+  errorWrap(async (req, res) => {
+    const { id } = req.params;
+    const { language, type } = req.query;
+
+    const updateQuery = { $inc: { numReports: 1 } };
+
+    switch (type) {
+      case 'resource':
+        await VerifiedTranslation.updateOne(
+          {
+            resourceID: id,
+            language,
+          },
+          updateQuery,
+        );
+        break;
+      case 'category':
+        await VerifiedTranslation.updateOne(
+          {
+            categoryID: id,
+            language,
+          },
+          updateQuery,
+        );
+        break;
+      case 'subcategory':
+        await VerifiedTranslation.updateOne(
+          {
+            subcategoryID: id,
+            language,
+          },
+          updateQuery,
+        );
+        break;
+      case 'testimonial':
+        await VerifiedTranslation.updateOne(
+          {
+            testimonialID: id,
+            language,
+          },
+          updateQuery,
+        );
+        break;
+      default:
+        res.json({
+          code: 400,
+          message: 'Could not find specified type',
+          success: false,
+          result: null,
+        });
+    }
+
+    res.json({
+      code: 200,
+      message: 'Successfully reported an error',
+      success: true,
+      result: null,
     });
   }),
 );

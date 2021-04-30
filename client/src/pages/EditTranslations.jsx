@@ -6,6 +6,7 @@ import { Row, Progress, Layout, Button, message } from 'antd';
 import '../css/EditTranslations.css';
 import { getTextToBeTranslated } from '../utils/api';
 
+
 import TranslationFormRow from '../components/TranslationFormRow';
 
 const { Header } = Layout;
@@ -13,6 +14,7 @@ const { Header } = Layout;
 const error = () => {
   message.error('You must verify at least one translation!');
 };
+
 
 function Translations({ location, match }) {
   const [textToTranslate, setTextToTranslate] = useState([]);
@@ -58,6 +60,7 @@ function Translations({ location, match }) {
       />
     );
   });
+
   return (
     <div className="edit-translations">
       <Header className="header">

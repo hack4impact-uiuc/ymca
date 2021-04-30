@@ -459,7 +459,7 @@ function ResourceDetail(props) {
                         'resource-financialAid-immigrationStatus-' +
                         `${financialAidDetails._id}`
                       }
-                      defaultMessage={financialAidDetails.education}
+                      defaultMessage={financialAidDetails.immigrationStatus}
                     />
                   ) : (
                     <FormattedMessage {...detailMessages.noneProvided} />
@@ -480,7 +480,7 @@ function ResourceDetail(props) {
                         'resource-financialAid-deadline-' +
                         `${financialAidDetails._id}`
                       }
-                      defaultMessage={financialAidDetails.education}
+                      defaultMessage={financialAidDetails.deadline}
                     />
                   ) : (
                     <FormattedMessage {...detailMessages.noneProvided} />
@@ -496,7 +496,7 @@ function ResourceDetail(props) {
                         'resource-financialAid-amount-' +
                         `${financialAidDetails._id}`
                       }
-                      defaultMessage={financialAidDetails.education}
+                      defaultMessage={financialAidDetails.amount}
                     />
                   ) : (
                     <FormattedMessage {...detailMessages.noneProvided} />
