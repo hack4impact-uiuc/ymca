@@ -287,7 +287,7 @@ function ResourceDetail(props) {
       </Header>
       <Row className="section">
         <Col span={15}>
-          <t className="resource-name">{name}</t>
+          <span className="resource-name">{name}</span>
           <TranslationPopup id={match.params.id} type="resource" />
           <br />
           <SaveButton

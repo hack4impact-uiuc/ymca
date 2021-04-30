@@ -2,21 +2,26 @@
 import React from 'react';
 import { message, Button, Tooltip } from 'antd';
 import { InfoCircleOutlined } from '@ant-design/icons';
+import { reportTranslationError } from '../utils/api';
 
 import '../css/TranslationPopup.css';
 
 type Props = {
-  id: number,
+  id: string,
   type: string,
 };
 
 function TranslationPopup(props: Props) {
   const { id, type } = props;
 
-  const reportError = () => {
-    // TODO: call error report endpoint here
-    // get language with localStorage.getItem('language') || 'English'
-    message.success('Thank you for your feedback!');
+  const reportError = async () => {
+    const language = localStorage.getItem('language') || 'English';
+    const report = await reportTranslationError(id, language, type);
+    if (report.success) {
+      message.success('Thank you for your feedback!');
+    } else {
+      message.error('There was a problem submitting a report.');
+    }
   };
 
   return (

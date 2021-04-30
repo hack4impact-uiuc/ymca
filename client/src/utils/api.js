@@ -410,3 +410,18 @@ export const editResourceCategories = (
       },
     );
 };
+
+export const reportTranslationError = (
+  id: string,
+  language: string,
+  type: string,
+): ApiResponse<void> => {
+  const requestExtension = `/api/translation/report/${id}`;
+  return instance.patch(requestExtension, { language, type }).then(
+    (res) => res.data,
+    (err) => {
+      console.error(err);
+      return null;
+    },
+  );
+};
