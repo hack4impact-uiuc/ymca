@@ -99,7 +99,7 @@ function ResourcePreview(props: Props) {
   const descriptions = (
     <>
       <div className="resource-preview-description">{descriptionText}</div>
-      <div key="resourceInfo" style={{ color: 'black' }}>
+      <div key="resourceInfo" className="resource-preview-info">
         {resourceInfoText}
       </div>
     </>
