@@ -412,6 +412,21 @@ export const editResourceCategories = (
     );
 };
 
+export const reportTranslationError = (
+  id: string,
+  language: string,
+  type: string,
+): ApiResponse<null> => {
+  const requestExtension = `/api/translation/report/${id}`;
+  return instance.patch(requestExtension, { language, type }).then(
+    (res) => res.data,
+    (err) => {
+      console.error(err);
+      return null;
+    },
+  );
+};
+
 export const getTextToBeTranslated = (
   id: string,
   language: string,
@@ -434,6 +449,7 @@ export const getTextToBeTranslated = (
       },
     );
 };
+
 export const getVerifications = (language: string): ApiResponse<Void> => {
   const requestExtension = '/api/admin/verified';
   return instance({

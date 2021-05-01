@@ -24,6 +24,7 @@ import {
 import ResourcesBreadcrumb from '../ResourcesBreadcrumb';
 import SaveButton from '../SaveButton';
 import ShareButton from '../ShareButton';
+import TranslationPopup from '../TranslationPopup';
 import { useAuth } from '../../utils/use-auth';
 import { detailMessages, filterMessages } from '../../utils/messages';
 import languageConversion from '../../utils/languages';
@@ -288,7 +289,9 @@ function ResourceDetail(props) {
       </Header>
       <Row className="section">
         <Col span={15}>
-          <span className="resource-name">{`${name}\n`}</span>
+          <span className="resource-name">{name}</span>
+          <TranslationPopup id={match.params.id} type="resource" />
+          <br />
           <SaveButton
             isSaved={isSaved}
             deleteResourceHandler={deleteSavedResourceHandler}
@@ -296,7 +299,6 @@ function ResourceDetail(props) {
             fullButton
           />
           <ShareButton fullButton />
-
           {authed && authRoleIsEquivalentTo('admin') && (
             <span className="resource-edit-delete">
               <Button href={`/admin/${match.params.id}`}>Edit</Button>
