@@ -6,11 +6,9 @@ import { Input, Checkbox } from 'antd';
 
 import '../css/EditTranslations.css';
 
-function onChange(e) {
-  console.log(`checked = ${e.target.checked}`);
-}
+const { TextArea } = Input;
 
-const TranslationFormRow = ({ translationId, text, translation }) => {
+const TranslationFormRow = ({ onCheck, translationId, text, translation }) => {
   const [firstCol, setFirstCol] = useState('');
 
   useEffect(() => {
@@ -45,9 +43,12 @@ const TranslationFormRow = ({ translationId, text, translation }) => {
       <div className="resource-description">{firstCol}</div>
       <div className="text-to-translate">{text}</div>
       <div className="translation-input">
-        <Input value={translation} />
+        <TextArea autoSize value={translation} />
       </div>
-      <Checkbox onChange={onChange} className="checkbox-translation" />
+      <Checkbox
+        onChange={(e) => onCheck(translationId, e.target.checked)}
+        className="checkbox-translation"
+      />
     </div>
   );
 };
