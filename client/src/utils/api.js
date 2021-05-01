@@ -112,7 +112,7 @@ export const getResourcesByCategory = (
   sort: ?string,
   size: ?number,
   page: ?number,
-  location: ?string,
+  coordinates: ?[number, number],
 ): ApiResponse<Array<Resource>> => {
   const requestExtension = `/api/resources`;
   const params = {
@@ -124,7 +124,8 @@ export const getResourcesByCategory = (
     sort,
     size,
     page,
-    location,
+    long: coordinates && coordinates[0],
+    lat: coordinates && coordinates[1],
   };
   return instance.get(requestExtension, { params }).then(
     (res) => res.data,
@@ -418,6 +419,47 @@ export const reportTranslationError = (
 ): ApiResponse<null> => {
   const requestExtension = `/api/translation/report/${id}`;
   return instance.patch(requestExtension, { language, type }).then(
+    (res) => res.data,
+    (err) => {
+      console.error(err);
+      return null;
+    },
+  );
+};
+
+export const getTextToBeTranslated = (
+  id: string,
+  language: string,
+  type: string,
+): ApiResponse<Text> => {
+  const requestExtension =
+    // eslint-disable-next-line no-useless-concat
+    `/api/admin/verified/${id}` + `?language=${language}&type=${type}`;
+  return instance
+    .get(requestExtension, {
+      headers: {
+        token: localStorage.getItem('token'),
+      },
+    })
+    .then(
+      (res) => res.data,
+      (err) => {
+        console.error(err);
+        return null;
+      },
+    );
+};
+
+export const getVerifications = (language: string): ApiResponse<Void> => {
+  const requestExtension = '/api/admin/verified';
+  return instance({
+    url: requestExtension,
+    method: 'get',
+    params: { language },
+    headers: {
+      token: localStorage.getItem('token'),
+    },
+  }).then(
     (res) => res.data,
     (err) => {
       console.error(err);

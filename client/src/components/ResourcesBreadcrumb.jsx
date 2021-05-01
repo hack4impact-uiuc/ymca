@@ -14,7 +14,7 @@ function ResourcesBreadcrumb(props) {
 
   if (categorySelected === 'All Resources') {
     breadcrumbs.push(
-      <span key="all">
+      <span className="default-crumb" key="all">
         <FormattedMessage {...allResourcesMessage} />
       </span>,
     );

@@ -6,18 +6,16 @@ import { HomeTwoTone } from '@ant-design/icons';
 import searchLocation from '../utils/geocoding';
 
 type Props = {
-  setLocationSearch: (string) => void,
   setLocationResult: (Array) => void,
 };
 
 function ResourceFilterAutofill(props: Props) {
-  const { setLocationSearch, setLocationResult } = props;
+  const { setLocationResult } = props;
 
   const [autofillOptions, setAutofillOptions] = useState([]);
   const [autofillResults, setAutofillResults] = useState([]);
 
   const onLocationSearch = async (search) => {
-    setLocationSearch(search);
     if (search && search.length >= 2) {
       const results = await searchLocation(search);
       setAutofillResults(results.features);
