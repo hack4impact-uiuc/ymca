@@ -73,7 +73,7 @@ function Translations({ location, match }) {
   );
 
   const onSubmit = () => {
-    if (numTranslated === textToTranslate.length) {
+    if (numTranslated >= 1) {
       history.push(`/translations`);
     } else {
       error();
