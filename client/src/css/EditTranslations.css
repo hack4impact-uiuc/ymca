@@ -58,9 +58,9 @@
   grid-template-columns: 10% 40% 40% 10%;
   color: #531dab;
 }
-.text-to-translate {
+/* .text-to-translate {
   border-right: 1px solid grey;
-}
+} */
 
 .translation-input {
   width: 80%;
