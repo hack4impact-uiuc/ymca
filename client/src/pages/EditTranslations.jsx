@@ -2,6 +2,7 @@
 
 import { React, useEffect, useState, useCallback } from 'react';
 import { Row, Progress, Layout, Button, message } from 'antd';
+import { useHistory } from 'react-router-dom';
 
 import '../css/EditTranslations.css';
 import { getTextToBeTranslated } from '../utils/api';
@@ -15,6 +16,8 @@ const error = () => {
 };
 
 function Translations({ location, match }) {
+  const history = useHistory();
+
   const [textToTranslate, setTextToTranslate] = useState([]);
   const [language, setLanguage] = useState('');
 
@@ -69,6 +72,14 @@ function Translations({ location, match }) {
     0,
   );
 
+  const onSubmit = () => {
+    if (numTranslated === textToTranslate.length) {
+      history.push(`/translations`);
+    } else {
+      error();
+    }
+  };
+
   return (
     <div className="edit-translations">
       <Header className="header">
@@ -98,7 +109,7 @@ function Translations({ location, match }) {
             />
           </div>
           <div className="submit-button-wrapper">
-            <Button type="primary" onClick={error} className="submit-button">
+            <Button type="primary" onClick={onSubmit} className="submit-button">
               Submit
             </Button>
           </div>
