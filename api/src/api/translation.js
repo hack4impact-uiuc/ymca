@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const { errorWrap } = require('../middleware');
-const resource = require('../models/resource');
 const Translation = require('../models/translation');
 const VerifiedTranslation = require('../models/verifiedTranslation');
 
