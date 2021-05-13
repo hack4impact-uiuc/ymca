@@ -17,7 +17,7 @@ import ResourcesBreadcrumb from '../ResourcesBreadcrumb';
 import SaveButton from '../SaveButton';
 import ShareButton from '../ShareButton';
 import TranslationPopup from '../TranslationPopup';
-import { getResourceByID } from '../../utils/api';
+import { getResourceIsVerified, getResourceByID } from '../../utils/api';
 import {
   saveResource,
   deleteSavedResource,
@@ -45,6 +45,8 @@ const ResourceDetailMobile = (props: Props) => {
   const { match } = props;
 
   const resourceId = match.params.id;
+
+  const [isVerified, setIsVerified] = useState(false);
 
   /* SETUP START */
 
@@ -95,8 +97,8 @@ const ResourceDetailMobile = (props: Props) => {
             : determineStockPhoto(result.category, result.subcategory),
         );
 
-        setCategory(result.category.length > 0 && result.category[0]);
-        setSubcategory(result.subcategory.length > 0 && result.subcategory[0]);
+        setCategory(result.category[0]);
+        setSubcategory(result.subcategory[0]);
 
         setName(result.name);
         setDescription(result.description);
@@ -145,6 +147,19 @@ const ResourceDetailMobile = (props: Props) => {
     }
 
     loadResource();
+  }, [resourceId]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const language = localStorage.getItem('language');
+      if (language !== 'English') {
+        const response = await getResourceIsVerified(resourceId, language);
+        setIsVerified(response.result);
+      } else {
+        setIsVerified(true);
+      }
+    }
+    fetchData();
   }, [resourceId]);
 
   const saveResourceHandler = useCallback(async () => {
@@ -308,7 +323,13 @@ const ResourceDetailMobile = (props: Props) => {
           <Row className="mb-rd-header-bar" type="flex">
             <Col>
               <span className="mb-rd-header-text">{name}</span>
-              <TranslationPopup id={match.params.id} type="resource" isMobile />
+              {!isVerified && (
+                <TranslationPopup
+                  id={match.params.id}
+                  type="resource"
+                  isMobile
+                />
+              )}
             </Col>
             <Col>
               <SaveButton

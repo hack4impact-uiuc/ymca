@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { errorWrap } = require('../middleware');
+const resource = require('../models/resource');
 const Translation = require('../models/translation');
 const VerifiedTranslation = require('../models/verifiedTranslation');
 
@@ -26,6 +27,30 @@ router.get(
         result: null,
       });
     }
+  }),
+);
+
+// Get if a resource has unverified translations
+router.get(
+  '/:id',
+  errorWrap(async (req, res) => {
+    const { id } = req.params;
+    const { language } = req.query;
+
+    const resourceTranslations = await VerifiedTranslation.find({
+      resourceID: id,
+      language,
+    });
+    const isVerified = !resourceTranslations.some(
+      (translation) => translation.verified === false,
+    );
+
+    res.json({
+      code: 200,
+      message: 'Successfully reported an error',
+      success: true,
+      result: isVerified,
+    });
   }),
 );
 

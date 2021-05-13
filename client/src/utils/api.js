@@ -14,9 +14,9 @@ import type {
 import type { ApiResponse } from '../types/apiResponse';
 
 const instance = axios.create({
-  baseURL: 'https://nawc-staging.vercel.app',
+  // baseURL: 'https://nawc-staging.vercel.app',
   // For testing on dev database:
-  // baseURL: 'http://localhost:9000',
+  baseURL: 'http://localhost:9000',
 });
 
 export const imageToLink = (
@@ -349,42 +349,41 @@ export const getTranslationByLanguage = (
   );
 };
 
-export const editTranslationMessage = (
-  translationMessage: TranslationMessage,
-): ApiResponse<void> => {
-  const requestExtension = '/api/admin/translation';
-  return instance
-    .put(requestExtension, translationMessage, {
-      headers: {
-        token: localStorage.getItem('token'),
-      },
-    })
-    .then(
-      (res) => res.data,
-      (err) => {
-        console.error(err);
-        return null;
-      },
-    );
+export const getResourceIsVerified = (
+  id: string,
+  language: string,
+): ApiResponse<boolean> => {
+  const requestExtension = `/api/translation/${id}?language=${language}`;
+  return instance.get(requestExtension).then(
+    (res) => res.data,
+    (err) => {
+      console.error(err);
+      return null;
+    },
+  );
 };
 
-export const createTranslation = (
-  translation: Translation,
-): ApiResponse<Translation> => {
-  const requestExtension = '/api/admin/translation';
-  return instance
-    .post(requestExtension, translation, {
-      headers: {
-        token: localStorage.getItem('token'),
-      },
-    })
-    .then(
-      (res) => res.data,
-      (err) => {
-        console.error(err);
-        return null;
-      },
-    );
+export const verifyTranslations = (
+  language: string,
+  type: string,
+  translations: Array<any>,
+): ApiResponse<void> => {
+  const requestExtension = `/api/admin/verified`;
+  return instance({
+    url: requestExtension,
+    method: 'put',
+    params: { language, type },
+    data: { translations },
+    headers: {
+      token: localStorage.getItem('token'),
+    },
+  }).then(
+    (res) => res.data,
+    (err) => {
+      console.error(err);
+      return null;
+    },
+  );
 };
 
 export const editResourceCategories = (

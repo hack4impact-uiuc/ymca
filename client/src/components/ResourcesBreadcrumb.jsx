@@ -11,6 +11,7 @@ function ResourcesBreadcrumb(props) {
   const { categorySelected, subcategorySelected, resourceSelected } = props;
 
   const breadcrumbs = [];
+  console.log(categorySelected);
 
   if (categorySelected === 'All Resources') {
     breadcrumbs.push(
