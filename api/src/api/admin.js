@@ -437,40 +437,6 @@ router.delete(
   }),
 );
 
-// Create a translation object
-router.post(
-  '/translation',
-  errorWrap(async (req, res) => {
-    const newTranslation = new Translation(req.body);
-    await newTranslation.save();
-    res.json({
-      code: 201,
-      message: `Succesfully created new Translation object`,
-      success: true,
-      result: newTranslation,
-    });
-  }),
-);
-
-// Add a translation message
-router.put(
-  '/translation',
-  errorWrap(async (req, res) => {
-    const { language, key, message } = req.body;
-    const updatedTranslation = await Translation.findOne({
-      language: { $eq: language },
-    });
-    updatedTranslation.messages.set(key, message);
-    await updatedTranslation.save();
-    res.json({
-      code: 200,
-      message: `Successfully added ${language} translation for ${key}`,
-      success: true,
-      result: updatedTranslation,
-    });
-  }),
-);
-
 // Get verified translations for table
 router.get(
   '/verified',
@@ -539,6 +505,38 @@ router.get(
       message: 'Successfully returned verified translation info',
       success: true,
       result: verificationDetails,
+    });
+  }),
+);
+
+// Update verified translations for an ID
+router.put(
+  '/verified',
+  errorWrap(async (req, res) => {
+    const { language, type } = req.query;
+    const { translations } = req.body;
+
+    const translationsToUpdate = await Translation.findOne({
+      language: { $eq: language },
+    });
+    translations.forEach(async (translation) => {
+      const key = Object.keys(translation)[0];
+      translationsToUpdate.messages.set(key, translation[key][language]);
+      const verifiedTranslation = await VerifiedTranslation.updateOne(
+        {
+          translationID: key,
+          language,
+        },
+        { $set: { verified: translation[key].verified } },
+      );
+    });
+    await translationsToUpdate.save();
+
+    res.json({
+      code: 200,
+      message: 'Successfully updated verified translation info',
+      success: true,
+      result: null,
     });
   }),
 );

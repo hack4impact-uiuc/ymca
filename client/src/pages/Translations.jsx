@@ -17,6 +17,7 @@ const priorities = { Urgent: 4, High: 3, Medium: 2, Low: 1 };
 function Translations() {
   const [verifiedList, setVerifiedList] = useState({});
   const [unverifiedList, setUnverifiedList] = useState({});
+  console.log(verifiedList, unverifiedList);
 
   const updateLists = useCallback((verifications) => {
     const verifiedResources = { Spanish: [], French: [], Chinese: [] };
@@ -30,7 +31,7 @@ function Translations() {
             verification.totalTranslations) *
           100;
 
-        if (verification.totalReports >= 1) {
+        if (verification.totalReports >= 1 && percentage !== 100.0) {
           unverifiedResources[l].push({
             key: verification._id,
             name: verification.name,
