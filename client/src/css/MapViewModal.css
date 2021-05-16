@@ -1,6 +1,10 @@
 .card {
-  width: 250px;
+  width: 350px;
+  height: 600px;
   border-radius: 25px;
+  position: absolute;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 .cover {
@@ -10,8 +14,15 @@
 .top-row {
   position: relative;
   text-align: center;
+  display: flex;
+  justify-content: center;
   font-size: 110%;
   color: #1890ff;
+}
+
+.icon-pair {
+  display: flex;
+  justify-content: center;
 }
 
 .main-icon {
@@ -25,4 +36,11 @@
 .grid-text {
   position: relative;
   top: 5px;
+}
+
+.close {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 250%;
 }

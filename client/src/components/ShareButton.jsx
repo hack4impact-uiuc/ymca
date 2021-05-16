@@ -35,7 +35,7 @@ function ShareButton(props: ShareButtonProps) {
       {fullButton ? (
         <Popover content={info} Title="Error" trigger="click">
           <Button className="share-button" onClick={copyLink}>
-            <ShareAltOutlined />
+            <ShareAltOutlined style={{ marginRight: 4 }} />
             <FormattedMessage id="share" defaultMessage="Share" />
           </Button>
         </Popover>

@@ -7,16 +7,26 @@
   display: flex;
   flex-direction: row;
   padding-left: 2%;
+  padding-bottom: 4px;
 }
 
 .resource-manager-header-title {
-  width: 24%;
+  flex: 0.24;
   font-size: 18px;
   font-weight: 600;
 }
 
-.resource-manager-header-breadcrumbs {
-  width: 75%;
+.resource-manager-header-breadcrumb {
+  display: flex;
+  flex: 0.76;
+  justify-content: space-between;
+}
+
+.resource-manager-header-export {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
 }
 
 .resource-manager-content {

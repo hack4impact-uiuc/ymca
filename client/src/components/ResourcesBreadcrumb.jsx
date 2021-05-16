@@ -12,17 +12,14 @@ function ResourcesBreadcrumb(props) {
     categorySelected,
     subcategorySelected,
     resourceSelected,
-    textColor,
+    tColor,
   } = props;
   const breadcrumbs = [];
 
   if (categorySelected === 'All Resources') {
     breadcrumbs.push(
-      <span key="all">
-        <FormattedMessage
-          style={{ color: textColor }}
-          {...allResourcesMessage}
-        />
+      <span className="default-crumb" style={{ color: tColor }} key="all">
+        <FormattedMessage {...allResourcesMessage} />
       </span>,
     );
   } else if (categorySelected !== '') {
@@ -34,11 +31,8 @@ function ResourcesBreadcrumb(props) {
           pathname: '/resources',
         }}
       >
-        <span>
-          <FormattedMessage
-            style={{ color: textColor }}
-            {...allResourcesMessage}
-          />
+        <span style={{ color: tColor }}>
+          <FormattedMessage {...allResourcesMessage} />
         </span>
       </Link>,
     );
@@ -48,13 +42,13 @@ function ResourcesBreadcrumb(props) {
           &nbsp;&gt;&nbsp;
           <Link
             className="link"
+            style={{ color: tColor }}
             to={{
               pathname: '/resources',
               search: `?category=${categorySelected}`,
             }}
           >
             <FormattedMessage
-              style={{ color: textColor }}
               id={`category-${categorySelected?.replace(/\s/g, '')}`}
               defaultMessage={categorySelected}
             />
@@ -68,6 +62,7 @@ function ResourcesBreadcrumb(props) {
             &nbsp;&gt;&nbsp;
             <Link
               className="link"
+              style={{ color: tColor }}
               to={{
                 pathname: '/resources',
                 search:
@@ -76,7 +71,6 @@ function ResourcesBreadcrumb(props) {
               }}
             >
               <FormattedMessage
-                style={{ color: textColor }}
                 id={`subcategory-${subcategorySelected?.replace(/\s/g, '')}`}
                 defaultMessage={subcategorySelected}
               />
@@ -91,11 +85,10 @@ function ResourcesBreadcrumb(props) {
         );
       } else {
         breadcrumbs.push(
-          <span key="sub">
+          <span style={{ color: tColor }} key="sub">
             &nbsp;&gt;&nbsp;
             <strong>
               <FormattedMessage
-                style={{ color: textColor }}
                 id={`subcategory-${subcategorySelected?.replace(/\s/g, '')}`}
                 defaultMessage={subcategorySelected}
               />
@@ -109,7 +102,7 @@ function ResourcesBreadcrumb(props) {
           &nbsp;&gt;&nbsp;
           <strong>
             <FormattedMessage
-              style={{ color: textColor }}
+              style={{ color: tColor }}
               id={`category-${categorySelected?.replace(/\s/g, '')}`}
               defaultMessage={categorySelected}
             />
@@ -124,12 +117,14 @@ function ResourcesBreadcrumb(props) {
 
 ResourcesBreadcrumb.defaultProps = {
   resourceSelected: '',
+  tColor: '#FFFFFF',
 };
 
 ResourcesBreadcrumb.propTypes = {
   categorySelected: PropTypes.string.isRequired,
   subcategorySelected: PropTypes.string.isRequired,
   resourceSelected: PropTypes.string,
+  tColor: PropTypes.string,
 };
 
 export default ResourcesBreadcrumb;

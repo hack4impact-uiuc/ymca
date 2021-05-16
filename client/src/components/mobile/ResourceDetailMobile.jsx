@@ -16,6 +16,7 @@ import { useIntl, FormattedMessage } from 'react-intl';
 import ResourcesBreadcrumb from '../ResourcesBreadcrumb';
 import SaveButton from '../SaveButton';
 import ShareButton from '../ShareButton';
+import TranslationPopup from '../TranslationPopup';
 import { getResourceByID } from '../../utils/api';
 import {
   saveResource,
@@ -125,16 +126,18 @@ const ResourceDetailMobile = (props: Props) => {
         );
 
         setLat(
-          result.geoLocation == null ||
-            Number.isNaN(result.geoLocation.coordinates[1])
+          result?.geoLocation == null ||
+            result?.geoLocation?.coordinates == null ||
+            Number.isNaN(result?.geoLocation?.coordinates[1])
             ? 0.0
-            : result.geoLocation.coordinates[1],
+            : result?.geoLocation?.coordinates[1],
         );
         setLng(
-          result.geoLocation == null ||
-            Number.isNaN(result.geoLocation.coordinates[0])
+          result?.geoLocation == null ||
+            result?.geoLocation?.coordinates == null ||
+            Number.isNaN(result?.geoLocation?.coordinates[0])
             ? 0.0
-            : result.geoLocation.coordinates[0],
+            : result?.geoLocation?.coordinates[0],
         );
       } else {
         setResourceExists(false);
@@ -304,7 +307,8 @@ const ResourceDetailMobile = (props: Props) => {
           />
           <Row className="mb-rd-header-bar" type="flex">
             <Col>
-              <h2 className="mb-rd-header-text">{name}</h2>
+              <span className="mb-rd-header-text">{name}</span>
+              <TranslationPopup id={match.params.id} type="resource" isMobile />
             </Col>
             <Col>
               <SaveButton

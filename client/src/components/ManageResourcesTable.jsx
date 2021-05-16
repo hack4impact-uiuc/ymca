@@ -133,6 +133,7 @@ const ManageResourcesTable = (props: Props) => {
 
   const filterResources = (resource) =>
     !selectedCategory ||
+    selectedCategory === 'All Resources' ||
     (!selectedSubcategory && resource.categories.includes(selectedCategory)) ||
     (resource.categories.includes(selectedCategory) &&
       resource.subcategories.includes(selectedSubcategory));

@@ -59,8 +59,10 @@ router.get(
       sort,
       size,
       page,
-      location,
+      long,
+      lat,
     } = req.query;
+
     let query = {};
     if (category != null && category !== '' && category !== 'All Resources') {
       query = { category: category };
@@ -115,7 +117,6 @@ router.get(
       }
     }
 
-    const [long, lat] = await extractLongLat(location);
     let aggregation = [];
     if (long == null || lat == null) {
       if (orderBy === null) {

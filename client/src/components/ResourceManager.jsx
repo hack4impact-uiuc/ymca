@@ -1,8 +1,8 @@
 // @flow
 
 import React, { useCallback, useEffect, useState } from 'react';
-import { Menu } from 'antd';
-import { DownOutlined, UpOutlined } from '@ant-design/icons';
+import { Menu, Button } from 'antd';
+import { DownOutlined, UpOutlined, ExportOutlined } from '@ant-design/icons';
 
 import { getCategories, getResources } from '../utils/api';
 import type { Subcategory } from '../types/models';
@@ -13,33 +13,26 @@ import ResourcesBreadcrumb from './ResourcesBreadcrumb';
 import '../css/ResourceManager.css';
 import EditCategoryModal from './EditCategoryModal';
 
+const { SubMenu } = Menu;
+
 type Props = {
   categories: { [string]: [Array<Subcategory>, number] },
   categoryName: string,
+  isOpen: boolean,
+  setSelectedCategory: (string) => void,
+  setSelectedSubcategory: (string) => void,
   updateView: () => void,
 };
 
 const SidebarCategory = (props: Props) => {
-  const { SubMenu } = Menu;
-
   const {
     categories,
     categoryName,
+    isOpen,
     setSelectedCategory,
     setSelectedSubcategory,
     updateView,
   } = props;
-  const [opened, setOpened] = useState(false);
-
-  const handleChange = () => {
-    setOpened(!opened);
-    if (!opened) setSelectedCategory(categoryName);
-    else {
-      setSelectedCategory('');
-      setSelectedSubcategory('');
-    }
-  };
-
   return (
     <SubMenu
       {...props}
@@ -65,17 +58,16 @@ const SidebarCategory = (props: Props) => {
         </span>
       }
       icon={
-        opened ? (
+        isOpen ? (
           <UpOutlined style={{ position: 'relative', top: -2 }} />
         ) : (
           <DownOutlined style={{ position: 'relative', top: -2 }} />
         )
       }
-      onTitleClick={handleChange}
     >
       {categories[categoryName][0].map((subcategory) => (
         <Menu.Item
-          key={subcategory._id}
+          key={subcategory.name}
           className="resource-manager-sidebar-category"
           onClick={() => {
             setSelectedSubcategory(subcategory.name);
@@ -137,8 +129,9 @@ const ResourceManager = () => {
       id: string,
     }>,
   >([]);
-  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('All Resources');
   const [selectedSubcategory, setSelectedSubcategory] = useState('');
+  const [openKeys, setOpenKeys] = useState<Array<string>>([]);
 
   const fetchCategories = async () => {
     const res = await getCategories();
@@ -180,28 +173,77 @@ const ResourceManager = () => {
     updateView();
   }, [updateView]);
 
+  const onOpenChange = (newOpenKeys: Array<string>) => {
+    if (newOpenKeys.length === 0) {
+      setSelectedCategory('All Resources');
+      setSelectedSubcategory('');
+      setOpenKeys([]);
+      return;
+    }
+
+    const latestOpenKey = newOpenKeys.find(
+      (key) => openKeys.indexOf(key) === -1,
+    );
+    if (Object.keys(categories).indexOf(latestOpenKey) === -1) {
+      setOpenKeys(newOpenKeys);
+    } else {
+      setOpenKeys(latestOpenKey != null ? [latestOpenKey] : []);
+    }
+    setSelectedCategory(latestOpenKey);
+    setSelectedSubcategory('');
+  };
+
+  const categorySelectAll = () => {
+    setSelectedCategory('All Resources');
+    setSelectedSubcategory('');
+    setOpenKeys([]);
+  };
+
   return (
     <div className="resource-manager-flexbox">
       <div className="resource-manager-header">
         <div className="resource-manager-header-title"> Categories </div>
         <div className="resource-manager-header-breadcrumb">
           <ResourcesBreadcrumb
-            categorySelected={
-              selectedCategory === '' ? 'All Resources' : selectedCategory
-            }
+            categorySelected={selectedCategory}
             subcategorySelected={selectedSubcategory}
-            textColor="black"
+            tColor="#000000"
           />
+          <Button
+            className="resource-manager-header-export"
+            icon={<ExportOutlined />}
+            onClick={(e) => {
+              e.preventDefault();
+              window.location.href =
+                'nawc.vercel.app//api/categories/download';
+            }}
+          >
+            Export
+          </Button>
         </div>
       </div>
       <div className="resource-manager-content">
         <div className="resource-manager-sidebar">
-          <Menu mode="inline" expandIcon={<div />}>
+          <Menu
+            mode="inline"
+            selectedKeys={
+              selectedSubcategory === ''
+                ? selectedCategory
+                : selectedSubcategory
+            }
+            openKeys={openKeys}
+            onOpenChange={onOpenChange}
+            expandIcon={<div />}
+          >
+            <Menu.Item key="All Resources" onClick={categorySelectAll}>
+              All Resources
+            </Menu.Item>
             {Object.keys(categories).map((categoryName) => (
               <SidebarCategory
                 categories={categories}
                 categoryName={categoryName}
                 key={categoryName}
+                isOpen={categoryName === selectedCategory}
                 updateView={updateView}
                 setSelectedCategory={setSelectedCategory}
                 setSelectedSubcategory={setSelectedSubcategory}

@@ -1,0 +1,8 @@
+.map {
+  flex-grow: 1;
+  display: grid;
+}
+
+.modal {
+  grid-area: 1 / 1 / 2 / 2;
+}
