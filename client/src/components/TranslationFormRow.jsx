@@ -8,7 +8,14 @@ import '../css/EditTranslations.css';
 
 const { TextArea } = Input;
 
-const TranslationFormRow = ({ onCheck, translationId, text, translation }) => {
+const TranslationFormRow = ({
+  onChangeText,
+  onCheck,
+  translationId,
+  text,
+  translation,
+  isVerified,
+}) => {
   const [firstCol, setFirstCol] = useState('');
 
   useEffect(() => {
@@ -38,14 +45,20 @@ const TranslationFormRow = ({ onCheck, translationId, text, translation }) => {
 
     firstColumn();
   }, [translationId]);
+
   return (
     <div className="translation-container">
       <div className="resource-description">{firstCol}</div>
       <div className="text-to-translate">{text}</div>
       <div className="translation-input">
-        <TextArea autoSize value={translation} />
+        <TextArea
+          autoSize
+          onChange={(e) => onChangeText(translationId, e.target.value)}
+          value={translation}
+        />
       </div>
       <Checkbox
+        defaultChecked={isVerified}
         onChange={(e) => onCheck(translationId, e.target.checked)}
         className="checkbox-translation"
       />

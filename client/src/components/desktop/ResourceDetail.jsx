@@ -15,7 +15,11 @@ import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 import * as moment from 'moment';
 import { useIntl, FormattedMessage } from 'react-intl';
 
-import { deleteResource, getResourceByID } from '../../utils/api';
+import {
+  getResourceIsVerified,
+  deleteResource,
+  getResourceByID,
+} from '../../utils/api';
 import {
   saveResource,
   deleteSavedResource,
@@ -38,6 +42,8 @@ function ResourceDetail(props) {
 
   const intl = useIntl();
   const { authed, authRoleIsEquivalentTo } = useAuth();
+
+  const [isVerified, setIsVerified] = useState(false);
 
   const [name, setName] = useState('Resource Name');
   const [phone, setPhone] = useState([]);
@@ -144,6 +150,19 @@ function ResourceDetail(props) {
     }
     didUpdate();
   }, [authed, updateIsSaved]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const language = localStorage.getItem('language');
+      if (language !== 'English') {
+        const response = await getResourceIsVerified(match.params.id, language);
+        setIsVerified(response.result);
+      } else {
+        setIsVerified(true);
+      }
+    }
+    fetchData();
+  }, [match.params.id]);
 
   useEffect(() => {
     let adr = intl.formatMessage(detailMessages.noAddress);
@@ -290,7 +309,9 @@ function ResourceDetail(props) {
       <Row className="section">
         <Col span={15}>
           <span className="resource-name">{name}</span>
-          <TranslationPopup id={match.params.id} type="resource" />
+          {!isVerified && (
+            <TranslationPopup id={match.params.id} type="resource" />
+          )}
           <br />
           <SaveButton
             isSaved={isSaved}

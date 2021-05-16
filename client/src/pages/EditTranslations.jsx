@@ -5,21 +5,18 @@ import { Row, Progress, Layout, Button, message } from 'antd';
 import { useHistory } from 'react-router-dom';
 
 import '../css/EditTranslations.css';
-import { getTextToBeTranslated } from '../utils/api';
+import { getTextToBeTranslated, verifyTranslations } from '../utils/api';
 
 import TranslationFormRow from '../components/TranslationFormRow';
 
 const { Header } = Layout;
-
-const error = () => {
-  message.error('You must verify at least one translation!');
-};
 
 function Translations({ location, match }) {
   const history = useHistory();
 
   const [textToTranslate, setTextToTranslate] = useState([]);
   const [language, setLanguage] = useState('');
+  const [type, setType] = useState('');
 
   const getLanguageAndTypeFromSearch = useCallback(() => {
     const { search } = location;
@@ -40,9 +37,14 @@ function Translations({ location, match }) {
 
   useEffect(() => {
     async function fetchData() {
-      const [lang, type] = getLanguageAndTypeFromSearch();
+      const [lang, typeFromSearch] = getLanguageAndTypeFromSearch();
       setLanguage(lang);
-      const json = await getTextToBeTranslated(match.params.id, lang, type);
+      setType(typeFromSearch);
+      const json = await getTextToBeTranslated(
+        match.params.id,
+        lang,
+        typeFromSearch,
+      );
       setTextToTranslate(json.result);
     }
     fetchData();
@@ -53,6 +55,13 @@ function Translations({ location, match }) {
     return (
       <TranslationFormRow
         key={key}
+        onChangeText={(translationId, value) => {
+          setTextToTranslate((prevText) => {
+            const copy = [...prevText];
+            copy[idx][translationId][language] = value;
+            return copy;
+          });
+        }}
         onCheck={(translationId, isChecked) => {
           setTextToTranslate((prevText) => {
             const copy = [...prevText];
@@ -63,6 +72,7 @@ function Translations({ location, match }) {
         translationId={key}
         text={verificationObject[key].English}
         translation={verificationObject[key][language]}
+        isVerified={verificationObject[key].verified}
       />
     );
   });
@@ -72,11 +82,21 @@ function Translations({ location, match }) {
     0,
   );
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     if (numTranslated >= 1) {
+      const response = await verifyTranslations(
+        language,
+        type,
+        textToTranslate,
+      );
+      if (response?.success === true) {
+        message.success('Translation successfully verified!');
+      } else {
+        message.error('Something went wrong');
+      }
       history.push(`/translations`);
     } else {
-      error();
+      message.error('You must verify at least one translation!');
     }
   };
 

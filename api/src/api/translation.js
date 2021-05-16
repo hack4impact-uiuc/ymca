@@ -29,6 +29,30 @@ router.get(
   }),
 );
 
+// Get if a resource has unverified translations
+router.get(
+  '/:id',
+  errorWrap(async (req, res) => {
+    const { id } = req.params;
+    const { language } = req.query;
+
+    const resourceTranslations = await VerifiedTranslation.find({
+      resourceID: id,
+      language,
+    });
+    const isVerified = !resourceTranslations.some(
+      (translation) => translation.verified === false,
+    );
+
+    res.json({
+      code: 200,
+      message: 'Successfully reported an error',
+      success: true,
+      result: isVerified,
+    });
+  }),
+);
+
 // Report a translation error for an ID
 router.patch(
   '/report/:id',
