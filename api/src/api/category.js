@@ -45,8 +45,7 @@ router.get(
 
       // Remove brackets from Arrays and empty Objects
       Object.entries(res).forEach(([key, value]) => {
-        if (Array.isArray(value))
-          res[key] = value.toString();
+        if (Array.isArray(value)) res[key] = value.toString();
         else if (typeof value === 'object' && Object.keys(value).length === 0)
           res[key] = '';
       });
