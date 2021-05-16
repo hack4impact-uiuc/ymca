@@ -217,7 +217,7 @@ const ResourceManager = () => {
             onClick={(e) => {
               e.preventDefault();
               window.location.href =
-                'http://localhost:9000/api/categories/download';
+                'https://nawc-staging.vercel.app/api/categories/download';
             }}
           >
             Export
