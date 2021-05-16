@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { Card, Row, Col } from 'antd';
+import { Popover, Card, Row, Col } from 'antd';
 import {
   CompassTwoTone,
   HeartTwoTone,
@@ -14,7 +14,16 @@ import {
   MessageTwoTone,
   FolderOpenTwoTone,
   CloseCircleFilled,
+  HeartFilled,
 } from '@ant-design/icons';
+import { useIntl, FormattedMessage } from 'react-intl';
+import { saveResource, deleteSavedResource } from '../utils/auth';
+import { useAuth } from '../utils/use-auth';
+import {
+  loginMessage,
+  savedMessage,
+  unsavedMessage,
+} from '../utils/savedMessages';
 
 import '../css/MapViewModal.css';
 import languageConversion from '../utils/languages';
@@ -37,11 +46,23 @@ const GridItem = (props: ItemProps) => {
 };
 
 type Props = {
+  directionsURL: string,
   resource: Resource,
+  setModalOpened: (boolean) => void,
+  isSaved: boolean,
+  updateSaved: () => void,
 };
 
 const MapViewModal = (props: Props) => {
-  const { resource, setModalOpened } = props;
+  const { authed } = useAuth();
+  const intl = useIntl();
+  const {
+    directionsURL,
+    resource,
+    setModalOpened,
+    isSaved,
+    updateSaved,
+  } = props;
 
   let languages = '';
   resource.languages.forEach((language) => {
@@ -55,9 +76,55 @@ const MapViewModal = (props: Props) => {
     setModalOpened(false);
   };
 
+  const copyLink = () => {
+    const link = `https://nawc-staging.vercel.app/resources/${resource.id}`;
+    navigator.clipboard.writeText(link);
+  };
+
+  const saveResourceHandler = async () => {
+    await saveResource(resource.id);
+    updateSaved();
+  };
+
+  const deleteSavedResourceHandler = async () => {
+    await deleteSavedResource(resource.id);
+    updateSaved();
+  };
+
+  let saveButton = (
+    <Popover content={loginMessage}>
+      <HeartTwoTone className="main-icon" />
+    </Popover>
+  );
+  if (authed) {
+    if (isSaved) {
+      saveButton = (
+        <Popover content={unsavedMessage}>
+          <HeartFilled
+            className="main-icon"
+            onClick={async () => {
+              await deleteSavedResourceHandler();
+            }}
+            style={{ color: '#1890ff' }}
+          />
+        </Popover>
+      );
+    } else {
+      saveButton = (
+        <Popover content={savedMessage}>
+          <HeartTwoTone
+            className="main-icon"
+            onClick={async () => {
+              await saveResourceHandler();
+            }}
+          />
+        </Popover>
+      );
+    }
+  }
+
   return (
     <Card
-      hoverable
       className="card"
       cover={
         <img
@@ -72,24 +139,38 @@ const MapViewModal = (props: Props) => {
       <Row className="top-row">
         <Col span={8}>
           <Row className="icon-pair">
-            <CompassTwoTone className="main-icon" />
+            <CompassTwoTone
+              className="main-icon"
+              onClick={() => window.open(directionsURL)}
+            />
           </Row>
           <Row className="icon-pair">Directions</Row>
         </Col>
         <Col span={8}>
+          <Row className="icon-pair">{saveButton}</Row>
           <Row className="icon-pair">
-            <HeartTwoTone className="main-icon" />
+            <FormattedMessage id="save" defaultMessage="Save" />
           </Row>
-          <Row className="icon-pair">Save</Row>
         </Col>
         <Col span={8}>
           <Row className="icon-pair">
-            <ShareAltOutlined
-              className="main-icon"
-              style={{ color: '#1890FF' }}
-            />
+            <Popover
+              content={intl.formatMessage({
+                id: 'linkCopied',
+                defaultMessage: 'Resource link copied!',
+              })}
+              trigger="click"
+            >
+              <ShareAltOutlined
+                className="main-icon"
+                style={{ color: '#1890FF' }}
+                onClick={copyLink}
+              />
+            </Popover>
           </Row>
-          <Row className="icon-pair">Share</Row>
+          <Row className="icon-pair">
+            <FormattedMessage id="share" defaultMessage="Share" />
+          </Row>
         </Col>
       </Row>
       <GridItem

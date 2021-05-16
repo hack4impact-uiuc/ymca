@@ -162,7 +162,10 @@ router.get(
     if (!('totalData' in resources[0])) {
       const resourcesList = resources;
       resources = [];
-      resources[0] = { totalData: resourcesList };
+      resources[0] = {
+        totalData: resourcesList,
+        totalCount: [resourcesList.length],
+      };
     }
 
     res.json({
