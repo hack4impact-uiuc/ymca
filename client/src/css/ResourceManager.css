@@ -16,10 +16,14 @@
   font-weight: 600;
 }
 
-.resource-manager-header-breadcrumb {
+.resource-manager-header-content {
   display: flex;
   flex: 0.76;
   justify-content: space-between;
+}
+
+.resource-manager-header-breadcrumb {
+  justify-content: center;
 }
 
 .resource-manager-header-export {

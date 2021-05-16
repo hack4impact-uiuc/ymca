@@ -203,19 +203,21 @@ const ResourceManager = () => {
     <div className="resource-manager-flexbox">
       <div className="resource-manager-header">
         <div className="resource-manager-header-title"> Categories </div>
-        <div className="resource-manager-header-breadcrumb">
-          <ResourcesBreadcrumb
-            categorySelected={selectedCategory}
-            subcategorySelected={selectedSubcategory}
-            tColor="#000000"
-          />
+        <div className="resource-manager-header-content">
+          <div className="resource-manager-header-breadcrumb">
+            <ResourcesBreadcrumb
+              categorySelected={selectedCategory}
+              subcategorySelected={selectedSubcategory}
+              tColor="#000000"
+            />
+          </div>
           <Button
             className="resource-manager-header-export"
             icon={<ExportOutlined />}
             onClick={(e) => {
               e.preventDefault();
               window.location.href =
-                'https://nawc-staging.vercel.app/api/categories/download';
+                'http://localhost:9000/api/categories/download';
             }}
           >
             Export

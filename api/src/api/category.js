@@ -37,15 +37,17 @@ router.get(
         delete res.hoursOfOperation._id;
         if (res.hoursOfOperation.hoursOfOperation.length == 0)
           delete res.hoursOfOperation;
-        else if (res.hoursOfOperation.hoursOfOperation)
-          res.hoursOfOperation.hoursOfOperation.forEach((hoo) => {
+        else {
+          res.hoursOfOperation = res.hoursOfOperation.hoursOfOperation;
+          res.hoursOfOperation.forEach((hoo) => {
             delete hoo._id;
           });
+        }
       }
 
       // Remove brackets from Arrays and empty Objects
       Object.entries(res).forEach(([key, value]) => {
-        if (Array.isArray(value)) res[key] = value.toString();
+        if (Array.isArray(value)) res[key] = JSON.stringify(value).slice(1, -1);
         else if (typeof value === 'object' && Object.keys(value).length === 0)
           res[key] = '';
       });
