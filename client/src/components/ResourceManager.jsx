@@ -1,13 +1,14 @@
 // @flow
 
 import React, { useCallback, useEffect, useState } from 'react';
-import { Menu } from 'antd';
-import { DownOutlined, UpOutlined } from '@ant-design/icons';
+import { Menu, Button } from 'antd';
+import { DownOutlined, UpOutlined, ExportOutlined } from '@ant-design/icons';
 
 import { getCategories, getResources } from '../utils/api';
 import type { Subcategory } from '../types/models';
 
 import ManageResourcesTable from './ManageResourcesTable';
+import ResourcesBreadcrumb from './ResourcesBreadcrumb';
 
 import '../css/ResourceManager.css';
 import EditCategoryModal from './EditCategoryModal';
@@ -200,51 +201,78 @@ const ResourceManager = () => {
 
   return (
     <div className="resource-manager-flexbox">
-      <div className="resource-manager-sidebar">
-        <Menu
-          mode="inline"
-          selectedKeys={
-            selectedSubcategory === '' ? selectedCategory : selectedSubcategory
-          }
-          openKeys={openKeys}
-          onOpenChange={onOpenChange}
-          expandIcon={<div />}
-        >
-          <Menu.Item key="All Resources" onClick={categorySelectAll}>
-            All Resources
-          </Menu.Item>
-          {Object.keys(categories).map((categoryName) => (
-            <SidebarCategory
-              categories={categories}
-              categoryName={categoryName}
-              key={categoryName}
-              isOpen={categoryName === selectedCategory}
-              updateView={updateView}
-              setSelectedCategory={setSelectedCategory}
-              setSelectedSubcategory={setSelectedSubcategory}
+      <div className="resource-manager-header">
+        <div className="resource-manager-header-title"> Categories </div>
+        <div className="resource-manager-header-content">
+          <div className="resource-manager-header-breadcrumb">
+            <ResourcesBreadcrumb
+              categorySelected={selectedCategory}
+              subcategorySelected={selectedSubcategory}
+              tColor="#000000"
             />
-          ))}
-          <Menu.Item
-            key="Add Category"
-            className="resource-manager-sidebar-category"
+          </div>
+          <Button
+            className="resource-manager-header-export"
+            icon={<ExportOutlined />}
+            onClick={(e) => {
+              e.preventDefault();
+              window.location.href =
+                'https://nawc-staging.vercel.app/api/categories/download';
+            }}
           >
-            Add Category
-            <EditCategoryModal
-              modalType="add"
-              categoryType="category"
-              updateView={updateView}
-            />
-          </Menu.Item>
-        </Menu>
+            Export
+          </Button>
+        </div>
       </div>
-      <div className="resource-manager-table">
-        <ManageResourcesTable
-          categories={categories}
-          selectedCategory={selectedCategory}
-          selectedSubcategory={selectedSubcategory}
-          resources={resources}
-          updateView={updateView}
-        />
+      <div className="resource-manager-content">
+        <div className="resource-manager-sidebar">
+          <Menu
+            mode="inline"
+            selectedKeys={
+              selectedSubcategory === ''
+                ? selectedCategory
+                : selectedSubcategory
+            }
+            openKeys={openKeys}
+            onOpenChange={onOpenChange}
+            expandIcon={<div />}
+          >
+            <Menu.Item key="All Resources" onClick={categorySelectAll}>
+              All Resources
+            </Menu.Item>
+            {Object.keys(categories).map((categoryName) => (
+              <SidebarCategory
+                categories={categories}
+                categoryName={categoryName}
+                key={categoryName}
+                isOpen={categoryName === selectedCategory}
+                updateView={updateView}
+                setSelectedCategory={setSelectedCategory}
+                setSelectedSubcategory={setSelectedSubcategory}
+              />
+            ))}
+            <Menu.Item
+              key="Add Category"
+              className="resource-manager-sidebar-category"
+            >
+              Add Category
+              <EditCategoryModal
+                modalType="add"
+                categoryType="category"
+                updateView={updateView}
+              />
+            </Menu.Item>
+          </Menu>
+        </div>
+        <div className="resource-manager-table">
+          <ManageResourcesTable
+            categories={categories}
+            selectedCategory={selectedCategory}
+            selectedSubcategory={selectedSubcategory}
+            resources={resources}
+            updateView={updateView}
+          />
+        </div>
       </div>
     </div>
   );
