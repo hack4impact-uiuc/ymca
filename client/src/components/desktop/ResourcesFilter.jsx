@@ -104,7 +104,7 @@ function ResourcesFilter(props: Props): React$Element<'div'> {
     ),
     [onChange],
   );
-  console.log(sorts);
+
   return (
     <div className="resources-filter">
       <Dropdown

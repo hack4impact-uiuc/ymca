@@ -14,7 +14,6 @@ type Props = {
 
 const MapManager = (props: Props) => {
   const { locationResult, resources, savedResources, updateSaved } = props;
-  console.log(resources);
 
   const [selectedResource, setSelectedResource] = useState<Resource>(null);
   const [currentLocation, setCurrentLocation] = useState<[number, number]>(

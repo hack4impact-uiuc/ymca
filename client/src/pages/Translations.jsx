@@ -17,7 +17,6 @@ const priorities = { Urgent: 4, High: 3, Medium: 2, Low: 1 };
 function Translations() {
   const [verifiedList, setVerifiedList] = useState({});
   const [unverifiedList, setUnverifiedList] = useState({});
-  console.log(verifiedList, unverifiedList);
 
   const updateLists = useCallback((verifications) => {
     const verifiedResources = { Spanish: [], French: [], Chinese: [] };
