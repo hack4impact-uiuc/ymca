@@ -7,6 +7,7 @@ import Loader from 'react-loader-spinner';
 import { useIntl } from 'react-intl';
 
 import { filterMessages } from '../utils/messages';
+import { CHAMPAIGN_COORDS } from '../utils/geocoding';
 
 import { getCategories, getResourcesByCategory } from '../utils/api';
 import { getSavedResources } from '../utils/auth';
@@ -69,6 +70,7 @@ function Resources({
   );
   const [savedSet, setSavedSet] = useState<Set<string>>(new Set());
   const [locationResult, setLocationResult] = useState({});
+  const [currentTab, setCurrentTab] = useState('grid');
 
   // Reset cost when language switch
   useEffect(() => {
@@ -137,7 +139,6 @@ function Resources({
       subcategorySelected,
     ] = getCategorySelectedFromSearch();
 
-    setLoading(true);
     const newResources = await getResourcesByCategory(
       categorySelected,
       subcategorySelected,
@@ -147,6 +148,9 @@ function Resources({
       sort,
       pageSize,
       page,
+      currentTab === 'grid'
+        ? undefined
+        : locationResult.center ?? CHAMPAIGN_COORDS,
     );
 
     let localSavedSet = new Set();
@@ -173,11 +177,10 @@ function Resources({
         : newResources.result.totalCount[0].resourceCount,
     );
     setSubcategory(subcategorySelected);
-
-    setLoading(false);
   }, [
     getCategorySelectedFromSearch,
     cost,
+    currentTab,
     language,
     location,
     sort,
@@ -185,12 +188,15 @@ function Resources({
     saved,
     page,
     pageSize,
+    locationResult.center,
   ]);
 
   const updateSaved = updateResources;
 
   useEffect(() => {
+    setLoading(true);
     updateResources();
+    setLoading(false);
   }, [locationProp.search, saved, authed, updateResources]);
 
   useEffect(() => {
@@ -306,12 +312,13 @@ function Resources({
         </>
       ) : (
         <Tabs
-          defaultActiveKey="1"
+          activeKey={currentTab}
           className="tabs"
+          onTabClick={setCurrentTab}
           type="card"
           tabBarStyle={{ paddingLeft: '1.2em', marginTop: '1.2em' }}
         >
-          <TabPane tab="Grid" key="1">
+          <TabPane tab="Grid" key="grid">
             <ResourcesFilter
               costs={costs}
               costSelected={cost}
@@ -361,7 +368,7 @@ function Resources({
               )}
             </Layout>
           </TabPane>
-          <TabPane tab="Map" key="2">
+          <TabPane tab="Map" key="map">
             <ResourcesFilter
               costs={costs}
               costSelected={cost}
@@ -369,7 +376,7 @@ function Resources({
               languageSelected={language}
               locations={locations}
               locationSelected={location}
-              sorts={sorts}
+              sorts={null}
               sortSelected={sort}
               setCost={setCost}
               setLanguage={setLanguage}
@@ -391,7 +398,22 @@ function Resources({
                   />
                 </Sider>
               </div>
-              <MapManager locationResult={locationResult} />
+              {loading ? (
+                <Loader
+                  className="loader"
+                  type="Circles"
+                  color="#6A3E9E"
+                  height={100}
+                  width={100}
+                />
+              ) : (
+                <MapManager
+                  locationResult={locationResult}
+                  resources={filteredResources}
+                  savedResources={savedSet}
+                  updateSaved={updateSaved}
+                />
+              )}
             </Layout>
           </TabPane>
         </Tabs>

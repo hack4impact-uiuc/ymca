@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { AutoComplete, Input } from 'antd';
 import { HomeTwoTone } from '@ant-design/icons';
-import searchLocation from '../utils/geocoding';
+import { searchLocation } from '../utils/geocoding';
 
 type Props = {
   setLocationResult: (Array) => void,

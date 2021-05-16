@@ -6,7 +6,7 @@ import '../css/ResourceMap.css';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 import MapViewModal from './MapViewModal';
 
-type Props = {};
+type Props = { directionsURL: string };
 
 const Map = ReactMapboxGl({
   accessToken:
@@ -16,7 +16,15 @@ const Map = ReactMapboxGl({
 });
 
 const ResourceMap = (props: Props) => {
-  const { resources, selectedResource, currentLocation } = props;
+  const {
+    directionsURL,
+    resources,
+    selectedResource,
+    setSelectedResource,
+    currentLocation,
+    savedResources,
+    updateSaved,
+  } = props;
   const [modalOpened, setModalOpened] = useState<Boolean>(false);
 
   useEffect(() => {
@@ -49,8 +57,14 @@ const ResourceMap = (props: Props) => {
       {mapComponent}
       {modalOpened && selectedResource && (
         <MapViewModal
+          directionsURL={directionsURL}
           resource={selectedResource}
-          setModalOpened={setModalOpened}
+          isSaved={savedResources.has(selectedResource.id)}
+          updateSaved={updateSaved}
+          setModalOpened={(isOpen) => {
+            setModalOpened(isOpen);
+            if (isOpen === false) setSelectedResource(null);
+          }}
           className="modal"
         />
       )}

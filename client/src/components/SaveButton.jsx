@@ -1,17 +1,21 @@
 // @flow
 
 import React from 'react';
-import { Link } from 'react-router-dom/';
 import { Button, Popover } from 'antd';
 import { HeartOutlined, HeartFilled } from '@ant-design/icons';
 import { FormattedMessage } from 'react-intl';
 
 import '../css/SaveButton.css';
 import { useAuth } from '../utils/use-auth';
+import {
+  loginMessage,
+  savedMessage,
+  unsavedMessage,
+} from '../utils/savedMessages';
 
 type SaveButtonProps = {
-  isSaved: Boolean,
-  fullButton: Boolean,
+  isSaved: boolean,
+  fullButton: boolean,
   deleteResourceHandler: () => void,
   saveResourceHandler: () => void,
 };
@@ -24,31 +28,6 @@ function SaveButton(props: SaveButtonProps) {
     deleteResourceHandler,
     saveResourceHandler,
   } = props;
-
-  const loginMessage = (
-    <>
-      <FormattedMessage
-        id="logInSave"
-        defaultMessage="{loginLink} to save resources!"
-        values={{
-          loginLink: (
-            <Link to="/login">
-              <FormattedMessage
-                id="logInSaveLinkText"
-                defaultMessage="Log in"
-              />
-            </Link>
-          ),
-        }}
-      />
-    </>
-  );
-  const savedMessage = (
-    <FormattedMessage id="saveResource" defaultMessage="Save resource" />
-  );
-  const unsavedMessage = (
-    <FormattedMessage id="unsaveResource" defaultMessage="Unsave resource" />
-  );
 
   return (
     <>

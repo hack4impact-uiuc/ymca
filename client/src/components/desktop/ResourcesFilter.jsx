@@ -19,7 +19,7 @@ type Props = {
   languageSelected: string,
   locations: Array<string>,
   locationSelected: string,
-  sorts: Array<string>,
+  sorts: ?Array<string>,
   sortSelected: string,
   setCost: (string) => void,
   setLanguage: (string) => void,
@@ -147,23 +147,25 @@ function ResourcesFilter(props: Props): React$Element<'div'> {
       <div className="searchbar-align-right">
         <ResourceFilterSearch />
       </div>
-      <div className="sort-dropdown">
-        <Dropdown
-          className="dropdown"
-          overlay={radio(translatedSort, sorts, sortSelected, true)}
-          placement="bottomRight"
-          trigger={['click']}
-        >
-          <button
-            type="button"
-            className="ant-dropdown-link"
-            onClick={(e) => e.preventDefault()}
+      {sorts && (
+        <div className="sort-dropdown">
+          <Dropdown
+            className="dropdown"
+            overlay={radio(translatedSort, sorts, sortSelected, true)}
+            placement="bottomRight"
+            trigger={['click']}
           >
-            <FormattedMessage {...filterMessages.sort} />{' '}
-            <DownOutlined style={{ verticalAlign: '.2em' }} />
-          </button>
-        </Dropdown>
-      </div>
+            <button
+              type="button"
+              className="ant-dropdown-link"
+              onClick={(e) => e.preventDefault()}
+            >
+              <FormattedMessage {...filterMessages.sort} />{' '}
+              <DownOutlined style={{ verticalAlign: '.2em' }} />
+            </button>
+          </Dropdown>
+        </div>
+      )}
     </div>
   );
 }
