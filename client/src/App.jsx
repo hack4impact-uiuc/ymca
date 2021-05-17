@@ -89,6 +89,9 @@ const App = (): React$Element<React$FragmentType> => {
         if (authRoleIsEquivalentTo('admin')) {
           return <Redirect to="/admin" />;
         }
+        if (authRoleIsEquivalentTo('nawc volunteer')) {
+          return <Redirect to="/translations" />;
+        }
 
         return <Redirect to="/" />;
       }
@@ -139,12 +142,12 @@ const App = (): React$Element<React$FragmentType> => {
                 path="/translations"
                 component={Translations}
                 exact
-                minRole="admin"
+                minRole="nawc volunteer"
               />
               <PrivateRoute
                 path="/translations/:id"
                 component={EditTranslations}
-                minRole="admin"
+                minRole="nawc volunteer"
               />
               <Route
                 path="/saved"

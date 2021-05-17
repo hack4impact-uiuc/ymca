@@ -1,9 +1,15 @@
 const fetch = require('isomorphic-unfetch');
 
-const AUTH_SERVER_URI = 'https://nawc-staging.vercel.app/auth';
+// const AUTH_SERVER_URI = 'https://nawc-staging.vercel.app/auth';
+
+const AUTH_SERVER_URI = 'http://localhost:8000/auth';
 
 const authAdmin = async (req, res, next) => {
   auth(req, res, next, ['admin']);
+};
+
+const authVolunteer = async (req, res, next) => {
+  auth(req, res, next, ['nawc volunteer']);
 };
 
 const authGeneral = async (req, res, next) => {
@@ -46,4 +52,4 @@ const auth = async (req, res, next, roles) => {
   }
 };
 
-module.exports = { authAdmin, authGeneral };
+module.exports = { authAdmin, authVolunteer, authGeneral };

@@ -13,9 +13,9 @@ import type {
 import type { ApiResponse } from '../types/apiResponse';
 
 const instance = axios.create({
-  baseURL: 'https://nawc-staging.vercel.app',
+  // baseURL: 'https://nawc-staging.vercel.app',
   // For testing on dev database:
-  // baseURL: 'http://localhost:9000',
+  baseURL: 'http://localhost:9000',
 });
 
 export const imageToLink = (
@@ -367,7 +367,7 @@ export const verifyTranslations = (
   type: string,
   translations: Array<any>,
 ): ApiResponse<void> => {
-  const requestExtension = `/api/admin/verified`;
+  const requestExtension = `/api/volunteer/verified`;
   return instance({
     url: requestExtension,
     method: 'put',
@@ -432,7 +432,7 @@ export const getTextToBeTranslated = (
 ): ApiResponse<Text> => {
   const requestExtension =
     // eslint-disable-next-line no-useless-concat
-    `/api/admin/verified/${id}` + `?language=${language}&type=${type}`;
+    `/api/volunteer/verified/${id}` + `?language=${language}&type=${type}`;
   return instance
     .get(requestExtension, {
       headers: {
@@ -449,7 +449,7 @@ export const getTextToBeTranslated = (
 };
 
 export const getVerifications = (language: string): ApiResponse<Void> => {
-  const requestExtension = '/api/admin/verified';
+  const requestExtension = '/api/volunteer/verified';
   return instance({
     url: requestExtension,
     method: 'get',
