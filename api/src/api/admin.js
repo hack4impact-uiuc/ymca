@@ -5,11 +5,17 @@ const Category = require('../models/category');
 const Resource = require('../models/resource');
 const HomePage = require('../models/homepage');
 const Translation = require('../models/translation');
+const VerifiedTranslation = require('../models/verifiedTranslation');
 const {
   deleteTranslatedText,
   translateAndSaveText,
 } = require('../utils/translate');
 const extractLongLat = require('../utils/extractLongLat');
+const {
+  getVerifiedAggregation,
+  getNestedVerifiedAggregation,
+  getVerificationDetails,
+} = require('../utils/verification');
 
 const imageHelper = async (image) => {
   const imageResponse = await fetch('https://api.imgur.com/3/image', {
@@ -431,36 +437,106 @@ router.delete(
   }),
 );
 
-// Create a translation object
-router.post(
-  '/translation',
+// Get verified translations for table
+router.get(
+  '/verified',
   errorWrap(async (req, res) => {
-    const newTranslation = new Translation(req.body);
-    await newTranslation.save();
+    const { language } = req.query;
+    const resourceInfo = await Resource.aggregate(
+      getVerifiedAggregation(language, 'resourceID', 'resource'),
+    );
+    const categoryInfo = await Category.aggregate(
+      getVerifiedAggregation(language, 'categoryID', 'category'),
+    );
+    const subcategoryInfo = await Category.aggregate(
+      getNestedVerifiedAggregation(
+        language,
+        'subcategoryID',
+        'subcategory',
+        'subcategories',
+        'name',
+      ),
+    );
+    const testimonialInfo = await HomePage.aggregate(
+      getNestedVerifiedAggregation(
+        language,
+        'testimonialID',
+        'testimonial',
+        'testimonials',
+        'person',
+      ),
+    );
+
     res.json({
-      code: 201,
-      message: `Succesfully created new Translation object`,
+      code: 200,
+      message: 'Successfully returned verified translation table info',
       success: true,
-      result: newTranslation,
+      result: resourceInfo.concat(
+        categoryInfo,
+        subcategoryInfo,
+        testimonialInfo,
+      ),
     });
   }),
 );
 
-// Add a translation message
-router.put(
-  '/translation',
+// Get verified translations for an ID
+router.get(
+  '/verified/:id',
   errorWrap(async (req, res) => {
-    const { language, key, message } = req.body;
-    const updatedTranslation = await Translation.findOne({
+    const { id } = req.params;
+    const { language, type } = req.query;
+
+    const verificationDetails = await getVerificationDetails(
+      type,
+      language,
+      id,
+    );
+    const { messages } = await Translation.findOne({
       language: { $eq: language },
     });
-    updatedTranslation.messages.set(key, message);
-    await updatedTranslation.save();
+    verificationDetails.forEach((verificationObject) => {
+      const key = Object.keys(verificationObject)[0];
+      verificationObject[key][language] = messages.get(key);
+    });
+
     res.json({
       code: 200,
-      message: `Successfully added ${language} translation for ${key}`,
+      message: 'Successfully returned verified translation info',
       success: true,
-      result: updatedTranslation,
+      result: verificationDetails,
+    });
+  }),
+);
+
+// Update verified translations for an ID
+router.put(
+  '/verified',
+  errorWrap(async (req, res) => {
+    const { language, type } = req.query;
+    const { translations } = req.body;
+
+    const translationsToUpdate = await Translation.findOne({
+      language: { $eq: language },
+    });
+    translations.forEach(async (translation) => {
+      const key = Object.keys(translation)[0];
+      translationsToUpdate.messages.set(key, translation[key][language]);
+      const verifiedTranslation = await VerifiedTranslation.updateOne(
+        {
+          translationID: key,
+          language,
+        },
+        { $set: { verified: translation[key].verified } },
+      );
+    });
+    await translationsToUpdate.save();
+
+    res.json({
+      code: 200,
+      message: 'Successfully updated verified translation info',
+      success: true,
+      result: null,
     });
   }),
 );

@@ -15,7 +15,11 @@ import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 import * as moment from 'moment';
 import { useIntl, FormattedMessage } from 'react-intl';
 
-import { deleteResource, getResourceByID } from '../../utils/api';
+import {
+  getResourceIsVerified,
+  deleteResource,
+  getResourceByID,
+} from '../../utils/api';
 import {
   saveResource,
   deleteSavedResource,
@@ -24,6 +28,7 @@ import {
 import ResourcesBreadcrumb from '../ResourcesBreadcrumb';
 import SaveButton from '../SaveButton';
 import ShareButton from '../ShareButton';
+import TranslationPopup from '../TranslationPopup';
 import { useAuth } from '../../utils/use-auth';
 import { detailMessages, filterMessages } from '../../utils/messages';
 import languageConversion from '../../utils/languages';
@@ -37,6 +42,8 @@ function ResourceDetail(props) {
 
   const intl = useIntl();
   const { authed, authRoleIsEquivalentTo } = useAuth();
+
+  const [isVerified, setIsVerified] = useState(false);
 
   const [name, setName] = useState('Resource Name');
   const [phone, setPhone] = useState([]);
@@ -92,16 +99,18 @@ function ResourceDetail(props) {
         setSubcategory(result.subcategory[0]);
         setCost(result.cost);
         setLat(
-          result.geoLocation == null ||
-            Number.isNaN(result.geoLocation.coordinates[1])
+          result?.geoLocation == null ||
+            result?.geoLocation?.coordinates == null ||
+            Number.isNaN(result?.geoLocation?.coordinates[1])
             ? 0.0
-            : result.geoLocation.coordinates[1],
+            : result?.geoLocation?.coordinates[1],
         );
         setLng(
-          result.geoLocation == null ||
-            Number.isNaN(result.geoLocation.coordinates[0])
+          result?.geoLocation == null ||
+            result?.geoLocation?.coordinates == null ||
+            Number.isNaN(result?.geoLocation?.coordinates[0])
             ? 0.0
-            : result.geoLocation.coordinates[0],
+            : result?.geoLocation?.coordinates[0],
         );
         setEmail(result.email || '');
         setWebsite(result.website || '');
@@ -141,6 +150,19 @@ function ResourceDetail(props) {
     }
     didUpdate();
   }, [authed, updateIsSaved]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const language = localStorage.getItem('language');
+      if (language !== 'English') {
+        const response = await getResourceIsVerified(match.params.id, language);
+        setIsVerified(response.result);
+      } else {
+        setIsVerified(true);
+      }
+    }
+    fetchData();
+  }, [match.params.id]);
 
   useEffect(() => {
     let adr = intl.formatMessage(detailMessages.noAddress);
@@ -286,7 +308,11 @@ function ResourceDetail(props) {
       </Header>
       <Row className="section">
         <Col span={15}>
-          <span className="resource-name">{`${name}\n`}</span>
+          <span className="resource-name">{name}</span>
+          {!isVerified && (
+            <TranslationPopup id={match.params.id} type="resource" />
+          )}
+          <br />
           <SaveButton
             isSaved={isSaved}
             deleteResourceHandler={deleteSavedResourceHandler}
@@ -294,7 +320,6 @@ function ResourceDetail(props) {
             fullButton
           />
           <ShareButton fullButton />
-
           {authed && authRoleIsEquivalentTo('admin') && (
             <span className="resource-edit-delete">
               <Button href={`/admin/${match.params.id}`}>Edit</Button>
@@ -306,39 +331,44 @@ function ResourceDetail(props) {
             </span>
           )}
         </Col>
-        <Col span={1} className="header-info">
-          <GlobalOutlined />
-          <MailOutlined />
-          <PhoneFilled />
-          {phone.length > 0 && phone.map(() => `\n`)}
-          <EnvironmentOutlined />
-        </Col>
-        <Col span={8} className="header-info">
-          {website.length > 0 ? (
-            <a
-              href={absoluteWebsiteURL}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {`${website}`}
-              {'\n'}
-            </a>
-          ) : (
-            `${intl.formatMessage(detailMessages.noWebsite)}\n`
-          )}
-          {email.length > 0
-            ? `${email}\n`
-            : `${intl.formatMessage(detailMessages.noEmail)}\n`}
-          {phone.length > 0
-            ? phone.map(
-                (p) =>
-                  `${intl.formatMessage({
-                    id: `resource-phoneType-${p._id}`,
-                    defaultMessage: p.phoneType,
-                  })}: ${p.phoneNumber}\n`,
-              )
-            : `${intl.formatMessage(detailMessages.noPhoneNumber)}\n`}
-          {addressString}
+        <Col span={9} className="header-info">
+          <div className="info-row">
+            <GlobalOutlined />
+            {website.length > 0 ? (
+              <a
+                href={absoluteWebsiteURL}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {`${website}`}
+                {'\n'}
+              </a>
+            ) : (
+              `${intl.formatMessage(detailMessages.noWebsite)}\n`
+            )}
+          </div>
+          <div className="info-row">
+            <MailOutlined />
+            {email.length > 0
+              ? `${email}\n`
+              : `${intl.formatMessage(detailMessages.noEmail)}\n`}
+          </div>
+          <div className="info-row">
+            <PhoneFilled />
+            {phone.length > 0
+              ? phone.map(
+                  (p) =>
+                    `${intl.formatMessage({
+                      id: `resource-phoneType-${p._id}`,
+                      defaultMessage: p.phoneType,
+                    })}: ${p.phoneNumber}\n`,
+                )
+              : `${intl.formatMessage(detailMessages.noPhoneNumber)}\n`}
+          </div>
+          <div className="info-row">
+            <EnvironmentOutlined />
+            {addressString}
+          </div>
         </Col>
       </Row>
       <Row className="section card-row">
@@ -459,7 +489,7 @@ function ResourceDetail(props) {
                         'resource-financialAid-immigrationStatus-' +
                         `${financialAidDetails._id}`
                       }
-                      defaultMessage={financialAidDetails.education}
+                      defaultMessage={financialAidDetails.immigrationStatus}
                     />
                   ) : (
                     <FormattedMessage {...detailMessages.noneProvided} />
@@ -480,7 +510,7 @@ function ResourceDetail(props) {
                         'resource-financialAid-deadline-' +
                         `${financialAidDetails._id}`
                       }
-                      defaultMessage={financialAidDetails.education}
+                      defaultMessage={financialAidDetails.deadline}
                     />
                   ) : (
                     <FormattedMessage {...detailMessages.noneProvided} />
@@ -496,7 +526,7 @@ function ResourceDetail(props) {
                         'resource-financialAid-amount-' +
                         `${financialAidDetails._id}`
                       }
-                      defaultMessage={financialAidDetails.education}
+                      defaultMessage={financialAidDetails.amount}
                     />
                   ) : (
                     <FormattedMessage {...detailMessages.noneProvided} />

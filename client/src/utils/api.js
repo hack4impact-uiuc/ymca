@@ -8,7 +8,6 @@ import type {
   Category,
   HomePage,
   Resource,
-  TranslationMessage,
   Translation,
 } from '../types/models';
 import type { ApiResponse } from '../types/apiResponse';
@@ -112,7 +111,7 @@ export const getResourcesByCategory = (
   sort: ?string,
   size: ?number,
   page: ?number,
-  location: ?string,
+  coordinates: ?[number, number],
 ): ApiResponse<Array<Resource>> => {
   const requestExtension = `/api/resources`;
   const params = {
@@ -124,7 +123,8 @@ export const getResourcesByCategory = (
     sort,
     size,
     page,
-    location,
+    long: coordinates && coordinates[0],
+    lat: coordinates && coordinates[1],
   };
   return instance.get(requestExtension, { params }).then(
     (res) => res.data,
@@ -348,42 +348,41 @@ export const getTranslationByLanguage = (
   );
 };
 
-export const editTranslationMessage = (
-  translationMessage: TranslationMessage,
-): ApiResponse<void> => {
-  const requestExtension = '/api/admin/translation';
-  return instance
-    .put(requestExtension, translationMessage, {
-      headers: {
-        token: localStorage.getItem('token'),
-      },
-    })
-    .then(
-      (res) => res.data,
-      (err) => {
-        console.error(err);
-        return null;
-      },
-    );
+export const getResourceIsVerified = (
+  id: string,
+  language: string,
+): ApiResponse<boolean> => {
+  const requestExtension = `/api/translation/${id}?language=${language}`;
+  return instance.get(requestExtension).then(
+    (res) => res.data,
+    (err) => {
+      console.error(err);
+      return null;
+    },
+  );
 };
 
-export const createTranslation = (
-  translation: Translation,
-): ApiResponse<Translation> => {
-  const requestExtension = '/api/admin/translation';
-  return instance
-    .post(requestExtension, translation, {
-      headers: {
-        token: localStorage.getItem('token'),
-      },
-    })
-    .then(
-      (res) => res.data,
-      (err) => {
-        console.error(err);
-        return null;
-      },
-    );
+export const verifyTranslations = (
+  language: string,
+  type: string,
+  translations: Array<any>,
+): ApiResponse<void> => {
+  const requestExtension = `/api/admin/verified`;
+  return instance({
+    url: requestExtension,
+    method: 'put',
+    params: { language, type },
+    data: { translations },
+    headers: {
+      token: localStorage.getItem('token'),
+    },
+  }).then(
+    (res) => res.data,
+    (err) => {
+      console.error(err);
+      return null;
+    },
+  );
 };
 
 export const editResourceCategories = (
@@ -409,4 +408,60 @@ export const editResourceCategories = (
         return null;
       },
     );
+};
+
+export const reportTranslationError = (
+  id: string,
+  language: string,
+  type: string,
+): ApiResponse<null> => {
+  const requestExtension = `/api/translation/report/${id}`;
+  return instance.patch(requestExtension, { language, type }).then(
+    (res) => res.data,
+    (err) => {
+      console.error(err);
+      return null;
+    },
+  );
+};
+
+export const getTextToBeTranslated = (
+  id: string,
+  language: string,
+  type: string,
+): ApiResponse<Text> => {
+  const requestExtension =
+    // eslint-disable-next-line no-useless-concat
+    `/api/admin/verified/${id}` + `?language=${language}&type=${type}`;
+  return instance
+    .get(requestExtension, {
+      headers: {
+        token: localStorage.getItem('token'),
+      },
+    })
+    .then(
+      (res) => res.data,
+      (err) => {
+        console.error(err);
+        return null;
+      },
+    );
+};
+
+export const getVerifications = (language: string): ApiResponse<Void> => {
+  const requestExtension = '/api/admin/verified';
+  return instance({
+    url: requestExtension,
+    method: 'get',
+    params: { language },
+    headers: {
+      token: localStorage.getItem('token'),
+    },
+  }).then(
+    (res) => res.data,
+    (err) => {
+      console.error(err);
+      return null;
+    },
+  );
 };

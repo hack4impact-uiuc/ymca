@@ -50,7 +50,7 @@ const MapViewEntry = (props: Props) => {
         </Col>
         <Col span={3}>
           <Row>
-            <b>{resource.distance.toString().slice(0, 3)}</b>
+            <b>{resource.distance?.toString().slice(0, 3)}</b>
           </Row>
           <Row>
             <b>mi</b>
