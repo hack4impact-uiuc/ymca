@@ -1,4 +1,5 @@
 const Translation = require('../models/translation');
+const VerifiedTranslation = require('../models/verifiedTranslation');
 
 const languageTypes = {
   es: 'Spanish',
@@ -30,6 +31,7 @@ async function deleteTranslatedText(
   if (requiredDocuments != null && requiredDocuments.length !== 0) {
     await deleteRequiredDocuments(requiredDocuments, id);
   }
+  await VerifiedTranslation.deleteMany({ resourceID: id });
 }
 
 async function deleteString(text, translationKey) {
@@ -91,17 +93,18 @@ async function translateAndSaveText(
   requiredDocuments,
   id,
 ) {
-  await translateString(description, `resource-description-${id}`);
+  await translateString(description, `resource-description-${id}`, id);
   if (phoneNumbers != null && phoneNumbers.length !== 0) {
-    await translatePhoneTypes(phoneNumbers);
+    await translatePhoneTypes(phoneNumbers, id);
   }
   if (financialAidDetails != null) {
-    await translateFinancialAidDetails(financialAidDetails);
+    await translateFinancialAidDetails(financialAidDetails, id);
   }
   if (eligibilityRequirements != null && eligibilityRequirements !== '') {
     await translateString(
       eligibilityRequirements,
       `resource-eligibilityRequirements-${id}`,
+      id,
     );
   }
   if (requiredDocuments != null && requiredDocuments.length !== 0) {
@@ -109,7 +112,7 @@ async function translateAndSaveText(
   }
 }
 
-async function translateString(text, translationKey) {
+async function translateString(text, translationKey, resourceID) {
   Object.keys(languageTypes).forEach(async function (key) {
     const translationValue = await translateText(text, key);
     const updatedTranslation = await Translation.findOne({
@@ -117,10 +120,19 @@ async function translateString(text, translationKey) {
     });
     updatedTranslation.messages.set(translationKey, translationValue);
     await updatedTranslation.save();
+
+    const verifiedDesc = new VerifiedTranslation({
+      resourceID,
+      translationID: translationKey,
+      verified: false,
+      numReports: 0,
+      language: languageTypes[key],
+    });
+    await verifiedDesc.save();
   });
 }
 
-async function translatePhoneTypes(phoneNumbers) {
+async function translatePhoneTypes(phoneNumbers, resourceID) {
   Object.keys(languageTypes).forEach(async function (key) {
     phoneNumbers.forEach(async (phone) => {
       const updatedTranslation = await Translation.findOne({
@@ -130,11 +142,20 @@ async function translatePhoneTypes(phoneNumbers) {
       const translationValue = await translateText(phone.phoneType, key);
       updatedTranslation.messages.set(translationKey, translationValue);
       await updatedTranslation.save();
+
+      const verifiedPhone = new VerifiedTranslation({
+        resourceID,
+        translationID: translationKey,
+        verified: false,
+        numReports: 0,
+        language: languageTypes[key],
+      });
+      await verifiedPhone.save();
     });
   });
 }
 
-async function translateFinancialAidDetails(financialAidDetails) {
+async function translateFinancialAidDetails(financialAidDetails, resourceID) {
   Object.keys(languageTypes).forEach(async function (key) {
     Object.keys(financialAidDetails.toJSON()).forEach(async (financialKey) => {
       if (financialKey !== '_id') {
@@ -148,6 +169,15 @@ async function translateFinancialAidDetails(financialAidDetails) {
         );
         updatedTranslation.messages.set(translationKey, translationValue);
         await updatedTranslation.save();
+
+        const verifiedFin = new VerifiedTranslation({
+          resourceID,
+          translationID: translationKey,
+          verified: false,
+          numReports: 0,
+          language: languageTypes[key],
+        });
+        await verifiedFin.save();
       }
     });
   });
@@ -163,6 +193,15 @@ async function translateRequiredDocuments(requiredDocuments, resourceId) {
       const translationValue = await translateText(requiredDoc, key);
       updatedTranslation.messages.set(translationKey, translationValue);
       await updatedTranslation.save();
+
+      const verifiedDoc = new VerifiedTranslation({
+        resourceID: resourceId,
+        translationID: translationKey,
+        verified: false,
+        numReports: 0,
+        language: languageTypes[key],
+      });
+      await verifiedDoc.save();
     });
   });
 }

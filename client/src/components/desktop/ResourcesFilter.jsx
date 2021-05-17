@@ -7,6 +7,7 @@ import { useIntl, FormattedMessage } from 'react-intl';
 
 import { filterMessages } from '../../utils/messages';
 import ResourceFilterSearch from '../ResourceFilterSearch';
+import ResourceFilterAutofill from '../ResourceFilterAutofill';
 import languageConversion from '../../utils/languages';
 
 import '../../css/ResourcesFilter.css';
@@ -18,12 +19,13 @@ type Props = {
   languageSelected: string,
   locations: Array<string>,
   locationSelected: string,
-  sorts: Array<string>,
+  sorts: ?Array<string>,
   sortSelected: string,
   setCost: (string) => void,
   setLanguage: (string) => void,
   setLocation: (string) => void,
   setSort: (string) => void,
+  setLocationResult: (object) => void,
 };
 
 function ResourcesFilter(props: Props): React$Element<'div'> {
@@ -40,6 +42,7 @@ function ResourcesFilter(props: Props): React$Element<'div'> {
     setLanguage,
     setLocation,
     setSort,
+    setLocationResult,
   } = props;
   const intl = useIntl();
   const translatedCost = intl.formatMessage(filterMessages.cost);
@@ -136,26 +139,33 @@ function ResourcesFilter(props: Props): React$Element<'div'> {
           <FormattedMessage {...filterMessages.location} />
         </Button>
       </Dropdown>
+      {setLocationResult && (
+        <span className="resources-filter-autofill">
+          <ResourceFilterAutofill setLocationResult={setLocationResult} />
+        </span>
+      )}
       <div className="searchbar-align-right">
         <ResourceFilterSearch />
       </div>
-      <div className="sort-dropdown">
-        <Dropdown
-          className="dropdown"
-          overlay={radio(translatedSort, sorts, sortSelected, true)}
-          placement="bottomRight"
-          trigger={['click']}
-        >
-          <button
-            type="button"
-            className="ant-dropdown-link"
-            onClick={(e) => e.preventDefault()}
+      {sorts && (
+        <div className="sort-dropdown">
+          <Dropdown
+            className="dropdown"
+            overlay={radio(translatedSort, sorts, sortSelected, true)}
+            placement="bottomRight"
+            trigger={['click']}
           >
-            <FormattedMessage {...filterMessages.sort} />{' '}
-            <DownOutlined style={{ verticalAlign: '.2em' }} />
-          </button>
-        </Dropdown>
-      </div>
+            <button
+              type="button"
+              className="ant-dropdown-link"
+              onClick={(e) => e.preventDefault()}
+            >
+              <FormattedMessage {...filterMessages.sort} />{' '}
+              <DownOutlined style={{ verticalAlign: '.2em' }} />
+            </button>
+          </Dropdown>
+        </div>
+      )}
     </div>
   );
 }

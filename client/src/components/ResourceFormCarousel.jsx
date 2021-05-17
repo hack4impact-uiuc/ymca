@@ -24,7 +24,6 @@ const { Option } = Select;
 
 type CarouselProps = {
   beforeChange: (any) => any,
-
   setCategories: (any) => any,
   setSubcategories: (any) => any,
   phoneNumbers: any,
@@ -41,9 +40,7 @@ type CarouselProps = {
   setHoursOfOperation: (any) => any,
   image: any,
   setImage: (any) => any,
-
   setTotalSubmitEnabled: (Boolean) => any,
-
   setFieldsValue: (any) => any,
   getFieldValue: (any) => any,
   getFieldDecorator: (any) => any,
@@ -52,7 +49,6 @@ type CarouselProps = {
 const FormCarousel = React.forwardRef((props: CarouselProps, ref) => {
   const {
     beforeChange,
-
     setCategories,
     setSubcategories,
     phoneNumbers,
@@ -69,9 +65,7 @@ const FormCarousel = React.forwardRef((props: CarouselProps, ref) => {
     setHoursOfOperation,
     image,
     setImage,
-
     setTotalSubmitEnabled,
-
     setFieldsValue,
     getFieldValue,
     getFieldDecorator,

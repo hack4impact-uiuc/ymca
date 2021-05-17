@@ -16,7 +16,8 @@ import { useIntl, FormattedMessage } from 'react-intl';
 import ResourcesBreadcrumb from '../ResourcesBreadcrumb';
 import SaveButton from '../SaveButton';
 import ShareButton from '../ShareButton';
-import { getResourceByID } from '../../utils/api';
+import TranslationPopup from '../TranslationPopup';
+import { getResourceIsVerified, getResourceByID } from '../../utils/api';
 import {
   saveResource,
   deleteSavedResource,
@@ -44,6 +45,8 @@ const ResourceDetailMobile = (props: Props) => {
   const { match } = props;
 
   const resourceId = match.params.id;
+
+  const [isVerified, setIsVerified] = useState(false);
 
   /* SETUP START */
 
@@ -94,8 +97,8 @@ const ResourceDetailMobile = (props: Props) => {
             : determineStockPhoto(result.category, result.subcategory),
         );
 
-        setCategory(result.category.length > 0 && result.category[0]);
-        setSubcategory(result.subcategory.length > 0 && result.subcategory[0]);
+        setCategory(result.category[0]);
+        setSubcategory(result.subcategory[0]);
 
         setName(result.name);
         setDescription(result.description);
@@ -125,16 +128,18 @@ const ResourceDetailMobile = (props: Props) => {
         );
 
         setLat(
-          result.geoLocation == null ||
-            Number.isNaN(result.geoLocation.coordinates[1])
+          result?.geoLocation == null ||
+            result?.geoLocation?.coordinates == null ||
+            Number.isNaN(result?.geoLocation?.coordinates[1])
             ? 0.0
-            : result.geoLocation.coordinates[1],
+            : result?.geoLocation?.coordinates[1],
         );
         setLng(
-          result.geoLocation == null ||
-            Number.isNaN(result.geoLocation.coordinates[0])
+          result?.geoLocation == null ||
+            result?.geoLocation?.coordinates == null ||
+            Number.isNaN(result?.geoLocation?.coordinates[0])
             ? 0.0
-            : result.geoLocation.coordinates[0],
+            : result?.geoLocation?.coordinates[0],
         );
       } else {
         setResourceExists(false);
@@ -142,6 +147,19 @@ const ResourceDetailMobile = (props: Props) => {
     }
 
     loadResource();
+  }, [resourceId]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const language = localStorage.getItem('language');
+      if (language !== 'English') {
+        const response = await getResourceIsVerified(resourceId, language);
+        setIsVerified(response.result);
+      } else {
+        setIsVerified(true);
+      }
+    }
+    fetchData();
   }, [resourceId]);
 
   const saveResourceHandler = useCallback(async () => {
@@ -304,7 +322,14 @@ const ResourceDetailMobile = (props: Props) => {
           />
           <Row className="mb-rd-header-bar" type="flex">
             <Col>
-              <h2 className="mb-rd-header-text">{name}</h2>
+              <span className="mb-rd-header-text">{name}</span>
+              {!isVerified && (
+                <TranslationPopup
+                  id={match.params.id}
+                  type="resource"
+                  isMobile
+                />
+              )}
             </Col>
             <Col>
               <SaveButton
@@ -435,7 +460,7 @@ const ResourceDetailMobile = (props: Props) => {
                             'resource-financialAid-immigrationStatus-' +
                             `${financialAidDetails._id}`
                           }
-                          defaultMessage={financialAidDetails.education}
+                          defaultMessage={financialAidDetails.immigrationStatus}
                         />
                       ) : (
                         <FormattedMessage {...detailMessages.noneProvided} />
@@ -456,7 +481,7 @@ const ResourceDetailMobile = (props: Props) => {
                             'resource-financialAid-deadline-' +
                             `${financialAidDetails._id}`
                           }
-                          defaultMessage={financialAidDetails.education}
+                          defaultMessage={financialAidDetails.deadline}
                         />
                       ) : (
                         <FormattedMessage {...detailMessages.noneProvided} />
@@ -472,7 +497,7 @@ const ResourceDetailMobile = (props: Props) => {
                             'resource-financialAid-amount-' +
                             `${financialAidDetails._id}`
                           }
-                          defaultMessage={financialAidDetails.education}
+                          defaultMessage={financialAidDetails.amount}
                         />
                       ) : (
                         <FormattedMessage {...detailMessages.noneProvided} />

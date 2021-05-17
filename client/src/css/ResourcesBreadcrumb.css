@@ -1,8 +1,14 @@
+.default-crumb {
+  font-size: 18px;
+}
+
 .link {
+  font-size: 18px;
   color: #fff;
 }
 
 .link:hover {
+  font-size: 18px;
   color: #fff;
   font-weight: bold;
   text-decoration: none;

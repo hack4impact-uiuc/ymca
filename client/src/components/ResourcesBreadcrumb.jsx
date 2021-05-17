@@ -8,13 +8,17 @@ import { allResourcesMessage } from '../utils/messages';
 import '../css/ResourcesBreadcrumb.css';
 
 function ResourcesBreadcrumb(props) {
-  const { categorySelected, subcategorySelected, resourceSelected } = props;
-
+  const {
+    categorySelected,
+    subcategorySelected,
+    resourceSelected,
+    tColor,
+  } = props;
   const breadcrumbs = [];
 
   if (categorySelected === 'All Resources') {
     breadcrumbs.push(
-      <span key="all">
+      <span className="default-crumb" style={{ color: tColor }} key="all">
         <FormattedMessage {...allResourcesMessage} />
       </span>,
     );
@@ -27,7 +31,7 @@ function ResourcesBreadcrumb(props) {
           pathname: '/resources',
         }}
       >
-        <span>
+        <span style={{ color: tColor }}>
           <FormattedMessage {...allResourcesMessage} />
         </span>
       </Link>,
@@ -38,6 +42,7 @@ function ResourcesBreadcrumb(props) {
           &nbsp;&gt;&nbsp;
           <Link
             className="link"
+            style={{ color: tColor }}
             to={{
               pathname: '/resources',
               search: `?category=${categorySelected}`,
@@ -57,6 +62,7 @@ function ResourcesBreadcrumb(props) {
             &nbsp;&gt;&nbsp;
             <Link
               className="link"
+              style={{ color: tColor }}
               to={{
                 pathname: '/resources',
                 search:
@@ -79,7 +85,7 @@ function ResourcesBreadcrumb(props) {
         );
       } else {
         breadcrumbs.push(
-          <span key="sub">
+          <span style={{ color: tColor }} key="sub">
             &nbsp;&gt;&nbsp;
             <strong>
               <FormattedMessage
@@ -96,6 +102,7 @@ function ResourcesBreadcrumb(props) {
           &nbsp;&gt;&nbsp;
           <strong>
             <FormattedMessage
+              style={{ color: tColor }}
               id={`category-${categorySelected?.replace(/\s/g, '')}`}
               defaultMessage={categorySelected}
             />
@@ -110,12 +117,14 @@ function ResourcesBreadcrumb(props) {
 
 ResourcesBreadcrumb.defaultProps = {
   resourceSelected: '',
+  tColor: '#FFFFFF',
 };
 
 ResourcesBreadcrumb.propTypes = {
   categorySelected: PropTypes.string.isRequired,
   subcategorySelected: PropTypes.string.isRequired,
   resourceSelected: PropTypes.string,
+  tColor: PropTypes.string,
 };
 
 export default ResourcesBreadcrumb;
