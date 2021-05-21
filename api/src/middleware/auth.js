@@ -6,6 +6,10 @@ const authAdmin = async (req, res, next) => {
   auth(req, res, next, ['admin']);
 };
 
+const authVolunteer = async (req, res, next) => {
+  auth(req, res, next, ['nawc volunteer']);
+};
+
 const authGeneral = async (req, res, next) => {
   auth(req, res, next, []);
 };
@@ -46,4 +50,4 @@ const auth = async (req, res, next, roles) => {
   }
 };
 
-module.exports = { authAdmin, authGeneral };
+module.exports = { authAdmin, authVolunteer, authGeneral };
