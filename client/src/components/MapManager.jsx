@@ -16,9 +16,8 @@ const MapManager = (props: Props) => {
   const { locationResult, resources, savedResources, updateSaved } = props;
 
   const [selectedResource, setSelectedResource] = useState<Resource>(null);
-  const [currentLocation, setCurrentLocation] = useState<[number, number]>(
-    CHAMPAIGN_COORDS,
-  );
+  const [currentLocation, setCurrentLocation] =
+    useState<[number, number]>(CHAMPAIGN_COORDS);
 
   useEffect(() => {
     if (locationResult?.center) {
