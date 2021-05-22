@@ -81,7 +81,7 @@ const App = (): React$Element<React$FragmentType> => {
 
   const showIfUnauthed = useCallback(
     (component) => {
-      if (authed != null) {
+      if (authed !== null && authed !== undefined) {
         if (!authed) {
           return component;
         }

@@ -4,17 +4,24 @@ const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const { sendResponse } = require("./utils/sendResponse");
 const router = require("./api/index");
+const RateLimit = require("express-rate-limit");
 
 const app = express();
 require("dotenv").config();
+
+const limiter = new RateLimit({
+  windowMs: 1 * 60 * 1000,
+  max: 5,
+});
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan("dev"));
+app.use(limiter);
 
 app.use("/", router);
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   console.error(err);
   console.log(err.stack);
   sendResponse(

@@ -38,9 +38,8 @@ const EditHome = (): React$Element<any> => {
   const [partnerValues, setPartnerValues] = useState<Array<UploadedPartner>>(
     [],
   );
-  const [testimonialFieldLength, setTestimonialFieldLength] = useState<number>(
-    0,
-  );
+  const [testimonialFieldLength, setTestimonialFieldLength] =
+    useState<number>(0);
   const [partnerFieldLength, setPartnerFieldLength] = useState<number>(0);
 
   const [form] = Form.useForm();
@@ -53,7 +52,7 @@ const EditHome = (): React$Element<any> => {
       const testimonialFields = [];
       const newPartners = [];
       const partnerFields = [];
-      if (res != null) {
+      if (res !== null && res !== undefined) {
         setBackgroundImage(res.result.backgroundImage);
         res.result.testimonials.forEach(
           ({ person, image, title, testimonial }, i) => {

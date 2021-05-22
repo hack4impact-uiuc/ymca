@@ -50,7 +50,7 @@ function ResourcesGrid(props) {
             subcategory={resource.subcategory}
             isSaved={savedResources.has(resource._id)}
             updateSaved={updateSaved}
-            image={resource.image || ''}
+            image={resource.image ?? ''}
             description={resource.description}
           />
         </List.Item>

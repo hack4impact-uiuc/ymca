@@ -84,46 +84,48 @@ function ResourceDetail(props) {
     async function didMount() {
       const response = await getResourceByID(match.params.id, true);
       if (response !== null) {
-        const { result } = response;
-        setName(result.name);
-        setPhone(result.phoneNumbers);
-        setAddress(result.address || '');
-        setAddressLine2(result.addressLine2 || '');
-        setAptUnitSuite(result.aptUnitSuite || '');
-        setCity(result.city || '');
-        setState(result.state || '');
-        setZip(result.zip || '');
-        setDescription(result.description);
-        setLanguages(result.availableLanguages);
-        setCategory(result.category[0]);
-        setSubcategory(result.subcategory[0]);
-        setCost(result.cost);
+        const { res } = response;
+        setName(res.name);
+        setPhone(res.phoneNumbers);
+        setAddress(res.address ?? '');
+        setAddressLine2(res.addressLine2 ?? '');
+        setAptUnitSuite(res.aptUnitSuite ?? '');
+        setCity(res.city ?? '');
+        setState(res.state ?? '');
+        setZip(res.zip ?? '');
+        setDescription(res.description);
+        setLanguages(res.availableLanguages);
+        setCategory(res.category[0]);
+        setSubcategory(res.subcategory[0]);
+        setCost(res.cost);
         setLat(
-          result?.geoLocation == null ||
-            result?.geoLocation?.coordinates == null ||
-            Number.isNaN(result?.geoLocation?.coordinates[1])
+          res?.geoLocation === null ||
+            res?.geoLocation === undefined ||
+            res?.geoLocation?.coordinates === null ||
+            res?.geoLocation?.coordinates === undefined ||
+            Number.isNaN(res?.geoLocation?.coordinates[1])
             ? 0.0
-            : result?.geoLocation?.coordinates[1],
+            : res?.geoLocation?.coordinates[1],
         );
         setLng(
-          result?.geoLocation == null ||
-            result?.geoLocation?.coordinates == null ||
-            Number.isNaN(result?.geoLocation?.coordinates[0])
+          res?.geoLocation === null ||
+            res?.geoLocation === undefined ||
+            res?.geoLocation?.coordinates === null ||
+            res?.geoLocation?.coordinates === undefined ||
+            Number.isNaN(res?.geoLocation?.coordinates[0])
             ? 0.0
-            : result?.geoLocation?.coordinates[0],
+            : res?.geoLocation?.coordinates[0],
         );
-        setEmail(result.email || '');
-        setWebsite(result.website || '');
-        setEligibility(result.eligibilityRequirements);
-        setInternalNotes(result.internalNotes);
+        setEmail(res.email ?? '');
+        setWebsite(res.website ?? '');
+        setEligibility(res.eligibilityRequirements);
+        setInternalNotes(res.internalNotes);
         setHours(
-          result.hoursOfOperation
-            ? result.hoursOfOperation.hoursOfOperation
-            : [],
+          res.hoursOfOperation ? res.hoursOfOperation.hoursOfOperation : [],
         );
-        setRequiredDocuments(result.requiredDocuments);
-        setFinancialAidDetails(result.financialAidDetails);
-        setContacts(result.contacts);
+        setRequiredDocuments(res.requiredDocuments);
+        setFinancialAidDetails(res.financialAidDetails);
+        setContacts(res.contacts);
 
         if (authed) {
           let savedSet = new Set();
@@ -226,15 +228,15 @@ function ResourceDetail(props) {
   };
 
   const saveResourceHandler = async () => {
-    const result = await saveResource(props.match.params.id);
-    if (result != null && result.code === 200) {
+    const res = await saveResource(props.match.params.id);
+    if (res !== null && res !== undefined && res.code === 200) {
       setIsSaved(true);
     }
   };
 
   const deleteSavedResourceHandler = async () => {
-    const result = await deleteSavedResource(props.match.params.id);
-    if (result != null && result.code === 200) {
+    const res = await deleteSavedResource(props.match.params.id);
+    if (res !== null && res !== undefined && res.code === 200) {
       setIsSaved(false);
     }
   };
@@ -278,7 +280,7 @@ function ResourceDetail(props) {
   }
 
   let textCost = cost;
-  if (cost != null) {
+  if (cost !== null && cost !== undefined) {
     if (cost === 'Free') {
       textCost = <FormattedMessage {...filterMessages.free} />;
     }

@@ -22,12 +22,8 @@ type SaveButtonProps = {
 
 function SaveButton(props: SaveButtonProps) {
   const { authed } = useAuth();
-  const {
-    isSaved,
-    fullButton,
-    deleteResourceHandler,
-    saveResourceHandler,
-  } = props;
+  const { isSaved, fullButton, deleteResourceHandler, saveResourceHandler } =
+    props;
 
   return (
     <>

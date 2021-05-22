@@ -16,7 +16,7 @@ const PhoneNumberForm = Form.create({ name: 'phoneNumber' })((props) => {
 
   const onSubmit = () => {
     const phoneNumber = getFieldValue('phoneNumber');
-    const phoneType = getFieldValue('phoneType') || '';
+    const phoneType = getFieldValue('phoneType') ?? '';
 
     if (phoneNumber !== undefined && phoneNumber.trim() !== '') {
       setPhoneNumbers([

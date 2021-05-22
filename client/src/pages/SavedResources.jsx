@@ -44,7 +44,11 @@ function SavedResources() {
       return textCurrent < textNext ? -1 : bool;
     });
 
-    setResources(newResources == null ? [] : newResources.result);
+    setResources(
+      newResources !== null && newResources !== undefined
+        ? newResources.result
+        : [],
+    );
     setLoading(false);
   }, [authed]);
 
