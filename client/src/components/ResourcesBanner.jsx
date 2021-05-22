@@ -49,7 +49,7 @@ function ResourcesBannerDesktop(props) {
       }}
     >
       <Row>
-        {subcategorySelected != null ? (
+        {subcategorySelected ? (
           <ResourceBreadcrumb
             categorySelected={categorySelected}
             subcategorySelected={subcategorySelected}
@@ -88,7 +88,7 @@ function ResourcesBannerMobile(props) {
       }}
     >
       <Row>
-        {subcategorySelected != null ? (
+        {subcategorySelected ? (
           <ResourceBreadcrumb
             categorySelected={categorySelected}
             subcategorySelected={subcategorySelected}

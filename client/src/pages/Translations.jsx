@@ -99,7 +99,7 @@ function Translations() {
     const newVerifications = {};
     languages.forEach(async (language) => {
       const res = await getVerifications(language);
-      if (res != null) {
+      if (res) {
         newVerifications[language] = res.result;
       }
       updateLists(newVerifications);

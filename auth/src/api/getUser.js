@@ -4,7 +4,7 @@ const { sendResponse } = require("./../utils/sendResponse");
 const fetch = require("node-fetch");
 const { verifyUser } = require("./../utils/userVerification");
 
-router.get("/getUser", async function(req, res) {
+router.get("/getUser", async function (req, res) {
   // Return an error message if the token isn't sent
   if (!req.headers.token) {
     return sendResponse(res, 400, "Invalid Token");
@@ -14,7 +14,7 @@ router.get("/getUser", async function(req, res) {
   if (!req.headers.google || !JSON.parse(req.headers.google)) {
     // If it isn't a google user, verifies the token and checks that the user exists
     user = await verifyUser(req.headers.token);
-    if (user.errorMessage != null) {
+    if (user.errorMessage) {
       return sendResponse(res, 400, user.errorMessage);
     }
   } else {
@@ -37,7 +37,7 @@ router.get("/getUser", async function(req, res) {
     user_email: user.email,
     user_verified: user.verified || req.headers.google,
     user_role: user.role,
-    user_id: user._id
+    user_id: user._id,
   });
 });
 

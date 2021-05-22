@@ -159,7 +159,7 @@ const getVerificationDetails = async (type, language, id) => {
       verificationDetails.push(detail);
     }
 
-    if (phoneNumbers != null && phoneNumbers.length !== 0) {
+    if (phoneNumbers && phoneNumbers.length !== 0) {
       for (const phone of phoneNumbers) {
         const detail = await getTranslationDetail(
           `resource-phoneType-${phone._id}`,
@@ -171,7 +171,7 @@ const getVerificationDetails = async (type, language, id) => {
         }
       }
     }
-    if (eligibilityRequirements != null && eligibilityRequirements !== '') {
+    if (eligibilityRequirements && eligibilityRequirements !== '') {
       const detail = await getTranslationDetail(
         `resource-eligibilityRequirements-${id}`,
         language,
@@ -181,7 +181,7 @@ const getVerificationDetails = async (type, language, id) => {
         verificationDetails.push(detail);
       }
     }
-    if (financialAidDetails != null) {
+    if (financialAidDetails) {
       for (const financialKey of Object.keys(financialAidDetails.toJSON())) {
         if (financialKey !== '_id') {
           const detail = await getTranslationDetail(
@@ -195,7 +195,7 @@ const getVerificationDetails = async (type, language, id) => {
         }
       }
     }
-    if (requiredDocuments != null && requiredDocuments.length !== 0) {
+    if (requiredDocuments && requiredDocuments.length !== 0) {
       let idx = 0;
       for (const requiredDoc of requiredDocuments) {
         const detail = await getTranslationDetail(

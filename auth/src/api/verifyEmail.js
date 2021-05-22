@@ -7,12 +7,8 @@ const { check, validationResult } = require("express-validator/check");
 
 router.post(
   "/verifyEmail",
-  [
-    check("pin")
-      .isNumeric()
-      .optional()
-  ],
-  handleAsyncErrors(async function(req, res) {
+  [check("pin").isNumeric().optional()],
+  handleAsyncErrors(async function (req, res) {
     // If gmail is not enabled, it returns an error message
     const googleEnabled = await googleAuth();
     if (!googleEnabled) {
@@ -27,13 +23,13 @@ router.post(
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return sendResponse(res, 400, "Invalid request", {
-        errors: errors.array({ onlyFirstError: true })
+        errors: errors.array({ onlyFirstError: true }),
       });
     }
 
     //  Verify that the token is valid and the user exists in the database. Will return you an error message if the user is already verified
     const user = await verifyUser(req.headers.token);
-    if (user.errorMessage != null) {
+    if (user.errorMessage) {
       return sendResponse(res, 400, user.errorMessage);
     }
     if (user.verified) {

@@ -53,7 +53,7 @@ const EditHome = (): React$Element<any> => {
       const testimonialFields = [];
       const newPartners = [];
       const partnerFields = [];
-      if (res != null) {
+      if (res) {
         setBackgroundImage(res.result.backgroundImage);
         res.result.testimonials.forEach(
           ({ person, image, title, testimonial }, i) => {

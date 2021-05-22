@@ -71,7 +71,7 @@ function useProvideAuth(): Auth {
 
   const authRoleIsEquivalentTo = useCallback(
     (role) => {
-      if (authRole == null || authRoles == null) {
+      if (!authRole || !authRoles) {
         return null;
       }
       return (

@@ -42,7 +42,7 @@ const Home = (): React$Element<React$FragmentType> => {
       const newPartners = [];
       const newPartnerRows = [];
       let i = 0;
-      if (res != null) {
+      if (res) {
         res.result.partners.forEach((t) => {
           newPartners.push({
             name: t[0],

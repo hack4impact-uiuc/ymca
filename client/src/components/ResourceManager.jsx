@@ -136,7 +136,7 @@ const ResourceManager = () => {
   const fetchCategories = async () => {
     const res = await getCategories();
     const newCategories = {};
-    if (res != null) {
+    if (res) {
       res.result.forEach((c) => {
         newCategories[c.name] = [c.subcategories, c._id];
       });
@@ -147,7 +147,7 @@ const ResourceManager = () => {
   const fetchResources = async () => {
     const res = await getResources();
     const newResources = [];
-    if (res != null) {
+    if (res) {
       res.result.totalData.forEach((r) => {
         const pairs = r.subcategory.map(
           (subcat, idx) => `${r.category[idx]}~${subcat}`,
@@ -187,7 +187,7 @@ const ResourceManager = () => {
     if (Object.keys(categories).indexOf(latestOpenKey) === -1) {
       setOpenKeys(newOpenKeys);
     } else {
-      setOpenKeys(latestOpenKey != null ? [latestOpenKey] : []);
+      setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
     }
     setSelectedCategory(latestOpenKey);
     setSelectedSubcategory('');

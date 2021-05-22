@@ -9,18 +9,14 @@ require("dotenv").config();
 
 router.post(
   "/google",
-  check("tokenId")
-    .isString()
-    .isLength({ min: 1 }),
-  check("role")
-    .isString()
-    .isLength({ min: 1 }),
-  handleAsyncErrors(async function(req, res) {
+  check("tokenId").isString().isLength({ min: 1 }),
+  check("role").isString().isLength({ min: 1 }),
+  handleAsyncErrors(async function (req, res) {
     // Check that there is a tokenId in the body of the request
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return sendResponse(res, 400, "Invalid request", {
-        errors: errors.array({ onlyFirstError: true })
+        errors: errors.array({ onlyFirstError: true }),
       });
     }
 
@@ -47,7 +43,7 @@ router.post(
       } else {
         // If the config file allows the permissions to create a user with this role, it registers the google user.
         const requiredAuthFrom = await getRolesForUser(req.body.role);
-        if (requiredAuthFrom != null) {
+        if (requiredAuthFrom) {
           return sendResponse(
             res,
             400,
@@ -59,7 +55,7 @@ router.post(
           email: payload.email,
           password: null,
           googleAuth: true,
-          role: req.body.role
+          role: req.body.role,
         });
         await user.save();
         sendResponse(res, 200, "New Google user: " + payload.email);

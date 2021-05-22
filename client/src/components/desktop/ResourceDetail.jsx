@@ -99,15 +99,15 @@ function ResourceDetail(props) {
         setSubcategory(result.subcategory[0]);
         setCost(result.cost);
         setLat(
-          result?.geoLocation == null ||
-            result?.geoLocation?.coordinates == null ||
+          !result?.geoLocation ||
+            !result?.geoLocation?.coordinates ||
             Number.isNaN(result?.geoLocation?.coordinates[1])
             ? 0.0
             : result?.geoLocation?.coordinates[1],
         );
         setLng(
-          result?.geoLocation == null ||
-            result?.geoLocation?.coordinates == null ||
+          !result?.geoLocation ||
+            !result?.geoLocation?.coordinates ||
             Number.isNaN(result?.geoLocation?.coordinates[0])
             ? 0.0
             : result?.geoLocation?.coordinates[0],
@@ -227,14 +227,14 @@ function ResourceDetail(props) {
 
   const saveResourceHandler = async () => {
     const result = await saveResource(props.match.params.id);
-    if (result != null && result.code === 200) {
+    if (result && result.code === 200) {
       setIsSaved(true);
     }
   };
 
   const deleteSavedResourceHandler = async () => {
     const result = await deleteSavedResource(props.match.params.id);
-    if (result != null && result.code === 200) {
+    if (result && result.code === 200) {
       setIsSaved(false);
     }
   };
@@ -278,7 +278,7 @@ function ResourceDetail(props) {
   }
 
   let textCost = cost;
-  if (cost != null) {
+  if (cost) {
     if (cost === 'Free') {
       textCost = <FormattedMessage {...filterMessages.free} />;
     }
