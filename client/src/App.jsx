@@ -96,7 +96,7 @@ const App = (): React$Element<React$FragmentType> => {
         return <Redirect to="/" />;
       }
 
-      return <Redirect to="/" />;
+      return null;
     },
     [authRoleIsEquivalentTo, authed],
   );

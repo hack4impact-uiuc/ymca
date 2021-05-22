@@ -61,9 +61,10 @@ function SavedResources() {
     setPageSize(parseInt(pageItems, 10));
   }, []);
 
-  if (authed === false) {
+  if (!authed) {
     return <Redirect to="/resources" />;
   }
+
   return (
     <Layout className="resources">
       <ResourcesBanner categorySelected="Saved Resources" />
