@@ -89,61 +89,61 @@ const ResourceDetailMobile = (props: Props) => {
       const response = await getResourceByID(resourceId, true);
 
       if (response) {
-        const { result } = response;
+        const { res } = response;
 
         setImage(
-          result.image && result.image !== ''
-            ? result.image
-            : determineStockPhoto(result.category, result.subcategory),
+          res.image && res.image !== ''
+            ? res.image
+            : determineStockPhoto(res.category, res.subcategory),
         );
 
-        setCategory(result.category[0]);
-        setSubcategory(result.subcategory[0]);
+        setCategory(res.category[0]);
+        setSubcategory(res.subcategory[0]);
 
-        setName(result.name);
-        setDescription(result.description);
+        setName(res.name);
+        setDescription(res.description);
 
-        setPhone(result.phoneNumbers);
-        setEmail(result.email);
-        setWebsite(result.website);
+        setPhone(res.phoneNumbers);
+        setEmail(res.email);
+        setWebsite(res.website);
 
-        setLanguages(result.availableLanguages);
-        setCost(result.cost);
+        setLanguages(res.availableLanguages);
+        setCost(res.cost);
 
-        setAddress(result.address);
-        setAddressLine2(result.addressLine2);
-        setCity(result.city);
-        setState(result.state);
-        setZip(result.zip);
-        setRequiredDocuments(result.requiredDocuments);
-        setEligibility(result.eligibilityRequirements);
-        setFinancialAidDetails(result.financialAidDetails);
-        setContacts(result.contacts);
+        setAddress(res.address);
+        setAddressLine2(res.addressLine2);
+        setCity(res.city);
+        setState(res.state);
+        setZip(res.zip);
+        setRequiredDocuments(res.requiredDocuments);
+        setEligibility(res.eligibilityRequirements);
+        setFinancialAidDetails(res.financialAidDetails);
+        setContacts(res.contacts);
 
         setHours(
-          result.hoursOfOperation &&
-            result.hoursOfOperation.hoursOfOperation.length > 0
-            ? result.hoursOfOperation.hoursOfOperation
+          res.hoursOfOperation &&
+            res.hoursOfOperation.hoursOfOperation.length > 0
+            ? res.hoursOfOperation.hoursOfOperation
             : null,
         );
 
         setLat(
-          result?.geoLocation === null ||
-            result?.geoLocation === undefined ||
-            result?.geoLocation?.coordinates === null ||
-            result?.geoLocation?.coordinates === undefined ||
-            Number.isNaN(result?.geoLocation?.coordinates[1])
+          res?.geoLocation === null ||
+            res?.geoLocation === undefined ||
+            res?.geoLocation?.coordinates === null ||
+            res?.geoLocation?.coordinates === undefined ||
+            Number.isNaN(res?.geoLocation?.coordinates[1])
             ? 0.0
-            : result?.geoLocation?.coordinates[1],
+            : res?.geoLocation?.coordinates[1],
         );
         setLng(
-          result?.geoLocation === null ||
-            result?.geoLocation === undefined ||
-            result?.geoLocation?.coordinates === null ||
-            result?.geoLocation?.coordinates === undefined ||
-            Number.isNaN(result?.geoLocation?.coordinates[0])
+          res?.geoLocation === null ||
+            res?.geoLocation === undefined ||
+            res?.geoLocation?.coordinates === null ||
+            res?.geoLocation?.coordinates === undefined ||
+            Number.isNaN(res?.geoLocation?.coordinates[0])
             ? 0.0
-            : result?.geoLocation?.coordinates[0],
+            : res?.geoLocation?.coordinates[0],
         );
       } else {
         setResourceExists(false);
@@ -158,7 +158,7 @@ const ResourceDetailMobile = (props: Props) => {
       const language = localStorage.getItem('language');
       if (language !== 'English') {
         const response = await getResourceIsVerified(resourceId, language);
-        setIsVerified(response.result);
+        setIsVerified(response.res);
       } else {
         setIsVerified(true);
       }
@@ -167,15 +167,15 @@ const ResourceDetailMobile = (props: Props) => {
   }, [resourceId]);
 
   const saveResourceHandler = useCallback(async () => {
-    const result = await saveResource(resourceId);
-    if (result !== null && result !== undefined && result.code === 200) {
+    const res = await saveResource(resourceId);
+    if (res !== null && res !== undefined && res.code === 200) {
       setIsSaved(true);
     }
   }, [resourceId]);
 
   const deleteResourceHandler = useCallback(async () => {
-    const result = await deleteSavedResource(resourceId);
-    if (result !== null && result !== undefined && result.code === 200) {
+    const res = await deleteSavedResource(resourceId);
+    if (res !== null && res !== undefined && res.code === 200) {
       setIsSaved(false);
     }
   }, [resourceId]);
@@ -185,7 +185,7 @@ const ResourceDetailMobile = (props: Props) => {
       if (authed) {
         let savedSet = new Set();
         const json = await getSavedResources();
-        savedSet = new Set(json.result);
+        savedSet = new Set(json.res);
 
         setIsSaved(!!savedSet.has(resourceId));
       }
