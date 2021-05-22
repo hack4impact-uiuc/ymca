@@ -3,5 +3,6 @@
   "projectId": "5vhi4w",
   "pluginsFile": false,
   "supportFile": false,
-  "retries": 2
+  "retries": 2,
+  "timeout": 10000
 }
