@@ -100,7 +100,7 @@ function ResourceDetail(props) {
         setCost(result.cost);
         setLat(
           result?.geoLocation === null ||
-          result?.geoLocation === undefined ||
+            result?.geoLocation === undefined ||
             result?.geoLocation?.coordinates === null ||
             result?.geoLocation?.coordinates === undefined ||
             Number.isNaN(result?.geoLocation?.coordinates[1])
@@ -109,7 +109,7 @@ function ResourceDetail(props) {
         );
         setLng(
           result?.geoLocation === null ||
-          result?.geoLocation === undefined ||
+            result?.geoLocation === undefined ||
             result?.geoLocation?.coordinates === null ||
             result?.geoLocation?.coordinates === undefined ||
             Number.isNaN(result?.geoLocation?.coordinates[0])

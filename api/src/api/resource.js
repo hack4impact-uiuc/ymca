@@ -64,7 +64,7 @@ router.get(
     } = req.query;
 
     let query = {};
-    if (category  && category !== 'All Resources') {
+    if (category && category !== 'All Resources') {
       query = { category: category };
       if (subcategory) {
         query = { ...query, subcategory: subcategory };
@@ -93,7 +93,12 @@ router.get(
     if (language !== null && language !== undefined && language !== 'All') {
       query = { ...query, availableLanguages: language };
     }
-    if (city !== null && city !== undefined && city !== 'All' && city !== 'All / Champaign County') {
+    if (
+      city !== null &&
+      city !== undefined &&
+      city !== 'All' &&
+      city !== 'All / Champaign County'
+    ) {
       const ignoreCase = new RegExp('^' + city, 'i');
       query = { ...query, city: ignoreCase };
     }
@@ -118,7 +123,12 @@ router.get(
     }
 
     let aggregation = [];
-    if (long === null || long === undefined || lat === null || lat === undefined) {
+    if (
+      long === null ||
+      long === undefined ||
+      lat === null ||
+      lat === undefined
+    ) {
       if (orderBy === null) {
         aggregation = [
           {
@@ -128,7 +138,12 @@ router.get(
             },
           },
         ];
-      } else if (page === null || page === undefined || size === null ||  size === undefined) {
+      } else if (
+        page === null ||
+        page === undefined ||
+        size === null ||
+        size === undefined
+      ) {
         aggregation = [
           {
             $facet: {

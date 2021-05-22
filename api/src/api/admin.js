@@ -115,7 +115,12 @@ router.post(
       const [long, lat] = await extractLongLat(
         `${address},${city},${state},${zip}`,
       );
-      if (long !== null && long !== undefined && lat !== null && lat !== undefined) {
+      if (
+        long !== null &&
+        long !== undefined &&
+        lat !== null &&
+        lat !== undefined
+      ) {
         req.body.geoLocation = { type: 'Point', coordinates: [long, lat] };
       }
     }
@@ -200,7 +205,12 @@ router.put(
       const [long, lat] = await extractLongLat(
         `${address},${city},${state},${zip}`,
       );
-      if (long !== null && long !== undefined && lat !== null && lat !== undefined) {
+      if (
+        long !== null &&
+        long !== undefined &&
+        lat !== null &&
+        lat !== undefined
+      ) {
         req.body.geoLocation = { type: 'Point', coordinates: [long, lat] };
       }
     }

@@ -129,7 +129,7 @@ const ResourceDetailMobile = (props: Props) => {
 
         setLat(
           result?.geoLocation === null ||
-          result?.geoLocation === undefined ||
+            result?.geoLocation === undefined ||
             result?.geoLocation?.coordinates === null ||
             result?.geoLocation?.coordinates === undefined ||
             Number.isNaN(result?.geoLocation?.coordinates[1])
@@ -138,9 +138,9 @@ const ResourceDetailMobile = (props: Props) => {
         );
         setLng(
           result?.geoLocation === null ||
-          result?.geoLocation === undefined ||
-          result?.geoLocation?.coordinates === null ||
-          result?.geoLocation?.coordinates === undefined ||
+            result?.geoLocation === undefined ||
+            result?.geoLocation?.coordinates === null ||
+            result?.geoLocation?.coordinates === undefined ||
             Number.isNaN(result?.geoLocation?.coordinates[0])
             ? 0.0
             : result?.geoLocation?.coordinates[0],

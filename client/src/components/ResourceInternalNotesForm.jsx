@@ -121,7 +121,9 @@ const InternalNotesForm = Form.create({ name: 'internalNotes' })(
             onSubmit();
           }}
         >
-          {editNote === null || editNote === undefined ? 'Add Note' : 'Edit Note'}
+          {editNote === null || editNote === undefined
+            ? 'Add Note'
+            : 'Edit Note'}
         </Button>
       </Form>
     );

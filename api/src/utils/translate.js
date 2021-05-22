@@ -16,7 +16,11 @@ async function deleteTranslatedText(
   id,
 ) {
   await deleteString(description, `resource-description-${id}`);
-  if (phoneNumbers !== null && phoneNumbers !== undefined && phoneNumbers.length > 0) {
+  if (
+    phoneNumbers !== null &&
+    phoneNumbers !== undefined &&
+    phoneNumbers.length > 0
+  ) {
     await deletePhoneTypes(phoneNumbers);
   }
   if (financialAidDetails !== null && financialAidDetails !== undefined) {
@@ -28,7 +32,11 @@ async function deleteTranslatedText(
       `resource-eligibilityRequirements-${id}`,
     );
   }
-  if (requiredDocuments !== null && requiredDocuments !== undefined && requiredDocuments.length > 0) {
+  if (
+    requiredDocuments !== null &&
+    requiredDocuments !== undefined &&
+    requiredDocuments.length > 0
+  ) {
     await deleteRequiredDocuments(requiredDocuments, id);
   }
   await VerifiedTranslation.deleteMany({ resourceID: id });
@@ -94,20 +102,28 @@ async function translateAndSaveText(
   id,
 ) {
   await translateString(description, `resource-description-${id}`, id);
-  if (phoneNumbers !== null && phoneNumbers !== undefined && phoneNumbers.length > 0) {
+  if (
+    phoneNumbers !== null &&
+    phoneNumbers !== undefined &&
+    phoneNumbers.length > 0
+  ) {
     await translatePhoneTypes(phoneNumbers, id);
   }
   if (financialAidDetails !== null && financialAidDetails !== undefined) {
     await translateFinancialAidDetails(financialAidDetails, id);
   }
-  if (eligibilityRequirements ) {
+  if (eligibilityRequirements) {
     await translateString(
       eligibilityRequirements,
       `resource-eligibilityRequirements-${id}`,
       id,
     );
   }
-  if (requiredDocuments !== null &&requiredDocuments !== undefined && requiredDocuments.length > 0) {
+  if (
+    requiredDocuments !== null &&
+    requiredDocuments !== undefined &&
+    requiredDocuments.length > 0
+  ) {
     await translateRequiredDocuments(requiredDocuments, id);
   }
 }
