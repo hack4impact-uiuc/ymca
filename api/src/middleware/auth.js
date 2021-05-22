@@ -7,7 +7,7 @@ const authAdmin = async (req, res, next) => {
 };
 
 const authVolunteer = async (req, res, next) => {
-  auth(req, res, next, ['nawc volunteer']);
+  auth(req, res, next, ['volunteer']);
 };
 
 const authGeneral = async (req, res, next) => {

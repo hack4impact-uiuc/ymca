@@ -1,8 +1,8 @@
 roles:
   admin:
-    - nawc volunteer
+    - volunteer
     - public
-  nawc volunteer:
+  volunteer:
     - public
   public: null
 security_questions:
