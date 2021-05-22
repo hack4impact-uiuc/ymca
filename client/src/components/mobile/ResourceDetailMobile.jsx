@@ -158,7 +158,7 @@ const ResourceDetailMobile = (props: Props) => {
       const language = localStorage.getItem('language');
       if (language !== 'English') {
         const response = await getResourceIsVerified(resourceId, language);
-        setIsVerified(response.res);
+        setIsVerified(response.result);
       } else {
         setIsVerified(true);
       }
