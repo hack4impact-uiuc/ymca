@@ -128,15 +128,19 @@ const ResourceDetailMobile = (props: Props) => {
         );
 
         setLat(
-          result?.geoLocation == null ||
-            result?.geoLocation?.coordinates == null ||
+          result?.geoLocation === null ||
+          result?.geoLocation === undefined ||
+            result?.geoLocation?.coordinates === null ||
+            result?.geoLocation?.coordinates === undefined ||
             Number.isNaN(result?.geoLocation?.coordinates[1])
             ? 0.0
             : result?.geoLocation?.coordinates[1],
         );
         setLng(
-          result?.geoLocation == null ||
-            result?.geoLocation?.coordinates == null ||
+          result?.geoLocation === null ||
+          result?.geoLocation === undefined ||
+          result?.geoLocation?.coordinates === null ||
+          result?.geoLocation?.coordinates === undefined ||
             Number.isNaN(result?.geoLocation?.coordinates[0])
             ? 0.0
             : result?.geoLocation?.coordinates[0],
@@ -164,14 +168,14 @@ const ResourceDetailMobile = (props: Props) => {
 
   const saveResourceHandler = useCallback(async () => {
     const result = await saveResource(resourceId);
-    if (result != null && result.code === 200) {
+    if (result !== null && result !== undefined && result.code === 200) {
       setIsSaved(true);
     }
   }, [resourceId]);
 
   const deleteResourceHandler = useCallback(async () => {
     const result = await deleteSavedResource(resourceId);
-    if (result != null && result.code === 200) {
+    if (result !== null && result !== undefined && result.code === 200) {
       setIsSaved(false);
     }
   }, [resourceId]);

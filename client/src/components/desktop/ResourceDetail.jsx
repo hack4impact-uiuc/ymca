@@ -99,21 +99,25 @@ function ResourceDetail(props) {
         setSubcategory(result.subcategory[0]);
         setCost(result.cost);
         setLat(
-          result?.geoLocation == null ||
-            result?.geoLocation?.coordinates == null ||
+          result?.geoLocation === null ||
+          result?.geoLocation === undefined ||
+            result?.geoLocation?.coordinates === null ||
+            result?.geoLocation?.coordinates === undefined ||
             Number.isNaN(result?.geoLocation?.coordinates[1])
             ? 0.0
             : result?.geoLocation?.coordinates[1],
         );
         setLng(
-          result?.geoLocation == null ||
-            result?.geoLocation?.coordinates == null ||
+          result?.geoLocation === null ||
+          result?.geoLocation === undefined ||
+            result?.geoLocation?.coordinates === null ||
+            result?.geoLocation?.coordinates === undefined ||
             Number.isNaN(result?.geoLocation?.coordinates[0])
             ? 0.0
             : result?.geoLocation?.coordinates[0],
         );
-        setEmail(result.email || '');
-        setWebsite(result.website || '');
+        setEmail(result.email ?? '');
+        setWebsite(result.website ?? '');
         setEligibility(result.eligibilityRequirements);
         setInternalNotes(result.internalNotes);
         setHours(
@@ -227,14 +231,14 @@ function ResourceDetail(props) {
 
   const saveResourceHandler = async () => {
     const result = await saveResource(props.match.params.id);
-    if (result != null && result.code === 200) {
+    if (result !== null && result !== undefined && result.code === 200) {
       setIsSaved(true);
     }
   };
 
   const deleteSavedResourceHandler = async () => {
     const result = await deleteSavedResource(props.match.params.id);
-    if (result != null && result.code === 200) {
+    if (result !== null && result !== undefined && result.code === 200) {
       setIsSaved(false);
     }
   };
@@ -278,7 +282,7 @@ function ResourceDetail(props) {
   }
 
   let textCost = cost;
-  if (cost != null) {
+  if (cost !== null && cost !== undefined) {
     if (cost === 'Free') {
       textCost = <FormattedMessage {...filterMessages.free} />;
     }

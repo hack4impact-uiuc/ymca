@@ -13,16 +13,14 @@ router.post(
   "/roleschange",
   [
     check("userEmail").isEmail(),
-    check("newRole")
-      .isString()
-      .isLength({ min: 1 })
+    check("newRole").isString().isLength({ min: 1 }),
   ],
-  handleAsyncErrors(async function(req, res) {
+  handleAsyncErrors(async function (req, res) {
     // Check that it has the email and new role of the user being promoted
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return sendResponse(res, 400, "Invalid request", {
-        errors: errors.array({ onlyFirstError: true })
+        errors: errors.array({ onlyFirstError: true }),
       });
     }
 
@@ -32,7 +30,7 @@ router.post(
     if (!useGoogle || !req.headers.google || !JSON.parse(req.headers.google)) {
       // If it is not a google user, it verifies the token is valid, the user exists, and verify the password
       user = await verifyUser(req.headers.token);
-      if (user.errorMessage != null) {
+      if (user.errorMessage !== null && user.errorMessage !== undefined) {
         return sendResponse(res, 400, user.errorMessage);
       }
       if (

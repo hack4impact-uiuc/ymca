@@ -22,7 +22,7 @@ export const HomeBlock1Mobile = ({ backgroundImage }: Block1Props) => {
     const fetchCategories = async () => {
       const res = await getCategories();
       const newCategories = [];
-      if (res != null) {
+      if (res !== null && res !== undefined) {
         res.result.forEach((c) => {
           newCategories.push(c.name);
         });

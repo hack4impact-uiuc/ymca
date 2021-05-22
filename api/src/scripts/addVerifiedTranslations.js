@@ -88,7 +88,7 @@ async function main() {
       });
       await verifiedDesc.save();
 
-      if (phoneNumbers != null && phoneNumbers.length !== 0) {
+      if (phoneNumbers !== null && phoneNumbers !== undefined && phoneNumbers.length !== 0) {
         for (const phone of phoneNumbers) {
           const verifiedPhone = new VerifiedTranslation({
             resourceID: _id,
@@ -100,7 +100,7 @@ async function main() {
           await verifiedPhone.save();
         }
       }
-      if (eligibilityRequirements != null && eligibilityRequirements !== '') {
+      if (eligibilityRequirements ) {
         const verifiedElig = new VerifiedTranslation({
           resourceID: _id,
           translationID: `resource-eligibilityRequirements-${_id}`,
@@ -110,7 +110,7 @@ async function main() {
         });
         await verifiedElig.save();
       }
-      if (financialAidDetails != null) {
+      if (financialAidDetails !== null && financialAidDetails !== undefined) {
         for (const financialKey of Object.keys(financialAidDetails.toJSON())) {
           if (financialKey !== '_id') {
             const verifiedFin = new VerifiedTranslation({
@@ -124,18 +124,16 @@ async function main() {
           }
         }
       }
-      if (requiredDocuments != null && requiredDocuments.length !== 0) {
-        let idx = 0;
-        for (const requiredDoc of requiredDocuments) {
+      if (requiredDocuments !== null && requiredDocuments !== undefined && requiredDocuments.length > 0) {
+        for (let i = 0; i < requiredDocuments.length; i++) {
           const verifiedDoc = new VerifiedTranslation({
             resourceID: _id,
-            translationID: `resource-requiredDoc-${_id}-${idx}`,
+            translationID: `resource-requiredDoc-${_id}-${i}`,
             verified: false,
             numReports: 0,
             language: translation.language,
           });
-          await verifiedDoc.save();
-          idx++;
+          await verifiedDoc.save(); 
         }
       }
     }
