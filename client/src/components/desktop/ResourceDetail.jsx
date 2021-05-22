@@ -87,12 +87,12 @@ function ResourceDetail(props) {
         const { res } = response;
         setName(res.name);
         setPhone(res.phoneNumbers);
-        setAddress(res.address || '');
-        setAddressLine2(res.addressLine2 || '');
-        setAptUnitSuite(res.aptUnitSuite || '');
-        setCity(res.city || '');
-        setState(res.state || '');
-        setZip(res.zip || '');
+        setAddress(res.address ?? '');
+        setAddressLine2(res.addressLine2 ?? '');
+        setAptUnitSuite(res.aptUnitSuite ?? '');
+        setCity(res.city ?? '');
+        setState(res.state ?? '');
+        setZip(res.zip ?? '');
         setDescription(res.description);
         setLanguages(res.availableLanguages);
         setCategory(res.category[0]);
