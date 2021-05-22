@@ -185,7 +185,7 @@ const ResourceDetailMobile = (props: Props) => {
       if (authed) {
         let savedSet = new Set();
         const json = await getSavedResources();
-        savedSet = new Set(json.res);
+        savedSet = new Set(json.result);
 
         setIsSaved(!!savedSet.has(resourceId));
       }

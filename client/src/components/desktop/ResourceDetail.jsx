@@ -130,7 +130,7 @@ function ResourceDetail(props) {
         if (authed) {
           let savedSet = new Set();
           const json = await getSavedResources();
-          savedSet = new Set(json.res);
+          savedSet = new Set(json.result);
           updateIsSaved(savedSet);
         }
       } else {
@@ -146,7 +146,7 @@ function ResourceDetail(props) {
       if (authed) {
         let savedSet = new Set();
         const json = await getSavedResources();
-        savedSet = new Set(json.res);
+        savedSet = new Set(json.result);
         updateIsSaved(savedSet);
       }
     }
