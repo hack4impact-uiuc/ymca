@@ -1,7 +1,7 @@
 // @flow
 
 import React, { useEffect, useState } from 'react';
-import { Card } from 'antd';
+import { Card, Tag } from 'antd';
 import { Link } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 
@@ -13,6 +13,34 @@ import languageConversion from '../utils/languages';
 
 import SaveButton from './SaveButton';
 
+const CATEGORY_COLOR_DICT = {
+  a: 'blue',
+  b: 'gold',
+  c: 'volcano',
+  d: 'volcano',
+  e: 'green',
+  f: 'magenta',
+  g: 'orange',
+  h: 'cyan',
+  i: 'magenta',
+  j: 'gold',
+  k: 'purple',
+  l: 'orange',
+  m: 'green',
+  n: 'green',
+  o: 'purple',
+  p: 'cyan',
+  q: 'blue',
+  r: 'blue',
+  s: 'geekblue',
+  t: 'volcano',
+  u: 'purple',
+  v: 'purple',
+  w: 'purple',
+  x: 'purple',
+  y: 'purple',
+  z: 'purple',
+};
 const { Meta } = Card;
 
 type Props = {
@@ -98,7 +126,11 @@ function ResourcePreview(props: Props) {
 
   const descriptions = (
     <>
-      <div className="resource-preview-description">{descriptionText}</div>
+      {Array.from(new Set([...category, ...subcategory])).map((c) => (
+        <Tag key={c} color={CATEGORY_COLOR_DICT[c[0]?.toLowerCase()]}>
+          {c}
+        </Tag>
+      ))}
       <div key="resourceInfo" className="resource-preview-info">
         {resourceInfoText}
       </div>
