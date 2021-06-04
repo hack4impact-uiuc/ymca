@@ -126,6 +126,7 @@ function ResourcePreview(props: Props) {
 
   const descriptions = (
     <>
+      <div className="resource-preview-description">{descriptionText}</div>
       <div className="resource-tags">
         {Array.from(new Set([...category, ...subcategory])).map((c) => (
           <Tag
