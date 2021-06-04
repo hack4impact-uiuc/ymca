@@ -33,3 +33,23 @@
   font-size: 16px;
   color: black;
 }
+
+.resource-tags {
+  white-space: nowrap;
+  overflow-x: scroll;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.resource-tags::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.resource-tags {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.resource-tag {
+  display: inline-block;
+}

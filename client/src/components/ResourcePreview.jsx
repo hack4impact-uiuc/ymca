@@ -126,11 +126,17 @@ function ResourcePreview(props: Props) {
 
   const descriptions = (
     <>
-      {Array.from(new Set([...category, ...subcategory])).map((c) => (
-        <Tag key={c} color={CATEGORY_COLOR_DICT[c[0]?.toLowerCase()]}>
-          {c}
-        </Tag>
-      ))}
+      <div className="resource-tags">
+        {Array.from(new Set([...category, ...subcategory])).map((c) => (
+          <Tag
+            key={c}
+            color={CATEGORY_COLOR_DICT[c[0]?.toLowerCase()]}
+            className="resource-tag"
+          >
+            {c}
+          </Tag>
+        ))}
+      </div>
       <div key="resourceInfo" className="resource-preview-info">
         {resourceInfoText}
       </div>
