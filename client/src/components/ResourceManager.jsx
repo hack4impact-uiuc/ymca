@@ -126,6 +126,7 @@ const ResourceManager = () => {
       categories: Array<string>,
       subcategories: Array<string>,
       categoryPairs: Array<string>,
+      lastUpdated: Date,
       id: string,
     }>,
   >([]);
@@ -158,6 +159,7 @@ const ResourceManager = () => {
           categories: r.category,
           subcategories: r.subcategory,
           categoryPairs: pairs,
+          lastUpdated: r.lastUpdated,
           id: r._id.toString(),
         });
       });
