@@ -49,6 +49,7 @@ type Props = {
     categories: Array<string>,
     subcategories: Array<string>,
     categoryPairs: Array<string>,
+    lastUpdated: Date,
     id: string,
   }>,
   updateView: () => void,
@@ -145,6 +146,13 @@ const ManageResourcesTable = (props: Props) => {
     return textCurrent < textNext ? -1 : bool;
   }
 
+  function compareDates(current, next) {
+    const dateCurrent = current.lastUpdated;
+    const dateNext = next.lastUpdated;
+    const bool = dateCurrent > dateNext ? 1 : 0;
+    return dateCurrent < dateNext ? -1 : bool;
+  }
+
   const columns = [
     {
       title: 'Name',
@@ -171,6 +179,15 @@ const ManageResourcesTable = (props: Props) => {
       render: function showSubcategories(_, resource) {
         return displaySubcategoryTags(resource);
       },
+    },
+    {
+      title: 'Last Updated',
+      dataIndex: 'lastUpdated',
+      render: function displayDate(_, resource) {
+        return new Date(resource.lastUpdated).toLocaleString();
+      },
+      defaultSortOrder: 'ascend',
+      sorter: compareDates,
     },
     {
       title: ' ',
