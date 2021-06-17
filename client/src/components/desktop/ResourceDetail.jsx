@@ -72,6 +72,7 @@ function ResourceDetail(props) {
   const [addressString, setAddresString] = useState('');
   const [financialAidDetails, setFinancialAidDetails] = useState(null);
   const [contacts, setContacts] = useState(null);
+  const [lastUpdated, setLastUpdated] = useState('');
 
   const updateIsSaved = useCallback(
     (savedSet) => {
@@ -83,49 +84,53 @@ function ResourceDetail(props) {
   useEffect(() => {
     async function didMount() {
       const response = await getResourceByID(match.params.id, true);
+      console.log(response);
       if (response !== null) {
-        const { res } = response;
-        setName(res.name);
-        setPhone(res.phoneNumbers);
-        setAddress(res.address ?? '');
-        setAddressLine2(res.addressLine2 ?? '');
-        setAptUnitSuite(res.aptUnitSuite ?? '');
-        setCity(res.city ?? '');
-        setState(res.state ?? '');
-        setZip(res.zip ?? '');
-        setDescription(res.description);
-        setLanguages(res.availableLanguages);
-        setCategory(res.category[0]);
-        setSubcategory(res.subcategory[0]);
-        setCost(res.cost);
+        const { result } = response;
+        setName(result.name);
+        setPhone(result.phoneNumbers);
+        setAddress(result.address ?? '');
+        setAddressLine2(result.addressLine2 ?? '');
+        setAptUnitSuite(result.aptUnitSuite ?? '');
+        setCity(result.city ?? '');
+        setState(result.state ?? '');
+        setZip(result.zip ?? '');
+        setDescription(result.description);
+        setLanguages(result.availableLanguages);
+        setCategory(result.category[0]);
+        setSubcategory(result.subcategory[0]);
+        setCost(result.cost);
         setLat(
-          res?.geoLocation === null ||
-            res?.geoLocation === undefined ||
-            res?.geoLocation?.coordinates === null ||
-            res?.geoLocation?.coordinates === undefined ||
-            Number.isNaN(res?.geoLocation?.coordinates[1])
+          result?.geoLocation === null ||
+            result?.geoLocation === undefined ||
+            result?.geoLocation?.coordinates === null ||
+            result?.geoLocation?.coordinates === undefined ||
+            Number.isNaN(result?.geoLocation?.coordinates[1])
             ? 0.0
-            : res?.geoLocation?.coordinates[1],
+            : result?.geoLocation?.coordinates[1],
         );
         setLng(
-          res?.geoLocation === null ||
-            res?.geoLocation === undefined ||
-            res?.geoLocation?.coordinates === null ||
-            res?.geoLocation?.coordinates === undefined ||
-            Number.isNaN(res?.geoLocation?.coordinates[0])
+          result?.geoLocation === null ||
+            result?.geoLocation === undefined ||
+            result?.geoLocation?.coordinates === null ||
+            result?.geoLocation?.coordinates === undefined ||
+            Number.isNaN(result?.geoLocation?.coordinates[0])
             ? 0.0
-            : res?.geoLocation?.coordinates[0],
+            : result?.geoLocation?.coordinates[0],
         );
-        setEmail(res.email ?? '');
-        setWebsite(res.website ?? '');
-        setEligibility(res.eligibilityRequirements);
-        setInternalNotes(res.internalNotes);
+        setEmail(result.email ?? '');
+        setWebsite(result.website ?? '');
+        setEligibility(result.eligibilityRequirements);
+        setInternalNotes(result.internalNotes);
         setHours(
-          res.hoursOfOperation ? res.hoursOfOperation.hoursOfOperation : [],
+          result.hoursOfOperation
+            ? result.hoursOfOperation.hoursOfOperation
+            : [],
         );
-        setRequiredDocuments(res.requiredDocuments);
-        setFinancialAidDetails(res.financialAidDetails);
-        setContacts(res.contacts);
+        setRequiredDocuments(result.requiredDocuments);
+        setFinancialAidDetails(result.financialAidDetails);
+        setContacts(result.contacts);
+        setLastUpdated(result.lastUpdated ?? '');
 
         if (authed) {
           let savedSet = new Set();
@@ -390,6 +395,17 @@ function ResourceDetail(props) {
               id: `resource-eligibilityRequirements-${match.params.id}`,
               defaultMessage: eligibility,
             })}`}
+          {lastUpdated && (
+            <t style={{ color: 'gray' }}>
+              {`\n\n${intl.formatMessage(
+                detailMessages.lastUpdated,
+              )} ${intl.formatDate(lastUpdated, {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })}`}
+            </t>
+          )}
         </Col>
       </Row>
       <Row>
