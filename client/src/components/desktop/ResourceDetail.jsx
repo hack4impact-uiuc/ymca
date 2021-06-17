@@ -84,7 +84,6 @@ function ResourceDetail(props) {
   useEffect(() => {
     async function didMount() {
       const response = await getResourceByID(match.params.id, true);
-      console.log(response);
       if (response !== null) {
         const { result } = response;
         setName(result.name);
