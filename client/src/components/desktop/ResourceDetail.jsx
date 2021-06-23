@@ -395,7 +395,7 @@ function ResourceDetail(props) {
               defaultMessage: eligibility,
             })}`}
           {lastUpdated && (
-            <t style={{ color: 'gray' }}>
+            <div style={{ color: 'gray' }}>
               {`\n\n${intl.formatMessage(
                 detailMessages.lastUpdated,
               )} ${intl.formatDate(lastUpdated, {
@@ -403,7 +403,7 @@ function ResourceDetail(props) {
                 month: 'long',
                 day: 'numeric',
               })}`}
-            </t>
+            </div>
           )}
         </Col>
       </Row>

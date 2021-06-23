@@ -360,7 +360,7 @@ const ResourceDetailMobile = (props: Props) => {
               </Row>
               <Row>
                 {lastUpdated && (
-                  <t style={{ color: 'gray' }}>
+                  <div style={{ color: 'gray' }}>
                     {`\n\n${intl.formatMessage(
                       detailMessages.lastUpdated,
                     )} ${intl.formatDate(lastUpdated, {
@@ -368,7 +368,7 @@ const ResourceDetailMobile = (props: Props) => {
                       month: 'long',
                       day: 'numeric',
                     })}`}
-                  </t>
+                  </div>
                 )}
               </Row>
             </Col>
