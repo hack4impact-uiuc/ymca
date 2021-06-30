@@ -5,8 +5,9 @@ const Category = require('../models/category');
 const Resource = require('../models/resource');
 const HomePage = require('../models/homepage');
 const {
-  deleteTranslatedText,
-  translateAndSaveText,
+  deleteString,
+  deleteTranslatedResourceText,
+  translateAndSaveResourceText,
 } = require('../utils/translate');
 const extractLongLat = require('../utils/extractLongLat');
 
@@ -70,6 +71,9 @@ router.put(
     homePageObject.testimonials = req.body.testimonials;
     homePageObject.partners = req.body.partners;
     await homePageObject.save();
+
+    // FIX
+
     res.json({
       code: 200,
       message: `Successfully updated homepage`,
@@ -136,7 +140,7 @@ router.post(
       eligibilityRequirements,
       requiredDocuments,
     } = newResource;
-    await translateAndSaveText(
+    await translateAndSaveResourceText(
       description,
       phoneNumbers,
       financialAidDetails,
@@ -229,7 +233,7 @@ router.put(
       eligibilityRequirements,
       requiredDocuments,
     } = updatedResource;
-    await translateAndSaveText(
+    await translateAndSaveResourceText(
       description,
       phoneNumbers,
       financialAidDetails,
@@ -259,7 +263,7 @@ router.delete(
       eligibilityRequirements,
       requiredDocuments,
     } = await Resource.findByIdAndDelete(id);
-    await deleteTranslatedText(
+    await deleteTranslatedResourceText(
       description,
       phoneNumbers,
       financialAidDetails,
@@ -283,6 +287,13 @@ router.post(
   errorWrap(async (req, res) => {
     const newCategory = new Category(req.body);
     await newCategory.save();
+
+    await translateCategoryString(
+      description,
+      `category-${newCategory._id}`,
+      newCategory._id,
+    );
+
     res.status(201).json({
       code: 201,
       message: `Successfully created new category ${newCategory.id}`,
@@ -311,6 +322,8 @@ router.put(
       { $set: { 'category.$': req.body.newName } },
     );
 
+    await translateCategoryString(description, `category-${id}`, id);
+
     res.json({
       code: 200,
       message: `Successfully updated category ${id}`,
@@ -331,6 +344,8 @@ router.delete(
       { category: req.body.categoryName },
       { $pull: { category: req.body.categoryName } },
     );
+
+    await deleteString(`category-${id}`);
 
     res.json({
       code: 200,
@@ -354,6 +369,13 @@ router.post(
         runValidators: true,
       },
     );
+
+    await translateSubcategoryString(
+      description,
+      `subcategory-${updatedCategory._id}`,
+      updatedCategory._id, // unsure if this is real
+    );
+
     res.status(201).json({
       code: 201,
       message: `Successfully created new subcategory ${req.body.name}`,
@@ -368,17 +390,18 @@ router.put(
   '/subcategories/:id',
   errorWrap(async (req, res) => {
     const { id } = req.params;
+    const { category, currentName, newName, subcategoryId } = req.body;
 
     const updatedCategory = await Category.findOneAndUpdate(
       {
         _id: req.params.id,
-        subcategories: { $elemMatch: { _id: req.body.subcategoryId } },
+        subcategories: { $elemMatch: { _id: subcategoryId } },
       },
       {
         $set: {
           'subcategories.$': {
-            _id: req.body.subcategoryId,
-            name: req.body.newName,
+            _id: subcategoryId,
+            name: newName,
           },
         },
       },
@@ -389,8 +412,14 @@ router.put(
     );
 
     await Resource.updateMany(
-      { category: req.body.category, subcategory: req.body.currentName },
-      { $set: { 'subcategory.$': req.body.newName } },
+      { category: category, subcategory: currentName },
+      { $set: { 'subcategory.$': newName } },
+    );
+
+    await translateSubcategoryString(
+      description,
+      `subcategory-${subcategoryId}`,
+      subcategoryId,
     );
 
     res.json({
@@ -407,11 +436,12 @@ router.delete(
   '/subcategories/:id',
   errorWrap(async (req, res) => {
     const { id } = req.params;
+    const { category, subcategory, subcategoryId } = req.body;
     const updatedCategory = await Category.findByIdAndUpdate(
       id,
       {
         $pull: {
-          subcategories: { _id: req.body.subcategoryId },
+          subcategories: { _id: subcategoryId },
         },
       },
       {
@@ -423,17 +453,19 @@ router.delete(
     // Removes subcategory, set one matching category to null
     // Then, remove that null. Workaround to remove only one matching category
     await Resource.updateMany(
-      { category: req.body.category, subcategory: req.body.subcategory },
+      { category: category, subcategory: subcategory },
       {
-        $pull: { subcategory: req.body.subcategory },
+        $pull: { subcategory: subcategory },
         $unset: { 'category.$': true },
       },
     );
     await Resource.updateMany({}, { $pull: { category: null } });
 
+    await deleteString(`subcategory-${subcategoryId}`);
+
     res.json({
       code: 200,
-      message: `Successfully deleted subcategory ${req.body.subcategoryId}`,
+      message: `Successfully deleted subcategory ${subcategoryId}`,
       success: true,
       result: updatedCategory,
     });

@@ -7,7 +7,7 @@ const languageTypes = {
   zh: 'Chinese',
 };
 
-async function deleteTranslatedText(
+async function deleteTranslatedResourceText(
   description,
   phoneNumbers,
   financialAidDetails,
@@ -15,7 +15,7 @@ async function deleteTranslatedText(
   requiredDocuments,
   id,
 ) {
-  await deleteString(description, `resource-description-${id}`);
+  await deleteString(`resource-description-${id}`);
   if (
     phoneNumbers !== null &&
     phoneNumbers !== undefined &&
@@ -27,10 +27,7 @@ async function deleteTranslatedText(
     await deleteFinancialAidDetails(financialAidDetails);
   }
   if (eligibilityRequirements) {
-    await deleteString(
-      eligibilityRequirements,
-      `resource-eligibilityRequirements-${id}`,
-    );
+    await deleteString(`resource-eligibilityRequirements-${id}`);
   }
   if (
     requiredDocuments !== null &&
@@ -42,7 +39,7 @@ async function deleteTranslatedText(
   await VerifiedTranslation.deleteMany({ resourceID: id });
 }
 
-async function deleteString(text, translationKey) {
+async function deleteString(translationKey) {
   Object.values(languageTypes).map(async (language) => {
     const translation = await Translation.findOne({
       language: { $eq: language },
@@ -93,7 +90,67 @@ async function deleteRequiredDocuments(requiredDocuments, resourceId) {
   });
 }
 
-async function translateAndSaveText(
+async function translateCategoryString(text, translationKey, categoryID) {
+  Object.keys(languageTypes).forEach(async function (key) {
+    const translationValue = await translateText(text, key);
+    const updatedTranslation = await Translation.findOne({
+      language: { $eq: languageTypes[key] },
+    });
+    updatedTranslation.messages.set(translationKey, translationValue);
+    await updatedTranslation.save();
+
+    const verifiedDesc = new VerifiedTranslation({
+      categoryID,
+      translationID: translationKey,
+      verified: false,
+      numReports: 0,
+      language: languageTypes[key],
+    });
+    await verifiedDesc.save();
+  });
+}
+
+async function translateSubcategoryString(text, translationKey, subcategoryID) {
+  Object.keys(languageTypes).forEach(async function (key) {
+    const translationValue = await translateText(text, key);
+    const updatedTranslation = await Translation.findOne({
+      language: { $eq: languageTypes[key] },
+    });
+    updatedTranslation.messages.set(translationKey, translationValue);
+    await updatedTranslation.save();
+
+    const verifiedDesc = new VerifiedTranslation({
+      subcategoryID,
+      translationID: translationKey,
+      verified: false,
+      numReports: 0,
+      language: languageTypes[key],
+    });
+    await verifiedDesc.save();
+  });
+}
+
+async function translateTestimonialString(text, translationKey, testimonialID) {
+  Object.keys(languageTypes).forEach(async function (key) {
+    const translationValue = await translateText(text, key);
+    const updatedTranslation = await Translation.findOne({
+      language: { $eq: languageTypes[key] },
+    });
+    updatedTranslation.messages.set(translationKey, translationValue);
+    await updatedTranslation.save();
+
+    const verifiedDesc = new VerifiedTranslation({
+      testimonialID,
+      translationID: translationKey,
+      verified: false,
+      numReports: 0,
+      language: languageTypes[key],
+    });
+    await verifiedDesc.save();
+  });
+}
+
+async function translateAndSaveResourceText(
   description,
   phoneNumbers,
   financialAidDetails,
@@ -101,7 +158,7 @@ async function translateAndSaveText(
   requiredDocuments,
   id,
 ) {
-  await translateString(description, `resource-description-${id}`, id);
+  await translateResourceString(description, `resource-description-${id}`, id);
   if (
     phoneNumbers !== null &&
     phoneNumbers !== undefined &&
@@ -113,7 +170,7 @@ async function translateAndSaveText(
     await translateFinancialAidDetails(financialAidDetails, id);
   }
   if (eligibilityRequirements) {
-    await translateString(
+    await translateResourceString(
       eligibilityRequirements,
       `resource-eligibilityRequirements-${id}`,
       id,
@@ -128,7 +185,7 @@ async function translateAndSaveText(
   }
 }
 
-async function translateString(text, translationKey, resourceID) {
+async function translateResourceString(text, translationKey, resourceID) {
   Object.keys(languageTypes).forEach(async function (key) {
     const translationValue = await translateText(text, key);
     const updatedTranslation = await Translation.findOne({
@@ -239,4 +296,11 @@ async function translateText(text, language) {
   return translationValue;
 }
 
-module.exports = { deleteTranslatedText, translateAndSaveText };
+module.exports = {
+  deleteString,
+  deleteTranslatedResourceText,
+  translateCategoryString,
+  translateSubcategoryString,
+  translateTestimonialString,
+  translateAndSaveResourceText,
+};
