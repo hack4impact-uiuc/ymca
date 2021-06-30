@@ -8,6 +8,9 @@ const {
   deleteString,
   deleteTranslatedResourceText,
   translateAndSaveResourceText,
+  translateCategoryString,
+  translateSubcategoryString,
+  translateTestimonialString,
 } = require('../utils/translate');
 const extractLongLat = require('../utils/extractLongLat');
 
@@ -31,7 +34,7 @@ const imageHelper = async (image) => {
   return null;
 };
 
-// create image
+// Create image
 router.post(
   '/imageUpload',
   errorWrap(async (req, res) => {
@@ -72,7 +75,18 @@ router.put(
     homePageObject.partners = req.body.partners;
     await homePageObject.save();
 
-    // FIX
+    homePageObject.testimonials.forEach(async (testimonial) => {
+      await translateTestimonialString(
+        testimonial.title,
+        `testimonial-title-${testimonial._id}`,
+        testimonial._id,
+      );
+      await translateTestimonialString(
+        testimonial.testimonial,
+        `testimonial-${testimonial._id}`,
+        testimonial._id,
+      );
+    });
 
     res.json({
       code: 200,
