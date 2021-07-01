@@ -1,0 +1,52 @@
+.resource-preview-border:hover {
+  box-shadow: 3px 3px 5px #b6b6b6;
+}
+
+.resource-preview-text:hover {
+  text-decoration: none;
+}
+
+.resource-preview-name {
+  display: inline-block;
+  flex: 1;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  vertical-align: middle;
+  font-size: 18px;
+}
+
+.resource-preview-description {
+  display: -webkit-box;
+  min-height: 100px;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 16px;
+}
+
+.resource-preview-info {
+  font-size: 16px;
+  color: black;
+}
+
+.resource-preview-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.resource-preview-cover-img {
+  object-fit: contain;
+  width: 60px;
+  height: 60px;
+  margin-right: 8px;
+}
+
+.resource-preview-footer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}

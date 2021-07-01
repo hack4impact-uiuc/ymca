@@ -38,8 +38,9 @@ const EditHome = (): React$Element<any> => {
   const [partnerValues, setPartnerValues] = useState<Array<UploadedPartner>>(
     [],
   );
-  const [testimonialFieldLength, setTestimonialFieldLength] =
-    useState<number>(0);
+  const [testimonialFieldLength, setTestimonialFieldLength] = useState<number>(
+    0,
+  );
   const [partnerFieldLength, setPartnerFieldLength] = useState<number>(0);
 
   const [form] = Form.useForm();

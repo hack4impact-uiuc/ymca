@@ -142,15 +142,13 @@ const ResourceForm = (props: FormProps) => {
   const formCarouselRef = useRef();
   const formLabelRef = useRef();
 
-  const onBackButtonClick = useCallback(
-    () => formCarouselRef.current.prev(),
-    [formCarouselRef],
-  );
+  const onBackButtonClick = useCallback(() => formCarouselRef.current.prev(), [
+    formCarouselRef,
+  ]);
 
-  const onNextButtonClick = useCallback(
-    () => formCarouselRef.current.next(),
-    [formCarouselRef],
-  );
+  const onNextButtonClick = useCallback(() => formCarouselRef.current.next(), [
+    formCarouselRef,
+  ]);
 
   const onFormCarouselChange = useCallback(
     (current, to) => {

@@ -96,8 +96,11 @@ const days = [
 
 const HoursOfOperationsForm = Form.create({ name: 'hoursOfOperation' })(
   (props: FormProps) => {
-    const { setHoursOfOperation, hoursOfOperation, setTotalSubmitEnabled } =
-      props;
+    const {
+      setHoursOfOperation,
+      hoursOfOperation,
+      setTotalSubmitEnabled,
+    } = props;
     const { setFieldsValue, getFieldValue, getFieldDecorator } = props.form;
 
     const generateInputs = useCallback(
@@ -156,8 +159,11 @@ type FormItemProps = {
 };
 
 const HoursOfOperationsItemForm = (props: FormItemProps) => {
-  const { setHoursOfOperation, hoursOfOperation, setTotalSubmitEnabled } =
-    props;
+  const {
+    setHoursOfOperation,
+    hoursOfOperation,
+    setTotalSubmitEnabled,
+  } = props;
   return (
     <Form.Item>
       <HoursOfOperationsForm

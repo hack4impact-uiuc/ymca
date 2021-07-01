@@ -93,8 +93,11 @@ const FinancialAidForm = Form.create({ name: 'financialAid' })((props) => {
 });
 
 const FinancialAidFormItem = (props: FormProps) => {
-  const { financialAidDetails, setFinancialAidDetails, setTotalSubmitEnabled } =
-    props;
+  const {
+    financialAidDetails,
+    setFinancialAidDetails,
+    setTotalSubmitEnabled,
+  } = props;
 
   return (
     <Form.Item>

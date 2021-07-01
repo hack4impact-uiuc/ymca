@@ -134,8 +134,10 @@ function Resources({
   }, [locationProp]);
 
   const updateResources = useCallback(async () => {
-    const [categorySelected, subcategorySelected] =
-      getCategorySelectedFromSearch();
+    const [
+      categorySelected,
+      subcategorySelected,
+    ] = getCategorySelectedFromSearch();
 
     const newResources = await getResourcesByCategory(
       categorySelected,
