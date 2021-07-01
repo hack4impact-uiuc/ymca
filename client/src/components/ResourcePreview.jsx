@@ -99,8 +99,15 @@ function ResourcePreview(props: Props) {
   const descriptions = (
     <>
       <div className="resource-preview-description">{descriptionText}</div>
-      <div key="resourceInfo" className="resource-preview-info">
-        {resourceInfoText}
+      <div className="resource-preview-footer">
+        <div key="resourceInfo" className="resource-preview-info">
+          {resourceInfoText}
+        </div>
+        <SaveButton
+          isSaved={isSaved}
+          deleteResourceHandler={deleteResourceHandler}
+          saveResourceHandler={saveResourceHandler}
+        />
       </div>
     </>
   );
@@ -113,13 +120,6 @@ function ResourcePreview(props: Props) {
     >
       <Card
         className="resource-preview-border"
-        cover={
-          <img
-            className="resource-preview-cover-img"
-            alt={subcategory}
-            src={image !== '' ? image : src}
-          />
-        }
         bordered={hover}
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
@@ -127,13 +127,13 @@ function ResourcePreview(props: Props) {
         <Meta
           title={
             <>
-              <div className="resource-preview-name">{name}</div>
-              <div style={{ float: 'right' }}>
-                <SaveButton
-                  isSaved={isSaved}
-                  deleteResourceHandler={deleteResourceHandler}
-                  saveResourceHandler={saveResourceHandler}
+              <div className="resource-preview-header">
+                <img
+                  className="resource-preview-cover-img"
+                  alt={subcategory}
+                  src={image !== '' ? image : src}
                 />
+                <div className="resource-preview-name">{name}</div>
               </div>
             </>
           }
