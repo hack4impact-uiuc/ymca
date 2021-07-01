@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { List } from 'antd';
 
-import ResourcePreview2 from './ResourcePreview2';
+import ResourcePreview from './ResourcePreview';
 import '../css/ResourcesGrid.css';
 
 function ResourcesGrid(props) {
@@ -39,7 +39,7 @@ function ResourcesGrid(props) {
       }}
       renderItem={(resource) => (
         <List.Item>
-          <ResourcePreview2
+          <ResourcePreview
             availableLanguages={resource.availableLanguages}
             category={resource.category}
             city={resource.city}

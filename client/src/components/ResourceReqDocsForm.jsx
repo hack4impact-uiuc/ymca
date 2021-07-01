@@ -17,12 +17,8 @@ type FormProps = {
 };
 
 const StrForm = (props: FormProps) => {
-  const {
-    listOfStrings,
-    setListOfStrings,
-    setTotalSubmitEnabled,
-    form,
-  } = props;
+  const { listOfStrings, setListOfStrings, setTotalSubmitEnabled, form } =
+    props;
 
   const { getFieldDecorator, getFieldValue, setFieldsValue } = form;
 
