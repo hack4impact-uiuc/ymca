@@ -60,6 +60,10 @@ export const detailMessages = defineMessages({
     id: 'detailEligibility',
     defaultMessage: 'Eligibility Requirements',
   },
+  lastUpdated: {
+    id: 'lastUpdated',
+    defaultMessage: 'Last updated',
+  },
   basicInfo: {
     id: 'detailBasicInfo',
     defaultMessage: 'Basic Information',

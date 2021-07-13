@@ -62,14 +62,12 @@ const ResourceDetailMobile = (props: Props) => {
   const [phone, setPhone] = useState([]);
   const [address, setAddress] = useState(null);
   const [addressLine2, setAddressLine2] = useState(null);
-  // const [aptUnitSuite, setAptUnitSuite] = useState('');
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
   const [zip, setZip] = useState('');
   const [languages, setLanguages] = useState([]);
   const [requiredDocuments, setRequiredDocuments] = useState(null);
   const [cost, setCost] = useState(null);
-  // const [internalNotes, setInternalNotes] = useState([]);
   const [hours, setHours] = useState(null);
   const [image, setImage] = useState(null);
   const [financialAidDetails, setFinancialAidDetails] = useState(null);
@@ -79,7 +77,7 @@ const ResourceDetailMobile = (props: Props) => {
   const [lng, setLng] = useState(0);
   const [distFromResource, setDistFromResource] = useState(null);
   const [eligibility, setEligibility] = useState('');
-  // const [modalVisible, setModalVisible] = useState(false);
+  const [lastUpdated, setLastUpdated] = useState('');
   const [isSaved, setIsSaved] = useState(false);
   const [isWithinOperationHours, setIsWithinOperationHours] = useState(null);
 
@@ -89,61 +87,62 @@ const ResourceDetailMobile = (props: Props) => {
       const response = await getResourceByID(resourceId, true);
 
       if (response) {
-        const { res } = response;
+        const { result } = response;
 
         setImage(
-          res.image && res.image !== ''
-            ? res.image
-            : determineStockPhoto(res.category, res.subcategory),
+          result.image && result.image !== ''
+            ? result.image
+            : determineStockPhoto(result.category, result.subcategory),
         );
 
-        setCategory(res.category[0]);
-        setSubcategory(res.subcategory[0]);
+        setCategory(result.category[0]);
+        setSubcategory(result.subcategory[0]);
 
-        setName(res.name);
-        setDescription(res.description);
+        setName(result.name);
+        setDescription(result.description);
 
-        setPhone(res.phoneNumbers);
-        setEmail(res.email);
-        setWebsite(res.website);
+        setPhone(result.phoneNumbers);
+        setEmail(result.email);
+        setWebsite(result.website);
 
-        setLanguages(res.availableLanguages);
-        setCost(res.cost);
+        setLanguages(result.availableLanguages);
+        setCost(result.cost);
 
-        setAddress(res.address);
-        setAddressLine2(res.addressLine2);
-        setCity(res.city);
-        setState(res.state);
-        setZip(res.zip);
-        setRequiredDocuments(res.requiredDocuments);
-        setEligibility(res.eligibilityRequirements);
-        setFinancialAidDetails(res.financialAidDetails);
-        setContacts(res.contacts);
+        setAddress(result.address);
+        setAddressLine2(result.addressLine2);
+        setCity(result.city);
+        setState(result.state);
+        setZip(result.zip);
+        setRequiredDocuments(result.requiredDocuments);
+        setEligibility(result.eligibilityRequirements);
+        setFinancialAidDetails(result.financialAidDetails);
+        setContacts(result.contacts);
+        setLastUpdated(result.lastUpdated ?? '');
 
         setHours(
-          res.hoursOfOperation &&
-            res.hoursOfOperation.hoursOfOperation.length > 0
-            ? res.hoursOfOperation.hoursOfOperation
+          result.hoursOfOperation &&
+            result.hoursOfOperation.hoursOfOperation.length > 0
+            ? result.hoursOfOperation.hoursOfOperation
             : null,
         );
 
         setLat(
-          res?.geoLocation === null ||
-            res?.geoLocation === undefined ||
-            res?.geoLocation?.coordinates === null ||
-            res?.geoLocation?.coordinates === undefined ||
-            Number.isNaN(res?.geoLocation?.coordinates[1])
+          result?.geoLocation === null ||
+            result?.geoLocation === undefined ||
+            result?.geoLocation?.coordinates === null ||
+            result?.geoLocation?.coordinates === undefined ||
+            Number.isNaN(result?.geoLocation?.coordinates[1])
             ? 0.0
-            : res?.geoLocation?.coordinates[1],
+            : result?.geoLocation?.coordinates[1],
         );
         setLng(
-          res?.geoLocation === null ||
-            res?.geoLocation === undefined ||
-            res?.geoLocation?.coordinates === null ||
-            res?.geoLocation?.coordinates === undefined ||
-            Number.isNaN(res?.geoLocation?.coordinates[0])
+          result?.geoLocation === null ||
+            result?.geoLocation === undefined ||
+            result?.geoLocation?.coordinates === null ||
+            result?.geoLocation?.coordinates === undefined ||
+            Number.isNaN(result?.geoLocation?.coordinates[0])
             ? 0.0
-            : res?.geoLocation?.coordinates[0],
+            : result?.geoLocation?.coordinates[0],
         );
       } else {
         setResourceExists(false);
@@ -358,6 +357,19 @@ const ResourceDetailMobile = (props: Props) => {
                     id: `resource-eligibilityRequirements-${match.params.id}`,
                     defaultMessage: eligibility,
                   })}`}
+              </Row>
+              <Row>
+                {lastUpdated && (
+                  <div style={{ color: 'gray' }}>
+                    {`\n\n${intl.formatMessage(
+                      detailMessages.lastUpdated,
+                    )} ${intl.formatDate(lastUpdated, {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })}`}
+                  </div>
+                )}
               </Row>
             </Col>
           </Row>
