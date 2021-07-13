@@ -6,7 +6,7 @@ import { Button, Col, Row, Carousel } from 'antd';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
-import type { Testimonial } from '../../types/models';
+import type { Category, Testimonial } from '../../types/models';
 
 import '../../css/Home.css';
 import { getCategories } from '../../utils/api';
@@ -16,18 +16,14 @@ type Block1Props = {
 };
 
 export const HomeBlock1Mobile = ({ backgroundImage }: Block1Props) => {
-  const [categories, setCategories] = useState<Array<string>>([]);
+  const [categories, setCategories] = useState<Array<Category>>([]);
 
   useEffect(() => {
     const fetchCategories = async () => {
       const res = await getCategories();
-      const newCategories = [];
       if (res !== null && res !== undefined) {
-        res.result.forEach((c) => {
-          newCategories.push(c.name);
-        });
+        setCategories(res.result);
       }
-      setCategories(newCategories);
     };
 
     fetchCategories();
@@ -66,14 +62,14 @@ export const HomeBlock1Mobile = ({ backgroundImage }: Block1Props) => {
             >
               {categories.map(
                 (category) =>
-                  category !== 'Other' && (
+                  category.name !== 'Other' && (
                     <Link
-                      to={`/resources?category=${category}`}
+                      to={`/resources?category=${category.name}`}
                       className="welcome-text-mobile-link"
                     >
                       <FormattedMessage
-                        id={`category-${category}`.replace(/\s/g, '')}
-                        defaultMessage={category}
+                        id={`category-${category._id}`}
+                        defaultMessage={category.name}
                       />
                     </Link>
                   ),
@@ -188,9 +184,7 @@ export const HomeBlock3Mobile = ({ testimonials }: Block3Props) => (
                 <p>
                   <Textfit mode="multi">
                     <FormattedMessage
-                      id={`testimonial-title-${element.person}-${element.title}`
-                        .toLowerCase()
-                        .replace(/\s/g, '')}
+                      id={`testimonial-title-${element._id}`}
                       defaultMessage={element.title}
                     />
                   </Textfit>
@@ -198,9 +192,7 @@ export const HomeBlock3Mobile = ({ testimonials }: Block3Props) => (
                 <p>
                   <Textfit mode="multi">
                     <FormattedMessage
-                      id={`testimonial-${element.person}-${element.title}`
-                        .toLowerCase()
-                        .replace(/\s/g, '')}
+                      id={`testimonial-${element._id}`}
                       defaultMessage={element.testimonial}
                     />
                   </Textfit>

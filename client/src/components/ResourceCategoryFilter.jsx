@@ -20,13 +20,24 @@ function ResourceCategoryFilter(props) {
   } = props;
   const intl = useIntl();
 
-  const [orderedCategories, setOrderedCategories] = useState({});
+  const [orderedCategories, setOrderedCategories] = useState([]);
   useEffect(() => {
-    const newCategories = {};
-    Object.keys(categories)
-      .sort()
-      .forEach((key) => {
-        newCategories[key] = categories[key].sort((a, b) => {
+    const newCategories = categories;
+    newCategories
+      .sort((a, b) => {
+        // Sorts alphabetically by category name
+        const textA = a.name?.toUpperCase();
+        const textB = b.name?.toUpperCase();
+        if (textA < textB) {
+          return -1;
+        }
+        if (textA > textB) {
+          return 1;
+        }
+        return 0;
+      })
+      .forEach((c) => {
+        c.subcategories.sort((a, b) => {
           // Sorts alphabetically by subcategory name
           const textA = a.name?.toUpperCase();
           const textB = b.name?.toUpperCase();
@@ -52,21 +63,21 @@ function ResourceCategoryFilter(props) {
       <Menu.Item key="All Resources" onClick={categorySelectAll}>
         <FormattedMessage {...allResourcesMessage} />
       </Menu.Item>
-      {Object.keys(orderedCategories).map((categoryName) => (
+      {orderedCategories.map((c) => (
         <SubMenu
-          key={categoryName}
+          key={c.name}
           title={intl.formatMessage({
-            id: `category-${categoryName}`.replace(/\s/g, ''),
-            defaultMessage: categoryName,
+            id: `category-${c._id}`,
+            defaultMessage: c.name,
           })}
         >
-          {orderedCategories[categoryName].map((subCategory) => (
+          {c.subcategories.map((subCategory) => (
             <Menu.Item
               key={subCategory.name}
               onClick={() => subcategorySelect(subCategory.name)}
             >
               <FormattedMessage
-                id={`subcategory-${subCategory.name}`.replace(/\s/g, '')}
+                id={`subcategory-${subCategory._id}`}
                 defaultMessage={subCategory.name}
               />
             </Menu.Item>

@@ -22,6 +22,8 @@ import ResourceCategoryFilter from '../components/ResourceCategoryFilter';
 import ResourcesCatMobile from '../components/mobile/ResourcesCatMobile';
 import MapManager from '../components/MapManager';
 
+import type { Category, Resource } from '../types/models';
+
 const { Sider } = Layout;
 const { TabPane } = Tabs;
 
@@ -64,7 +66,7 @@ function Resources({
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(6);
   const [openKeys, setOpenKeys] = useState<Array<string>>([]);
-  const [categories, setCategories] = useState<{ [string]: Array<string> }>({});
+  const [categories, setCategories] = useState<Array<Category>>([]);
   const [filteredResources, setFilteredResources] = useState<Array<Resource>>(
     [],
   );
@@ -98,14 +100,9 @@ function Resources({
   useEffect(() => {
     const fetchCategories = async () => {
       const res = await getCategories();
-      const newCategories = {};
       if (res !== null && res !== undefined) {
-        res.result.forEach((c) => {
-          newCategories[c.name] = c.subcategories;
-        });
+        setCategories(res.result);
       }
-
-      setCategories(newCategories);
     };
 
     fetchCategories();
@@ -228,7 +225,11 @@ function Resources({
   const onOpenChange = useCallback(
     (newOpenKeys: Array<string>) => {
       if (newOpenKeys.length === 0) {
-        if (categories[category].some((sub) => sub.name === subcategory)) {
+        if (
+          categories
+            .find((c) => c.name === category)
+            ?.subcategories.some((sub) => sub.name === subcategory)
+        ) {
           history.push({
             pathname: '/resources',
             search: `?category=${category}`,
@@ -242,7 +243,7 @@ function Resources({
       const latestOpenKey = newOpenKeys.find(
         (key) => openKeys.indexOf(key) === -1,
       );
-      if (Object.keys(categories).indexOf(latestOpenKey) === -1) {
+      if (categories.map((c) => c.name).indexOf(latestOpenKey) === -1) {
         setOpenKeys(newOpenKeys);
       } else {
         setOpenKeys(
@@ -260,11 +261,16 @@ function Resources({
     [categories, category, openKeys, subcategory, history],
   );
 
+  const categoryId = categories.find((c) => c.name === category)?._id;
+  const subcategoryId = categories
+    .find((c) => c.name === category)
+    ?.subcategories.find((sub) => sub.name === subcategory)?._id;
+
   return (
     <Layout className="resources">
       <ResourcesBanner
-        categorySelected={category}
-        subcategorySelected={subcategory}
+        categorySelected={{ name: category, _id: categoryId }}
+        subcategorySelected={{ name: subcategory, _id: subcategoryId }}
       />
       {isMobile ? (
         <>

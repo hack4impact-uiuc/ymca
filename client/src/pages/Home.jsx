@@ -62,7 +62,7 @@ const Home = (): React$Element<React$FragmentType> => {
         });
 
         res.result.testimonials.forEach(
-          ({ person, image, title, testimonial }) => {
+          ({ person, image, title, testimonial, _id }) => {
             newTestimonials.push({
               person,
               image:
@@ -71,6 +71,7 @@ const Home = (): React$Element<React$FragmentType> => {
                   : image,
               title,
               testimonial,
+              _id,
             });
           },
         );

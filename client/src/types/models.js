@@ -69,7 +69,7 @@ export type Resource = {
   _id: string,
 };
 export type Testimonial = {
-  _id?: string,
+  _id: string,
   person: string,
   image: string,
   title: string,

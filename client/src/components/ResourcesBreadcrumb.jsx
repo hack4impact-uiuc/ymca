@@ -12,13 +12,13 @@ function ResourcesBreadcrumb(props) {
     props;
   const breadcrumbs = [];
 
-  if (categorySelected === 'All Resources') {
+  if (categorySelected.name === 'All Resources') {
     breadcrumbs.push(
       <span className="default-crumb" style={{ color: tColor }} key="all">
         <FormattedMessage {...allResourcesMessage} />
       </span>,
     );
-  } else if (categorySelected !== '') {
+  } else if (categorySelected.name !== '') {
     breadcrumbs.push(
       <Link
         className="link"
@@ -32,7 +32,7 @@ function ResourcesBreadcrumb(props) {
         </span>
       </Link>,
     );
-    if (subcategorySelected !== '') {
+    if (subcategorySelected.name !== '') {
       breadcrumbs.push(
         <span key="cat">
           &nbsp;&gt;&nbsp;
@@ -45,8 +45,8 @@ function ResourcesBreadcrumb(props) {
             }}
           >
             <FormattedMessage
-              id={`category-${categorySelected?.replace(/\s/g, '')}`}
-              defaultMessage={categorySelected}
+              id={`category-${categorySelected._id}`}
+              defaultMessage={categorySelected.name}
             />
           </Link>
         </span>,
@@ -62,13 +62,13 @@ function ResourcesBreadcrumb(props) {
               to={{
                 pathname: '/resources',
                 search:
-                  `?category=${categorySelected}` +
-                  `&subcategory=${subcategorySelected}`,
+                  `?category=${categorySelected.name}` +
+                  `&subcategory=${subcategorySelected.name}`,
               }}
             >
               <FormattedMessage
-                id={`subcategory-${subcategorySelected?.replace(/\s/g, '')}`}
-                defaultMessage={subcategorySelected}
+                id={`subcategory-${subcategorySelected._id}`}
+                defaultMessage={subcategorySelected.name}
               />
             </Link>
           </span>,
@@ -85,8 +85,8 @@ function ResourcesBreadcrumb(props) {
             &nbsp;&gt;&nbsp;
             <strong>
               <FormattedMessage
-                id={`subcategory-${subcategorySelected?.replace(/\s/g, '')}`}
-                defaultMessage={subcategorySelected}
+                id={`subcategory-${subcategorySelected._id}`}
+                defaultMessage={subcategorySelected.name}
               />
             </strong>
           </span>,
@@ -99,8 +99,8 @@ function ResourcesBreadcrumb(props) {
           <strong>
             <FormattedMessage
               style={{ color: tColor }}
-              id={`category-${categorySelected?.replace(/\s/g, '')}`}
-              defaultMessage={categorySelected}
+              id={`category-${categorySelected._id}`}
+              defaultMessage={categorySelected.name}
             />
           </strong>
         </span>,
@@ -117,8 +117,14 @@ ResourcesBreadcrumb.defaultProps = {
 };
 
 ResourcesBreadcrumb.propTypes = {
-  categorySelected: PropTypes.string.isRequired,
-  subcategorySelected: PropTypes.string.isRequired,
+  categorySelected: PropTypes.shape({
+    _id: PropTypes.string,
+    name: PropTypes.string,
+  }).isRequired,
+  subcategorySelected: PropTypes.shape({
+    _id: PropTypes.string,
+    name: PropTypes.string,
+  }).isRequired,
   resourceSelected: PropTypes.string,
   tColor: PropTypes.string,
 };

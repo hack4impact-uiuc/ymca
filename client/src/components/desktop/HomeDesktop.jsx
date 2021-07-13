@@ -6,7 +6,7 @@ import { HeartTwoTone } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
-import type { Testimonial } from '../../types/models';
+import type { Category, Testimonial } from '../../types/models';
 
 import '../../css/Home.css';
 import { getCategories } from '../../utils/api';
@@ -19,17 +19,13 @@ export const HomeBlock1Desktop = ({
   backgroundImage,
 }: Block1Props): React$Element<any> => {
   const [api, contextHolder] = notification.useNotification();
-  const [categories, setCategories] = useState<Array<string>>([]);
+  const [categories, setCategories] = useState<Array<Category>>([]);
 
   const fetchCategories = async () => {
     const res = await getCategories();
-    const newCategories = [];
     if (res) {
-      res.result.forEach((c) => {
-        newCategories.push(c.name);
-      });
+      setCategories(res.result);
     }
-    setCategories(newCategories);
   };
 
   const openNotification = useCallback(() => {
@@ -96,14 +92,14 @@ export const HomeBlock1Desktop = ({
               >
                 {categories.map(
                   (category) =>
-                    category !== 'Other' && (
+                    category.name !== 'Other' && (
                       <Link
-                        to={`/resources?category=${category}`}
+                        to={`/resources?category=${category.name}`}
                         className="welcome-text-link"
                       >
                         <FormattedMessage
-                          id={`category-${category}`.replace(/\s/g, '')}
-                          defaultMessage={category}
+                          id={`category-${category._id}`}
+                          defaultMessage={category.name}
                         />
                       </Link>
                     ),
@@ -198,17 +194,13 @@ export const HomeBlock3Desktop = ({
                 <h2>{element.person}</h2>
                 <h4>
                   <FormattedMessage
-                    id={`testimonial-title-${element.person}-${element.title}`
-                      .toLowerCase()
-                      .replace(/\s/g, '')}
+                    id={`testimonial-title-${element._id}`}
                     defaultMessage={element.title}
                   />
                 </h4>
                 <p>
                   <FormattedMessage
-                    id={`testimonial-${element.person}-${element.title}`
-                      .toLowerCase()
-                      .replace(/\s/g, '')}
+                    id={`testimonial-${element._id}`}
                     defaultMessage={element.testimonial}
                   />
                 </p>

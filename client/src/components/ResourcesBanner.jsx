@@ -22,13 +22,13 @@ const ResourcesBanner = (props) => {
 const getBannerTitle = (categorySelected) => {
   let bannerTitle = (
     <FormattedMessage
-      id={`category-${categorySelected.replace(/\s/g, '')}`}
-      defaultMessage={categorySelected}
+      id={`category-${categorySelected._id}`}
+      defaultMessage={categorySelected.name}
     />
   );
-  if (categorySelected === 'All Resources') {
+  if (categorySelected.name === 'All Resources') {
     bannerTitle = <FormattedMessage {...allResourcesMessage} />;
-  } else if (categorySelected === 'Saved Resources') {
+  } else if (categorySelected.name === 'Saved Resources') {
     bannerTitle = <FormattedMessage {...savedResourcesMessage} />;
   }
 
@@ -49,7 +49,8 @@ function ResourcesBannerDesktop(props) {
       }}
     >
       <Row>
-        {subcategorySelected !== null && subcategorySelected !== undefined ? (
+        {subcategorySelected.name !== null &&
+        subcategorySelected.name !== undefined ? (
           <ResourceBreadcrumb
             categorySelected={categorySelected}
             subcategorySelected={subcategorySelected}
@@ -88,7 +89,8 @@ function ResourcesBannerMobile(props) {
       }}
     >
       <Row>
-        {subcategorySelected !== null && subcategorySelected !== undefined ? (
+        {subcategorySelected.name !== null &&
+        subcategorySelected.name !== undefined ? (
           <ResourceBreadcrumb
             categorySelected={categorySelected}
             subcategorySelected={subcategorySelected}

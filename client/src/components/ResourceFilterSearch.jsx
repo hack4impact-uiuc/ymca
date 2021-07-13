@@ -91,6 +91,7 @@ const ResourceFilterSearch = (): React$Element<any> => {
           setAllOptionsRep(categoriesObj);
 
           Object.entries(categoriesObj).forEach(([category, subcategories]) => {
+            console.log(category);
             newOptions.push(
               <Option
                 className="rfs-category-option"
