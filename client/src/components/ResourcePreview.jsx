@@ -45,7 +45,6 @@ function ResourcePreview(props: Props) {
   } = props;
   const intl = useIntl();
   const [src, setSrc] = useState('');
-  const [hover, setHover] = useState(false);
 
   const saveResourceHandler = async () => {
     await saveResource(id);
@@ -118,12 +117,7 @@ function ResourcePreview(props: Props) {
       }}
       className="resource-preview-text"
     >
-      <Card
-        className="resource-preview-border"
-        bordered={hover}
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
-      >
+      <Card className="resource-preview-border">
         <Meta
           title={
             <>

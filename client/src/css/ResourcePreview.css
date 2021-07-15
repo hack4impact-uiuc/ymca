@@ -1,5 +1,6 @@
 .resource-preview-border:hover {
-  box-shadow: 3px 3px 5px #b6b6b6;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
+    rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
 }
 
 .resource-preview-text:hover {
@@ -28,6 +29,12 @@
 .resource-preview-info {
   font-size: 16px;
   color: black;
+  align-self: flex-end;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 }
 
 .resource-preview-header {
