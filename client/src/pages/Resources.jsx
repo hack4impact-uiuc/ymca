@@ -388,19 +388,17 @@ function Resources({
               setLocationResult={setLocationResult}
             />
             <Layout style={{ background: 'white' }}>
-              <div>
-                <Sider className="filter-sider">
-                  <ResourceCategoryFilter
-                    category={category}
-                    categories={categories}
-                    categorySelectAll={categorySelectAll}
-                    onOpenChange={onOpenChange}
-                    openKeys={openKeys}
-                    subcategory={subcategory}
-                    subcategorySelect={subcategorySelect}
-                  />
-                </Sider>
-              </div>
+              <Sider className="filter-sider">
+                <ResourceCategoryFilter
+                  category={category}
+                  categories={categories}
+                  categorySelectAll={categorySelectAll}
+                  onOpenChange={onOpenChange}
+                  openKeys={openKeys}
+                  subcategory={subcategory}
+                  subcategorySelect={subcategorySelect}
+                />
+              </Sider>
               {loading ? (
                 <Loader
                   className="loader"
