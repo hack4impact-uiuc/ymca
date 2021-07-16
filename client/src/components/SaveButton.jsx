@@ -31,7 +31,7 @@ function SaveButton(props: SaveButtonProps) {
         <>
           {fullButton ? (
             <Popover content={loginMessage}>
-              <Button className="save-button">
+              <Button type="text" className="save-button">
                 <HeartOutlined style={{ marginRight: 4 }} />
                 <FormattedMessage id="save" defaultMessage="Save" />
               </Button>
@@ -39,7 +39,7 @@ function SaveButton(props: SaveButtonProps) {
           ) : (
             <button type="button" onClick={(e) => e.preventDefault()}>
               <Popover content={loginMessage}>
-                <Button shape="circle" className="save-button">
+                <Button type="text" shape="circle" className="save-button">
                   <HeartOutlined />
                 </Button>
               </Popover>
@@ -53,6 +53,7 @@ function SaveButton(props: SaveButtonProps) {
               {fullButton ? (
                 <Popover content={unsavedMessage}>
                   <Button
+                    type="text"
                     className="save-button"
                     onClick={async () => {
                       await deleteResourceHandler();
@@ -66,6 +67,7 @@ function SaveButton(props: SaveButtonProps) {
                 <button type="button" onClick={(e) => e.preventDefault()}>
                   <Popover content={unsavedMessage}>
                     <Button
+                      type="text"
                       className="save-button"
                       shape="circle"
                       onClick={async () => {
@@ -83,6 +85,7 @@ function SaveButton(props: SaveButtonProps) {
               {fullButton ? (
                 <Popover content={savedMessage}>
                   <Button
+                    type="text"
                     className="save-button"
                     onClick={async () => {
                       await saveResourceHandler();
@@ -96,6 +99,7 @@ function SaveButton(props: SaveButtonProps) {
                 <button type="button" onClick={(e) => e.preventDefault()}>
                   <Popover content={savedMessage}>
                     <Button
+                      type="text"
                       className="save-button"
                       shape="circle"
                       onClick={async () => {
