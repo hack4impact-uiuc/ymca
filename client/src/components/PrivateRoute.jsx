@@ -14,18 +14,13 @@ type Props = {
 const PrivateRoute = (props: Props) => {
   const { authed, authRoleIsEquivalentTo } = useAuth();
   const { minRole, path, component } = props;
-
   const equivalent = authRoleIsEquivalentTo(minRole);
 
-  if (authed === true && equivalent === true) {
-    return <Route path={path} exact component={component} />;
-  }
-
-  if (authed === null || equivalent === null) {
-    return null;
-  }
-
-  return <Redirect to="/login" />;
+  return authed && equivalent ? (
+    <Route path={path} exact component={component} />
+  ) : (
+    <Redirect to="/login" />
+  );
 };
 
 export default PrivateRoute;

@@ -40,7 +40,7 @@ const InternalNotesForm = Form.create({ name: 'internalNotes' })(
       const body = getFieldValue('body');
       const note = { subject, body };
 
-      if (editNote == null) {
+      if (editNote === null || editNote === undefined) {
         setInternalNotes([...internalNotes, note]);
       } else {
         const newInternalNotes = [];
@@ -62,7 +62,7 @@ const InternalNotesForm = Form.create({ name: 'internalNotes' })(
     };
 
     useEffect(() => {
-      if (editNote != null) {
+      if (editNote !== null && editNote !== undefined) {
         setFieldsValue({
           subject: editNote.subject,
           body: editNote.body,
@@ -121,7 +121,9 @@ const InternalNotesForm = Form.create({ name: 'internalNotes' })(
             onSubmit();
           }}
         >
-          {editNote == null ? 'Add Note' : 'Edit Note'}
+          {editNote === null || editNote === undefined
+            ? 'Add Note'
+            : 'Edit Note'}
         </Button>
       </Form>
     );

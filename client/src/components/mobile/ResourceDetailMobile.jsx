@@ -62,14 +62,12 @@ const ResourceDetailMobile = (props: Props) => {
   const [phone, setPhone] = useState([]);
   const [address, setAddress] = useState(null);
   const [addressLine2, setAddressLine2] = useState(null);
-  // const [aptUnitSuite, setAptUnitSuite] = useState('');
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
   const [zip, setZip] = useState('');
   const [languages, setLanguages] = useState([]);
   const [requiredDocuments, setRequiredDocuments] = useState(null);
   const [cost, setCost] = useState(null);
-  // const [internalNotes, setInternalNotes] = useState([]);
   const [hours, setHours] = useState(null);
   const [image, setImage] = useState(null);
   const [financialAidDetails, setFinancialAidDetails] = useState(null);
@@ -79,7 +77,7 @@ const ResourceDetailMobile = (props: Props) => {
   const [lng, setLng] = useState(0);
   const [distFromResource, setDistFromResource] = useState(null);
   const [eligibility, setEligibility] = useState('');
-  // const [modalVisible, setModalVisible] = useState(false);
+  const [lastUpdated, setLastUpdated] = useState('');
   const [isSaved, setIsSaved] = useState(false);
   const [isWithinOperationHours, setIsWithinOperationHours] = useState(null);
 
@@ -119,6 +117,7 @@ const ResourceDetailMobile = (props: Props) => {
         setEligibility(result.eligibilityRequirements);
         setFinancialAidDetails(result.financialAidDetails);
         setContacts(result.contacts);
+        setLastUpdated(result.lastUpdated ?? '');
 
         setHours(
           result.hoursOfOperation &&
@@ -128,15 +127,19 @@ const ResourceDetailMobile = (props: Props) => {
         );
 
         setLat(
-          result?.geoLocation == null ||
-            result?.geoLocation?.coordinates == null ||
+          result?.geoLocation === null ||
+            result?.geoLocation === undefined ||
+            result?.geoLocation?.coordinates === null ||
+            result?.geoLocation?.coordinates === undefined ||
             Number.isNaN(result?.geoLocation?.coordinates[1])
             ? 0.0
             : result?.geoLocation?.coordinates[1],
         );
         setLng(
-          result?.geoLocation == null ||
-            result?.geoLocation?.coordinates == null ||
+          result?.geoLocation === null ||
+            result?.geoLocation === undefined ||
+            result?.geoLocation?.coordinates === null ||
+            result?.geoLocation?.coordinates === undefined ||
             Number.isNaN(result?.geoLocation?.coordinates[0])
             ? 0.0
             : result?.geoLocation?.coordinates[0],
@@ -163,15 +166,15 @@ const ResourceDetailMobile = (props: Props) => {
   }, [resourceId]);
 
   const saveResourceHandler = useCallback(async () => {
-    const result = await saveResource(resourceId);
-    if (result != null && result.code === 200) {
+    const res = await saveResource(resourceId);
+    if (res !== null && res !== undefined && res.code === 200) {
       setIsSaved(true);
     }
   }, [resourceId]);
 
   const deleteResourceHandler = useCallback(async () => {
-    const result = await deleteSavedResource(resourceId);
-    if (result != null && result.code === 200) {
+    const res = await deleteSavedResource(resourceId);
+    if (res !== null && res !== undefined && res.code === 200) {
       setIsSaved(false);
     }
   }, [resourceId]);
@@ -354,6 +357,19 @@ const ResourceDetailMobile = (props: Props) => {
                     id: `resource-eligibilityRequirements-${match.params.id}`,
                     defaultMessage: eligibility,
                   })}`}
+              </Row>
+              <Row>
+                {lastUpdated && (
+                  <div style={{ color: 'gray' }}>
+                    {`\n\n${intl.formatMessage(
+                      detailMessages.lastUpdated,
+                    )} ${intl.formatDate(lastUpdated, {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })}`}
+                  </div>
+                )}
               </Row>
             </Col>
           </Row>

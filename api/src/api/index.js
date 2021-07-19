@@ -3,6 +3,7 @@ const category = require('./category');
 const resource = require('./resource');
 const homepage = require('./homepage');
 const translation = require('./translation');
+const volunteer = require('./volunteer');
 
 module.exports = {
   admin,
@@ -10,4 +11,5 @@ module.exports = {
   resource,
   homepage,
   translation,
+  volunteer,
 };

@@ -126,6 +126,7 @@ const ResourceManager = () => {
       categories: Array<string>,
       subcategories: Array<string>,
       categoryPairs: Array<string>,
+      lastUpdated: Date,
       id: string,
     }>,
   >([]);
@@ -136,7 +137,7 @@ const ResourceManager = () => {
   const fetchCategories = async () => {
     const res = await getCategories();
     const newCategories = {};
-    if (res != null) {
+    if (res !== null && res !== undefined) {
       res.result.forEach((c) => {
         newCategories[c.name] = [c.subcategories, c._id];
       });
@@ -147,7 +148,7 @@ const ResourceManager = () => {
   const fetchResources = async () => {
     const res = await getResources();
     const newResources = [];
-    if (res != null) {
+    if (res !== null && res !== undefined) {
       res.result.totalData.forEach((r) => {
         const pairs = r.subcategory.map(
           (subcat, idx) => `${r.category[idx]}~${subcat}`,
@@ -158,6 +159,7 @@ const ResourceManager = () => {
           categories: r.category,
           subcategories: r.subcategory,
           categoryPairs: pairs,
+          lastUpdated: r.lastUpdated,
           id: r._id.toString(),
         });
       });
@@ -187,7 +189,11 @@ const ResourceManager = () => {
     if (Object.keys(categories).indexOf(latestOpenKey) === -1) {
       setOpenKeys(newOpenKeys);
     } else {
-      setOpenKeys(latestOpenKey != null ? [latestOpenKey] : []);
+      setOpenKeys(
+        latestOpenKey !== null && latestOpenKey !== undefined
+          ? [latestOpenKey]
+          : [],
+      );
     }
     setSelectedCategory(latestOpenKey);
     setSelectedSubcategory('');

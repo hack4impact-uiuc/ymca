@@ -44,7 +44,11 @@ function SavedResources() {
       return textCurrent < textNext ? -1 : bool;
     });
 
-    setResources(newResources == null ? [] : newResources.result);
+    setResources(
+      newResources !== null && newResources !== undefined
+        ? newResources.result
+        : [],
+    );
     setLoading(false);
   }, [authed]);
 
@@ -57,7 +61,7 @@ function SavedResources() {
     setPageSize(parseInt(pageItems, 10));
   }, []);
 
-  if (authed === false) {
+  if (!authed) {
     return <Redirect to="/resources" />;
   }
   return (

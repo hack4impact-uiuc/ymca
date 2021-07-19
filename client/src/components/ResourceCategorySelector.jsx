@@ -36,12 +36,8 @@ type Props = {
 };
 
 const CategorySelector = (props: Props) => {
-  const {
-    setCategories,
-    setSubcategories,
-    getFieldDecorator,
-    setFieldsValue,
-  } = props;
+  const { setCategories, setSubcategories, getFieldDecorator, setFieldsValue } =
+    props;
 
   const [fetchedCategories, setFetchedCategories] = useState([]);
 

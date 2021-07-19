@@ -81,13 +81,16 @@ const App = (): React$Element<React$FragmentType> => {
 
   const showIfUnauthed = useCallback(
     (component) => {
-      if (authed != null) {
+      if (authed !== null && authed !== undefined) {
         if (!authed) {
           return component;
         }
 
         if (authRoleIsEquivalentTo('admin')) {
           return <Redirect to="/admin" />;
+        }
+        if (authRoleIsEquivalentTo('volunteer')) {
+          return <Redirect to="/translations" />;
         }
 
         return <Redirect to="/" />;
@@ -139,12 +142,12 @@ const App = (): React$Element<React$FragmentType> => {
                 path="/translations"
                 component={Translations}
                 exact
-                minRole="admin"
+                minRole="volunteer"
               />
               <PrivateRoute
                 path="/translations/:id"
                 component={EditTranslations}
-                minRole="admin"
+                minRole="volunteer"
               />
               <Route
                 path="/saved"

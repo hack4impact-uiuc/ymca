@@ -67,9 +67,11 @@
 
 .resources .filter-sider {
   background: #fff;
-  margin-top: 1em;
+  padding-top: 1em;
   position: sticky;
   top: 9.5em;
+  padding-right: 1px;
+  border-right: 1px solid rgba(235, 235, 235, 1);
 }
 
 .resources .filter-bar {

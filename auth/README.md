@@ -8,10 +8,10 @@ Made from [H4i Infrastructure Authentication Server](https://github.com/hack4imp
 
 **admin** can promote or demote:
 
-- _intern_
+- _nawc volunteer_
 - _public_
 
-**intern** can promote or demote:
+**nawc volunteer** can promote or demote:
 
 - _public_
 
