@@ -142,13 +142,15 @@ const ResourceForm = (props: FormProps) => {
   const formCarouselRef = useRef();
   const formLabelRef = useRef();
 
-  const onBackButtonClick = useCallback(() => formCarouselRef.current.prev(), [
-    formCarouselRef,
-  ]);
+  const onBackButtonClick = useCallback(
+    () => formCarouselRef.current.prev(),
+    [formCarouselRef],
+  );
 
-  const onNextButtonClick = useCallback(() => formCarouselRef.current.next(), [
-    formCarouselRef,
-  ]);
+  const onNextButtonClick = useCallback(
+    () => formCarouselRef.current.next(),
+    [formCarouselRef],
+  );
 
   const onFormCarouselChange = useCallback(
     (current, to) => {
@@ -177,31 +179,31 @@ const ResourceForm = (props: FormProps) => {
             onSubmitNewResourceForm(e, totalSubmitEnabled, id, {
               category: categories,
               subcategory: subcategories,
-              name: getFieldValue('resourceName') || '',
-              description: getFieldValue('description') || '',
-              website: getFieldValue('website') || '',
-              email: getFieldValue('email') || '',
+              name: getFieldValue('resourceName') ?? '',
+              description: getFieldValue('description') ?? '',
+              website: getFieldValue('website') ?? '',
+              email: getFieldValue('email') ?? '',
               phoneNumbers,
               contacts,
-              address: getFieldValue('address') || '',
-              addressLine2: getFieldValue('addressLine2') || '',
-              aptUnitSuite: getFieldValue('aptUnitSuite') || '',
-              city: getFieldValue('city') || '',
-              state: getFieldValue('state') || '',
-              zip: getFieldValue('zip') || '',
+              address: getFieldValue('address') ?? '',
+              addressLine2: getFieldValue('addressLine2') ?? '',
+              aptUnitSuite: getFieldValue('aptUnitSuite') ?? '',
+              city: getFieldValue('city') ?? '',
+              state: getFieldValue('state') ?? '',
+              zip: getFieldValue('zip') ?? '',
               hoursOfOperation: { hoursOfOperation } || {
                 hoursOfOperation: {},
               },
               eligibilityRequirements:
-                getFieldValue('eligibilityRequirements') || '',
+                getFieldValue('eligibilityRequirements') ?? '',
               financialAidDetails,
-              cost: getFieldValue('cost') || '',
+              cost: getFieldValue('cost') ?? '',
               availableLanguages: getFieldValue('availableLanguages') || [],
               lastedUpdated: new Date(Date.now()),
               recommendation: getFieldValue('recommendation'),
               requiredDocuments: requiredDocuments || [],
               internalNotes: internalNotes || [],
-              image: image || '',
+              image: image ?? '',
             });
           }}
         >

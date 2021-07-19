@@ -1,6 +1,6 @@
 // Address,city,state,zip
 const extractLongLat = async (location) => {
-  if (location != null) {
+  if (location !== null && location !== undefined) {
     const apiLatLong =
       `https://www.mapquestapi.com/geocoding/v1/address?key=` +
       `${process.env.MAPBOX_KEY}&maxResults=5&location=${location}`;

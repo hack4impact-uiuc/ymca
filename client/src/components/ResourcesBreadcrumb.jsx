@@ -8,12 +8,8 @@ import { allResourcesMessage } from '../utils/messages';
 import '../css/ResourcesBreadcrumb.css';
 
 function ResourcesBreadcrumb(props) {
-  const {
-    categorySelected,
-    subcategorySelected,
-    resourceSelected,
-    tColor,
-  } = props;
+  const { categorySelected, subcategorySelected, resourceSelected, tColor } =
+    props;
   const breadcrumbs = [];
 
   if (categorySelected === 'All Resources') {

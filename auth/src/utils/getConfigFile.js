@@ -16,7 +16,7 @@ const getAllRoles = async () => {
   return config["roles"];
 };
 
-const getRolesForUser = async role => {
+const getRolesForUser = async (role) => {
   const config = await getConfigFile();
   if (config["roles"][role] != undefined) {
     return config["roles"][role];
@@ -24,7 +24,7 @@ const getRolesForUser = async role => {
   return null;
 };
 
-const getSuperiorsForRole = async role => {
+const getSuperiorsForRole = async (role) => {
   const config = await getConfigFile();
   const roles = config["roles"];
 
@@ -32,7 +32,7 @@ const getSuperiorsForRole = async role => {
 
   for (let otherRole in config["roles"]) {
     let otherRoles = roles[otherRole];
-    if (otherRoles != null) {
+    if (otherRoles !== null && otherRoles !== undefined) {
       if (otherRoles.includes(role) && otherRole !== role) {
         superiors.push(otherRole);
       }
@@ -118,5 +118,5 @@ module.exports = {
   isGmailEnabledForForgotPassword,
   getProdURI,
   getSecurityQuestions,
-  getExpiryTime
+  getExpiryTime,
 };

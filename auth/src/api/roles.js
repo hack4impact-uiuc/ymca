@@ -17,7 +17,7 @@ const getUser = async (req, res) => {
   if (!useGoogle || !req.headers.google || !JSON.parse(req.headers.google)) {
     // If it is not a google user, it verifies the token is valid and the user exists.
     user = await verifyUser(req.headers.token);
-    if (user.errorMessage != null) {
+    if (user.errorMessage !== null && user.errorMessage !== undefined) {
       return sendResponse(res, 400, user.errorMessage);
     }
   } else {
@@ -39,19 +39,19 @@ const getUser = async (req, res) => {
 
 router.get(
   "/roles",
-  handleAsyncErrors(async function(req, res) {
+  handleAsyncErrors(async function (req, res) {
     const user = await getUser(req, res);
     // Reads the config file and finds all the users that this user and promote or demote
     const roles = await getRolesForUser(user.role);
 
     let users = [];
     await Promise.all(
-      roles.map(async role => {
+      roles.map(async (role) => {
         let usersWithRoles = await User.find({ role });
         for (let i in usersWithRoles) {
           let newUser = {
             email: usersWithRoles[i].email,
-            role: usersWithRoles[i].role
+            role: usersWithRoles[i].role,
           };
           users = users.concat(newUser);
         }
@@ -60,7 +60,7 @@ router.get(
     return res.status(200).send({
       status: 200,
       message: "Users succesfully returned",
-      user_emails: users
+      user_emails: users,
     });
   })
 );
@@ -78,12 +78,12 @@ router.get(
 
     let users = [];
     await Promise.all(
-      allRoles.map(async role => {
+      allRoles.map(async (role) => {
         let usersWithRoles = await User.find({ role });
         for (let i in usersWithRoles) {
           let newUser = {
             email: usersWithRoles[i].email,
-            role: usersWithRoles[i].role
+            role: usersWithRoles[i].role,
           };
           users = users.concat(newUser);
         }
@@ -92,20 +92,20 @@ router.get(
     return res.status(200).send({
       status: 200,
       message: "Users succesfully returned",
-      user_emails: users
+      user_emails: users,
     });
   })
 );
 
 router.get(
   "/roles/all",
-  handleAsyncErrors(async function(req, res) {
+  handleAsyncErrors(async function (req, res) {
     // Reads the config file and returns all roles in order of priority (first = highest)
     const roles = await getAllRoles();
     return res.status(200).send({
       status: 200,
       message: "Roles succesfully returned",
-      roles: roles
+      roles: roles,
     });
   })
 );

@@ -56,13 +56,8 @@ type Props = {
 const MapViewModal = (props: Props) => {
   const { authed } = useAuth();
   const intl = useIntl();
-  const {
-    directionsURL,
-    resource,
-    setModalOpened,
-    isSaved,
-    updateSaved,
-  } = props;
+  const { directionsURL, resource, setModalOpened, isSaved, updateSaved } =
+    props;
 
   let languages = '';
   resource.languages.forEach((language) => {

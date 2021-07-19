@@ -100,7 +100,7 @@ function Resources({
     const fetchCategories = async () => {
       const res = await getCategories();
       const newCategories = {};
-      if (res != null) {
+      if (res !== null && res !== undefined) {
         res.result.forEach((c) => {
           newCategories[c.name] = c.subcategories;
         });
@@ -135,10 +135,8 @@ function Resources({
   }, [locationProp]);
 
   const updateResources = useCallback(async () => {
-    const [
-      categorySelected,
-      subcategorySelected,
-    ] = getCategorySelectedFromSearch();
+    const [categorySelected, subcategorySelected] =
+      getCategorySelectedFromSearch();
 
     const newResources = await getResourcesByCategory(
       categorySelected,
@@ -169,13 +167,16 @@ function Resources({
 
     setCategory(categorySelected);
     setFilteredResources(
-      newResources == null ? [] : newResources.result.totalData,
+      newResources !== null && newResources !== undefined
+        ? newResources.result.totalData
+        : [],
     );
     setOpenKeys([categorySelected]);
     setResourceCount(
-      newResources?.result?.totalCount[0] == null
-        ? 0
-        : newResources.result.totalCount[0].resourceCount,
+      newResources?.result?.totalCount[0] !== null &&
+        newResources?.result?.totalCount[0] !== undefined
+        ? newResources.result.totalCount[0].resourceCount
+        : 0,
     );
     setSubcategory(subcategorySelected);
   }, [
@@ -245,7 +246,11 @@ function Resources({
       if (Object.keys(categories).indexOf(latestOpenKey) === -1) {
         setOpenKeys(newOpenKeys);
       } else {
-        setOpenKeys(latestOpenKey != null ? [latestOpenKey] : []);
+        setOpenKeys(
+          latestOpenKey !== null && latestOpenKey !== undefined
+            ? [latestOpenKey]
+            : [],
+        );
       }
       const categorySelected = latestOpenKey;
       history.push({
@@ -335,19 +340,17 @@ function Resources({
               setSort={setSort}
             />
             <Layout style={{ background: 'white' }}>
-              <div>
-                <Sider className="filter-sider">
-                  <ResourceCategoryFilter
-                    category={category}
-                    categories={categories}
-                    categorySelectAll={categorySelectAll}
-                    onOpenChange={onOpenChange}
-                    openKeys={openKeys}
-                    subcategory={subcategory}
-                    subcategorySelect={subcategorySelect}
-                  />
-                </Sider>
-              </div>
+              <Sider className="filter-sider">
+                <ResourceCategoryFilter
+                  category={category}
+                  categories={categories}
+                  categorySelectAll={categorySelectAll}
+                  onOpenChange={onOpenChange}
+                  openKeys={openKeys}
+                  subcategory={subcategory}
+                  subcategorySelect={subcategorySelect}
+                />
+              </Sider>
               {loading ? (
                 <Loader
                   className="loader"
@@ -386,19 +389,17 @@ function Resources({
               setLocationResult={setLocationResult}
             />
             <Layout style={{ background: 'white' }}>
-              <div>
-                <Sider className="filter-sider">
-                  <ResourceCategoryFilter
-                    category={category}
-                    categories={categories}
-                    categorySelectAll={categorySelectAll}
-                    onOpenChange={onOpenChange}
-                    openKeys={openKeys}
-                    subcategory={subcategory}
-                    subcategorySelect={subcategorySelect}
-                  />
-                </Sider>
-              </div>
+              <Sider className="filter-sider">
+                <ResourceCategoryFilter
+                  category={category}
+                  categories={categories}
+                  categorySelectAll={categorySelectAll}
+                  onOpenChange={onOpenChange}
+                  openKeys={openKeys}
+                  subcategory={subcategory}
+                  subcategorySelect={subcategorySelect}
+                />
+              </Sider>
               {loading ? (
                 <Loader
                   className="loader"

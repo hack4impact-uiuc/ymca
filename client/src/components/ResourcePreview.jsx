@@ -45,7 +45,6 @@ function ResourcePreview(props: Props) {
   } = props;
   const intl = useIntl();
   const [src, setSrc] = useState('');
-  const [hover, setHover] = useState(false);
 
   const saveResourceHandler = async () => {
     await saveResource(id);
@@ -99,8 +98,15 @@ function ResourcePreview(props: Props) {
   const descriptions = (
     <>
       <div className="resource-preview-description">{descriptionText}</div>
-      <div key="resourceInfo" className="resource-preview-info">
-        {resourceInfoText}
+      <div className="resource-preview-footer">
+        <div key="resourceInfo" className="resource-preview-info">
+          {resourceInfoText}
+        </div>
+        <SaveButton
+          isSaved={isSaved}
+          deleteResourceHandler={deleteResourceHandler}
+          saveResourceHandler={saveResourceHandler}
+        />
       </div>
     </>
   );
@@ -111,29 +117,17 @@ function ResourcePreview(props: Props) {
       }}
       className="resource-preview-text"
     >
-      <Card
-        className="resource-preview-border"
-        cover={
-          <img
-            className="resource-preview-cover-img"
-            alt={subcategory}
-            src={image !== '' ? image : src}
-          />
-        }
-        bordered={hover}
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
-      >
+      <Card className="resource-preview-border">
         <Meta
           title={
             <>
-              <div className="resource-preview-name">{name}</div>
-              <div style={{ float: 'right' }}>
-                <SaveButton
-                  isSaved={isSaved}
-                  deleteResourceHandler={deleteResourceHandler}
-                  saveResourceHandler={saveResourceHandler}
+              <div className="resource-preview-header">
+                <img
+                  className="resource-preview-cover-img"
+                  alt={subcategory}
+                  src={image !== '' ? image : src}
                 />
+                <div className="resource-preview-name">{name}</div>
               </div>
             </>
           }

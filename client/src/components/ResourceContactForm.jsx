@@ -44,9 +44,9 @@ const ContactForm = Form.create({ name: 'contactForm' })((props) => {
         {
           name: contactName,
           role: contactRole,
-          email: getFieldValue('contactEmail') || '',
-          phoneNumber: getFieldValue('contactPhoneNumber') || '',
-          note: getFieldValue('contactNote') || '',
+          email: getFieldValue('contactEmail') ?? '',
+          phoneNumber: getFieldValue('contactPhoneNumber') ?? '',
+          note: getFieldValue('contactNote') ?? '',
         },
       ]);
 

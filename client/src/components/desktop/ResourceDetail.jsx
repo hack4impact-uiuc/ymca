@@ -72,6 +72,7 @@ function ResourceDetail(props) {
   const [addressString, setAddresString] = useState('');
   const [financialAidDetails, setFinancialAidDetails] = useState(null);
   const [contacts, setContacts] = useState(null);
+  const [lastUpdated, setLastUpdated] = useState('');
 
   const updateIsSaved = useCallback(
     (savedSet) => {
@@ -87,33 +88,37 @@ function ResourceDetail(props) {
         const { result } = response;
         setName(result.name);
         setPhone(result.phoneNumbers);
-        setAddress(result.address || '');
-        setAddressLine2(result.addressLine2 || '');
-        setAptUnitSuite(result.aptUnitSuite || '');
-        setCity(result.city || '');
-        setState(result.state || '');
-        setZip(result.zip || '');
+        setAddress(result.address ?? '');
+        setAddressLine2(result.addressLine2 ?? '');
+        setAptUnitSuite(result.aptUnitSuite ?? '');
+        setCity(result.city ?? '');
+        setState(result.state ?? '');
+        setZip(result.zip ?? '');
         setDescription(result.description);
         setLanguages(result.availableLanguages);
         setCategory(result.category[0]);
         setSubcategory(result.subcategory[0]);
         setCost(result.cost);
         setLat(
-          result?.geoLocation == null ||
-            result?.geoLocation?.coordinates == null ||
+          result?.geoLocation === null ||
+            result?.geoLocation === undefined ||
+            result?.geoLocation?.coordinates === null ||
+            result?.geoLocation?.coordinates === undefined ||
             Number.isNaN(result?.geoLocation?.coordinates[1])
             ? 0.0
             : result?.geoLocation?.coordinates[1],
         );
         setLng(
-          result?.geoLocation == null ||
-            result?.geoLocation?.coordinates == null ||
+          result?.geoLocation === null ||
+            result?.geoLocation === undefined ||
+            result?.geoLocation?.coordinates === null ||
+            result?.geoLocation?.coordinates === undefined ||
             Number.isNaN(result?.geoLocation?.coordinates[0])
             ? 0.0
             : result?.geoLocation?.coordinates[0],
         );
-        setEmail(result.email || '');
-        setWebsite(result.website || '');
+        setEmail(result.email ?? '');
+        setWebsite(result.website ?? '');
         setEligibility(result.eligibilityRequirements);
         setInternalNotes(result.internalNotes);
         setHours(
@@ -124,6 +129,7 @@ function ResourceDetail(props) {
         setRequiredDocuments(result.requiredDocuments);
         setFinancialAidDetails(result.financialAidDetails);
         setContacts(result.contacts);
+        setLastUpdated(result.lastUpdated ?? '');
 
         if (authed) {
           let savedSet = new Set();
@@ -226,15 +232,15 @@ function ResourceDetail(props) {
   };
 
   const saveResourceHandler = async () => {
-    const result = await saveResource(props.match.params.id);
-    if (result != null && result.code === 200) {
+    const res = await saveResource(props.match.params.id);
+    if (res !== null && res !== undefined && res.code === 200) {
       setIsSaved(true);
     }
   };
 
   const deleteSavedResourceHandler = async () => {
-    const result = await deleteSavedResource(props.match.params.id);
-    if (result != null && result.code === 200) {
+    const res = await deleteSavedResource(props.match.params.id);
+    if (res !== null && res !== undefined && res.code === 200) {
       setIsSaved(false);
     }
   };
@@ -278,7 +284,7 @@ function ResourceDetail(props) {
   }
 
   let textCost = cost;
-  if (cost != null) {
+  if (cost !== null && cost !== undefined) {
     if (cost === 'Free') {
       textCost = <FormattedMessage {...filterMessages.free} />;
     }
@@ -388,6 +394,17 @@ function ResourceDetail(props) {
               id: `resource-eligibilityRequirements-${match.params.id}`,
               defaultMessage: eligibility,
             })}`}
+          {lastUpdated && (
+            <div style={{ color: 'gray' }}>
+              {`\n\n${intl.formatMessage(
+                detailMessages.lastUpdated,
+              )} ${intl.formatDate(lastUpdated, {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })}`}
+            </div>
+          )}
         </Col>
       </Row>
       <Row>

@@ -1,8 +1,8 @@
 roles:
   admin:
-    - intern
+    - volunteer
     - public
-  intern:
+  volunteer:
     - public
   public: null
 security_questions:
@@ -12,4 +12,4 @@ security_questions:
 useGoogleAuth: false
 security_question: true
 gmail: false
-expire_after_hrs: 1
+expire_after_hrs: 2

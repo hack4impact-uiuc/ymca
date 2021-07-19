@@ -52,7 +52,7 @@ const FooterDesktop = () => {
             ),
           }}
         />{' '}
-        &copy; 2020
+        &copy; 2021
       </div>
       <div className="footer-list">
         <Tooltip title={intl.formatMessage(messages.comingSoon)}>
@@ -98,7 +98,7 @@ const FooterMobile = () => {
             ),
           }}
         />{' '}
-        &copy; 2020
+        &copy; 2021
       </>
     </AntFooter>
   );
