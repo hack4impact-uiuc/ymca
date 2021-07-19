@@ -20,6 +20,7 @@ const ResourcesBanner = (props) => {
 };
 
 const getBannerTitle = (categorySelected) => {
+  console.log(categorySelected);
   let bannerTitle = (
     <FormattedMessage
       id={`category-${categorySelected._id}`}
@@ -31,7 +32,7 @@ const getBannerTitle = (categorySelected) => {
   } else if (categorySelected.name === 'Saved Resources') {
     bannerTitle = <FormattedMessage {...savedResourcesMessage} />;
   }
-
+  console.log(bannerTitle);
   return bannerTitle;
 };
 
@@ -49,8 +50,8 @@ function ResourcesBannerDesktop(props) {
       }}
     >
       <Row>
-        {subcategorySelected.name !== null &&
-        subcategorySelected.name !== undefined ? (
+        {subcategorySelected?.name !== null &&
+        subcategorySelected?.name !== undefined ? (
           <ResourceBreadcrumb
             categorySelected={categorySelected}
             subcategorySelected={subcategorySelected}

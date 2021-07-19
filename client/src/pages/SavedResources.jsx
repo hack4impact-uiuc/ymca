@@ -67,7 +67,7 @@ function SavedResources() {
 
   return (
     <Layout className="resources">
-      <ResourcesBanner categorySelected="Saved Resources" />
+      <ResourcesBanner categorySelected={{ name: 'Saved Resources' }} />
       <Layout style={{ background: 'white' }}>
         {loading ? (
           <Loader
