@@ -5,6 +5,7 @@ import { NavLink } from 'react-router-dom';
 import { Layout, Drawer, Button, Menu, Select } from 'antd';
 import { MenuOutlined } from '@ant-design/icons';
 import { FormattedMessage } from 'react-intl';
+import JoyRide from 'react-joyride';
 
 import useWindowDimensions from '../utils/mobile';
 import { useAuth } from '../utils/use-auth';
@@ -38,22 +39,55 @@ const globe = (
   />
 );
 
+const JoyRideSteps = [
+  {
+    target: '.nav-desktop',
+    content: `
+      Welcome to YMCA NAWC’s Oasis!
+      Here, you’ll find resources in the Champaign area.
+      Click the next arrow to learn more about how to use our website!`,
+  },
+  {
+    target: '.joyride-navbar',
+    content: `You can find different areas of the website here.`,
+  },
+  {
+    target: '.joyride-home',
+    content: `Home brings you back to the homepage.`,
+  },
+  {
+    target: '.joyride-resources',
+    content: `Resources shows you Champaign’s resources.`,
+  },
+  {
+    target: '.joyride-login',
+    content: `Login allows you to sign up for an account
+      to save important resources.`,
+  },
+  {
+    target: '.joyride-translation',
+    content: `This allows you to choose what language to use.
+      We currently support English, Chinese, Spanish, and French.`,
+  },
+];
+
 const NavDesktop = (props: NavigationProps) => {
   const { language, setLanguage } = props;
   const { authed, authRoleIsEquivalentTo } = useAuth();
 
   return (
     <Header className="nav-desktop">
+      <JoyRide steps={JoyRideSteps} continuous={true} showSkipButton={true} />
       <NavLink exact to="/" aria-label="logo">
         <div className="nav-desktop-logo" />
       </NavLink>
-      <Menu mode="horizontal">
-        <Menu.Item key="home">
+      <Menu mode="horizontal" className="joyride-navbar">
+        <Menu.Item key="home" className="joyride-home">
           <NavLink exact to="/" activeClassName="navbar-active-style">
             <FormattedMessage id="home" defaultMessage="Home" />
           </NavLink>
         </Menu.Item>
-        <Menu.Item key="resources">
+        <Menu.Item key="resources" className="joyride-resources">
           <NavLink exact to="/resources" activeClassName="navbar-active-style">
             <FormattedMessage id="resources" defaultMessage="Resources" />
           </NavLink>
@@ -84,7 +118,7 @@ const NavDesktop = (props: NavigationProps) => {
         )}
 
         {!authed ? (
-          <Menu.Item key="login">
+          <Menu.Item key="login" className="joyride-login">
             <NavLink to="/login" activeClassName="navbar-active-style">
               <FormattedMessage id="login" defaultMessage="Login" />
             </NavLink>
@@ -96,7 +130,7 @@ const NavDesktop = (props: NavigationProps) => {
             </NavLink>
           </Menu.Item>
         )}
-        <Menu.Item key="languages">
+        <Menu.Item key="languages" className="joyride-translation">
           <img
             src="/asset/icon/globe.svg"
             className="globe"
