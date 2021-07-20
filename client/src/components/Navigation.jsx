@@ -77,7 +77,14 @@ const NavDesktop = (props: NavigationProps) => {
 
   return (
     <Header className="nav-desktop">
-      <JoyRide steps={JoyRideSteps} continuous={true} showSkipButton={true} />
+      <JoyRide
+        steps={JoyRideSteps}
+        continuous
+        showSkipButton
+        locale={{
+          last: 'End',
+        }}
+      />
       <NavLink exact to="/" aria-label="logo">
         <div className="nav-desktop-logo" />
       </NavLink>
