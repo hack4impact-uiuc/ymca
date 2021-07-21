@@ -6,7 +6,8 @@ import { SearchOutlined } from '@ant-design/icons';
 import { AutoComplete, Input } from 'antd';
 import { useIntl, defineMessages } from 'react-intl';
 
-import { getResources } from '../utils/api';
+import { getCategoryId, getSubcategoryId } from '../utils/getCategoryIds';
+import { getCategories, getResources } from '../utils/api';
 import '../css/ResourcesFilter.css';
 
 const { Option } = AutoComplete;
@@ -33,7 +34,7 @@ const ResourceFilterSearch = (): React$Element<any> => {
   const [filterWhitelist, setFilterWhitelist] = useState([]);
 
   const populateOptions = useCallback(() => {
-    getResources().then((res) => {
+    getResources().then(async (res) => {
       if (res !== null) {
         if (res.code === 200) {
           const newOptions = [];
@@ -90,8 +91,9 @@ const ResourceFilterSearch = (): React$Element<any> => {
 
           setAllOptionsRep(categoriesObj);
 
+          const categories = await getCategories();
           Object.entries(categoriesObj).forEach(([category, subcategories]) => {
-            console.log(category);
+            const categoryId = getCategoryId(categories.result, category);
             newOptions.push(
               <Option
                 className="rfs-category-option"
@@ -99,13 +101,18 @@ const ResourceFilterSearch = (): React$Element<any> => {
                 label={category}
               >
                 {intl.formatMessage({
-                  id: `category-${category}`.replace(/\s/g, ''),
+                  id: `category-${categoryId}`.replace(/\s/g, ''),
                   defaultMessage: category,
                 })}
               </Option>,
             );
 
             Object.entries(subcategories).forEach(([subcategory]) => {
+              const subcategoryId = getSubcategoryId(
+                categories.result,
+                category,
+                subcategory,
+              );
               newOptions.push(
                 <Option
                   className="rfs-subcategory-option"
@@ -113,7 +120,7 @@ const ResourceFilterSearch = (): React$Element<any> => {
                   label={subcategory}
                 >
                   {intl.formatMessage({
-                    id: `subcategory-${subcategory}`.replace(/\s/g, ''),
+                    id: `subcategory-${subcategoryId}`.replace(/\s/g, ''),
                     defaultMessage: subcategory,
                   })}
                 </Option>,

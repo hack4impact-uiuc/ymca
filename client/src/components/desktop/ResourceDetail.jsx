@@ -19,12 +19,14 @@ import {
   getResourceIsVerified,
   deleteResource,
   getResourceByID,
+  getCategories,
 } from '../../utils/api';
 import {
   saveResource,
   deleteSavedResource,
   getSavedResources,
 } from '../../utils/auth';
+import { getCategoryIds } from '../../utils/getCategoryIds';
 import ResourcesBreadcrumb from '../ResourcesBreadcrumb';
 import SaveButton from '../SaveButton';
 import ShareButton from '../ShareButton';
@@ -59,8 +61,8 @@ function ResourceDetail(props) {
   const [languages, setLanguages] = useState([]);
   const [requiredDocuments, setRequiredDocuments] = useState([]);
   const [cost, setCost] = useState('');
-  const [category, setCategory] = useState('');
-  const [subcategory, setSubcategory] = useState('');
+  const [category, setCategory] = useState({ name: '', _id: null });
+  const [subcategory, setSubcategory] = useState({ name: '', _id: null });
   const [resourceExists, setResourceExists] = useState(true);
   const [lat, setLat] = useState(0.0);
   const [lng, setLng] = useState(0.0);
@@ -86,6 +88,18 @@ function ResourceDetail(props) {
       const response = await getResourceByID(match.params.id, true);
       if (response !== null) {
         const { result } = response;
+
+        const cat = result.category[0];
+        const subcat = result.subcategory[0];
+        const categories = await getCategories();
+        const [categoryId, subcategoryId] = getCategoryIds(
+          categories.result,
+          cat,
+          subcat,
+        );
+        setCategory({ name: cat, _id: categoryId });
+        setSubcategory({ name: subcat, _id: subcategoryId });
+
         setName(result.name);
         setPhone(result.phoneNumbers);
         setAddress(result.address ?? '');
@@ -96,8 +110,6 @@ function ResourceDetail(props) {
         setZip(result.zip ?? '');
         setDescription(result.description);
         setLanguages(result.availableLanguages);
-        setCategory(result.category[0]);
-        setSubcategory(result.subcategory[0]);
         setCost(result.cost);
         setLat(
           result?.geoLocation === null ||

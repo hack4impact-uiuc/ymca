@@ -30,9 +30,7 @@ const Register = lazy(() => import('./pages/Register'));
 const Resources = lazy(() => import('./pages/Resources'));
 const ResourceUnknown = lazy(() => import('./pages/ResourceUnknown'));
 const SavedResources = lazy(() => import('./pages/SavedResources'));
-const ResourceDetailCommon = lazy(() =>
-  import('./components/ResourceDetailCommon'),
-);
+const ResourceDetailCommon = lazy(() => import('./pages/ResourceDetailCommon'));
 
 const AdminResourceManager = lazy(() => import('./pages/AdminResourceManager'));
 const Translations = lazy(() => import('./pages/Translations'));

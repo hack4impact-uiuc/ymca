@@ -17,12 +17,17 @@ import ResourcesBreadcrumb from '../ResourcesBreadcrumb';
 import SaveButton from '../SaveButton';
 import ShareButton from '../ShareButton';
 import TranslationPopup from '../TranslationPopup';
-import { getResourceIsVerified, getResourceByID } from '../../utils/api';
+import {
+  getResourceIsVerified,
+  getResourceByID,
+  getCategories,
+} from '../../utils/api';
 import {
   saveResource,
   deleteSavedResource,
   getSavedResources,
 } from '../../utils/auth';
+import { getCategoryIds } from '../../utils/getCategoryIds';
 import determineStockPhoto from '../../utils/determineStockPhoto';
 
 import '../../css/ResourceDetailMobile.css';
@@ -54,8 +59,8 @@ const ResourceDetailMobile = (props: Props) => {
   // being loaded but for right now everything will be fetched.
   // by this component.
   const [name, setName] = useState(null);
-  const [category, setCategory] = useState(null);
-  const [subcategory, setSubcategory] = useState(null);
+  const [category, setCategory] = useState({ name: '', _id: null });
+  const [subcategory, setSubcategory] = useState({ name: '', _id: null });
   const [description, setDescription] = useState(null);
   const [website, setWebsite] = useState(null);
   const [email, setEmail] = useState(null);
@@ -89,14 +94,22 @@ const ResourceDetailMobile = (props: Props) => {
       if (response) {
         const { result } = response;
 
+        const cat = result.category[0];
+        const subcat = result.subcategory[0];
+        const categories = await getCategories();
+        const [categoryId, subcategoryId] = getCategoryIds(
+          categories.result,
+          cat,
+          subcat,
+        );
+        setCategory({ name: cat, _id: categoryId });
+        setSubcategory({ name: subcat, _id: subcategoryId });
+
         setImage(
           result.image && result.image !== ''
             ? result.image
             : determineStockPhoto(result.category, result.subcategory),
         );
-
-        setCategory(result.category[0]);
-        setSubcategory(result.subcategory[0]);
 
         setName(result.name);
         setDescription(result.description);
@@ -322,6 +335,7 @@ const ResourceDetailMobile = (props: Props) => {
             categorySelected={category}
             subcategorySelected={subcategory}
             resourceSelected={name}
+            tColor="#000000"
           />
           <Row className="mb-rd-header-bar" type="flex">
             <Col>
