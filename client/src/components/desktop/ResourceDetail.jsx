@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
   DollarCircleFilled,
@@ -328,7 +328,9 @@ function ResourceDetail(props) {
           <ShareButton fullButton />
           {authed && authRoleIsEquivalentTo('admin') && (
             <span className="resource-edit-delete">
-              <Button href={`/admin/${match.params.id}`}>Edit</Button>
+              <Link to={`/admin/${match.params.id}`}>
+                <Button>Edit</Button>
+              </Link>
               <span className="resource-delete">
                 <Button type="danger" ghost="true" onClick={showModal}>
                   Delete
