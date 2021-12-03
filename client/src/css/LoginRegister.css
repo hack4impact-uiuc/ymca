@@ -19,7 +19,11 @@
 }
 
 .background-container {
+  background: url('https://nawc.vercel.app/asset/images/login-background.jpg');
   background-size: cover;
+  height: 95%;
+  width: 100%;
+  position: fixed;
   overflow: auto;
 }
 
