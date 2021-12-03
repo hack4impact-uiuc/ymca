@@ -11,7 +11,7 @@ require("dotenv").config();
 
 const limiter = new RateLimit({
   windowMs: 1 * 60 * 1000,
-  max: 5,
+  max: 50,
 });
 
 app.use(cors());
